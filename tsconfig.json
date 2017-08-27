@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "noImplicitAny": true,
+        "sourceMap": true,
+        "strictNullChecks": true,
+        "types": [
+            "node"
+        ]
+    },
+    "include": [
+        "./lib/*.ts",
+        "./example/*.ts",
+        "./contracts/*.d.ts"
+    ]
+}
