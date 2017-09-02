@@ -27,8 +27,6 @@ export interface FunctionDeclaration {
 }
 
 export interface Contract {
-  name: string;
-
   constants: Array<ConstantDeclaration>;
 
   constantFunctions: Array<ConstantFunctionDeclaration>;
@@ -45,7 +43,7 @@ export interface RawAbiDefinition {
   type: string;
 }
 
-export function parse(contractName: string, abi: Array<RawAbiDefinition>): Contract {
+export function parse(abi: Array<RawAbiDefinition>): Contract {
   const constants: Array<ConstantDeclaration> = [];
   const constantFunctions: Array<ConstantFunctionDeclaration> = [];
   const functions: Array<FunctionDeclaration> = [];
@@ -66,7 +64,6 @@ export function parse(contractName: string, abi: Array<RawAbiDefinition>): Contr
   });
 
   return {
-    name: contractName,
     constants,
     constantFunctions,
     functions,
