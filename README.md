@@ -63,4 +63,9 @@ declare class Contract {
 ## Roadmap 🛣️
  - support for all solidity types
  - transaction support
- - improve generated code (autoformatting, more checks)
+ - improve generated code (autoformatting, more checks, wiring contracts together)
+
+ #### Debugging 🐞
+ ```sh
+ DEBUG=typechain typechain
+ ```

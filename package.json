@@ -4,12 +4,14 @@
   "license": "MIT",
   "devDependencies": {
     "@types/chalk": "^0.4.31",
+    "@types/debug": "^0.0.30",
     "@types/glob": "^5.0.32",
     "@types/node": "^8.0.25",
     "typescript": "^2.4.2"
   },
   "dependencies": {
     "chalk": "^2.1.0",
+    "debug": "^3.0.1",
     "glob": "^7.1.2"
   },
   "scripts": {

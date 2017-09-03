@@ -1,7 +1,13 @@
+import debug from "./debug";
+
 export enum AbiType {
   BOOL = "bool",
+  UINT8 = "uint8",
   UINT256 = "uint256",
+  BYTES = "bytes",
   VOID = "void",
+  ADDRESS = "address",
+  STRING = "string",
 }
 
 export interface AbiParameter {
@@ -24,6 +30,7 @@ export interface FunctionDeclaration {
   name: string; // @todo missing inputs,
   inputs: Array<AbiParameter>;
   outputs: Array<AbiType>; //we dont care about named returns for now
+  payable: boolean;
 }
 
 export interface Contract {
@@ -49,18 +56,32 @@ export function parse(abi: Array<RawAbiDefinition>): Contract {
   const functions: Array<FunctionDeclaration> = [];
 
   abi.forEach(abiPiece => {
+    // @todo implement missing abi pieces
     // skip constructors for now
     if (abiPiece.type === "constructor") {
       return;
     }
-
-    if (abiPiece.constant && abiPiece.inputs.length === 0 && abiPiece.outputs.length === 1) {
-      constants.push(parseConstant(abiPiece));
-    } else if (abiPiece.constant) {
-      constantFunctions.push(parseConstantFunction(abiPiece));
-    } else {
-      functions.push(parseFunctionDeclaration(abiPiece));
+    // skip events
+    if (abiPiece.type === "event") {
+      return;
     }
+
+    if (abiPiece.type === "fallback") {
+      return ;
+    }
+
+    if (abiPiece.type === "function") {
+      if (abiPiece.constant && abiPiece.inputs.length === 0 && abiPiece.outputs.length === 1) {
+        constants.push(parseConstant(abiPiece));
+      } else if (abiPiece.constant) {
+        constantFunctions.push(parseConstantFunction(abiPiece));
+      } else {
+        functions.push(parseFunctionDeclaration(abiPiece));
+      }
+      return;
+    }
+
+    throw new Error(`Unrecognized abi element: ${abiPiece.type}`);
   });
 
   return {
@@ -79,6 +100,7 @@ function parseOutputs(outputs: Array<AbiParameter>) {
 }
 
 function parseConstant(abiPiece: RawAbiDefinition): ConstantDeclaration {
+  debug(`Parsing constant "${abiPiece.name}"`);
   return {
     name: abiPiece.name,
     output: abiPiece.outputs[0].type,
@@ -86,6 +108,7 @@ function parseConstant(abiPiece: RawAbiDefinition): ConstantDeclaration {
 }
 
 function parseConstantFunction(abiPiece: RawAbiDefinition): ConstantFunctionDeclaration {
+  debug(`Parsing constant function "${abiPiece.name}"`);
   return {
     name: abiPiece.name,
     inputs: abiPiece.inputs,
@@ -94,9 +117,11 @@ function parseConstantFunction(abiPiece: RawAbiDefinition): ConstantFunctionDecl
 }
 
 function parseFunctionDeclaration(abiPiece: RawAbiDefinition): FunctionDeclaration {
+  debug(`Parsing function declaration "${abiPiece.name}"`);
   return {
     name: abiPiece.name,
     inputs: abiPiece.inputs,
     outputs: parseOutputs(abiPiece.outputs),
+    payable: abiPiece.payable,
   };
 }

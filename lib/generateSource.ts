@@ -20,6 +20,13 @@ interface ITxParams {
   gasPrice?: number | string | BigNumber;
 }
 
+interface IPayableTxParams {
+  value: string | BigNumber;
+  from?: string; 
+  gas?: number | string | BigNumber;
+  gasPrice?: number | string | BigNumber;
+}
+
 function promisify(func: any, args: any): Promise<any> {
   return new Promise((res,rej) => {
     func(...args, (err: any, data: any) => {
@@ -48,7 +55,7 @@ class Contract {
       .map(
         constant =>
           `public get ${constant.name}(): Promise<${codeGenForTypes(
-            constant.output
+            constant.output, true
           )}> { return promisify(this.rawWeb3Contract.${constant.name}, []); }`
       )
       .join("\n")} 
@@ -69,15 +76,13 @@ class Contract {
           .map(
             func =>
               `public ${func.name}Tx(${func.inputs.map(codeGenForParams).join(", ") +
-                (func.inputs.length === 0
-                  ? ""
-                  : ", ")}params?: ITxParams): Promise<${codeGenForOutputTypelist(
+                (func.inputs.length === 0 ? "" : ", ")}params?: ${func.payable
+                ? "IPayableTxParams"
+                : "ITxParams"}): Promise<${codeGenForOutputTypelist(
                 func.outputs
               )}> { return promisify(this.rawWeb3Contract.${func.name}, [${func.inputs
                 .map(codeGenForArgs)
-                .join(", ") + (func.inputs.length === 0
-                  ? ""
-                  : ", ")}params ]); }`
+                .join(", ") + (func.inputs.length === 0 ? "" : ", ")}params ]); }`
           )
           .join(";\n")} 
 }
@@ -86,7 +91,7 @@ export default Contract;`;
 }
 
 function codeGenForParams(param: AbiParameter): string {
-  return `${param.name}: ${codeGenForTypes(param.type)}`;
+  return `${param.name}: ${codeGenForTypes(param.type, true)}`;
 }
 
 function codeGenForArgs(param: AbiParameter): string {
@@ -95,21 +100,29 @@ function codeGenForArgs(param: AbiParameter): string {
 
 function codeGenForOutputTypelist(output: Array<AbiType>): string {
   if (output.length === 1) {
-    return codeGenForTypes(output[0]);
+    return codeGenForTypes(output[0], false);
   } else {
-    return `[${output.map(codeGenForTypes).join(", ")}]`;
+    return `[${output.map((x) => codeGenForTypes(x, false)).join(", ")}]`;
   }
 }
 
-function codeGenForTypes(abiType: AbiType): string {
+function codeGenForTypes(abiType: AbiType, isInput: boolean): string {
   switch (abiType) {
     case AbiType.BOOL:
       return "boolean";
+    case AbiType.UINT8:
     case AbiType.UINT256:
       return "BigNumber";
     case AbiType.VOID:
       return "void";
+    // @todo we should try to match it with another contract
+    case AbiType.ADDRESS:
+      return isInput ? "BigNumber | string" : "BigNumber";
+    case AbiType.STRING:
+      return "string";
+    case AbiType.BYTES:
+      return "string"; // @todo double check it. More strict typing would be useful here
     default:
-      throw new Error("Unrecognized type!");
+      throw new Error(`Unrecognized type ${abiType}`);
   }
 }
