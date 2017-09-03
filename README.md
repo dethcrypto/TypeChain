@@ -19,27 +19,15 @@
 ## Getting started 📚 
 
 ### Motivation
-Interacting with blockchain in Javascript is a pain. Web3 interface is sluggish and when you want to interact with a smartcontract already deployed it only gets worse. Often, you can't be sure what given method call will actually do without looking at ABI file. Typechain is here to solve these problems (at least as long as you use Typescript).
+Interacting with blockchain in Javascript is a pain. Web3 interface is sluggish and when you want to interact with a smartcontract already deployed it only gets worse. Often, you can't be sure what given method call will actually do without looking at ABI file. Typechain is here to solve these problems (as long as you use Typescript).
 
 ### How does it work?
-First, Typechain generates Typescript typings based on smartcontract's ABI. Then it uses webpack loader to load custom implementation when pointing to `.abi` file. Currently it works only with webpack but in future we plan to support node with similar, flexible api.
+Typechain is just a code generator - provide ABI file and you will get Typescript class with flexible interface for interacting with blockchain. 
 
 ### Step by step guide
+Install typechain with `yarn add --dev typechain`. Run `typechain` (you might need to make sure that it's available in your path if you installed it only locally), it will automatically find all `.abi` files in your project and generate Typescript classes based on them. We recommend git ignoring these generated files and making typechain part of your build process.
 
-Install typechain with `yarn add --dev typechain`. Initially you need to generate typings based on ABI files. Just run `typechain` (you might need to make sure that it's available in your path if you installed it only locally), it will automatically find all `.abi` files in your project and generate typings for them.  Make sure to git ignore these generated typings - you can add something like: `*.abi.d.ts`.
-
-Last step is adding our webpack loader. It's easy: 
-```javascript
-module :{
-  ...
-  rules: [
-    ...
-      { test: /\.abi?$/, loader: "typechain" },
-  ]
-}
-```
-
-That's it! Now, just import contract ABI as any other file `import MyAwesomeContract from './contracts/MyAwesomeContract.abi'` and start interacting with it.
+That's it! Now, just import contract bindings as any other file `import MyAwesomeContract from './contracts/MyAwesomeContract'` and start interacting with it.
 
 ### API
 Let's take a look at typings generated for simple [smartcontract](https://github.com/krzkaczor/Typechain-example/blob/master/truffle/contracts/DumbContract.sol):
@@ -73,5 +61,4 @@ declare class Contract {
 ## Roadmap 🛣️
  - support for all solidity types
  - transaction support
- - improve generated code
- - node support
+ - improve generated code (autoformatting, more checks)

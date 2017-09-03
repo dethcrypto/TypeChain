@@ -16,7 +16,5 @@
     "build": "rm -rf ./dist && tsc",
     "postbuild": "chmod +x ./dist/cli.js"
   },
-  "bin": "./dist/cli.js",
-  "main": "./dist/webpackLoader.js",
-  "types": "./dist/webpackLoader.d.ts"
+  "bin": "./dist/cli.js"
 }

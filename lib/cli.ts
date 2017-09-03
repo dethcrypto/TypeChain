@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 import { readFileSync, writeFileSync } from "fs";
 import { blue, red, green } from "chalk";
-import { join } from "path";
+import { join, dirname, basename, parse } from "path";
 import * as glob from "glob";
-import { generateTypings } from "./generateTypings";
+import { generateSource } from "./generateSource";
 
 const defaultPattern = "**/*.abi";
 
@@ -20,6 +20,7 @@ matches.forEach(absPath => {
   const abiString = readFileSync(absPath).toString();
   const rawAbi = JSON.parse(abiString);
 
-  const typings = generateTypings(rawAbi);
-  writeFileSync(absPath + ".d.ts", typings);
+  const typescriptSourceFile = generateSource(rawAbi);
+  const parsedPath = parse(absPath);
+  writeFileSync(join(parsedPath.dir, parsedPath.name + ".ts"), typescriptSourceFile);
 });
