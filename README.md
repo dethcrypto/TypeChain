@@ -24,6 +24,8 @@ Interacting with blockchain in Javascript is a pain. Web3 interface is sluggish 
 ### How does it work?
 Typechain is just a code generator - provide ABI file and you will get Typescript class with flexible interface for interacting with blockchain. 
 
+In future we plan to leverage something like tsc plugin system to come up with much more elegant solution. You can keep track of [Allow "Compiler Plugins"](https://github.com/Microsoft/TypeScript/issues/16607) issue.
+
 ### Step by step guide
 Install typechain with `yarn add --dev typechain`. Run `typechain` (you might need to make sure that it's available in your path if you installed it only locally), it will automatically find all `.abi` files in your project and generate Typescript classes based on them. We recommend git ignoring these generated files and making typechain part of your build process.
 
