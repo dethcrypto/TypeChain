@@ -3,10 +3,14 @@ import debug from "./debug";
 export enum AbiType {
   BOOL = "bool",
   UINT8 = "uint8",
+  UINT8_ARR = "uint8[]",
   UINT256 = "uint256",
+  INT256 = "int256",
+  UINT256_ARR = "uint256[]",
   BYTES = "bytes",
   VOID = "void",
   ADDRESS = "address",
+  ADDRESS_ARR = "address[]", // @todo proper support for arrays
   STRING = "string",
 }
 

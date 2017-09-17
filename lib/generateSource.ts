@@ -112,12 +112,18 @@ function codeGenForTypes(abiType: AbiType, isInput: boolean): string {
       return "boolean";
     case AbiType.UINT8:
     case AbiType.UINT256:
+    case AbiType.INT256:
       return "BigNumber";
+    case AbiType.UINT8_ARR:
+    case AbiType.UINT256_ARR:
+      return "BigNumber[]";
     case AbiType.VOID:
       return "void";
     // @todo we should try to match it with another contract
     case AbiType.ADDRESS:
       return isInput ? "BigNumber | string" : "BigNumber";
+    case AbiType.ADDRESS_ARR:
+      return isInput ? "BigNumber[] | string[]" : "BigNumber[]";
     case AbiType.STRING:
       return "string";
     case AbiType.BYTES:
