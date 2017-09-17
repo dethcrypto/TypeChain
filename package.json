@@ -1,8 +1,8 @@
 {
   "name": "typechain",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "MIT",
-  "repository": "https://github.com/krzkaczor/typechain",  
+  "repository": "https://github.com/krzkaczor/typechain",
   "devDependencies": {
     "@types/chalk": "^0.4.31",
     "@types/debug": "^0.0.30",
