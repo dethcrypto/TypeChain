@@ -1,13 +1,12 @@
 {
   "compilerOptions": {
-    "noImplicitAny": true,
+    "strict": true,
     "sourceMap": false,
-    "strictNullChecks": true,
     "types": ["node"],
     "lib": ["es2015"],
     "outDir": "./dist",
     "module": "commonjs",
     "declaration": true
   },
-  "include": ["./node_modules/web3-typescript-typings/index.d.ts", "./lib/*.ts"]
+  "include": ["./lib/*.ts"]
 }
