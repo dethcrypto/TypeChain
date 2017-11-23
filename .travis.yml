@@ -1,0 +1,13 @@
+notifications:
+  email: false
+
+language: node_js
+
+node_js:
+  - 7
+
+install:
+  - yarn --frozen-lockfile
+
+script:
+  - yarn build
