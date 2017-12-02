@@ -8,7 +8,10 @@ ABI_DIR="./test/abis"
 rm -rf $ABI_DIR
 
 echo "Generating ABIs for sample contracts"
-solc --abi ./test/contracts/* -o $ABI_DIR
+solc --abi ./test/contracts/* --bin -o $ABI_DIR
+
+echo "Generate Typechain wrappers"
+yarn test:generateContracts
 
 #echo "Running tests"
-#yarn test
+yarn test:integration
