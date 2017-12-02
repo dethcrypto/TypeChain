@@ -17,7 +17,8 @@
   },
   "scripts": {
     "build": "rm -rf ./dist && tsc",
-    "postbuild": "chmod +x ./dist/cli.js"
+    "postbuild": "chmod +x ./dist/cli.js",
+    "test": "./scripts/test.sh"
   },
   "bin": "./dist/cli.js"
 }
