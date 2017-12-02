@@ -2,11 +2,17 @@
   "compilerOptions": {
     "strict": true,
     "sourceMap": false,
-    "types": ["node"],
+    "types": ["node", "mocha"],
     "lib": ["es2015"],
+    "target": "es2016",
     "outDir": "./dist",
     "module": "commonjs",
     "declaration": true
   },
-  "include": ["./lib/*.ts"]
+  "include": [
+    "./lib/*.ts",
+    "./test/**/*.ts",
+    "./typings/*.ts",
+    "./node_modules/web3-typescript-typings/index.d.ts"
+  ]
 }

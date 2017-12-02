@@ -65,6 +65,10 @@ declare class Contract {
  - transaction support
  - improve generated code (autoformatting, more checks, wiring contracts together)
 
+
+ #### Running tests
+ You need to have `solc ^0.4.4` installed on your system. Then just do `yarn test`.
+
  #### Debugging 🐞
  ```sh
  DEBUG=typechain typechain

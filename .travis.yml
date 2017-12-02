@@ -7,7 +7,10 @@ node_js:
   - 7
 
 install:
+  - sudo add-apt-repository -y ppa:ethereum/ethereum
+  - sudo apt-get update
+  - sudo apt-get install solc
   - yarn --frozen-lockfile
 
 script:
-  - yarn build
+  - yarn test

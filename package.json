@@ -4,11 +4,23 @@
   "license": "MIT",
   "repository": "https://github.com/krzkaczor/typechain",
   "devDependencies": {
+    "@types/bignumber.js": "^4.0.3",
+    "@types/bluebird": "^3.5.18",
+    "@types/chai": "^4.0.6",
     "@types/chalk": "^0.4.31",
     "@types/debug": "^0.0.30",
     "@types/glob": "^5.0.32",
+    "@types/mocha": "^2.2.44",
     "@types/node": "^8.0.25",
-    "typescript": "^2.6.1"
+    "bluebird": "^3.5.1",
+    "chai": "^4.1.2",
+    "ganache-cli": "^6.0.3",
+    "mocha": "^4.0.1",
+    "ts-node": "^3.3.0",
+    "typescript": "^2.6.1",
+    "web3": "0.20.2",
+    "web3-typescript-typings": "^0.7.2",
+    "bignumber.js": "^5.0.0"
   },
   "dependencies": {
     "chalk": "^2.1.0",
@@ -17,7 +29,11 @@
   },
   "scripts": {
     "build": "rm -rf ./dist && tsc",
-    "postbuild": "chmod +x ./dist/cli.js"
+    "postbuild": "chmod +x ./dist/cli.js",
+    "test": "./scripts/test.sh",
+    "test:integration":
+      "NODE_ENV=test mocha --require ts-node/register.js 'test/integration/web3.ts' 'test/integration/**/*.spec.ts'",
+    "test:generateContracts": "NODE_ENV=development ts-node ./lib/cli.ts"
   },
   "bin": "./dist/cli.js"
 }
