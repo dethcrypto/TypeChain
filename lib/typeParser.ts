@@ -34,6 +34,22 @@ export class VoidType extends EvmType {
   }
 }
 
+export class StringType extends EvmType {
+  generateCode(): string {
+    return "string";
+  }
+}
+
+export class BytesType extends EvmType {
+  constructor(public readonly size: number) {
+    super();
+  }
+
+  generateCode(): string {
+    return "BigNumber";
+  }
+}
+
 export class AddressType extends EvmType {
   generateCode(): string {
     return "BigNumber";
@@ -52,6 +68,7 @@ export class ArrayType extends EvmType {
 
 const isUIntTypeRegex = /^uint([0-9]*)$/;
 const isIntTypeRegex = /^int([0-9]*)$/;
+const isBytesTypeRegex = /^bytes([0-9]+)$/;
 
 export function parseEvmType(rawType: string): EvmType {
   const lastChar = rawType[rawType.length - 1];
@@ -79,6 +96,12 @@ export function parseEvmType(rawType: string): EvmType {
       return new BooleanType();
     case "address":
       return new AddressType();
+    case "string":
+      return new StringType();
+    case "byte":
+      return new BytesType(1);
+    case "bytes":
+      return new ArrayType(new BytesType(1));
   }
 
   if (isUIntTypeRegex.test(rawType)) {
@@ -89,6 +112,11 @@ export function parseEvmType(rawType: string): EvmType {
   if (isIntTypeRegex.test(rawType)) {
     const match = isIntTypeRegex.exec(rawType);
     return new IntegerType(parseInt(match![1] || "256"));
+  }
+
+  if (isBytesTypeRegex.test(rawType)) {
+    const match = isBytesTypeRegex.exec(rawType);
+    return new BytesType(parseInt(match![1] || "1"));
   }
 
   throw new Error("Unknown type: " + rawType);

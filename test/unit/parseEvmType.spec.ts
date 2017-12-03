@@ -4,7 +4,8 @@ import {
   UnsignedIntegerType,
   IntegerType,
   BooleanType,
-  ArrayType
+  ArrayType,
+  BytesType
 } from "../../lib/typeParser";
 
 describe("parseEvmType function", () => {
@@ -26,6 +27,13 @@ describe("parseEvmType function", () => {
     const parsedType = parseEvmType("bool");
 
     expect(parsedType).to.be.instanceOf(BooleanType);
+  });
+
+  it("should parse bytes2", () => {
+    const parsedType = parseEvmType("bytes2");
+
+    expect(parsedType).to.be.instanceOf(BytesType);
+    expect((parsedType as BytesType).size).to.be.eq(2);
   });
 
   it("should parse arrays", () => {
