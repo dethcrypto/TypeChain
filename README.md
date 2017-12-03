@@ -15,7 +15,7 @@ yarn add --dev typechain
 ## Usage
 
 ```
-typechain [optional-glob-for-abi-files]
+typechain [--force] [glob]
 ```
 
 ## Features ⚡
@@ -45,7 +45,7 @@ In future we plan to leverage something like tsc plugin system to come up with m
 ### Step by step guide
 Install typechain with `yarn add --dev typechain`. 
 
-Run `typechain` (you might need to make sure that it's available in your path if you installed it only locally), it will automatically find all `.abi` files in your project and generate Typescript classes based on them. You can specify your glob pattern: `typechain "**/*.abi.json"`. `node_modules` are always ignored. We recommend git ignoring these generated files and making typechain part of your build process.
+Run `typechain` (you might need to make sure that it's available in your path if you installed it only locally), it will automatically find all `.abi` files in your project and generate Typescript classes based on them. You can specify your glob pattern: `typechain "**/*.abi.json"`. `node_modules` are always ignored. Use `--force` to overwrite already existing files. We recommend git ignoring these generated files and making typechain part of your build process.
 
 That's it! Now, just import contract bindings as any other file `import MyAwesomeContract from './contracts/MyAwesomeContract'` and start interacting with it.
 

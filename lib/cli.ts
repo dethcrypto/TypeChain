@@ -6,27 +6,27 @@ import { pathExistsSync } from "fs-extra";
 import * as glob from "glob";
 
 import { generateSource } from "./generateSource";
+import { parseArgs } from "./parseArgs";
 
 const cwd = process.cwd();
 
-const defaultGlobPattern = "**/*.abi";
+function main() {
+  const options = parseArgs();
 
-const globPattern = process.argv[2] || defaultGlobPattern;
-const matches = glob.sync(globPattern, { ignore: "node_modules/**", absolute: true });
+  const matches = glob.sync(options.glob, { ignore: "node_modules/**", absolute: true });
 
-if (matches.length === 0) {
-  console.log(red(`Found ${matches.length} ABIs.`));
-  process.exit(0);
+  if (matches.length === 0) {
+    console.log(red(`Found ${matches.length} ABIs.`));
+    process.exit(0);
+  }
+
+  console.log(green(`Found ${matches.length} ABIs.`));
+  console.log("Generating typings...");
+
+  matches.forEach(p => processFile(p, options.force));
 }
 
-console.log(green(`Found ${matches.length} ABIs.`));
-console.log("Generating typings...");
-
-function filenameWithoutAnyExtensions(filePath: string): string {
-  return filePath.slice(0, filePath.indexOf("."));
-}
-
-matches.forEach(absPath => {
+function processFile(absPath: string, forceOverwrite: boolean): void {
   const relativeInputPath = relative(cwd, absPath);
   const parsedInputPath = parse(absPath);
   const outputPath = join(
@@ -36,7 +36,7 @@ matches.forEach(absPath => {
   const relativeOutputPath = relative(cwd, outputPath);
 
   console.log(blue(`${relativeInputPath} => ${relativeOutputPath}`));
-  if (pathExistsSync(outputPath)) {
+  if (pathExistsSync(outputPath) && !forceOverwrite) {
     console.log(red("File exists, skipping"));
     return;
   }
@@ -46,4 +46,11 @@ matches.forEach(absPath => {
 
   const typescriptSourceFile = generateSource(rawAbi);
   writeFileSync(outputPath, typescriptSourceFile);
-});
+}
+
+function filenameWithoutAnyExtensions(filePath: string): string {
+  const endPosition = filePath.indexOf(".");
+  return filePath.slice(0, endPosition !== -1 ? endPosition : filePath.length);
+}
+
+main();
