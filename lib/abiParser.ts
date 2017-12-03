@@ -1,39 +1,26 @@
 import debug from "./debug";
-
-export enum AbiType {
-  BOOL = "bool",
-  UINT8 = "uint8",
-  UINT8_ARR = "uint8[]",
-  UINT256 = "uint256",
-  INT256 = "int256",
-  UINT256_ARR = "uint256[]",
-  BYTES = "bytes",
-  VOID = "void",
-  ADDRESS = "address",
-  ADDRESS_ARR = "address[]", // @todo proper support for arrays
-  STRING = "string",
-}
+import { EvmType, VoidType, parseEvmType } from "./typeParser";
 
 export interface AbiParameter {
   name: string;
-  type: AbiType;
+  type: EvmType;
 }
 
 export interface ConstantDeclaration {
   name: string;
-  output: AbiType;
+  output: EvmType;
 }
 
 export interface ConstantFunctionDeclaration {
   name: string;
   inputs: Array<AbiParameter>;
-  outputs: Array<AbiType>; //we dont care about named returns for now
+  outputs: Array<EvmType>; //we dont care about named returns for now
 }
 
 export interface FunctionDeclaration {
   name: string; // @todo missing inputs,
   inputs: Array<AbiParameter>;
-  outputs: Array<AbiType>; //we dont care about named returns for now
+  outputs: Array<EvmType>; //we dont care about named returns for now
   payable: boolean;
 }
 
@@ -45,12 +32,17 @@ export interface Contract {
   functions: Array<FunctionDeclaration>;
 }
 
+export interface RawAbiParameter {
+  name: string;
+  type: string;
+}
+
 export interface RawAbiDefinition {
   name: string;
   constant: boolean;
   payable: boolean;
-  inputs: AbiParameter[];
-  outputs: AbiParameter[];
+  inputs: RawAbiParameter[];
+  outputs: RawAbiParameter[];
   type: string;
 }
 
@@ -69,9 +61,9 @@ export function parse(abi: Array<RawAbiDefinition>): Contract {
     if (abiPiece.type === "event") {
       return;
     }
-
+    // skip fallback functions
     if (abiPiece.type === "fallback") {
-      return ;
+      return;
     }
 
     if (abiPiece.type === "function") {
@@ -91,15 +83,15 @@ export function parse(abi: Array<RawAbiDefinition>): Contract {
   return {
     constants,
     constantFunctions,
-    functions,
+    functions
   };
 }
 
-function parseOutputs(outputs: Array<AbiParameter>) {
+function parseOutputs(outputs: Array<RawAbiParameter>): EvmType[] {
   if (outputs.length === 0) {
-    return [AbiType.VOID];
+    return [new VoidType()];
   } else {
-    return outputs.map(param => param.type);
+    return outputs.map(param => parseEvmType(param.type));
   }
 }
 
@@ -107,7 +99,7 @@ function parseConstant(abiPiece: RawAbiDefinition): ConstantDeclaration {
   debug(`Parsing constant "${abiPiece.name}"`);
   return {
     name: abiPiece.name,
-    output: abiPiece.outputs[0].type,
+    output: parseEvmType(abiPiece.outputs[0].type)
   };
 }
 
@@ -115,8 +107,8 @@ function parseConstantFunction(abiPiece: RawAbiDefinition): ConstantFunctionDecl
   debug(`Parsing constant function "${abiPiece.name}"`);
   return {
     name: abiPiece.name,
-    inputs: abiPiece.inputs,
-    outputs: parseOutputs(abiPiece.outputs),
+    inputs: abiPiece.inputs.map(parseRawAbiParameter),
+    outputs: parseOutputs(abiPiece.outputs)
   };
 }
 
@@ -124,8 +116,15 @@ function parseFunctionDeclaration(abiPiece: RawAbiDefinition): FunctionDeclarati
   debug(`Parsing function declaration "${abiPiece.name}"`);
   return {
     name: abiPiece.name,
-    inputs: abiPiece.inputs,
+    inputs: abiPiece.inputs.map(parseRawAbiParameter),
     outputs: parseOutputs(abiPiece.outputs),
-    payable: abiPiece.payable,
+    payable: abiPiece.payable
   };
+}
+
+function parseRawAbiParameter(rawAbiParameter: RawAbiParameter): AbiParameter {
+  return {
+    name: rawAbiParameter.name,
+    type: parseEvmType(rawAbiParameter.type),
+  }
 }

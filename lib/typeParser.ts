@@ -1,9 +1,12 @@
 export abstract class EvmType {
-  abstract generateCode(): string;
+  generateCodeForInput(): string {
+    return this.generateCodeForOutput();
+  }
+  abstract generateCodeForOutput(): string;
 }
 
 export class BooleanType extends EvmType {
-  generateCode() {
+  generateCodeForOutput() {
     return "boolean";
   }
 }
@@ -13,7 +16,7 @@ export class IntegerType extends EvmType {
     super();
   }
 
-  generateCode(): string {
+  generateCodeForOutput(): string {
     return "BigNumber";
   }
 }
@@ -23,19 +26,19 @@ export class UnsignedIntegerType extends EvmType {
     super();
   }
 
-  generateCode(): string {
+  generateCodeForOutput(): string {
     return "BigNumber";
   }
 }
 
 export class VoidType extends EvmType {
-  generateCode(): string {
+  generateCodeForOutput(): string {
     return "void";
   }
 }
 
 export class StringType extends EvmType {
-  generateCode(): string {
+  generateCodeForOutput(): string {
     return "string";
   }
 }
@@ -45,14 +48,18 @@ export class BytesType extends EvmType {
     super();
   }
 
-  generateCode(): string {
+  generateCodeForOutput(): string {
     return "BigNumber";
   }
 }
 
 export class AddressType extends EvmType {
-  generateCode(): string {
+  generateCodeForOutput(): string {
     return "BigNumber";
+  }
+
+  generateCodeForInput(): string {
+    return "BigNumber | string";
   }
 }
 
@@ -61,8 +68,8 @@ export class ArrayType extends EvmType {
     super();
   }
 
-  generateCode(): string {
-    return this.itemType.generateCode() + "[]";
+  generateCodeForOutput(): string {
+    return this.itemType.generateCodeForOutput() + "[]";
   }
 }
 
