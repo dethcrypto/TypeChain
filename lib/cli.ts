@@ -1,26 +1,49 @@
 #!/usr/bin/env node
 import { readFileSync, writeFileSync } from "fs";
 import { blue, red, green } from "chalk";
-import { join, dirname, basename, parse } from "path";
+import { join, dirname, basename, parse, relative } from "path";
+import { pathExistsSync } from "fs-extra";
 import * as glob from "glob";
+
 import { generateSource } from "./generateSource";
 
-const defaultPattern = "**/*.abi";
+const cwd = process.cwd();
 
-const matches = glob.sync(defaultPattern, { ignore: "node_modules/**", absolute: true });
+const defaultGlobPattern = "**/*.abi";
 
-const color = matches.length > 0 ? green : red;
+const globPattern = process.argv[2] || defaultGlobPattern;
+const matches = glob.sync(globPattern, { ignore: "node_modules/**", absolute: true });
 
-console.log(color(`Found ${matches.length} ABIs.`));
+if (matches.length === 0) {
+  console.log(red(`Found ${matches.length} ABIs.`));
+  process.exit(0);
+}
+
+console.log(green(`Found ${matches.length} ABIs.`));
 console.log("Generating typings...");
 
-// @todo add possibility to overwrite default and ignore patterns
+function filenameWithoutAnyExtensions(filePath: string): string {
+  return filePath.slice(0, filePath.indexOf("."));
+}
+
 matches.forEach(absPath => {
-  console.log(blue(absPath));
+  const relativeInputPath = relative(cwd, absPath);
+  const parsedInputPath = parse(absPath);
+  const outputPath = join(
+    parsedInputPath.dir,
+    filenameWithoutAnyExtensions(parsedInputPath.name) + ".ts"
+  );
+  const relativeOutputPath = relative(cwd, outputPath);
+
+  console.log(blue(`${relativeInputPath} => ${relativeOutputPath}`));
+  if (pathExistsSync(outputPath)) {
+    console.log(red("File exists, skipping"));
+    return;
+  }
+
   const abiString = readFileSync(absPath).toString();
   const rawAbi = JSON.parse(abiString);
 
   const typescriptSourceFile = generateSource(rawAbi);
-  const parsedPath = parse(absPath);
-  writeFileSync(join(parsedPath.dir, parsedPath.name + ".ts"), typescriptSourceFile);
+  writeFileSync(outputPath, typescriptSourceFile);
 });

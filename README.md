@@ -2,6 +2,22 @@
 
 🔌 Typescript bindings for Ethereum smartcontracts
 
+## Installation
+
+```bash
+npm install --save-dev typechain
+```
+
+```bash
+yarn add --dev typechain
+```
+
+## Usage
+
+```
+typechain [optional-glob-for-abi-files]
+```
+
 ## Features ⚡
  - static typing - you will never call not existing method again 
  - IDE support - works with any IDE supporting Typescript
@@ -27,7 +43,9 @@ Typechain is just a code generator - provide ABI file and you will get Typescrip
 In future we plan to leverage something like tsc plugin system to come up with much more elegant solution. You can keep track of [Allow "Compiler Plugins"](https://github.com/Microsoft/TypeScript/issues/16607) issue.
 
 ### Step by step guide
-Install typechain with `yarn add --dev typechain`. Run `typechain` (you might need to make sure that it's available in your path if you installed it only locally), it will automatically find all `.abi` files in your project and generate Typescript classes based on them. We recommend git ignoring these generated files and making typechain part of your build process.
+Install typechain with `yarn add --dev typechain`. 
+
+Run `typechain` (you might need to make sure that it's available in your path if you installed it only locally), it will automatically find all `.abi` files in your project and generate Typescript classes based on them. You can specify your glob pattern: `typechain "**/*.abi.json"`. `node_modules` are always ignored. We recommend git ignoring these generated files and making typechain part of your build process.
 
 That's it! Now, just import contract bindings as any other file `import MyAwesomeContract from './contracts/MyAwesomeContract'` and start interacting with it.
 
