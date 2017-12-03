@@ -29,9 +29,10 @@ function main() {
 function processFile(absPath: string, forceOverwrite: boolean): void {
   const relativeInputPath = relative(cwd, absPath);
   const parsedInputPath = parse(absPath);
+  const filenameWithoutAnyExtensions = getFilenameWithoutAnyExtensions(parsedInputPath.name);
   const outputPath = join(
     parsedInputPath.dir,
-    filenameWithoutAnyExtensions(parsedInputPath.name) + ".ts"
+    filenameWithoutAnyExtensions + ".ts"
   );
   const relativeOutputPath = relative(cwd, outputPath);
 
@@ -44,11 +45,11 @@ function processFile(absPath: string, forceOverwrite: boolean): void {
   const abiString = readFileSync(absPath).toString();
   const rawAbi = JSON.parse(abiString);
 
-  const typescriptSourceFile = generateSource(rawAbi);
+  const typescriptSourceFile = generateSource(rawAbi, filenameWithoutAnyExtensions);
   writeFileSync(outputPath, typescriptSourceFile);
 }
 
-function filenameWithoutAnyExtensions(filePath: string): string {
+function getFilenameWithoutAnyExtensions(filePath: string): string {
   const endPosition = filePath.indexOf(".");
   return filePath.slice(0, endPosition !== -1 ? endPosition : filePath.length);
 }
