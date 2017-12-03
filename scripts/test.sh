@@ -13,5 +13,5 @@ solc --abi ./test/contracts/* --bin -o $ABI_DIR
 echo "Generate Typechain wrappers"
 yarn test:generateContracts
 
-#echo "Running tests"
+yarn test:unit
 yarn test:integration

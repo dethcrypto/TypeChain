@@ -19,4 +19,10 @@ contract DumbContract {
   function countup() public {
     counter += 1;
   }
+
+  uint[] myArray;
+  function someArray() public returns (uint[]) {
+    myArray.push(123);
+    return myArray;
+  }
 }
