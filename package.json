@@ -31,6 +31,7 @@
     "build": "rm -rf ./dist && tsc",
     "postbuild": "chmod +x ./dist/cli.js",
     "test": "./scripts/test.sh",
+    "test:unit": "NODE_ENV=test mocha --require ts-node/register.js 'test/unit/**/*.spec.ts'",
     "test:integration":
       "NODE_ENV=test mocha --require ts-node/register.js 'test/integration/web3.ts' 'test/integration/**/*.spec.ts'",
     "test:generateContracts": "NODE_ENV=development ts-node ./lib/cli.ts"

@@ -3,15 +3,17 @@ set -e
 cd "$(dirname "$0")"
 cd ..
 
-ABI_DIR="./test/abis"
+yarn test:unit
 
+echo "Praparing for integration tests"
+
+ABI_DIR="./test/integration/abis"
 rm -rf $ABI_DIR
 
 echo "Generating ABIs for sample contracts"
-solc --abi ./test/contracts/* --bin -o $ABI_DIR
+solc --abi ./test/integration/contracts/* --bin -o $ABI_DIR
 
 echo "Generate Typechain wrappers"
 yarn test:generateContracts
 
-#echo "Running tests"
 yarn test:integration

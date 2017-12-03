@@ -1,5 +1,6 @@
-import { AbiType, RawAbiDefinition, parse, Contract, AbiParameter } from "./abiParser";
+import { RawAbiDefinition, parse, Contract, AbiParameter } from "./abiParser";
 import { getVersion } from "./utils";
+import { EvmType } from "./typeParser";
 
 export function generateSource(abi: Array<RawAbiDefinition>): string {
   const parsedContractAbi = parse(abi);
@@ -54,9 +55,7 @@ class Contract {
     ${input.constants
       .map(
         constant =>
-          `public get ${constant.name}(): Promise<${codeGenForTypes(
-            constant.output, true
-          )}> { return promisify(this.rawWeb3Contract.${constant.name}, []); }`
+          `public get ${constant.name}(): Promise<${constant.output.generateCodeForOutput()}> { return promisify(this.rawWeb3Contract.${constant.name}, []); }`
       )
       .join("\n")} 
       ${input.constantFunctions
@@ -91,44 +90,17 @@ export default Contract;`;
 }
 
 function codeGenForParams(param: AbiParameter): string {
-  return `${param.name}: ${codeGenForTypes(param.type, true)}`;
+  return `${param.name || "index"}: ${param.type.generateCodeForInput()}`;
 }
 
 function codeGenForArgs(param: AbiParameter): string {
-  return `${param.name}`;
+  return `${param.name || "index"}`;
 }
 
-function codeGenForOutputTypelist(output: Array<AbiType>): string {
+function codeGenForOutputTypelist(output: Array<EvmType>): string {
   if (output.length === 1) {
-    return codeGenForTypes(output[0], false);
+    return output[0].generateCodeForOutput();
   } else {
-    return `[${output.map((x) => codeGenForTypes(x, false)).join(", ")}]`;
-  }
-}
-
-function codeGenForTypes(abiType: AbiType, isInput: boolean): string {
-  switch (abiType) {
-    case AbiType.BOOL:
-      return "boolean";
-    case AbiType.UINT8:
-    case AbiType.UINT256:
-    case AbiType.INT256:
-      return "BigNumber";
-    case AbiType.UINT8_ARR:
-    case AbiType.UINT256_ARR:
-      return "BigNumber[]";
-    case AbiType.VOID:
-      return "void";
-    // @todo we should try to match it with another contract
-    case AbiType.ADDRESS:
-      return isInput ? "BigNumber | string" : "BigNumber";
-    case AbiType.ADDRESS_ARR:
-      return isInput ? "BigNumber[] | string[]" : "BigNumber[]";
-    case AbiType.STRING:
-      return "string";
-    case AbiType.BYTES:
-      return "string"; // @todo double check it. More strict typing would be useful here
-    default:
-      throw new Error(`Unrecognized type ${abiType}`);
+    return `[${output.map((x) => x.generateCodeForOutput()).join(", ")}]`;
   }
 }

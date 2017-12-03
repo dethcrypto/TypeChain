@@ -6,7 +6,7 @@ import { ContractInstance } from "web3";
 
 export async function deployContract(contractName: string): Promise<ContractInstance> {
   return new Promise<ContractInstance>((resolve, reject) => {
-    const dirPath = join(__dirname, "../../abis");
+    const dirPath = join(__dirname, "../abis");
 
     const abi = JSON.parse(readFileSync(join(dirPath, contractName + ".abi"), "utf-8"));
     const bin = readFileSync(join(dirPath, contractName + ".bin"), "utf-8");

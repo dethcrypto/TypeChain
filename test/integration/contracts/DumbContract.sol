@@ -3,6 +3,7 @@ pragma solidity ^0.4.4;
 contract DumbContract {
   uint public counter;
   bool constant public SOME_VALUE = true;
+  uint[] public counterArray;
 
   function DumbContract() public {
     counter = 0;
@@ -18,5 +19,6 @@ contract DumbContract {
 
   function countup() public {
     counter += 1;
-  }
+    counterArray.push(counter);
+  } 
 }
