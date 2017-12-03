@@ -90,11 +90,11 @@ export default Contract;`;
 }
 
 function codeGenForParams(param: AbiParameter): string {
-  return `${param.name}: ${param.type.generateCodeForInput()}`;
+  return `${param.name || "index"}: ${param.type.generateCodeForInput()}`;
 }
 
 function codeGenForArgs(param: AbiParameter): string {
-  return `${param.name}`;
+  return `${param.name || "index"}`;
 }
 
 function codeGenForOutputTypelist(output: Array<EvmType>): string {

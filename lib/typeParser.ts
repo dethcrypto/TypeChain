@@ -16,6 +16,10 @@ export class IntegerType extends EvmType {
     super();
   }
 
+  generateCodeForInput(): string {
+    return "BigNumber | number";
+  }
+
   generateCodeForOutput(): string {
     return "BigNumber";
   }
@@ -24,6 +28,10 @@ export class IntegerType extends EvmType {
 export class UnsignedIntegerType extends EvmType {
   constructor(public readonly bits: number) {
     super();
+  }
+
+  generateCodeForInput(): string {
+    return "BigNumber | number";
   }
 
   generateCodeForOutput(): string {
@@ -87,7 +95,7 @@ export function parseEvmType(rawType: string): EvmType {
       finishArrayTypeIndex--;
     }
 
-    const arraySizeRaw = rawType.slice(finishArrayTypeIndex + 1, rawType.length - 1)
+    const arraySizeRaw = rawType.slice(finishArrayTypeIndex + 1, rawType.length - 1);
     const arraySize = arraySizeRaw !== "" ? parseInt(arraySizeRaw) : undefined;
 
     const restOfTheType = rawType.slice(0, finishArrayTypeIndex);
