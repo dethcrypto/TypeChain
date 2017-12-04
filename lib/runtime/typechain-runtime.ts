@@ -28,11 +28,19 @@ export class DeferredTransactionWrapper<T extends ITxParams> {
     private readonly methodArgs: any[]
   ) {}
 
-  send(params: T): Promise<string> {
-    return promisify(this.parentContract.rawWeb3Contract[this.methodName].sendTransaction, [
-      ...this.methodArgs,
-      params
-    ]);
+  send(params: T, customWeb3?: any): Promise<string> {
+    let method: any;
+
+    if (customWeb3) {
+      const tmpContract = customWeb3.eth
+        .contract(this.parentContract.contractAbi)
+        .at(this.parentContract.address);
+      method = tmpContract[this.methodName].sendTransaction;
+    } else {
+      method = this.parentContract.rawWeb3Contract[this.methodName].sendTransaction;
+    }
+
+    return promisify(method, [...this.methodArgs, params]);
   }
 
   getData(): string {

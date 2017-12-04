@@ -8,7 +8,14 @@ export const GAS_LIMIT_STANDARD = 1000000;
 export let web3: Web3;
 export let accounts: string[];
 
+export async function createNewBlockchain() {
+  const web3 = new Web3(ganache.provider());
+  const accounts = await promisify(web3.eth.getAccounts, { context: web3.eth })();
+  return { web3, accounts };
+}
+
 before(async () => {
-  web3 = new Web3(ganache.provider());
-  accounts = await promisify(web3.eth.getAccounts, { context: web3.eth })();
+  const r = await createNewBlockchain();
+  web3 = r.web3;
+  accounts = r.accounts; 
 });
