@@ -10,7 +10,7 @@
     "declaration": true
   },
   "include": [
-    "./lib/*.ts",
+    "./lib/**/*.ts",
     "./test/**/*.ts",
     "./typings/*.ts",
     "./node_modules/web3-typescript-typings/index.d.ts"

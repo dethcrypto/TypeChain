@@ -7,7 +7,7 @@ export interface ITxParams {
 }
 
 export interface IPayableTxParams {
-  value: string | BigNumber;
+  value: string | number | BigNumber;
   from?: string;
   gas?: number | string | BigNumber;
   gasPrice?: number | string | BigNumber;
@@ -21,14 +21,14 @@ export class TypechainContract {
   }
 }
 
-export class DeferredTransactionWrapper {
+export class DeferredTransactionWrapper<T extends ITxParams> {
   constructor(
     private parentContract: TypechainContract,
     private methodName: string,
     private methodArgs: any[]
   ) {}
 
-  send(params: ITxParams): Promise<string> {
+  send(params: T): Promise<string> {
     return promisify(this.parentContract.rawWeb3Contract[this.methodName].sendTransaction, [
       ...this.methodArgs,
       params

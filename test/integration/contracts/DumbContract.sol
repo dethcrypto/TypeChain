@@ -27,4 +27,9 @@ contract DumbContract {
     counter += offset;
     counterArray.push(counter);
   }
+
+  function countupForEther() payable public {
+    counter += msg.value;
+    counterArray.push(counter);
+  }
 }
