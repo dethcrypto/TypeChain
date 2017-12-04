@@ -14,18 +14,18 @@ export interface IPayableTxParams {
 }
 
 export class TypechainContract {
-  public rawWeb3Contract: any;
+  public readonly rawWeb3Contract: any;
 
-  constructor(web3: any, public address: string, protected contractAbi: object) {
+  constructor(web3: any, public readonly address: string, public readonly contractAbi: object) {
     this.rawWeb3Contract = web3.eth.contract(contractAbi).at(address);
   }
 }
 
 export class DeferredTransactionWrapper<T extends ITxParams> {
   constructor(
-    private parentContract: TypechainContract,
-    private methodName: string,
-    private methodArgs: any[]
+    private readonly parentContract: TypechainContract,
+    private readonly methodName: string,
+    private readonly methodArgs: any[]
   ) {}
 
   send(params: T): Promise<string> {
