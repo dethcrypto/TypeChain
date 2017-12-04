@@ -17,8 +17,19 @@ contract DumbContract {
     return (counter, counterWithOffset(5));
   }
 
-  function countup() public {
-    counter += 1;
+  // typechain doesnt support function overloading currently
+  // function countup() public {
+  //   counter += 1;
+  //   counterArray.push(counter);
+  // }
+
+  function countup(uint offset) public {
+    counter += offset;
     counterArray.push(counter);
-  } 
+  }
+
+  function countupForEther() payable public {
+    counter += msg.value;
+    counterArray.push(counter);
+  }
 }
