@@ -7,7 +7,7 @@ import * as glob from "glob";
 
 import { generateSource } from "./generateSource";
 import { parseArgs } from "./parseArgs";
-import { copyRuntime } from "./runtime/copyRuntime";
+import { copyRuntime } from "./copyRuntime";
 
 const cwd = process.cwd();
 
