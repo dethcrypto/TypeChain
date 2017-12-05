@@ -42,7 +42,6 @@ function processFile(absPath: string, forceOverwrite: boolean, runtimeAbsPath: s
   const relativeOutputPath = relative(cwd, outputPath);
   
   const runtimeRelativePath = getRelativeModulePath(parsedInputPath.dir, runtimeAbsPath);
-  debugger;
   console.log(blue(`${relativeInputPath} => ${relativeOutputPath}`));
   if (pathExistsSync(outputPath) && !forceOverwrite) {
     console.log(red("File exists, skipping"));

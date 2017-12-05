@@ -1,5 +1,6 @@
 import debug from "./debug";
 import { EvmType, VoidType, parseEvmType } from "./typeParser";
+import { yellow } from "chalk";
 
 export interface AbiParameter {
   name: string;
@@ -67,6 +68,11 @@ export function parse(abi: Array<RawAbiDefinition>): Contract {
     }
 
     if (abiPiece.type === "function") {
+      if (checkForOverloads(constants, constantFunctions, functions, abiPiece.name)) {
+        console.log(yellow(`Detected overloaded constant function ${abiPiece.name} skipping...`));
+        return;
+      }
+
       if (abiPiece.constant && abiPiece.inputs.length === 0 && abiPiece.outputs.length === 1) {
         constants.push(parseConstant(abiPiece));
       } else if (abiPiece.constant) {
@@ -85,6 +91,19 @@ export function parse(abi: Array<RawAbiDefinition>): Contract {
     constantFunctions,
     functions
   };
+}
+
+function checkForOverloads(
+  constants: Array<ConstantDeclaration>,
+  constantFunctions: Array<ConstantFunctionDeclaration>,
+  functions: Array<FunctionDeclaration>,
+  name: string
+) {
+  return (
+    constantFunctions.find(f => f.name === name) ||
+    constants.find(f => f.name === name) ||
+    functions.find(f => f.name === name)
+  );
 }
 
 function parseOutputs(outputs: Array<RawAbiParameter>): EvmType[] {
@@ -125,6 +144,6 @@ function parseFunctionDeclaration(abiPiece: RawAbiDefinition): FunctionDeclarati
 function parseRawAbiParameter(rawAbiParameter: RawAbiParameter): AbiParameter {
   return {
     name: rawAbiParameter.name,
-    type: parseEvmType(rawAbiParameter.type),
-  }
+    type: parseEvmType(rawAbiParameter.type)
+  };
 }
