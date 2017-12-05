@@ -1,3 +1,6 @@
 lib
 test
+typings
+scripts
 tsconfig.json
+.travis.yml

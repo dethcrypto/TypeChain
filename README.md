@@ -162,7 +162,7 @@ When calling payable txs, Typechain will make sure that you provide ether value:
 Current counter value is: 12
 ```
 
-## FAQ
+## FAQ 🤔
 
 ### Q: Should I commit generated files to my repository?
 
