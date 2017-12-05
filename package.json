@@ -2,7 +2,7 @@
   "name": "typechain",
   "version": "0.0.4",
   "license": "MIT",
-  "repository": "https://github.com/krzkaczor/typechain",
+  "repository": "https://github.com/Neufund/Typechain",
   "devDependencies": {
     "@types/bignumber.js": "^4.0.3",
     "@types/bluebird": "^3.5.18",
@@ -34,7 +34,7 @@
     "glob": "^7.1.2"
   },
   "scripts": {
-    "build": "rm -rf ./dist && tsc",
+    "build": "rm -rf ./dist && tsc -p ./tsconfig.production.json",
     "postbuild": "chmod +x ./dist/cli.js",
     "test": "./scripts/test.sh",
     "test:unit": "NODE_ENV=test mocha --require ts-node/register.js 'test/unit/**/*.spec.ts'",
