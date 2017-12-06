@@ -12,6 +12,8 @@ npm install --save-dev typechain
 yarn add --dev typechain
 ```
 
+Note: Typechain requires web3 in version: `0.20.x`.
+
 ## Usage
 
 ```
