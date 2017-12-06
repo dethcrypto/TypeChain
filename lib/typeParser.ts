@@ -63,7 +63,7 @@ export class BytesType extends EvmType {
 
 export class AddressType extends EvmType {
   generateCodeForOutput(): string {
-    return "BigNumber";
+    return "string";
   }
 
   generateCodeForInput(): string {

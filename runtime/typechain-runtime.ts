@@ -15,8 +15,10 @@ export interface IPayableTxParams {
 
 export class TypechainContract {
   public readonly rawWeb3Contract: any;
+  public readonly address: string;
 
-  constructor(web3: any, public readonly address: string, public readonly contractAbi: object) {
+  constructor(web3: any, address: string | BigNumber, public readonly contractAbi: object) {
+    this.address = address.toString();
     this.rawWeb3Contract = web3.eth.contract(contractAbi).at(address);
   }
 }
