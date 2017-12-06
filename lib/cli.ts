@@ -8,6 +8,7 @@ import * as glob from "glob";
 import { generateSource } from "./generateSource";
 import { parseArgs } from "./parseArgs";
 import { copyRuntime } from "./copyRuntime";
+import { extractAbi } from "./abiParser";
 
 const cwd = process.cwd();
 
@@ -49,7 +50,7 @@ function processFile(absPath: string, forceOverwrite: boolean, runtimeAbsPath: s
   }
 
   const abiString = readFileSync(absPath).toString();
-  const rawAbi = JSON.parse(abiString);
+  const rawAbi = extractAbi(abiString);
 
   const typescriptSourceFile = generateSource(rawAbi, { fileName: filenameWithoutAnyExtensions, relativeRuntimePath: runtimeRelativePath });
   writeFileSync(outputPath, typescriptSourceFile);
@@ -64,4 +65,10 @@ function getRelativeModulePath(from: string, to: string): string {
   return ("./" + relative(from, to)).replace(".ts", ""); // @note: this is probably not the best way to find relative path for modules 
 }
 
-main();
+try {
+  main();
+}
+catch(error) {
+  console.error(red("Error occured: ", error.message));
+  process.exit(1);
+}
