@@ -1,6 +1,6 @@
 {
   "name": "typechain",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "license": "MIT",
   "repository": "https://github.com/Neufund/Typechain",
   "devDependencies": {
