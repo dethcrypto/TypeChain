@@ -1,6 +1,7 @@
 import debug from "./debug";
 import { EvmType, VoidType, parseEvmType } from "./typeParser";
 import { yellow } from "chalk";
+import { MalformedAbiError } from "./errors";
 
 export interface AbiParameter {
   name: string;
@@ -146,4 +147,27 @@ function parseRawAbiParameter(rawAbiParameter: RawAbiParameter): AbiParameter {
     name: rawAbiParameter.name,
     type: parseEvmType(rawAbiParameter.type)
   };
+}
+
+export function extractAbi(rawJson: string): RawAbiDefinition[] {
+  let json;
+  try {
+    json = JSON.parse(rawJson);
+  } catch {
+    throw new MalformedAbiError("Not a json");
+  }
+  
+  if (!json) {
+    throw new MalformedAbiError("Not a json");
+  }
+
+  if (Array.isArray(json)) {
+    return json;
+  }
+
+  if (Array.isArray(json.abi)) {
+    return json.abi;
+  }
+
+  throw new MalformedAbiError("Not a valid ABI");
 }
