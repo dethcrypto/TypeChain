@@ -57,8 +57,16 @@ describe("DumbContract", () => {
         newBlockchain.web3
       );
 
-      // this should reject because tx wasn't properly mined (contract doesn't exist on different chain)
-      await expect(dumbContract.counterArray(0)).to.be.rejected;
+    // this should reject because tx wasn't properly mined (contract doesn't exist on different chain)
+    await expect(dumbContract.counterArray(0)).to.be.rejected;
+  });
+
+  it("should serialize numeric arguments", async () => {
+    const dumbContract = await DumbContract.createAndValidate(web3, contractAddress);
+    
+    // this relies on internal web3 behavior introduced in 0.20
+    expect((await dumbContract.counterWithOffset(5)).toString()).to.be.eq("5");
+    expect((await dumbContract.counterWithOffset(new BigNumber(5))).toString()).to.be.eq("5");
   });
 
   it.skip("should fail for not deployed contracts");
