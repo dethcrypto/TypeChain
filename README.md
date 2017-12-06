@@ -176,6 +176,14 @@ and make `typechain` run automatically for example in post install hook in packa
 When you update ABI, just regenerate files with Typechain and Typescript compiler will find any
 breaking changes for you.
 
+### Q: How do I customize generated classes?
+
+A: You can create your own class that extends generated one and adds additional methods etc.
+
+Currently we discuss various ideas around extendibility including APIs files (adding semantics to
+ABIs for covering popular cases like working with dates) or using user-defined templates for
+generated code.
+
 ## Roadmap 🛣️
 
 * improve generated code (auto formatting, more checks, wiring contracts together)
