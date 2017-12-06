@@ -4,9 +4,11 @@ contract DumbContract {
   uint public counter;
   bool constant public SOME_VALUE = true;
   uint[] public counterArray;
+  address public someAddress;
 
   function DumbContract() public {
     counter = 0;
+    someAddress = msg.sender;
   }
 
   function counterWithOffset(uint offset) public constant returns (uint sum) {

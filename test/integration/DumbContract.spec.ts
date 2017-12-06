@@ -32,6 +32,8 @@ describe("DumbContract", () => {
     await dumbContract.countupTx(2).send({ from: accounts[0], gas: GAS_LIMIT_STANDARD });
     expect((await dumbContract.counterArray(0)).toNumber()).to.be.eq(1);
     expect((await dumbContract.counterArray(1)).toNumber()).to.be.eq(3);
+
+    expect(await dumbContract.someAddress).to.be.eq(accounts[0]);
   });
 
   it("should allow for calling payable methods", async () => {

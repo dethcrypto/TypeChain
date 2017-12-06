@@ -27,12 +27,12 @@ import { TypechainContract, promisify, ITxParams, IPayableTxParams, DeferredTran
 export class ${typeName} extends TypechainContract {
     public readonly rawWeb3Contract: any;
   
-    public constructor(web3: any, address: string) {
+    public constructor(web3: any, address: string | BigNumber) {
       const abi = ${JSON.stringify(abi)};
       super(web3, address, abi);
     }
 
-    static async createAndValidate(web3: any, address: string): Promise<${typeName}> {
+    static async createAndValidate(web3: any, address: string | BigNumber): Promise<${typeName}> {
       const contract = new ${typeName}(web3, address);
       const code = await promisify(web3.eth.getCode, [address]);
       if (code === "0x0") {
