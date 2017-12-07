@@ -4,3 +4,5 @@ typings
 scripts
 tsconfig.json
 .travis.yml
+.prettierrc
+.prettierignore
