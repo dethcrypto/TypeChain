@@ -21,6 +21,7 @@
     "chai-as-promised": "^7.1.1",
     "ganache-cli": "^6.0.3",
     "mocha": "^4.0.1",
+    "prettier": "1.9.1",
     "ts-node": "^3.3.0",
     "typescript": "^2.6.1",
     "web3": "0.20.2",
@@ -39,7 +40,11 @@
   "scripts": {
     "build": "rm -rf ./dist && tsc -p ./tsconfig.production.json",
     "postbuild": "chmod +x ./dist/cli.js",
-    "test": "./scripts/test.sh",
+    "lint": "yarn formatting",
+    "lint:fix": "yarn formatting:fix",
+    "formatting": "prettier --list-different **/*.ts",
+    "formatting:fix": "prettier --write **/*.ts",
+    "test": "yarn lint && ./scripts/test.sh",
     "test:unit": "NODE_ENV=test mocha --require ts-node/register.js 'test/unit/**/*.spec.ts'",
     "test:integration": "NODE_ENV=test mocha --require ts-node/register.js 'test/integration/web3.ts' 'test/integration/**/*.spec.ts'",
     "test:generateContracts": "NODE_ENV=development ts-node ./lib/cli.ts"

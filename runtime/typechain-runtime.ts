@@ -27,7 +27,7 @@ export class DeferredTransactionWrapper<T extends ITxParams> {
   constructor(
     private readonly parentContract: TypechainContract,
     private readonly methodName: string,
-    private readonly methodArgs: any[]
+    private readonly methodArgs: any[],
   ) {}
 
   send(params: T, customWeb3?: any): Promise<string> {
@@ -47,7 +47,7 @@ export class DeferredTransactionWrapper<T extends ITxParams> {
 
   getData(): string {
     return this.parentContract.rawWeb3Contract[this.methodName].getData(
-      ...this.methodArgs
+      ...this.methodArgs,
     ) as string;
   }
 }

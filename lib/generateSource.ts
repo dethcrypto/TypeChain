@@ -48,7 +48,7 @@ export class ${typeName} extends TypechainContract {
             constant.name
           }(): Promise<${constant.output.generateCodeForOutput()}> { return promisify(this.rawWeb3Contract.${
             constant.name
-          }, []); }`
+          }, []); }`,
       )
       .join("\n")} 
       ${input.constantFunctions
@@ -56,29 +56,26 @@ export class ${typeName} extends TypechainContract {
           constantFunction =>
             `public ${constantFunction.name}(${constantFunction.inputs
               .map(codeGenForParams)
-              .join(", ")}): Promise<${codeGenForOutputTypelist(
-              constantFunction.outputs
+              .join(", ")}): Promise<${codeGenForOutputTypeList(
+              constantFunction.outputs,
             )}> { return promisify(this.rawWeb3Contract.${
               constantFunction.name
-            }, [${constantFunction.inputs.map(codeGenForArgs).join(", ")}]); }`
+            }, [${constantFunction.inputs.map(codeGenForArgs).join(", ")}]); }`,
         )
         .join(";\n")} 
 
         ${input.functions
-          .map(
-            func =>
-              {
-                const txParamsType = func.payable ? "IPayableTxParams" : "ITxParams";
-                return `public ${func.name}Tx(${func.inputs
-                  .map(codeGenForParams)
-                  .join(
-                    ", "
-                  )}): DeferredTransactionWrapper<${txParamsType}> { return new DeferredTransactionWrapper<${txParamsType}>(this, "${
-                  func.name
-                }", [${func.inputs.map(codeGenForArgs).join(", ")}]);
-                }`
-              }
-          )
+          .map(func => {
+            const txParamsType = func.payable ? "IPayableTxParams" : "ITxParams";
+            return `public ${func.name}Tx(${func.inputs
+              .map(codeGenForParams)
+              .join(
+                ", ",
+              )}): DeferredTransactionWrapper<${txParamsType}> { return new DeferredTransactionWrapper<${txParamsType}>(this, "${
+              func.name
+            }", [${func.inputs.map(codeGenForArgs).join(", ")}]);
+                }`;
+          })
           .join(";\n")} 
 }`;
 }
@@ -91,7 +88,7 @@ function codeGenForArgs(param: AbiParameter): string {
   return `(${param.name || "index"}).toString()`;
 }
 
-function codeGenForOutputTypelist(output: Array<EvmType>): string {
+function codeGenForOutputTypeList(output: Array<EvmType>): string {
   if (output.length === 1) {
     return output[0].generateCodeForOutput();
   } else {
