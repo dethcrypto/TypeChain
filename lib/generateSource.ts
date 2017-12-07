@@ -56,7 +56,7 @@ export class ${typeName} extends TypechainContract {
           constantFunction =>
             `public ${constantFunction.name}(${constantFunction.inputs
               .map(codeGenForParams)
-              .join(", ")}): Promise<${codeGenForOutputTypelist(
+              .join(", ")}): Promise<${codeGenForOutputTypeList(
               constantFunction.outputs,
             )}> { return promisify(this.rawWeb3Contract.${
               constantFunction.name
@@ -88,7 +88,7 @@ function codeGenForArgs(param: AbiParameter): string {
   return `(${param.name || "index"}).toString()`;
 }
 
-function codeGenForOutputTypelist(output: Array<EvmType>): string {
+function codeGenForOutputTypeList(output: Array<EvmType>): string {
   if (output.length === 1) {
     return output[0].generateCodeForOutput();
   } else {
