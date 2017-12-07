@@ -90,7 +90,7 @@ export function parse(abi: Array<RawAbiDefinition>): Contract {
   return {
     constants,
     constantFunctions,
-    functions
+    functions,
   };
 }
 
@@ -98,7 +98,7 @@ function checkForOverloads(
   constants: Array<ConstantDeclaration>,
   constantFunctions: Array<ConstantFunctionDeclaration>,
   functions: Array<FunctionDeclaration>,
-  name: string
+  name: string,
 ) {
   return (
     constantFunctions.find(f => f.name === name) ||
@@ -119,7 +119,7 @@ function parseConstant(abiPiece: RawAbiDefinition): ConstantDeclaration {
   debug(`Parsing constant "${abiPiece.name}"`);
   return {
     name: abiPiece.name,
-    output: parseEvmType(abiPiece.outputs[0].type)
+    output: parseEvmType(abiPiece.outputs[0].type),
   };
 }
 
@@ -128,7 +128,7 @@ function parseConstantFunction(abiPiece: RawAbiDefinition): ConstantFunctionDecl
   return {
     name: abiPiece.name,
     inputs: abiPiece.inputs.map(parseRawAbiParameter),
-    outputs: parseOutputs(abiPiece.outputs)
+    outputs: parseOutputs(abiPiece.outputs),
   };
 }
 
@@ -138,14 +138,14 @@ function parseFunctionDeclaration(abiPiece: RawAbiDefinition): FunctionDeclarati
     name: abiPiece.name,
     inputs: abiPiece.inputs.map(parseRawAbiParameter),
     outputs: parseOutputs(abiPiece.outputs),
-    payable: abiPiece.payable
+    payable: abiPiece.payable,
   };
 }
 
 function parseRawAbiParameter(rawAbiParameter: RawAbiParameter): AbiParameter {
   return {
     name: rawAbiParameter.name,
-    type: parseEvmType(rawAbiParameter.type)
+    type: parseEvmType(rawAbiParameter.type),
   };
 }
 
@@ -156,7 +156,7 @@ export function extractAbi(rawJson: string): RawAbiDefinition[] {
   } catch {
     throw new MalformedAbiError("Not a json");
   }
-  
+
   if (!json) {
     throw new MalformedAbiError("Not a json");
   }

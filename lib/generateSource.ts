@@ -48,7 +48,7 @@ export class ${typeName} extends TypechainContract {
             constant.name
           }(): Promise<${constant.output.generateCodeForOutput()}> { return promisify(this.rawWeb3Contract.${
             constant.name
-          }, []); }`
+          }, []); }`,
       )
       .join("\n")} 
       ${input.constantFunctions
@@ -57,28 +57,25 @@ export class ${typeName} extends TypechainContract {
             `public ${constantFunction.name}(${constantFunction.inputs
               .map(codeGenForParams)
               .join(", ")}): Promise<${codeGenForOutputTypelist(
-              constantFunction.outputs
+              constantFunction.outputs,
             )}> { return promisify(this.rawWeb3Contract.${
               constantFunction.name
-            }, [${constantFunction.inputs.map(codeGenForArgs).join(", ")}]); }`
+            }, [${constantFunction.inputs.map(codeGenForArgs).join(", ")}]); }`,
         )
         .join(";\n")} 
 
         ${input.functions
-          .map(
-            func =>
-              {
-                const txParamsType = func.payable ? "IPayableTxParams" : "ITxParams";
-                return `public ${func.name}Tx(${func.inputs
-                  .map(codeGenForParams)
-                  .join(
-                    ", "
-                  )}): DeferredTransactionWrapper<${txParamsType}> { return new DeferredTransactionWrapper<${txParamsType}>(this, "${
-                  func.name
-                }", [${func.inputs.map(codeGenForArgs).join(", ")}]);
-                }`
-              }
-          )
+          .map(func => {
+            const txParamsType = func.payable ? "IPayableTxParams" : "ITxParams";
+            return `public ${func.name}Tx(${func.inputs
+              .map(codeGenForParams)
+              .join(
+                ", ",
+              )}): DeferredTransactionWrapper<${txParamsType}> { return new DeferredTransactionWrapper<${txParamsType}>(this, "${
+              func.name
+            }", [${func.inputs.map(codeGenForArgs).join(", ")}]);
+                }`;
+          })
           .join(";\n")} 
 }`;
 }
