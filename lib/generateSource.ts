@@ -88,7 +88,7 @@ function codeGenForParams(param: AbiParameter): string {
 }
 
 function codeGenForArgs(param: AbiParameter): string {
-  return `${param.name || "index"}`;
+  return `(${param.name || "index"}).toString()`;
 }
 
 function codeGenForOutputTypelist(output: Array<EvmType>): string {
