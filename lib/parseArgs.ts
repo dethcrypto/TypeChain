@@ -15,8 +15,6 @@ export function parseArgs(): IOptions {
 
   const rawOptions = commandLineArgs(optionDefinitions);
 
-  console.log(rawOptions);
-
   return {
     force: !!rawOptions.force,
     glob: rawOptions.glob || DEFAULT_GLOB_PATTERN,
