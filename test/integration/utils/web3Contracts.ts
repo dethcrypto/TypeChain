@@ -1,6 +1,5 @@
 import { web3, accounts, GAS_LIMIT_STANDARD } from "../web3";
 import { readFileSync } from "fs";
-import { promisify } from "bluebird";
 import { join } from "path";
 import { ContractInstance } from "web3";
 
