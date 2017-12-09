@@ -13,7 +13,7 @@ export interface IPayableTxParams {
   gasPrice?: number | string | BigNumber;
 }
 
-export class TypechainContract {
+export class TypeChainContract {
   public readonly rawWeb3Contract: any;
   public readonly address: string;
 
@@ -25,7 +25,7 @@ export class TypechainContract {
 
 export class DeferredTransactionWrapper<T extends ITxParams> {
   constructor(
-    private readonly parentContract: TypechainContract,
+    private readonly parentContract: TypeChainContract,
     private readonly methodName: string,
     private readonly methodArgs: any[],
   ) {}
