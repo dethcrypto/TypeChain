@@ -200,3 +200,8 @@ You need to have `solc ^0.4.4` installed on your system. Then just do `yarn test
 ```sh
 DEBUG=typechain typechain
 ```
+
+
+Original author:
+
+Krzysztof Kaczor | [Github](https://github.com/krzkaczor) | [Twitter](https://twitter.com/krzkaczor)
