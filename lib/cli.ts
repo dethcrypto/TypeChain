@@ -32,7 +32,7 @@ async function main() {
     // tslint:disable-next-line
     console.log("Found prettier config file");
   }
-  
+
   // tslint:disable-next-line
   console.log("Generating typings...");
 
