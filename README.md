@@ -188,7 +188,7 @@ generated code.
 
 ## Roadmap 🛣️
 
-* improve generated code (auto formatting, more checks, wiring contracts together)
+* improve generated code (more checks, wiring contracts together)
 * events
 
 ### Running tests
