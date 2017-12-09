@@ -3,5 +3,10 @@
   "rules": {
     "no-console": true,
     "no-debugger": true
+  },
+  "cliOptions": {
+    "exclude": [
+      "test/integration/abis/"
+    ]
   }
 }

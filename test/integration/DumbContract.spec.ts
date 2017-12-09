@@ -1,10 +1,6 @@
 import { expect } from "chai";
-import * as chai from "chai";
 import { deployContract } from "./utils/web3Contracts";
 import { BigNumber } from "bignumber.js";
-import * as chaiAsPromised from "chai-as-promised";
-
-chai.use(chaiAsPromised);
 
 import { DumbContract } from "./abis/DumbContract";
 import { web3, accounts, GAS_LIMIT_STANDARD, createNewBlockchain } from "./web3";
@@ -51,7 +47,7 @@ describe("DumbContract", () => {
       .countupForEtherTx()
       .send(
         { from: newBlockchain.accounts[0], gas: GAS_LIMIT_STANDARD, value: 10 },
-        newBlockchain.web3
+        newBlockchain.web3,
       );
 
     // this should reject because tx wasn't properly mined (contract doesn't exist on different chain)
@@ -60,11 +56,17 @@ describe("DumbContract", () => {
 
   it("should serialize numeric arguments", async () => {
     const dumbContract = await DumbContract.createAndValidate(web3, contractAddress);
-    
+
     // this relies on internal web3 behavior introduced in 0.20
     expect((await dumbContract.counterWithOffset(5)).toString()).to.be.eq("5");
     expect((await dumbContract.counterWithOffset(new BigNumber(5))).toString()).to.be.eq("5");
   });
 
-  it.skip("should fail for not deployed contracts");
+  it("should fail for not deployed contracts", () => {
+    const wrongAddress = "0xbe84036c11964e9743f056f4e780a99d302a77c3";
+    return expect(DumbContract.createAndValidate(web3, wrongAddress)).to.be.rejectedWith(
+      Error,
+      `Contract at ${wrongAddress} doesn't exist!`,
+    );
+  });
 });
