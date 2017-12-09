@@ -4,6 +4,7 @@ import { blue, red, green } from "chalk";
 import { join, dirname, parse, relative } from "path";
 import { pathExistsSync } from "fs-extra";
 import * as glob from "glob";
+import * as prettier from "prettier";
 
 import { generateSource } from "./generateSource";
 import { parseArgs } from "./parseArgs";
@@ -12,7 +13,7 @@ import { extractAbi } from "./abiParser";
 
 const cwd = process.cwd();
 
-function main() {
+async function main() {
   const options = parseArgs();
 
   const matches = glob.sync(options.glob, { ignore: "node_modules/**", absolute: true });
@@ -25,6 +26,13 @@ function main() {
 
   // tslint:disable-next-line
   console.log(green(`Found ${matches.length} ABIs.`));
+
+  const prettierConfig = await prettier.resolveConfig(dirname(matches[0]));
+  if (prettierConfig) {
+    // tslint:disable-next-line
+    console.log("Found prettier config file");
+  }
+
   // tslint:disable-next-line
   console.log("Generating typings...");
 
@@ -36,10 +44,17 @@ function main() {
   console.log(blue(`${runtimeFilename} => ${runtimePath}`));
 
   // generate wrappers
-  matches.forEach(p => processFile(p, options.force, runtimePath));
+  matches.forEach(p =>
+    processFile(p, options.force, runtimePath, { ...(prettierConfig || {}), parser: "typescript" }),
+  );
 }
 
-function processFile(absPath: string, forceOverwrite: boolean, runtimeAbsPath: string): void {
+function processFile(
+  absPath: string,
+  forceOverwrite: boolean,
+  runtimeAbsPath: string,
+  prettierConfig: prettier.Options,
+): void {
   const relativeInputPath = relative(cwd, absPath);
   const parsedInputPath = parse(absPath);
   const filenameWithoutAnyExtensions = getFilenameWithoutAnyExtensions(parsedInputPath.name);
@@ -62,7 +77,7 @@ function processFile(absPath: string, forceOverwrite: boolean, runtimeAbsPath: s
     fileName: filenameWithoutAnyExtensions,
     relativeRuntimePath: runtimeRelativePath,
   });
-  writeFileSync(outputPath, typescriptSourceFile);
+  writeFileSync(outputPath, prettier.format(typescriptSourceFile, prettierConfig));
 }
 
 function getFilenameWithoutAnyExtensions(filePath: string): string {
@@ -74,10 +89,8 @@ function getRelativeModulePath(from: string, to: string): string {
   return ("./" + relative(from, to)).replace(".ts", ""); // @note: this is probably not the best way to find relative path for modules
 }
 
-try {
-  main();
-} catch (error) {
+main().catch(e => {
   // tslint:disable-next-line
-  console.error(red("Error occured: ", error.message));
+  console.error(red("Error occured: ", e.message));
   process.exit(1);
-}
+});
