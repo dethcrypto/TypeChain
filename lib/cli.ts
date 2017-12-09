@@ -26,16 +26,14 @@ async function main() {
 
   // tslint:disable-next-line
   console.log(green(`Found ${matches.length} ABIs.`));
-<<<<<<< HEAD
 
   const prettierConfig = await prettier.resolveConfig(dirname(matches[0]));
   if (prettierConfig) {
+    // tslint:disable-next-line
     console.log("Found prettier config file");
   }
-
-=======
+  
   // tslint:disable-next-line
->>>>>>> master
   console.log("Generating typings...");
 
   // copy runtime in directory of first typing (@todo it should be customizable)
