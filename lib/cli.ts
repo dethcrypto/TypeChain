@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { readFileSync, writeFileSync } from "fs";
 import { blue, red, green } from "chalk";
-import { join, dirname, basename, parse, relative } from "path";
+import { join, dirname, parse, relative } from "path";
 import { pathExistsSync } from "fs-extra";
 import * as glob from "glob";
 import * as prettier from "prettier";
@@ -19,23 +19,30 @@ async function main() {
   const matches = glob.sync(options.glob, { ignore: "node_modules/**", absolute: true });
 
   if (matches.length === 0) {
+    // tslint:disable-next-line
     console.log(red(`Found ${matches.length} ABIs.`));
     process.exit(0);
   }
 
+  // tslint:disable-next-line
   console.log(green(`Found ${matches.length} ABIs.`));
+<<<<<<< HEAD
 
   const prettierConfig = await prettier.resolveConfig(dirname(matches[0]));
   if (prettierConfig) {
     console.log("Found prettier config file");
   }
 
+=======
+  // tslint:disable-next-line
+>>>>>>> master
   console.log("Generating typings...");
 
   // copy runtime in directory of first typing (@todo it should be customizable)
   const runtimeFilename = "typechain-runtime.ts";
   const runtimePath = join(dirname(matches[0]), runtimeFilename);
   copyRuntime(runtimePath);
+  // tslint:disable-next-line
   console.log(blue(`${runtimeFilename} => ${runtimePath}`));
 
   // generate wrappers
@@ -57,8 +64,10 @@ function processFile(
   const relativeOutputPath = relative(cwd, outputPath);
 
   const runtimeRelativePath = getRelativeModulePath(parsedInputPath.dir, runtimeAbsPath);
+  // tslint:disable-next-line
   console.log(blue(`${relativeInputPath} => ${relativeOutputPath}`));
   if (pathExistsSync(outputPath) && !forceOverwrite) {
+    // tslint:disable-next-line
     console.log(red("File exists, skipping"));
     return;
   }
@@ -83,6 +92,7 @@ function getRelativeModulePath(from: string, to: string): string {
 }
 
 main().catch(e => {
+  // tslint:disable-next-line
   console.error(red("Error occured: ", e.message));
   process.exit(1);
 });

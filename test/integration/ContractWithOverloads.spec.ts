@@ -1,16 +1,12 @@
 import { expect } from "chai";
 import * as chai from "chai";
 import { deployContract } from "./utils/web3Contracts";
-import { join } from "path";
-import { BigNumber } from "bignumber.js";
-import * as Web3 from "web3";
-import * as ganache from "ganache-cli";
 import * as chaiAsPromised from "chai-as-promised";
 
-chai.use(chaiAsPromised);
-
-import { web3, accounts, GAS_LIMIT_STANDARD, createNewBlockchain } from "./web3";
+import { web3 } from "./web3";
 import { ContractWithOverloads } from "./abis/ContractWithOverloads";
+
+chai.use(chaiAsPromised);
 
 describe("DumbContract", () => {
   let contractAddress: string;
