@@ -1,12 +1,8 @@
 import { expect } from "chai";
-import * as chai from "chai";
 import { deployContract } from "./utils/web3Contracts";
-import * as chaiAsPromised from "chai-as-promised";
 
 import { web3 } from "./web3";
 import { ContractWithOverloads } from "./abis/ContractWithOverloads";
-
-chai.use(chaiAsPromised);
 
 describe("DumbContract", () => {
   let contractAddress: string;
