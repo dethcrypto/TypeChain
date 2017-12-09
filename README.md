@@ -1,4 +1,4 @@
-# Typechain
+# TypeChain
 
 🔌 Typescript bindings for Ethereum smartcontracts
 
@@ -12,7 +12,7 @@ npm install --save-dev typechain
 yarn add --dev typechain
 ```
 
-Note: Typechain requires web3 in version: `0.20.x`.
+Note: TypeChain requires web3 in version: `0.20.x`.
 
 ## Usage
 
@@ -43,14 +43,14 @@ _[fullsize](https://zippy.gfycat.com/DimBruisedBlacknorwegianelkhound.mp4)_
 
 ### Motivation
 
-Interacting with blockchain in Javascript is a pain. Web3 interface is sluggish and when you want to
-use from Typescript it gets even worse. Often, you can't be sure what given method call will
-actually do without looking at ABI file. Typechain is here to solve these problems (as long as you
+Interacting with blockchain in Javascript is a pain. Web3 interface is sluggish and when using it 
+with Typescript it gets even worse. Often, you can't be sure what given method call will
+actually do without looking at ABI file. TypeChain is here to solve these problems (as long as you
 use Typescript).
 
 ### How does it work?
 
-Typechain is code generator - provide ABI file and you will get Typescript class with flexible
+TypeChain is code generator - provide ABI file and you will get Typescript class with flexible
 interface for interacting with blockchain.
 
 In future we plan to leverage something like tsc plugin system to come up with much more elegant
@@ -74,19 +74,19 @@ That's it! Now, just import contract bindings as any other file `import { MyAwes
 ### API
 
 Let's take a look at typings generated for simple
-[smartcontract](https://github.com/Neufund/Typechain/blob/master/test/integration/contracts/DumbContract.sol):
+[smartcontract](https://github.com/Neufund/TypeChain/blob/master/test/integration/contracts/DumbContract.sol):
 
 ```typescript
 import { BigNumber } from "bignumber.js";
 import {
-  TypechainContract,
+  TypeChainContract,
   promisify,
   ITxParams,
   IPayableTxParams,
   DeferredTransactionWrapper
 } from "./typechain-runtime";
 
-export class DumbContract extends TypechainContract {
+export class DumbContract extends TypeChainContract {
   public readonly rawWeb3Contract: any;
 
   public constructor(web3: any, address: string) {
@@ -145,7 +145,7 @@ console.log(`Current counter value is: ${await dumbContract.counter}`);
 console.log("We can also get signed tx data: ");
 console.log(await dumbContract.countupTx(2).getData());
 
-console.log("When calling payable txs, Typechain will make sure that you provide ether value:");
+console.log("When calling payable txs, TypeChain will make sure that you provide ether value:");
 await dumbContract
   .countupForEtherTx()
   .send({ from: accounts[0], gas: GAS_LIMIT_STANDARD, value: 10 });
@@ -160,7 +160,7 @@ Lets increase it by 2... This results in state change so we need to create tx.
 Current counter value is: 2
 We can also get signed tx data:
 0x7916df080000000000000000000000000000000000000000000000000000000000000002
-When calling payable txs, Typechain will make sure that you provide ether value:
+When calling payable txs, TypeChain will make sure that you provide ether value:
 Current counter value is: 12
 ```
 
@@ -175,7 +175,7 @@ and make `typechain` run automatically for example in post install hook in packa
 "postinstall":"typechain"
 ```
 
-When you update ABI, just regenerate files with Typechain and Typescript compiler will find any
+When you update ABI, just regenerate files with TypeChain and Typescript compiler will find any
 breaking changes for you.
 
 ### Q: How do I customize generated classes?
