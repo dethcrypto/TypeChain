@@ -70,6 +70,7 @@ export function parse(abi: Array<RawAbiDefinition>): Contract {
 
     if (abiPiece.type === "function") {
       if (checkForOverloads(constants, constantFunctions, functions, abiPiece.name)) {
+        // tslint:disable-next-line
         console.log(yellow(`Detected overloaded constant function ${abiPiece.name} skipping...`));
         return;
       }

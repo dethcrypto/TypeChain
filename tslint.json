@@ -1,0 +1,7 @@
+{
+  "extends": "typestrict",
+  "rules": {
+    "no-console": true,
+    "no-debugger": true
+  }
+}
