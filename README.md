@@ -2,6 +2,11 @@
 
 🔌 Typescript bindings for Ethereum smartcontracts
 
+[![Build Status](https://travis-ci.org/Neufund/TypeChain.svg?branch=master)](https://travis-ci.org/Neufund/TypeChain) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+
+[Introduction medium post](https://blog.neufund.org/introducing-typechain-typescript-bindings-for-ethereum-smart-contracts-839fc2becf22)
+
+
 ## Installation
 
 ```bash
@@ -30,14 +35,13 @@ typechain [--force] [glob]
 * IDE support - works with any IDE supporting Typescript
 * revamped API - native promises, safety checks and more!
 * compatibility - under the hood it uses web3 so it's 100% compatible
+* frictionless - works with simple, JSON ABI files as well as with Truffle style ABIs
 
 ## Demo 🏎️
 
-![Demo](https://media.giphy.com/media/l1J9CYJCRtMVSSPK0/giphy.gif)
+![Demo](https://media.giphy.com/media/3oFzmqgHxrPZFhBst2/giphy.gif)
 
-_[fullsize](https://zippy.gfycat.com/DimBruisedBlacknorwegianelkhound.mp4)_
-
-[Example repo](https://github.com/krzkaczor/Typechain-example)
+[Example usage](https://github.com/Neufund/commit.neufund.org/pull/331/files)
 
 ## Getting started 📚
 
@@ -185,6 +189,10 @@ A: You can create your own class that extends generated one and adds additional 
 Currently we discuss various ideas around extendibility including APIs files (adding semantics to
 ABIs for covering popular cases like working with dates) or using user-defined templates for
 generated code.
+
+### Q: Generated files won't match current codestyle of my project  :(
+
+A: We will automatically format generated classes with `prettier` to match your coding preferences (just make sure to use `.prettierrc` file). Furthermore, we will silent tslint for generated files with `/* tslint:disable */` comments.
 
 ## Roadmap 🛣️
 
