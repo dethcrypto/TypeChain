@@ -19,7 +19,7 @@ export class TypeChainContract {
 
   constructor(web3: any, address: string | BigNumber, public readonly contractAbi: object) {
     this.address = address.toString();
-    this.rawWeb3Contract = web3.eth.contract(contractAbi).at(address);
+    this.rawWeb3Contract = new web3.eth.Contract(contractAbi, address);
   }
 }
 
@@ -34,29 +34,25 @@ export class DeferredTransactionWrapper<T extends ITxParams> {
     let method: any;
 
     if (customWeb3) {
-      const tmpContract = customWeb3.eth
-        .contract(this.parentContract.contractAbi)
-        .at(this.parentContract.address);
-      method = tmpContract[this.methodName].sendTransaction;
+      const tmpContract = new customWeb3.eth.Contract(
+        this.parentContract.contractAbi,
+        this.parentContract.address,
+      );
+
+      method = tmpContract.methods[this.methodName].apply(tmpContract.methods, this.methodArgs);
     } else {
-      method = this.parentContract.rawWeb3Contract[this.methodName].sendTransaction;
+      method = this.parentContract.rawWeb3Contract.methods[this.methodName].apply(
+        this.parentContract.rawWeb3Contract.methods,
+        this.methodArgs,
+      );
     }
 
-    return promisify(method, [...this.methodArgs, params]);
+    return method.send(params);
   }
 
   getData(): string {
-    return this.parentContract.rawWeb3Contract[this.methodName].getData(
-      ...this.methodArgs,
-    ) as string;
+    return this.parentContract.rawWeb3Contract.methods[this.methodName]
+      .apply(this.parentContract.rawWeb3Contract.methods, this.methodArgs)
+      .encodeABI();
   }
-}
-
-export function promisify(func: any, args: any): Promise<any> {
-  return new Promise((res, rej) => {
-    func(...args, (err: any, data: any) => {
-      if (err) return rej(err);
-      return res(data);
-    });
-  });
 }

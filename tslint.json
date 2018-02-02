@@ -1,7 +1,7 @@
 {
   "extends": "typestrict",
   "rules": {
-    "no-console": true,
+    "no-console": false,
     "no-debugger": true
   },
   "cliOptions": {

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { readFileSync, writeFileSync } from "fs";
-import { blue, red, green } from "chalk";
+import chalk from "chalk";
 import { join, dirname, parse, relative } from "path";
 import { pathExistsSync } from "fs-extra";
 import * as glob from "glob";
@@ -12,6 +12,7 @@ import { copyRuntime } from "./copyRuntime";
 import { extractAbi } from "./abiParser";
 
 const cwd = process.cwd();
+const { blue, red, green } = chalk;
 
 async function main() {
   const options = parseArgs();

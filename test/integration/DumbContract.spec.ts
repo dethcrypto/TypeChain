@@ -2,14 +2,14 @@ import { expect } from "chai";
 import { deployContract } from "./utils/web3Contracts";
 import { BigNumber } from "bignumber.js";
 
-import { DumbContract } from "./abis/DumbContract";
+import { __DumbContract_sol_DumbContract as DumbContract } from "./abis/__DumbContract_sol_DumbContract";
 import { web3, accounts, GAS_LIMIT_STANDARD, createNewBlockchain } from "./web3";
 
 describe("DumbContract", () => {
   let contractAddress: string;
 
   beforeEach(async () => {
-    contractAddress = (await deployContract("DumbContract")).address;
+    contractAddress = (await deployContract("DumbContract")).options.address;
   });
 
   it("should allow for calling all methods", async () => {
