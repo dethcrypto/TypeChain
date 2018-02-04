@@ -54,7 +54,8 @@
     "test": "yarn lint && ./scripts/test.sh",
     "test:unit": "NODE_ENV=test mocha --require ts-node/register.js --require test/setup-chai.ts 'test/unit/**/*.spec.ts'",
     "test:integration": "NODE_ENV=test mocha --require ts-node/register.js --require test/setup-chai.ts 'test/integration/web3.ts' 'test/integration/**/*.spec.ts'",
-    "test:generateContracts": "NODE_ENV=development ts-node ./lib/cli.ts --force"
+    "test:generateContracts": "NODE_ENV=development ts-node ./lib/cli.ts --force",
+    "test:generateContractsOutDir": "NODE_ENV=development ts-node ./lib/cli.ts --force --outDir ./test-tmp/"
   },
   "bin": "./dist/cli.js"
 }
