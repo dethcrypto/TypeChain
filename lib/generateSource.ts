@@ -77,6 +77,12 @@ export class ${typeName} extends TypeChainContract {
                 }`;
           })
           .join(";\n")} 
+
+        ${input.events.map(event => {
+          
+        })
+
+        }
 }`;
 }
 

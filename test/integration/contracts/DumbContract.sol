@@ -33,5 +33,11 @@ contract DumbContract {
   function countupForEther() payable public {
     counter += msg.value;
     counterArray.push(counter);
+    Deposit(msg.sender, msg.value);
   }
+
+  event Deposit(
+    address indexed from,
+    uint value
+  );
 }

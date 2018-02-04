@@ -52,6 +52,34 @@ export class DeferredTransactionWrapper<T extends ITxParams> {
   }
 }
 
+export class DeferredEventWrapper<Event, EventIndexedFields> {
+  constructor(
+    private readonly parentContract: TypeChainContract,
+    private readonly eventName: string,
+    private readonly eventArgs?: EventIndexedFields,
+  ) {}
+
+  public watchFirst(): Promise<DecodedLogEntry<Event>> {
+    return new Promise((resolve, reject) => {
+      const watcher = this.parentContract.rawWeb3Contract[this.eventName](
+        this.eventArgs,
+        (err: any, res: any) => {
+          // this makes sure to unsubscribe as well
+          watcher.stopWatching((err2: any) => {
+            if (err) {
+              reject(err);
+            } else if (err2) {
+              reject(err2);
+            } else {
+              resolve(res);
+            }
+          });
+        },
+      );
+    });
+  }
+}
+
 export function promisify(func: any, args: any): Promise<any> {
   return new Promise((res, rej) => {
     func(...args, (err: any, data: any) => {
@@ -59,4 +87,26 @@ export function promisify(func: any, args: any): Promise<any> {
       return res(data);
     });
   });
+}
+
+// tslint:disable-next-line
+export interface LogEntry {
+  logIndex: number | null;
+  transactionIndex: number | null;
+  transactionHash: string;
+  blockHash: string | null;
+  blockNumber: number | null;
+  address: string;
+  data: string;
+  topics: string[];
+}
+
+// tslint:disable-next-line
+export interface DecodedLogEntry<A> extends LogEntry {
+  event: string;
+  args: A;
+}
+
+interface IDictionary<T = string> {
+  [id: string]: T;
 }

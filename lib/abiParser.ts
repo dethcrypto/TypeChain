@@ -32,6 +32,8 @@ export interface Contract {
   constantFunctions: Array<ConstantFunctionDeclaration>;
 
   functions: Array<FunctionDeclaration>;
+
+  events: Array<EventDeclaration>;
 }
 
 export interface RawAbiParameter {
@@ -48,19 +50,40 @@ export interface RawAbiDefinition {
   type: string;
 }
 
+export interface EventDeclaration {
+  name: string;
+  inputs: EventArgDeclaration[];
+}
+
+export interface EventArgDeclaration {
+  isIndexed: boolean;
+  name: string;
+  type: EvmType;
+}
+
+export interface RawEventAbiDefinition {
+  type: "event";
+  anonymous: boolean;
+  name: string;
+  inputs: RawEventArgAbiDefinition[];
+}
+
+export interface RawEventArgAbiDefinition {
+  indexed: boolean;
+  name: string;
+  type: string;
+}
+
 export function parse(abi: Array<RawAbiDefinition>): Contract {
   const constants: Array<ConstantDeclaration> = [];
   const constantFunctions: Array<ConstantFunctionDeclaration> = [];
   const functions: Array<FunctionDeclaration> = [];
+  const events: Array<EventDeclaration> = [];
 
   abi.forEach(abiPiece => {
     // @todo implement missing abi pieces
     // skip constructors for now
     if (abiPiece.type === "constructor") {
-      return;
-    }
-    // skip events
-    if (abiPiece.type === "event") {
       return;
     }
     // skip fallback functions
@@ -85,6 +108,17 @@ export function parse(abi: Array<RawAbiDefinition>): Contract {
       return;
     }
 
+    if (abiPiece.type === "event") {
+      const eventAbi = abiPiece as any as RawEventAbiDefinition;
+      if (eventAbi.anonymous) {
+        // tslint:disable-next-line
+        console.log(yellow("Skipping anonymous event..."));
+        return;
+      }
+
+      events.push(parseEvent(eventAbi));
+    }
+
     throw new Error(`Unrecognized abi element: ${abiPiece.type}`);
   });
 
@@ -92,6 +126,7 @@ export function parse(abi: Array<RawAbiDefinition>): Contract {
     constants,
     constantFunctions,
     functions,
+    events
   };
 }
 
@@ -123,6 +158,23 @@ function parseConstant(abiPiece: RawAbiDefinition): ConstantDeclaration {
     output: parseEvmType(abiPiece.outputs[0].type),
   };
 }
+
+export function parseEvent(abiPiece: RawEventAbiDefinition): EventDeclaration {
+  debug(`Parsing event "${abiPiece.name}"`);
+
+  return {
+    name: abiPiece.name,
+    inputs: abiPiece.inputs.map(parseRawEventArg)
+  }
+}
+
+function parseRawEventArg(eventArg: RawEventArgAbiDefinition): EventArgDeclaration {
+  return {
+    name: eventArg.name,
+    isIndexed: eventArg.indexed,
+    type: parseEvmType(eventArg.type),
+  }
+} 
 
 function parseConstantFunction(abiPiece: RawAbiDefinition): ConstantFunctionDeclaration {
   debug(`Parsing constant function "${abiPiece.name}"`);

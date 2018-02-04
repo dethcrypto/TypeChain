@@ -4,6 +4,7 @@ import { BigNumber } from "bignumber.js";
 
 import { DumbContract } from "./abis/DumbContract";
 import { web3, accounts, GAS_LIMIT_STANDARD, createNewBlockchain } from "./web3";
+import { rewrapBigNumbers, createBigNumberWrapper } from "../bigNumberUtils";
 
 describe("DumbContract", () => {
   let contractAddress: string;
@@ -69,4 +70,24 @@ describe("DumbContract", () => {
       `Contract at ${wrongAddress} doesn't exist!`,
     );
   });
+
+  describe.only("events", () => {
+    it("should wait for event", async () => {
+      const expectedAccount = accounts[0];
+      const expectedValue = 10;
+
+      const dumbContract = await DumbContract.createAndValidate(web3, contractAddress);
+      await dumbContract
+        .countupForEtherTx()
+        .send({ from: expectedAccount, gas: GAS_LIMIT_STANDARD, value: expectedValue });
+
+      const res = await dumbContract.onDeposit().watchFirst();
+
+      expect(rewrapBigNumbers(res.args)).to.be.deep.eq({
+        from: expectedAccount,
+        value: createBigNumberWrapper(expectedValue),
+      });
+    });
+  });
 });
+

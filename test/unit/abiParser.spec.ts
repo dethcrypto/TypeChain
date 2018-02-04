@@ -1,6 +1,7 @@
 import { expect } from "chai";
-import { extractAbi } from "../../lib/abiParser";
+import { extractAbi, RawEventAbiDefinition, parseEvent } from "../../lib/abiParser";
 import { MalformedAbiError } from "../../lib/errors";
+import { AddressType, UnsignedIntegerType } from "../../lib/typeParser";
 
 describe("extractAbi", () => {
   it("should throw error on not JSON ABI", () => {
@@ -18,8 +19,31 @@ describe("extractAbi", () => {
     expect(extractAbi(inputJson)).to.be.deep.eq([{ name: "piece" }]);
   });
 
-  it ("should work with nested abi (truffle style", () => {
+  it("should work with nested abi (truffle style)", () => {
     const inputJson = `{ "abi": [{ "name": "piece" }] }`;
     expect(extractAbi(inputJson)).to.be.deep.eq([{ name: "piece" }]);
-  })
+  });
+});
+
+describe("parseEvent", () => {
+  it("should work", () => {
+    const expectedEvent: RawEventAbiDefinition = {
+      anonymous: false,
+      inputs: [
+        { indexed: true, name: "_from", type: "address" },
+        { indexed: false, name: "_value", type: "uint256" },
+      ],
+      name: "Deposit",
+      type: "event",
+    };
+    const parsedEvent = parseEvent(expectedEvent);
+
+    expect(parsedEvent).to.be.deep.eq({
+      name: "Deposit",
+      inputs: [
+        { name: "_from", isIndexed: true, type: new AddressType() },
+        { name: "_value", isIndexed: false, type: new UnsignedIntegerType(256) },
+      ],
+    });
+  });
 });
