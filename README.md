@@ -28,6 +28,7 @@ typechain [--force] [glob]
 * `glob` - pattern that will be used to find ABIs, remember about adding quotes: `typechain
   "**/*.json"`
 * `--force` - force overwrite existing files
+* `--outDir` - put all generated files to a specific dir
 
 ## Features ⚡
 

@@ -6,3 +6,4 @@ tsconfig.json
 .travis.yml
 .prettierrc
 .prettierignore
+test-tmp
