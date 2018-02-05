@@ -9,7 +9,7 @@ echo "Praparing for integration tests"
 
 cd ./test/integration/contracts/
 ABI_DIR="../abis"
-ABI_TMP_DIR="../test-tmp"
+ABI_TMP_DIR="../../../test-tmp"
 rm -rf $ABI_DIR
 rm -rf $ABI_TMP_DIR
 
