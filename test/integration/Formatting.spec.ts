@@ -12,7 +12,7 @@ describe("Formatting of generated files", () => {
 
     files.forEach(filePath => {
       expect(
-        check(readFileSync(join(__dirname, "./abis/ContractWithOverloads.ts"), "utf-8"), config!),
+        check(readFileSync(filePath, "utf-8"), config!),
       ).to.be.ok;
     });
   });

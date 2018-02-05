@@ -7,13 +7,14 @@ yarn test:unit
 
 echo "Praparing for integration tests"
 
-ABI_DIR="./test/integration/abis"
+cd ./test/integration/contracts/
+ABI_DIR="../abis"
 rm -rf $ABI_DIR
 
 echo "Generating ABIs for sample contracts"
-solc --abi ./test/integration/contracts/* --bin -o $ABI_DIR
+../../../node_modules/.bin/solcjs --abi ./* --bin -o $ABI_DIR
 
-echo "Generate Typechain wrappers"
+echo "Generate TypeChain wrappers"
 yarn test:generateContracts
 
 yarn test:integration
