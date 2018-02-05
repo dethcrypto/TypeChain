@@ -39,14 +39,20 @@ async function main() {
 
   // copy runtime in directory of first typing (@todo it should be customizable)
   const runtimeFilename = "typechain-runtime.ts";
-  const runtimePath = join(dirname(matches[0]), runtimeFilename);
+  const runtimePath = join(options.outDir || dirname(matches[0]), runtimeFilename);
   copyRuntime(runtimePath);
   // tslint:disable-next-line
   console.log(blue(`${runtimeFilename} => ${runtimePath}`));
 
   // generate wrappers
   matches.forEach(p =>
-    processFile(p, options.force, runtimePath, { ...(prettierConfig || {}), parser: "typescript" }),
+    processFile(
+      p,
+      options.force,
+      runtimePath,
+      { ...(prettierConfig || {}), parser: "typescript" },
+      options.outDir,
+    ),
   );
 }
 
@@ -55,14 +61,16 @@ function processFile(
   forceOverwrite: boolean,
   runtimeAbsPath: string,
   prettierConfig: prettier.Options,
+  fixedOutputDir?: string,
 ): void {
   const relativeInputPath = relative(cwd, absPath);
   const parsedInputPath = parse(absPath);
   const filenameWithoutAnyExtensions = getFilenameWithoutAnyExtensions(parsedInputPath.name);
-  const outputPath = join(parsedInputPath.dir, filenameWithoutAnyExtensions + ".ts");
+  const outputDir = fixedOutputDir || parsedInputPath.dir;
+  const outputPath = join(outputDir, filenameWithoutAnyExtensions + ".ts");
   const relativeOutputPath = relative(cwd, outputPath);
 
-  const runtimeRelativePath = getRelativeModulePath(parsedInputPath.dir, runtimeAbsPath);
+  const runtimeRelativePath = getRelativeModulePath(outputDir, runtimeAbsPath);
   // tslint:disable-next-line
   console.log(blue(`${relativeInputPath} => ${relativeOutputPath}`));
   if (pathExistsSync(outputPath) && !forceOverwrite) {
