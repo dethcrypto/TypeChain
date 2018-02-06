@@ -41,6 +41,7 @@
     "solc": "^0.4.19"
   },
   "peerDependencies": {
+    "bignumber.js": "^5.0.0",
     "web3": "0.20.x"
   },
   "scripts": {
