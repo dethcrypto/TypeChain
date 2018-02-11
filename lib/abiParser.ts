@@ -1,7 +1,9 @@
 import debug from "./debug";
 import { EvmType, VoidType, parseEvmType } from "./typeParser";
-import { yellow } from "chalk";
+import chalk from "chalk";
 import { MalformedAbiError } from "./errors";
+
+const { yellow } = chalk;
 
 export interface AbiParameter {
   name: string;

@@ -10,4 +10,4 @@ describe("--outDir", () =>{
     const files = readdirSync(outputPath);
     expect(files).to.have.length(3);
   })
-})
+});
