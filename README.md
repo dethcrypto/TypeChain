@@ -202,7 +202,10 @@ A: We will automatically format generated classes with `prettier` to match your 
 
 ### Running tests
 
-You need to have `solc ^0.4.4` installed on your system. Then just do `yarn test`.
+```
+yarn        # install all dependencies
+yarn test   # runs tests + linting
+```
 
 ### Debugging 🐞
 

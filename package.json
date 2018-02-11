@@ -40,7 +40,8 @@
     "solc": "^0.4.19"
   },
   "peerDependencies": {
-    "web3": "1.0.0-beta.29"
+    "web3": "1.0.0-beta.29",
+    "bignumber.js": "^5.0.0"
   },
   "scripts": {
     "prepublish": "yarn build",
