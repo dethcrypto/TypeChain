@@ -1,3 +1,4 @@
+/* tslint:disable */
 import { BigNumber } from "bignumber.js";
 
 export interface ITxParams {
