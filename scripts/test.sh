@@ -23,4 +23,7 @@ yarn test:generateContracts
 echo "test --outdir..."
 yarn test:generateContractsOutDir
 
+echo "Testing if there are no complication problems with generated wrappers"
+yarn tsc
+
 yarn test:integration

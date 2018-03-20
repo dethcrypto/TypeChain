@@ -7,3 +7,5 @@ tsconfig.json
 .prettierrc
 .prettierignore
 test-tmp
+.vscode
+tslint.json

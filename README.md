@@ -30,6 +30,12 @@ typechain [--force] [glob]
 * `--force` - force overwrite existing files
 * `--outDir` - put all generated files to a specific dir
 
+Example:
+
+```
+typechain --force --outDir app/contracts './node_modules/neufund-contracts/build/contracts/*.json'
+```
+
 ## Features ⚡
 
 * static typing - you will never call not existing method again
