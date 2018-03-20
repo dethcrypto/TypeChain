@@ -80,12 +80,12 @@ export class ${typeName} extends TypeChainContract {
 }`;
 }
 
-function codeGenForParams(param: AbiParameter): string {
-  return `${param.name || "index"}: ${param.type.generateCodeForInput()}`;
+function codeGenForParams(param: AbiParameter, index: number): string {
+  return `${param.name || `arg${index}`}: ${param.type.generateCodeForInput()}`;
 }
 
-function codeGenForArgs(param: AbiParameter): string {
-  return `(${param.name || "index"}).toString()`;
+function codeGenForArgs(param: AbiParameter, index: number): string {
+  return `(${param.name || `arg${index}`}).toString()`;
 }
 
 function codeGenForOutputTypeList(output: Array<EvmType>): string {

@@ -34,4 +34,9 @@ contract DumbContract {
     counter += msg.value;
     counterArray.push(counter);
   }
+
+  // repro for https://github.com/Neufund/TypeChain/issues/29
+  function twoUnnamedArgs(uint8, uint8, uint ret) payable public returns (uint) {
+    return ret;
+  }
 }

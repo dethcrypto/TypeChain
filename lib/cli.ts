@@ -11,7 +11,7 @@ import { parseArgs } from "./parseArgs";
 import { copyRuntime } from "./copyRuntime";
 import { extractAbi } from "./abiParser";
 
-const { blue, red, green } = chalk;
+const { blue, red, green, yellow } = chalk;
 const cwd = process.cwd();
 
 async function main() {
@@ -81,6 +81,12 @@ function processFile(
 
   const abiString = readFileSync(absPath).toString();
   const rawAbi = extractAbi(abiString);
+
+  if (rawAbi.length === 0) {
+    // tslint:disable-next-line
+    console.log(yellow("ABI is empty, skipping"));
+    return;
+  }
 
   const typescriptSourceFile = generateSource(rawAbi, {
     fileName: filenameWithoutAnyExtensions,
