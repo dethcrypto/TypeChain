@@ -76,6 +76,23 @@ That's it! Now, just import contract bindings as any other file `import { MyAwes
 './contracts/MyAwesomeContract'` and start interacting with it. We use named exports because of
 [this](https://blog.neufund.org/why-we-have-banned-default-exports-and-you-should-do-the-same-d51fdc2cf2ad).
 
+### Using Docker
+
+If you don't want to add a dependency or install additional modules, you can also build the provided Dockerfile and generate an image with TypeChain built in. To do so:
+
+```bash
+$ docker build -t typechain .
+```
+
+After the image has been generated, you can run:
+
+```bash
+$ docker run --rm -v $PWD:/abi typechain 
+```
+
+Change `$PWD`to the local folder where your `.abi` files are. The Docker image will generate all the `.ts` files in the same folder. 
+
+
 ### API
 
 Let's take a look at typings generated for simple
@@ -217,3 +234,7 @@ DEBUG=typechain typechain
 Original author:
 
 Krzysztof Kaczor | [Github](https://github.com/krzkaczor) | [Twitter](https://twitter.com/krzkaczor)
+
+Contributors:
+
+Javier Peletier | [Epic Labs](https://www.epiclabs.io)
