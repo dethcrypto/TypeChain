@@ -1,6 +1,6 @@
 FROM node:9.10.1-alpine as builder
 RUN apk update && apk upgrade && \
-    apk add --no-cache bash git openssh
+    apk add --no-cache bash git openssh alpine-sdk python python-dev py-pip build-base
 RUN npm install -g yarn
 ADD package.json .
 RUN npm install
