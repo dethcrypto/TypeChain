@@ -21,7 +21,7 @@ export class IntegerType extends EvmType {
   }
 
   generateCodeForOutput(): string {
-    return "BigNumber";
+    return "string";
   }
 }
 
@@ -35,7 +35,7 @@ export class UnsignedIntegerType extends EvmType {
   }
 
   generateCodeForOutput(): string {
-    return "BigNumber";
+    return "string";
   }
 }
 

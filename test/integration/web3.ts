@@ -1,7 +1,5 @@
 import * as ganache from "ganache-cli";
-
-import * as Web3 from "web3";
-import { promisify } from "bluebird";
+import Web3 from "web3";
 
 export const GAS_LIMIT_STANDARD = 1000000;
 
@@ -9,8 +7,9 @@ export let web3: Web3;
 export let accounts: string[];
 
 export async function createNewBlockchain() {
-  const web3 = new Web3(ganache.provider());
-  const accounts = await promisify(web3.eth.getAccounts, { context: web3.eth })();
+  const Derp = require("web3");
+  const web3 = new Derp(ganache.provider());
+  const accounts = await web3.eth.getAccounts();
   return { web3, accounts };
 }
 

@@ -20,7 +20,7 @@ function codeGenForContract(abi: Array<RawAbiDefinition>, input: Contract, conte
 /* tslint:disable */
   
 import { BigNumber } from "bignumber.js";
-import { TypeChainContract, promisify, ITxParams, IPayableTxParams, DeferredTransactionWrapper } from '${
+import { TypeChainContract, ITxParams, IPayableTxParams, DeferredTransactionWrapper } from '${
     context.relativeRuntimePath
   }'
 
@@ -34,7 +34,7 @@ export class ${typeName} extends TypeChainContract {
 
     static async createAndValidate(web3: any, address: string | BigNumber): Promise<${typeName}> {
       const contract = new ${typeName}(web3, address);
-      const code = await promisify(web3.eth.getCode, [address]);
+      const code = await web3.eth.getCode(address);
       if (code === "0x0") {
         throw new Error(\`Contract at \${address} doesn't exist!\`);
       }
@@ -46,9 +46,9 @@ export class ${typeName} extends TypeChainContract {
         constant =>
           `public get ${
             constant.name
-          }(): Promise<${constant.output.generateCodeForOutput()}> { return promisify(this.rawWeb3Contract.${
+          }(): Promise<${constant.output.generateCodeForOutput()}> { return this.rawWeb3Contract.methods.${
             constant.name
-          }, []); }`,
+          }().call(); }`,
       )
       .join("\n")} 
       ${input.constantFunctions
@@ -58,9 +58,9 @@ export class ${typeName} extends TypeChainContract {
               .map(codeGenForParams)
               .join(", ")}): Promise<${codeGenForOutputTypeList(
               constantFunction.outputs,
-            )}> { return promisify(this.rawWeb3Contract.${
+            )}> { return this.rawWeb3Contract.methods.${
               constantFunction.name
-            }, [${constantFunction.inputs.map(codeGenForArgs).join(", ")}]); }`,
+            }(${constantFunction.inputs.map(codeGenForArgs).join(", ")}).call(); }`,
         )
         .join(";\n")} 
 

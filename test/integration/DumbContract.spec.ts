@@ -9,7 +9,7 @@ describe("DumbContract", () => {
   let contractAddress: string;
 
   beforeEach(async () => {
-    contractAddress = (await deployContract("DumbContract")).address;
+    contractAddress = (await deployContract("DumbContract")).options.address;
   });
 
   it("should allow for calling all methods", async () => {
@@ -17,14 +17,18 @@ describe("DumbContract", () => {
 
     await dumbContract.countupTx(1).send({ from: accounts[0], gas: GAS_LIMIT_STANDARD });
     dumbContract.countupTx(1).getData();
+    const counter = new BigNumber(await dumbContract.counter);
 
-    expect((await dumbContract.counter).toNumber()).to.be.eq(1);
-    expect((await dumbContract.counterWithOffset(new BigNumber(2))).toNumber()).to.be.eq(3);
+    expect(counter.toNumber()).to.be.eq(1);
+    const counter1 = new BigNumber(await dumbContract.counterWithOffset(new BigNumber(2)));
+    expect(counter1.toNumber()).to.be.eq(3);
     expect(await dumbContract.SOME_VALUE).to.be.eq(true);
 
     await dumbContract.countupTx(2).send({ from: accounts[0], gas: GAS_LIMIT_STANDARD });
-    expect((await dumbContract.counterArray(0)).toNumber()).to.be.eq(1);
-    expect((await dumbContract.counterArray(1)).toNumber()).to.be.eq(3);
+    const counter2 = new BigNumber(await dumbContract.counterArray(0));
+    expect(counter2.toNumber()).to.be.eq(1);
+    const counter3 = new BigNumber(await dumbContract.counterArray(1));
+    expect(counter3.toNumber()).to.be.eq(3);
 
     expect(await dumbContract.someAddress).to.be.eq(accounts[0]);
   });
@@ -36,7 +40,8 @@ describe("DumbContract", () => {
       .countupForEtherTx()
       .send({ from: accounts[0], gas: GAS_LIMIT_STANDARD, value: 10 });
 
-    expect((await dumbContract.counterArray(0)).toNumber()).to.be.eq(10);
+    const result = new BigNumber(await dumbContract.counterArray(0));
+    expect(result.toNumber()).to.be.eq(10);
   });
 
   it("should support sending tx via custom web3", async () => {
