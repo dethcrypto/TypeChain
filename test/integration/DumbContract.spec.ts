@@ -69,4 +69,17 @@ describe("DumbContract", () => {
       `Contract at ${wrongAddress} doesn't exist!`,
     );
   });
+
+  it("should allow calling a function which takes an array param", async () => {
+    const dumbContract = await DumbContract.createAndValidate(web3, contractAddress);
+
+    expect((await dumbContract.arrayParamLength).toString()).to.be.eq("0");
+
+    await dumbContract
+      .callWithArrayTx([new BigNumber(41), new BigNumber(42), new BigNumber(43)])
+      .send({ from: accounts[0], gas: GAS_LIMIT_STANDARD});
+  
+    // Make sure the value has been set as expected
+    expect((await dumbContract.arrayParamLength).toString()).to.be.eq("3");
+  });
 });

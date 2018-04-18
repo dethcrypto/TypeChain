@@ -5,6 +5,7 @@ contract DumbContract {
   bool constant public SOME_VALUE = true;
   uint[] public counterArray;
   address public someAddress;
+  uint public arrayParamLength;
 
   function DumbContract() public {
     counter = 0;
@@ -38,5 +39,11 @@ contract DumbContract {
   // repro for https://github.com/Neufund/TypeChain/issues/29
   function twoUnnamedArgs(uint8, uint8, uint ret) payable public returns (uint) {
     return ret;
+  }
+
+  // repro for https://github.com/Neufund/TypeChain/issues/39
+  function callWithArray(uint256[] arrayParam) public returns (uint) {
+    arrayParamLength = arrayParam.length;
+    return arrayParam.length;
   }
 }
