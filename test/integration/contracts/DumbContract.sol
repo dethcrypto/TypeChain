@@ -46,4 +46,8 @@ contract DumbContract {
     arrayParamLength = arrayParam.length;
     return arrayParam.length;
   }
+
+  function callWithBytes(bytes byteArray) public view returns (uint) {
+    return byteArray.length;
+  }
 }

@@ -82,4 +82,16 @@ describe("DumbContract", () => {
     // Make sure the value has been set as expected
     expect((await dumbContract.arrayParamLength).toString()).to.be.eq("3");
   });
+
+  it("should allow calling a function which takes a bytes array", async () => {
+    const dumbContract = await DumbContract.createAndValidate(web3, contractAddress);
+
+    const bytesString = "0xabcd123456"; // 5 bytes long (each pair of chars is a byte)
+    const bytesLength = await dumbContract.callWithBytes(bytesString);
+    expect(bytesLength.toNumber()).to.be.eq(5);
+
+    const charString = "hello_world!"; // 12 bytes long (each char is a byte)
+    const charStringLength = await dumbContract.callWithBytes(charString);
+    expect(charStringLength.toNumber()).to.be.eq(12);
+  });
 });
