@@ -61,10 +61,10 @@ export class DeferredTransactionWrapper<T extends ITxParams> {
 type WatchEventCallback<Event> = (err: any, log: DecodedLogEntry<Event>) => void;
 type GetEventCallback<Event> = (err: any, logs: DecodedLogEntry<Event>[]) => void;
 type RawEvent<Event> = {
-  watch: (cb: WatchEventCallback<Event>) => void,
-  get: (cb: GetEventCallback<Event>) => void,
+  watch: (cb: WatchEventCallback<Event>) => void;
+  get: (cb: GetEventCallback<Event>) => void;
   stopWatching: () => void;
-}
+};
 
 export class DeferredEventWrapper<Event, EventIndexedFields> {
   constructor(
@@ -88,19 +88,20 @@ export class DeferredEventWrapper<Event, EventIndexedFields> {
     });
   }
 
-  public watch(watchFilter: IWatchFilter, callback: (err: any, event: DecodedLogEntry<Event>) => void): () => void {
-
+  public watch(
+    watchFilter: IWatchFilter,
+    callback: (err: any, event: DecodedLogEntry<Event>) => void,
+  ): () => void {
     const watchedEvent = this.getRawEvent(watchFilter);
     watchedEvent.watch(callback);
-    
+
     return () => {
       watchedEvent.stopWatching();
-    }
+    };
   }
 
   public get(watchFilter: IWatchFilter): Promise<DecodedLogEntry<Event>[]> {
     return new Promise<DecodedLogEntry<Event>[]>((resolve, reject) => {
-
       const watchedEvent = this.getRawEvent(watchFilter);
       watchedEvent.get((err, logs) => {
         if (err) {
@@ -113,11 +114,12 @@ export class DeferredEventWrapper<Event, EventIndexedFields> {
   }
 
   private getRawEvent(watchFilter: IWatchFilter): RawEvent<Event> {
-    const filter: IWatchFilter = Object.assign({}, watchFilter, { fromBlock: '0', toBlock: 'latest' });
-    const rawEvent = this.parentContract.rawWeb3Contract[this.eventName](
-      this.eventArgs,
-      filter);
-    
+    const filter: IWatchFilter = Object.assign({}, watchFilter, {
+      fromBlock: "0",
+      toBlock: "latest",
+    });
+    const rawEvent = this.parentContract.rawWeb3Contract[this.eventName](this.eventArgs, filter);
+
     return rawEvent;
   }
 }

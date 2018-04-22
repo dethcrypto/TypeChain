@@ -78,33 +78,38 @@ export class ${typeName} extends TypeChainContract {
           })
           .join(";\n")} 
 
-        ${input.events.map(event => {
-          const eventInterfaceName = `${event.name}EventArgs`;
-          const interfaceDefinition = `public interface ${eventInterfaceName} ${codeGenForEventArgs(event.inputs, false)}`;
-
-          const eventIndexedInterfaceName = `${event.name}IndexedEventArgs`;
-          const indexedInterfaceDefinition = `public interface ${eventIndexedInterfaceName} ${codeGenForEventArgs(event.inputs, true)}`;
-
-          const functionDefinition = `public ${event.name}Event(eventFilter: ${eventIndexedInterfaceName}): DeferredEventWrapper<${eventInterfaceName}, ${eventIndexedInterfaceName}> {
-            return new DeferredEventWrapper<${eventInterfaceName}, ${eventIndexedInterfaceName}>(this, '${event.name}', eventFilter);
+        ${input.events
+          .map(event => {
+            const functionDefinition = `public ${
+              event.name
+            }Event(eventFilter: ${eventIndexedInterfaceName}): DeferredEventWrapper<${eventInterfaceName}, ${eventIndexedInterfaceName}> {
+            return new DeferredEventWrapper<${event.name}EventArgs, ${
+              event.name
+            }IndexedEventArgs>(this, '${event.name}', eventFilter);
           }`;
 
-          return functionDefinition;
-
-          // return [interfaceDefinition, indexedInterfaceDefinition, functionDefinition].join('\n\n');
-        })
-      .join(";\n")}
+            return functionDefinition;
+          })
+          .join(";\n")}
 }
 
-${input.events.map(event => {
-  const eventInterfaceName = `${event.name}EventArgs`;
-  const interfaceDefinition = `public interface ${eventInterfaceName} ${codeGenForEventArgs(event.inputs, false)}`;
+${input.events
+    .map(event => {
+      const eventInterfaceName = `${event.name}EventArgs`;
+      const interfaceDefinition = `public interface ${eventInterfaceName} ${codeGenForEventArgs(
+        event.inputs,
+        false,
+      )}`;
 
-  const eventIndexedInterfaceName = `${event.name}IndexedEventArgs`;
-  const indexedInterfaceDefinition = `public interface ${eventIndexedInterfaceName} ${codeGenForEventArgs(event.inputs, true)}`;
+      const eventIndexedInterfaceName = `${event.name}IndexedEventArgs`;
+      const indexedInterfaceDefinition = `public interface ${eventIndexedInterfaceName} ${codeGenForEventArgs(
+        event.inputs,
+        true,
+      )}`;
 
-  return [interfaceDefinition, indexedInterfaceDefinition].join('\n');
-  }).join('\n')}`;
+      return [interfaceDefinition, indexedInterfaceDefinition].join("\n");
+    })
+    .join("\n")}`;
 }
 
 function codeGenForParams(param: AbiParameter, index: number): string {
@@ -126,7 +131,7 @@ function codeGenForOutputTypeList(output: Array<EvmType>): string {
 
 function codeGenForEventArgs(args: EventArgDeclaration[], onlyIndexed: boolean) {
   return `{${args
-      .filter(arg => arg.isIndexed || !onlyIndexed)
-      .map(arg => `${arg.name}: ${arg.type.generateCodeForInput()}`)
-      .join(`, `)}}`;
+    .filter(arg => arg.isIndexed || !onlyIndexed)
+    .map(arg => `${arg.name}: ${arg.type.generateCodeForInput()}`)
+    .join(`, `)}}`;
 }

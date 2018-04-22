@@ -4,7 +4,6 @@ import { BigNumber } from "bignumber.js";
 
 import { __DumbContract_sol_DumbContract as DumbContract } from "./abis/__DumbContract_sol_DumbContract";
 import { web3, accounts, GAS_LIMIT_STANDARD, createNewBlockchain } from "./web3";
-import { rewrapBigNumbers, createBigNumberWrapper } from "../bigNumberUtils";
 
 describe("DumbContract", () => {
   let contractAddress: string;
