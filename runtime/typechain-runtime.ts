@@ -73,31 +73,24 @@ export class DeferredEventWrapper<Event, EventIndexedFields> {
     private readonly eventArgs?: EventIndexedFields,
   ) {}
 
-  public watchFirst(): Promise<DecodedLogEntry<Event>> {
+  public watchFirst(watchFilter: IWatchFilter): Promise<DecodedLogEntry<Event>> {
     return new Promise((resolve, reject) => {
-      const watcher = this.parentContract.rawWeb3Contract[this.eventName](
-        this.eventArgs,
-        (err: any, res: any) => {
-          // this makes sure to unsubscribe as well
-          watcher.stopWatching((err2: any) => {
-            if (err) {
-              reject(err);
-            } else if (err2) {
-              reject(err2);
-            } else {
-              resolve(res);
-            }
-          });
-        },
-      );
+      const watchedEvent = this.getRawEvent(watchFilter);
+      watchedEvent.watch((err: any, res: any) => {
+        // this makes sure to unsubscribe as well
+        watchedEvent.stopWatching();
+        if (err) {
+          reject(err);
+        } else {
+          resolve(res);
+        }
+      });
     });
   }
 
   public watch(watchFilter: IWatchFilter, callback: (err: any, event: DecodedLogEntry<Event>) => void): () => void {
-    const watchedEvent = this.parentContract.rawWeb3Contract[this.eventName](
-      this.eventArgs,
-      this.fillFilterObject(watchFilter));
 
+    const watchedEvent = this.getRawEvent(watchFilter);
     watchedEvent.watch(callback);
     
     return () => {
@@ -106,11 +99,9 @@ export class DeferredEventWrapper<Event, EventIndexedFields> {
   }
 
   public get(watchFilter: IWatchFilter): Promise<DecodedLogEntry<Event>[]> {
-    return new Promise<DecodedLogEntry<Event>[]>((resolve, reject) => {  
-      const watchedEvent = this.parentContract.rawWeb3Contract[this.eventName](
-        this.eventArgs,
-        this.fillFilterObject(watchFilter));
+    return new Promise<DecodedLogEntry<Event>[]>((resolve, reject) => {
 
+      const watchedEvent = this.getRawEvent(watchFilter);
       watchedEvent.get((err, logs) => {
         if (err) {
           reject(err);
@@ -125,14 +116,9 @@ export class DeferredEventWrapper<Event, EventIndexedFields> {
     const filter: IWatchFilter = Object.assign({}, watchFilter, { fromBlock: '0', toBlock: 'latest' });
     const rawEvent = this.parentContract.rawWeb3Contract[this.eventName](
       this.eventArgs,
-      this.fillFilterObject(watchFilter));
+      filter);
     
     return rawEvent;
-  }
-
-  private fillFilterObject(watchFilter: IWatchFilter) : IWatchFilter {
-    const filter: IWatchFilter = Object.assign({}, watchFilter, { fromBlock: '0', toBlock: 'latest' });
-    return filter;    
   }
 }
 
