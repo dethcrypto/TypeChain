@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { deployContract } from "./utils/web3Contracts";
 import { BigNumber } from "bignumber.js";
 
-import { __DumbContract_sol_DumbContract as DumbContract } from "./abis/__DumbContract_sol_DumbContract";
+import { DumbContract } from "./abis/DumbContract";
 import { web3, accounts, GAS_LIMIT_STANDARD, createNewBlockchain } from "./web3";
 import { rewrapBigNumbers, createBigNumberWrapper } from "../bigNumberUtils";
 
@@ -71,31 +71,6 @@ describe("DumbContract", () => {
     );
   });
 
-  it("should allow calling a function which takes an array param", async () => {
-    const dumbContract = await DumbContract.createAndValidate(web3, contractAddress);
-
-    expect((await dumbContract.arrayParamLength).toString()).to.be.eq("0");
-
-    await dumbContract
-      .callWithArrayTx([new BigNumber(41), new BigNumber(42), new BigNumber(43)])
-      .send({ from: accounts[0], gas: GAS_LIMIT_STANDARD});
-  
-    // Make sure the value has been set as expected
-    expect((await dumbContract.arrayParamLength).toString()).to.be.eq("3");
-  });
-
-  it("should allow calling a function which takes a bytes array", async () => {
-    const dumbContract = await DumbContract.createAndValidate(web3, contractAddress);
-
-    const bytesString = "0xabcd123456"; // 5 bytes long (each pair of chars is a byte)
-    const bytesLength = await dumbContract.callWithBytes(bytesString);
-    expect(bytesLength.toNumber()).to.be.eq(5);
-
-    const charString = "hello_world!"; // 12 bytes long (each char is a byte)
-    const charStringLength = await dumbContract.callWithBytes(charString);
-    expect(charStringLength.toNumber()).to.be.eq(12);
-  });
-  
   describe.only("events", () => {
     it("should wait for event", async () => {
       const expectedAccount = accounts[0];
