@@ -1,4 +1,4 @@
-import { RawAbiDefinition, parse, Contract, AbiParameter } from "./abiParser";
+import { RawAbiDefinition, parse, Contract, AbiParameter, EventArgDeclaration } from "./abiParser";
 import { getVersion } from "./utils";
 import { EvmType } from "./typeParser";
 
@@ -20,7 +20,7 @@ function codeGenForContract(abi: Array<RawAbiDefinition>, input: Contract, conte
 /* tslint:disable */
   
 import { BigNumber } from "bignumber.js";
-import { TypeChainContract, promisify, ITxParams, IPayableTxParams, DeferredTransactionWrapper } from '${
+import { TypeChainContract, promisify, ITxParams, IPayableTxParams, DeferredTransactionWrapper, DeferredEventWrapper } from '${
     context.relativeRuntimePath
   }'
 
@@ -79,11 +79,32 @@ export class ${typeName} extends TypeChainContract {
           .join(";\n")} 
 
         ${input.events.map(event => {
-          
-        })
+          const eventInterfaceName = `${event.name}EventArgs`;
+          const interfaceDefinition = `public interface ${eventInterfaceName} ${codeGenForEventArgs(event.inputs, false)}`;
 
-        }
-}`;
+          const eventIndexedInterfaceName = `${event.name}IndexedEventArgs`;
+          const indexedInterfaceDefinition = `public interface ${eventIndexedInterfaceName} ${codeGenForEventArgs(event.inputs, true)}`;
+
+          const functionDefinition = `public ${event.name}Event(eventFilter: ${eventIndexedInterfaceName}): DeferredEventWrapper<${eventInterfaceName}, ${eventIndexedInterfaceName}> {
+            return new DeferredEventWrapper<${eventInterfaceName}, ${eventIndexedInterfaceName}>(this, '${event.name}', eventFilter);
+          }`;
+
+          return functionDefinition;
+
+          // return [interfaceDefinition, indexedInterfaceDefinition, functionDefinition].join('\n\n');
+        })
+      .join(";\n")}
+}
+
+${input.events.map(event => {
+  const eventInterfaceName = `${event.name}EventArgs`;
+  const interfaceDefinition = `public interface ${eventInterfaceName} ${codeGenForEventArgs(event.inputs, false)}`;
+
+  const eventIndexedInterfaceName = `${event.name}IndexedEventArgs`;
+  const indexedInterfaceDefinition = `public interface ${eventIndexedInterfaceName} ${codeGenForEventArgs(event.inputs, true)}`;
+
+  return [interfaceDefinition, indexedInterfaceDefinition].join('\n');
+  }).join('\n')}`;
 }
 
 function codeGenForParams(param: AbiParameter, index: number): string {
@@ -101,4 +122,11 @@ function codeGenForOutputTypeList(output: Array<EvmType>): string {
   } else {
     return `[${output.map(x => x.generateCodeForOutput()).join(", ")}]`;
   }
+}
+
+function codeGenForEventArgs(args: EventArgDeclaration[], onlyIndexed: boolean) {
+  return `{${args
+      .filter(arg => arg.isIndexed || !onlyIndexed)
+      .map(arg => `${arg.name}: ${arg.type.generateCodeForInput()}`)
+      .join(`, `)}}`;
 }

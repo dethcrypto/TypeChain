@@ -111,7 +111,7 @@ export function parse(abi: Array<RawAbiDefinition>): Contract {
     }
 
     if (abiPiece.type === "event") {
-      const eventAbi = abiPiece as any as RawEventAbiDefinition;
+      const eventAbi = (abiPiece as any) as RawEventAbiDefinition;
       if (eventAbi.anonymous) {
         // tslint:disable-next-line
         console.log(yellow("Skipping anonymous event..."));
@@ -119,6 +119,7 @@ export function parse(abi: Array<RawAbiDefinition>): Contract {
       }
 
       events.push(parseEvent(eventAbi));
+      return;
     }
 
     throw new Error(`Unrecognized abi element: ${abiPiece.type}`);
@@ -128,7 +129,7 @@ export function parse(abi: Array<RawAbiDefinition>): Contract {
     constants,
     constantFunctions,
     functions,
-    events
+    events,
   };
 }
 
@@ -166,8 +167,8 @@ export function parseEvent(abiPiece: RawEventAbiDefinition): EventDeclaration {
 
   return {
     name: abiPiece.name,
-    inputs: abiPiece.inputs.map(parseRawEventArg)
-  }
+    inputs: abiPiece.inputs.map(parseRawEventArg),
+  };
 }
 
 function parseRawEventArg(eventArg: RawEventArgAbiDefinition): EventArgDeclaration {
@@ -175,8 +176,8 @@ function parseRawEventArg(eventArg: RawEventArgAbiDefinition): EventArgDeclarati
     name: eventArg.name,
     isIndexed: eventArg.indexed,
     type: parseEvmType(eventArg.type),
-  }
-} 
+  };
+}
 
 function parseConstantFunction(abiPiece: RawAbiDefinition): ConstantFunctionDeclaration {
   debug(`Parsing constant function "${abiPiece.name}"`);

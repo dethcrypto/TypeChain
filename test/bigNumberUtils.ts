@@ -1,6 +1,5 @@
 import { BigNumber } from "bignumber.js";
 
-
 function isBigNumber(obj: any): obj is BigNumber {
   return obj.constructor.name === "BigNumber";
 }
