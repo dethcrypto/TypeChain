@@ -4,6 +4,7 @@ import { BigNumber } from "bignumber.js";
 
 import { __DumbContract_sol_DumbContract as DumbContract } from "./abis/__DumbContract_sol_DumbContract";
 import { web3, accounts, GAS_LIMIT_STANDARD, createNewBlockchain } from "./web3";
+import { createBigNumberWrapper, rewrapBigNumbers } from "../bigNumberUtils";
 
 describe("DumbContract", () => {
   let contractAddress: string;
@@ -95,23 +96,21 @@ describe("DumbContract", () => {
     expect(charStringLength.toNumber()).to.be.eq(12);
   });
 
-  describe.only("events", () => {
-    it("should wait for event", async () => {
-      const expectedAccount = accounts[0];
-      const expectedValue = 10;
+  it("should wait for event", async () => {
+    const expectedAccount = accounts[0];
+    const expectedValue = 10;
 
-      const dumbContract = await DumbContract.createAndValidate(web3, contractAddress);
-      await dumbContract
-        .countupForEtherTx()
-        .send({ from: expectedAccount, gas: GAS_LIMIT_STANDARD, value: expectedValue });
-
-      // const res = await dumbContract.onDeposit().watchFirst();
-
-      // expect(rewrapBigNumbers(res.args)).to.be.deep.eq({
-      //   from: expectedAccount,
-      //   value: createBigNumberWrapper(expectedValue),
-      // });
+    const dumbContract = await DumbContract.createAndValidate(web3, contractAddress);
+    
+    const waitingEvent = dumbContract.DepositEvent({from: expectedAccount}).watchFirst({}).then((eventLog) => {
+      expect(rewrapBigNumbers(eventLog.args)).to.be.deep.eq({
+        from: expectedAccount,
+        value: createBigNumberWrapper(expectedValue),
+      });
     });
+
+    const txPromise = dumbContract.countupForEtherTx().send({ from: expectedAccount, gas: GAS_LIMIT_STANDARD, value: expectedValue });
+    return Promise.all([waitingEvent, txPromise]);
   });
 });
 

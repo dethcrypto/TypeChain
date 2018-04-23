@@ -63,7 +63,7 @@ type GetEventCallback<Event> = (err: any, logs: DecodedLogEntry<Event>[]) => voi
 type RawEvent<Event> = {
   watch: (cb: WatchEventCallback<Event>) => void;
   get: (cb: GetEventCallback<Event>) => void;
-  stopWatching: () => void;
+  stopWatching: (cb: (err: any, res: any) => void) => void;
 };
 
 export class DeferredEventWrapper<Event, EventIndexedFields> {
@@ -78,12 +78,15 @@ export class DeferredEventWrapper<Event, EventIndexedFields> {
       const watchedEvent = this.getRawEvent(watchFilter);
       watchedEvent.watch((err: any, res: any) => {
         // this makes sure to unsubscribe as well
-        watchedEvent.stopWatching();
-        if (err) {
-          reject(err);
-        } else {
-          resolve(res);
-        }
+        watchedEvent.stopWatching((err2, res2) => {
+          if (err) {
+            reject(err);
+          } else if (err2) {
+            reject(err2);
+          } else {
+            resolve(res);
+          }
+        });
       });
     });
   }
@@ -91,12 +94,20 @@ export class DeferredEventWrapper<Event, EventIndexedFields> {
   public watch(
     watchFilter: IWatchFilter,
     callback: (err: any, event: DecodedLogEntry<Event>) => void,
-  ): () => void {
+  ): () => Promise<void> {
     const watchedEvent = this.getRawEvent(watchFilter);
     watchedEvent.watch(callback);
 
     return () => {
-      watchedEvent.stopWatching();
+      return new Promise<void>((resolve, reject) => {
+        watchedEvent.stopWatching((err, res) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(res);
+          }
+        });
+      });
     };
   }
 

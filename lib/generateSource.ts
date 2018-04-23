@@ -80,9 +80,11 @@ export class ${typeName} extends TypeChainContract {
 
         ${input.events
           .map(event => {
-            const functionDefinition = `public ${
+            const functionDefinition = `public ${event.name}Event(eventFilter: ${
               event.name
-            }Event(eventFilter: ${eventIndexedInterfaceName}): DeferredEventWrapper<${eventInterfaceName}, ${eventIndexedInterfaceName}> {
+            }IndexedEventArgs): DeferredEventWrapper<${event.name}EventArgs, ${
+              event.name
+            }IndexedEventArgs> {
             return new DeferredEventWrapper<${event.name}EventArgs, ${
               event.name
             }IndexedEventArgs>(this, '${event.name}', eventFilter);
@@ -96,13 +98,13 @@ export class ${typeName} extends TypeChainContract {
 ${input.events
     .map(event => {
       const eventInterfaceName = `${event.name}EventArgs`;
-      const interfaceDefinition = `public interface ${eventInterfaceName} ${codeGenForEventArgs(
+      const interfaceDefinition = `export interface ${eventInterfaceName} ${codeGenForEventArgs(
         event.inputs,
         false,
       )}`;
 
       const eventIndexedInterfaceName = `${event.name}IndexedEventArgs`;
-      const indexedInterfaceDefinition = `public interface ${eventIndexedInterfaceName} ${codeGenForEventArgs(
+      const indexedInterfaceDefinition = `export interface ${eventIndexedInterfaceName} ${codeGenForEventArgs(
         event.inputs,
         true,
       )}`;
