@@ -134,6 +134,6 @@ function codeGenForOutputTypeList(output: Array<EvmType>): string {
 function codeGenForEventArgs(args: EventArgDeclaration[], onlyIndexed: boolean) {
   return `{${args
     .filter(arg => arg.isIndexed || !onlyIndexed)
-    .map(arg => `${arg.name}: ${arg.type.generateCodeForInput()}`)
+    .map(arg => `${arg.name}${onlyIndexed ? "?" : ""}: ${arg.type.generateCodeForInput()}`)
     .join(`, `)}}`;
 }

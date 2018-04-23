@@ -125,10 +125,14 @@ export class DeferredEventWrapper<Event, EventIndexedFields> {
   }
 
   private getRawEvent(watchFilter: IWatchFilter): RawEvent<Event> {
-    const filter: IWatchFilter = Object.assign({}, watchFilter, {
-      fromBlock: "0",
-      toBlock: "latest",
-    });
+    const filter: IWatchFilter = Object.assign(
+      {},
+      {
+        fromBlock: "0",
+        toBlock: "latest",
+      },
+      watchFilter,
+    );
     const rawEvent = this.parentContract.rawWeb3Contract[this.eventName](this.eventArgs, filter);
 
     return rawEvent;
