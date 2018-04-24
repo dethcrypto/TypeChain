@@ -79,39 +79,23 @@ export class ${typeName} extends TypeChainContract {
           .join(";\n")} 
 
         ${input.events
-          .map(event => {
-            const functionDefinition = `public ${event.name}Event(eventFilter: ${
-              event.name
-            }IndexedEventArgs): DeferredEventWrapper<${event.name}EventArgs, ${
-              event.name
-            }IndexedEventArgs> {
-            return new DeferredEventWrapper<${event.name}EventArgs, ${
-              event.name
-            }IndexedEventArgs>(this, '${event.name}', eventFilter);
-          }`;
-
-            return functionDefinition;
-          })
+          .map(
+            event => `public ${event.name}Event(eventFilter: ${codeGenForEventArgs(
+              event.inputs,
+              true,
+            )}): 
+            DeferredEventWrapper<${codeGenForEventArgs(event.inputs, false)}, ${codeGenForEventArgs(
+              event.inputs,
+              true,
+            )}> {
+            return new DeferredEventWrapper<${codeGenForEventArgs(
+              event.inputs,
+              false,
+            )}, ${codeGenForEventArgs(event.inputs, true)}>(this, '${event.name}', eventFilter);
+          }`,
+          )
           .join(";\n")}
-}
-
-${input.events
-    .map(event => {
-      const eventInterfaceName = `${event.name}EventArgs`;
-      const interfaceDefinition = `export interface ${eventInterfaceName} ${codeGenForEventArgs(
-        event.inputs,
-        false,
-      )}`;
-
-      const eventIndexedInterfaceName = `${event.name}IndexedEventArgs`;
-      const indexedInterfaceDefinition = `export interface ${eventIndexedInterfaceName} ${codeGenForEventArgs(
-        event.inputs,
-        true,
-      )}`;
-
-      return [interfaceDefinition, indexedInterfaceDefinition].join("\n");
-    })
-    .join("\n")}`;
+  }`;
 }
 
 function codeGenForParams(param: AbiParameter, index: number): string {

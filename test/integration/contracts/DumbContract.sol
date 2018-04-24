@@ -34,7 +34,7 @@ contract DumbContract {
   function countupForEther() payable public {
     counter += msg.value;
     counterArray.push(counter);
-    Deposit(msg.sender, msg.value);
+    emit Deposit(msg.sender, msg.value);
   }
 
   // repro for https://github.com/Neufund/TypeChain/issues/29
