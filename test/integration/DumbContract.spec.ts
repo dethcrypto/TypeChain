@@ -4,7 +4,6 @@ import { BigNumber } from "bignumber.js";
 
 import { __DumbContract_sol_DumbContract as DumbContract } from "./abis/__DumbContract_sol_DumbContract";
 import { web3, accounts, GAS_LIMIT_STANDARD, createNewBlockchain } from "./web3";
-import { createBigNumberWrapper, rewrapBigNumbers } from "../bigNumberUtils";
 
 // Some of the event related tests take longer to get called
 const LONG_TIMEOUT = 10000;
@@ -106,10 +105,8 @@ describe("DumbContract", () => {
     const dumbContract = await DumbContract.createAndValidate(web3, contractAddress);
     
     const waitingEvent = dumbContract.DepositEvent({from: expectedAccount}).watchFirst({}).then((eventLog) => {
-      expect(rewrapBigNumbers(eventLog.args)).to.be.deep.eq({
-        from: expectedAccount,
-        value: createBigNumberWrapper(expectedValue),
-      });
+      expect(eventLog.args.from).to.eq(expectedAccount);
+      expect(eventLog.args.value.toString()).to.eq(expectedValue.toString());
     });
 
     // Send two transactions, one that shouldn't match the filter and one that should
@@ -138,10 +135,8 @@ describe("DumbContract", () => {
         const txHashIndex = transactionHashes.indexOf(eventLog.transactionHash);
         expect(txHashIndex).to.not.eq(-1);
 
-        expect(rewrapBigNumbers(eventLog.args)).to.be.deep.eq({
-          from: expectedCalls[txHashIndex].from,
-          value: createBigNumberWrapper(expectedCalls[txHashIndex].value),
-        });
+        expect(eventLog.args.from).to.eq(expectedCalls[txHashIndex].from);
+        expect(eventLog.args.value.toString()).to.eq(expectedCalls[txHashIndex].value.toString());
 
         watchedEventCount++;
 
