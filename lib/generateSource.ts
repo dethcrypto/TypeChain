@@ -1,6 +1,6 @@
 import { RawAbiDefinition, parse, Contract, AbiParameter, EventArgDeclaration } from "./abiParser";
 import { getVersion } from "./utils";
-import { EvmType } from "./typeParser";
+import { EvmType, ArrayType } from "./typeParser";
 
 export interface IContext {
   fileName: string;
@@ -100,8 +100,9 @@ function codeGenForParams(param: AbiParameter, index: number): string {
 }
 
 function codeGenForArgs(param: AbiParameter, index: number): string {
+  const isArray = param.type instanceof ArrayType;
   const paramName = param.name || `arg${index}`;
-  return param.type.generateCodeForInputConversion(paramName);
+  return isArray ? `${paramName}.map(val => val.toString())` : `${paramName}.toString()`;
 }
 
 function codeGenForOutputTypeList(output: Array<EvmType>): string {

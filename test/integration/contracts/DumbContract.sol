@@ -48,10 +48,6 @@ contract DumbContract {
     return arrayParam.length;
   }
 
-  function callWithBytes(bytes byteArray) public pure returns (uint) {
-    return byteArray.length;
-  }
-  
   event Deposit(
     address indexed from,
     uint value
