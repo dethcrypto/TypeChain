@@ -73,6 +73,11 @@ export class DeferredEventWrapper<Event, EventIndexedFields> {
     private readonly eventArgs?: EventIndexedFields,
   ) {}
 
+  /**
+   * Watches for a single log entry to be returned and then stops listening
+   * @param watchFilter Optional filter for specifies blockNumber ranges to get data for
+   * @returns First log entry which was seen
+   */
   public watchFirst(watchFilter: IWatchFilter): Promise<DecodedLogEntry<Event>> {
     return new Promise((resolve, reject) => {
       const watchedEvent = this.getRawEvent(watchFilter);
@@ -91,6 +96,12 @@ export class DeferredEventWrapper<Event, EventIndexedFields> {
     });
   }
 
+  /**
+   * Watches for logs occuring and calls the callback when they happen
+   * @param watchFilter Optional filter for specifies blockNumber ranges to get data for
+   * @param callback Callback function which will be called each time an event happens
+   * @returns function which can be called to stop watching this log
+   */
   public watch(
     watchFilter: IWatchFilter,
     callback: (err: any, event: DecodedLogEntry<Event>) => void,
@@ -111,6 +122,11 @@ export class DeferredEventWrapper<Event, EventIndexedFields> {
     };
   }
 
+  /**
+   * Gets the historical logs for this event
+   * @param watchFilter Optional filter for specifies blockNumber ranges to get data for
+   * @returns Array of event logs
+   */
   public get(watchFilter: IWatchFilter): Promise<DecodedLogEntry<Event>[]> {
     return new Promise<DecodedLogEntry<Event>[]>((resolve, reject) => {
       const watchedEvent = this.getRawEvent(watchFilter);
