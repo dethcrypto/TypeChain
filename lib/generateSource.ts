@@ -79,21 +79,18 @@ export class ${typeName} extends TypeChainContract {
           .join(";\n")} 
 
         ${input.events
-          .map(
-            event => `public ${event.name}Event(eventFilter: ${codeGenForEventArgs(
-              event.inputs,
-              true,
-            )}): 
-            DeferredEventWrapper<${codeGenForEventArgs(event.inputs, false)}, ${codeGenForEventArgs(
-              event.inputs,
-              true,
-            )}> {
-            return new DeferredEventWrapper<${codeGenForEventArgs(
-              event.inputs,
-              false,
-            )}, ${codeGenForEventArgs(event.inputs, true)}>(this, '${event.name}', eventFilter);
-          }`,
-          )
+          .map(event => {
+            const filterableEventParams = codeGenForEventArgs(event.inputs, true);
+            const eventParams = codeGenForEventArgs(event.inputs, false);
+
+            return `public ${
+              event.name
+            }Event(eventFilter: ${filterableEventParams}): DeferredEventWrapper<${eventParams}, ${filterableEventParams}> {
+                return new DeferredEventWrapper<${eventParams}, ${filterableEventParams}>(this, '${
+              event.name
+            }', eventFilter);
+              }`;
+          })
           .join(";\n")}
   }`;
 }
@@ -118,6 +115,12 @@ function codeGenForOutputTypeList(output: Array<EvmType>): string {
 function codeGenForEventArgs(args: EventArgDeclaration[], onlyIndexed: boolean) {
   return `{${args
     .filter(arg => arg.isIndexed || !onlyIndexed)
-    .map(arg => `${arg.name}${onlyIndexed ? "?" : ""}: ${arg.type.generateCodeForInput()}`)
+    .map(arg => {
+      const inputCodegen = arg.type.generateCodeForInput();
+
+      // if we're specifying a filter, you can take a single value or an array of values to check for
+      const argType = `${inputCodegen}${onlyIndexed ? ` | Array<${inputCodegen}>` : ""}`;
+      return `${arg.name}${onlyIndexed ? "?" : ""}: ${argType}`;
+    })
     .join(`, `)}}`;
 }
