@@ -3,6 +3,10 @@ export abstract class EvmType {
     return this.generateCodeForOutput();
   }
   abstract generateCodeForOutput(): string;
+
+  generateCodeForInputConversion(paramName: string): string {
+    return `${paramName}.toString()`;
+  }
 }
 
 export class BooleanType extends EvmType {
@@ -49,6 +53,9 @@ export class StringType extends EvmType {
   generateCodeForOutput(): string {
     return "string";
   }
+  generateCodeForInputConversion(paramName: string): string {
+    return paramName;
+  }
 }
 
 export class BytesType extends EvmType {
@@ -78,6 +85,18 @@ export class ArrayType extends EvmType {
 
   generateCodeForOutput(): string {
     return this.itemType.generateCodeForOutput() + "[]";
+  }
+
+  generateCodeForInput(): string {
+    return this.itemType instanceof BytesType ? "string" : this.generateCodeForOutput();
+  }
+
+  generateCodeForInputConversion(paramName: string): string {
+    if (this.itemType instanceof BytesType) {
+      return paramName;
+    } else {
+      return `${paramName}.map(val => ${this.itemType.generateCodeForInputConversion("val")})`;
+    }
   }
 }
 
