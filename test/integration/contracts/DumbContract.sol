@@ -34,6 +34,7 @@ contract DumbContract {
   function countupForEther() payable public {
     counter += msg.value;
     counterArray.push(counter);
+    emit Deposit(msg.sender, msg.value);
   }
 
   // repro for https://github.com/Neufund/TypeChain/issues/29
@@ -47,7 +48,8 @@ contract DumbContract {
     return arrayParam.length;
   }
 
-  function callWithBytes(bytes byteArray) public view returns (uint) {
-    return byteArray.length;
-  }
+  event Deposit(
+    address indexed from,
+    uint value
+  );
 }

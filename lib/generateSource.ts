@@ -1,6 +1,6 @@
-import { RawAbiDefinition, parse, Contract, AbiParameter } from "./abiParser";
+import { RawAbiDefinition, parse, Contract, AbiParameter, EventArgDeclaration } from "./abiParser";
 import { getVersion } from "./utils";
-import { EvmType } from "./typeParser";
+import { EvmType, ArrayType } from "./typeParser";
 
 export interface IContext {
   fileName: string;
@@ -20,7 +20,7 @@ function codeGenForContract(abi: Array<RawAbiDefinition>, input: Contract, conte
 /* tslint:disable */
   
 import { BigNumber } from "bignumber.js";
-import { TypeChainContract, promisify, ITxParams, IPayableTxParams, DeferredTransactionWrapper } from '${
+import { TypeChainContract, promisify, ITxParams, IPayableTxParams, DeferredTransactionWrapper, DeferredEventWrapper } from '${
     context.relativeRuntimePath
   }'
 
@@ -77,7 +77,22 @@ export class ${typeName} extends TypeChainContract {
                 }`;
           })
           .join(";\n")} 
-}`;
+
+        ${input.events
+          .map(event => {
+            const filterableEventParams = codeGenForEventArgs(event.inputs, true);
+            const eventParams = codeGenForEventArgs(event.inputs, false);
+
+            return `public ${
+              event.name
+            }Event(eventFilter: ${filterableEventParams}): DeferredEventWrapper<${eventParams}, ${filterableEventParams}> {
+                return new DeferredEventWrapper<${eventParams}, ${filterableEventParams}>(this, '${
+              event.name
+            }', eventFilter);
+              }`;
+          })
+          .join(";\n")}
+  }`;
 }
 
 function codeGenForParams(param: AbiParameter, index: number): string {
@@ -85,8 +100,9 @@ function codeGenForParams(param: AbiParameter, index: number): string {
 }
 
 function codeGenForArgs(param: AbiParameter, index: number): string {
+  const isArray = param.type instanceof ArrayType;
   const paramName = param.name || `arg${index}`;
-  return param.type.generateCodeForInputConversion(paramName);
+  return isArray ? `${paramName}.map(val => val.toString())` : `${paramName}.toString()`;
 }
 
 function codeGenForOutputTypeList(output: Array<EvmType>): string {
@@ -95,4 +111,17 @@ function codeGenForOutputTypeList(output: Array<EvmType>): string {
   } else {
     return `[${output.map(x => x.generateCodeForOutput()).join(", ")}]`;
   }
+}
+
+function codeGenForEventArgs(args: EventArgDeclaration[], onlyIndexed: boolean) {
+  return `{${args
+    .filter(arg => arg.isIndexed || !onlyIndexed)
+    .map(arg => {
+      const inputCodegen = arg.type.generateCodeForInput();
+
+      // if we're specifying a filter, you can take a single value or an array of values to check for
+      const argType = `${inputCodegen}${onlyIndexed ? ` | Array<${inputCodegen}>` : ""}`;
+      return `${arg.name}${onlyIndexed ? "?" : ""}: ${argType}`;
+    })
+    .join(`, `)}}`;
 }

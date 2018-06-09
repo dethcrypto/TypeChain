@@ -14,7 +14,7 @@ describe("DumbContract", () => {
   it("should be able to access counter", async () => {
     const contractWithOverloads = await ContractWithOverloads.createAndValidate(
       web3,
-      contractAddress
+      contractAddress,
     );
     expect((await contractWithOverloads.counter).toNumber()).to.be.eq(0);
   });

@@ -38,7 +38,7 @@
     "fs-extra": "^4.0.2",
     "glob": "^7.1.2",
     "prettier": "^1.9.1",
-    "solc": "^0.4.19"
+    "solc": "^0.4.24"
   },
   "peerDependencies": {
     "bignumber.js": "^5.0.0",
@@ -53,8 +53,8 @@
     "tslint": "tslint -c ./tslint.json --project ./tsconfig.json --format stylish",
     "tslint:fix": "tslint -c ./tslint.json --project ./tsconfig.json --format stylish --fix ",
     "tsc": "tsc --noEmit",
-    "formatting": "prettier --list-different **/*.ts",
-    "formatting:fix": "prettier --write **/*.ts",
+    "formatting": "prettier --list-different '**/*.ts'",
+    "formatting:fix": "prettier --write '**/*.ts'",
     "test": "yarn lint && ./scripts/test.sh",
     "test:fix": "yarn lint:fix && ./scripts/test.sh",
     "test:unit": "NODE_ENV=test mocha --require ts-node/register.js --require test/setup-chai.ts 'test/unit/**/*.spec.ts'",

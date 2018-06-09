@@ -14,6 +14,11 @@ export interface IPayableTxParams {
   gasPrice?: number | string | BigNumber;
 }
 
+export interface IWatchFilter {
+  fromBlock?: string | number;
+  toBlock?: string | number;
+}
+
 export class TypeChainContract {
   public readonly rawWeb3Contract: any;
   public readonly address: string;
@@ -53,6 +58,103 @@ export class DeferredTransactionWrapper<T extends ITxParams> {
   }
 }
 
+type WatchEventCallback<Event> = (err: any, log: DecodedLogEntry<Event>) => void;
+type GetEventCallback<Event> = (err: any, logs: DecodedLogEntry<Event>[]) => void;
+type RawEvent<Event> = {
+  watch: (cb: WatchEventCallback<Event>) => void;
+  get: (cb: GetEventCallback<Event>) => void;
+  stopWatching: (cb: (err: any, res: any) => void) => void;
+};
+
+export class DeferredEventWrapper<Event, EventIndexedFields> {
+  constructor(
+    private readonly parentContract: TypeChainContract,
+    private readonly eventName: string,
+    private readonly eventArgs?: EventIndexedFields,
+  ) {}
+
+  /**
+   * Watches for a single log entry to be returned and then stops listening
+   * @param watchFilter Optional filter for specifies blockNumber ranges to get data for
+   * @returns First log entry which was seen
+   */
+  public watchFirst(watchFilter: IWatchFilter): Promise<DecodedLogEntry<Event>> {
+    return new Promise((resolve, reject) => {
+      const watchedEvent = this.getRawEvent(watchFilter);
+      watchedEvent.watch((err: any, res: any) => {
+        // this makes sure to unsubscribe as well
+        watchedEvent.stopWatching((err2, res2) => {
+          if (err) {
+            reject(err);
+          } else if (err2) {
+            reject(err2);
+          } else {
+            resolve(res);
+          }
+        });
+      });
+    });
+  }
+
+  /**
+   * Watches for logs occurring and calls the callback when they happen
+   * @param watchFilter Optional filter for specifies blockNumber ranges to get data for
+   * @param callback Callback function which will be called each time an event happens
+   * @returns function which can be called to stop watching this log
+   */
+  public watch(
+    watchFilter: IWatchFilter,
+    callback: (err: any, event: DecodedLogEntry<Event>) => void,
+  ): () => Promise<void> {
+    const watchedEvent = this.getRawEvent(watchFilter);
+    watchedEvent.watch(callback);
+
+    return () => {
+      return new Promise<void>((resolve, reject) => {
+        watchedEvent.stopWatching((err, res) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(res);
+          }
+        });
+      });
+    };
+  }
+
+  /**
+   * Gets the historical logs for this event
+   * @param watchFilter Optional filter for specifies blockNumber ranges to get data for
+   * @returns Array of event logs
+   */
+  public get(watchFilter: IWatchFilter): Promise<DecodedLogEntry<Event>[]> {
+    return new Promise<DecodedLogEntry<Event>[]>((resolve, reject) => {
+      const watchedEvent = this.getRawEvent(watchFilter);
+      watchedEvent.get((err, logs) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(logs);
+        }
+      });
+    });
+  }
+
+  private getRawEvent(watchFilter: IWatchFilter): RawEvent<Event> {
+    const filter: IWatchFilter = Object.assign(
+      {},
+      {
+        fromBlock: "0",
+        toBlock: "latest",
+      },
+      watchFilter,
+    );
+    const rawEvent = this.parentContract.rawWeb3Contract[this.eventName](this.eventArgs, filter);
+
+    return rawEvent;
+  }
+}
+
 export function promisify(func: any, args: any): Promise<any> {
   return new Promise((res, rej) => {
     func(...args, (err: any, data: any) => {
@@ -60,4 +162,26 @@ export function promisify(func: any, args: any): Promise<any> {
       return res(data);
     });
   });
+}
+
+// tslint:disable-next-line
+export interface LogEntry {
+  logIndex: number | null;
+  transactionIndex: number | null;
+  transactionHash: string;
+  blockHash: string | null;
+  blockNumber: number | null;
+  address: string;
+  data: string;
+  topics: string[];
+}
+
+// tslint:disable-next-line
+export interface DecodedLogEntry<A> extends LogEntry {
+  event: string;
+  args: A;
+}
+
+interface IDictionary<T = string> {
+  [id: string]: T;
 }
