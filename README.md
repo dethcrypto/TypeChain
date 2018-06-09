@@ -204,7 +204,6 @@ A: We will automatically format generated classes with `prettier` to match your 
 ## Roadmap 🛣️
 
 * improve generated code (more checks, wiring contracts together)
-* events
 
 ### Running tests
 
