@@ -35,7 +35,7 @@ export class ${typeName} extends TypeChainContract {
     static async createAndValidate(web3: any, address: string | BigNumber): Promise<${typeName}> {
       const contract = new ${typeName}(web3, address);
       const code = await promisify(web3.eth.getCode, [address]);
-      if (code === "0x0") {
+      if (code.length < 4) {
         throw new Error(\`Contract at \${address} doesn't exist!\`);
       }
       return contract; 
