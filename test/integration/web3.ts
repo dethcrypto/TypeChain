@@ -17,5 +17,5 @@ export async function createNewBlockchain() {
 before(async () => {
   const r = await createNewBlockchain();
   web3 = r.web3;
-  accounts = r.accounts; 
+  accounts = r.accounts;
 });

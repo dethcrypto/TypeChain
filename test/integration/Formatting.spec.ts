@@ -11,9 +11,7 @@ describe("Formatting of generated files", () => {
     const files = glob.sync(join(__dirname, "./abis/*.ts"), { absolute: true });
 
     files.forEach(filePath => {
-      expect(
-        check(readFileSync(filePath, "utf-8"), config!),
-      ).to.be.ok;
+      expect(check(readFileSync(filePath, "utf-8"), config!)).to.be.ok;
     });
   });
 });

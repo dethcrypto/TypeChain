@@ -14,14 +14,17 @@ export async function deployContract(contractName: string): Promise<ContractInst
 
     const contract = web3.eth.contract(abi);
 
-    (contract as any).new({ from: accounts[0], data: code, gas: GAS_LIMIT_STANDARD }, (err: Error, contract: any) => {
-      // this callback gets called multiple times
-      // on a final call contract.address will be defined
-      if (err) {
-        reject(err);
-      } else if (contract.address) {
-        resolve(contract);
-      }
-    });
+    (contract as any).new(
+      { from: accounts[0], data: code, gas: GAS_LIMIT_STANDARD },
+      (err: Error, contract: any) => {
+        // this callback gets called multiple times
+        // on a final call contract.address will be defined
+        if (err) {
+          reject(err);
+        } else if (contract.address) {
+          resolve(contract);
+        }
+      },
+    );
   });
 }

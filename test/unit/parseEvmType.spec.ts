@@ -5,7 +5,7 @@ import {
   IntegerType,
   BooleanType,
   ArrayType,
-  BytesType
+  BytesType,
 } from "../../lib/typeParser";
 
 describe("parseEvmType function", () => {
@@ -58,11 +58,11 @@ describe("parseEvmType function", () => {
     expect((parsedType as ArrayType).itemType).to.be.instanceOf(ArrayType);
     expect((parsedType as ArrayType).size).to.be.eq(256);
     expect(((parsedType as ArrayType).itemType as ArrayType).itemType).to.be.instanceOf(
-      UnsignedIntegerType
+      UnsignedIntegerType,
     );
     expect(((parsedType as ArrayType).itemType as ArrayType).size).to.be.eq(8);
     expect(
-      (((parsedType as ArrayType).itemType as ArrayType).itemType as UnsignedIntegerType).bits
+      (((parsedType as ArrayType).itemType as ArrayType).itemType as UnsignedIntegerType).bits,
     ).to.be.eq(16);
   });
 });

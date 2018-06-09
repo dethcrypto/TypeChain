@@ -97,7 +97,7 @@ export class DeferredEventWrapper<Event, EventIndexedFields> {
   }
 
   /**
-   * Watches for logs occuring and calls the callback when they happen
+   * Watches for logs occurring and calls the callback when they happen
    * @param watchFilter Optional filter for specifies blockNumber ranges to get data for
    * @param callback Callback function which will be called each time an event happens
    * @returns function which can be called to stop watching this log

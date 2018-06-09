@@ -80,8 +80,8 @@ describe("DumbContract", () => {
 
     await dumbContract
       .callWithArrayTx([new BigNumber(41), new BigNumber(42), new BigNumber(43)])
-      .send({ from: accounts[0], gas: GAS_LIMIT_STANDARD});
-  
+      .send({ from: accounts[0], gas: GAS_LIMIT_STANDARD });
+
     // Make sure the value has been set as expected
     expect((await dumbContract.arrayParamLength).toString()).to.be.eq("3");
   });
@@ -91,34 +91,41 @@ describe("DumbContract", () => {
     const expectedValue = 10;
 
     const dumbContract = await DumbContract.createAndValidate(web3, contractAddress);
-    
-    const waitingEvent = dumbContract.DepositEvent({from: expectedAccount}).watchFirst({}).then((eventLog) => {
-      expect(eventLog.args.from).to.eq(expectedAccount);
-      expect(eventLog.args.value.toString()).to.eq(expectedValue.toString());
-    });
+
+    const waitingEvent = dumbContract
+      .DepositEvent({ from: expectedAccount })
+      .watchFirst({})
+      .then(eventLog => {
+        expect(eventLog.args.from).to.eq(expectedAccount);
+        expect(eventLog.args.value.toString()).to.eq(expectedValue.toString());
+      });
 
     // Send two transactions, one that shouldn't match the filter and one that should
-    const txPromise = dumbContract.countupForEtherTx().send({ from: accounts[1], gas: GAS_LIMIT_STANDARD, value: expectedValue }).then(() => {
-      return dumbContract.countupForEtherTx().send({ from: expectedAccount, gas: GAS_LIMIT_STANDARD, value: expectedValue });
-    });
+    const txPromise = dumbContract
+      .countupForEtherTx()
+      .send({ from: accounts[1], gas: GAS_LIMIT_STANDARD, value: expectedValue })
+      .then(() => {
+        return dumbContract
+          .countupForEtherTx()
+          .send({ from: expectedAccount, gas: GAS_LIMIT_STANDARD, value: expectedValue });
+      });
     return Promise.all([waitingEvent, txPromise]);
   }).timeout(LONG_TIMEOUT);
 
-  it ("should get multiple events", async () => {
+  it("should get multiple events", async () => {
     let watchedEventCount = 0;
     const dumbContract = await DumbContract.createAndValidate(web3, contractAddress);
 
     const expectedCalls = [
-      {from: accounts[0], value: 42},
-      {from: accounts[2], value: 96},
-      {from: accounts[2], value: 4},
+      { from: accounts[0], value: 42 },
+      { from: accounts[2], value: 96 },
+      { from: accounts[2], value: 4 },
     ];
 
-    const transactionHashes = new Array<string>(); 
+    const transactionHashes = new Array<string>();
 
     const returnedPromise = new Promise<void>((resolve, reject) => {
-      dumbContract.DepositEvent({}).watch({}, (err, eventLog) => {
-
+      const stopEventWatcher = dumbContract.DepositEvent({}).watch({}, (err, eventLog) => {
         // Validate this is one of the events we're expecting
         const txHashIndex = transactionHashes.indexOf(eventLog.transactionHash);
         expect(txHashIndex).to.not.eq(-1);
@@ -130,37 +137,42 @@ describe("DumbContract", () => {
 
         // If we've seen all the events, then we're done with the test
         if (watchedEventCount === 3) {
-          resolve();
+          stopEventWatcher()
+            .then(resolve)
+            .catch(reject);
         }
       });
     });
 
-
     for (const expectedCall of expectedCalls) {
       // tslint:disable-next-line:no-floating-promises
-      const txHash = await dumbContract.countupForEtherTx().send({ from: expectedCall.from, gas: GAS_LIMIT_STANDARD, value: expectedCall.value });
+      const txHash = await dumbContract
+        .countupForEtherTx()
+        .send({ from: expectedCall.from, gas: GAS_LIMIT_STANDARD, value: expectedCall.value });
       transactionHashes.push(txHash);
     }
 
     return returnedPromise;
   }).timeout(LONG_TIMEOUT);
 
-  it ("should get only specified events", async () => {
+  it("should get only specified events", async () => {
     const dumbContract = await DumbContract.createAndValidate(web3, contractAddress);
-    await dumbContract.countupForEtherTx().send({ from: accounts[0], gas: GAS_LIMIT_STANDARD, value: 12 });
-    await dumbContract.countupForEtherTx().send({ from: accounts[1], gas: GAS_LIMIT_STANDARD, value: 42 });
+    await dumbContract
+      .countupForEtherTx()
+      .send({ from: accounts[0], gas: GAS_LIMIT_STANDARD, value: 12 });
+    await dumbContract
+      .countupForEtherTx()
+      .send({ from: accounts[1], gas: GAS_LIMIT_STANDARD, value: 42 });
 
-    const event = dumbContract.DepositEvent({from: accounts[1]});
-    
+    const event = dumbContract.DepositEvent({ from: accounts[1] });
+
     // Pass in a block filter which will not return any events
-    const noEvents = await event.get({fromBlock: 0, toBlock: 0});
+    const noEvents = await event.get({ fromBlock: 0, toBlock: 0 });
     expect(noEvents.length).to.eq(0);
 
     // Pass in a block filter which should get our event back
-    const singleEvent = await event.get({fromBlock: 0, toBlock: 'latest'});
+    const singleEvent = await event.get({ fromBlock: 0, toBlock: "latest" });
     expect(singleEvent.length).to.eq(1);
     expect(singleEvent[0].args.from).to.eq(accounts[1]);
   }).timeout(LONG_TIMEOUT);
 });
-
-
