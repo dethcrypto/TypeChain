@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./docs/images/logo.png" width="120" alt="TypeChain">
+  <img src="https://github.com/Neufund/TypeChain/blob/d82f3cc644a11e22ca8e42505c16f035e2f2555d/docs/images/typechain-logo.png?raw=true" width="300" alt="TypeChain">
   <h3 align="center">TypeChain</h3>
   <p align="center">🔌 Typescript bindings for Ethereum smartcontracts</p>
 
@@ -8,11 +8,19 @@
     <a href="https://github.com/prettier/prettier"><img alt="Prettier" src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg"></a>
     <a href="/package.json"><img alt="Software License" src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"></a>
   </p>
-  
-  <p>
+
+  <p align="center">
     <a href="https://blog.neufund.org/introducing-typechain-typescript-bindings-for-ethereum-smart-contracts-839fc2becf22">Medium post</a>
   </p>
 </p>
+
+## Features ⚡
+
+* static typing - you will never call not existing method again
+* IDE support - works with any IDE supporting Typescript
+* revamped API - native promises, safety checks and more!
+* compatibility - under the hood it uses web3 so it's 100% compatible
+* frictionless - works with simple, JSON ABI files as well as with Truffle style ABIs
 
 ## Installation
 
@@ -42,14 +50,6 @@ Example:
 ```
 typechain --force --outDir app/contracts './node_modules/neufund-contracts/build/contracts/*.json'
 ```
-
-## Features ⚡
-
-* static typing - you will never call not existing method again
-* IDE support - works with any IDE supporting Typescript
-* revamped API - native promises, safety checks and more!
-* compatibility - under the hood it uses web3 so it's 100% compatible
-* frictionless - works with simple, JSON ABI files as well as with Truffle style ABIs
 
 ## Demo 🏎️
 
