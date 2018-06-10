@@ -1,11 +1,18 @@
-# TypeChain
+<p align="center">
+  <img src="./docs/images/logo.png" width="120" alt="TypeChain">
+  <h3 align="center">TypeChain</h3>
+  <p align="center">🔌 Typescript bindings for Ethereum smartcontracts</p>
 
-🔌 Typescript bindings for Ethereum smartcontracts
-
-[![Build Status](https://travis-ci.org/Neufund/TypeChain.svg?branch=master)](https://travis-ci.org/Neufund/TypeChain) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
-
-[Introduction medium post](https://blog.neufund.org/introducing-typechain-typescript-bindings-for-ethereum-smart-contracts-839fc2becf22)
-
+  <p align="center">
+    <a href="https://circleci.com/gh/Neufund/TypeChain"><img alt="Build Status" src="https://circleci.com/gh/Neufund/TypeChain/tree/master.svg?style=svg"></a>
+    <a href="https://github.com/prettier/prettier"><img alt="Prettier" src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg"></a>
+    <a href="/package.json"><img alt="Software License" src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"></a>
+  </p>
+  
+  <p>
+    <a href="https://blog.neufund.org/introducing-typechain-typescript-bindings-for-ethereum-smart-contracts-839fc2becf22">Medium post</a>
+  </p>
+</p>
 
 ## Installation
 
