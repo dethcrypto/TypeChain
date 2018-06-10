@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { deployContract } from "./utils/web3Contracts";
 
 import { web3 } from "./web3";
-import { __ContractWithOverloads_sol_ContractWithOverloads as ContractWithOverloads } from "./abis/__ContractWithOverloads_sol_ContractWithOverloads";
+import { ContractWithOverloads } from "./abis/ContractWithOverloads";
 
 describe("DumbContract", () => {
   let contractAddress: string;
