@@ -41,6 +41,7 @@ export interface Contract {
 export interface RawAbiParameter {
   name: string;
   type: string;
+  components?: RawAbiParameter[];
 }
 
 export interface RawAbiDefinition {
@@ -74,6 +75,7 @@ export interface RawEventArgAbiDefinition {
   indexed: boolean;
   name: string;
   type: string;
+  components?: RawAbiParameter[];
 }
 
 export function parse(abi: Array<RawAbiDefinition>): Contract {
@@ -150,7 +152,7 @@ function parseOutputs(outputs: Array<RawAbiParameter>): EvmType[] {
   if (outputs.length === 0) {
     return [new VoidType()];
   } else {
-    return outputs.map(param => parseEvmType(param.type));
+    return outputs.map(param => parseEvmType(param.type, param.components));
   }
 }
 
@@ -158,7 +160,7 @@ function parseConstant(abiPiece: RawAbiDefinition): ConstantDeclaration {
   debug(`Parsing constant "${abiPiece.name}"`);
   return {
     name: abiPiece.name,
-    output: parseEvmType(abiPiece.outputs[0].type),
+    output: parseEvmType(abiPiece.outputs[0].type, abiPiece.outputs[0].components),
   };
 }
 
@@ -175,7 +177,7 @@ function parseRawEventArg(eventArg: RawEventArgAbiDefinition): EventArgDeclarati
   return {
     name: eventArg.name,
     isIndexed: eventArg.indexed,
-    type: parseEvmType(eventArg.type),
+    type: parseEvmType(eventArg.type, eventArg.components),
   };
 }
 
@@ -201,7 +203,7 @@ function parseFunctionDeclaration(abiPiece: RawAbiDefinition): FunctionDeclarati
 function parseRawAbiParameter(rawAbiParameter: RawAbiParameter): AbiParameter {
   return {
     name: rawAbiParameter.name,
-    type: parseEvmType(rawAbiParameter.type),
+    type: parseEvmType(rawAbiParameter.type, rawAbiParameter.components),
   };
 }
 

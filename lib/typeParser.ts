@@ -1,3 +1,5 @@
+import { RawAbiParameter } from "./abiParser";
+
 export abstract class EvmType {
   generateCodeForInput(): string {
     return this.generateCodeForOutput();
@@ -81,11 +83,25 @@ export class ArrayType extends EvmType {
   }
 }
 
+export class TupleType extends EvmType {
+  constructor(public readonly itemTypes: EvmType[]) {
+    super();
+  }
+
+  generateCodeForOutput(): string {
+    return "[" + this.itemTypes.map(type => type.generateCodeForOutput()).join(", ") + "]";
+  }
+
+  generateCodeForInput(): string {
+    return "[" + this.itemTypes.map(type => type.generateCodeForInput()).join(", ") + "]";
+  }
+}
+
 const isUIntTypeRegex = /^uint([0-9]*)$/;
 const isIntTypeRegex = /^int([0-9]*)$/;
 const isBytesTypeRegex = /^bytes([0-9]+)$/;
 
-export function parseEvmType(rawType: string): EvmType {
+export function parseEvmType(rawType: string, components?: RawAbiParameter[]): EvmType {
   const lastChar = rawType[rawType.length - 1];
 
   if (lastChar === "]") {
@@ -117,6 +133,10 @@ export function parseEvmType(rawType: string): EvmType {
       return new BytesType(1);
     case "bytes":
       return new ArrayType(new BytesType(1));
+    case "tuple":
+      if (!components) throw new Error("Components required for type: tuple");
+      const innerTypes = components.map(param => parseEvmType(param.type));
+      return new TupleType(innerTypes);
   }
 
   if (isUIntTypeRegex.test(rawType)) {
