@@ -1,5 +1,7 @@
 {
   "name": "typechain",
+  "description": "🔌 Typescript bindings for Ethereum smartcontracts",
+  "keywords": ["ethereum", "typescript", "bindings", "smartcontract", "blockchain"],
   "version": "0.2.1",
   "license": "MIT",
   "repository": "https://github.com/Neufund/Typechain",
