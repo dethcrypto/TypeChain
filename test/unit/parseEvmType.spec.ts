@@ -6,6 +6,7 @@ import {
   BooleanType,
   ArrayType,
   BytesType,
+  TupleType,
 } from "../../lib/typeParser";
 
 describe("parseEvmType function", () => {
@@ -64,5 +65,25 @@ describe("parseEvmType function", () => {
     expect(
       (((parsedType as ArrayType).itemType as ArrayType).itemType as UnsignedIntegerType).bits,
     ).to.be.eq(16);
+  });
+
+  it("should parse tuples", () => {
+    const parsedType = parseEvmType("tuple", [
+      {
+        name: "arg1",
+        type: "uint8",
+      },
+      {
+        name: "arg2",
+        type: "bool",
+      },
+    ]);
+
+    expect(parsedType).to.be.instanceOf(TupleType);
+    expect((parsedType as TupleType).itemTypes).to.be.instanceOf(Array);
+    expect((parsedType as TupleType).itemTypes.length).to.be.eq(2);
+    expect((parsedType as TupleType).itemTypes[0]).to.be.instanceOf(UnsignedIntegerType);
+    expect((parsedType as TupleType).itemTypes[1]).to.be.instanceOf(BooleanType);
+    expect(parsedType.generateCodeForOutput()).to.be.eq("[BigNumber, boolean]");
   });
 });
