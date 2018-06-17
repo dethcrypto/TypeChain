@@ -175,4 +175,13 @@ describe("DumbContract", () => {
     expect(singleEvent.length).to.eq(1);
     expect(singleEvent[0].args.from).to.eq(accounts[1]);
   }).timeout(LONG_TIMEOUT);
+
+  it("should allow for strings to be used for byte arrays", async () => {
+    const dumbContract = await DumbContract.createAndValidate(web3, contractAddress);
+    const byteString = "0xabcd123456000000000000000000000000000000000000000000000000000000";
+    await dumbContract
+      .callWithBytesTx(byteString)
+      .send({ from: accounts[1], gas: GAS_LIMIT_STANDARD });
+    expect(await dumbContract.byteArray).to.eq(byteString);
+  });
 });
