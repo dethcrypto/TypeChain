@@ -6,6 +6,7 @@ contract DumbContract {
   uint[] public counterArray;
   address public someAddress;
   uint public arrayParamLength;
+  bytes32 public byteArray;
 
   function DumbContract() public {
     counter = 0;
@@ -46,6 +47,11 @@ contract DumbContract {
   function callWithArray(uint256[] arrayParam) public returns (uint) {
     arrayParamLength = arrayParam.length;
     return arrayParam.length;
+  }
+
+  function callWithBytes(bytes32 byteParam) public returns (bool) {
+    byteArray = byteParam; // to silence warnings
+    return true;
   }
 
   event Deposit(

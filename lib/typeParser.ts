@@ -57,7 +57,7 @@ export class BytesType extends EvmType {
   }
 
   generateCodeForOutput(): string {
-    return "BigNumber";
+    return "string";
   }
 }
 
