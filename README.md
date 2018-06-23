@@ -208,6 +208,23 @@ generated code.
 
 A: We will automatically format generated classes with `prettier` to match your coding preferences (just make sure to use `.prettierrc` file). Furthermore, we will silent tslint for generated files with `/* tslint:disable */` comments.
 
+### Use as API
+
+You might also use TypeChain as api:
+
+```typescript
+import { generateTypeChainWrappers } from "../lib/generateTypeChainWrappers";
+
+async function main() {
+  await generateTypeChainWrappers({
+    glob: "**/*.abi",
+    force: true,
+  });
+}
+
+main().catch(console.error);
+```
+
 ## Roadmap 🛣️
 
 * improve generated code (more checks, wiring contracts together)
