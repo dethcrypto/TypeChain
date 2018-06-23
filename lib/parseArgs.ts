@@ -6,6 +6,7 @@ export interface IOptions {
   glob: string;
   force: boolean;
   outDir?: string;
+  cwd?: string;
 }
 
 export function parseArgs(): IOptions {

@@ -67,8 +67,9 @@
     "test:fix": "yarn lint:fix && ./scripts/test.sh",
     "test:unit": "NODE_ENV=test mocha --require ts-node/register.js --require test/setup-chai.ts 'test/unit/**/*.spec.ts'",
     "test:integration": "NODE_ENV=test mocha --require ts-node/register.js --require test/setup-chai.ts 'test/integration/web3.ts' 'test/integration/**/*.spec.ts'",
-    "test:generateContracts": "NODE_ENV=development ts-node ./lib/cli.ts --force",
+    "test:generateContracts": "NODE_ENV=development ts-node ./scripts/generate",
     "test:generateContractsOutDir": "NODE_ENV=development ts-node ./lib/cli.ts --force --outDir ./test-tmp/"
   },
+  "main": "./dist/generateTypeChainWrappers.js",
   "bin": "./dist/cli.js"
 }
