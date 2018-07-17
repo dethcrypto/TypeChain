@@ -35,6 +35,7 @@ export class DeferredTransactionWrapper<T extends ITxParams> {
     private readonly methodName: string,
     private readonly methodArgs: any[],
   ) {}
+  public readonly tx: string
 
   send(params: T, customWeb3?: any): Promise<string> {
     let method: any;
