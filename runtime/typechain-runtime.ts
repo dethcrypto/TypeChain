@@ -35,6 +35,21 @@ export class DeferredTransactionWrapper<T extends ITxParams> {
     private readonly methodName: string,
     private readonly methodArgs: any[],
   ) {}
+  
+  estimateGas(params: T, customWeb3?: any): Promise<number> {
+    let method: any;
+
+    if (customWeb3) {
+      const tmpContract = customWeb3.eth
+        .contract(this.parentContract.contractAbi)
+        .at(this.parentContract.address);
+      method = tmpContract[this.methodName].estimateGas;
+    } else {
+      method = this.parentContract.rawWeb3Contract[this.methodName].estimateGas;
+    }
+
+    return promisify(method, [...this.methodArgs, params]);
+  }
 
   send(params: T, customWeb3?: any): Promise<string> {
     let method: any;
