@@ -12,7 +12,6 @@
   "license": "MIT",
   "repository": "https://github.com/Neufund/Typechain",
   "devDependencies": {
-    "@types/bignumber.js": "^4.0.3",
     "@types/bluebird": "^3.5.18",
     "@types/chai": "^4.0.6",
     "@types/chai-as-promised": "^7.1.0",
@@ -40,7 +39,6 @@
     "web3-typescript-typings": "^0.7.2"
   },
   "dependencies": {
-    "bignumber.js": "^5.0.0",
     "chalk": "^2.3.0",
     "command-line-args": "^4.0.7",
     "debug": "^3.0.1",

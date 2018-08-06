@@ -7,11 +7,8 @@ export interface ITxParams {
   gasPrice?: number | string | BigNumber;
 }
 
-export interface IPayableTxParams {
+export interface IPayableTxParams extends ITxParams {
   value: string | number | BigNumber;
-  from?: string;
-  gas?: number | string | BigNumber;
-  gasPrice?: number | string | BigNumber;
 }
 
 export interface IWatchFilter {
@@ -180,8 +177,4 @@ export interface LogEntry {
 export interface DecodedLogEntry<A> extends LogEntry {
   event: string;
   args: A;
-}
-
-interface IDictionary<T = string> {
-  [id: string]: T;
 }
