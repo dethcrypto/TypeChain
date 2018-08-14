@@ -12,6 +12,10 @@
   <p align="center">
     <a href="https://blog.neufund.org/introducing-typechain-typescript-bindings-for-ethereum-smart-contracts-839fc2becf22">Medium post</a>
   </p>
+
+  <p align="center">
+    Contributed with <img src="https://github.com/Neufund/TypeChain/blob/d82f3cc644a11e22ca8e42505c16f035e2f2555d/docs/images/typechain-logo.png?raw=true" width="100" alt="Neufund">
+  </p>
 </p>
 
 ## Features ⚡
