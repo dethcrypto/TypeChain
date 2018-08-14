@@ -14,7 +14,7 @@
   </p>
 
   <p align="center">
-    Contributed with <br/>
+    Contributed with: <br/>
     <img src="https://github.com/Neufund/TypeChain/blob/6d358df7b2da6b62d56f9935f1666b17b93176f0/docs/images/neufund-logo.png?raw=true" width="100" alt="Neufund">
   </p>
 </p>
