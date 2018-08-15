@@ -4,7 +4,7 @@ import { deployContract } from "./utils/web3Contracts";
 import { web3 } from "./web3";
 import { ContractWithOverloads } from "./abis/ContractWithOverloads";
 
-describe("DumbContract", () => {
+describe("ContractWithOverloads", () => {
   let contractAddress: string;
 
   beforeEach(async () => {
@@ -19,5 +19,6 @@ describe("DumbContract", () => {
     expect((await contractWithOverloads.counter).toNumber()).to.be.eq(0);
   });
 
+  // @todo add support for function overloading,
   it.skip("should be able to access overloaded methods");
 });
