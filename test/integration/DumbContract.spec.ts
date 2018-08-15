@@ -189,4 +189,14 @@ describe("DumbContract", () => {
     expect(result).to.be.a("string");
     expect(result).to.eq(byteString);
   });
+
+  describe("estimateGas", () => {
+    it("should work", async () => {
+      const dumbContract = await DumbContract.createAndValidate(web3, contractAddress);
+
+      const estimatedGas = await dumbContract.countupTx(1).estimateGas({ from: accounts[0] });
+
+      expect(estimatedGas).to.be.eq(82573);
+    });
+  });
 });
