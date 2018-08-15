@@ -35,7 +35,7 @@ export class DeferredTransactionWrapper<T extends ITxParams> {
     private readonly methodName: string,
     private readonly methodArgs: any[],
   ) {}
-  
+
   estimateGas(params: T, customWeb3?: any): Promise<number> {
     let method: any;
 
