@@ -4,8 +4,8 @@ import { pathExistsSync } from "fs-extra";
 import * as glob from "glob";
 import * as prettier from "prettier";
 
-import { generateSource } from "./generateSource";
-import { copyRuntime } from "./copyRuntime";
+import { generateSource, IContext } from "./generateSource";
+import { copyRuntime as copyRuntimeLocal } from "./copyRuntime";
 import { extractAbi } from "./abiParser";
 import { IOptions } from "./parseArgs";
 import { logger } from "./logger";
@@ -52,6 +52,14 @@ export async function generateTypeChainWrappers(options: IOptions): Promise<void
   );
 }
 
+export function abiToWrapper(abi: object, ctx: IContext): string {
+  return generateSource(abi as any, ctx);
+}
+
+export function copyRuntime(path: string): void {
+  copyRuntimeLocal(path);
+}
+
 function processFile(
   options: IOptions,
   absPath: string,
@@ -82,10 +90,11 @@ function processFile(
     return;
   }
 
-  const typescriptSourceFile = generateSource(rawAbi, {
+  const typescriptSourceFile = abiToWrapper(rawAbi, {
     fileName: filenameWithoutAnyExtensions,
     relativeRuntimePath: runtimeRelativePath,
   });
+
   writeFileSync(outputPath, prettier.format(typescriptSourceFile, prettierConfig));
 }
 
