@@ -213,7 +213,7 @@ generated code.
 
 A: We will automatically format generated classes with `prettier` to match your coding preferences (just make sure to use `.prettierrc` file). Furthermore, we will silent tslint for generated files with `/* tslint:disable */` comments.
 
-### Use as API
+### Usage as API
 
 You might also use TypeChain as api:
 
@@ -229,6 +229,8 @@ async function main() {
 
 main().catch(console.error);
 ```
+
+other interesting methods are: `abiToWrapper` and `copyRuntime`.
 
 ## Roadmap 🛣️
 
