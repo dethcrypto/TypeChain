@@ -10,7 +10,7 @@
   </p>
 
   <p align="center">
-    <a href="https://blog.neufund.org/introducing-typechain-typescript-bindings-for-ethereum-smart-contracts-839fc2becf22">Medium post</a>
+    <a href="https://blog.neufund.org/introducing-typechain-typescript-bindings-for-ethereum-smart-contracts-839fc2becf22">Medium post</a> | <a href="https://www.youtube.com/watch?v=9x6AkShGkwU">DappCon Video</a>
   </p>
 
   <p align="center">
