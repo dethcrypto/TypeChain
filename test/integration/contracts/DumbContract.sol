@@ -8,7 +8,7 @@ contract DumbContract {
   uint public arrayParamLength;
   bytes32 public byteArray;
 
-  function DumbContract() public {
+  constructor() public {
     counter = 0;
     someAddress = msg.sender;
   }
