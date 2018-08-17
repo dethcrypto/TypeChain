@@ -8,10 +8,10 @@
     "runtime/**/*.ts"
   ],
   "exclude": [
-    "test/**/*.spec.ts"
+    "test/**/*.spec.ts",
+    "**/*.d.ts"
   ],
   "extension": [
     ".ts"
-  ],
-  "all": true
+  ]
 }
