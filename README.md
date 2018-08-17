@@ -5,12 +5,13 @@
 
   <p align="center">
     <a href="https://circleci.com/gh/krzkaczor/TypeChain"><img alt="Build Status" src="https://circleci.com/gh/krzkaczor/TypeChain/tree/master.svg?style=svg"></a>
+    <a href="https://coveralls.io/github/krzkaczor/TypeChain?branch=master"><img alt="Coverage" src="https://coveralls.io/repos/github/krzkaczor/TypeChain/badge.svg?branch=master"></a>
     <a href="https://github.com/prettier/prettier"><img alt="Prettier" src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg"></a>
     <a href="/package.json"><img alt="Software License" src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"></a>
   </p>
 
   <p align="center">
-    <a href="https://blog.neufund.org/introducing-typechain-typescript-bindings-for-ethereum-smart-contracts-839fc2becf22">Medium post</a>
+    <a href="https://blog.neufund.org/introducing-typechain-typescript-bindings-for-ethereum-smart-contracts-839fc2becf22">Medium post</a> | <a href="https://www.youtube.com/watch?v=9x6AkShGkwU">DappCon Video</a>
   </p>
 
   <p align="center">
