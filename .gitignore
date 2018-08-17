@@ -2,3 +2,5 @@ node_modules
 dist
 test/integration/abis
 test-tmp
+.nyc_output
+coverage
