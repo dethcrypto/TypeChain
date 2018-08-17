@@ -3,6 +3,11 @@ var prepare = require("mocha-prepare");
 import { generateTypeChainWrappers } from "../../lib/generateTypeChainWrappers";
 import { join } from "path";
 
+/**
+ * NOTE: this is done here only to easily count code coverage.
+ * Normally you would run typechain in separate build step, before running your tests.
+ */
+
 prepare(async (done: any) => {
   await generateTypeChainWrappers({
     glob: "**/*.abi",

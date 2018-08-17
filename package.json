@@ -68,8 +68,8 @@
     "test": "yarn lint && ./scripts/test.sh",
     "test:coverage": "yarn lint && ./scripts/test.sh COVERAGE",
     "test:fix": "yarn lint:fix && ./scripts/test.sh",
-    "test:mocha": "NODE_ENV=test mocha --require ts-node/register.js --require test/setup-chai.ts --require 'test/integration/before.spec.ts' 'test/integration/web3.ts' 'test/**/*.spec.ts'",
-    "test:mocha:coverage": "NODE_ENV=test nyc mocha --require ts-node/register.js --require source-map-support/register --require test/setup-chai.ts --require 'test/integration/before.spec.ts' 'test/integration/web3.ts' 'test/**/*.spec.ts'",
+    "test:mocha": "NODE_ENV=test mocha --require ts-node/register.js --require test/setup-chai.ts --require 'test/integration/before.ts' 'test/integration/web3.ts' 'test/**/*.spec.ts'",
+    "test:mocha:coverage": "NODE_ENV=test nyc mocha --require ts-node/register.js --require source-map-support/register --require test/setup-chai.ts --require 'test/integration/before.ts' 'test/integration/web3.ts' 'test/**/*.spec.ts'",
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
   "main": "./dist/generateTypeChainWrappers.js",

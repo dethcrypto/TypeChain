@@ -18,7 +18,7 @@ mkdir $ABI_TMP_DIR
 echo "Generating ABIs for sample contracts"
 ../../../node_modules/.bin/solcjs --abi ./* --bin -o $ABI_DIR
 
-if [ $mode = "COVERAGE" ]; then
+if [ "$mode" = "COVERAGE" ]; then
   yarn test:mocha:coverage
 else
   yarn test:mocha
@@ -28,6 +28,6 @@ echo "Testing if there are no complication problems with generated wrappers"
 yarn tsc
 
 echo "Sending coverage report"
-if [ $mode = "COVERAGE" ]; then
+if [ "$mode" = "COVERAGE" ]; then
   yarn coveralls
 fi
