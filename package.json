@@ -27,10 +27,12 @@
     "bluebird": "^3.5.1",
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
+    "coveralls": "^3.0.2",
     "ganache-cli": "^6.0.3",
     "krzkaczor-solc": "^0.4.24",
     "mocha": "^4.0.1",
     "mocha-prepare": "^0.1.0",
+    "nyc": "^12.0.2",
     "ts-node": "^3.3.0",
     "tslint": "^5.8.0",
     "tslint-language-service": "^0.9.7",
@@ -63,8 +65,11 @@
     "formatting": "prettier --list-different '**/*.ts'",
     "formatting:fix": "prettier --write '**/*.ts'",
     "test": "yarn lint && ./scripts/test.sh",
+    "test:coverage": "yarn lint && ./scripts/test.sh COVERAGE",
     "test:fix": "yarn lint:fix && ./scripts/test.sh",
-    "test:mocha": "NODE_ENV=test mocha --require ts-node/register.js --require test/setup-chai.ts --require 'test/integration/before.spec.ts' 'test/integration/web3.ts' 'test/**/*.spec.ts'"
+    "test:mocha": "NODE_ENV=test mocha --require ts-node/register.js --require test/setup-chai.ts --require 'test/integration/before.spec.ts' 'test/integration/web3.ts' 'test/**/*.spec.ts'",
+    "test:mocha:coverage": "NODE_ENV=test nyc mocha --require ts-node/register.js --require test/setup-chai.ts --require 'test/integration/before.spec.ts' 'test/integration/web3.ts' 'test/**/*.spec.ts'",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
   "main": "./dist/generateTypeChainWrappers.js",
   "bin": "./dist/cli.js"
