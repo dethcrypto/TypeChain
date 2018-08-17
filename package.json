@@ -30,6 +30,7 @@
     "ganache-cli": "^6.0.3",
     "krzkaczor-solc": "^0.4.24",
     "mocha": "^4.0.1",
+    "mocha-prepare": "^0.1.0",
     "ts-node": "^3.3.0",
     "tslint": "^5.8.0",
     "tslint-language-service": "^0.9.7",
@@ -63,10 +64,7 @@
     "formatting:fix": "prettier --write '**/*.ts'",
     "test": "yarn lint && ./scripts/test.sh",
     "test:fix": "yarn lint:fix && ./scripts/test.sh",
-    "test:unit": "NODE_ENV=test mocha --require ts-node/register.js --require test/setup-chai.ts 'test/unit/**/*.spec.ts'",
-    "test:integration": "NODE_ENV=test mocha --require ts-node/register.js --require test/setup-chai.ts 'test/integration/web3.ts' 'test/integration/**/*.spec.ts'",
-    "test:generateContracts": "NODE_ENV=development ts-node ./scripts/generate",
-    "test:generateContractsOutDir": "NODE_ENV=development ts-node ./lib/cli.ts --force --outDir ./test-tmp/"
+    "test:mocha": "NODE_ENV=test mocha --require ts-node/register.js --require test/setup-chai.ts --require 'test/integration/before.spec.ts' 'test/integration/web3.ts' 'test/**/*.spec.ts'"
   },
   "main": "./dist/generateTypeChainWrappers.js",
   "bin": "./dist/cli.js"
