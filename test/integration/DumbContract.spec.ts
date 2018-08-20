@@ -125,7 +125,7 @@ describe("DumbContract", () => {
     const transactionHashes = new Array<string>();
 
     const returnedPromise = new Promise<void>((resolve, reject) => {
-      const stopEventWatcher = dumbContract.DepositEvent({}).watch({}, (err, eventLog) => {
+      const stopEventWatcher = dumbContract.DepositEvent({}).watch({}, (_err, eventLog) => {
         // Validate this is one of the events we're expecting
         const txHashIndex = transactionHashes.indexOf(eventLog.transactionHash);
         expect(txHashIndex).to.not.eq(-1);

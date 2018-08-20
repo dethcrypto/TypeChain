@@ -95,7 +95,7 @@ export class DeferredEventWrapper<Event, EventIndexedFields> {
       const watchedEvent = this.getRawEvent(watchFilter);
       watchedEvent.watch((err: any, res: any) => {
         // this makes sure to unsubscribe as well
-        watchedEvent.stopWatching((err2, res2) => {
+        watchedEvent.stopWatching(err2 => {
           if (err) {
             reject(err);
           } else if (err2) {
