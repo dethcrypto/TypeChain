@@ -25,7 +25,7 @@ else
 fi
 
 echo "Testing if there are no complication problems with generated wrappers"
-yarn tsc
+yarn tsc --noUnusedParameters
 
 echo "Sending coverage report"
 if [ "$mode" = "COVERAGE" ]; then
