@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { parseArgs } from "./parseArgs";
-import { generateTypeChainWrappers } from "./generateTypeChainWrappers";
+import { generateTypeChainWrappers } from "./typechain";
 import { logger } from "./logger";
 
 async function main() {

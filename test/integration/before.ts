@@ -1,6 +1,6 @@
 var prepare = require("mocha-prepare");
 
-import { generateTypeChainWrappers } from "../../lib/generateTypeChainWrappers";
+import { generateTypeChainWrappers } from "../../lib/typechain";
 import { join } from "path";
 
 /**
