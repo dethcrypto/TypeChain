@@ -46,7 +46,7 @@ describe("DumbContract", () => {
     const newBlockchain = await createNewBlockchain();
     const dumbContract = await DumbContract.createAndValidate(web3, contractAddress);
 
-    await dumbContract
+    const txPromise = dumbContract
       .countupForEtherTx()
       .send(
         { from: newBlockchain.accounts[0], gas: GAS_LIMIT_STANDARD, value: 10 },
@@ -54,7 +54,7 @@ describe("DumbContract", () => {
       );
 
     // this should reject because tx wasn't properly mined (contract doesn't exist on different chain)
-    return expect(dumbContract.counterArray(0)).to.be.rejected;
+    return expect(txPromise).to.be.rejected;
   });
 
   it("should serialize numeric arguments", async () => {
