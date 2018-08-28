@@ -43,19 +43,23 @@ Note: TypeChain requires web3 in version: `0.20.x`.
 ## Usage
 
 ```
-typechain [--force] [glob]
+typechain [--outDir] [glob]
 ```
 
 * `glob` - pattern that will be used to find ABIs, remember about adding quotes: `typechain
   "**/*.json"`
-* `--force` - force overwrite existing files
 * `--outDir` - put all generated files to a specific dir
+
+Typechain always will rewrite existing files. You should not commit them. Read more in FAQ section.
 
 Example:
 
 ```
-typechain --force --outDir app/contracts './node_modules/neufund-contracts/build/contracts/*.json'
+typechain --outDir app/contracts './node_modules/neufund-contracts/build/contracts/*.json'
 ```
+
+### Ts-generator
+TypeChain is one of many plugins for [ts-generator](https://github.com/krzkaczor/ts-generator) meaning that you can use unified config to describe all required generated types.
 
 ## Demo 🏎️
 
@@ -216,22 +220,22 @@ A: We will automatically format generated classes with `prettier` to match your 
 
 ### Usage as API
 
-You might also use TypeChain as api:
+You might also use TypeChain as api. Typechain itself exposes two simple methods:
+- `abiToWrapper(abi: Array<RawAbiDefinition>, ctx: IContext): string`
+- `copyRuntime(filePath: string): void`
+
+You may want to use `ts-generator` api to kick off whole process by api: 
 
 ```typescript
-import { generateTypeChainWrappers } from "../lib/generateTypeChainWrappers";
+import { tsGen } from "ts-generator";
+import Typechain from "typechain";
 
 async function main() {
-  await generateTypeChainWrappers({
-    glob: "**/*.abi",
-    force: true,
-  });
+  await tsGen({ cwd }, new Typechain({ cwd, rawConfig: { files: "your-glob-here", outDir: "optional out dir path", generator: "typechain" } }));
 }
 
 main().catch(console.error);
 ```
-
-other interesting methods are: `abiToWrapper` and `copyRuntime`.
 
 ## Roadmap 🛣️
 
