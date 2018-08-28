@@ -1,24 +1,31 @@
 var prepare = require("mocha-prepare");
 
-import { generateTypeChainWrappers } from "../../lib/typechain";
+import { tsGen } from "ts-generator";
 import { join } from "path";
+import Typechain from "../../lib";
 
 /**
  * NOTE: this is done here only to easily count code coverage.
  * Normally you would run typechain in separate build step, before running your tests.
  */
 
-prepare(async (done: any) => {
-  await generateTypeChainWrappers({
-    glob: "**/*.abi",
-    force: true,
-  });
+prepare((done: any) => {
+  (async () => {
+    const cwd = join(__dirname, "../../");
+    const cfg = {
+      files: "**/*.abi",
+      generator: "typechain",
+    };
 
-  const outputPath = join(__dirname, "../../test-tmp/");
-  await generateTypeChainWrappers({
-    glob: "**/*.abi",
-    force: true,
-    outDir: outputPath,
+    await tsGen({ cwd }, new Typechain({ cwd, rawConfig: cfg }));
+
+    const outputPath = "./test-tmp/";
+    await tsGen({ cwd }, new Typechain({ cwd, rawConfig: { ...cfg, outDir: outputPath } }));
+
+    done();
+  })().catch(e => {
+    // tslint:disable-next-line
+    console.error(e);
+    process.exit(1);
   });
-  done();
 });

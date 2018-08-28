@@ -27,7 +27,7 @@ fi
 echo "Testing if there are no complication problems with generated wrappers"
 yarn tsc --noUnusedParameters
 
-echo "Sending coverage report"
 if [ "$mode" = "COVERAGE" ]; then
+  echo "Sending coverage report"
   yarn coveralls
 fi
