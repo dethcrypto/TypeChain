@@ -126,6 +126,12 @@
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
 
+"@types/mkdirp@^0.5.2":
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/@types/mkdirp/-/mkdirp-0.5.2.tgz#503aacfe5cc2703d5484326b1b27efa67a339c1f"
+  dependencies:
+    "@types/node" "*"
+
 "@types/mocha@^2.2.44":
   version "2.2.48"
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-2.2.48.tgz#3523b126a0b049482e1c3c11877460f76622ffab"
@@ -2105,10 +2111,12 @@ trim-right@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/trim-right/-/trim-right-1.0.1.tgz#cb2e1203067e0c8de1f614094b9fe45704ea6003"
 
-ts-generator@^0.0.2:
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/ts-generator/-/ts-generator-0.0.2.tgz#3448da01b9f01ae449d997fc4d832ec655c1421f"
+ts-generator@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/ts-generator/-/ts-generator-0.0.3.tgz#9adc954fd9bb85e44e01f8dbc3e1b0296657b8dd"
   dependencies:
+    "@types/mkdirp" "^0.5.2"
+    "@types/prettier" "^1.13.2"
     glob "^7.1.2"
     mkdirp "^0.5.1"
     prettier "^1.14.2"
