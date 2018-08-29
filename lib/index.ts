@@ -7,7 +7,7 @@ export interface ITypechainCfg {
   outDir?: string;
 }
 
-export default class Typechain extends TsGeneratorPlugin {
+export class Typechain extends TsGeneratorPlugin {
   name = "Typechain";
 
   private readonly outDirAbs?: string;

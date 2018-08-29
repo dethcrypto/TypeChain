@@ -1,8 +1,8 @@
 var prepare = require("mocha-prepare");
 
-import { tsGen } from "ts-generator";
+import { tsGenerator } from "ts-generator";
 import { join } from "path";
-import Typechain from "../../lib";
+import { Typechain } from "../../lib";
 
 /**
  * NOTE: this is done here only to easily count code coverage.
@@ -14,13 +14,12 @@ prepare((done: any) => {
     const cwd = join(__dirname, "../../");
     const cfg = {
       files: "**/*.abi",
-      generator: "typechain",
     };
 
-    await tsGen({ cwd }, new Typechain({ cwd, rawConfig: cfg }));
+    await tsGenerator({ cwd }, new Typechain({ cwd, rawConfig: cfg }));
 
     const outputPath = "./test-tmp/";
-    await tsGen({ cwd }, new Typechain({ cwd, rawConfig: { ...cfg, outDir: outputPath } }));
+    await tsGenerator({ cwd }, new Typechain({ cwd, rawConfig: { ...cfg, outDir: outputPath } }));
 
     done();
   })().catch(e => {

@@ -228,10 +228,10 @@ You may want to use `ts-generator` api to kick off whole process by api:
 
 ```typescript
 import { tsGen } from "ts-generator";
-import Typechain from "typechain";
+import { Typechain } from "typechain";
 
 async function main() {
-  await tsGen({ cwd }, new Typechain({ cwd, rawConfig: { files: "your-glob-here", outDir: "optional out dir path", generator: "typechain" } }));
+  await tsGen({ cwd }, new Typechain({ cwd, rawConfig: { files: "your-glob-here", outDir: "optional out dir path" } }));
 }
 
 main().catch(console.error);
