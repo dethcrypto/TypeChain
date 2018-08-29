@@ -1,6 +1,6 @@
 import { TsGeneratorPlugin, TFileDesc, TContext, getRelativeModulePath } from "ts-generator";
 import { join, dirname, parse } from "path";
-import { abiToWrapper, copyRuntime } from "./typechain";
+import { abiToWrapper, getRuntime } from "./typechain";
 import { extractAbi } from "./abiParser";
 
 export interface ITypechainCfg {
@@ -49,9 +49,12 @@ export class Typechain extends TsGeneratorPlugin {
     };
   }
 
-  afterRun() {
+  afterRun(): TFileDesc | void {
     if (this.runtimePathAbs) {
-      copyRuntime(this.runtimePathAbs);
+      return {
+        path: this.runtimePathAbs,
+        contents: getRuntime(),
+      };
     }
   }
 }
