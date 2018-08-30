@@ -176,7 +176,6 @@ export function promisify(func: any, args: any): Promise<any> {
   });
 }
 
-// tslint:disable-next-line
 export interface LogEntry {
   logIndex: number | null;
   transactionIndex: number | null;
@@ -188,7 +187,6 @@ export interface LogEntry {
   topics: string[];
 }
 
-// tslint:disable-next-line
 export interface DecodedLogEntry<A> extends LogEntry {
   event: string;
   args: A;
