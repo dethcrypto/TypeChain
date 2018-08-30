@@ -1,10 +1,7 @@
 import debug from "./debug";
 import { EvmType, VoidType, parseEvmType } from "./typeParser";
-import chalk from "chalk";
 import { MalformedAbiError } from "./errors";
 import { logger } from "./logger";
-
-const { yellow } = chalk;
 
 export interface AbiParameter {
   name: string;
@@ -96,7 +93,7 @@ export function parse(abi: Array<RawAbiDefinition>): Contract {
 
     if (abiPiece.type === "function") {
       if (checkForOverloads(constants, constantFunctions, functions, abiPiece.name)) {
-        logger.log(yellow(`Detected overloaded constant function ${abiPiece.name} skipping...`));
+        logger.log(`Detected overloaded constant function ${abiPiece.name} skipping...`);
         return;
       }
 
@@ -113,7 +110,7 @@ export function parse(abi: Array<RawAbiDefinition>): Contract {
     if (abiPiece.type === "event") {
       const eventAbi = (abiPiece as any) as RawEventAbiDefinition;
       if (eventAbi.anonymous) {
-        logger.log(yellow("Skipping anonymous event..."));
+        logger.log("Skipping anonymous event...");
         return;
       }
 

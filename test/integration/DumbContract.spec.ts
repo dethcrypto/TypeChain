@@ -4,6 +4,8 @@ import { BigNumber } from "bignumber.js";
 
 import { DumbContract } from "./abis/DumbContract";
 import { web3, accounts, GAS_LIMIT_STANDARD, createNewBlockchain } from "./web3";
+import { snapshotSource } from "./utils/snapshotSource";
+import { join } from "path";
 
 // Some of the event related tests take longer to get called
 const LONG_TIMEOUT = 10000;
@@ -14,6 +16,9 @@ describe("DumbContract", () => {
   beforeEach(async () => {
     contractAddress = (await deployContract("DumbContract")).address;
   });
+
+  it("should snapshot generated code", () =>
+    snapshotSource(join(__dirname, "./abis/DumbContract.ts")));
 
   it("should allow for calling all methods", async () => {
     const dumbContract = await DumbContract.createAndValidate(web3, contractAddress);

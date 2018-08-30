@@ -33,7 +33,9 @@
     "mocha": "^4.0.1",
     "mocha-prepare": "^0.1.0",
     "nyc": "^12.0.2",
+    "patch-package": "^5.1.1",
     "prettier": "^1.14.2",
+    "snap-shot-it": "^6.1.1",
     "source-map-support": "^0.5.8",
     "ts-node": "^3.3.0",
     "tslint": "^5.11.0",
@@ -54,7 +56,7 @@
     "web3": "0.20.x"
   },
   "scripts": {
-    "prepublish": "yarn build",
+    "prepare": "patch-package && yarn build",
     "build": "rm -rf ./dist && tsc -p ./tsconfig.production.json",
     "postbuild": "chmod +x ./dist/cli.js",
     "lint": "yarn formatting && yarn tslint",

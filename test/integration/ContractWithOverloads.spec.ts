@@ -3,6 +3,8 @@ import { deployContract } from "./utils/web3Contracts";
 
 import { web3 } from "./web3";
 import { ContractWithOverloads } from "./abis/ContractWithOverloads";
+import { snapshotSource } from "./utils/snapshotSource";
+import { join } from "path";
 
 describe("ContractWithOverloads", () => {
   let contractAddress: string;
@@ -10,6 +12,9 @@ describe("ContractWithOverloads", () => {
   beforeEach(async () => {
     contractAddress = (await deployContract("ContractWithOverloads")).address;
   });
+
+  it("should snapshot generated code", () =>
+    snapshotSource(join(__dirname, "./abis/DumbContract.ts")));
 
   it("should be able to access counter", async () => {
     const contractWithOverloads = await ContractWithOverloads.createAndValidate(

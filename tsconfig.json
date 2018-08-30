@@ -2,7 +2,6 @@
   "compilerOptions": {
     "strict": true,
     "sourceMap": true,
-    "noUnusedLocals": true,
     "types": ["node", "mocha"],
     "lib": ["es2015"],
     "target": "es2016",
