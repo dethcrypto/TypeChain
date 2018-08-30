@@ -8,7 +8,17 @@ import {
   FunctionDeclaration,
   EventDeclaration,
 } from "../../abiParser";
-import { EvmType, ArrayType } from "../../typeParser";
+import {
+  EvmType,
+  ArrayType,
+  BooleanType,
+  IntegerType,
+  UnsignedIntegerType,
+  VoidType,
+  StringType,
+  BytesType,
+  AddressType,
+} from "../../typeParser";
 import { IContext } from "../../generateSource";
 
 export function codeGenForContract(
@@ -58,7 +68,7 @@ function codeGenForConstants(runtimeNamespace: string, constants: Array<Constant
   return constants
     .map(
       ({ name, output }) => `
-        public get ${name}(): Promise<${output.generateCodeForOutput()}> { 
+        public get ${name}(): Promise<${codeGenForOutput(output)}> { 
             return ${runtimeNamespace}.promisify(this.rawWeb3Contract.${name}, []); 
         }
     `,
@@ -121,7 +131,7 @@ function codeGenForEvents(runtimeNamespace: string, events: Array<EventDeclarati
 }
 
 function codeGenForParams(param: AbiParameter, index: number): string {
-  return `${param.name || `arg${index}`}: ${param.type.generateCodeForInput()}`;
+  return `${param.name || `arg${index}`}: ${codeGenForInput(param.type)}`;
 }
 
 function codeGenForArgs(param: AbiParameter, index: number): string {
@@ -132,9 +142,9 @@ function codeGenForArgs(param: AbiParameter, index: number): string {
 
 function codeGenForOutputTypeList(output: Array<EvmType>): string {
   if (output.length === 1) {
-    return output[0].generateCodeForOutput();
+    return codeGenForOutput(output[0]);
   } else {
-    return `[${output.map(x => x.generateCodeForOutput()).join(", ")}]`;
+    return `[${output.map(x => codeGenForOutput(x)).join(", ")}]`;
   }
 }
 
@@ -142,11 +152,49 @@ function codeGenForEventArgs(args: EventArgDeclaration[], onlyIndexed: boolean) 
   return `{${args
     .filter(arg => arg.isIndexed || !onlyIndexed)
     .map(arg => {
-      const inputCodegen = arg.type.generateCodeForInput();
+      const inputCodegen = codeGenForInput(arg.type);
 
       // if we're specifying a filter, you can take a single value or an array of values to check for
       const argType = `${inputCodegen}${onlyIndexed ? ` | Array<${inputCodegen}>` : ""}`;
       return `${arg.name}${onlyIndexed ? "?" : ""}: ${argType}`;
     })
     .join(`, `)}}`;
+}
+
+function codeGenForInput(evmType: EvmType): string {
+  switch (evmType.constructor) {
+    case IntegerType:
+      return "BigNumber | number";
+    case UnsignedIntegerType:
+      return "BigNumber | number";
+    case AddressType:
+      return "BigNumber | string";
+
+    default:
+      return codeGenForOutput(evmType);
+  }
+}
+
+function codeGenForOutput(evmType: EvmType): string {
+  switch (evmType.constructor) {
+    case BooleanType:
+      return "boolean";
+    case IntegerType:
+      return "BigNumber";
+    case UnsignedIntegerType:
+      return "BigNumber";
+    case VoidType:
+      return "void";
+    case StringType:
+      return "string";
+    case BytesType:
+      return "string";
+    case AddressType:
+      return "string";
+    case ArrayType:
+      return codeGenForOutput((evmType as ArrayType).itemType) + "[]";
+
+    default:
+      throw new Error(`Unrecognized ABI piece: ${evmType.constructor}`);
+  }
 }
