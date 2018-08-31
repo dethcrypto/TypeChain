@@ -1,7 +1,7 @@
 import { expect } from "chai";
-import { extractAbi, RawEventAbiDefinition, parseEvent } from "../../lib/parser/abiParser";
-import { MalformedAbiError } from "../../lib/utils/errors";
-import { AddressType, UnsignedIntegerType } from "../../lib/parser/typeParser";
+import { extractAbi, RawEventAbiDefinition, parseEvent } from "./abiParser";
+import { MalformedAbiError } from "../utils/errors";
+import { AddressType, UnsignedIntegerType } from "./typeParser";
 
 describe("extractAbi", () => {
   it("should throw error on not JSON ABI", () => {
