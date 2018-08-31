@@ -1,4 +1,5 @@
-var prepare = require("mocha-prepare");
+const prepare = require("mocha-prepare");
+import { removeSync } from "fs-extra";
 
 import { tsGenerator } from "ts-generator";
 import { join } from "path";
@@ -13,12 +14,16 @@ import { readFileSync } from "fs";
 
 prepare((done: any) => {
   (async () => {
+    const outDir = "./targets/legacy/wrappers";
     const cwd = __dirname;
     const prettierCfg = JSON.parse(readFileSync(join(__dirname, "../../.prettierrc"), "utf8"));
+
+    removeSync(join(__dirname, outDir));
+
     const cfg: TPluginCfg<ITypechainCfg> = {
       files: "**/*.abi",
       target: "legacy",
-      outDir: "./targets/legacy/wrappers",
+      outDir,
     };
 
     await tsGenerator({ cwd, prettier: prettierCfg }, new Typechain({ cwd, rawConfig: cfg }));

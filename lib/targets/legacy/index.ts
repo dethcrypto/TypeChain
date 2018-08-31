@@ -1,7 +1,8 @@
 import { TsGeneratorPlugin, TFileDesc, TContext, getRelativeModulePath } from "ts-generator";
-import { join, dirname, parse } from "path";
+import { join, dirname } from "path";
 import { codegen, getRuntime } from "./generation";
 import { extractAbi } from "../../parser/abiParser";
+import { getFilename } from "../shared";
 
 export interface ITypechainCfg {
   outDir?: string;
@@ -32,7 +33,7 @@ export class TypechainLegacy extends TsGeneratorPlugin {
 
     const outDir = this.outDirAbs || fileDirPath;
 
-    const fileName = parse(file.path).name;
+    const fileName = getFilename(file.path);
     const outputFilePath = join(outDir, `${fileName}.ts`);
     const relativeRuntimePath = getRelativeModulePath(outputFilePath, this.runtimePathAbs);
 
