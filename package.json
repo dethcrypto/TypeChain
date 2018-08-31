@@ -58,7 +58,7 @@
   "scripts": {
     "prepare": "patch-package && yarn build",
     "build": "rm -rf ./dist && tsc -p ./tsconfig.production.json",
-    "postbuild": "chmod +x ./dist/cli.js",
+    "postbuild": "chmod +x ./dist/cli/cli.js",
     "lint": "yarn formatting && yarn tslint",
     "lint:fix": "yarn tslint:fix && yarn formatting:fix",
     "tslint": "tslint -c ./tslint.json --project ./tsconfig.json --format stylish",
