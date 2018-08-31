@@ -1,7 +1,7 @@
 import { TsGeneratorPlugin, TFileDesc, TContext, getRelativeModulePath } from "ts-generator";
 import { join, dirname, parse } from "path";
-import { abiToWrapper, getRuntime } from "./typechain";
-import { extractAbi } from "./abiParser";
+import { codegen, getRuntime } from "./target/typechain";
+import { extractAbi } from "./parser/abiParser";
 
 export interface ITypechainCfg {
   outDir?: string;
@@ -41,7 +41,7 @@ export class Typechain extends TsGeneratorPlugin {
       return;
     }
 
-    const wrapperContents = abiToWrapper(abi, { fileName, relativeRuntimePath });
+    const wrapperContents = codegen(abi, { fileName, relativeRuntimePath });
 
     return {
       path: outputFilePath,

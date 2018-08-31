@@ -7,7 +7,8 @@ import {
   ConstantFunctionDeclaration,
   FunctionDeclaration,
   EventDeclaration,
-} from "../../abiParser";
+  parse,
+} from "../../parser/abiParser";
 import {
   EvmType,
   ArrayType,
@@ -18,14 +19,23 @@ import {
   StringType,
   BytesType,
   AddressType,
-} from "../../typeParser";
-import { IContext } from "../../generateSource";
+} from "../../parser/typeParser";
+import { IContext } from "../shared";
+import { join } from "path";
+import { readFileSync } from "fs";
 
-export function codeGenForContract(
-  abi: Array<RawAbiDefinition>,
-  input: Contract,
-  context: IContext,
-) {
+export function getRuntime(): string {
+  const runtimePath = join(__dirname, "./runtime/typechain-runtime.ts");
+  return readFileSync(runtimePath, "utf8");
+}
+
+export function codegen(abi: Array<RawAbiDefinition>, context: IContext): string {
+  const parsedContractAbi = parse(abi);
+
+  return codeGenForContract(abi, parsedContractAbi, context);
+}
+
+function codeGenForContract(abi: Array<RawAbiDefinition>, input: Contract, context: IContext) {
   const runtimeNamespace = "TC";
   const typeName = context.fileName;
 

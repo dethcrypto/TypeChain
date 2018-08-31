@@ -1,7 +1,7 @@
-import debug from "./debug";
+import debug from "../utils/debug";
 import { EvmType, VoidType, parseEvmType } from "./typeParser";
-import { MalformedAbiError } from "./errors";
-import { logger } from "./logger";
+import { MalformedAbiError } from "../utils/errors";
+import { logger } from "../utils/logger";
 
 export interface AbiParameter {
   name: string;

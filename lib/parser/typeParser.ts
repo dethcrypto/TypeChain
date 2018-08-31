@@ -1,5 +1,5 @@
 /**
- * This will be refactored in near future. Parser should produce discriminated union type.
+ * This will be refactored in the near future. Parser should produce discriminating union types.
  */
 
 export abstract class EvmType {}
