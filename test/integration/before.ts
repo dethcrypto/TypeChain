@@ -2,7 +2,8 @@ var prepare = require("mocha-prepare");
 
 import { tsGenerator } from "ts-generator";
 import { join } from "path";
-import { Typechain } from "../../lib";
+import { Typechain, ITypechainCfg } from "../../lib";
+import { TPluginCfg } from "ts-generator/dist/parseConfigFile";
 
 /**
  * NOTE: this is done here only to easily count code coverage.
@@ -12,8 +13,9 @@ import { Typechain } from "../../lib";
 prepare((done: any) => {
   (async () => {
     const cwd = join(__dirname, "../../");
-    const cfg = {
+    const cfg: TPluginCfg<ITypechainCfg> = {
       files: "**/*.abi",
+      target: "legacy",
     };
 
     await tsGenerator({ cwd }, new Typechain({ cwd, rawConfig: cfg }));
