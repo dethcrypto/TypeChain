@@ -17,7 +17,7 @@ export class DumbContract extends TC.TypeChainContract {
         outputs: [{ name: "", type: "uint256" }],
         payable: false,
         stateMutability: "view",
-        type: "function"
+        type: "function",
       },
       {
         constant: false,
@@ -26,7 +26,7 @@ export class DumbContract extends TC.TypeChainContract {
         outputs: [],
         payable: true,
         stateMutability: "payable",
-        type: "function"
+        type: "function",
       },
       {
         constant: true,
@@ -35,20 +35,20 @@ export class DumbContract extends TC.TypeChainContract {
         outputs: [{ name: "", type: "address" }],
         payable: false,
         stateMutability: "view",
-        type: "function"
+        type: "function",
       },
       {
         constant: false,
         inputs: [
           { name: "", type: "uint8" },
           { name: "", type: "uint8" },
-          { name: "ret", type: "uint256" }
+          { name: "ret", type: "uint256" },
         ],
         name: "twoUnnamedArgs",
         outputs: [{ name: "", type: "uint256" }],
         payable: true,
         stateMutability: "payable",
-        type: "function"
+        type: "function",
       },
       {
         constant: true,
@@ -57,7 +57,7 @@ export class DumbContract extends TC.TypeChainContract {
         outputs: [{ name: "", type: "uint256" }],
         payable: false,
         stateMutability: "view",
-        type: "function"
+        type: "function",
       },
       {
         constant: false,
@@ -66,7 +66,7 @@ export class DumbContract extends TC.TypeChainContract {
         outputs: [{ name: "", type: "bool" }],
         payable: false,
         stateMutability: "nonpayable",
-        type: "function"
+        type: "function",
       },
       {
         constant: true,
@@ -75,7 +75,7 @@ export class DumbContract extends TC.TypeChainContract {
         outputs: [{ name: "", type: "uint256" }],
         payable: false,
         stateMutability: "view",
-        type: "function"
+        type: "function",
       },
       {
         constant: false,
@@ -84,7 +84,7 @@ export class DumbContract extends TC.TypeChainContract {
         outputs: [],
         payable: false,
         stateMutability: "nonpayable",
-        type: "function"
+        type: "function",
       },
       {
         constant: true,
@@ -93,7 +93,7 @@ export class DumbContract extends TC.TypeChainContract {
         outputs: [{ name: "", type: "uint256" }, { name: "", type: "uint256" }],
         payable: false,
         stateMutability: "view",
-        type: "function"
+        type: "function",
       },
       {
         constant: true,
@@ -102,7 +102,7 @@ export class DumbContract extends TC.TypeChainContract {
         outputs: [{ name: "", type: "bool" }],
         payable: false,
         stateMutability: "view",
-        type: "function"
+        type: "function",
       },
       {
         constant: true,
@@ -111,7 +111,7 @@ export class DumbContract extends TC.TypeChainContract {
         outputs: [{ name: "sum", type: "uint256" }],
         payable: false,
         stateMutability: "view",
-        type: "function"
+        type: "function",
       },
       {
         constant: true,
@@ -120,7 +120,7 @@ export class DumbContract extends TC.TypeChainContract {
         outputs: [{ name: "", type: "bytes32" }],
         payable: false,
         stateMutability: "view",
-        type: "function"
+        type: "function",
       },
       {
         constant: false,
@@ -129,31 +129,23 @@ export class DumbContract extends TC.TypeChainContract {
         outputs: [{ name: "", type: "uint256" }],
         payable: false,
         stateMutability: "nonpayable",
-        type: "function"
+        type: "function",
       },
-      {
-        inputs: [],
-        payable: false,
-        stateMutability: "nonpayable",
-        type: "constructor"
-      },
+      { inputs: [], payable: false, stateMutability: "nonpayable", type: "constructor" },
       {
         anonymous: false,
         inputs: [
           { indexed: true, name: "from", type: "address" },
-          { indexed: false, name: "value", type: "uint256" }
+          { indexed: false, name: "value", type: "uint256" },
         ],
         name: "Deposit",
-        type: "event"
-      }
+        type: "event",
+      },
     ];
     super(web3, address, abi);
   }
 
-  static async createAndValidate(
-    web3: any,
-    address: string | BigNumber
-  ): Promise<DumbContract> {
+  static async createAndValidate(web3: any, address: string | BigNumber): Promise<DumbContract> {
     const contract = new DumbContract(web3, address);
     const code = await TC.promisify(web3.eth.getCode, [address]);
 
@@ -194,55 +186,35 @@ export class DumbContract extends TC.TypeChainContract {
   }
 
   public counterWithOffset(offset: BigNumber | number): Promise<BigNumber> {
-    return TC.promisify(this.rawWeb3Contract.counterWithOffset, [
-      offset.toString()
-    ]);
+    return TC.promisify(this.rawWeb3Contract.counterWithOffset, [offset.toString()]);
   }
 
-  public countupForEtherTx(): TC.DeferredTransactionWrapper<
-    TC.IPayableTxParams
-  > {
-    return new TC.DeferredTransactionWrapper<TC.IPayableTxParams>(
-      this,
-      "countupForEther",
-      []
-    );
+  public countupForEtherTx(): TC.DeferredTransactionWrapper<TC.IPayableTxParams> {
+    return new TC.DeferredTransactionWrapper<TC.IPayableTxParams>(this, "countupForEther", []);
   }
   public twoUnnamedArgsTx(
     arg0: BigNumber | number,
     arg1: BigNumber | number,
-    ret: BigNumber | number
+    ret: BigNumber | number,
   ): TC.DeferredTransactionWrapper<TC.IPayableTxParams> {
-    return new TC.DeferredTransactionWrapper<TC.IPayableTxParams>(
-      this,
-      "twoUnnamedArgs",
-      [arg0.toString(), arg1.toString(), ret.toString()]
-    );
-  }
-  public callWithBytesTx(
-    byteParam: string
-  ): TC.DeferredTransactionWrapper<TC.ITxParams> {
-    return new TC.DeferredTransactionWrapper<TC.ITxParams>(
-      this,
-      "callWithBytes",
-      [byteParam.toString()]
-    );
-  }
-  public countupTx(
-    offset: BigNumber | number
-  ): TC.DeferredTransactionWrapper<TC.ITxParams> {
-    return new TC.DeferredTransactionWrapper<TC.ITxParams>(this, "countup", [
-      offset.toString()
+    return new TC.DeferredTransactionWrapper<TC.IPayableTxParams>(this, "twoUnnamedArgs", [
+      arg0.toString(),
+      arg1.toString(),
+      ret.toString(),
     ]);
   }
-  public callWithArrayTx(
-    arrayParam: BigNumber[]
-  ): TC.DeferredTransactionWrapper<TC.ITxParams> {
-    return new TC.DeferredTransactionWrapper<TC.ITxParams>(
-      this,
-      "callWithArray",
-      [arrayParam.map(val => val.toString())]
-    );
+  public callWithBytesTx(byteParam: string): TC.DeferredTransactionWrapper<TC.ITxParams> {
+    return new TC.DeferredTransactionWrapper<TC.ITxParams>(this, "callWithBytes", [
+      byteParam.toString(),
+    ]);
+  }
+  public countupTx(offset: BigNumber | number): TC.DeferredTransactionWrapper<TC.ITxParams> {
+    return new TC.DeferredTransactionWrapper<TC.ITxParams>(this, "countup", [offset.toString()]);
+  }
+  public callWithArrayTx(arrayParam: BigNumber[]): TC.DeferredTransactionWrapper<TC.ITxParams> {
+    return new TC.DeferredTransactionWrapper<TC.ITxParams>(this, "callWithArray", [
+      arrayParam.map(val => val.toString()),
+    ]);
   }
 
   public DepositEvent(eventFilter: {

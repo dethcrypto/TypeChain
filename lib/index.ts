@@ -1,5 +1,5 @@
 import { TsGeneratorPlugin, TFileDesc, TContext, TOutput } from "ts-generator";
-import { TypechainLegacy } from "./target/typechain";
+import { TypechainLegacy } from "./targets/legacy";
 
 export type TTypechainTarget = "truffle" | "legacy";
 

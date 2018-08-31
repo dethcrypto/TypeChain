@@ -5,50 +5,19 @@ exports['ContractWithOverloads should snapshot generated code 1'] = `
 import { BigNumber } from "bignumber.js";
 import * as TC from "./typechain-runtime";
 
-export class DumbContract extends TC.TypeChainContract {
+export class ContractWithOverloads extends TC.TypeChainContract {
   public readonly rawWeb3Contract: any;
 
   public constructor(web3: any, address: string | BigNumber) {
     const abi = [
       {
         constant: true,
-        inputs: [],
-        name: "arrayParamLength",
+        inputs: [{ name: "offset", type: "uint256" }],
+        name: "getCounter",
         outputs: [{ name: "", type: "uint256" }],
         payable: false,
         stateMutability: "view",
-        type: "function"
-      },
-      {
-        constant: false,
-        inputs: [],
-        name: "countupForEther",
-        outputs: [],
-        payable: true,
-        stateMutability: "payable",
-        type: "function"
-      },
-      {
-        constant: true,
-        inputs: [],
-        name: "someAddress",
-        outputs: [{ name: "", type: "address" }],
-        payable: false,
-        stateMutability: "view",
-        type: "function"
-      },
-      {
-        constant: false,
-        inputs: [
-          { name: "", type: "uint8" },
-          { name: "", type: "uint8" },
-          { name: "ret", type: "uint256" }
-        ],
-        name: "twoUnnamedArgs",
-        outputs: [{ name: "", type: "uint256" }],
-        payable: true,
-        stateMutability: "payable",
-        type: "function"
+        type: "function",
       },
       {
         constant: true,
@@ -57,104 +26,44 @@ export class DumbContract extends TC.TypeChainContract {
         outputs: [{ name: "", type: "uint256" }],
         payable: false,
         stateMutability: "view",
-        type: "function"
-      },
-      {
-        constant: false,
-        inputs: [{ name: "byteParam", type: "bytes32" }],
-        name: "callWithBytes",
-        outputs: [{ name: "", type: "bool" }],
-        payable: false,
-        stateMutability: "nonpayable",
-        type: "function"
+        type: "function",
       },
       {
         constant: true,
-        inputs: [{ name: "", type: "uint256" }],
-        name: "counterArray",
+        inputs: [],
+        name: "getCounter",
         outputs: [{ name: "", type: "uint256" }],
         payable: false,
         stateMutability: "view",
-        type: "function"
+        type: "function",
       },
       {
         constant: false,
-        inputs: [{ name: "offset", type: "uint256" }],
-        name: "countup",
+        inputs: [{ name: "by", type: "uint256" }],
+        name: "increaseCounter",
         outputs: [],
         payable: false,
         stateMutability: "nonpayable",
-        type: "function"
-      },
-      {
-        constant: true,
-        inputs: [],
-        name: "returnAll",
-        outputs: [{ name: "", type: "uint256" }, { name: "", type: "uint256" }],
-        payable: false,
-        stateMutability: "view",
-        type: "function"
-      },
-      {
-        constant: true,
-        inputs: [],
-        name: "SOME_VALUE",
-        outputs: [{ name: "", type: "bool" }],
-        payable: false,
-        stateMutability: "view",
-        type: "function"
-      },
-      {
-        constant: true,
-        inputs: [{ name: "offset", type: "uint256" }],
-        name: "counterWithOffset",
-        outputs: [{ name: "sum", type: "uint256" }],
-        payable: false,
-        stateMutability: "view",
-        type: "function"
-      },
-      {
-        constant: true,
-        inputs: [],
-        name: "byteArray",
-        outputs: [{ name: "", type: "bytes32" }],
-        payable: false,
-        stateMutability: "view",
-        type: "function"
+        type: "function",
       },
       {
         constant: false,
-        inputs: [{ name: "arrayParam", type: "uint256[]" }],
-        name: "callWithArray",
-        outputs: [{ name: "", type: "uint256" }],
-        payable: false,
-        stateMutability: "nonpayable",
-        type: "function"
-      },
-      {
         inputs: [],
+        name: "increaseCounter",
+        outputs: [],
         payable: false,
         stateMutability: "nonpayable",
-        type: "constructor"
+        type: "function",
       },
-      {
-        anonymous: false,
-        inputs: [
-          { indexed: true, name: "from", type: "address" },
-          { indexed: false, name: "value", type: "uint256" }
-        ],
-        name: "Deposit",
-        type: "event"
-      }
     ];
     super(web3, address, abi);
   }
 
   static async createAndValidate(
     web3: any,
-    address: string | BigNumber
-  ): Promise<DumbContract> {
-    const contract = new DumbContract(web3, address);
+    address: string | BigNumber,
+  ): Promise<ContractWithOverloads> {
+    const contract = new ContractWithOverloads(web3, address);
     const code = await TC.promisify(web3.eth.getCode, [address]);
 
     // in case of missing smartcontract, code can be equal to "0x0" or "0x" depending on exact web3 implementation
@@ -165,96 +74,18 @@ export class DumbContract extends TC.TypeChainContract {
     return contract;
   }
 
-  public get arrayParamLength(): Promise<BigNumber> {
-    return TC.promisify(this.rawWeb3Contract.arrayParamLength, []);
-  }
-
-  public get someAddress(): Promise<string> {
-    return TC.promisify(this.rawWeb3Contract.someAddress, []);
-  }
-
   public get counter(): Promise<BigNumber> {
     return TC.promisify(this.rawWeb3Contract.counter, []);
   }
 
-  public get SOME_VALUE(): Promise<boolean> {
-    return TC.promisify(this.rawWeb3Contract.SOME_VALUE, []);
+  public getCounter(offset: BigNumber | number): Promise<BigNumber> {
+    return TC.promisify(this.rawWeb3Contract.getCounter, [offset.toString()]);
   }
 
-  public get byteArray(): Promise<string> {
-    return TC.promisify(this.rawWeb3Contract.byteArray, []);
-  }
-
-  public counterArray(arg0: BigNumber | number): Promise<BigNumber> {
-    return TC.promisify(this.rawWeb3Contract.counterArray, [arg0.toString()]);
-  }
-
-  public returnAll(): Promise<[BigNumber, BigNumber]> {
-    return TC.promisify(this.rawWeb3Contract.returnAll, []);
-  }
-
-  public counterWithOffset(offset: BigNumber | number): Promise<BigNumber> {
-    return TC.promisify(this.rawWeb3Contract.counterWithOffset, [
-      offset.toString()
+  public increaseCounterTx(by: BigNumber | number): TC.DeferredTransactionWrapper<TC.ITxParams> {
+    return new TC.DeferredTransactionWrapper<TC.ITxParams>(this, "increaseCounter", [
+      by.toString(),
     ]);
-  }
-
-  public countupForEtherTx(): TC.DeferredTransactionWrapper<
-    TC.IPayableTxParams
-  > {
-    return new TC.DeferredTransactionWrapper<TC.IPayableTxParams>(
-      this,
-      "countupForEther",
-      []
-    );
-  }
-  public twoUnnamedArgsTx(
-    arg0: BigNumber | number,
-    arg1: BigNumber | number,
-    ret: BigNumber | number
-  ): TC.DeferredTransactionWrapper<TC.IPayableTxParams> {
-    return new TC.DeferredTransactionWrapper<TC.IPayableTxParams>(
-      this,
-      "twoUnnamedArgs",
-      [arg0.toString(), arg1.toString(), ret.toString()]
-    );
-  }
-  public callWithBytesTx(
-    byteParam: string
-  ): TC.DeferredTransactionWrapper<TC.ITxParams> {
-    return new TC.DeferredTransactionWrapper<TC.ITxParams>(
-      this,
-      "callWithBytes",
-      [byteParam.toString()]
-    );
-  }
-  public countupTx(
-    offset: BigNumber | number
-  ): TC.DeferredTransactionWrapper<TC.ITxParams> {
-    return new TC.DeferredTransactionWrapper<TC.ITxParams>(this, "countup", [
-      offset.toString()
-    ]);
-  }
-  public callWithArrayTx(
-    arrayParam: BigNumber[]
-  ): TC.DeferredTransactionWrapper<TC.ITxParams> {
-    return new TC.DeferredTransactionWrapper<TC.ITxParams>(
-      this,
-      "callWithArray",
-      [arrayParam.map(val => val.toString())]
-    );
-  }
-
-  public DepositEvent(eventFilter: {
-    from?: BigNumber | string | Array<BigNumber | string>;
-  }): TC.DeferredEventWrapper<
-    { from: BigNumber | string; value: BigNumber | number },
-    { from?: BigNumber | string | Array<BigNumber | string> }
-  > {
-    return new TC.DeferredEventWrapper<
-      { from: BigNumber | string; value: BigNumber | number },
-      { from?: BigNumber | string | Array<BigNumber | string> }
-    >(this, "Deposit", eventFilter);
   }
 }
 

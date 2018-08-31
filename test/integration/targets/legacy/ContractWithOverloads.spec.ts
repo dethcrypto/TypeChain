@@ -1,9 +1,9 @@
 import { expect } from "chai";
-import { deployContract } from "./utils/web3Contracts";
+import { deployContract } from "../../utils/web3Contracts";
 
-import { web3 } from "./web3";
-import { ContractWithOverloads } from "./abis/ContractWithOverloads";
-import { snapshotSource } from "./utils/snapshotSource";
+import { web3 } from "../../web3";
+import { ContractWithOverloads } from "./wrappers/ContractWithOverloads";
+import { snapshotSource } from "../../utils/snapshotSource";
 import { join } from "path";
 
 describe("ContractWithOverloads", () => {
@@ -14,7 +14,7 @@ describe("ContractWithOverloads", () => {
   });
 
   it("should snapshot generated code", () =>
-    snapshotSource(join(__dirname, "./abis/DumbContract.ts")));
+    snapshotSource(join(__dirname, "./wrappers/ContractWithOverloads.ts")));
 
   it("should be able to access counter", async () => {
     const contractWithOverloads = await ContractWithOverloads.createAndValidate(
