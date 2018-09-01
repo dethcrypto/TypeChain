@@ -30,7 +30,7 @@ export function getRuntime(): string {
 }
 
 export function codegen(abi: Array<RawAbiDefinition>, context: IContext): string {
-  const parsedContractAbi = parse(abi);
+  const parsedContractAbi = parse(abi, context.fileName);
 
   return codeGenForContract(abi, parsedContractAbi, context);
 }

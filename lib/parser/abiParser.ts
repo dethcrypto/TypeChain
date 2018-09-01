@@ -20,13 +20,15 @@ export interface ConstantFunctionDeclaration {
 }
 
 export interface FunctionDeclaration {
-  name: string; // @todo missing inputs,
+  name: string;
   inputs: Array<AbiParameter>;
   outputs: Array<EvmType>; //we dont care about named returns for now
   payable: boolean;
 }
 
 export interface Contract {
+  name: string;
+
   constants: Array<ConstantDeclaration>;
 
   constantFunctions: Array<ConstantFunctionDeclaration>;
@@ -74,7 +76,7 @@ export interface RawEventArgAbiDefinition {
   type: string;
 }
 
-export function parse(abi: Array<RawAbiDefinition>): Contract {
+export function parse(abi: Array<RawAbiDefinition>, name: string): Contract {
   const constants: Array<ConstantDeclaration> = [];
   const constantFunctions: Array<ConstantFunctionDeclaration> = [];
   const functions: Array<FunctionDeclaration> = [];
@@ -122,6 +124,7 @@ export function parse(abi: Array<RawAbiDefinition>): Contract {
   });
 
   return {
+    name,
     constants,
     constantFunctions,
     functions,
