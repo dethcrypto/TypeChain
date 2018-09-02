@@ -9,14 +9,12 @@ echo "Cleanup"
 
 cd ./test/integration/contracts/
 ABI_DIR="../abis"
-ABI_TMP_DIR="../../../test-tmp"
 rm -rf $ABI_DIR
-rm -rf $ABI_TMP_DIR
-
-mkdir $ABI_TMP_DIR 
 
 echo "Generating ABIs for sample contracts"
 ../../../node_modules/.bin/solcjs --abi ./* --bin -o $ABI_DIR
+echo "Compiling truffle project"
+(cd ../targets/truffle && ../../../../node_modules/.bin/truffle compile)
 
 if [ "$mode" = "COVERAGE" ]; then
   yarn test:mocha:coverage
@@ -26,6 +24,8 @@ fi
 
 echo "Testing if there are no complication problems with generated wrappers"
 yarn tsc --noUnusedParameters
+yarn tsc:truffle
+(cd ../targets/truffle && ../../../../node_modules/.bin/truffle test)
 
 if [ "$mode" = "COVERAGE" ]; then
   echo "Sending coverage report"

@@ -1,5 +1,6 @@
 import { TsGeneratorPlugin, TFileDesc, TContext, TOutput } from "ts-generator";
 import { TypechainLegacy } from "./targets/legacy";
+import { Truffle } from "./targets/truffle";
 
 export type TTypechainTarget = "truffle" | "legacy";
 
@@ -25,6 +26,8 @@ export class Typechain extends TsGeneratorPlugin {
     switch (this.ctx.rawConfig.target) {
       case "legacy":
         return new TypechainLegacy(ctx);
+      case "truffle":
+        return new Truffle(ctx);
       default:
         throw new Error(`Unsupported target ${this.ctx.rawConfig.target}!`);
     }

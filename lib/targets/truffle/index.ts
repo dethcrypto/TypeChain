@@ -14,7 +14,6 @@ const DEFAULT_OUT_PATH = "./types/truffle-contracts/index.d.ts";
 export class Truffle extends TsGeneratorPlugin {
   name = "Truffle";
 
-  //tslint:disable-next-line
   private readonly outDirAbs: string;
   private contracts: Contract[] = [];
 

@@ -7,11 +7,12 @@ export function codegen(contracts: Contract[]) {
 
 interface Artifacts {
   ${generateArtifactHeaders(contracts)}
+  require<T = any>(name: string): T;
 }
 
-${contracts.map(generateContractInterface)}
+${contracts.map(generateContractInterface).join("\n")}
 
-${contracts.map(generateContractInstanceInterface)}
+${contracts.map(generateContractInstanceInterface).join("\n")}
 
 declare var artifacts: Artifacts;
   `;
@@ -25,19 +26,23 @@ function generateArtifactHeaders(contracts: Contract[]): string {
 
 function generateContractInterface(c: Contract): string {
   return `
-declare interface ${c.name}Contract extends Truffle.Contract<${c.name}ContractInstance> {
-  "new"(${generateInputTypes(c.constructor.inputs)}, meta?: Truffle.TransactionDetails): ${
-    c.name
-  }ContractInstance;
+declare interface ${c.name}Contract extends Truffle.Contract<${c.name}Instance> {
+  ${
+    c.constructor
+      ? `"new"(${generateInputTypes(
+          c.constructor.inputs,
+        )} meta?: Truffle.TransactionDetails): Promise<${c.name}Instance>;`
+      : ""
+  }
 }
 `;
 }
 
 function generateContractInstanceInterface(c: Contract): string {
   return `
-declare interface GreeterContractInstance {
+declare interface ${c.name}Instance {
   // constant functions
-  ${c.constantFunctions.map(generateConstantFunction)}
+  ${c.constantFunctions.map(generateConstantFunction).join("\n")}
 }
   `;
 }
@@ -46,12 +51,19 @@ function generateConstantFunction(fn: ConstantFunctionDeclaration): string {
   return `
   ${fn.name}(${generateInputTypes(
     fn.inputs,
-  )}, txDetails?: Truffle.TransactionDetails): Promise<${generateOutputTypes(fn.outputs)}>;
+  )} txDetails?: Truffle.TransactionDetails): Promise<${generateOutputTypes(fn.outputs)}>;
 `;
 }
 
 function generateInputTypes(input: Array<AbiParameter>): string {
-  return input.map(i => generateInputType(i.type)).join(", ");
+  if (input.length === 0) {
+    return "";
+  }
+  return (
+    input
+      .map((input, index) => `${input.name || `arg${index}`}: ${generateInputType(input.type)}`)
+      .join(", ") + ", "
+  );
 }
 
 function generateOutputTypes(outputs: Array<EvmType>): string {

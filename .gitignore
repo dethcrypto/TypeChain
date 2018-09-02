@@ -5,3 +5,5 @@ test-tmp
 .nyc_output
 coverage
 test/integration/targets/legacy/wrappers
+test/integration/targets/truffle/@types
+test/integration/targets/truffle/build

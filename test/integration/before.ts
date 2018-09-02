@@ -14,19 +14,11 @@ import { readFileSync } from "fs";
 
 prepare((done: any) => {
   (async () => {
-    const outDir = "./targets/legacy/wrappers";
     const cwd = __dirname;
     const prettierCfg = JSON.parse(readFileSync(join(__dirname, "../../.prettierrc"), "utf8"));
 
-    removeSync(join(__dirname, outDir));
-
-    const cfg: TPluginCfg<ITypechainCfg> = {
-      files: "**/*.abi",
-      target: "legacy",
-      outDir,
-    };
-
-    await tsGenerator({ cwd, prettier: prettierCfg }, new Typechain({ cwd, rawConfig: cfg }));
+    await generateLegacy(cwd, prettierCfg);
+    await generateTruffle(cwd, prettierCfg);
 
     done();
   })().catch(e => {
@@ -35,3 +27,31 @@ prepare((done: any) => {
     process.exit(1);
   });
 });
+
+async function generateLegacy(cwd: string, prettierCfg: any) {
+  const outDir = "./targets/legacy/wrappers";
+
+  removeSync(join(__dirname, outDir));
+
+  const rawConfig: TPluginCfg<ITypechainCfg> = {
+    files: "**/*.abi",
+    target: "legacy",
+    outDir,
+  };
+
+  await tsGenerator({ cwd, prettier: prettierCfg }, new Typechain({ cwd, rawConfig }));
+}
+
+async function generateTruffle(cwd: string, prettierCfg: any) {
+  const outDir = "./targets/truffle/@types/truffle-contracts/index.d.ts";
+
+  removeSync(join(__dirname, outDir));
+
+  const rawConfig: TPluginCfg<ITypechainCfg> = {
+    files: "**/*.abi",
+    target: "truffle",
+    outDir,
+  };
+
+  await tsGenerator({ cwd, prettier: prettierCfg }, new Typechain({ cwd, rawConfig }));
+}
