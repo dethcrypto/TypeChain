@@ -8,6 +8,11 @@ export interface AbiParameter {
   type: EvmType;
 }
 
+export interface Constructor {
+  inputs: Array<AbiParameter>;
+  payable: boolean;
+}
+
 export interface ConstantDeclaration {
   name: string;
   output: EvmType;
@@ -28,6 +33,8 @@ export interface FunctionDeclaration {
 
 export interface Contract {
   name: string;
+
+  constructor: Constructor;
 
   constants: Array<ConstantDeclaration>;
 
@@ -81,15 +88,17 @@ export function parse(abi: Array<RawAbiDefinition>, name: string): Contract {
   const constantFunctions: Array<ConstantFunctionDeclaration> = [];
   const functions: Array<FunctionDeclaration> = [];
   const events: Array<EventDeclaration> = [];
+  let constructor: Constructor | undefined = undefined;
 
   abi.forEach(abiPiece => {
     // @todo implement missing abi pieces
-    // skip constructors for now
-    if (abiPiece.type === "constructor") {
-      return;
-    }
     // skip fallback functions
     if (abiPiece.type === "fallback") {
+      return;
+    }
+
+    if (abiPiece.type === "constructor") {
+      constructor = parseConstructor(abiPiece);
       return;
     }
 
@@ -125,6 +134,7 @@ export function parse(abi: Array<RawAbiDefinition>, name: string): Contract {
 
   return {
     name,
+    constructor: constructor!,
     constants,
     constantFunctions,
     functions,
@@ -184,6 +194,14 @@ function parseConstantFunction(abiPiece: RawAbiDefinition): ConstantFunctionDecl
     name: abiPiece.name,
     inputs: abiPiece.inputs.map(parseRawAbiParameter),
     outputs: parseOutputs(abiPiece.outputs),
+  };
+}
+
+function parseConstructor(abiPiece: RawAbiDefinition): Constructor {
+  debug(`Parsing constructor declaration`);
+  return {
+    inputs: abiPiece.inputs.map(parseRawAbiParameter),
+    payable: abiPiece.payable,
   };
 }
 

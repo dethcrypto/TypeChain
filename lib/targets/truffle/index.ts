@@ -3,6 +3,7 @@ import { TsGeneratorPlugin, TContext, TFileDesc } from "ts-generator";
 import { join } from "path";
 import { extractAbi, parse } from "../../parser/abiParser";
 import { getFilename } from "../shared";
+import { codegen } from "./generation";
 
 export interface ITruffleCfg {
   outDir?: string;
@@ -39,5 +40,12 @@ export class Truffle extends TsGeneratorPlugin {
     this.contracts.push(contract);
   }
 
-  afterRun(): TFileDesc | void {}
+  afterRun(): TFileDesc {
+    const contents = codegen(this.contracts);
+
+    return {
+      path: this.outDirAbs,
+      contents,
+    };
+  }
 }

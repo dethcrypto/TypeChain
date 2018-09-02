@@ -1,4 +1,4 @@
-import { Contract } from "../../parser/abiParser";
+import { Contract, AbiParameter, ConstantFunctionDeclaration } from "../../parser/abiParser";
 import { EvmType, IntegerType, UnsignedIntegerType, AddressType } from "../../parser/typeParser";
 
 export function codegen(contracts: Contract[]) {
@@ -9,18 +9,9 @@ interface Artifacts {
   ${generateArtifactHeaders(contracts)}
 }
 
-{generateContracts()}
-declare interface GreeterContract extends Truffle.Contract<GreeterContractInstance> {
-  "new"(_greetingText: string, meta?: Truffle.TransactionDetails): GreeterContractInstance;
-}
-declare interface GreeterContractInstance {
-  sayHello(txDetails?: Truffle.TransactionDetails): Promise<string>;
-  setGreeting(greeting: string, txDetails?: Truffle.TransactionDetails): Promise<void>;
-}
-declare interface MigrationContract extends Truffle.Contract<MigrationContractInstance> {
-  "new"(meta?: Truffle.TransactionDetails): GreeterContractInstance;
-}
-declare interface MigrationContractInstance {}
+${contracts.map(generateContractInterface)}
+
+${contracts.map(generateContractInstanceInterface)}
 
 declare var artifacts: Artifacts;
   `;
@@ -32,20 +23,56 @@ function generateArtifactHeaders(contracts: Contract[]): string {
   return contracts.map(f => `require(name: "${f.name}"): ${f.name}Contract;`).join("\n");
 }
 
-// function generateContractInterface(contract: Contract): string {
-//   contract.functions
+function generateContractInterface(c: Contract): string {
+  return `
+declare interface ${c.name}Contract extends Truffle.Contract<${c.name}ContractInstance> {
+  "new"(${generateInputTypes(c.constructor.inputs)}, meta?: Truffle.TransactionDetails): ${
+    c.name
+  }ContractInstance;
+}
+`;
+}
 
-//       return `
-//   declare interface ${f.name}Contract extends Truffle.Contract<${f.name}ContractInstance> {
-//     "new"(, meta?: Truffle.TransactionDetails): ${f.name}ContractInstance;
-//   }
-// `,
-//     )
-//     .join("\n");
-// }
+function generateContractInstanceInterface(c: Contract): string {
+  return `
+declare interface GreeterContractInstance {
+  // constant functions
+  ${c.constantFunctions.map(generateConstantFunction)}
+}
+  `;
+}
 
-//tslint:disable-next-line
-function generateInputType(evmType: EvmType) {
+function generateConstantFunction(fn: ConstantFunctionDeclaration): string {
+  return `
+  ${fn.name}(${generateInputTypes(
+    fn.inputs,
+  )}, txDetails?: Truffle.TransactionDetails): Promise<${generateOutputTypes(fn.outputs)}>;
+`;
+}
+
+function generateInputTypes(input: Array<AbiParameter>): string {
+  return input.map(i => generateInputType(i.type)).join(", ");
+}
+
+function generateOutputTypes(outputs: Array<EvmType>): string {
+  return outputs.map(generateOutputType).join(" | ");
+}
+
+function generateInputType(evmType: EvmType): string {
+  switch (evmType.constructor) {
+    case IntegerType:
+      return "number";
+    case UnsignedIntegerType:
+      return "number";
+    case AddressType:
+      return "string";
+
+    default:
+      throw new Error(`Unrecognized type ${evmType}`);
+  }
+}
+
+function generateOutputType(evmType: EvmType): string {
   switch (evmType.constructor) {
     case IntegerType:
       return "number";
