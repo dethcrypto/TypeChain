@@ -3,13 +3,13 @@ import { TsGeneratorPlugin, TContext, TFileDesc } from "ts-generator";
 import { join } from "path";
 import { extractAbi, parse } from "../../parser/abiParser";
 import { getFilename } from "../shared";
-import { codegen } from "./generation";
+import { codegen, generateArtifactHeaders } from "./generation";
 
 export interface ITruffleCfg {
   outDir?: string;
 }
 
-const DEFAULT_OUT_PATH = "./types/truffle-contracts/index.d.ts";
+const DEFAULT_OUT_PATH = "./types/truffle-contracts/";
 
 export class Truffle extends TsGeneratorPlugin {
   name = "Truffle";
@@ -39,12 +39,16 @@ export class Truffle extends TsGeneratorPlugin {
     this.contracts.push(contract);
   }
 
-  afterRun(): TFileDesc {
-    const contents = codegen(this.contracts);
-
-    return {
-      path: this.outDirAbs,
-      contents,
-    };
+  afterRun(): TFileDesc[] {
+    return [
+      {
+        path: join(this.outDirAbs, "index.d.ts"),
+        contents: codegen(this.contracts),
+      },
+      {
+        path: join(this.outDirAbs, "merge.d.ts"),
+        contents: generateArtifactHeaders(this.contracts),
+      },
+    ];
   }
 }

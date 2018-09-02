@@ -43,7 +43,7 @@ async function generateLegacy(cwd: string, prettierCfg: any) {
 }
 
 async function generateTruffle(cwd: string, prettierCfg: any) {
-  const outDir = "./targets/truffle/@types/truffle-contracts/index.d.ts";
+  const outDir = "./targets/truffle/@types/truffle-contracts";
 
   removeSync(join(__dirname, outDir));
 

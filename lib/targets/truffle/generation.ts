@@ -1,32 +1,54 @@
-import { Contract, AbiParameter, ConstantFunctionDeclaration } from "../../parser/abiParser";
-import { EvmType, IntegerType, UnsignedIntegerType, AddressType } from "../../parser/typeParser";
+import {
+  Contract,
+  AbiParameter,
+  ConstantFunctionDeclaration,
+  FunctionDeclaration,
+} from "../../parser/abiParser";
+import {
+  EvmType,
+  IntegerType,
+  UnsignedIntegerType,
+  AddressType,
+  VoidType,
+  BytesType,
+  BooleanType,
+  ArrayType,
+} from "../../parser/typeParser";
 
 export function codegen(contracts: Contract[]) {
   const template = `
 /// <reference types="truffle-typings" />
-
-interface Artifacts {
-  ${generateArtifactHeaders(contracts)}
-  require<T = any>(name: string): T;
-}
+import { BigNumber } from "bignumber.js";
 
 ${contracts.map(generateContractInterface).join("\n")}
 
 ${contracts.map(generateContractInstanceInterface).join("\n")}
-
-declare var artifacts: Artifacts;
   `;
 
   return template;
 }
 
-function generateArtifactHeaders(contracts: Contract[]): string {
-  return contracts.map(f => `require(name: "${f.name}"): ${f.name}Contract;`).join("\n");
+export function generateArtifactHeaders(contracts: Contract[]): string {
+  return `
+  /// <reference types="truffle-typings" />
+
+  import * as TruffleContracts from ".";
+  
+  declare global {
+    namespace Truffle {
+      interface Artifacts {
+        ${contracts
+          .map(f => `require(name: "${f.name}"): TruffleContracts.${f.name}Contract;`)
+          .join("\n")}
+      }
+    }
+  }  
+  `;
 }
 
 function generateContractInterface(c: Contract): string {
   return `
-declare interface ${c.name}Contract extends Truffle.Contract<${c.name}Instance> {
+export interface ${c.name}Contract extends Truffle.Contract<${c.name}Instance> {
   ${
     c.constructor
       ? `"new"(${generateInputTypes(
@@ -40,14 +62,14 @@ declare interface ${c.name}Contract extends Truffle.Contract<${c.name}Instance> 
 
 function generateContractInstanceInterface(c: Contract): string {
   return `
-declare interface ${c.name}Instance {
-  // constant functions
-  ${c.constantFunctions.map(generateConstantFunction).join("\n")}
+export interface ${c.name}Instance {
+  ${c.constantFunctions.map(generateFunction).join("\n")}
+  ${c.functions.map(generateFunction).join("\n")}
 }
   `;
 }
 
-function generateConstantFunction(fn: ConstantFunctionDeclaration): string {
+function generateFunction(fn: ConstantFunctionDeclaration | FunctionDeclaration): string {
   return `
   ${fn.name}(${generateInputTypes(
     fn.inputs,
@@ -67,17 +89,27 @@ function generateInputTypes(input: Array<AbiParameter>): string {
 }
 
 function generateOutputTypes(outputs: Array<EvmType>): string {
-  return outputs.map(generateOutputType).join(" | ");
+  if (outputs.length === 1) {
+    return generateOutputType(outputs[0]);
+  } else {
+    return `[${outputs.map(generateOutputType).join(", ")}]`;
+  }
 }
 
 function generateInputType(evmType: EvmType): string {
   switch (evmType.constructor) {
     case IntegerType:
-      return "number";
+      return "number | BigNumber | string";
     case UnsignedIntegerType:
-      return "number";
+      return "number | BigNumber | string";
     case AddressType:
       return "string";
+    case BytesType:
+      return "string";
+    case ArrayType:
+      return `[${generateInputType((evmType as ArrayType).itemType)}]`;
+    case BooleanType:
+      return "boolean";
 
     default:
       throw new Error(`Unrecognized type ${evmType}`);
@@ -87,11 +119,15 @@ function generateInputType(evmType: EvmType): string {
 function generateOutputType(evmType: EvmType): string {
   switch (evmType.constructor) {
     case IntegerType:
-      return "number";
+      return "BigNumber";
     case UnsignedIntegerType:
-      return "number";
+      return "BigNumber";
     case AddressType:
       return "string";
+    case VoidType:
+      return "void";
+    case BooleanType:
+      return "boolean";
 
     default:
       throw new Error(`Unrecognized type ${evmType}`);
