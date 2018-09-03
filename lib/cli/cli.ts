@@ -1,16 +1,16 @@
 #!/usr/bin/env node
-import { tsGen } from "ts-generator";
+import { tsGenerator } from "ts-generator";
 
 import { parseArgs } from "./parseArgs";
-import Typechain from "./index";
-import { logger } from "./logger";
+import { Typechain } from "..";
+import { logger } from "../utils/logger";
 
 async function main() {
   (global as any).IS_CLI = true;
   const options = parseArgs();
   const cwd = process.cwd();
 
-  await tsGen({ cwd }, new Typechain({ cwd, rawConfig: { ...options, generator: "typechain" } }));
+  await tsGenerator({ cwd }, new Typechain({ cwd, rawConfig: options }));
 }
 
 main().catch(e => {

@@ -6,7 +6,7 @@ import {
   BooleanType,
   ArrayType,
   BytesType,
-} from "../../lib/typeParser";
+} from "./typeParser";
 
 describe("parseEvmType function", () => {
   it("should parse unsigned integer", () => {

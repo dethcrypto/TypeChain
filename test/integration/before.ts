@@ -1,8 +1,11 @@
-var prepare = require("mocha-prepare");
+const prepare = require("mocha-prepare");
+import { removeSync } from "fs-extra";
 
-import { tsGen } from "ts-generator";
+import { tsGenerator } from "ts-generator";
 import { join } from "path";
-import Typechain from "../../lib";
+import { Typechain, ITypechainCfg } from "../../lib";
+import { TPluginCfg } from "ts-generator/dist/parseConfigFile";
+import { readFileSync } from "fs";
 
 /**
  * NOTE: this is done here only to easily count code coverage.
@@ -11,16 +14,11 @@ import Typechain from "../../lib";
 
 prepare((done: any) => {
   (async () => {
-    const cwd = join(__dirname, "../../");
-    const cfg = {
-      files: "**/*.abi",
-      generator: "typechain",
-    };
+    const cwd = __dirname;
+    const prettierCfg = JSON.parse(readFileSync(join(__dirname, "../../.prettierrc"), "utf8"));
 
-    await tsGen({ cwd }, new Typechain({ cwd, rawConfig: cfg }));
-
-    const outputPath = "./test-tmp/";
-    await tsGen({ cwd }, new Typechain({ cwd, rawConfig: { ...cfg, outDir: outputPath } }));
+    await generateLegacy(cwd, prettierCfg);
+    await generateTruffle(cwd, prettierCfg);
 
     done();
   })().catch(e => {
@@ -29,3 +27,31 @@ prepare((done: any) => {
     process.exit(1);
   });
 });
+
+async function generateLegacy(cwd: string, prettierCfg: any) {
+  const outDir = "./targets/legacy/wrappers";
+
+  removeSync(join(__dirname, outDir));
+
+  const rawConfig: TPluginCfg<ITypechainCfg> = {
+    files: "**/*.abi",
+    target: "legacy",
+    outDir,
+  };
+
+  await tsGenerator({ cwd, prettier: prettierCfg }, new Typechain({ cwd, rawConfig }));
+}
+
+async function generateTruffle(cwd: string, prettierCfg: any) {
+  const outDir = "./targets/truffle/@types/truffle-contracts";
+
+  removeSync(join(__dirname, outDir));
+
+  const rawConfig: TPluginCfg<ITypechainCfg> = {
+    files: "targets/truffle/build/**/*.json",
+    target: "truffle",
+    outDir,
+  };
+
+  await tsGenerator({ cwd, prettier: prettierCfg }, new Typechain({ cwd, rawConfig }));
+}

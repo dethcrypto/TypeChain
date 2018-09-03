@@ -1,61 +1,47 @@
-import { TsGeneratorPlugin, TFileDesc, TContext, getRelativeModulePath } from "ts-generator";
-import { join, dirname, parse } from "path";
-import { abiToWrapper, copyRuntime } from "./typechain";
-import { extractAbi } from "./abiParser";
+import { TsGeneratorPlugin, TFileDesc, TContext, TOutput } from "ts-generator";
+import { TypechainLegacy } from "./targets/legacy";
+import { Truffle } from "./targets/truffle";
+
+export type TTypechainTarget = "truffle" | "legacy";
 
 export interface ITypechainCfg {
+  target: TTypechainTarget;
   outDir?: string;
 }
 
-export default class Typechain extends TsGeneratorPlugin {
+/**
+ * Proxies calls to real implementation that is selected based on target parameter.
+ */
+export class Typechain extends TsGeneratorPlugin {
   name = "Typechain";
-
-  private readonly outDirAbs?: string;
-  private runtimePathAbs?: string;
+  private realImpl: TsGeneratorPlugin;
 
   constructor(ctx: TContext<ITypechainCfg>) {
     super(ctx);
 
-    const { cwd, rawConfig } = ctx;
+    this.realImpl = this.findRealImpl(ctx);
+  }
 
-    if (rawConfig.outDir) {
-      this.outDirAbs = join(cwd, rawConfig.outDir);
-      this.runtimePathAbs = buildRuntimePath(this.outDirAbs);
+  private findRealImpl(ctx: TContext<ITypechainCfg>) {
+    switch (this.ctx.rawConfig.target) {
+      case "legacy":
+        return new TypechainLegacy(ctx);
+      case "truffle":
+        return new Truffle(ctx);
+      default:
+        throw new Error(`Unsupported target ${this.ctx.rawConfig.target}!`);
     }
   }
 
-  transformFile(file: TFileDesc): TFileDesc | void {
-    const fileDirPath = dirname(file.path);
-    if (!this.runtimePathAbs) {
-      this.runtimePathAbs = buildRuntimePath(fileDirPath);
-    }
-
-    const outDir = this.outDirAbs || fileDirPath;
-
-    const fileName = parse(file.path).name;
-    const outputFilePath = join(outDir, `${fileName}.ts`);
-    const relativeRuntimePath = getRelativeModulePath(outputFilePath, this.runtimePathAbs);
-
-    const abi = extractAbi(file.contents);
-    if (abi.length === 0) {
-      return;
-    }
-
-    const wrapperContents = abiToWrapper(abi, { fileName, relativeRuntimePath });
-
-    return {
-      path: outputFilePath,
-      contents: wrapperContents,
-    };
+  beforeRun(): TOutput | Promise<TOutput> {
+    return this.realImpl.beforeRun();
   }
 
-  afterRun() {
-    if (this.runtimePathAbs) {
-      copyRuntime(this.runtimePathAbs);
-    }
+  transformFile(file: TFileDesc): TOutput | Promise<TOutput> {
+    return this.realImpl.transformFile(file);
   }
-}
 
-function buildRuntimePath(dirPath: string): string {
-  return join(dirPath, "typechain-runtime.ts");
+  afterRun(): TOutput | Promise<TOutput> {
+    return this.realImpl.afterRun();
+  }
 }

@@ -2,7 +2,6 @@
   "compilerOptions": {
     "strict": true,
     "sourceMap": true,
-    "noUnusedLocals": true,
     "types": ["node", "mocha"],
     "lib": ["es2015"],
     "target": "es2016",
@@ -26,5 +25,8 @@
     "./typings/*.ts",
     "./node_modules/web3-typescript-typings/index.d.ts",
     "./node_modules/@types/chai-as-promised/index.d.ts"
+  ],
+  "exclude": [
+    "./test/integration/targets/truffle/**/*.ts"
   ]
 }

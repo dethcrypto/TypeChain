@@ -1,27 +1,14 @@
-export abstract class EvmType {
-  generateCodeForInput(): string {
-    return this.generateCodeForOutput();
-  }
-  abstract generateCodeForOutput(): string;
-}
+/**
+ * This will be refactored in the near future. Parser should produce discriminating union types.
+ */
 
-export class BooleanType extends EvmType {
-  generateCodeForOutput() {
-    return "boolean";
-  }
-}
+export abstract class EvmType {}
+
+export class BooleanType extends EvmType {}
 
 export class IntegerType extends EvmType {
   constructor(public readonly bits: number) {
     super();
-  }
-
-  generateCodeForInput(): string {
-    return "BigNumber | number";
-  }
-
-  generateCodeForOutput(): string {
-    return "BigNumber";
   }
 }
 
@@ -29,55 +16,23 @@ export class UnsignedIntegerType extends EvmType {
   constructor(public readonly bits: number) {
     super();
   }
-
-  generateCodeForInput(): string {
-    return "BigNumber | number";
-  }
-
-  generateCodeForOutput(): string {
-    return "BigNumber";
-  }
 }
 
-export class VoidType extends EvmType {
-  generateCodeForOutput(): string {
-    return "void";
-  }
-}
+export class VoidType extends EvmType {}
 
-export class StringType extends EvmType {
-  generateCodeForOutput(): string {
-    return "string";
-  }
-}
+export class StringType extends EvmType {}
 
 export class BytesType extends EvmType {
   constructor(public readonly size: number) {
     super();
   }
-
-  generateCodeForOutput(): string {
-    return "string";
-  }
 }
 
-export class AddressType extends EvmType {
-  generateCodeForOutput(): string {
-    return "string";
-  }
-
-  generateCodeForInput(): string {
-    return "BigNumber | string";
-  }
-}
+export class AddressType extends EvmType {}
 
 export class ArrayType extends EvmType {
   constructor(public readonly itemType: EvmType, public readonly size?: number) {
     super();
-  }
-
-  generateCodeForOutput(): string {
-    return this.itemType.generateCodeForOutput() + "[]";
   }
 }
 

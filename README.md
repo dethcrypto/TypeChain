@@ -222,16 +222,16 @@ A: We will automatically format generated classes with `prettier` to match your 
 
 You might also use TypeChain as api. Typechain itself exposes two simple methods:
 - `abiToWrapper(abi: Array<RawAbiDefinition>, ctx: IContext): string`
-- `copyRuntime(filePath: string): void`
+- `getRuntime(): string`
 
 You may want to use `ts-generator` api to kick off whole process by api: 
 
 ```typescript
 import { tsGen } from "ts-generator";
-import Typechain from "typechain";
+import { Typechain } from "typechain";
 
 async function main() {
-  await tsGen({ cwd }, new Typechain({ cwd, rawConfig: { files: "your-glob-here", outDir: "optional out dir path", generator: "typechain" } }));
+  await tsGen({ cwd }, new Typechain({ cwd, rawConfig: { files: "your-glob-here", outDir: "optional out dir path" } }));
 }
 
 main().catch(console.error);
