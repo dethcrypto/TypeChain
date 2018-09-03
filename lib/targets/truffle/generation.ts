@@ -3,6 +3,7 @@ import {
   AbiParameter,
   ConstantFunctionDeclaration,
   FunctionDeclaration,
+  ConstantDeclaration,
 } from "../../parser/abiParser";
 import {
   EvmType,
@@ -65,6 +66,7 @@ function generateContractInstanceInterface(c: Contract): string {
 export interface ${c.name}Instance {
   ${c.constantFunctions.map(generateFunction).join("\n")}
   ${c.functions.map(generateFunction).join("\n")}
+  ${c.constants.map(generateConstants).join("\n")}
 }
   `;
 }
@@ -75,6 +77,12 @@ function generateFunction(fn: ConstantFunctionDeclaration | FunctionDeclaration)
     fn.inputs,
   )} txDetails?: Truffle.TransactionDetails): Promise<${generateOutputTypes(fn.outputs)}>;
 `;
+}
+
+function generateConstants(fn: ConstantDeclaration): string {
+  return `${fn.name}(txDetails?: Truffle.TransactionDetails): Promise<${generateOutputTypes([
+    fn.output,
+  ])}>;`;
 }
 
 function generateInputTypes(input: Array<AbiParameter>): string {

@@ -14,8 +14,11 @@ contract("DumbContract", ([deployer]) => {
     const contract = await DumbContract.new({ from: deployer });
 
     await contract.countup(2);
+    expect((await contract.counter()).toNumber()).to.be.eq(2);
     await contract.countup(new BigNumber(2));
+    expect((await contract.counter()).toNumber()).to.be.eq(4);
     await contract.countup("2");
+    expect((await contract.counter()).toNumber()).to.be.eq(6);
   });
 
   it("should allow to pass signed values in multiple ways", async () => {
