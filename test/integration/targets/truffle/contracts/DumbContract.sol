@@ -32,6 +32,10 @@ contract DumbContract {
     counterArray.push(counter);
   }
 
+  function returnSigned(int offset) pure public returns (int) {
+    return offset;
+  }
+
   function countupForEther() payable public {
     counter += msg.value;
     counterArray.push(counter);
@@ -44,14 +48,16 @@ contract DumbContract {
   }
 
   // repro for https://github.com/Neufund/TypeChain/issues/39
-  function callWithArray(uint256[] arrayParam) public returns (uint) {
-    arrayParamLength = arrayParam.length;
-    return arrayParam.length;
+  function callWithArray(uint256[] arrayParam) pure public returns (uint256[]) {
+    return arrayParam;
   }
 
-  function callWithBytes(bytes32 byteParam) public returns (bool) {
-    byteArray = byteParam; // to silence warnings
-    return true;
+  function callWithBytes(bytes32 byteParam) pure public returns (bytes32) {
+    return byteParam;
+  }
+
+  function testAddress(address a) pure public returns (address) {
+    return a;
   }
 
   event Deposit(

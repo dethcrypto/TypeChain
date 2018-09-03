@@ -48,7 +48,7 @@ async function generateTruffle(cwd: string, prettierCfg: any) {
   removeSync(join(__dirname, outDir));
 
   const rawConfig: TPluginCfg<ITypechainCfg> = {
-    files: "**/*.abi",
+    files: "targets/truffle/build/**/*.json",
     target: "truffle",
     outDir,
   };

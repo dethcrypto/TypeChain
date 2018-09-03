@@ -103,11 +103,11 @@ function generateInputType(evmType: EvmType): string {
     case UnsignedIntegerType:
       return "number | BigNumber | string";
     case AddressType:
-      return "string";
+      return "string | BigNumber";
     case BytesType:
-      return "string";
+      return "string | BigNumber";
     case ArrayType:
-      return `[${generateInputType((evmType as ArrayType).itemType)}]`;
+      return `(${generateInputType((evmType as ArrayType).itemType)})[]`;
     case BooleanType:
       return "boolean";
 
@@ -126,6 +126,10 @@ function generateOutputType(evmType: EvmType): string {
       return "string";
     case VoidType:
       return "void";
+    case BytesType:
+      return "string";
+    case ArrayType:
+      return `(${generateOutputType((evmType as ArrayType).itemType)})[]`;
     case BooleanType:
       return "boolean";
 
