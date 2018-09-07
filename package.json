@@ -77,6 +77,6 @@
     "test:mocha:coverage": "NODE_ENV=test nyc mocha --require ts-node/register.js --require source-map-support/register --require test/setup-chai.ts --require 'test/integration/before.ts' 'test/integration/web3.ts' './**/*.spec.ts'",
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
-  "main": "./dist/typechain.js",
+  "main": "./dist/index.js",
   "bin": "./dist/cli.js"
 }

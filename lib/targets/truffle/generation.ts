@@ -14,6 +14,7 @@ import {
   BytesType,
   BooleanType,
   ArrayType,
+  StringType,
 } from "../../parser/typeParser";
 
 export function codegen(contracts: Contract[]) {
@@ -118,6 +119,8 @@ function generateInputType(evmType: EvmType): string {
       return `(${generateInputType((evmType as ArrayType).itemType)})[]`;
     case BooleanType:
       return "boolean";
+    case StringType:
+      return "string";
 
     default:
       throw new Error(`Unrecognized type ${evmType}`);
@@ -140,6 +143,8 @@ function generateOutputType(evmType: EvmType): string {
       return `(${generateOutputType((evmType as ArrayType).itemType)})[]`;
     case BooleanType:
       return "boolean";
+    case StringType:
+      return "string";
 
     default:
       throw new Error(`Unrecognized type ${evmType}`);
