@@ -58,4 +58,10 @@ contract("DumbContract", ([deployer]) => {
       (await contract.callWithArray(["1", 2, new BigNumber(3)])).map(x => x.toNumber()),
     ).to.be.deep.eq([1, 2, 3]);
   });
+
+  it("should allow to pass strings ", async () => {
+    const contract = await DumbContract.new({ from: deployer });
+
+    expect(await contract.testString("abc")).to.be.deep.eq("abc");
+  });
 });

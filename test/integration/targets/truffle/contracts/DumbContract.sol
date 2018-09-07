@@ -60,6 +60,10 @@ contract DumbContract {
     return a;
   }
 
+  function testString(string a) pure public returns (string) {
+    return a;
+  }
+
   event Deposit(
     address indexed from,
     uint value
