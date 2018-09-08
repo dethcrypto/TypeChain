@@ -24,8 +24,7 @@
 
 * static typing - you will never call not existing method again
 * IDE support - works with any IDE supporting Typescript
-* revamped API - native promises, safety checks and more!
-* compatibility - under the hood it uses web3 so it's 100% compatible
+* works with multiple libraries - use `truffle` or `Web3.js 0.20.x`, `Web3.js 1.0` support coming soon
 * frictionless - works with simple, JSON ABI files as well as with Truffle style ABIs
 
 ## Installation
@@ -38,24 +37,46 @@ npm install --save-dev typechain
 yarn add --dev typechain
 ```
 
-Note: TypeChain requires web3 in version: `0.20.x`.
-
 ## Usage
 
+### CLI
+
 ```
-typechain [--force] [glob]
+typechain --target=(truffle|legacy) [glob]
 ```
 
 * `glob` - pattern that will be used to find ABIs, remember about adding quotes: `typechain
   "**/*.json"`
-* `--force` - force overwrite existing files
+* `--target` - `truffle` or `legacy`
 * `--outDir` - put all generated files to a specific dir
+
+Typechain always will rewrite existing files. You should not commit them. Read more in FAQ section.
 
 Example:
 
 ```
-typechain --force --outDir app/contracts './node_modules/neufund-contracts/build/contracts/*.json'
+typechain --target --outDir app/contracts './node_modules/neufund-contracts/build/contracts/*.json'
 ```
+
+### ts-generator unified config
+
+Typechain is a plugin to [ts-generator](https://github.com/krzkaczor/ts-generator) meaning that you can as well create unified config. 
+
+`ts-generator.json` file:
+
+```
+[
+  {
+    "generator": "typechain",
+    "files": "./build/**/*.json",
+    "target": "truffle"
+  }
+]
+```
+
+then just run `ts-generator` (you need to have `ts-generator` installed in your project).
+
+This can be a great way to run more code generation plugins (css modules types, graphql types etc. ) at the same time.
 
 ## Demo 🏎️
 
@@ -75,118 +96,34 @@ use Typescript).
 ### How does it work?
 
 TypeChain is code generator - provide ABI file and you will get Typescript class with flexible
-interface for interacting with blockchain.
-
-In future we plan to leverage something like tsc plugin system to come up with much more elegant
-solution. You can keep track of
-[Allow "Compiler Plugins"](https://github.com/Microsoft/TypeScript/issues/16607) issue.
+interface for interacting with blockchain. Depending on the target parameter it can generate typings for 
+truffle or web3.js 0.20.x.
 
 ### Step by step guide
 
 Install typechain with `yarn add --dev typechain`.
 
-Run `typechain` (you might need to make sure that it's available in your path if you installed it
+Run `typechain --target=your_target` (you might need to make sure that it's available in your path if you installed it
 only locally), it will automatically find all `.abi` files in your project and generate Typescript
-classes based on them. You can specify your glob pattern: `typechain "**/*.abi.json"`.
-`node_modules` are always ignored. Use `--force` to overwrite already existing files. We recommend
-git ignoring these generated files and making typechain part of your build process.
+classes based on them. You can specify your glob pattern: `typechain --target=your_target "**/*.abi.json"`.
+`node_modules` are always ignored. We recommend git ignoring these generated files and making typechain part of your build process.
 
 That's it! Now, just import contract bindings as any other file `import { MyAwesomeContract } from
 './contracts/MyAwesomeContract'` and start interacting with it. We use named exports because of
 [this](https://blog.neufund.org/why-we-have-banned-default-exports-and-you-should-do-the-same-d51fdc2cf2ad).
 
-### API
+## Targets 🎯
 
-Let's take a look at typings generated for simple
-[smartcontract](https://github.com/Neufund/TypeChain/blob/master/test/integration/contracts/DumbContract.sol):
+### Truffle
 
-```typescript
-import { BigNumber } from "bignumber.js";
-import {
-  TypeChainContract,
-  promisify,
-  ITxParams,
-  IPayableTxParams,
-  DeferredTransactionWrapper
-} from "./typechain-runtime";
+Truffle target is great when you use truffle contracts already. Check out [truffle-typechain-example](https://github.com/ethereum-ts/truffle-typechain-example) for more details. It require installing [typings](https://www.npmjs.com/package/truffle-typings) for truffle library itself. 
 
-export class DumbContract extends TypeChainContract {
-  public readonly rawWeb3Contract: any;
+Now you can simply use your contracts as you did before and get full type safety, yay!
 
-  public constructor(web3: any, address: string) {
-    const abi = [
-      // ... ABI
-    ];
-    super(web3, address, abi);
-  }
+### Legacy
 
-  static async createAndValidate(web3: any, address: string): Promise<DumbContract> {
-    const contract = new DumbContract(web3, address);
-    const code = await promisify(web3.eth.getCode, [address]);
-    if (code === "0x0") {
-      throw new Error(`Contract at ${address} doesn't exist!`);
-    }
-    return contract;
-  }
+This was default and only target for typechain 0.2.x. It requires `Web3.js 0.20.x` to be installed in your project and it generates promise based wrappers. It's nice upgrade comparing to raw callbacks but in the near future Typechain will support `Web3js 1.0` target.
 
-  public get counter(): Promise<BigNumber> {
-    return promisify(this.rawWeb3Contract.counter, []);
-  }
-  public get SOME_VALUE(): Promise<boolean> {
-    return promisify(this.rawWeb3Contract.SOME_VALUE, []);
-  }
-  public counterArray(index: BigNumber | number): Promise<BigNumber> {
-    return promisify(this.rawWeb3Contract.counterArray, [index]);
-  }
-  public returnAll(): Promise<[BigNumber, BigNumber]> {
-    return promisify(this.rawWeb3Contract.returnAll, []);
-  }
-  public counterWithOffset(offset: BigNumber | number): Promise<BigNumber> {
-    return promisify(this.rawWeb3Contract.counterWithOffset, [offset]);
-  }
-
-  public countupForEtherTx(): DeferredTransactionWrapper<IPayableTxParams> {
-    return new DeferredTransactionWrapper<IPayableTxParams>(this, "countupForEther", []);
-  }
-  public countupTx(offset: BigNumber | number): DeferredTransactionWrapper<ITxParams> {
-    return new DeferredTransactionWrapper<ITxParams>(this, "countup", [offset]);
-  }
-}
-```
-
-Using it can be as simple as:
-
-```typescript
-const dumbContract = await DumbContract.createAndValidate(web3, contractAddress);
-
-console.log(`Current counter value is: ${await dumbContract.counter}`);
-
-console.log("Lets increase it by 2... This results in state change so we need to create tx.");
-await dumbContract.countupTx(2).send({ from: accounts[0], gas: GAS_LIMIT_STANDARD });
-
-console.log(`Current counter value is: ${await dumbContract.counter}`);
-
-console.log("We can also get signed tx data: ");
-console.log(await dumbContract.countupTx(2).getData());
-
-console.log("When calling payable txs, TypeChain will make sure that you provide ether value:");
-await dumbContract
-  .countupForEtherTx()
-  .send({ from: accounts[0], gas: GAS_LIMIT_STANDARD, value: 10 });
-console.log(`Current counter value is: ${await dumbContract.counter}`);
-```
-
-which gives following output:
-
-```
-Current counter value is: 0
-Lets increase it by 2... This results in state change so we need to create tx.
-Current counter value is: 2
-We can also get signed tx data:
-0x7916df080000000000000000000000000000000000000000000000000000000000000002
-When calling payable txs, TypeChain will make sure that you provide ether value:
-Current counter value is: 12
-```
 
 ## FAQ 🤔
 
@@ -202,7 +139,7 @@ and make `typechain` run automatically for example in post install hook in packa
 When you update ABI, just regenerate files with TypeChain and Typescript compiler will find any
 breaking changes for you.
 
-### Q: How do I customize generated classes?
+### Q: How do I customize generated classes? (legacy target only)
 
 A: You can create your own class that extends generated one and adds additional methods etc.
 
@@ -212,30 +149,26 @@ generated code.
 
 ### Q: Generated files won't match current codestyle of my project  :(
 
-A: We will automatically format generated classes with `prettier` to match your coding preferences (just make sure to use `.prettierrc` file). Furthermore, we will silent tslint for generated files with `/* tslint:disable */` comments.
+A: We will automatically format generated classes with `prettier` to match your coding preferences (just make sure to use `.prettierrc` file). 
+
+Furthermore, we will silent tslint for generated files with `/* tslint:disable */` comments.
 
 ### Usage as API
 
-You might also use TypeChain as api:
+You may want to use `ts-generator` api to kick off whole process by api: 
 
 ```typescript
-import { generateTypeChainWrappers } from "../lib/generateTypeChainWrappers";
+import { tsGen } from "ts-generator";
+import { Typechain } from "typechain";
 
 async function main() {
-  await generateTypeChainWrappers({
-    glob: "**/*.abi",
-    force: true,
-  });
+  await tsGen({ cwd }, new Typechain({ cwd, rawConfig: { files: "your-glob-here", outDir: "optional out dir path" } }));
 }
-
-main().catch(console.error);
 ```
-
-other interesting methods are: `abiToWrapper` and `copyRuntime`.
 
 ## Roadmap 🛣️
 
-* improve generated code (more checks, wiring contracts together)
+* web3 1.0 target
 
 ### Running tests
 
@@ -251,6 +184,6 @@ DEBUG=typechain typechain
 ```
 
 
-Original author:
+# Licence
 
-Krzysztof Kaczor | [Github](https://github.com/krzkaczor) | [Twitter](https://twitter.com/krzkaczor)
+Krzysztof Kaczor (krzkaczor) MIT | [Github](https://github.com/krzkaczor) | [Twitter](https://twitter.com/krzkaczor)

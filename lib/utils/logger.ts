@@ -1,6 +1,3 @@
-import chalk from "chalk";
-const { red, yellow } = chalk;
-
 export class Logger {
   log(...args: any[]) {
     if (!(global as any).IS_CLI) {
@@ -16,7 +13,7 @@ export class Logger {
     }
 
     // tslint:disable-next-line
-    console.warn(yellow(...args));
+    console.warn(...args);
   }
 
   error(...args: any[]) {
@@ -25,7 +22,7 @@ export class Logger {
     }
 
     // tslint:disable-next-line
-    console.error(red(...args));
+    console.error(...args);
   }
 }
 

@@ -1,14 +1,16 @@
-import debug from "./debug";
+import debug from "../utils/debug";
 import { EvmType, VoidType, parseEvmType } from "./typeParser";
-import chalk from "chalk";
-import { MalformedAbiError } from "./errors";
-import { logger } from "./logger";
-
-const { yellow } = chalk;
+import { MalformedAbiError } from "../utils/errors";
+import { logger } from "../utils/logger";
 
 export interface AbiParameter {
   name: string;
   type: EvmType;
+}
+
+export interface Constructor {
+  inputs: Array<AbiParameter>;
+  payable: boolean;
 }
 
 export interface ConstantDeclaration {
@@ -23,13 +25,17 @@ export interface ConstantFunctionDeclaration {
 }
 
 export interface FunctionDeclaration {
-  name: string; // @todo missing inputs,
+  name: string;
   inputs: Array<AbiParameter>;
   outputs: Array<EvmType>; //we dont care about named returns for now
   payable: boolean;
 }
 
 export interface Contract {
+  name: string;
+
+  constructor: Constructor;
+
   constants: Array<ConstantDeclaration>;
 
   constantFunctions: Array<ConstantFunctionDeclaration>;
@@ -77,26 +83,28 @@ export interface RawEventArgAbiDefinition {
   type: string;
 }
 
-export function parse(abi: Array<RawAbiDefinition>): Contract {
+export function parse(abi: Array<RawAbiDefinition>, name: string): Contract {
   const constants: Array<ConstantDeclaration> = [];
   const constantFunctions: Array<ConstantFunctionDeclaration> = [];
   const functions: Array<FunctionDeclaration> = [];
   const events: Array<EventDeclaration> = [];
+  let constructor: Constructor | undefined = undefined;
 
   abi.forEach(abiPiece => {
     // @todo implement missing abi pieces
-    // skip constructors for now
-    if (abiPiece.type === "constructor") {
-      return;
-    }
     // skip fallback functions
     if (abiPiece.type === "fallback") {
       return;
     }
 
+    if (abiPiece.type === "constructor") {
+      constructor = parseConstructor(abiPiece);
+      return;
+    }
+
     if (abiPiece.type === "function") {
       if (checkForOverloads(constants, constantFunctions, functions, abiPiece.name)) {
-        logger.log(yellow(`Detected overloaded constant function ${abiPiece.name} skipping...`));
+        logger.log(`Detected overloaded constant function ${abiPiece.name} skipping...`);
         return;
       }
 
@@ -113,7 +121,7 @@ export function parse(abi: Array<RawAbiDefinition>): Contract {
     if (abiPiece.type === "event") {
       const eventAbi = (abiPiece as any) as RawEventAbiDefinition;
       if (eventAbi.anonymous) {
-        logger.log(yellow("Skipping anonymous event..."));
+        logger.log("Skipping anonymous event...");
         return;
       }
 
@@ -125,6 +133,8 @@ export function parse(abi: Array<RawAbiDefinition>): Contract {
   });
 
   return {
+    name,
+    constructor: constructor!,
     constants,
     constantFunctions,
     functions,
@@ -184,6 +194,14 @@ function parseConstantFunction(abiPiece: RawAbiDefinition): ConstantFunctionDecl
     name: abiPiece.name,
     inputs: abiPiece.inputs.map(parseRawAbiParameter),
     outputs: parseOutputs(abiPiece.outputs),
+  };
+}
+
+function parseConstructor(abiPiece: RawAbiDefinition): Constructor {
+  debug(`Parsing constructor declaration`);
+  return {
+    inputs: abiPiece.inputs.map(parseRawAbiParameter),
+    payable: abiPiece.payable,
   };
 }
 

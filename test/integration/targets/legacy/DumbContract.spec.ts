@@ -1,9 +1,11 @@
 import { expect } from "chai";
-import { deployContract } from "./utils/web3Contracts";
+import { deployContract } from "../../utils/web3Contracts";
 import { BigNumber } from "bignumber.js";
 
-import { DumbContract } from "./abis/DumbContract";
-import { web3, accounts, GAS_LIMIT_STANDARD, createNewBlockchain } from "./web3";
+import { DumbContract } from "./wrappers/DumbContract";
+import { web3, accounts, GAS_LIMIT_STANDARD, createNewBlockchain } from "../../web3";
+import { snapshotSource } from "../../utils/snapshotSource";
+import { join } from "path";
 
 // Some of the event related tests take longer to get called
 const LONG_TIMEOUT = 10000;
@@ -14,6 +16,9 @@ describe("DumbContract", () => {
   beforeEach(async () => {
     contractAddress = (await deployContract("DumbContract")).address;
   });
+
+  it("should snapshot generated code", () =>
+    snapshotSource(join(__dirname, "./wrappers/DumbContract.ts")));
 
   it("should allow for calling all methods", async () => {
     const dumbContract = await DumbContract.createAndValidate(web3, contractAddress);
@@ -46,7 +51,7 @@ describe("DumbContract", () => {
     const newBlockchain = await createNewBlockchain();
     const dumbContract = await DumbContract.createAndValidate(web3, contractAddress);
 
-    await dumbContract
+    const txPromise = dumbContract
       .countupForEtherTx()
       .send(
         { from: newBlockchain.accounts[0], gas: GAS_LIMIT_STANDARD, value: 10 },
@@ -54,7 +59,7 @@ describe("DumbContract", () => {
       );
 
     // this should reject because tx wasn't properly mined (contract doesn't exist on different chain)
-    return expect(dumbContract.counterArray(0)).to.be.rejected;
+    return expect(txPromise).to.be.rejected;
   });
 
   it("should serialize numeric arguments", async () => {
