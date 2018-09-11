@@ -26,7 +26,7 @@ echo "Type checking generated wrappers"
 yarn tsc --noUnusedParameters
 yarn tsc:truffle
 (cd ../targets/truffle && ../../../../node_modules/.bin/truffle test)
-(cd ../targets/web3-1.0.0 && yarn test)
+(cd ../targets/web3-1.0.0 && yarn && yarn test)
 
 if [ "$mode" = "COVERAGE" ]; then
   echo "Sending coverage report"
