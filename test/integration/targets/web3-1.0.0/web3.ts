@@ -1,0 +1,38 @@
+const ganache = require("ganache-cli");
+
+import Web3 = require("web3");
+import { join } from "path";
+import { readFileSync } from "fs";
+
+export const GAS_LIMIT_STANDARD = 1000000;
+
+export let web3: Web3;
+export let accounts: string[];
+
+export async function createNewBlockchain() {
+  const web3 = new Web3(ganache.provider());
+  const accounts = await web3.eth.getAccounts();
+  return { web3, accounts };
+}
+
+before(async () => {
+  const r = await createNewBlockchain();
+  web3 = r.web3;
+  accounts = r.accounts;
+});
+
+export async function deployContract<T>(contractName: string): Promise<T> {
+  const abiDirPath = join(__dirname, "../../abis");
+
+  const abi = JSON.parse(readFileSync(join(abiDirPath, contractName + ".abi"), "utf-8"));
+  const bin = readFileSync(join(abiDirPath, contractName + ".bin"), "utf-8");
+  const code = "0x" + bin;
+
+  const Contract = new web3.eth.Contract(abi);
+  const t = Contract.deploy({ arguments: [], data: code });
+
+  return (await (t.send({
+    from: accounts[0],
+    gas: GAS_LIMIT_STANDARD,
+  }) as any)) as T;
+}

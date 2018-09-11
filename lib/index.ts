@@ -1,6 +1,7 @@
 import { TsGeneratorPlugin, TFileDesc, TContext, TOutput } from "ts-generator";
 import { TypechainLegacy } from "./targets/legacy";
 import { Truffle } from "./targets/truffle";
+import { Web3 } from "./targets/web3";
 
 export type TTypechainTarget = "truffle" | "web3-1.0.0" | "legacy";
 
