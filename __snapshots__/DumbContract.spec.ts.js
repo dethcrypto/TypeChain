@@ -52,6 +52,42 @@ export class DumbContract extends TC.TypeChainContract {
       },
       {
         constant: true,
+        inputs: [{ name: "offset", type: "int256" }],
+        name: "returnSigned",
+        outputs: [{ name: "", type: "int256" }],
+        payable: false,
+        stateMutability: "pure",
+        type: "function",
+      },
+      {
+        constant: true,
+        inputs: [{ name: "boolParam", type: "bool" }],
+        name: "callWithBoolean",
+        outputs: [{ name: "", type: "bool" }],
+        payable: false,
+        stateMutability: "pure",
+        type: "function",
+      },
+      {
+        constant: true,
+        inputs: [{ name: "arrayParam", type: "uint256[]" }],
+        name: "callWithArray2",
+        outputs: [{ name: "", type: "uint256[]" }],
+        payable: false,
+        stateMutability: "pure",
+        type: "function",
+      },
+      {
+        constant: true,
+        inputs: [{ name: "a", type: "address" }],
+        name: "testAddress",
+        outputs: [{ name: "", type: "address" }],
+        payable: false,
+        stateMutability: "pure",
+        type: "function",
+      },
+      {
+        constant: true,
         inputs: [],
         name: "counter",
         outputs: [{ name: "", type: "uint256" }],
@@ -60,10 +96,19 @@ export class DumbContract extends TC.TypeChainContract {
         type: "function",
       },
       {
+        constant: true,
+        inputs: [{ name: "a", type: "string" }],
+        name: "testString",
+        outputs: [{ name: "", type: "string" }],
+        payable: false,
+        stateMutability: "pure",
+        type: "function",
+      },
+      {
         constant: false,
         inputs: [{ name: "byteParam", type: "bytes32" }],
         name: "callWithBytes",
-        outputs: [{ name: "", type: "bool" }],
+        outputs: [{ name: "", type: "bytes32" }],
         payable: false,
         stateMutability: "nonpayable",
         type: "function",
@@ -175,6 +220,28 @@ export class DumbContract extends TC.TypeChainContract {
 
   public get byteArray(): Promise<string> {
     return TC.promisify(this.rawWeb3Contract.byteArray, []);
+  }
+
+  public returnSigned(offset: BigNumber | number): Promise<BigNumber> {
+    return TC.promisify(this.rawWeb3Contract.returnSigned, [offset.toString()]);
+  }
+
+  public callWithBoolean(boolParam: boolean): Promise<boolean> {
+    return TC.promisify(this.rawWeb3Contract.callWithBoolean, [boolParam.toString()]);
+  }
+
+  public callWithArray2(arrayParam: BigNumber[]): Promise<BigNumber[]> {
+    return TC.promisify(this.rawWeb3Contract.callWithArray2, [
+      arrayParam.map(val => val.toString()),
+    ]);
+  }
+
+  public testAddress(a: BigNumber | string): Promise<string> {
+    return TC.promisify(this.rawWeb3Contract.testAddress, [a.toString()]);
+  }
+
+  public testString(a: string): Promise<string> {
+    return TC.promisify(this.rawWeb3Contract.testString, [a.toString()]);
   }
 
   public counterArray(arg0: BigNumber | number): Promise<BigNumber> {

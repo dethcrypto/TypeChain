@@ -46,17 +46,15 @@
     "typescript": "^3.0.1",
     "typestrict": "^0.0.6",
     "web3": "0.20.2",
-    "web3-typescript-typings": "^0.7.2"
+    "web3-typescript-typings": "^0.7.2",
+    "bignumber.js": "^5.0.0",
+    "web3": "0.20.x"
   },
   "dependencies": {
     "command-line-args": "^4.0.7",
     "debug": "^3.0.1",
     "fs-extra": "^7.0.0",
     "ts-generator": "^0.0.5"
-  },
-  "peerDependencies": {
-    "bignumber.js": "^5.0.0",
-    "web3": "0.20.x"
   },
   "scripts": {
     "prepare": "patch-package && yarn build",
@@ -73,7 +71,7 @@
     "test": "yarn lint && ./scripts/test.sh",
     "test:coverage": "yarn lint && ./scripts/test.sh COVERAGE",
     "test:fix": "yarn lint:fix && ./scripts/test.sh",
-    "test:mocha": "NODE_ENV=test mocha --require ts-node/register.js --require test/setup-chai.ts --require 'test/integration/before.ts' 'test/integration/web3.ts' './**/*.spec.ts'",
+    "test:mocha": "TS_NODE_IGNORE=\"/test/integration/targets/web3-1.0.0/\" mocha --require ts-node/register.js --require test/setup-chai.ts --require 'test/integration/before.ts' 'test/integration/web3.ts' './**/*.spec.ts'",
     "test:mocha:coverage": "NODE_ENV=test nyc mocha --require ts-node/register.js --require source-map-support/register --require test/setup-chai.ts --require 'test/integration/before.ts' 'test/integration/web3.ts' './**/*.spec.ts'",
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },

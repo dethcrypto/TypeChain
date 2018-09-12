@@ -22,10 +22,11 @@ else
   yarn test:mocha
 fi
 
-echo "Testing if there are no complication problems with generated wrappers"
+echo "Type checking generated wrappers"
 yarn tsc --noUnusedParameters
 yarn tsc:truffle
 (cd ../targets/truffle && ../../../../node_modules/.bin/truffle test)
+(cd ../targets/web3-1.0.0 && yarn && yarn test)
 
 if [ "$mode" = "COVERAGE" ]; then
   echo "Sending coverage report"

@@ -201,7 +201,7 @@ describe("DumbContract", () => {
 
       const estimatedGas = await dumbContract.countupTx(1).estimateGas({ from: accounts[0] });
 
-      expect(estimatedGas).to.be.eq(82573);
+      expect(estimatedGas).to.be.eq(82683);
     });
   });
 });
