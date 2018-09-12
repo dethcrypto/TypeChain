@@ -4,6 +4,7 @@ import {
   ConstantFunctionDeclaration,
   FunctionDeclaration,
   ConstantDeclaration,
+  EventDeclaration,
 } from "../../parser/abiParser";
 import {
   EvmType,
@@ -42,22 +43,15 @@ export function codegen(contract: Contract) {
         arguments: any[];
     }): TransactionObject<Contract>;
     events: {
-        [eventName: string]: (
-            options?: {
-                filter?: object;
-                fromBlock?: BlockType;
-                topics?: string[];
-            },
-            cb?: Callback<EventLog>
-        ) => EventEmitter;
-        allEvents: (
-            options?: {
-                filter?: object;
-                fromBlock?: BlockType;
-                topics?: string[];
-            },
-            cb?: Callback<EventLog>
-        ) => EventEmitter;
+      ${contract.events.map(generateEvents).join("\n")}
+      allEvents: (
+          options?: {
+              filter?: object;
+              fromBlock?: BlockType;
+              topics?: string[];
+          },
+          cb?: Callback<EventLog>
+      ) => EventEmitter;
     };
     getPastEvents(
         event: string,
@@ -105,6 +99,18 @@ function generateOutputTypes(outputs: Array<EvmType>): string {
   } else {
     return `{ ${outputs.map((t, i) => `${i}: ${generateOutputType(t)}`).join(", ")}}`;
   }
+}
+
+function generateEvents(event: EventDeclaration) {
+  return `
+  ${event.name}(
+    options?: {
+        filter?: object;
+        fromBlock?: BlockType;
+        topics?: string[];
+    },
+    cb?: Callback<EventLog>): EventEmitter;
+  `;
 }
 
 function generateInputType(evmType: EvmType): string {
