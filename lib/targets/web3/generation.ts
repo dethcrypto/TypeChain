@@ -3,6 +3,7 @@ import {
   AbiParameter,
   ConstantFunctionDeclaration,
   FunctionDeclaration,
+  ConstantDeclaration,
 } from "../../parser/abiParser";
 import {
   EvmType,
@@ -23,7 +24,6 @@ export function codegen(contract: Contract) {
   import { Callback, EventLog } from "web3/types";
   import { EventEmitter } from "events";
   import { Provider } from "web3/providers";
-  import BN = require("bn.js");
 
   export class ${contract.name} {
     constructor(
@@ -34,7 +34,8 @@ export function codegen(contract: Contract) {
     options: contractOptions;
     methods: {
       ${contract.constantFunctions.map(generateFunction).join("\n")}
-        // [fnName: string]: (...args: any[]) => TransactionObject<any>;
+      ${contract.functions.map(generateFunction).join("\n")}
+      ${contract.constants.map(generateConstants).join("\n")}
     };
     deploy(options: {
         data: string;
@@ -83,11 +84,9 @@ function generateFunction(fn: ConstantFunctionDeclaration | FunctionDeclaration)
 `;
 }
 
-// function generateConstants(fn: ConstantDeclaration): string {
-//   return `${fn.name}(txDetails?: Truffle.TransactionDetails): Promise<${generateOutputTypes([
-//     fn.output,
-//   ])}>;`;
-// }
+function generateConstants(fn: ConstantDeclaration): string {
+  return `${fn.name}(): TransactionObject<${generateOutputTypes([fn.output])}>;`;
+}
 
 function generateInputTypes(input: Array<AbiParameter>): string {
   if (input.length === 0) {
@@ -111,13 +110,13 @@ function generateOutputTypes(outputs: Array<EvmType>): string {
 function generateInputType(evmType: EvmType): string {
   switch (evmType.constructor) {
     case IntegerType:
-      return "number | BN | string";
+      return "number | string";
     case UnsignedIntegerType:
-      return "number | BN | string";
+      return "number | string";
     case AddressType:
-      return "string | BN";
+      return "string";
     case BytesType:
-      return "string | BN";
+      return "string | number[]";
     case ArrayType:
       return `(${generateInputType((evmType as ArrayType).itemType)})[]`;
     case BooleanType:

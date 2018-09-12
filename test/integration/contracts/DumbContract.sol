@@ -32,6 +32,10 @@ contract DumbContract {
     counterArray.push(counter);
   }
 
+  function returnSigned(int offset) pure public returns (int) {
+    return offset;
+  }
+
   function countupForEther() payable public {
     counter += msg.value;
     counterArray.push(counter);
@@ -49,9 +53,26 @@ contract DumbContract {
     return arrayParam.length;
   }
 
-  function callWithBytes(bytes32 byteParam) public returns (bool) {
-    byteArray = byteParam; // to silence warnings
-    return true;
+  function callWithArray2(uint256[] arrayParam) pure public returns (uint256[]) {
+    return arrayParam;
+  }
+
+  function callWithBytes(bytes32 byteParam) public returns (bytes32) {
+    byteArray = byteParam;
+    return byteArray;
+  }
+
+  function callWithBoolean(bool boolParam) public pure returns (bool) {
+    boolParam = boolParam;
+    return boolParam;
+  }
+
+  function testAddress(address a) pure public returns (address) {
+    return a;
+  }
+
+  function testString(string a) pure public returns (string) {
+    return a;
   }
 
   event Deposit(
