@@ -8,7 +8,7 @@
     "smartcontract",
     "blockchain"
   ],
-  "version": "0.3.1",
+  "version": "0.3.2",
   "license": "MIT",
   "repository": "https://github.com/Neufund/Typechain",
   "devDependencies": {
@@ -45,10 +45,8 @@
     "tslint-language-service": "^0.9.7",
     "typescript": "^3.0.1",
     "typestrict": "^0.0.6",
-    "web3": "0.20.2",
-    "web3-typescript-typings": "^0.7.2",
-    "bignumber.js": "^5.0.0",
-    "web3": "0.20.x"
+    "web3": "0.20.x",
+    "web3-typescript-typings": "^0.7.2"
   },
   "dependencies": {
     "command-line-args": "^4.0.7",
