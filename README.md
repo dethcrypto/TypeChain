@@ -24,7 +24,7 @@
 
 * static typing - you will never call not existing method again
 * IDE support - works with any IDE supporting Typescript
-* works with multiple libraries - use `truffle` or `Web3.js 0.20.x`, `Web3.js 1.0` support coming soon
+* works with multiple libraries - use `truffle`,`Web3.js 1.0`, `Web3.js 0.20.x`
 * frictionless - works with simple, JSON ABI files as well as with Truffle style ABIs
 
 ## Installation
@@ -42,12 +42,12 @@ yarn add --dev typechain
 ### CLI
 
 ```
-typechain --target=(truffle|legacy) [glob]
+typechain --target=(truffle|web3-1.0.0|legacy) [glob]
 ```
 
 * `glob` - pattern that will be used to find ABIs, remember about adding quotes: `typechain
   "**/*.json"`
-* `--target` - `truffle` or `legacy`
+* `--target` - `truffle`, `web3-1.0.0` or `legacy`
 * `--outDir` - put all generated files to a specific dir
 
 Typechain always will rewrite existing files. You should not commit them. Read more in FAQ section.
@@ -97,7 +97,7 @@ use Typescript).
 
 TypeChain is code generator - provide ABI file and you will get Typescript class with flexible
 interface for interacting with blockchain. Depending on the target parameter it can generate typings for 
-truffle or web3.js 0.20.x.
+truffle, web3 1.0.0 or web3 0.20.x (legacy target).
 
 ### Step by step guide
 
@@ -120,7 +120,11 @@ Truffle target is great when you use truffle contracts already. Check out [truff
 
 Now you can simply use your contracts as you did before and get full type safety, yay!
 
-### Legacy
+### Web3-1.0.0
+
+Generates typings for contracts compatible with latest Web3.js version. It requires official typings from `@types/web3` installed. For now it needs explicit cast as shown [here](https://github.com/krzkaczor/TypeChain/pull/88/files#diff-540a9b8840419be93ddb8d4b53325637R8), this will be fixed after improving official typings.
+
+### Legacy (Web3 0.2.x)
 
 This was default and only target for typechain 0.2.x. It requires `Web3.js 0.20.x` to be installed in your project and it generates promise based wrappers. It's nice upgrade comparing to raw callbacks but in the near future Typechain will support `Web3js 1.0` target.
 
