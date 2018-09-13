@@ -1,6 +1,10 @@
 # Changelog
 
-- add tests against final package bundle
+## [0.3.3] - 2018-09-13
+### Added
+- tests against final package bundle
+
+### Changed
 - fix package CLI option
 
 ## [0.3.2] - 2018-09-12
