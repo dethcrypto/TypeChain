@@ -9,8 +9,6 @@ export interface IOptions {
   outDir?: string;
 }
 
-const ALLOWED_TARGETS = "legacy";
-
 export function parseArgs(): IOptions {
   const optionDefinitions = [
     { name: "glob", type: String, defaultOption: true },
@@ -19,14 +17,6 @@ export function parseArgs(): IOptions {
   ];
 
   const rawOptions = commandLineArgs(optionDefinitions);
-
-  if (ALLOWED_TARGETS.indexOf(rawOptions.target) === -1) {
-    throw new Error(
-      `target argument wrong or missing. Allowed: ${ALLOWED_TARGETS}, but provided: ${
-        rawOptions.target
-      }`,
-    );
-  }
 
   return {
     files: rawOptions.glob || DEFAULT_GLOB_PATTERN,
