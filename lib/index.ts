@@ -31,6 +31,8 @@ export class Typechain extends TsGeneratorPlugin {
         return new Truffle(ctx);
       case "web3-1.0.0":
         return new Web3(ctx);
+      case undefined:
+        throw new Error(`Please provide --target parameter!`);
       default:
         throw new Error(`Unsupported target ${this.ctx.rawConfig.target}!`);
     }

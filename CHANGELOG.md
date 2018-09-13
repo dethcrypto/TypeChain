@@ -1,5 +1,9 @@
 # Changelog
 
+### Changed
+- fix regression in legacy target
+- more tests against final package bundle
+
 ## [0.3.3] - 2018-09-13
 ### Added
 - tests against final package bundle
