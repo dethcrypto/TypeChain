@@ -55,7 +55,8 @@
     "ts-generator": "^0.0.5"
   },
   "scripts": {
-    "prepare": "patch-package && yarn build",
+    "prepare": "patch-package",
+    "prepublishOnly": "yarn build",
     "build": "rm -rf ./dist && tsc -p ./tsconfig.production.json",
     "postbuild": "chmod +x ./dist/cli/cli.js",
     "lint": "yarn formatting && yarn tslint",
@@ -75,5 +76,5 @@
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
   "main": "./dist/index.js",
-  "bin": "./dist/cli.js"
+  "bin": "./dist/cli/cli.js"
 }
