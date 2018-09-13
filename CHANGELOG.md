@@ -1,5 +1,8 @@
 # Changelog
 
+- add tests against final package bundle
+- fix package CLI option
+
 ## [0.3.2] - 2018-09-12
 ### Added
 - `web3-1.0.0` target

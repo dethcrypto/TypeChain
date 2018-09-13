@@ -23,3 +23,7 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
         
       - run: yarn test:coverage
+
+      - run: yarn build
+      
+      - run: yarn test:package-bundle

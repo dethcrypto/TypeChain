@@ -55,7 +55,8 @@
     "ts-generator": "^0.0.5"
   },
   "scripts": {
-    "prepare": "patch-package && yarn build",
+    "prepare": "patch-package",
+    "prepublishOnly": "yarn build",
     "build": "rm -rf ./dist && tsc -p ./tsconfig.production.json",
     "postbuild": "chmod +x ./dist/cli/cli.js",
     "lint": "yarn formatting && yarn tslint",
@@ -71,8 +72,9 @@
     "test:fix": "yarn lint:fix && ./scripts/test.sh",
     "test:mocha": "TS_NODE_IGNORE=\"/test/integration/targets/web3-1.0.0/\" mocha --require ts-node/register.js --require test/setup-chai.ts --require 'test/integration/before.ts' 'test/integration/web3.ts' './**/*.spec.ts'",
     "test:mocha:coverage": "NODE_ENV=test nyc mocha --require ts-node/register.js --require source-map-support/register --require test/setup-chai.ts --require 'test/integration/before.ts' 'test/integration/web3.ts' './**/*.spec.ts'",
+    "test:package-bundle": "cd ./test/package-test && yarn && yarn start",
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
   "main": "./dist/index.js",
-  "bin": "./dist/cli.js"
+  "bin": "./dist/cli/cli.js"
 }
