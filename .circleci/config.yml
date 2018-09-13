@@ -24,4 +24,6 @@ jobs:
         
       - run: yarn test:coverage
 
+      - run: yarn build
+      
       - run: yarn test:package-bundle
