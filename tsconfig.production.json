@@ -13,5 +13,10 @@
     "./lib/**/*.ts",
     "./typings/*.ts",
     "./node_modules/web3-typescript-typings/index.d.ts"
+  ],
+  "exclude": [
+    "./lib/targets/legacy/runtime/**/*.ts",
+    "./test/integration/targets/truffle/**/*.ts",
+    "./test/integration/targets/web3-1.0.0/**/*"
   ]
 }
