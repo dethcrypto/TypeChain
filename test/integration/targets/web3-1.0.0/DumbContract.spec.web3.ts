@@ -1,5 +1,5 @@
 import { deployContract, accounts } from "./web3";
-import { DumbContract } from "./types/web3-contracts";
+import { DumbContract } from "./types/web3-contracts/DumbContract";
 
 import { expect } from "chai";
 

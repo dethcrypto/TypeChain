@@ -1,5 +1,8 @@
 # Changelog
 
+### Bugfix
+- web3 target supports multiple files now
+
 ## [0.3.4] - 2018-09-13
 ### Changed
 - fix regression in legacy target

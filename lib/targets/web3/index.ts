@@ -36,7 +36,7 @@ export class Web3 extends TsGeneratorPlugin {
     const contract = parse(abi, name);
 
     return {
-      path: join(this.outDirAbs, "index.d.ts"),
+      path: join(this.outDirAbs, `${name}.d.ts`),
       contents: codegen(contract),
     };
   }
