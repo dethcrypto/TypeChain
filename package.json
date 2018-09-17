@@ -10,7 +10,7 @@
   ],
   "version": "0.3.4",
   "license": "MIT",
-  "repository": "https://github.com/Neufund/Typechain",
+  "repository": "https://github.com/ethereum-ts/Typechain",
   "devDependencies": {
     "@types/bignumber.js": "^5.0.0",
     "@types/bluebird": "^3.5.18",
