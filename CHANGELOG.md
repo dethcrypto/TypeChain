@@ -1,5 +1,6 @@
 # Changelog
 
+## [0.3.5] - 2018-09-17
 ### Bugfix
 - web3 target supports multiple files now
 
