@@ -34,7 +34,7 @@ export interface FunctionDeclaration {
 export interface Contract {
   name: string;
 
-  constructor: Constructor;
+  constructor: Constructor; // possible bug: this should be probably an array (overloaded constructors)
 
   constants: Array<ConstantDeclaration>;
 
