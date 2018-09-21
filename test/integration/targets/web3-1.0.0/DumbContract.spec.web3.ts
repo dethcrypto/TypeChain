@@ -40,7 +40,7 @@ describe("DumbContract", () => {
   it("should allow to pass bytes values in multiple ways", async () => {
     const contract = (await deployContract("DumbContract")) as DumbContract;
 
-    const res = await contract.methods.callWithBytes([1, 0, 1] as any).call();
+    const res = await contract.methods.callWithBytes([1, 0, 1]).call();
     expect(res).to.be.deep.eq("0x0100010000000000000000000000000000000000000000000000000000000000");
   });
 

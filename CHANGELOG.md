@@ -1,5 +1,8 @@
 # Changelog
 
+### Changes
+- Truffle target supports deploying contracts with default constructors (no args)
+
 ## [0.3.5] - 2018-09-17
 ### Bugfix
 - web3 target supports multiple files now
