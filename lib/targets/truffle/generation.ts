@@ -56,7 +56,7 @@ export interface ${c.name}Contract extends Truffle.Contract<${c.name}Instance> {
       ? `"new"(${generateInputTypes(
           c.constructor.inputs,
         )} meta?: Truffle.TransactionDetails): Promise<${c.name}Instance>;`
-      : ""
+      : `"new"(meta?: Truffle.TransactionDetails): Promise<${c.name}Instance>;`
   }
 }
 `;
