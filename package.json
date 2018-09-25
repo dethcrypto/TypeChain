@@ -28,6 +28,8 @@
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
     "coveralls": "^3.0.2",
+    "ethers": "*",
+    "ethers-typescript-typings": "^0.0.4",
     "ganache-cli": "^6.1.8",
     "glob": "^7.1.2",
     "krzkaczor-solc": "^0.4.24",
@@ -51,6 +53,7 @@
   "dependencies": {
     "command-line-args": "^4.0.7",
     "debug": "^3.0.1",
+    "ethers": "^3.0.29",
     "fs-extra": "^7.0.0",
     "ts-generator": "^0.0.5"
   },
