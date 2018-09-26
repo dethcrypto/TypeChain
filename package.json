@@ -28,6 +28,8 @@
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
     "coveralls": "^3.0.2",
+    "ethers": "^3.0.29",
+    "ethers-typescript-typings": "^0.0.4",
     "ganache-cli": "^6.1.8",
     "glob": "^7.1.2",
     "krzkaczor-solc": "^0.4.24",
