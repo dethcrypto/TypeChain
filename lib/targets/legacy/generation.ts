@@ -19,6 +19,7 @@ import {
   StringType,
   BytesType,
   AddressType,
+  TupleType,
 } from "../../parser/typeParser";
 import { IContext } from "../shared";
 import { join } from "path";
@@ -150,11 +151,11 @@ function codeGenForArgs(param: AbiParameter, index: number): string {
   return isArray ? `${paramName}.map(val => val.toString())` : `${paramName}.toString()`;
 }
 
-function codeGenForOutputTypeList(output: Array<EvmType>): string {
+function codeGenForOutputTypeList(output: Array<AbiParameter>): string {
   if (output.length === 1) {
-    return codeGenForOutput(output[0]);
+    return codeGenForOutput(output[0].type);
   } else {
-    return `[${output.map(x => codeGenForOutput(x)).join(", ")}]`;
+    return `[${output.map(x => codeGenForOutput(x.type)).join(", ")}]`;
   }
 }
 
@@ -179,6 +180,8 @@ function codeGenForInput(evmType: EvmType): string {
       return "BigNumber | number";
     case AddressType:
       return "BigNumber | string";
+    case TupleType:
+      return generateTupleType(evmType as TupleType, codeGenForInput);
 
     default:
       return codeGenForOutput(evmType);
@@ -203,8 +206,20 @@ function codeGenForOutput(evmType: EvmType): string {
       return "string";
     case ArrayType:
       return codeGenForOutput((evmType as ArrayType).itemType) + "[]";
+    case TupleType:
+      return generateTupleType(evmType as TupleType, codeGenForOutput);
 
     default:
       throw new Error(`Unrecognized ABI piece: ${evmType.constructor}`);
   }
+}
+
+function generateTupleType(tuple: TupleType, generator: (evmType: EvmType) => string) {
+  return (
+    "{" +
+    tuple.components
+      .map(component => `${component.name}: ${generator(component.type)}`)
+      .join(", ") +
+    "}"
+  );
 }

@@ -35,12 +35,21 @@ export class ArrayType extends EvmType {
     super();
   }
 }
+export class EvmTypeComponent {
+  constructor(public readonly name: string, public readonly type: EvmType) {}
+}
+
+export class TupleType extends EvmType {
+  constructor(public readonly components: EvmTypeComponent[]) {
+    super();
+  }
+}
 
 const isUIntTypeRegex = /^uint([0-9]*)$/;
 const isIntTypeRegex = /^int([0-9]*)$/;
 const isBytesTypeRegex = /^bytes([0-9]+)$/;
 
-export function parseEvmType(rawType: string): EvmType {
+export function parseEvmType(rawType: string, components?: EvmTypeComponent[]): EvmType {
   const lastChar = rawType[rawType.length - 1];
 
   if (lastChar === "]") {
@@ -55,7 +64,7 @@ export function parseEvmType(rawType: string): EvmType {
 
     const restOfTheType = rawType.slice(0, finishArrayTypeIndex);
 
-    return new ArrayType(parseEvmType(restOfTheType), arraySize);
+    return new ArrayType(parseEvmType(restOfTheType, components), arraySize);
   }
 
   // this has to be primitive type
@@ -72,6 +81,9 @@ export function parseEvmType(rawType: string): EvmType {
       return new BytesType(1);
     case "bytes":
       return new ArrayType(new BytesType(1));
+    case "tuple":
+      if (!components) throw new Error("Tuple specified without components!");
+      return new TupleType(components);
   }
 
   if (isUIntTypeRegex.test(rawType)) {
