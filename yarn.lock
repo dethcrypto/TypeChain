@@ -169,6 +169,12 @@
   version "1.13.2"
   resolved "https://registry.yarnpkg.com/@types/prettier/-/prettier-1.13.2.tgz#ffe96278e712a8d4e467e367a338b05e22872646"
 
+"@types/resolve@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@types/resolve/-/resolve-0.0.8.tgz#f26074d238e02659e323ce1a13d041eee280e194"
+  dependencies:
+    "@types/node" "*"
+
 ajv@^5.3.0:
   version "5.5.2"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-5.5.2.tgz#73b5eeca3fab653e3d3f9422b341ad42205dc965"
@@ -2532,17 +2538,23 @@ truffle@^4.1.14:
     original-require "1.0.1"
     solc "0.4.24"
 
-ts-generator@^0.0.7:
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/ts-generator/-/ts-generator-0.0.7.tgz#82440d7a78d2350bd96c003f4fcfa5b2f0700ef6"
+ts-essentials@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/ts-essentials/-/ts-essentials-1.0.0.tgz#99eda2ddc8b06483a2c417139f578b3a3389f62a"
+
+ts-generator@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/ts-generator/-/ts-generator-0.0.8.tgz#7bd48ca064db026d9520bcb682b69efc20971d6a"
   dependencies:
     "@types/mkdirp" "^0.5.2"
     "@types/prettier" "^1.13.2"
+    "@types/resolve" "^0.0.8"
     chalk "^2.4.1"
     glob "^7.1.2"
     mkdirp "^0.5.1"
     prettier "^1.14.2"
     resolve "^1.8.1"
+    ts-essentials "^1.0.0"
 
 ts-node@^3.3.0:
   version "3.3.0"
