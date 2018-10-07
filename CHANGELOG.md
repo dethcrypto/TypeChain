@@ -1,5 +1,6 @@
 # Changelog
 
+## [0.3.6] - 2018-10-07
 ### Added
 - [Truffle] Support for deploying contracts with default constructors (no args)
 - [Web3] Add `_target` property existing on each smartcontract wrapper
