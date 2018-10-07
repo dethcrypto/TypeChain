@@ -13,6 +13,12 @@ describe("DumbContract", () => {
     });
   });
 
+  it("should have an address", async () => {
+    const contract = (await deployContract("DumbContract")) as DumbContract;
+
+    expect(await contract._address).to.be.string;
+  });
+
   it("should allow to pass unsigned values in multiple ways", async () => {
     const contract = (await deployContract("DumbContract")) as DumbContract;
 

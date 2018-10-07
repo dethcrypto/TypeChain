@@ -9,7 +9,7 @@ export interface IWeb3Cfg {
   outDir?: string;
 }
 
-const DEFAULT_OUT_PATH = "./types/truffle-contracts/";
+const DEFAULT_OUT_PATH = "./types/web3-contracts/";
 
 export class Web3 extends TsGeneratorPlugin {
   name = "Web3";
