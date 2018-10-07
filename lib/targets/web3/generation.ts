@@ -32,6 +32,7 @@ export function codegen(contract: Contract) {
         address?: string,
         options?: CustomOptions
     );
+    _address: string;
     options: contractOptions;
     methods: {
       ${contract.constantFunctions.map(generateFunction).join("\n")}

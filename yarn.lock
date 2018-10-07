@@ -2099,6 +2099,12 @@ resolve@^1.3.2:
   dependencies:
     path-parse "^1.0.5"
 
+resolve@^1.8.1:
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.8.1.tgz#82f1ec19a423ac1fbd080b0bab06ba36e84a7a26"
+  dependencies:
+    path-parse "^1.0.5"
+
 ret@~0.1.10:
   version "0.1.15"
   resolved "https://registry.yarnpkg.com/ret/-/ret-0.1.15.tgz#b8a4825d5bdb1fc3f6f53c2bc33f81388681c7bc"
@@ -2526,9 +2532,9 @@ truffle@^4.1.14:
     original-require "1.0.1"
     solc "0.4.24"
 
-ts-generator@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/ts-generator/-/ts-generator-0.0.5.tgz#9c2fa3ae201352ca672c8ff30873f446704d96fc"
+ts-generator@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/ts-generator/-/ts-generator-0.0.7.tgz#82440d7a78d2350bd96c003f4fcfa5b2f0700ef6"
   dependencies:
     "@types/mkdirp" "^0.5.2"
     "@types/prettier" "^1.13.2"
@@ -2536,6 +2542,7 @@ ts-generator@^0.0.5:
     glob "^7.1.2"
     mkdirp "^0.5.1"
     prettier "^1.14.2"
+    resolve "^1.8.1"
 
 ts-node@^3.3.0:
   version "3.3.0"

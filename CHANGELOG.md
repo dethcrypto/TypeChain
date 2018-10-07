@@ -1,7 +1,9 @@
 # Changelog
 
-### Changes
-- Truffle target supports deploying contracts with default constructors (no args)
+### Added
+- [Truffle] Support for deploying contracts with default constructors (no args)
+- [Web3] Add `_target` property existing on each smartcontract wrapper
+- [CLI] Update `ts-generator` which greatly improve console output
 
 ## [0.3.5] - 2018-09-17
 ### Bugfix
