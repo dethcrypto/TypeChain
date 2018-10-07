@@ -171,10 +171,6 @@ async function main() {
 }
 ```
 
-## Roadmap 🛣️
-
-* web3 1.0 target
-
 ### Running tests
 
 ```
