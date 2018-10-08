@@ -10,7 +10,7 @@ async function main() {
   const options = parseArgs();
   const cwd = process.cwd();
 
-  await tsGenerator({ cwd }, new Typechain({ cwd, rawConfig: options }));
+  await tsGenerator({ cwd, loggingLvl: "info" }, new Typechain({ cwd, rawConfig: options }));
 }
 
 main().catch(e => {

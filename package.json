@@ -8,7 +8,7 @@
     "smartcontract",
     "blockchain"
   ],
-  "version": "0.3.5",
+  "version": "0.3.6",
   "license": "MIT",
   "repository": "https://github.com/ethereum-ts/Typechain",
   "devDependencies": {
@@ -52,7 +52,7 @@
     "command-line-args": "^4.0.7",
     "debug": "^3.0.1",
     "fs-extra": "^7.0.0",
-    "ts-generator": "^0.0.5"
+    "ts-generator": "^0.0.8"
   },
   "scripts": {
     "prepare": "patch-package",
