@@ -1,5 +1,5 @@
 import debug from "../utils/debug";
-import { EvmType, VoidType, parseEvmType } from "./typeParser";
+import { EvmType, EvmTypeComponent, VoidType, parseEvmType } from "./typeParser";
 import { MalformedAbiError } from "../utils/errors";
 import { logger } from "../utils/logger";
 
@@ -21,13 +21,13 @@ export interface ConstantDeclaration {
 export interface ConstantFunctionDeclaration {
   name: string;
   inputs: Array<AbiParameter>;
-  outputs: Array<EvmType>; //we dont care about named returns for now
+  outputs: Array<AbiParameter>; //we dont care about named returns for now
 }
 
 export interface FunctionDeclaration {
   name: string;
   inputs: Array<AbiParameter>;
-  outputs: Array<EvmType>; //we dont care about named returns for now
+  outputs: Array<AbiParameter>; //we dont care about named returns for now
   payable: boolean;
 }
 
@@ -48,6 +48,7 @@ export interface Contract {
 export interface RawAbiParameter {
   name: string;
   type: string;
+  components?: RawAbiParameter[];
 }
 
 export interface RawAbiDefinition {
@@ -155,11 +156,11 @@ function checkForOverloads(
   );
 }
 
-function parseOutputs(outputs: Array<RawAbiParameter>): EvmType[] {
+function parseOutputs(outputs: Array<RawAbiParameter>): AbiParameter[] {
   if (outputs.length === 0) {
-    return [new VoidType()];
+    return [{ name: "", type: new VoidType() }];
   } else {
-    return outputs.map(param => parseEvmType(param.type));
+    return outputs.map(parseRawAbiParameter);
   }
 }
 
@@ -167,7 +168,7 @@ function parseConstant(abiPiece: RawAbiDefinition): ConstantDeclaration {
   debug(`Parsing constant "${abiPiece.name}"`);
   return {
     name: abiPiece.name,
-    output: parseEvmType(abiPiece.outputs[0].type),
+    output: parseRawAbiParameterType(abiPiece.outputs[0]),
   };
 }
 
@@ -184,7 +185,7 @@ function parseRawEventArg(eventArg: RawEventArgAbiDefinition): EventArgDeclarati
   return {
     name: eventArg.name,
     isIndexed: eventArg.indexed,
-    type: parseEvmType(eventArg.type),
+    type: parseRawAbiParameterType(eventArg),
   };
 }
 
@@ -218,8 +219,17 @@ function parseFunctionDeclaration(abiPiece: RawAbiDefinition): FunctionDeclarati
 function parseRawAbiParameter(rawAbiParameter: RawAbiParameter): AbiParameter {
   return {
     name: rawAbiParameter.name,
-    type: parseEvmType(rawAbiParameter.type),
+    type: parseRawAbiParameterType(rawAbiParameter),
   };
+}
+
+function parseRawAbiParameterType(rawAbiParameter: RawAbiParameter): EvmType {
+  const components =
+    rawAbiParameter.components &&
+    rawAbiParameter.components.map(
+      component => new EvmTypeComponent(component.name, parseRawAbiParameterType(component)),
+    );
+  return parseEvmType(rawAbiParameter.type, components);
 }
 
 export function extractAbi(rawJson: string): RawAbiDefinition[] {

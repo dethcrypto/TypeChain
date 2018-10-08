@@ -15,6 +15,7 @@ import {
   BooleanType,
   ArrayType,
   StringType,
+  TupleType,
 } from "../../parser/typeParser";
 
 export function codegen(contracts: Contract[]) {
@@ -81,9 +82,9 @@ function generateFunction(fn: ConstantFunctionDeclaration | FunctionDeclaration)
 }
 
 function generateConstants(fn: ConstantDeclaration): string {
-  return `${fn.name}(txDetails?: Truffle.TransactionDetails): Promise<${generateOutputTypes([
+  return `${fn.name}(txDetails?: Truffle.TransactionDetails): Promise<${generateOutputType(
     fn.output,
-  ])}>;`;
+  )}>;`;
 }
 
 function generateInputTypes(input: Array<AbiParameter>): string {
@@ -97,11 +98,11 @@ function generateInputTypes(input: Array<AbiParameter>): string {
   );
 }
 
-function generateOutputTypes(outputs: Array<EvmType>): string {
+function generateOutputTypes(outputs: Array<AbiParameter>): string {
   if (outputs.length === 1) {
-    return generateOutputType(outputs[0]);
+    return generateOutputType(outputs[0].type);
   } else {
-    return `[${outputs.map(generateOutputType).join(", ")}]`;
+    return `[${outputs.map(param => generateOutputType(param.type)).join(", ")}]`;
   }
 }
 
@@ -121,6 +122,8 @@ function generateInputType(evmType: EvmType): string {
       return "boolean";
     case StringType:
       return "string";
+    case TupleType:
+      return generateTupleType(evmType as TupleType, generateInputType);
 
     default:
       throw new Error(`Unrecognized type ${evmType}`);
@@ -145,8 +148,20 @@ function generateOutputType(evmType: EvmType): string {
       return "boolean";
     case StringType:
       return "string";
+    case TupleType:
+      return generateTupleType(evmType as TupleType, generateOutputType);
 
     default:
       throw new Error(`Unrecognized type ${evmType}`);
   }
+}
+
+function generateTupleType(tuple: TupleType, generator: (evmType: EvmType) => string) {
+  return (
+    "{" +
+    tuple.components
+      .map(component => `${component.name}: ${generator(component.type)}`)
+      .join(", ") +
+    "}"
+  );
 }

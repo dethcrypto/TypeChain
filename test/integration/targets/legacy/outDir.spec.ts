@@ -6,6 +6,6 @@ describe("--outDir", () => {
   it("should generate exactly 3 files", () => {
     const outputPath = join(__dirname, "./wrappers");
     const files = readdirSync(outputPath);
-    expect(files).to.have.length(3);
+    expect(files).to.have.length(4);
   });
 });

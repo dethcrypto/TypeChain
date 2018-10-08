@@ -16,6 +16,7 @@ import {
   BooleanType,
   ArrayType,
   StringType,
+  TupleType,
 } from "../../parser/typeParser";
 
 export function codegen(contract: Contract) {
@@ -80,7 +81,7 @@ function generateFunction(fn: ConstantFunctionDeclaration | FunctionDeclaration)
 }
 
 function generateConstants(fn: ConstantDeclaration): string {
-  return `${fn.name}(): TransactionObject<${generateOutputTypes([fn.output])}>;`;
+  return `${fn.name}(): TransactionObject<${generateOutputType(fn.output)}>;`;
 }
 
 function generateInputTypes(input: Array<AbiParameter>): string {
@@ -94,11 +95,14 @@ function generateInputTypes(input: Array<AbiParameter>): string {
   );
 }
 
-function generateOutputTypes(outputs: Array<EvmType>): string {
+function generateOutputTypes(outputs: Array<AbiParameter>): string {
   if (outputs.length === 1) {
-    return generateOutputType(outputs[0]);
+    return generateOutputType(outputs[0].type);
   } else {
-    return `{ ${outputs.map((t, i) => `${i}: ${generateOutputType(t)}`).join(", ")}}`;
+    return `{ 
+      ${outputs.map(t => t.name && `${t.name}: ${generateOutputType(t.type)}, `).join("")}
+      ${outputs.map((t, i) => `${i}: ${generateOutputType(t.type)}`).join(", ")}
+      }`;
   }
 }
 
@@ -130,6 +134,8 @@ function generateInputType(evmType: EvmType): string {
       return "boolean";
     case StringType:
       return "string";
+    case TupleType:
+      return generateTupleType(evmType as TupleType, generateInputType);
 
     default:
       throw new Error(`Unrecognized type ${evmType}`);
@@ -154,8 +160,20 @@ function generateOutputType(evmType: EvmType): string {
       return "boolean";
     case StringType:
       return "string";
+    case TupleType:
+      return generateTupleType(evmType as TupleType, generateOutputType);
 
     default:
       throw new Error(`Unrecognized type ${evmType}`);
   }
+}
+
+function generateTupleType(tuple: TupleType, generator: (evmType: EvmType) => string) {
+  return (
+    "{" +
+    tuple.components
+      .map(component => `${component.name}: ${generator(component.type)}`)
+      .join(", ") +
+    "}"
+  );
 }
