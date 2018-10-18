@@ -20,6 +20,7 @@ prepare((done: any) => {
     await generateLegacy(cwd, prettierCfg);
     await generateTruffle(cwd, prettierCfg);
     await generateWeb3_1(cwd, prettierCfg);
+    await generateEthers(cwd, prettierCfg);
 
     done();
   })().catch(e => {
@@ -65,6 +66,20 @@ async function generateWeb3_1(cwd: string, prettierCfg: any) {
   const rawConfig: TPluginCfg<ITypechainCfg> = {
     files: "**/*.abi",
     target: "web3-1.0.0",
+    outDir,
+  };
+
+  await tsGenerator({ cwd, prettier: prettierCfg }, new Typechain({ cwd, rawConfig }));
+}
+
+async function generateEthers(cwd: string, prettierCfg: any) {
+  const outDir = "./targets/ethers/types/ethers-contracts";
+
+  removeSync(join(__dirname, outDir));
+
+  const rawConfig: TPluginCfg<ITypechainCfg> = {
+    files: "**/*.abi",
+    target: "ethers",
     outDir,
   };
 
