@@ -2,8 +2,9 @@ import { TsGeneratorPlugin, TFileDesc, TContext, TOutput } from "ts-generator";
 import { TypechainLegacy } from "./targets/legacy";
 import { Truffle } from "./targets/truffle";
 import { Web3 } from "./targets/web3";
+import { Ethers } from "./targets/ethers";
 
-export type TTypechainTarget = "truffle" | "web3-1.0.0" | "legacy";
+export type TTypechainTarget = "truffle" | "web3-1.0.0" | "legacy" | "ethers";
 
 export interface ITypechainCfg {
   target: TTypechainTarget;
@@ -31,6 +32,8 @@ export class Typechain extends TsGeneratorPlugin {
         return new Truffle(ctx);
       case "web3-1.0.0":
         return new Web3(ctx);
+      case "ethers":
+        return new Ethers(ctx);
       case undefined:
         throw new Error(`Please provide --target parameter!`);
       default:
