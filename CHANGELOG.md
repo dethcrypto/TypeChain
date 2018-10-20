@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.3.7] - 2018-10-20
+### Added
+- Add support for tuples in ABI
+
 ## [0.3.6] - 2018-10-07
 ### Added
 - [Truffle] Support for deploying contracts with default constructors (no args)
