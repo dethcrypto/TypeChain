@@ -65,8 +65,8 @@ export interface ${c.name}Contract extends Truffle.Contract<${c.name}Instance> {
 
 function generateContractInstanceInterface(c: Contract): string {
   return `
-export interface ${c.name}Instance {
-  ${c.constantFunctions.map(generateFunction).join("\n")}
+export interface ${c.name}Instance extends Truffle.ContractInstance {
+  ${c.constantFunctions.map(generateConstantFunction).join("\n")}
   ${c.functions.map(generateFunction).join("\n")}
   ${c.constants.map(generateConstants).join("\n")}
 }
@@ -74,6 +74,14 @@ export interface ${c.name}Instance {
 }
 
 function generateFunction(fn: ConstantFunctionDeclaration | FunctionDeclaration): string {
+  return `
+  ${fn.name}(${generateInputTypes(
+    fn.inputs,
+  )} txDetails?: Truffle.TransactionDetails): Promise<Truffle.TransactionResponse>;
+`;
+}
+
+function generateConstantFunction(fn: ConstantFunctionDeclaration): string {
   return `
   ${fn.name}(${generateInputTypes(
     fn.inputs,

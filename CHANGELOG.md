@@ -3,6 +3,7 @@
 ## [0.3.8] - 2018-10-21
 ### Added
 - Support for ethers.js library
+- [Truffle] update `truffle-typings` dependency, extend common ContractInstance type, other small fixes
 
 ## [0.3.7] - 2018-10-20
 ### Added
