@@ -8,8 +8,8 @@ contract DumbContract {
   uint public arrayParamLength;
   bytes32 public byteArray;
 
-  constructor() public {
-    counter = 0;
+  constructor(uint _counter) public {
+    counter = _counter;
     someAddress = msg.sender;
   }
 
