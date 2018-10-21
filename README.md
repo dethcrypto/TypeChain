@@ -25,7 +25,7 @@
 
 * static typing - you will never call not existing method again
 * IDE support - works with any IDE supporting Typescript
-* works with multiple libraries - use `truffle`,`Web3.js 1.0`, `Web3.js 0.20.x`
+* works with multiple libraries - use `truffle`,`Web3.js 1.0`, `ethers.js`, `Web3.js 0.20.x`
 * frictionless - works with simple, JSON ABI files as well as with Truffle style ABIs
 
 ## Installation
@@ -48,7 +48,7 @@ typechain --target=(truffle|web3-1.0.0|legacy) [glob]
 
 * `glob` - pattern that will be used to find ABIs, remember about adding quotes: `typechain
   "**/*.json"`
-* `--target` - `truffle`, `web3-1.0.0` or `legacy`
+* `--target` - `truffle`, `web3-1.0.0`, `ethers` or `legacy`
 * `--outDir` - put all generated files to a specific dir
 
 Typechain always will rewrite existing files. You should not commit them. Read more in FAQ section.
@@ -124,6 +124,10 @@ Now you can simply use your contracts as you did before and get full type safety
 ### Web3-1.0.0
 
 Generates typings for contracts compatible with latest Web3.js version. It requires official typings from `@types/web3` installed. For now it needs explicit cast as shown [here](https://github.com/krzkaczor/TypeChain/pull/88/files#diff-540a9b8840419be93ddb8d4b53325637R8), this will be fixed after improving official typings.
+
+### Ethers.js
+
+Use `ethers` target to generate wrappers for [ethers.js](https://github.com/ethers-io/ethers.js/) lib.
 
 ### Legacy (Web3 0.2.x)
 

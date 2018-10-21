@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.3.8] - 2018-10-21
+### Added
+- Support for ethers.js library
+
 ## [0.3.7] - 2018-10-20
 ### Added
 - Add support for tuples in ABI
