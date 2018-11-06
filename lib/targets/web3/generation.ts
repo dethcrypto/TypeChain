@@ -61,7 +61,7 @@ export function codegen(contract: Contract) {
             filter?: object;
             fromBlock?: BlockType;
             toBlock?: BlockType;
-            topics?: string[];
+            topics?: (null|string)[];
         },
         cb?: Callback<EventLog[]>
     ): Promise<EventLog[]>;
