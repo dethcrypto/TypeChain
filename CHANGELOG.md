@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.3.9] - 2018-11-06
+### Added
+- [Web3] Allow null topics in typings
+
 ## [0.3.8] - 2018-10-21
 ### Added
 - Support for ethers.js library
