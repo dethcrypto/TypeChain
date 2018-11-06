@@ -50,7 +50,7 @@ export function codegen(contract: Contract) {
           options?: {
               filter?: object;
               fromBlock?: BlockType;
-              topics?: string[];
+              topics?: (null|string)[];
           },
           cb?: Callback<EventLog>
       ) => EventEmitter;
@@ -112,7 +112,7 @@ function generateEvents(event: EventDeclaration) {
     options?: {
         filter?: object;
         fromBlock?: BlockType;
-        topics?: string[];
+        topics?: (null|string)[];
     },
     cb?: Callback<EventLog>): EventEmitter;
   `;
