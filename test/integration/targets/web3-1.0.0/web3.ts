@@ -21,7 +21,7 @@ before(async () => {
   accounts = r.accounts;
 });
 
-export async function deployContract<T>(contractName: string): Promise<T> {
+export async function deployContract<T>(contractName: string): Promise<void> {
   const abiDirPath = join(__dirname, "../../abis");
 
   const abi = JSON.parse(readFileSync(join(abiDirPath, contractName + ".abi"), "utf-8"));
