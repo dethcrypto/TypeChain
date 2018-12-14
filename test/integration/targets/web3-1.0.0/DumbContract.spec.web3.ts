@@ -2,6 +2,8 @@ import { deployContract, accounts } from "./web3";
 import { DumbContract } from "./types/web3-contracts/DumbContract";
 
 import { expect } from "chai";
+import { TransactionReceipt } from "web3/types";
+import { omit } from "underscore";
 
 describe("DumbContract", () => {
   it("should work", async () => {
@@ -68,5 +70,26 @@ describe("DumbContract", () => {
     const contract = (await deployContract("DumbContract")) as DumbContract;
 
     expect(await contract.methods.testString("abc").call()).to.be.deep.eq("abc");
+  });
+
+  // repro for: https://github.com/ethereum-ts/TypeChain/issues/109
+  it("send should have correct return type", async () => {
+    const contract = (await deployContract("DumbContract")) as DumbContract;
+
+    const txReceipt: TransactionReceipt = await contract.methods
+      .callWithBoolean(true)
+      .send({ from: accounts[0] });
+
+    expect(omit(txReceipt, "blockHash", "transactionHash")).to.be.deep.eq({
+      transactionIndex: 0,
+      blockNumber: 14,
+      gasUsed: 21863,
+      cumulativeGasUsed: 21863,
+      contractAddress: null,
+      status: true,
+      logsBloom:
+        "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      events: {},
+    });
   });
 });
