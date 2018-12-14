@@ -12,6 +12,13 @@ describe("DumbContract", () => {
       "1": "5",
     });
   });
+  
+  
+  it("should return void", aysnc () => {
+    const contract = (await deployContract("DumbContract")) as DumbContract;}
+     
+    expect(await contract).to.be.void;
+  }); 
 
   it("should have an address", async () => {
     const contract = (await deployContract("DumbContract")) as DumbContract;
