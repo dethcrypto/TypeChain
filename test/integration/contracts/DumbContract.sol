@@ -67,6 +67,11 @@ contract DumbContract {
     return boolParam;
   }
 
+  function callWithBooleanArray(bool[] boolArrayParam) public pure returns (bool[]) {
+    boolArrayParam = boolArrayParam;
+    return boolArrayParam;
+  }
+
   function testAddress(address a) pure public returns (address) {
     return a;
   }
