@@ -226,7 +226,7 @@ export class DumbContract extends TC.TypeChainContract {
   }
 
   public callWithBoolean(boolParam: boolean): Promise<boolean> {
-    return TC.promisify(this.rawWeb3Contract.callWithBoolean, [boolParam.toString()]);
+    return TC.promisify(this.rawWeb3Contract.callWithBoolean, [boolParam]);
   }
 
   public callWithArray2(arrayParam: BigNumber[]): Promise<BigNumber[]> {

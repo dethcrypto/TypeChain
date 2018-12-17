@@ -146,9 +146,10 @@ function codeGenForParams(param: AbiParameter, index: number): string {
 }
 
 function codeGenForArgs(param: AbiParameter, index: number): string {
-  const isArray = param.type instanceof ArrayType;
   const paramName = param.name || `arg${index}`;
-  return isArray ? `${paramName}.map(val => val.toString())` : `${paramName}.toString()`;
+  if (param.type instanceof ArrayType) return `${paramName}.map(val => val.toString())`;
+  if (param.type instanceof BooleanType) return paramName;
+  return `${paramName}.toString()`;
 }
 
 function codeGenForOutputTypeList(output: Array<AbiParameter>): string {
