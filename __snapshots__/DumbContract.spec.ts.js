@@ -114,6 +114,15 @@ export class DumbContract extends TC.TypeChainContract {
       },
       {
         constant: true,
+        inputs: [{ name: "boolArrayParam", type: "bool[]" }],
+        name: "callWithBooleanArray",
+        outputs: [{ name: "", type: "bool[]" }],
+        payable: false,
+        stateMutability: "pure",
+        type: "function",
+      },
+      {
+        constant: true,
         inputs: [{ name: "", type: "uint256" }],
         name: "counterArray",
         outputs: [{ name: "", type: "uint256" }],
@@ -226,12 +235,12 @@ export class DumbContract extends TC.TypeChainContract {
   }
 
   public callWithBoolean(boolParam: boolean): Promise<boolean> {
-    return TC.promisify(this.rawWeb3Contract.callWithBoolean, [boolParam.toString()]);
+    return TC.promisify(this.rawWeb3Contract.callWithBoolean, [boolParam]);
   }
 
   public callWithArray2(arrayParam: BigNumber[]): Promise<BigNumber[]> {
     return TC.promisify(this.rawWeb3Contract.callWithArray2, [
-      arrayParam.map(val => val.toString()),
+      arrayParam.map(arrayParamElem => arrayParamElem.toString()),
     ]);
   }
 
@@ -241,6 +250,12 @@ export class DumbContract extends TC.TypeChainContract {
 
   public testString(a: string): Promise<string> {
     return TC.promisify(this.rawWeb3Contract.testString, [a.toString()]);
+  }
+
+  public callWithBooleanArray(boolArrayParam: boolean[]): Promise<boolean[]> {
+    return TC.promisify(this.rawWeb3Contract.callWithBooleanArray, [
+      boolArrayParam.map(boolArrayParamElem => boolArrayParamElem),
+    ]);
   }
 
   public counterArray(arg0: BigNumber | number): Promise<BigNumber> {
@@ -279,7 +294,7 @@ export class DumbContract extends TC.TypeChainContract {
   }
   public callWithArrayTx(arrayParam: BigNumber[]): TC.DeferredTransactionWrapper<TC.ITxParams> {
     return new TC.DeferredTransactionWrapper<TC.ITxParams>(this, "callWithArray", [
-      arrayParam.map(val => val.toString()),
+      arrayParam.map(arrayParamElem => arrayParamElem.toString()),
     ]);
   }
 

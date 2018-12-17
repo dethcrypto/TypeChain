@@ -195,13 +195,27 @@ describe("DumbContract", () => {
     expect(result).to.eq(byteString);
   });
 
+  it("should correctly pass both boolean values in args", async () => {
+    const dumbContract = await DumbContract.createAndValidate(web3, contractAddress);
+
+    expect(await dumbContract.callWithBoolean(true)).to.be.deep.eq(true);
+    expect(await dumbContract.callWithBoolean(false)).to.be.deep.eq(false);
+  });
+
+  it("should correctly pass a boolean array argument", async () => {
+    const dumbContract = await DumbContract.createAndValidate(web3, contractAddress);
+    const array = [true, false];
+
+    expect(await dumbContract.callWithBooleanArray(array)).to.be.deep.eq(array);
+  });
+
   describe("estimateGas", () => {
     it("should work", async () => {
       const dumbContract = await DumbContract.createAndValidate(web3, contractAddress);
 
       const estimatedGas = await dumbContract.countupTx(1).estimateGas({ from: accounts[0] });
 
-      expect(estimatedGas).to.be.eq(82683);
+      expect(estimatedGas).to.be.eq(82705);
     });
   });
 });
