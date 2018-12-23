@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.10] - 2018-12-23
+### Added
+- [Web3] Add clone method
+
+### Changed
+- [Legacy] Correctly pass boolean arguments in methods
+
 ## [0.3.9] - 2018-11-06
 ### Added
 - [Web3] Allow null topics in typings
