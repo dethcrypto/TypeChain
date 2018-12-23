@@ -66,6 +66,7 @@ export function codegen(contract: Contract) {
         cb?: Callback<EventLog[]>
     ): Promise<EventLog[]>;
     setProvider(provider: Provider): void;
+    clone(): ${contract.name};
 }
   `;
 
