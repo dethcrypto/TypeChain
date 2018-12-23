@@ -69,4 +69,13 @@ describe("DumbContract", () => {
 
     expect(await contract.methods.testString("abc").call()).to.be.deep.eq("abc");
   });
+
+  it("should allow to clone contracts ", async () => {
+    const contract = (await deployContract("DumbContract")) as DumbContract;
+
+    const contractClone = await contract.clone();
+
+    expect(contractClone).not.to.be.eq(contract);
+    expect(contractClone.options.address).to.be.eq(contract.options.address);
+  });
 });
