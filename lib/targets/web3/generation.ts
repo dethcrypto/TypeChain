@@ -22,10 +22,19 @@ import {
 export function codegen(contract: Contract) {
   const template = `
   import Contract, { CustomOptions, contractOptions } from "web3/eth/contract";
-  import { TransactionObject, BlockType } from "web3/eth/types";
-  import { Callback, EventLog } from "web3/types";
+  import { BlockType, Tx } from "web3/eth/types";
+  import { Callback, EventLog, TransactionReceipt } from "web3/types";
   import { EventEmitter } from "events";
   import { Provider } from "web3/providers";
+  import PromiEvent from "web3/promiEvent";
+  
+  export interface TransactionObject<FUNC_RET, SEND_RET = TransactionReceipt> {
+    arguments: any[];
+    call(tx?: Tx): Promise<FUNC_RET>;
+    send(tx?: Tx): PromiEvent<SEND_RET>;
+    estimateGas(tx?: Tx): Promise<number>;
+    encodeABI(): string;
+  }
 
   export class ${contract.name} {
     constructor(
@@ -43,7 +52,7 @@ export function codegen(contract: Contract) {
     deploy(options: {
         data: string;
         arguments: any[];
-    }): TransactionObject<Contract>;
+    }): TransactionObject<never, Contract>;
     events: {
       ${contract.events.map(generateEvents).join("\n")}
       allEvents: (
