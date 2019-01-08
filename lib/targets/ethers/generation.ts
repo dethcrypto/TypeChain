@@ -25,14 +25,7 @@ export function codegen(contract: Contract) {
   import { Contract, ContractTransaction, EventFilter } from 'ethers';
   import { Provider } from 'ethers/providers';
   import { BigNumber } from "ethers/utils";
-
-  class TransactionOverrides = {
-    nonce?: BigNumberish | Promise<BigNumberish>;
-    gasLimit?: BigNumberish | Promise<BigNumberish>;
-    gasPrice?: BigNumberish | Promise<BigNumberish>;
-    value?: BigNumberish | Promise<BigNumberish>;
-    chainId?: number | Promise<number>;
-  }
+  import { TransactionOverrides } from ".";
 
   export class ${contract.name} extends Contract {
     functions: {
@@ -57,7 +50,7 @@ function generateConstantFunction(fn: ConstantFunctionDeclaration): string {
 
 function generateFunction(fn: FunctionDeclaration): string {
   return `
-  ${fn.name}(${generateInputTypes(fn.inputs)}, overrides?: TransactionOverrides): Promise<ContractTransaction>;
+  ${fn.name}(${generateInputTypes(fn.inputs)}overrides?: TransactionOverrides): Promise<ContractTransaction>;
 `;
 }
 
