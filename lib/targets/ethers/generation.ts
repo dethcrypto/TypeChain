@@ -50,7 +50,9 @@ function generateConstantFunction(fn: ConstantFunctionDeclaration): string {
 
 function generateFunction(fn: FunctionDeclaration): string {
   return `
-  ${fn.name}(${generateInputTypes(fn.inputs)}overrides?: TransactionOverrides): Promise<ContractTransaction>;
+  ${fn.name}(${generateInputTypes(
+    fn.inputs,
+  )}overrides?: TransactionOverrides): Promise<ContractTransaction>;
 `;
 }
 
