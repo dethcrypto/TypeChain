@@ -69,4 +69,15 @@ describe("DumbContract", () => {
 
     expect(await contract.functions.testString("abc")).to.be.deep.eq("abc");
   });
+
+  it("should allow to pass overrides", async () => {
+    const contract = (await deployContract("DumbContract")) as DumbContract;
+    const value = 1;
+    const gasPrice = 33;
+
+    const tx = await contract.functions.countupForEther({ value, gasPrice });
+
+    expect(tx.value).to.be.deep.eq(new BigNumber(value));
+    expect(tx.gasPrice).to.be.deep.eq(new BigNumber(gasPrice));
+  });
 });

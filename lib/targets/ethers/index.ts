@@ -40,4 +40,22 @@ export class Ethers extends TsGeneratorPlugin {
       contents: codegen(contract),
     };
   }
+
+  afterRun(): TFileDesc[] {
+    return [
+      {
+        path: join(this.outDirAbs, "index.d.ts"),
+        contents: `
+        import { BigNumberish } from "ethers/utils";
+
+        export class TransactionOverrides {
+          nonce?: BigNumberish | Promise<BigNumberish>;
+          gasLimit?: BigNumberish | Promise<BigNumberish>;
+          gasPrice?: BigNumberish | Promise<BigNumberish>;
+          value?: BigNumberish | Promise<BigNumberish>;
+          chainId?: number | Promise<number>;
+        }`,
+      },
+    ];
+  }
 }
