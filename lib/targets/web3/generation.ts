@@ -27,7 +27,7 @@ export function codegen(contract: Contract) {
   import { EventEmitter } from "events";
   import { Provider } from "web3/providers";
 
-  export class ${contract.name} {
+  export class ${contract.name} extends Contract {
     constructor(
         jsonInterface: any[],
         address?: string,
