@@ -23,7 +23,6 @@ export function codegen(contract: Contract) {
   const template = `
   import { Contract, ContractOptions, Options } from "web3-eth-contract";
   import { Block } from "web3-eth";
-  import { provider } from "web3-providers";
   import { EventLog } from "web3-core";
   import { EventEmitter } from "events";
   import { Callback, TransactionObject } from "./types";
