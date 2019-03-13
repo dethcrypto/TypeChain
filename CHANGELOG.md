@@ -1,7 +1,7 @@
 # Changelog
 
 ## [0.3.12] - 2019-03-13
-- [Web3] Support for 1.0.0-beta.48. Drop using external types
+- [Web3] Support for 1.0.0-beta.48. ⚠️This is a breaking change.If you want to use older web3 version you should stick with `TypeChain@0.3.11`.
 
 ## [0.3.11] - 2019-01-14
 - [Ethers] Support for overrides
