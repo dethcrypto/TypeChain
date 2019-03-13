@@ -17,6 +17,7 @@
   "exclude": [
     "./lib/targets/legacy/runtime/**/*.ts",
     "./test/integration/targets/truffle/**/*.ts",
-    "./test/integration/targets/web3-1.0.0/**/*"
+    "./test/integration/targets/web3-1.0.0/**/*",
+    "./test/package-test/**/*"
   ]
 }

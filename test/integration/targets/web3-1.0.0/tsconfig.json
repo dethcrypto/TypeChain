@@ -6,7 +6,8 @@
     "lib": ["es2015"],
     "target": "es2016",
     "module": "commonjs",
-    "declaration": true
+    "declaration": true,
+    "esModuleInterop": true
   },
   "include": [
     "./**/*.ts"

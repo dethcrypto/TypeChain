@@ -40,4 +40,24 @@ export class Web3 extends TsGeneratorPlugin {
       contents: codegen(contract),
     };
   }
+
+  afterRun(): TFileDesc[] {
+    return [
+      {
+        path: join(this.outDirAbs, "types.d.ts"),
+        contents: `
+  import { Transaction } from "web3-core";
+  // @ts-ignore
+  import PromiEvent from "web3-core-promievent";
+  export type Callback<T> = (error: Error, result: T) => void;
+  export interface TransactionObject<T> {
+    arguments: any[];
+    call(tx?: Transaction): Promise<T>;
+    send(tx?: Transaction): PromiEvent<T>;
+    estimateGas(tx?: Transaction): Promise<number>;
+    encodeABI(): string;
+  }`,
+      },
+    ];
+  }
 }

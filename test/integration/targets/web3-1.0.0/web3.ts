@@ -1,6 +1,6 @@
 const ganache = require("ganache-cli");
 
-import Web3 = require("web3");
+import Web3 from "web3";
 import { join } from "path";
 import { readFileSync } from "fs";
 
