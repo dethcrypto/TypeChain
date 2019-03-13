@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.3.12] - 2019-03-13
+- [Web3] Support for 1.0.0-beta.48. Drop using external types
+
+## [0.3.11] - 2019-01-14
+- [Ethers] Support for overrides
+
 ## [0.3.10] - 2018-12-23
 ### Added
 - [Web3] Add clone method
