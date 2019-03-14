@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.3.13] - 2019-03-14
+- [Ethers] Properly handle smaller output numeric values. Ex: uint8 should be number not BN @andrevmatos
+
 ## [0.3.12] - 2019-03-13
 - [Web3] Support for 1.0.0-beta.48. ⚠️This is a breaking change.If you want to use older web3 version you should stick with `TypeChain@0.3.11`.
 
