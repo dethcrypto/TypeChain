@@ -80,4 +80,10 @@ describe("DumbContract", () => {
     expect(tx.value).to.be.deep.eq(new BigNumber(value));
     expect(tx.gasPrice).to.be.deep.eq(new BigNumber(gasPrice));
   });
+
+  it("should return number for small ints", async () => {
+    const contract = (await deployContract("DumbContract")) as DumbContract;
+
+    expect(await contract.functions.returnSmallUint()).to.be.eq(18);
+  });
 });
