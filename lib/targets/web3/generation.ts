@@ -39,7 +39,7 @@ export function codegen(contract: Contract) {
       allEvents: (
           options?: {
               filter?: object;
-              fromBlock?: Block;
+              fromBlock?: number | string;
               topics?: (null|string)[];
           },
           cb?: Callback<EventLog>
@@ -90,7 +90,7 @@ function generateEvents(event: EventDeclaration) {
   ${event.name}(
     options?: {
         filter?: object;
-        fromBlock?: Block;
+        fromBlock?: number | string;
         topics?: (null|string)[];
     },
     cb?: Callback<EventLog>): EventEmitter;
