@@ -129,9 +129,9 @@ function generateInputType(evmType: EvmType): string {
 function generateOutputType(evmType: EvmType): string {
   switch (evmType.constructor) {
     case IntegerType:
-      return "BigNumber";
+      return (evmType as IntegerType).bits <= 48 ? "number" : "BigNumber";
     case UnsignedIntegerType:
-      return "BigNumber";
+      return (evmType as UnsignedIntegerType).bits <= 48 ? "number" : "BigNumber";
     case AddressType:
       return "string";
     case VoidType:

@@ -36,6 +36,11 @@ contract DumbContract {
     return offset;
   }
 
+  // repro for https://github.com/ethereum-ts/TypeChain/issues/142
+  function returnSmallUint() pure public returns (uint8) {
+    return 18;
+  }
+
   function countupForEther() payable public {
     counter += msg.value;
     counterArray.push(counter);

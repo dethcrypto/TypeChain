@@ -184,6 +184,15 @@ export class DumbContract extends TC.TypeChainContract {
         stateMutability: "nonpayable",
         type: "function",
       },
+      {
+        constant: true,
+        inputs: [],
+        name: "returnSmallUint",
+        outputs: [{ name: "", type: "uint8" }],
+        payable: false,
+        stateMutability: "pure",
+        type: "function",
+      },
       { inputs: [], payable: false, stateMutability: "nonpayable", type: "constructor" },
       {
         anonymous: false,
@@ -228,6 +237,10 @@ export class DumbContract extends TC.TypeChainContract {
 
   public get byteArray(): Promise<string> {
     return TC.promisify(this.rawWeb3Contract.byteArray, []);
+  }
+
+  public get returnSmallUint(): Promise<BigNumber> {
+    return TC.promisify(this.rawWeb3Contract.returnSmallUint, []);
   }
 
   public returnSigned(offset: BigNumber | number): Promise<BigNumber> {
