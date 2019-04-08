@@ -123,7 +123,7 @@ Now you can simply use your contracts as you did before and get full type safety
 
 ### Web3-1.0.0
 
-Generates typings for contracts compatible with latest Web3.js version. It requires official typings from `@types/web3` installed. For now it needs explicit cast as shown [here](https://github.com/krzkaczor/TypeChain/pull/88/files#diff-540a9b8840419be93ddb8d4b53325637R8), this will be fixed after improving official typings.
+Generates typings for contracts compatible with latest Web3.js version. Typings for library itself are now part of `Web3 1.0.0` library so nothing additional is needed. For now it needs explicit cast as shown [here](https://github.com/krzkaczor/TypeChain/pull/88/files#diff-540a9b8840419be93ddb8d4b53325637R8), this will be fixed after improving official typings.
 
 ### Ethers.js
 
