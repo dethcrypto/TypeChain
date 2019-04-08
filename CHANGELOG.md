@@ -1,5 +1,7 @@
 # Changelog
 
+- [Docs] Fix information about web3 1.0.0 typings in readme
+
 ## [0.3.13] - 2019-03-14
 - [Ethers] Properly handle smaller output numeric values. Ex: uint8 should be number not BN @andrevmatos
 
