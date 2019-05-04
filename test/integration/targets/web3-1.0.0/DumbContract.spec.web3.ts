@@ -7,10 +7,9 @@ describe("DumbContract", () => {
   it("should work", async () => {
     const contract: DumbContract = await deployContract<DumbContract>("DumbContract");
 
-    expect(await contract.methods.returnAll().call({ from: accounts[0] })).to.be.deep.eq({
-      "0": "0",
-      "1": "5",
-    });
+    const res = await contract.methods.returnAll().call({ from: accounts[0] });
+    expect(res[0].toString()).to.be.eq("0");
+    expect(res[1].toString()).to.be.eq("5");
   });
 
   it("should have an address", async () => {
@@ -23,16 +22,16 @@ describe("DumbContract", () => {
     const contract = await deployContract<DumbContract>("DumbContract");
 
     await contract.methods.countup(2).send({ from: accounts[0] });
-    expect(await contract.methods.counter().call()).to.be.eq("2");
+    expect((await contract.methods.counter().call()).toString()).to.be.eq("2");
     await contract.methods.countup("2").send({ from: accounts[0] });
-    expect(await contract.methods.counter().call()).to.be.eq("4");
+    expect((await contract.methods.counter().call()).toString()).to.be.eq("4");
   });
 
   it("should allow to pass signed values in multiple ways", async () => {
     const contract = await deployContract<DumbContract>("DumbContract");
 
-    expect(await contract.methods.returnSigned(2).call()).to.be.eq("2");
-    expect(await contract.methods.returnSigned("2").call()).to.be.eq("2");
+    expect((await contract.methods.returnSigned(2).call()).toString()).to.be.eq("2");
+    expect((await contract.methods.returnSigned("2").call()).toString()).to.be.eq("2");
   });
 
   it("should allow to pass address values in multiple ways", async () => {
@@ -65,7 +64,9 @@ describe("DumbContract", () => {
     const contract = await deployContract<DumbContract>("DumbContract");
 
     const res = await contract.methods.callWithArray2(["1", 2]).call();
-    expect(res).to.be.deep.eq(["1", "2"]);
+    expect(res.length).to.be.eq(2);
+    expect(res[0].toString()).to.be.eq("1");
+    expect(res[1].toString()).to.be.eq("2");
   });
 
   it("should allow to pass strings ", async () => {
@@ -80,6 +81,6 @@ describe("DumbContract", () => {
     const contractClone = await contract.clone();
 
     expect(contractClone).not.to.be.eq(contract);
-    expect(contractClone.options.address).to.be.eq(contract.options.address);
+    expect(contractClone.options.address).to.be.undefined;
   });
 });

@@ -10,7 +10,9 @@ export let web3: Web3;
 export let accounts: string[];
 
 export async function createNewBlockchain() {
-  const web3 = new Web3(ganache.provider());
+  const web3 = new Web3(ganache.provider(), undefined, {
+    transactionConfirmationBlocks: 1,
+  });
   const accounts = await web3.eth.getAccounts();
   return { web3, accounts };
 }
