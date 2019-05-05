@@ -1,4 +1,4 @@
-import { deployContract, accounts } from "./web3";
+import { deployContract, accounts, isBigNumber } from "./web3";
 import { DumbContract } from "./types/web3-contracts/DumbContract";
 
 import { expect } from "chai";
@@ -8,6 +8,8 @@ describe("DumbContract", () => {
     const contract: DumbContract = await deployContract<DumbContract>("DumbContract");
 
     const res = await contract.methods.returnAll().call({ from: accounts[0] });
+    expect(isBigNumber(res[0])).to.be.true;
+    expect(isBigNumber(res[1])).to.be.true;
     expect(res[0].toString()).to.be.eq("0");
     expect(res[1].toString()).to.be.eq("5");
   });
@@ -22,16 +24,26 @@ describe("DumbContract", () => {
     const contract = await deployContract<DumbContract>("DumbContract");
 
     await contract.methods.countup(2).send({ from: accounts[0] });
-    expect((await contract.methods.counter().call()).toString()).to.be.eq("2");
+    const withNumber = await contract.methods.counter().call();
+    expect(isBigNumber(withNumber)).to.be.true;
+    expect(withNumber.toString()).to.be.eq("2");
+
     await contract.methods.countup("2").send({ from: accounts[0] });
-    expect((await contract.methods.counter().call()).toString()).to.be.eq("4");
+    const withString = await contract.methods.counter().call();
+    expect(isBigNumber(withString)).to.be.true;
+    expect(withString.toString()).to.be.eq("4");
   });
 
   it("should allow to pass signed values in multiple ways", async () => {
     const contract = await deployContract<DumbContract>("DumbContract");
 
-    expect((await contract.methods.returnSigned(2).call()).toString()).to.be.eq("2");
-    expect((await contract.methods.returnSigned("2").call()).toString()).to.be.eq("2");
+    const withNumber = await contract.methods.returnSigned(2).call();
+    expect(isBigNumber(withNumber)).to.be.true;
+    expect(withNumber.toString()).to.be.eq("2");
+
+    const withString = await contract.methods.returnSigned("2").call();
+    expect(isBigNumber(withString)).to.be.true;
+    expect(withString.toString()).to.be.eq("2");
   });
 
   it("should allow to pass address values in multiple ways", async () => {
@@ -65,6 +77,8 @@ describe("DumbContract", () => {
 
     const res = await contract.methods.callWithArray2(["1", 2]).call();
     expect(res.length).to.be.eq(2);
+    expect(isBigNumber(res[0])).to.be.true;
+    expect(isBigNumber(res[1])).to.be.true;
     expect(res[0].toString()).to.be.eq("1");
     expect(res[1].toString()).to.be.eq("2");
   });

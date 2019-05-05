@@ -38,3 +38,9 @@ export async function deployContract<T>(contractName: string): Promise<T> {
     gas: GAS_LIMIT_STANDARD,
   }) as any)) as T;
 }
+
+export function isBigNumber(object: any): boolean {
+  // Cribbed from web3-utils until BNs/BigNumbers are resolved in web3
+  // https://github.com/ethereum/web3.js/issues/2468
+  return object && object.constructor && object.constructor.name === "BigNumber";
+}
