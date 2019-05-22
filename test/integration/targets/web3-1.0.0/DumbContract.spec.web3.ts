@@ -1,5 +1,6 @@
 import { deployContract, accounts, isBigNumber } from "./web3";
 import { DumbContract } from "./types/web3-contracts/DumbContract";
+import { Buffer } from "buffer";
 
 import { expect } from "chai";
 
@@ -61,6 +62,17 @@ describe("DumbContract", () => {
     await contract.methods.callWithBytes(byteString).send({ from: accounts[0] });
 
     const result = await contract.methods.byteArray().call();
+    expect(result).to.be.a("string");
+    expect(result).to.eq(byteString);
+  });
+
+  it("should allow to pass Buffer for dynamic bytes array", async () => {
+    const contract = await deployContract<DumbContract>("DumbContract");
+    const byteString = "0xabcd123456000000000000000000000000000000000000000000000000000000";
+
+    await contract.methods.callWithDynamicByteArray(byteString).send({ from: accounts[0] });
+
+    const result = await contract.methods.dynamicByteArray().call();
     expect(result).to.be.a("string");
     expect(result).to.eq(byteString);
   });

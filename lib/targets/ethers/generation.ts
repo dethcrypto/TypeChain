@@ -14,6 +14,7 @@ import {
   AddressType,
   VoidType,
   BytesType,
+  DynamicBytesType,
   BooleanType,
   ArrayType,
   StringType,
@@ -111,6 +112,7 @@ function generateInputType(evmType: EvmType): string {
     case AddressType:
       return "string";
     case BytesType:
+    case DynamicBytesType:
       return "string";
     case ArrayType:
       return `(${generateInputType((evmType as ArrayType).itemType)})[]`;
@@ -137,6 +139,7 @@ function generateOutputType(evmType: EvmType): string {
     case VoidType:
       return "void";
     case BytesType:
+    case DynamicBytesType:
       return "string";
     case ArrayType:
       return `(${generateOutputType((evmType as ArrayType).itemType)})[]`;

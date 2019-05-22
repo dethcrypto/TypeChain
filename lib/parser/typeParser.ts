@@ -28,6 +28,8 @@ export class BytesType extends EvmType {
   }
 }
 
+export class DynamicBytesType extends EvmType {}
+
 export class AddressType extends EvmType {}
 
 export class ArrayType extends EvmType {
@@ -80,7 +82,7 @@ export function parseEvmType(rawType: string, components?: EvmTypeComponent[]): 
     case "byte":
       return new BytesType(1);
     case "bytes":
-      return new ArrayType(new BytesType(1));
+      return new DynamicBytesType();
     case "tuple":
       if (!components) throw new Error("Tuple specified without components!");
       return new TupleType(components);

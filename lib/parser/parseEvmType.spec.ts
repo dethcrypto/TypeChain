@@ -6,6 +6,7 @@ import {
   BooleanType,
   ArrayType,
   BytesType,
+  DynamicBytesType,
 } from "./typeParser";
 
 describe("parseEvmType function", () => {
@@ -34,6 +35,12 @@ describe("parseEvmType function", () => {
 
     expect(parsedType).to.be.instanceOf(BytesType);
     expect((parsedType as BytesType).size).to.be.eq(2);
+  });
+
+  it("should parse bytes", () => {
+    const parsedType = parseEvmType("bytes");
+
+    expect(parsedType).to.be.instanceOf(DynamicBytesType);
   });
 
   it("should parse arrays", () => {
