@@ -124,8 +124,9 @@ function generateInputType(evmType: EvmType): string {
     case AddressType:
       return "string | BigNumber";
     case BytesType:
-    case DynamicBytesType:
       return "string | BigNumber";
+    case DynamicBytesType:
+      return "string";
     case ArrayType:
       return `(${generateInputType((evmType as ArrayType).itemType)})[]`;
     case BooleanType:
