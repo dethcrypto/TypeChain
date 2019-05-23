@@ -1,6 +1,5 @@
 import { deployContract, accounts, isBigNumber } from "./web3";
 import { DumbContract } from "./types/web3-contracts/DumbContract";
-import { Buffer } from "buffer";
 
 import { expect } from "chai";
 
