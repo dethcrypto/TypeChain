@@ -21,11 +21,11 @@ import {
 
 export function codegen(contract: Contract) {
   const template = `
-  import { Contract, ContractOptions, Options } from "web3-eth-contract";
-  import { Block } from "web3-eth";
+  import BN from "bn.js";
+  import { Contract, ContractOptions, EventOptions } from "web3-eth-contract";
   import { EventLog } from "web3-core";
   import { EventEmitter } from "events";
-  import { Callback, TransactionObject } from "./types";
+  import { Callback, TransactionObject, ContractEvent } from "./types";
 
   export class ${contract.name} extends Contract {
     constructor(jsonInterface: any[], address?: string, options?: ContractOptions);
@@ -37,11 +37,7 @@ export function codegen(contract: Contract) {
     events: {
       ${contract.events.map(generateEvents).join("\n")}
       allEvents: (
-          options?: {
-              filter?: object;
-              fromBlock?: number | string;
-              topics?: (null|string)[];
-          },
+          options?: EventOptions,
           cb?: Callback<EventLog>
       ) => EventEmitter;
     };
@@ -86,15 +82,7 @@ function generateOutputTypes(outputs: Array<AbiParameter>): string {
 }
 
 function generateEvents(event: EventDeclaration) {
-  return `
-  ${event.name}(
-    options?: {
-        filter?: object;
-        fromBlock?: number | string;
-        topics?: (null|string)[];
-    },
-    cb?: Callback<EventLog>): EventEmitter;
-  `;
+  return `${event.name}: ContractEvent<${generateOutputTypes(event.inputs)}>`;
 }
 
 function generateInputType(evmType: EvmType): string {
@@ -124,9 +112,9 @@ function generateInputType(evmType: EvmType): string {
 function generateOutputType(evmType: EvmType): string {
   switch (evmType.constructor) {
     case IntegerType:
-      return "string";
+      return "BN";
     case UnsignedIntegerType:
-      return "string";
+      return "BN";
     case AddressType:
       return "string";
     case VoidType:

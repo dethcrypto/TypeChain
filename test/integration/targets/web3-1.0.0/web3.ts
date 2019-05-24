@@ -10,7 +10,9 @@ export let web3: Web3;
 export let accounts: string[];
 
 export async function createNewBlockchain() {
-  const web3 = new Web3(ganache.provider());
+  const web3 = new Web3(ganache.provider(), undefined, {
+    transactionConfirmationBlocks: 1,
+  });
   const accounts = await web3.eth.getAccounts();
   return { web3, accounts };
 }
@@ -35,4 +37,10 @@ export async function deployContract<T>(contractName: string): Promise<T> {
     from: accounts[0],
     gas: GAS_LIMIT_STANDARD,
   }) as any)) as T;
+}
+
+export function isBigNumber(object: any): boolean {
+  // Cribbed from web3-utils until BNs/BigNumbers are resolved in web3
+  // https://github.com/ethereum/web3.js/issues/2468
+  return object && object.constructor && object.constructor.name === "BigNumber";
 }
