@@ -12,6 +12,7 @@ import {
   AddressType,
   VoidType,
   BytesType,
+  DynamicBytesType,
   BooleanType,
   ArrayType,
   StringType,
@@ -124,6 +125,8 @@ function generateInputType(evmType: EvmType): string {
       return "string | BigNumber";
     case BytesType:
       return "string | BigNumber";
+    case DynamicBytesType:
+      return "string";
     case ArrayType:
       return `(${generateInputType((evmType as ArrayType).itemType)})[]`;
     case BooleanType:
@@ -149,6 +152,7 @@ function generateOutputType(evmType: EvmType): string {
     case VoidType:
       return "void";
     case BytesType:
+    case DynamicBytesType:
       return "string";
     case ArrayType:
       return `(${generateOutputType((evmType as ArrayType).itemType)})[]`;

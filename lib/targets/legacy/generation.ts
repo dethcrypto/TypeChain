@@ -18,6 +18,7 @@ import {
   VoidType,
   StringType,
   BytesType,
+  DynamicBytesType,
   AddressType,
   TupleType,
 } from "../../parser/typeParser";
@@ -205,6 +206,7 @@ function codeGenForOutput(evmType: EvmType): string {
     case StringType:
       return "string";
     case BytesType:
+    case DynamicBytesType:
       return "string";
     case AddressType:
       return "string";

@@ -7,6 +7,7 @@ contract DumbContract {
   address public someAddress;
   uint public arrayParamLength;
   bytes32 public byteArray;
+  bytes public dynamicByteArray;
 
   constructor() public {
     counter = 0;
@@ -65,6 +66,11 @@ contract DumbContract {
   function callWithBytes(bytes32 byteParam) public returns (bytes32) {
     byteArray = byteParam;
     return byteArray;
+  }
+
+  function callWithDynamicByteArray(bytes dynamicBytes) public returns (bytes) {
+    dynamicByteArray = dynamicBytes;
+    return dynamicByteArray;
   }
 
   function callWithBoolean(bool boolParam) public pure returns (bool) {

@@ -65,6 +65,17 @@ describe("DumbContract", () => {
     expect(result).to.eq(byteString);
   });
 
+  it("should allow to pass Buffer for dynamic bytes array", async () => {
+    const contract = await deployContract<DumbContract>("DumbContract");
+    const byteString = "0xabcd123456000000000000000000000000000000000000000000000000000000";
+
+    await contract.methods.callWithDynamicByteArray(byteString).send({ from: accounts[0] });
+
+    const result = await contract.methods.dynamicByteArray().call();
+    expect(result).to.be.a("string");
+    expect(result).to.eq(byteString);
+  });
+
   it("should allow to pass boolean values", async () => {
     const contract = await deployContract<DumbContract>("DumbContract");
 

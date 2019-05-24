@@ -169,6 +169,24 @@ export class DumbContract extends TC.TypeChainContract {
       {
         constant: true,
         inputs: [],
+        name: "dynamicByteArray",
+        outputs: [{ name: "", type: "bytes" }],
+        payable: false,
+        stateMutability: "view",
+        type: "function",
+      },
+      {
+        constant: false,
+        inputs: [{ name: "dynamicBytes", type: "bytes" }],
+        name: "callWithDynamicByteArray",
+        outputs: [{ name: "", type: "bytes" }],
+        payable: false,
+        stateMutability: "nonpayable",
+        type: "function",
+      },
+      {
+        constant: true,
+        inputs: [],
         name: "byteArray",
         outputs: [{ name: "", type: "bytes32" }],
         payable: false,
@@ -233,6 +251,10 @@ export class DumbContract extends TC.TypeChainContract {
 
   public get SOME_VALUE(): Promise<boolean> {
     return TC.promisify(this.rawWeb3Contract.SOME_VALUE, []);
+  }
+
+  public get dynamicByteArray(): Promise<string> {
+    return TC.promisify(this.rawWeb3Contract.dynamicByteArray, []);
   }
 
   public get byteArray(): Promise<string> {
@@ -304,6 +326,13 @@ export class DumbContract extends TC.TypeChainContract {
   }
   public countupTx(offset: BigNumber | number): TC.DeferredTransactionWrapper<TC.ITxParams> {
     return new TC.DeferredTransactionWrapper<TC.ITxParams>(this, "countup", [offset.toString()]);
+  }
+  public callWithDynamicByteArrayTx(
+    dynamicBytes: string,
+  ): TC.DeferredTransactionWrapper<TC.ITxParams> {
+    return new TC.DeferredTransactionWrapper<TC.ITxParams>(this, "callWithDynamicByteArray", [
+      dynamicBytes.toString(),
+    ]);
   }
   public callWithArrayTx(arrayParam: BigNumber[]): TC.DeferredTransactionWrapper<TC.ITxParams> {
     return new TC.DeferredTransactionWrapper<TC.ITxParams>(this, "callWithArray", [
