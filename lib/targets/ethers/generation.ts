@@ -24,8 +24,8 @@ import {
 export function codegen(contract: Contract) {
   // TODO strict typings for the event listener methods?
   const template = `
-  import { Contract, ContractTransaction, EventFilter, Listener, Signer } from 'ethers';
-  import { Provider } from 'ethers/providers';
+  import { Contract, ContractTransaction, EventFilter, Signer } from 'ethers';
+  import { Listener, Provider } from 'ethers/providers';
   import { BigNumber } from "ethers/utils";
   import { TransactionOverrides } from ".";
 
@@ -48,7 +48,11 @@ export function codegen(contract: Contract) {
 
     filters: {
       ${contract.events.map(generateEvents).join("\n")}
-    }
+    };
+
+    estimate: {
+      ${contract.functions.map(generateEstimateFunction).join("\n")}
+    };
 }
   `;
 
@@ -66,6 +70,12 @@ function generateFunction(fn: FunctionDeclaration): string {
   ${fn.name}(${generateInputTypes(
     fn.inputs,
   )}overrides?: TransactionOverrides): Promise<ContractTransaction>;
+`;
+}
+
+function generateEstimateFunction(fn: FunctionDeclaration): string {
+  return `
+  ${fn.name}(${generateInputTypes(fn.inputs)}): Promise<BigNumber>;
 `;
 }
 
