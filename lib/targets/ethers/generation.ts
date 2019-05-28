@@ -26,8 +26,14 @@ export function codegen(contract: Contract) {
   const template = `
   import { Contract, ContractTransaction, EventFilter, Signer } from 'ethers';
   import { Listener, Provider } from 'ethers/providers';
-  import { BigNumber } from "ethers/utils";
-  import { TransactionOverrides } from ".";
+  import { BigNumber, Interface } from "ethers/utils";
+  import { TransactionOverrides, TypedFunctionDescription } from ".";
+
+  interface ${contract.name}Interface extends Interface {
+    functions: {
+      ${contract.functions.map(generateInterfaceFunctionDescription).join("\n")}
+    };
+  }
 
   export class ${contract.name} extends Contract {
     connect(signerOrProvider: Signer | Provider | string): ${contract.name};
@@ -39,6 +45,8 @@ export function codegen(contract: Contract) {
     addListener(eventName: EventFilter | string, listener: Listener): ${contract.name};
     removeAllListeners(eventName: EventFilter | string): ${contract.name};
     removeListener(eventName: any, listener: Listener): ${contract.name};
+
+    interface: ${contract.name}Interface;
 
     functions: {
       ${contract.constantFunctions.map(generateConstantFunction).join("\n")}
@@ -79,6 +87,12 @@ function generateEstimateFunction(fn: FunctionDeclaration): string {
 `;
 }
 
+function generateInterfaceFunctionDescription(fn: FunctionDeclaration): string {
+  return `
+  ${fn.name}: TypedFunctionDescription<${generateParamTypes(fn.inputs)}>;
+`;
+}
+
 function generateConstant(fn: ConstantDeclaration): string {
   return `${fn.name}(): Promise<${generateOutputType(fn.output)}>;`;
 }
@@ -103,6 +117,14 @@ function generateOutputTypes(outputs: Array<AbiParameter>): string {
       ${outputs.map((t, i) => `${i}: ${generateOutputType(t.type)}`).join(", ")}
       }`;
   }
+}
+
+function generateParamTypes(params: Array<AbiParameter>): string {
+  return `[${
+    params
+      .map(param => generateInputType(param.type))
+      .join(", ")
+  }]`
 }
 
 function generateEvents(event: EventDeclaration) {
