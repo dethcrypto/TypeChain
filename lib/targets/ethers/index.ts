@@ -1,4 +1,3 @@
-import { Contract } from "../../parser/abiParser";
 import { TsGeneratorPlugin, TContext, TFileDesc } from "ts-generator";
 import { join } from "path";
 import { extractAbi, parse } from "../../parser/abiParser";

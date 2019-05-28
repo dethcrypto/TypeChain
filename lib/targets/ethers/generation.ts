@@ -124,11 +124,7 @@ function generateOutputTypes(outputs: Array<AbiParameter>): string {
 }
 
 function generateParamTypes(params: Array<AbiParameter>): string {
-  return `[${
-    params
-      .map(param => generateInputType(param.type))
-      .join(", ")
-  }]`
+  return `[${params.map(param => generateInputType(param.type)).join(", ")}]`;
 }
 
 function generateEvents(event: EventDeclaration) {
@@ -144,7 +140,7 @@ function generateInterfaceEventDescription(event: EventDeclaration): string {
 }
 
 function generateEventTopicTypes(eventArgs: Array<EventArgDeclaration>): string {
-  return `[${eventArgs.map(generateEventArgType).join(", ")}]`
+  return `[${eventArgs.map(generateEventArgType).join(", ")}]`;
 }
 
 function generateEventTypes(eventArgs: EventArgDeclaration[]) {
@@ -161,9 +157,7 @@ function generateEventTypes(eventArgs: EventArgDeclaration[]) {
 }
 
 function generateEventArgType(eventArg: EventArgDeclaration): string {
-  return eventArg.isIndexed
-    ? `${generateInputType(eventArg.type)} | null`
-    : "null";
+  return eventArg.isIndexed ? `${generateInputType(eventArg.type)} | null` : "null";
 }
 
 function generateInputType(evmType: EvmType): string {
