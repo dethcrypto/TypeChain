@@ -22,18 +22,30 @@ import {
 } from "../../parser/typeParser";
 
 export function codegen(contract: Contract) {
+  // TODO strict typings for the event listener methods?
   const template = `
-  import { Contract, ContractTransaction, EventFilter } from 'ethers';
+  import { Contract, ContractTransaction, EventFilter, Listener, Signer } from 'ethers';
   import { Provider } from 'ethers/providers';
   import { BigNumber } from "ethers/utils";
   import { TransactionOverrides } from ".";
 
   export class ${contract.name} extends Contract {
+    connect(signerOrProvider: Signer | Provider | string): ${contract.name};
+    attach(addressOrName: string): ${contract.name};
+    deployed(): Promise<${contract.name}>;
+
+    on(event: EventFilter | string, listener: Listener): ${contract.name};
+    once(event: EventFilter | string, listener: Listener): ${contract.name};
+    addListener(eventName: EventFilter | string, listener: Listener): ${contract.name};
+    removeAllListeners(eventName: EventFilter | string): ${contract.name};
+    removeListener(eventName: any, listener: Listener): ${contract.name};
+
     functions: {
       ${contract.constantFunctions.map(generateConstantFunction).join("\n")}
       ${contract.functions.map(generateFunction).join("\n")}
       ${contract.constants.map(generateConstant).join("\n")}
     };
+
     filters: {
       ${contract.events.map(generateEvents).join("\n")}
     }
