@@ -27,11 +27,15 @@ export function codegen(contract: Contract) {
   import { Contract, ContractTransaction, EventFilter, Signer } from 'ethers';
   import { Listener, Provider } from 'ethers/providers';
   import { BigNumber, Interface } from "ethers/utils";
-  import { TransactionOverrides, TypedFunctionDescription } from ".";
+  import { TransactionOverrides, TypedEventDescription, TypedFunctionDescription } from ".";
 
   interface ${contract.name}Interface extends Interface {
     functions: {
       ${contract.functions.map(generateInterfaceFunctionDescription).join("\n")}
+    };
+
+    events: {
+      ${contract.events.map(generateInterfaceEventDescription).join("\n")}
     };
   }
 
@@ -133,18 +137,33 @@ function generateEvents(event: EventDeclaration) {
 `;
 }
 
-function generateEventTypes(eventArg: EventArgDeclaration[]) {
-  if (eventArg.length === 0) {
+function generateInterfaceEventDescription(event: EventDeclaration): string {
+  return `
+  ${event.name}: TypedEventDescription<${generateEventTopicTypes(event.inputs)}>;
+`;
+}
+
+function generateEventTopicTypes(eventArgs: Array<EventArgDeclaration>): string {
+  return `[${eventArgs.map(generateEventArgType).join(", ")}]`
+}
+
+function generateEventTypes(eventArgs: EventArgDeclaration[]) {
+  if (eventArgs.length === 0) {
     return "";
   }
   return (
-    eventArg
+    eventArgs
       .map(arg => {
-        const eventType = arg.isIndexed ? `${generateInputType(arg.type)} | null` : "null";
-        return `${arg.name}: ${eventType}`;
+        return `${arg.name}: ${generateEventArgType(arg)}`;
       })
       .join(", ") + ", "
   );
+}
+
+function generateEventArgType(eventArg: EventArgDeclaration): string {
+  return eventArg.isIndexed
+    ? `${generateInputType(eventArg.type)} | null`
+    : "null";
 }
 
 function generateInputType(evmType: EvmType): string {

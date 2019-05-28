@@ -46,7 +46,7 @@ export class Ethers extends TsGeneratorPlugin {
       {
         path: join(this.outDirAbs, "index.d.ts"),
         contents: `
-        import { BigNumberish, FunctionDescription } from "ethers/utils";
+        import { BigNumberish, EventDescription, FunctionDescription } from "ethers/utils";
 
         export class TransactionOverrides {
           nonce?: BigNumberish | Promise<BigNumberish>;
@@ -54,6 +54,10 @@ export class Ethers extends TsGeneratorPlugin {
           gasPrice?: BigNumberish | Promise<BigNumberish>;
           value?: BigNumberish | Promise<BigNumberish>;
           chainId?: number | Promise<number>;
+        }
+
+        export interface TypedEventDescription<Args extends Array<any>> extends EventDescription {
+          encodeTopics(params: Args): Array<string>;
         }
 
         export interface TypedFunctionDescription<Args extends Array<any>> extends FunctionDescription {
