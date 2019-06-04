@@ -3,6 +3,7 @@ import { DumbContract } from "./types/ethers-contracts/DumbContract";
 import { BigNumber } from "ethers/utils";
 
 import { expect } from "chai";
+import { Event } from "ethers";
 
 describe("DumbContract", () => {
   it("should work", async () => {
@@ -85,5 +86,64 @@ describe("DumbContract", () => {
     const contract = (await deployContract("DumbContract")) as DumbContract;
 
     expect(await contract.functions.returnSmallUint()).to.be.eq(18);
+  });
+
+  it("should .attach to another contract instance", async () => {
+    const contract1 = (await deployContract("DumbContract")) as DumbContract;
+    const contract2 = (await deployContract("DumbContract")) as DumbContract;
+
+    await contract1.functions.countup(2);
+    const reconnectedContract = contract2.attach(contract1.address);
+    expect(await reconnectedContract.functions.counter()).to.be.deep.eq(new BigNumber("2"));
+  });
+
+  it("should estimate tx gas cost", async () => {
+    const contract = (await deployContract("DumbContract")) as DumbContract;
+
+    expect((await contract.estimate.countup(2)).toNumber()).to.be.greaterThan(22000);
+  });
+
+  it("should encode a tx", async () => {
+    const contract = (await deployContract("DumbContract")) as DumbContract;
+
+    expect(await contract.interface.functions.countup.encode([2])).to.eq(
+      "0x7916df080000000000000000000000000000000000000000000000000000000000000002",
+    );
+  });
+
+  it("should encode event topics", async () => {
+    const contract = (await deployContract("DumbContract")) as DumbContract;
+
+    expect(
+      await contract.interface.events.Deposit.encodeTopics([
+        "0x0000000000000000000000000000000000000123",
+        null,
+      ]),
+    ).to.deep.eq([
+      "0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c",
+      "0x0000000000000000000000000000000000000000000000000000000000000123",
+    ]);
+  });
+
+  it("should listen for an event", async function(this) {
+    this.timeout(10000); // the listener isn't called within the default 2000ms
+    const contract = (await deployContract("DumbContract")) as DumbContract;
+    const value = 42;
+    const signerAddress = await contract.signer.getAddress();
+
+    let eventListenedResolveFn: () => void;
+
+    contract.on("Deposit", (eventFrom: string, eventValue: BigNumber, event: Event) => {
+      expect(eventFrom).to.eq(signerAddress);
+      expect(eventValue.toNumber()).to.eq(value);
+      event.removeListener();
+      eventListenedResolveFn();
+    });
+
+    await contract.functions.countupForEther({ value });
+    // tslint:disable-next-line:promise-must-complete
+    await new Promise(resolve => {
+      eventListenedResolveFn = resolve;
+    });
   });
 });

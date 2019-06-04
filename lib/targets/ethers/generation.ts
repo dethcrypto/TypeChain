@@ -22,21 +22,49 @@ import {
 } from "../../parser/typeParser";
 
 export function codegen(contract: Contract) {
+  // TODO strict typings for the event listener methods?
   const template = `
-  import { Contract, ContractTransaction, EventFilter } from 'ethers';
-  import { Provider } from 'ethers/providers';
-  import { BigNumber } from "ethers/utils";
-  import { TransactionOverrides } from ".";
+  import { Contract, ContractTransaction, EventFilter, Signer } from 'ethers';
+  import { Listener, Provider } from 'ethers/providers';
+  import { BigNumber, Interface } from "ethers/utils";
+  import { TransactionOverrides, TypedEventDescription, TypedFunctionDescription } from ".";
+
+  interface ${contract.name}Interface extends Interface {
+    functions: {
+      ${contract.functions.map(generateInterfaceFunctionDescription).join("\n")}
+    };
+
+    events: {
+      ${contract.events.map(generateInterfaceEventDescription).join("\n")}
+    };
+  }
 
   export class ${contract.name} extends Contract {
+    connect(signerOrProvider: Signer | Provider | string): ${contract.name};
+    attach(addressOrName: string): ${contract.name};
+    deployed(): Promise<${contract.name}>;
+
+    on(event: EventFilter | string, listener: Listener): ${contract.name};
+    once(event: EventFilter | string, listener: Listener): ${contract.name};
+    addListener(eventName: EventFilter | string, listener: Listener): ${contract.name};
+    removeAllListeners(eventName: EventFilter | string): ${contract.name};
+    removeListener(eventName: any, listener: Listener): ${contract.name};
+
+    interface: ${contract.name}Interface;
+
     functions: {
       ${contract.constantFunctions.map(generateConstantFunction).join("\n")}
       ${contract.functions.map(generateFunction).join("\n")}
       ${contract.constants.map(generateConstant).join("\n")}
     };
+
     filters: {
       ${contract.events.map(generateEvents).join("\n")}
-    }
+    };
+
+    estimate: {
+      ${contract.functions.map(generateEstimateFunction).join("\n")}
+    };
 }
   `;
 
@@ -54,6 +82,18 @@ function generateFunction(fn: FunctionDeclaration): string {
   ${fn.name}(${generateInputTypes(
     fn.inputs,
   )}overrides?: TransactionOverrides): Promise<ContractTransaction>;
+`;
+}
+
+function generateEstimateFunction(fn: FunctionDeclaration): string {
+  return `
+  ${fn.name}(${generateInputTypes(fn.inputs)}): Promise<BigNumber>;
+`;
+}
+
+function generateInterfaceFunctionDescription(fn: FunctionDeclaration): string {
+  return `
+  ${fn.name}: TypedFunctionDescription<${generateParamTypes(fn.inputs)}>;
 `;
 }
 
@@ -83,24 +123,41 @@ function generateOutputTypes(outputs: Array<AbiParameter>): string {
   }
 }
 
+function generateParamTypes(params: Array<AbiParameter>): string {
+  return `[${params.map(param => generateInputType(param.type)).join(", ")}]`;
+}
+
 function generateEvents(event: EventDeclaration) {
   return `
   ${event.name}(${generateEventTypes(event.inputs)}): EventFilter;
 `;
 }
 
-function generateEventTypes(eventArg: EventArgDeclaration[]) {
-  if (eventArg.length === 0) {
+function generateInterfaceEventDescription(event: EventDeclaration): string {
+  return `
+  ${event.name}: TypedEventDescription<${generateEventTopicTypes(event.inputs)}>;
+`;
+}
+
+function generateEventTopicTypes(eventArgs: Array<EventArgDeclaration>): string {
+  return `[${eventArgs.map(generateEventArgType).join(", ")}]`;
+}
+
+function generateEventTypes(eventArgs: EventArgDeclaration[]) {
+  if (eventArgs.length === 0) {
     return "";
   }
   return (
-    eventArg
+    eventArgs
       .map(arg => {
-        const eventType = arg.isIndexed ? `${generateInputType(arg.type)} | null` : "null";
-        return `${arg.name}: ${eventType}`;
+        return `${arg.name}: ${generateEventArgType(arg)}`;
       })
       .join(", ") + ", "
   );
+}
+
+function generateEventArgType(eventArg: EventArgDeclaration): string {
+  return eventArg.isIndexed ? `${generateInputType(eventArg.type)} | null` : "null";
 }
 
 function generateInputType(evmType: EvmType): string {

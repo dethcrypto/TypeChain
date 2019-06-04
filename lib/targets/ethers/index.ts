@@ -1,4 +1,3 @@
-import { Contract } from "../../parser/abiParser";
 import { TsGeneratorPlugin, TContext, TFileDesc } from "ts-generator";
 import { join } from "path";
 import { extractAbi, parse } from "../../parser/abiParser";
@@ -46,7 +45,7 @@ export class Ethers extends TsGeneratorPlugin {
       {
         path: join(this.outDirAbs, "index.d.ts"),
         contents: `
-        import { BigNumberish } from "ethers/utils";
+        import { BigNumberish, EventDescription, FunctionDescription } from "ethers/utils";
 
         export class TransactionOverrides {
           nonce?: BigNumberish | Promise<BigNumberish>;
@@ -54,6 +53,14 @@ export class Ethers extends TsGeneratorPlugin {
           gasPrice?: BigNumberish | Promise<BigNumberish>;
           value?: BigNumberish | Promise<BigNumberish>;
           chainId?: number | Promise<number>;
+        }
+
+        export interface TypedEventDescription<Args extends Array<any>> extends EventDescription {
+          encodeTopics(params: Args): Array<string>;
+        }
+
+        export interface TypedFunctionDescription<Args extends Array<any>> extends FunctionDescription {
+          encode(params: Args): string;
         }`,
       },
     ];
