@@ -205,7 +205,7 @@ function generateOutputType(evmType: EvmType): string {
     case StringType:
       return "string";
     case TupleType:
-      return "object[]";
+      return generateTupleType(evmType as TupleType, generateOutputType);
 
     default:
       throw new Error(`Unrecognized type ${evmType}`);
