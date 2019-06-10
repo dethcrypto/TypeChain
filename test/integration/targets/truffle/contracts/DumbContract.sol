@@ -32,6 +32,12 @@ contract DumbContract {
     counterArray.push(counter);
   }
 
+  function countupWithReturn(uint offset) public returns (uint256) {
+    counter += offset;
+    counterArray.push(counter);
+    return counter;
+  }
+
   function returnSigned(int offset) pure public returns (int) {
     return offset;
   }

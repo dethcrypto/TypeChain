@@ -76,9 +76,20 @@ export interface ${c.name}Instance extends Truffle.ContractInstance {
 
 function generateFunction(fn: ConstantFunctionDeclaration | FunctionDeclaration): string {
   return `
-  ${fn.name}(${generateInputTypes(
+  ${fn.name}: {
+    (${generateInputTypes(
+      fn.inputs,
+    )} txDetails?: Truffle.TransactionDetails): Promise<Truffle.TransactionResponse>;
+  call(${generateInputTypes(
     fn.inputs,
-  )} txDetails?: Truffle.TransactionDetails): Promise<Truffle.TransactionResponse>;
+  )} txDetails?: Truffle.TransactionDetails): Promise<${generateOutputTypes(fn.outputs)}>;
+  sendTransaction(${generateInputTypes(
+    fn.inputs,
+  )} txDetails?: Truffle.TransactionDetails): Promise<string>;
+  estimateGas(${generateInputTypes(
+    fn.inputs,
+  )} txDetails?: Truffle.TransactionDetails): Promise<number>;
+  }
 `;
 }
 
