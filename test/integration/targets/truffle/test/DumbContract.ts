@@ -13,16 +13,6 @@ contract("DumbContract", ([deployer]) => {
     expect((await contract.returnAll()).map(x => x.toNumber())).to.be.deep.eq([0, 5]);
   });
 
-  // it("should allow function to be simulated with call", async () => {
-  //   const contract = await DumbContract.new(0, { from: deployer });
-
-  //   expect(DumbContract.contractName).to.be.a("string");
-
-  //   expect(contract.address).to.be.a("string");
-  //   expect((await contract.counterWithOffset(2)).toNumber()).to.be.eq(2);
-  //   expect((await contract.returnAll()).map(x => x.toNumber())).to.be.deep.eq([0, 5]);
-  // });
-
   it("should estimate gas", async () => {
     const contract = await DumbContract.new(0, { from: deployer });
     expect(await contract.countup.estimateGas(2)).to.not.be.undefined;
