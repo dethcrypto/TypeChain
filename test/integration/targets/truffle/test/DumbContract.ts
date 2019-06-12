@@ -13,6 +13,26 @@ contract("DumbContract", ([deployer]) => {
     expect((await contract.returnAll()).map(x => x.toNumber())).to.be.deep.eq([0, 5]);
   });
 
+  it("should estimate gas", async () => {
+    const contract = await DumbContract.new(0, { from: deployer });
+    expect(await contract.countup.estimateGas(2)).to.not.be.undefined;
+    expect(await contract.countup.estimateGas(2)).to.be.gt(20000);
+  });
+
+  it("should simulate transaction with call", async () => {
+    const contract = await DumbContract.new(0, { from: deployer });
+    expect(await contract.countupWithReturn.call(2)).to.not.be.undefined;
+    expect((await contract.countupWithReturn.call(2)).toNumber()).to.be.eq(2);
+    expect((await contract.counter()).toNumber()).to.be.eq(0);
+  });
+
+  it("should allow transactions to be sent with sendTransaction", async () => {
+    const contract = await DumbContract.new(0, { from: deployer });
+    expect(await contract.countup.sendTransaction(2)).to.not.be.undefined;
+    expect((await contract.countup.sendTransaction(2)).length).to.be.eq(66);
+    expect((await contract.counter()).toNumber()).to.be.eq(4);
+  });
+
   it("should allow to pass unsigned values in multiple ways", async () => {
     const contract = await DumbContract.new(0, { from: deployer });
 
