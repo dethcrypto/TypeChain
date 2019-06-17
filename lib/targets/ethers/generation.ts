@@ -93,7 +93,9 @@ function generateEstimateFunction(fn: FunctionDeclaration): string {
 
 function generateInterfaceFunctionDescription(fn: FunctionDeclaration): string {
   return `
-  ${fn.name}: TypedFunctionDescription<${generateParamTypes(fn.inputs)}>;
+  ${fn.name}: TypedFunctionDescription<{ encode(${generateParamNames(
+    fn.inputs,
+  )}: ${generateParamTypes(fn.inputs)}): string; }>;
 `;
 }
 
@@ -127,6 +129,10 @@ function generateParamTypes(params: Array<AbiParameter>): string {
   return `[${params.map(param => generateInputType(param.type)).join(", ")}]`;
 }
 
+function generateParamNames(params: Array<AbiParameter | EventArgDeclaration>): string {
+  return `[${params.map(param => param.name).join(", ")}]`;
+}
+
 function generateEvents(event: EventDeclaration) {
   return `
   ${event.name}(${generateEventTypes(event.inputs)}): EventFilter;
@@ -135,7 +141,9 @@ function generateEvents(event: EventDeclaration) {
 
 function generateInterfaceEventDescription(event: EventDeclaration): string {
   return `
-  ${event.name}: TypedEventDescription<${generateEventTopicTypes(event.inputs)}>;
+  ${event.name}: TypedEventDescription<{ encodeTopics(${generateParamNames(
+    event.inputs,
+  )}: ${generateEventTopicTypes(event.inputs)}): string[]; }>;
 `;
 }
 
