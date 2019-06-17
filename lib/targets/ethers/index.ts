@@ -55,13 +55,16 @@ export class Ethers extends TsGeneratorPlugin {
           chainId?: number | Promise<number>;
         }
 
-        export interface TypedEventDescription<Args extends Array<any>> extends EventDescription {
-          encodeTopics(params: Args): Array<string>;
+        export interface TypedEventDescription<T extends Pick<EventDescription, 'encodeTopics'>>
+        extends EventDescription {
+          encodeTopics: T['encodeTopics'];
         }
 
-        export interface TypedFunctionDescription<Args extends Array<any>> extends FunctionDescription {
-          encode(params: Args): string;
-        }`,
+        export interface TypedFunctionDescription<T extends Pick<FunctionDescription, 'encode'>>
+        extends FunctionDescription {
+          encode: T['encode'];
+        }
+        `,
       },
     ];
   }
