@@ -26,7 +26,7 @@ export function codegen(contract: Contract) {
   const template = `
   import { Contract, ContractTransaction, EventFilter, Signer } from 'ethers';
   import { Listener, Provider } from 'ethers/providers';
-  import { BigNumber, Interface } from "ethers/utils";
+  import { Arrayish, BigNumber, BigNumberish, Interface } from "ethers/utils";
   import { TransactionOverrides, TypedEventDescription, TypedFunctionDescription } from ".";
 
   interface ${contract.name}Interface extends Interface {
@@ -168,17 +168,18 @@ function generateEventArgType(eventArg: EventArgDeclaration): string {
   return eventArg.isIndexed ? `${generateInputType(eventArg.type)} | null` : "null";
 }
 
+// https://docs.ethers.io/ethers.js/html/api-contract.html#types
 function generateInputType(evmType: EvmType): string {
   switch (evmType.constructor) {
     case IntegerType:
-      return "number | string | BigNumber";
+      return "BigNumberish";
     case UnsignedIntegerType:
-      return "number | string | BigNumber";
+      return "BigNumberish";
     case AddressType:
       return "string";
     case BytesType:
     case DynamicBytesType:
-      return "string";
+      return "Arrayish";
     case ArrayType:
       return `(${generateInputType((evmType as ArrayType).itemType)})[]`;
     case BooleanType:

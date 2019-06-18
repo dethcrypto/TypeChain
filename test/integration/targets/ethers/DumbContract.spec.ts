@@ -4,6 +4,7 @@ import { BigNumber } from "ethers/utils";
 
 import { expect } from "chai";
 import { Event } from "ethers";
+import { arrayify } from "ethers/utils/bytes";
 
 describe("DumbContract", () => {
   it("should work", async () => {
@@ -26,6 +27,8 @@ describe("DumbContract", () => {
     expect(await contract.functions.counter()).to.be.deep.eq(new BigNumber("2"));
     await contract.functions.countup("2");
     expect(await contract.functions.counter()).to.be.deep.eq(new BigNumber("4"));
+    await contract.functions.countup(new BigNumber(2));
+    expect(await contract.functions.counter()).to.be.deep.eq(new BigNumber("6"));
   });
 
   it("should allow to pass signed values in multiple ways", async () => {
@@ -33,6 +36,9 @@ describe("DumbContract", () => {
 
     expect(await contract.functions.returnSigned(2)).to.be.deep.eq(new BigNumber("2"));
     expect(await contract.functions.returnSigned("2")).to.be.deep.eq(new BigNumber("2"));
+    expect(await contract.functions.returnSigned(new BigNumber(2))).to.be.deep.eq(
+      new BigNumber("2"),
+    );
   });
 
   it("should allow to pass address values", async () => {
@@ -43,12 +49,28 @@ describe("DumbContract", () => {
     ).to.be.eq("0x0000000000000000000000000000000000000123");
   });
 
-  it("should allow to pass bytes values", async () => {
+  it("should allow to pass bytes values in multiple ways", async () => {
     const contract = (await deployContract("DumbContract")) as DumbContract;
+    const bytes32Str = "0x0201030700000000000000000000000000000000000000000000000000004200";
 
-    await contract.functions.callWithBytes(
-      "0x0100010000000000000000000000000000000000000000000000000000000000",
-    );
+    await contract.functions.callWithBytes(bytes32Str);
+    expect(await contract.functions.byteArray()).to.eq(bytes32Str);
+    await contract.functions.callWithBytes(Buffer.from(bytes32Str.slice(2), "hex"));
+    expect(await contract.functions.byteArray()).to.eq(bytes32Str);
+    await contract.functions.callWithBytes(arrayify(bytes32Str));
+    expect(await contract.functions.byteArray()).to.eq(bytes32Str);
+  });
+
+  it("should allow to pass dynamic byte arrays in multiple ways", async () => {
+    const contract = (await deployContract("DumbContract")) as DumbContract;
+    const bytesStr = "0x02010307000000000000000000000000133700000000000000000000000000000000004200";
+
+    await contract.functions.callWithDynamicByteArray(bytesStr);
+    expect(await contract.functions.dynamicByteArray()).to.eq(bytesStr);
+    await contract.functions.callWithDynamicByteArray(Buffer.from(bytesStr.slice(2), "hex"));
+    expect(await contract.functions.dynamicByteArray()).to.eq(bytesStr);
+    await contract.functions.callWithDynamicByteArray(arrayify(bytesStr));
+    expect(await contract.functions.dynamicByteArray()).to.eq(bytesStr);
   });
 
   it("should allow to pass boolean values", async () => {
