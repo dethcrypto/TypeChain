@@ -254,3 +254,33 @@ export function extractAbi(rawJson: string): RawAbiDefinition[] {
 
   throw new MalformedAbiError("Not a valid ABI");
 }
+
+export function extractBytecode(rawContents: string): string | null {
+  const bytecodeRegex = /^[0-9a-fA-F]+$/;
+  // First try to see if this is a .bin file with just the bytecode, otherwise a json
+  if (rawContents.match(bytecodeRegex)) return rawContents;
+
+  let json;
+  try {
+    json = JSON.parse(rawContents);
+  } catch {
+    return null;
+  }
+
+  if (!json) return null;
+
+  if (json.bytecode && json.bytecode.match(bytecodeRegex)) {
+    return json.bytecode;
+  }
+
+  if (
+    json.evm &&
+    json.evm.bytecode &&
+    json.evm.bytecode.object &&
+    json.evm.bytecode.object.match(bytecodeRegex)
+  ) {
+    return json.evm.bytecode.object;
+  }
+
+  return null;
+}

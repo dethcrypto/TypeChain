@@ -1,14 +1,15 @@
-import { getContractFactory } from "./ethers";
-import { DumbContract, DumbContractFactory } from "./types/ethers-contracts/DumbContract";
+import { DumbContract } from "./types/ethers-contracts/DumbContract";
+import { DumbContractFactory } from "./types/ethers-contracts/DumbContractFactory";
 import { BigNumber } from "ethers/utils";
 
 import { expect } from "chai";
 import { Event } from "ethers";
 import { arrayify } from "ethers/utils/bytes";
+import { getTestSigner } from "./ethers";
 
 describe("DumbContract", () => {
   function deployDumbContract(): Promise<DumbContract> {
-    const factory = getContractFactory("DumbContract") as DumbContractFactory;
+    const factory = new DumbContractFactory(getTestSigner());
     return factory.deploy(0);
   }
 
@@ -26,7 +27,7 @@ describe("DumbContract", () => {
   });
 
   it("should allow passing a contructor argument in multiple ways", async () => {
-    const factory = getContractFactory("DumbContract") as DumbContractFactory;
+    const factory = new DumbContractFactory(getTestSigner());
     const contract1 = await factory.deploy(42);
     expect(await contract1.functions.counter()).to.be.deep.eq(new BigNumber("42"));
     const contract2 = await factory.deploy("1234123412341234123");

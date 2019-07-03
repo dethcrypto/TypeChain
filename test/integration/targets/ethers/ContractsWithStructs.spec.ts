@@ -1,24 +1,29 @@
-import { deployContract } from "./ethers";
 import { ContractWithStructs } from "./types/ethers-contracts/ContractWithStructs";
+import { ContractWithStructsFactory } from "./types/ethers-contracts/ContractWithStructsFactory";
 import { BigNumber } from "ethers/utils";
 import { expect } from "chai";
+import { getTestSigner } from "./ethers";
 
 describe("ContractWithStructs", () => {
+  function deployContractWithStructs(): Promise<ContractWithStructs> {
+    return new ContractWithStructsFactory(getTestSigner()).deploy();
+  }
+
   it("should work", async () => {
-    const contract = (await deployContract("ContractWithStructs")) as ContractWithStructs;
+    const contract = await deployContractWithStructs();
 
     const res = await contract.functions.getCounter(1);
     expect(res).to.be.deep.eq(new BigNumber("1"));
   });
 
   it("should have an address", async () => {
-    const contract = (await deployContract("ContractWithStructs")) as ContractWithStructs;
+    const contract = await deployContractWithStructs();
 
     expect(contract.address).to.be.string;
   });
 
   it("should return structs in output", async () => {
-    const contract = (await deployContract("ContractWithStructs")) as ContractWithStructs;
+    const contract = await deployContractWithStructs();
 
     const output = await contract.functions.getStuff();
     expect(output._person.height).to.be.deep.eq(new BigNumber("12"));
@@ -26,7 +31,7 @@ describe("ContractWithStructs", () => {
   });
 
   it("should accepts structs in input", async () => {
-    const contract = (await deployContract("ContractWithStructs")) as ContractWithStructs;
+    const contract = await deployContractWithStructs();
 
     await contract.functions.setStuff(
       { height: 10, name: "bob", account: contract.address },
