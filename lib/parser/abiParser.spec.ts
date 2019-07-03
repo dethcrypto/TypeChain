@@ -1,5 +1,11 @@
 import { expect } from "chai";
-import { extractAbi, RawEventAbiDefinition, parseEvent } from "./abiParser";
+import {
+  extractAbi,
+  RawEventAbiDefinition,
+  parseEvent,
+  ensure0xPrefix,
+  extractBytecode,
+} from "./abiParser";
 import { MalformedAbiError } from "../utils/errors";
 import { AddressType, UnsignedIntegerType } from "./typeParser";
 
@@ -22,6 +28,54 @@ describe("extractAbi", () => {
   it("should work with nested abi (truffle style)", () => {
     const inputJson = `{ "abi": [{ "name": "piece" }] }`;
     expect(extractAbi(inputJson)).to.be.deep.eq([{ name: "piece" }]);
+  });
+});
+
+describe("extractBytecode", () => {
+  const sampleBytecode = "1234abcd";
+  const resultBytecode = ensure0xPrefix(sampleBytecode);
+
+  it("should return bytecode for bare bytecode string", () => {
+    expect(extractBytecode(sampleBytecode)).to.eq(resultBytecode);
+  });
+
+  it("should return bytecode for bare bytecode with 0x prefix", () => {
+    expect(extractBytecode(resultBytecode)).to.eq(resultBytecode);
+  });
+
+  it("should return null for non-bytecode non-json input", () => {
+    expect(extractBytecode("surely-not-bytecode")).to.be.null;
+  });
+
+  it("should return null for simple abi without bytecode", () => {
+    expect(extractBytecode(`[{ "name": "piece" }]`)).to.be.null;
+  });
+
+  it("should return null for nested abi without bytecode", () => {
+    expect(extractBytecode(`{ "abi": [{ "name": "piece" }] }`)).to.be.null;
+  });
+
+  it("should return bytecode from nested abi (truffle style)", () => {
+    expect(extractBytecode(`{ "bytecode": "${sampleBytecode}" }`)).to.eq(resultBytecode);
+  });
+
+  it("should return bytecode from nested abi (ethers style)", () => {
+    const inputJson = `{ "evm": { "bytecode": { "object": "${sampleBytecode}" }}}`;
+    expect(extractBytecode(inputJson)).to.eq(resultBytecode);
+  });
+
+  it("should return null when nested abi bytecode is malformed", () => {
+    expect(extractBytecode(`{ "bytecode": "surely-not-bytecode" }`)).to.be.null;
+  });
+});
+
+describe("ensure0xPrefix", () => {
+  it("should prepend 0x when it's missing", () => {
+    expect(ensure0xPrefix("1234")).to.eq("0x1234");
+  });
+
+  it("should return string unchanged when it has 0x prefix", () => {
+    expect(ensure0xPrefix("0x1234")).to.eq("0x1234");
   });
 });
 

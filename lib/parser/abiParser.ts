@@ -256,9 +256,9 @@ export function extractAbi(rawJson: string): RawAbiDefinition[] {
 }
 
 export function extractBytecode(rawContents: string): string | null {
-  const bytecodeRegex = /^[0-9a-fA-F]+$/;
+  const bytecodeRegex = /^(0x)?([0-9a-fA-F][0-9a-fA-F])+$/;
   // First try to see if this is a .bin file with just the bytecode, otherwise a json
-  if (rawContents.match(bytecodeRegex)) return rawContents;
+  if (rawContents.match(bytecodeRegex)) return ensure0xPrefix(rawContents);
 
   let json;
   try {
@@ -270,7 +270,7 @@ export function extractBytecode(rawContents: string): string | null {
   if (!json) return null;
 
   if (json.bytecode && json.bytecode.match(bytecodeRegex)) {
-    return json.bytecode;
+    return ensure0xPrefix(json.bytecode);
   }
 
   if (
@@ -279,8 +279,13 @@ export function extractBytecode(rawContents: string): string | null {
     json.evm.bytecode.object &&
     json.evm.bytecode.object.match(bytecodeRegex)
   ) {
-    return json.evm.bytecode.object;
+    return ensure0xPrefix(json.evm.bytecode.object);
   }
 
   return null;
+}
+
+export function ensure0xPrefix(hexString: string): string {
+  if (hexString.startsWith("0x")) return hexString;
+  return "0x" + hexString;
 }
