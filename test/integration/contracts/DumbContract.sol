@@ -9,8 +9,8 @@ contract DumbContract {
   bytes32 public byteArray;
   bytes public dynamicByteArray;
 
-  constructor() public {
-    counter = 0;
+  constructor(uint initialCounter) public {
+    counter = initialCounter;
     someAddress = msg.sender;
   }
 

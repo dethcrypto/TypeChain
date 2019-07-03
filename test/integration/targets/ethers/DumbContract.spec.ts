@@ -1,5 +1,5 @@
-import { deployContract } from "./ethers";
-import { DumbContract } from "./types/ethers-contracts/DumbContract";
+import { getContractFactory } from "./ethers";
+import { DumbContract, DumbContractFactory } from "./types/ethers-contracts/DumbContract";
 import { BigNumber } from "ethers/utils";
 
 import { expect } from "chai";
@@ -7,21 +7,36 @@ import { Event } from "ethers";
 import { arrayify } from "ethers/utils/bytes";
 
 describe("DumbContract", () => {
+  function deployDumbContract(): Promise<DumbContract> {
+    const factory = getContractFactory("DumbContract") as DumbContractFactory;
+    return factory.deploy(0);
+  }
+
   it("should work", async () => {
-    const contract = (await deployContract("DumbContract")) as DumbContract;
+    const contract = await deployDumbContract();
 
     const res = await contract.functions.returnAll();
     expect(res).to.be.deep.eq([new BigNumber("0"), new BigNumber("5")]);
   });
 
   it("should have an address", async () => {
-    const contract = (await deployContract("DumbContract")) as DumbContract;
+    const contract = await deployDumbContract();
 
     expect(contract.address).to.be.string;
   });
 
+  it("should allow passing a contructor argument in multiple ways", async () => {
+    const factory = getContractFactory("DumbContract") as DumbContractFactory;
+    const contract1 = await factory.deploy(42);
+    expect(await contract1.functions.counter()).to.be.deep.eq(new BigNumber("42"));
+    const contract2 = await factory.deploy("1234123412341234123");
+    expect(await contract2.functions.counter()).to.be.deep.eq(new BigNumber("1234123412341234123"));
+    const contract3 = await factory.deploy(new BigNumber("5678567856785678567"));
+    expect(await contract3.functions.counter()).to.be.deep.eq(new BigNumber("5678567856785678567"));
+  });
+
   it("should allow to pass unsigned values in multiple ways", async () => {
-    const contract = (await deployContract("DumbContract")) as DumbContract;
+    const contract = await deployDumbContract();
 
     await contract.functions.countup(2);
     expect(await contract.functions.counter()).to.be.deep.eq(new BigNumber("2"));
@@ -32,7 +47,7 @@ describe("DumbContract", () => {
   });
 
   it("should allow to pass signed values in multiple ways", async () => {
-    const contract = (await deployContract("DumbContract")) as DumbContract;
+    const contract = await deployDumbContract();
 
     expect(await contract.functions.returnSigned(2)).to.be.deep.eq(new BigNumber("2"));
     expect(await contract.functions.returnSigned("2")).to.be.deep.eq(new BigNumber("2"));
@@ -42,7 +57,7 @@ describe("DumbContract", () => {
   });
 
   it("should allow to pass address values", async () => {
-    const contract = (await deployContract("DumbContract")) as DumbContract;
+    const contract = await deployDumbContract();
 
     expect(
       await contract.functions.testAddress("0x0000000000000000000000000000000000000123"),
@@ -50,7 +65,7 @@ describe("DumbContract", () => {
   });
 
   it("should allow to pass bytes values in multiple ways", async () => {
-    const contract = (await deployContract("DumbContract")) as DumbContract;
+    const contract = await deployDumbContract();
     const bytes32Str = "0x0201030700000000000000000000000000000000000000000000000000004200";
 
     await contract.functions.callWithBytes(bytes32Str);
@@ -62,7 +77,7 @@ describe("DumbContract", () => {
   });
 
   it("should allow to pass dynamic byte arrays in multiple ways", async () => {
-    const contract = (await deployContract("DumbContract")) as DumbContract;
+    const contract = await deployDumbContract();
     const bytesStr = "0x02010307000000000000000000000000133700000000000000000000000000000000004200";
 
     await contract.functions.callWithDynamicByteArray(bytesStr);
@@ -74,27 +89,27 @@ describe("DumbContract", () => {
   });
 
   it("should allow to pass boolean values", async () => {
-    const contract = (await deployContract("DumbContract")) as DumbContract;
+    const contract = await deployDumbContract();
 
     const res = await contract.functions.callWithBoolean(true);
     expect(res).to.be.deep.eq(true);
   });
 
   it("should allow to pass numeric arrays values in multiple ways", async () => {
-    const contract = (await deployContract("DumbContract")) as DumbContract;
+    const contract = await deployDumbContract();
 
     const res = await contract.functions.callWithArray2(["1", 2]);
     expect(res).to.be.deep.eq([new BigNumber("1"), new BigNumber("2")]);
   });
 
   it("should allow to pass strings ", async () => {
-    const contract = (await deployContract("DumbContract")) as DumbContract;
+    const contract = await deployDumbContract();
 
     expect(await contract.functions.testString("abc")).to.be.deep.eq("abc");
   });
 
   it("should allow to pass overrides", async () => {
-    const contract = (await deployContract("DumbContract")) as DumbContract;
+    const contract = await deployDumbContract();
     const value = 1;
     const gasPrice = 33;
 
@@ -105,14 +120,14 @@ describe("DumbContract", () => {
   });
 
   it("should return number for small ints", async () => {
-    const contract = (await deployContract("DumbContract")) as DumbContract;
+    const contract = await deployDumbContract();
 
     expect(await contract.functions.returnSmallUint()).to.be.eq(18);
   });
 
   it("should .attach to another contract instance", async () => {
-    const contract1 = (await deployContract("DumbContract")) as DumbContract;
-    const contract2 = (await deployContract("DumbContract")) as DumbContract;
+    const contract1 = await deployDumbContract();
+    const contract2 = await deployDumbContract();
 
     await contract1.functions.countup(2);
     const reconnectedContract = contract2.attach(contract1.address);
@@ -120,13 +135,13 @@ describe("DumbContract", () => {
   });
 
   it("should estimate tx gas cost", async () => {
-    const contract = (await deployContract("DumbContract")) as DumbContract;
+    const contract = await deployDumbContract();
 
     expect((await contract.estimate.countup(2)).toNumber()).to.be.greaterThan(22000);
   });
 
   it("should encode a tx", async () => {
-    const contract = (await deployContract("DumbContract")) as DumbContract;
+    const contract = await deployDumbContract();
 
     expect(await contract.interface.functions.countup.encode([2])).to.eq(
       "0x7916df080000000000000000000000000000000000000000000000000000000000000002",
@@ -134,7 +149,7 @@ describe("DumbContract", () => {
   });
 
   it("should encode event topics", async () => {
-    const contract = (await deployContract("DumbContract")) as DumbContract;
+    const contract = await deployDumbContract();
 
     expect(
       await contract.interface.events.Deposit.encodeTopics([
@@ -149,7 +164,7 @@ describe("DumbContract", () => {
 
   it("should listen for an event", async function(this) {
     this.timeout(10000); // the listener isn't called within the default 2000ms
-    const contract = (await deployContract("DumbContract")) as DumbContract;
+    const contract = await deployDumbContract();
     const value = 42;
     const signerAddress = await contract.signer.getAddress();
 

@@ -14,7 +14,7 @@ describe("DumbContract", () => {
   let contractAddress: string;
 
   beforeEach(async () => {
-    contractAddress = (await deployContract("DumbContract")).address;
+    contractAddress = (await deployContract("DumbContract", 0)).address;
   });
 
   it("should snapshot generated code", () =>

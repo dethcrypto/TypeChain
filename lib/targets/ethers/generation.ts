@@ -1,32 +1,32 @@
 import {
-  Contract,
   AbiParameter,
-  ConstantFunctionDeclaration,
-  FunctionDeclaration,
   ConstantDeclaration,
-  EventDeclaration,
+  ConstantFunctionDeclaration,
+  Contract,
   EventArgDeclaration,
+  EventDeclaration,
+  FunctionDeclaration,
 } from "../../parser/abiParser";
 import {
-  EvmType,
-  IntegerType,
-  UnsignedIntegerType,
   AddressType,
-  VoidType,
+  ArrayType,
+  BooleanType,
   BytesType,
   DynamicBytesType,
-  BooleanType,
-  ArrayType,
+  EvmType,
+  IntegerType,
   StringType,
   TupleType,
+  UnsignedIntegerType,
+  VoidType,
 } from "../../parser/typeParser";
 
 export function codegen(contract: Contract) {
-  // TODO strict typings for the event listener methods?
   const template = `
-  import { Contract, ContractTransaction, EventFilter, Signer } from 'ethers';
+  import { Contract, ContractFactory, ContractTransaction, EventFilter, Signer } from "ethers";
   import { Listener, Provider } from 'ethers/providers';
   import { Arrayish, BigNumber, BigNumberish, Interface } from "ethers/utils";
+  import { UnsignedTransaction } from "ethers/utils/transaction";
   import { TransactionOverrides, TypedEventDescription, TypedFunctionDescription } from ".";
 
   interface ${contract.name}Interface extends Interface {
@@ -65,10 +65,23 @@ export function codegen(contract: Contract) {
     estimate: {
       ${contract.functions.map(generateEstimateFunction).join("\n")}
     };
-}
+  }
+  ${generateFactoryIfConstructorPresent(contract)}
   `;
 
   return template;
+}
+
+function generateFactoryIfConstructorPresent(contract: Contract): string {
+  if (!contract.constructor) return "";
+  return `
+  export class ${contract.name}Factory extends ContractFactory {
+    deploy(${generateInputTypes(contract.constructor.inputs)}): Promise<${contract.name}>;
+    getDeployTransaction(${generateInputTypes(contract.constructor.inputs)}): UnsignedTransaction;
+    attach(address: string): ${contract.name};
+    connect(signer: Signer): ${contract.name}Factory;
+  }
+  `;
 }
 
 function generateConstantFunction(fn: ConstantFunctionDeclaration): string {

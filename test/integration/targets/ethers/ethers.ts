@@ -17,20 +17,20 @@ export async function createNewBlockchain() {
 }
 
 before(async () => {
-  const r = await createNewBlockchain();
-  signer = r.signer;
-  server = r.server;
+  ({ server, signer } = await createNewBlockchain());
 });
 
-export async function deployContract(contractName: string): Promise<Contract> {
+export function getContractFactory(contractName: string): ContractFactory {
   const abiDirPath = join(__dirname, "../../abis");
 
   const abi = JSON.parse(readFileSync(join(abiDirPath, contractName + ".abi"), "utf-8"));
   const bin = readFileSync(join(abiDirPath, contractName + ".bin"), "utf-8");
   const code = "0x" + bin;
+  return new ContractFactory(abi, code, signer);
+}
 
-  const factory = new ContractFactory(abi, code, signer);
-
+export async function deployContract(contractName: string): Promise<Contract> {
+  const factory = getContractFactory(contractName);
   return factory.deploy();
 }
 
