@@ -1,30 +1,29 @@
 import {
-  Contract,
   AbiParameter,
-  ConstantFunctionDeclaration,
-  FunctionDeclaration,
   ConstantDeclaration,
-  EventDeclaration,
+  ConstantFunctionDeclaration,
+  Contract,
   EventArgDeclaration,
+  EventDeclaration,
+  FunctionDeclaration,
 } from "../../parser/abiParser";
 import {
-  EvmType,
-  IntegerType,
-  UnsignedIntegerType,
   AddressType,
-  VoidType,
+  ArrayType,
+  BooleanType,
   BytesType,
   DynamicBytesType,
-  BooleanType,
-  ArrayType,
+  EvmType,
+  IntegerType,
   StringType,
   TupleType,
+  UnsignedIntegerType,
+  VoidType,
 } from "../../parser/typeParser";
 
-export function codegen(contract: Contract) {
-  // TODO strict typings for the event listener methods?
+export function codegenContractTypings(contract: Contract) {
   const template = `
-  import { Contract, ContractTransaction, EventFilter, Signer } from 'ethers';
+  import { Contract, ContractTransaction, EventFilter, Signer } from "ethers";
   import { Listener, Provider } from 'ethers/providers';
   import { Arrayish, BigNumber, BigNumberish, Interface } from "ethers/utils";
   import { TransactionOverrides, TypedEventDescription, TypedFunctionDescription } from ".";
@@ -65,10 +64,48 @@ export function codegen(contract: Contract) {
     estimate: {
       ${contract.functions.map(generateEstimateFunction).join("\n")}
     };
-}
-  `;
+  }`;
 
   return template;
+}
+
+export function codegenContractFactory(contract: Contract, abi: any, bytecode: string): string {
+  const constructorArgs = contract.constructor
+    ? generateInputTypes(contract.constructor.inputs)
+    : "";
+  const constructorArgNames = contract.constructor
+    ? generateParamNames(contract.constructor.inputs)
+    : "";
+
+  return `
+  import { ContractFactory, Signer } from "ethers";
+  import { Arrayish, BigNumberish } from "ethers/utils";
+  import { UnsignedTransaction } from "ethers/utils/transaction";
+
+  import { ${contract.name} } from "./${contract.name}";
+
+  export class ${contract.name}Factory extends ContractFactory {
+    constructor(signer?: Signer) {
+      super(_abi, _bytecode, signer);
+    }
+    deploy(${constructorArgs}): Promise<${contract.name}> {
+      return super.deploy(${constructorArgNames}) as Promise<${contract.name}>;
+    }
+    getDeployTransaction(${constructorArgs}): UnsignedTransaction {
+      return super.getDeployTransaction(${constructorArgNames});
+    };
+    attach(address: string): ${contract.name} {
+      return super.attach(address) as ${contract.name};
+    }
+    connect(signer: Signer): ${contract.name}Factory {
+      return super.connect(signer) as ${contract.name}Factory;
+    }
+  }
+
+  const _abi = ${JSON.stringify(abi, null, 2)};
+
+  const _bytecode = "${bytecode}";
+  `;
 }
 
 function generateConstantFunction(fn: ConstantFunctionDeclaration): string {
@@ -93,9 +130,9 @@ function generateEstimateFunction(fn: FunctionDeclaration): string {
 
 function generateInterfaceFunctionDescription(fn: FunctionDeclaration): string {
   return `
-  ${fn.name}: TypedFunctionDescription<{ encode(${generateParamNames(
+  ${fn.name}: TypedFunctionDescription<{ encode(${generateParamArrayNames(
     fn.inputs,
-  )}: ${generateParamTypes(fn.inputs)}): string; }>;
+  )}: ${generateParamArrayTypes(fn.inputs)}): string; }>;
 `;
 }
 
@@ -125,12 +162,16 @@ function generateOutputTypes(outputs: Array<AbiParameter>): string {
   }
 }
 
-function generateParamTypes(params: Array<AbiParameter>): string {
+function generateParamArrayTypes(params: Array<AbiParameter>): string {
   return `[${params.map(param => generateInputType(param.type)).join(", ")}]`;
 }
 
 function generateParamNames(params: Array<AbiParameter | EventArgDeclaration>): string {
-  return `[${params.map(param => param.name).join(", ")}]`;
+  return `${params.map(param => param.name).join(", ")}`;
+}
+
+function generateParamArrayNames(params: Array<AbiParameter | EventArgDeclaration>): string {
+  return `[${generateParamNames(params)}]`;
 }
 
 function generateEvents(event: EventDeclaration) {
@@ -141,7 +182,7 @@ function generateEvents(event: EventDeclaration) {
 
 function generateInterfaceEventDescription(event: EventDeclaration): string {
   return `
-  ${event.name}: TypedEventDescription<{ encodeTopics(${generateParamNames(
+  ${event.name}: TypedEventDescription<{ encodeTopics(${generateParamArrayNames(
     event.inputs,
   )}: ${generateEventTopicTypes(event.inputs)}): string[]; }>;
 `;

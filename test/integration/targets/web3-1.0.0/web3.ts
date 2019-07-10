@@ -23,7 +23,7 @@ before(async () => {
   accounts = r.accounts;
 });
 
-export async function deployContract<T>(contractName: string): Promise<T> {
+export async function deployContract<T>(contractName: string, ...args: any[]): Promise<T> {
   const abiDirPath = join(__dirname, "../../abis");
 
   const abi = JSON.parse(readFileSync(join(abiDirPath, contractName + ".abi"), "utf-8"));
@@ -31,7 +31,7 @@ export async function deployContract<T>(contractName: string): Promise<T> {
   const code = "0x" + bin;
 
   const Contract = new web3.eth.Contract(abi);
-  const t = Contract.deploy({ arguments: [], data: code });
+  const t = Contract.deploy({ arguments: args, data: code });
 
   return (await (t.send({
     from: accounts[0],

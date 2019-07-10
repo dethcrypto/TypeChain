@@ -3,7 +3,10 @@ import { readFileSync } from "fs";
 import { join } from "path";
 import { ContractInstance } from "web3";
 
-export async function deployContract(contractName: string): Promise<ContractInstance> {
+export async function deployContract(
+  contractName: string,
+  ...args: any[]
+): Promise<ContractInstance> {
   return new Promise<ContractInstance>((resolve, reject) => {
     const dirPath = join(__dirname, "../abis");
 
@@ -14,6 +17,7 @@ export async function deployContract(contractName: string): Promise<ContractInst
     const contract = web3.eth.contract(abi);
 
     (contract as any).new(
+      ...args,
       { from: accounts[0], data: code, gas: GAS_LIMIT_STANDARD },
       (err: Error, contract: any) => {
         // this callback gets called multiple times

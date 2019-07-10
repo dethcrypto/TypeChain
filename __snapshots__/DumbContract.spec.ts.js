@@ -211,7 +211,12 @@ export class DumbContract extends TC.TypeChainContract {
         stateMutability: "pure",
         type: "function",
       },
-      { inputs: [], payable: false, stateMutability: "nonpayable", type: "constructor" },
+      {
+        inputs: [{ name: "initialCounter", type: "uint256" }],
+        payable: false,
+        stateMutability: "nonpayable",
+        type: "constructor",
+      },
       {
         anonymous: false,
         inputs: [

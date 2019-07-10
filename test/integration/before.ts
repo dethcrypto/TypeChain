@@ -78,7 +78,7 @@ async function generateEthers(cwd: string, prettierCfg: any) {
   removeSync(join(__dirname, outDir));
 
   const rawConfig: TPluginCfg<ITypechainCfg> = {
-    files: "**/*.abi",
+    files: "**/*.{abi,bin}",
     target: "ethers",
     outDir,
   };
