@@ -1,12 +1,13 @@
 import { expect } from "chai";
-import {
-  extractAbi,
-  RawEventAbiDefinition,
-  parseEvent,
-  ensure0xPrefix,
-  extractBytecode,
-} from "./abiParser";
+
 import { MalformedAbiError } from "../utils/errors";
+import {
+  ensure0xPrefix,
+  extractAbi,
+  extractBytecode,
+  parseEvent,
+  RawEventAbiDefinition,
+} from "./abiParser";
 import { AddressType, UnsignedIntegerType } from "./typeParser";
 
 describe("extractAbi", () => {
@@ -43,16 +44,16 @@ describe("extractBytecode", () => {
     expect(extractBytecode(resultBytecode)).to.eq(resultBytecode);
   });
 
-  it("should return null for non-bytecode non-json input", () => {
-    expect(extractBytecode("surely-not-bytecode")).to.be.null;
+  it("should return undefined for non-bytecode non-json input", () => {
+    expect(extractBytecode("surely-not-bytecode")).to.be.undefined;
   });
 
-  it("should return null for simple abi without bytecode", () => {
-    expect(extractBytecode(`[{ "name": "piece" }]`)).to.be.null;
+  it("should return undefined for simple abi without bytecode", () => {
+    expect(extractBytecode(`[{ "name": "piece" }]`)).to.be.undefined;
   });
 
-  it("should return null for nested abi without bytecode", () => {
-    expect(extractBytecode(`{ "abi": [{ "name": "piece" }] }`)).to.be.null;
+  it("should return undefined for nested abi without bytecode", () => {
+    expect(extractBytecode(`{ "abi": [{ "name": "piece" }] }`)).to.be.undefined;
   });
 
   it("should return bytecode from nested abi (truffle style)", () => {
@@ -64,8 +65,8 @@ describe("extractBytecode", () => {
     expect(extractBytecode(inputJson)).to.eq(resultBytecode);
   });
 
-  it("should return null when nested abi bytecode is malformed", () => {
-    expect(extractBytecode(`{ "bytecode": "surely-not-bytecode" }`)).to.be.null;
+  it("should return undefined when nested abi bytecode is malformed", () => {
+    expect(extractBytecode(`{ "bytecode": "surely-not-bytecode" }`)).to.be.undefined;
   });
 });
 
