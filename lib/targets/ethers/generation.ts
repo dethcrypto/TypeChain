@@ -76,9 +76,11 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode: s
   const constructorArgNames = contract.constructor
     ? generateParamNames(contract.constructor.inputs)
     : "";
+  if (!bytecode) return codegenAbstractContractFactory(contract, abi);
 
   return `
-  import { ContractFactory, Signer } from "ethers";
+  import { Contract, ContractFactory, Signer } from "ethers";
+  import { Provider } from "ethers/providers";
   import { Arrayish, BigNumberish } from "ethers/utils";
   import { UnsignedTransaction } from "ethers/utils/transaction";
 
@@ -100,11 +102,31 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode: s
     connect(signer: Signer): ${contract.name}Factory {
       return super.connect(signer) as ${contract.name}Factory;
     }
+    static connect(address: string, signerOrProvider: Signer | Provider): ${contract.name} {
+      return new Contract(address, _abi, signerOrProvider) as ${contract.name};
+    }
   }
 
   const _abi = ${JSON.stringify(abi, null, 2)};
 
   const _bytecode = "${bytecode}";
+  `;
+}
+
+export function codegenAbstractContractFactory(contract: Contract, abi: any): string {
+  return `
+  import { Contract, Signer } from "ethers";
+  import { Provider } from "ethers/providers";
+
+  import { ${contract.name} } from "./${contract.name}";
+
+  export class ${contract.name}Factory {
+    static connect(address: string, signerOrProvider: Signer | Provider): ${contract.name} {
+      return new Contract(address, _abi, signerOrProvider) as ${contract.name};
+    }
+  }
+
+  const _abi = ${JSON.stringify(abi, null, 2)};
   `;
 }
 
