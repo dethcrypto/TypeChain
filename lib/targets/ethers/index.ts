@@ -1,9 +1,14 @@
-import { TsGeneratorPlugin, TContext, TFileDesc } from "ts-generator";
 import { join } from "path";
-import { extractAbi, parse, Contract, extractBytecode } from "../../parser/abiParser";
-import { getFilename, getFileExtension } from "../shared";
-import { codegenContractTypings, codegenContractFactory } from "./generation";
 import { Dictionary } from "ts-essentials";
+import { TContext, TFileDesc, TsGeneratorPlugin } from "ts-generator";
+
+import { Contract, extractAbi, extractBytecode, parse } from "../../parser/abiParser";
+import { getFileExtension, getFilename } from "../shared";
+import {
+  codegenAbstractContractFactory,
+  codegenContractFactory,
+  codegenContractTypings,
+} from "./generation";
 
 export interface IEthersCfg {
   outDir?: string;
@@ -57,6 +62,7 @@ export class Ethers extends TsGeneratorPlugin {
 
     if (this.contractCache[name]) {
       const { contract, abi } = this.contractCache[name];
+      delete this.contractCache[name];
       return [this.genContractFactoryFile(contract, abi, bytecode)];
     } else {
       this.bytecodeCache[name] = bytecode;
@@ -100,7 +106,17 @@ export class Ethers extends TsGeneratorPlugin {
   }
 
   afterRun(): TFileDesc[] {
+    // For each contract that doesn't have bytecode (it's either abstract, or only ABI was provided)
+    // generate a simplified factory, that allows to interact with deployed contract instances.
+    const abstractFactoryFiles = Object.keys(this.contractCache).map(contractName => {
+      const { contract, abi } = this.contractCache[contractName];
+      return {
+        path: join(this.outDirAbs, `${contract.name}Factory.ts`),
+        contents: codegenAbstractContractFactory(contract, abi),
+      };
+    });
     return [
+      ...abstractFactoryFiles,
       {
         path: join(this.outDirAbs, "index.d.ts"),
         contents: `
