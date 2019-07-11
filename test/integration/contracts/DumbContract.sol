@@ -91,6 +91,8 @@ contract DumbContract {
     return a;
   }
 
+  function testVoidReturn() pure public {}
+
   event Deposit(
     address indexed from,
     uint value

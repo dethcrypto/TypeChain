@@ -262,7 +262,7 @@ function generateInputType(evmType: EvmType): string {
       return generateTupleType(evmType as TupleType, generateInputType);
 
     default:
-      throw new Error(`Unrecognized type ${evmType}`);
+      throw new Error(`Unrecognized type ${evmType.constructor.name}`);
   }
 }
 
@@ -289,7 +289,7 @@ function generateOutputType(evmType: EvmType): string {
       return generateTupleType(evmType as TupleType, generateOutputType);
 
     default:
-      throw new Error(`Unrecognized type ${evmType}`);
+      throw new Error(`Unrecognized type ${evmType.constructor.name}`);
   }
 }
 

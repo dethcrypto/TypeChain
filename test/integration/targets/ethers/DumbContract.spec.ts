@@ -1,11 +1,11 @@
-import { DumbContract } from "./types/ethers-contracts/DumbContract";
-import { DumbContractFactory } from "./types/ethers-contracts/DumbContractFactory";
-import { BigNumber } from "ethers/utils";
-
 import { expect } from "chai";
 import { Event } from "ethers";
+import { BigNumber } from "ethers/utils";
 import { arrayify } from "ethers/utils/bytes";
+
 import { getTestSigner } from "./ethers";
+import { DumbContract } from "./types/ethers-contracts/DumbContract";
+import { DumbContractFactory } from "./types/ethers-contracts/DumbContractFactory";
 
 describe("DumbContract", () => {
   function deployDumbContract(): Promise<DumbContract> {
@@ -34,6 +34,20 @@ describe("DumbContract", () => {
     expect(await contract2.functions.counter()).to.be.deep.eq(new BigNumber("1234123412341234123"));
     const contract3 = await factory.deploy(new BigNumber("5678567856785678567"));
     expect(await contract3.functions.counter()).to.be.deep.eq(new BigNumber("5678567856785678567"));
+  });
+
+  it("should allow connecting to an existing contract instance with signer or provider", async () => {
+    const contract1 = await new DumbContractFactory(getTestSigner()).deploy(42);
+    const contract2 = DumbContractFactory.connect(
+      contract1.address,
+      getTestSigner(),
+    );
+    expect(await contract2.functions.counter()).to.be.deep.eq(new BigNumber("42"));
+    const contract3 = DumbContractFactory.connect(
+      contract1.address,
+      getTestSigner().provider!,
+    );
+    expect(await contract3.functions.counter()).to.be.deep.eq(new BigNumber("42"));
   });
 
   it("should allow to pass unsigned values in multiple ways", async () => {
