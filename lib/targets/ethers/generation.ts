@@ -78,11 +78,20 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode: s
     : "";
   if (!bytecode) return codegenAbstractContractFactory(contract, abi);
 
+  // tsc with noUnusedLocals would complain about unused imports
+  const ethersUtilsImports: string[] = [];
+  if (constructorArgs.match(/: Arrayish/)) ethersUtilsImports.push("Arrayish");
+  if (constructorArgs.match(/: BigNumberish/)) ethersUtilsImports.push("BigNumberish");
+  const ethersUtilsImportLine =
+    ethersUtilsImports.length > 0
+      ? `import { ${ethersUtilsImports.join(", ")} } from "ethers/utils";`
+      : "";
+
   return `
   import { Contract, ContractFactory, Signer } from "ethers";
   import { Provider } from "ethers/providers";
-  import { Arrayish, BigNumberish } from "ethers/utils";
   import { UnsignedTransaction } from "ethers/utils/transaction";
+  ${ethersUtilsImportLine}
 
   import { ${contract.name} } from "./${contract.name}";
 
