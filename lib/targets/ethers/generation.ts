@@ -76,11 +76,22 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode: s
   const constructorArgNames = contract.constructor
     ? generateParamNames(contract.constructor.inputs)
     : "";
+  if (!bytecode) return codegenAbstractContractFactory(contract, abi);
+
+  // tsc with noUnusedLocals would complain about unused imports
+  const ethersUtilsImports: string[] = [];
+  if (constructorArgs.match(/: Arrayish/)) ethersUtilsImports.push("Arrayish");
+  if (constructorArgs.match(/: BigNumberish/)) ethersUtilsImports.push("BigNumberish");
+  const ethersUtilsImportLine =
+    ethersUtilsImports.length > 0
+      ? `import { ${ethersUtilsImports.join(", ")} } from "ethers/utils";`
+      : "";
 
   return `
-  import { ContractFactory, Signer } from "ethers";
-  import { Arrayish, BigNumberish } from "ethers/utils";
+  import { Contract, ContractFactory, Signer } from "ethers";
+  import { Provider } from "ethers/providers";
   import { UnsignedTransaction } from "ethers/utils/transaction";
+  ${ethersUtilsImportLine}
 
   import { ${contract.name} } from "./${contract.name}";
 
@@ -100,11 +111,31 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode: s
     connect(signer: Signer): ${contract.name}Factory {
       return super.connect(signer) as ${contract.name}Factory;
     }
+    static connect(address: string, signerOrProvider: Signer | Provider): ${contract.name} {
+      return new Contract(address, _abi, signerOrProvider) as ${contract.name};
+    }
   }
 
   const _abi = ${JSON.stringify(abi, null, 2)};
 
   const _bytecode = "${bytecode}";
+  `;
+}
+
+export function codegenAbstractContractFactory(contract: Contract, abi: any): string {
+  return `
+  import { Contract, Signer } from "ethers";
+  import { Provider } from "ethers/providers";
+
+  import { ${contract.name} } from "./${contract.name}";
+
+  export class ${contract.name}Factory {
+    static connect(address: string, signerOrProvider: Signer | Provider): ${contract.name} {
+      return new Contract(address, _abi, signerOrProvider) as ${contract.name};
+    }
+  }
+
+  const _abi = ${JSON.stringify(abi, null, 2)};
   `;
 }
 
@@ -231,7 +262,7 @@ function generateInputType(evmType: EvmType): string {
       return generateTupleType(evmType as TupleType, generateInputType);
 
     default:
-      throw new Error(`Unrecognized type ${evmType}`);
+      throw new Error(`Unrecognized type ${evmType.constructor.name}`);
   }
 }
 
@@ -258,7 +289,7 @@ function generateOutputType(evmType: EvmType): string {
       return generateTupleType(evmType as TupleType, generateOutputType);
 
     default:
-      throw new Error(`Unrecognized type ${evmType}`);
+      throw new Error(`Unrecognized type ${evmType.constructor.name}`);
   }
 }
 

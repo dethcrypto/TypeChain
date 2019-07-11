@@ -176,6 +176,15 @@ export class DumbContract extends TC.TypeChainContract {
         type: "function",
       },
       {
+        constant: true,
+        inputs: [],
+        name: "testVoidReturn",
+        outputs: [],
+        payable: false,
+        stateMutability: "pure",
+        type: "function",
+      },
+      {
         constant: false,
         inputs: [{ name: "dynamicBytes", type: "bytes" }],
         name: "callWithDynamicByteArray",
@@ -308,6 +317,10 @@ export class DumbContract extends TC.TypeChainContract {
 
   public counterWithOffset(offset: BigNumber | number): Promise<BigNumber> {
     return TC.promisify(this.rawWeb3Contract.counterWithOffset, [offset.toString()]);
+  }
+
+  public testVoidReturn(): Promise<void> {
+    return TC.promisify(this.rawWeb3Contract.testVoidReturn, []);
   }
 
   public countupForEtherTx(): TC.DeferredTransactionWrapper<TC.IPayableTxParams> {
