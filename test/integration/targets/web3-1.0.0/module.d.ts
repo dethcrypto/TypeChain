@@ -1,45 +1,7 @@
 declare module 'web3-eth-contract'{
-  import BN from "bn.js";
-
-  type ABIDataTypes = "uint256" | "boolean" | "string" | "bytes" | string; // TODO complete list
-
-  type BlockType = "latest" | "pending" | "genesis" | number;
-
-  type PromiEventType = "transactionHash" | "receipt" | "confirmation" | "error";
-
-  interface ABIDefinition {
-    constant?: boolean;
-    payable?: boolean;
-    stateMutability?: "pure" | "view" | "nonpayable" | "payable";
-    anonymous?: boolean;
-    inputs?: Array<{ name: string; type: ABIDataTypes; indexed?: boolean }>;
-    name?: string;
-    outputs?: Array<{ name: string; type: ABIDataTypes }>;
-    type: "function" | "constructor" | "event" | "fallback";
-  }
-
-  interface Callback<ResultType> {
-    (error: Error): void;
-    (error: null, val: ResultType): void;
-  }
-
-  interface contractOptions {
-    address: string;
-    jsonInterface: ABIDefinition[];
-    data: string;
-    from: string;
-    gasPrice: string;
-    gas: number;
-  }
-
-  interface CustomOptions {
-    address?: string;
-    jsonInterface?: ABIDefinition[];
-    data?: string;
-    from?: string;
-    gasPrice?: string;
-    gas?: number;
-  }
+  import BN = require('bn.js');
+  import {provider} from 'web3-providers';
+  import {AbiInput, AbiOutput, AbiItem} from 'web3-utils';
 
   interface EventLog {
     event: string;
@@ -50,125 +12,140 @@ declare module 'web3-eth-contract'{
     transactionHash: string;
     blockHash: string;
     blockNumber: number;
-    raw?: { data: string; topics: string[] };
-  }
-
-  interface EventEmitter {
-    on(type: "data", handler: (event: EventLog) => void): EventEmitter;
-    on(type: "changed", handler: (receipt: EventLog) => void): EventEmitter;
-    on(type: "error", handler: (error: Error) => void): EventEmitter;
-    on(
-      type: "error" | "data" | "changed",
-      handler: (error: Error | TransactionReceipt | string) => void
-    ): EventEmitter;
-  }
-
-  interface JsonRPCRequest {
-    jsonrpc: string;
-    method: string;
-    params: any[];
-    id: number;
-  }
-
-  interface JsonRPCResponse {
-    jsonrpc: string;
-    id: number;
-    result?: any;
-    error?: string;
+    raw?: {data: string; topics: any[]};
   }
 
   interface Log {
     address: string;
     data: string;
-    topics: string[];
+    topics: Array<string | string[]>;
     logIndex: number;
-    transactionHash: string;
     transactionIndex: number;
+    transactionHash: string;
     blockHash: string;
     blockNumber: number;
   }
 
-  interface PromiEvent<T> extends Promise<T> {
-    once(
-      type: "transactionHash",
-      handler: (receipt: string) => void
-    ): PromiEvent<T>;
-    once(
-      type: "receipt",
-      handler: (receipt: TransactionReceipt) => void
-    ): PromiEvent<T>;
-    once(
-      type: "confirmation",
-      handler: (confNumber: number, receipt: TransactionReceipt) => void
-    ): PromiEvent<T>;
-    once(type: "error", handler: (error: Error) => void): PromiEvent<T>;
-    once(
-      type: PromiEventType,
-      handler: (error: Error | TransactionReceipt | string) => void
-    ): PromiEvent<T>;
-    on(
-      type: "transactionHash",
-      handler: (receipt: string) => void
-    ): PromiEvent<T>;
-    on(
-      type: "receipt",
-      handler: (receipt: TransactionReceipt) => void
-    ): PromiEvent<T>;
-    on(
-      type: "confirmation",
-      handler: (confNumber: number, receipt: TransactionReceipt) => void
-    ): PromiEvent<T>;
-    on(type: "error", handler: (error: Error) => void): PromiEvent<T>;
-    on(
-      type: "error" | "confirmation" | "receipt" | "transactionHash",
-      handler: (error: Error | TransactionReceipt | string) => void
-    ): PromiEvent<T>;
-  }
-
-  class Provider {
-    send(payload: JsonRPCRequest, callback: Callback<JsonRPCResponse>): any;
-  }
-
-  interface Tx {
-    nonce?: string | number;
-    chainId?: string | number;
-    from?: string;
-    to?: string;
-    data?: string;
-    value?: string | number;
-    gas?: string | number;
-    gasPrice?: string | number;
-  }
-
-  interface TransactionObject<T> {
-    arguments: any[];
-    call(tx?: Tx): Promise<T>;
-    send(tx?: Tx): PromiEvent<T>;
-    estimateGas(tx?: Tx): Promise<number>;
-    encodeABI(): string;
-  }
-
   interface TransactionReceipt {
+    status: boolean;
     transactionHash: string;
     transactionIndex: number;
     blockHash: string;
     blockNumber: number;
     from: string;
     to: string;
-    contractAddress: string;
+    contractAddress?: string;
     cumulativeGasUsed: number;
     gasUsed: number;
-    logs?: Log[];
+    logs: Log[];
+    logsBloom: string;
     events?: {
       [eventName: string]: EventLog;
     };
-    status: boolean;
+  }
+
+  interface PromiEvent<T> extends Promise<T> {
+    once(type: 'transactionHash', handler: (receipt: string) => void): PromiEvent<T>;
+
+    once(type: 'receipt', handler: (receipt: TransactionReceipt) => void): PromiEvent<T>;
+
+    once(type: 'confirmation', handler: (confNumber: number, receipt: TransactionReceipt) => void): PromiEvent<T>;
+
+    once(type: 'error', handler: (error: Error) => void): PromiEvent<T>;
+
+    once(
+      type: 'error' | 'confirmation' | 'receipt' | 'transactionHash',
+      handler: (error: Error | TransactionReceipt | string) => void
+    ): PromiEvent<T>;
+
+    on(type: 'transactionHash', handler: (receipt: string) => void): PromiEvent<T>;
+
+    on(type: 'receipt', handler: (receipt: TransactionReceipt) => void): PromiEvent<T>;
+
+    on(type: 'confirmation', handler: (confNumber: number, receipt: TransactionReceipt) => void): PromiEvent<T>;
+
+    on(type: 'error', handler: (error: Error) => void): PromiEvent<T>;
+
+    on(
+      type: 'error' | 'confirmation' | 'receipt' | 'transactionHash',
+      handler: (error: Error | TransactionReceipt | string) => void
+    ): PromiEvent<T>;
+  }
+
+  export class Contract {
+    constructor(
+      provider: provider,
+      abi: AbiItem[],
+      address?: string,
+      options?: ContractOptions
+    )
+
+    address: string;
+    jsonInterface: AbiModel;
+
+    options: Options;
+
+    clone(): Contract;
+
+    deploy(options: DeployOptions): ContractSendMethod;
+
+    methods: any;
+
+    once(event: string, callback: (error: Error, event: EventData) => void): void;
+    once(event: string, options: EventOptions, callback: (error: Error, event: EventData) => void): void;
+
+    events: any;
+
+    getPastEvents(event: string): Promise<EventData[]>;
+    getPastEvents(event: string, options: EventOptions, callback: (error: Error, event: EventData) => void): Promise<EventData[]>;
+    getPastEvents(event: string, options: EventOptions): Promise<EventData[]>;
+    getPastEvents(event: string, callback: (error: Error, event: EventData) => void): Promise<EventData[]>;
+  }
+
+  export interface Options {
+    address: string;
+    data: string;
+  }
+
+  export interface DeployOptions {
+    data: string;
+    arguments?: any[];
+  }
+
+  export interface ContractSendMethod {
+    send(options: SendOptions, callback?: (err: Error, transactionHash: string) => void): PromiEvent<Contract>;
+
+    estimateGas(options: EstimateGasOptions, callback?: (err: Error, gas: number) => void): Promise<number>;
+
+    estimateGas(callback: (err: Error, gas: number) => void): Promise<number>;
+
+    estimateGas(options: EstimateGasOptions, callback: (err: Error, gas: number) => void): Promise<number>;
+
+    estimateGas(options: EstimateGasOptions): Promise<number>;
+
+    estimateGas(): Promise<number>;
+
+    encodeABI(): string;
+  }
+
+  export interface SendOptions {
+    from: string;
+    gasPrice?: string;
+    gas?: number;
+    value?: number | string | BN;
   }
 
   export interface EstimateGasOptions {
     from?: string;
     gas?: number;
     value?: number | string | BN;
+  }
+
+  export interface ContractOptions {
+    from: string;
+    gasPrice: string;
+    gas: number;
+    data: string;
   }
 
   export interface EventOptions {
@@ -178,60 +155,56 @@ declare module 'web3-eth-contract'{
     topics?: any[];
   }
 
-  export interface ContractOptions {
-    address: string;
-    jsonInterface: ABIDefinition[];
-    data: string;
-    from: string;
-    gasPrice: string;
-    gas: number;
-  }
-
-  export class Contract {
-    constructor(
-      jsonInterface: any[],
-      address?: string,
-      options?: CustomOptions
-    );
-    options: contractOptions;
-    methods: {
-      [fnName: string]: (...args: any[]) => TransactionObject<any>;
-    };
-    deploy(options: {
+  export interface EventData {
+    returnValues: {
+      [key: string]: any;
+    },
+    raw: {
       data: string;
-      arguments: any[];
-    }): TransactionObject<Contract>;
-    events: {
-      [eventName: string]: (
-        options?: {
-          filter?: object;
-          fromBlock?: BlockType;
-          topics?: string[];
-        },
-        cb?: Callback<EventLog>
-      ) => EventEmitter;
-      allEvents: (
-        options?: {
-          filter?: object;
-          fromBlock?: BlockType;
-          topics?: string[];
-        },
-        cb?: Callback<EventLog>
-      ) => EventEmitter;
-    };
-    getPastEvents(
-      event: string,
-      options?: {
-        filter?: object;
-        fromBlock?: BlockType;
-        toBlock?: BlockType;
-        topics?: string[];
-      },
-      cb?: Callback<EventLog[]>
-    ): Promise<EventLog[]>;
-    setProvider(provider: Provider): void;
+      topics: string[];
+    },
+    event: string;
+    signature: string;
+    logIndex: number;
+    transactionIndex: number;
+    transactionHash: string;
+    blockHash: string;
+    blockNumber: number;
+    address: string;
   }
 
+  export interface AbiModel {
+    getMethod(name: string): AbiItemModel | false;
+
+    getMethods(): AbiItemModel[];
+
+    hasMethod(name: string): boolean;
+
+    getEvent(name: string): AbiItemModel | false;
+
+    getEvents(): AbiItemModel[];
+
+    getEventBySignature(signature: string): AbiItemModel;
+
+    hasEvent(name: string): boolean;
+  }
+
+  export interface AbiItemModel {
+    signature: string;
+    name: string;
+    payable: boolean;
+    anonymous: boolean;
+
+    getInputLength(): number;
+
+    getInputs(): AbiInput[];
+
+    getIndexedInputs(): AbiInput[];
+
+    getOutputs(): AbiOutput[];
+
+    isOfType(): boolean;
+  }
 }
 
 declare module 'web3-core' {
@@ -244,6 +217,6 @@ declare module 'web3-core' {
     transactionHash: string;
     blockHash: string;
     blockNumber: number;
-    raw?: { data: string; topics: string[] };
+    raw?: {data: string; topics: any[]};
   }
 }
