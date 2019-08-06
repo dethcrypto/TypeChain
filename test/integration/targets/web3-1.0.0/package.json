@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
+    "bn.js": "^5.0.0",
     "web3": "^1.2.0",
     "web3-core": "^1.2.0",
     "web3-eth-contract": "^1.2.0"

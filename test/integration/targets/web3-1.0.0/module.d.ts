@@ -1,65 +1,74 @@
-declare module 'web3-eth-contract'{
-  import BN = require('bn.js');
-  import * as net from 'net';
+declare module "web3-eth-contract" {
+  import BN = require("bn.js");
+  import * as net from "net";
 
-  type AbiType = 'function' | 'constructor' | 'event' | 'fallback';
+  type AbiType = "function" | "constructor" | "event" | "fallback";
 
-  type provider = HttpProvider | IpcProvider | WebsocketProvider | Web3EthereumProvider | CustomProvider | string | null;
+  type provider =
+    | HttpProvider
+    | IpcProvider
+    | WebsocketProvider
+    | Web3EthereumProvider
+    | CustomProvider
+    | string
+    | null;
 
   type Hex = string | number;
 
-  type StateMutabilityType = 'pure' | 'view' | 'nonpayable' | 'payable';
+  type StateMutabilityType = "pure" | "view" | "nonpayable" | "payable";
 
   type Mixed =
     | string
     | number
     | BN
     | {
-          type: string;
-          value: string;
+        type: string;
+        value: string;
       }
     | {
-          t: string;
-          v: string | BN | number;
+        t: string;
+        v: string | BN | number;
       }
     | boolean;
 
-
   type Unit =
-    | 'noether'
-    | 'wei'
-    | 'kwei'
-    | 'Kwei'
-    | 'babbage'
-    | 'femtoether'
-    | 'mwei'
-    | 'Mwei'
-    | 'lovelace'
-    | 'picoether'
-    | 'gwei'
-    | 'Gwei'
-    | 'shannon'
-    | 'nanoether'
-    | 'nano'
-    | 'szabo'
-    | 'microether'
-    | 'micro'
-    | 'finney'
-    | 'milliether'
-    | 'milli'
-    | 'ether'
-    | 'kether'
-    | 'grand'
-    | 'mether'
-    | 'gether'
-    | 'tether';
+    | "noether"
+    | "wei"
+    | "kwei"
+    | "Kwei"
+    | "babbage"
+    | "femtoether"
+    | "mwei"
+    | "Mwei"
+    | "lovelace"
+    | "picoether"
+    | "gwei"
+    | "Gwei"
+    | "shannon"
+    | "nanoether"
+    | "nano"
+    | "szabo"
+    | "microether"
+    | "micro"
+    | "finney"
+    | "milliether"
+    | "milli"
+    | "ether"
+    | "kether"
+    | "grand"
+    | "mether"
+    | "gether"
+    | "tether";
 
   export class formatters {
     static outputBigNumberFormatter(number: number): number;
     static inputSignFormatter(data: string): string;
     static inputAddressFormatter(address: string): string;
     static isPredefinedBlockNumber(blockNumber: string): boolean;
-    static inputDefaultBlockNumberFormatter(blockNumber: string, moduleInstance: AbstractWeb3Module): string;
+    static inputDefaultBlockNumberFormatter(
+      blockNumber: string,
+      moduleInstance: AbstractWeb3Module,
+    ): string;
     static inputBlockNumberFormatter(blockNumber: string | number): string | number;
     static outputBlockFormatter(block: object): object; // TODO: Create Block interface
     static txInputFormatter(txObject: object): object;
@@ -73,7 +82,6 @@ declare module 'web3-eth-contract'{
     static outputPostFormatter(post: object): object; // TODO: Create Post interface
     static outputSyncingFormatter(result: object): object; // TODO: Create SyncLog interface
   }
-
 
   interface Units {
     noether: string;
@@ -151,17 +159,17 @@ declare module 'web3-eth-contract'{
     unitMap(): Units;
     testAddress(bloom: string, address: string): boolean;
     testTopic(bloom: string, topic: string): boolean;
-    getSignatureParameters(signature: string): {r: string; s: string; v: number};
+    getSignatureParameters(signature: string): { r: string; s: string; v: number };
     stripHexPrefix(str: string): string;
   }
 
   class AbstractMethod {
     constructor(
-        rpcMethod: string,
-        parametersAmount: number,
-        utils: Utils,
-        formatters: formatters,
-        moduleInstance: AbstractWeb3Module
+      rpcMethod: string,
+      parametersAmount: number,
+      utils: Utils,
+      formatters: formatters,
+      moduleInstance: AbstractWeb3Module,
     );
 
     utils: Utils;
@@ -184,10 +192,10 @@ declare module 'web3-eth-contract'{
 
   class AbstractWeb3Module {
     constructor(
-        provider: provider,
-        options?: Web3ModuleOptions,
-        methodFactory?: AbstractMethodFactory,
-        net?: net.Socket | null
+      provider: provider,
+      options?: Web3ModuleOptions,
+      methodFactory?: AbstractMethodFactory,
+      net?: net.Socket | null,
     );
 
     BatchRequest: new () => BatchRequest;
@@ -199,7 +207,12 @@ declare module 'web3-eth-contract'{
     defaultGas: number;
     static readonly providers: Providers;
     defaultAccount: string | null;
-    readonly currentProvider: Web3EthereumProvider | HttpProvider | IpcProvider | WebsocketProvider | CustomProvider;
+    readonly currentProvider:
+      | Web3EthereumProvider
+      | HttpProvider
+      | IpcProvider
+      | WebsocketProvider
+      | CustomProvider;
     readonly givenProvider: any;
 
     setProvider(provider: provider, net?: net.Socket): boolean;
@@ -258,7 +271,7 @@ declare module 'web3-eth-contract'{
   class BatchRequest {
     constructor(moduleInstance: AbstractWeb3Module);
     add(method: AbstractMethod): void;
-    execute(): Promise<{methods: AbstractMethod[]; response: any[]} | Error[]>;
+    execute(): Promise<{ methods: AbstractMethod[]; response: any[] } | Error[]>;
   }
 
   interface Providers {
@@ -328,7 +341,11 @@ declare module 'web3-eth-contract'{
 
     sendBatch(methods: AbstractMethod[], moduleInstance: AbstractWeb3Module): Promise<any[]>;
 
-    subscribe(subscribeMethod: string, subscriptionMethod: string, parameters: any[]): Promise<string>;
+    subscribe(
+      subscribeMethod: string,
+      subscriptionMethod: string,
+      parameters: any[],
+    ): Promise<string>;
 
     unsubscribe(subscriptionId: string, unsubscribeMethod: string): Promise<boolean>;
 
@@ -356,7 +373,7 @@ declare module 'web3-eth-contract'{
     transactionHash: string;
     blockHash: string;
     blockNumber: number;
-    raw?: {data: string; topics: any[]};
+    raw?: { data: string; topics: any[] };
   }
 
   interface Log {
@@ -389,30 +406,36 @@ declare module 'web3-eth-contract'{
   }
 
   interface PromiEvent<T> extends Promise<T> {
-    once(type: 'transactionHash', handler: (receipt: string) => void): PromiEvent<T>;
+    once(type: "transactionHash", handler: (receipt: string) => void): PromiEvent<T>;
 
-    once(type: 'receipt', handler: (receipt: TransactionReceipt) => void): PromiEvent<T>;
-
-    once(type: 'confirmation', handler: (confNumber: number, receipt: TransactionReceipt) => void): PromiEvent<T>;
-
-    once(type: 'error', handler: (error: Error) => void): PromiEvent<T>;
+    once(type: "receipt", handler: (receipt: TransactionReceipt) => void): PromiEvent<T>;
 
     once(
-      type: 'error' | 'confirmation' | 'receipt' | 'transactionHash',
-      handler: (error: Error | TransactionReceipt | string) => void
+      type: "confirmation",
+      handler: (confNumber: number, receipt: TransactionReceipt) => void,
     ): PromiEvent<T>;
 
-    on(type: 'transactionHash', handler: (receipt: string) => void): PromiEvent<T>;
+    once(type: "error", handler: (error: Error) => void): PromiEvent<T>;
 
-    on(type: 'receipt', handler: (receipt: TransactionReceipt) => void): PromiEvent<T>;
+    once(
+      type: "error" | "confirmation" | "receipt" | "transactionHash",
+      handler: (error: Error | TransactionReceipt | string) => void,
+    ): PromiEvent<T>;
 
-    on(type: 'confirmation', handler: (confNumber: number, receipt: TransactionReceipt) => void): PromiEvent<T>;
+    on(type: "transactionHash", handler: (receipt: string) => void): PromiEvent<T>;
 
-    on(type: 'error', handler: (error: Error) => void): PromiEvent<T>;
+    on(type: "receipt", handler: (receipt: TransactionReceipt) => void): PromiEvent<T>;
 
     on(
-      type: 'error' | 'confirmation' | 'receipt' | 'transactionHash',
-      handler: (error: Error | TransactionReceipt | string) => void
+      type: "confirmation",
+      handler: (confNumber: number, receipt: TransactionReceipt) => void,
+    ): PromiEvent<T>;
+
+    on(type: "error", handler: (error: Error) => void): PromiEvent<T>;
+
+    on(
+      type: "error" | "confirmation" | "receipt" | "transactionHash",
+      handler: (error: Error | TransactionReceipt | string) => void,
     ): PromiEvent<T>;
   }
 
@@ -431,7 +454,7 @@ declare module 'web3-eth-contract'{
     name: string;
     type: string;
     indexed?: boolean;
-  	components?: AbiInput[];
+    components?: AbiInput[];
   }
 
   interface AbiOutput {
@@ -441,12 +464,7 @@ declare module 'web3-eth-contract'{
   }
 
   export class Contract {
-    constructor(
-      provider: provider,
-      abi: AbiItem[],
-      address?: string,
-      options?: ContractOptions
-    )
+    constructor(provider: provider, abi: AbiItem[], address?: string, options?: ContractOptions);
 
     address: string;
     jsonInterface: AbiModel;
@@ -460,14 +478,25 @@ declare module 'web3-eth-contract'{
     methods: any;
 
     once(event: string, callback: (error: Error, event: EventData) => void): void;
-    once(event: string, options: EventOptions, callback: (error: Error, event: EventData) => void): void;
+    once(
+      event: string,
+      options: EventOptions,
+      callback: (error: Error, event: EventData) => void,
+    ): void;
 
     events: any;
 
     getPastEvents(event: string): Promise<EventData[]>;
-    getPastEvents(event: string, options: EventOptions, callback: (error: Error, event: EventData) => void): Promise<EventData[]>;
+    getPastEvents(
+      event: string,
+      options: EventOptions,
+      callback: (error: Error, event: EventData) => void,
+    ): Promise<EventData[]>;
     getPastEvents(event: string, options: EventOptions): Promise<EventData[]>;
-    getPastEvents(event: string, callback: (error: Error, event: EventData) => void): Promise<EventData[]>;
+    getPastEvents(
+      event: string,
+      callback: (error: Error, event: EventData) => void,
+    ): Promise<EventData[]>;
   }
 
   export interface Options {
@@ -481,13 +510,22 @@ declare module 'web3-eth-contract'{
   }
 
   export interface ContractSendMethod {
-    send(options: SendOptions, callback?: (err: Error, transactionHash: string) => void): PromiEvent<Contract>;
+    send(
+      options: SendOptions,
+      callback?: (err: Error, transactionHash: string) => void,
+    ): PromiEvent<Contract>;
 
-    estimateGas(options: EstimateGasOptions, callback?: (err: Error, gas: number) => void): Promise<number>;
+    estimateGas(
+      options: EstimateGasOptions,
+      callback?: (err: Error, gas: number) => void,
+    ): Promise<number>;
 
     estimateGas(callback: (err: Error, gas: number) => void): Promise<number>;
 
-    estimateGas(options: EstimateGasOptions, callback: (err: Error, gas: number) => void): Promise<number>;
+    estimateGas(
+      options: EstimateGasOptions,
+      callback: (err: Error, gas: number) => void,
+    ): Promise<number>;
 
     estimateGas(options: EstimateGasOptions): Promise<number>;
 
@@ -526,11 +564,11 @@ declare module 'web3-eth-contract'{
   export interface EventData {
     returnValues: {
       [key: string]: any;
-    },
+    };
     raw: {
       data: string;
       topics: string[];
-    },
+    };
     event: string;
     signature: string;
     logIndex: number;
@@ -575,7 +613,7 @@ declare module 'web3-eth-contract'{
   }
 }
 
-declare module 'web3-core' {
+declare module "web3-core" {
   export interface EventLog {
     event: string;
     address: string;
@@ -585,73 +623,74 @@ declare module 'web3-core' {
     transactionHash: string;
     blockHash: string;
     blockNumber: number;
-    raw?: {data: string; topics: any[]};
+    raw?: { data: string; topics: any[] };
   }
 }
 
-declare module 'web3'{
-  import BN = require('bn.js');
-  import * as net from 'net';
+declare module "web3" {
+  import BN = require("bn.js");
+  import * as net from "net";
 
-  type AbiType = 'function' | 'constructor' | 'event' | 'fallback';
+  type AbiType = "function" | "constructor" | "event" | "fallback";
 
-  type provider = HttpProvider | IpcProvider | WebsocketProvider | Web3EthereumProvider | CustomProvider | string | null;
+  type provider =
+    | HttpProvider
+    | IpcProvider
+    | WebsocketProvider
+    | Web3EthereumProvider
+    | CustomProvider
+    | string
+    | null;
 
   type Hex = string | number;
 
-  type StateMutabilityType = 'pure' | 'view' | 'nonpayable' | 'payable';
+  type StateMutabilityType = "pure" | "view" | "nonpayable" | "payable";
 
   type Mixed =
     | string
     | number
     | BN
     | {
-          type: string;
-          value: string;
+        type: string;
+        value: string;
       }
     | {
-          t: string;
-          v: string | BN | number;
+        t: string;
+        v: string | BN | number;
       }
     | boolean;
 
-
   type Unit =
-    | 'noether'
-    | 'wei'
-    | 'kwei'
-    | 'Kwei'
-    | 'babbage'
-    | 'femtoether'
-    | 'mwei'
-    | 'Mwei'
-    | 'lovelace'
-    | 'picoether'
-    | 'gwei'
-    | 'Gwei'
-    | 'shannon'
-    | 'nanoether'
-    | 'nano'
-    | 'szabo'
-    | 'microether'
-    | 'micro'
-    | 'finney'
-    | 'milliether'
-    | 'milli'
-    | 'ether'
-    | 'kether'
-    | 'grand'
-    | 'mether'
-    | 'gether'
-    | 'tether';
-
+    | "noether"
+    | "wei"
+    | "kwei"
+    | "Kwei"
+    | "babbage"
+    | "femtoether"
+    | "mwei"
+    | "Mwei"
+    | "lovelace"
+    | "picoether"
+    | "gwei"
+    | "Gwei"
+    | "shannon"
+    | "nanoether"
+    | "nano"
+    | "szabo"
+    | "microether"
+    | "micro"
+    | "finney"
+    | "milliether"
+    | "milli"
+    | "ether"
+    | "kether"
+    | "grand"
+    | "mether"
+    | "gether"
+    | "tether";
 
   export default class Web3 extends AbstractWeb3Module {
-    constructor(
-        provider: provider,
-        net?: net.Socket,
-        options?: Web3ModuleOptions
-    );
+    constructor(provider: provider, net?: net.Socket, options?: Web3ModuleOptions);
 
     static modules: Modules;
     static readonly givenProvider: any;
@@ -662,29 +701,45 @@ declare module 'web3'{
   }
 
   export interface Modules {
-      Eth: new (provider: provider, net: net.Socket) => Eth;
+    Eth: new (provider: provider, net: net.Socket) => Eth;
   }
 
   class Eth extends AbstractWeb3Module {
-    constructor(
-        provider: provider,
-        net?: net.Socket | null,
-        options?: Web3ModuleOptions
-    );
+    constructor(provider: provider, net?: net.Socket | null, options?: Web3ModuleOptions);
 
-    Contract: new (jsonInterface: AbiItem[] | AbiItem, address?: string, options?: ContractOptions) => Contract;
+    Contract: new (
+      jsonInterface: AbiItem[] | AbiItem,
+      address?: string,
+      options?: ContractOptions,
+    ) => Contract;
     accounts: Accounts;
 
     clearSubscriptions(): Promise<boolean>;
 
-    subscribe(type: 'logs', options?: LogsOptions, callback?: (error: Error, log: Log) => void): Subscription<Log>;
-    subscribe(type: 'syncing', options?: null, callback?: (error: Error, result: Syncing) => void): Subscription<Syncing>;
-    subscribe(type: 'newBlockHeaders', options?: null, callback?: (error: Error, blockHeader: BlockHeader) => void): Subscription<BlockHeader>;
-    subscribe(type: 'pendingTransactions', options?: null, callback?: (error: Error, transactionHash: string) => void): Subscription<string>;
     subscribe(
-        type: 'pendingTransactions' | 'logs' | 'syncing' | 'newBlockHeaders',
-        options?: null | LogsOptions,
-        callback?: (error: Error, item: Log | Syncing | BlockHeader | string) => void
+      type: "logs",
+      options?: LogsOptions,
+      callback?: (error: Error, log: Log) => void,
+    ): Subscription<Log>;
+    subscribe(
+      type: "syncing",
+      options?: null,
+      callback?: (error: Error, result: Syncing) => void,
+    ): Subscription<Syncing>;
+    subscribe(
+      type: "newBlockHeaders",
+      options?: null,
+      callback?: (error: Error, blockHeader: BlockHeader) => void,
+    ): Subscription<BlockHeader>;
+    subscribe(
+      type: "pendingTransactions",
+      options?: null,
+      callback?: (error: Error, transactionHash: string) => void,
+    ): Subscription<string>;
+    subscribe(
+      type: "pendingTransactions" | "logs" | "syncing" | "newBlockHeaders",
+      options?: null | LogsOptions,
+      callback?: (error: Error, item: Log | Syncing | BlockHeader | string) => void,
     ): Subscription<Log | BlockHeader | Syncing | string>;
 
     getProtocolVersion(callback?: (error: Error, protocolVersion: string) => void): Promise<string>;
@@ -705,68 +760,172 @@ declare module 'web3'{
 
     getBalance(address: string): Promise<string>;
     getBalance(address: string, defaultBlock: string | number): Promise<string>;
-    getBalance(address: string, callback?: (error: Error, balance: string) => void): Promise<string>;
-    getBalance(address: string, defaultBlock: string | number, callback?: (error: Error, balance: string) => void): Promise<string>;
+    getBalance(
+      address: string,
+      callback?: (error: Error, balance: string) => void,
+    ): Promise<string>;
+    getBalance(
+      address: string,
+      defaultBlock: string | number,
+      callback?: (error: Error, balance: string) => void,
+    ): Promise<string>;
 
     getStorageAt(address: string, position: number): Promise<string>;
     getStorageAt(address: string, position: number, defaultBlock: number | string): Promise<string>;
-    getStorageAt(address: string, position: number, callback?: (error: Error, storageAt: string) => void): Promise<string>;
-    getStorageAt(address: string, position: number, defaultBlock: number | string, callback?: (error: Error, storageAt: string) => void): Promise<string>;
+    getStorageAt(
+      address: string,
+      position: number,
+      callback?: (error: Error, storageAt: string) => void,
+    ): Promise<string>;
+    getStorageAt(
+      address: string,
+      position: number,
+      defaultBlock: number | string,
+      callback?: (error: Error, storageAt: string) => void,
+    ): Promise<string>;
 
     getCode(address: string): Promise<string>;
     getCode(address: string, defaultBlock: string | number): Promise<string>;
     getCode(address: string, callback?: (error: Error, code: string) => void): Promise<string>;
-    getCode(address: string, defaultBlock: string | number, callback?: (error: Error, code: string) => void): Promise<string>;
+    getCode(
+      address: string,
+      defaultBlock: string | number,
+      callback?: (error: Error, code: string) => void,
+    ): Promise<string>;
 
     getBlock(blockHashOrBlockNumber: string | number): Promise<Block>;
-    getBlock(blockHashOrBlockNumber: string | number, returnTransactionObjects: boolean): Promise<Block>;
-    getBlock(blockHashOrBlockNumber: string | number, callback?: (error: Error, block: Block) => void): Promise<Block>;
-    getBlock(blockHashOrBlockNumber: string | number, returnTransactionObjects: boolean, callback?: (error: Error, block: Block) => void): Promise<Block>;
+    getBlock(
+      blockHashOrBlockNumber: string | number,
+      returnTransactionObjects: boolean,
+    ): Promise<Block>;
+    getBlock(
+      blockHashOrBlockNumber: string | number,
+      callback?: (error: Error, block: Block) => void,
+    ): Promise<Block>;
+    getBlock(
+      blockHashOrBlockNumber: string | number,
+      returnTransactionObjects: boolean,
+      callback?: (error: Error, block: Block) => void,
+    ): Promise<Block>;
 
-    getBlockTransactionCount(blockHashOrBlockNumber: string | number, callback?: (error: Error, numberOfTransactions: number) => void): Promise<number>;
+    getBlockTransactionCount(
+      blockHashOrBlockNumber: string | number,
+      callback?: (error: Error, numberOfTransactions: number) => void,
+    ): Promise<number>;
 
-    getUncle(blockHashOrBlockNumber: string | number, uncleIndex: number): Promise<Block>
-    getUncle(blockHashOrBlockNumber: string | number, uncleIndex: number, returnTransactionObjects: boolean): Promise<Block>
-    getUncle(blockHashOrBlockNumber: string | number, uncleIndex: number, callback?: (error: Error, uncle: {}) => void): Promise<Block>
-    getUncle(blockHashOrBlockNumber: string | number, uncleIndex: number, returnTransactionObjects: boolean, callback?: (error: Error, uncle: {}) => void): Promise<Block>
+    getUncle(blockHashOrBlockNumber: string | number, uncleIndex: number): Promise<Block>;
+    getUncle(
+      blockHashOrBlockNumber: string | number,
+      uncleIndex: number,
+      returnTransactionObjects: boolean,
+    ): Promise<Block>;
+    getUncle(
+      blockHashOrBlockNumber: string | number,
+      uncleIndex: number,
+      callback?: (error: Error, uncle: {}) => void,
+    ): Promise<Block>;
+    getUncle(
+      blockHashOrBlockNumber: string | number,
+      uncleIndex: number,
+      returnTransactionObjects: boolean,
+      callback?: (error: Error, uncle: {}) => void,
+    ): Promise<Block>;
 
-    getTransaction(transactionHash: string, callback?: (error: Error, transaction: Transaction) => void): Promise<Transaction>;
+    getTransaction(
+      transactionHash: string,
+      callback?: (error: Error, transaction: Transaction) => void,
+    ): Promise<Transaction>;
 
-    getTransactionFromBlock(hashStringOrNumber: string | number, indexNumber: number, callback?: (error: Error, transaction: Transaction) => void): Promise<Transaction>;
+    getTransactionFromBlock(
+      hashStringOrNumber: string | number,
+      indexNumber: number,
+      callback?: (error: Error, transaction: Transaction) => void,
+    ): Promise<Transaction>;
 
-    getTransactionReceipt(hash: string, callback?: (error: Error, transactionReceipt: TransactionReceipt) => void): Promise<TransactionReceipt>;
+    getTransactionReceipt(
+      hash: string,
+      callback?: (error: Error, transactionReceipt: TransactionReceipt) => void,
+    ): Promise<TransactionReceipt>;
 
     getTransactionCount(address: string): Promise<number>;
     getTransactionCount(address: string, defaultBlock: number | string): Promise<number>;
-    getTransactionCount(address: string, callback?: (error: Error, count: number) => void): Promise<number>;
-    getTransactionCount(address: string, defaultBlock: number | string, callback?: (error: Error, count: number) => void): Promise<number>;
+    getTransactionCount(
+      address: string,
+      callback?: (error: Error, count: number) => void,
+    ): Promise<number>;
+    getTransactionCount(
+      address: string,
+      defaultBlock: number | string,
+      callback?: (error: Error, count: number) => void,
+    ): Promise<number>;
 
-    sendTransaction(transactionConfig: TransactionConfig, callback?: (error: Error, hash: string) => void): PromiEvent<TransactionReceipt>;
+    sendTransaction(
+      transactionConfig: TransactionConfig,
+      callback?: (error: Error, hash: string) => void,
+    ): PromiEvent<TransactionReceipt>;
 
-    sendSignedTransaction(signedTransactionData: string, callback?: (error: Error, hash: string) => void): PromiEvent<TransactionReceipt>
+    sendSignedTransaction(
+      signedTransactionData: string,
+      callback?: (error: Error, hash: string) => void,
+    ): PromiEvent<TransactionReceipt>;
 
-    sign(dataToSign: string, address: string | number, callback?: (error: Error, signature: string) => void): Promise<string>;
+    sign(
+      dataToSign: string,
+      address: string | number,
+      callback?: (error: Error, signature: string) => void,
+    ): Promise<string>;
 
-    signTransaction(transactionConfig: TransactionConfig, callback?: (error: Error, signedTransaction: RLPEncodedTransaction) => void): Promise<RLPEncodedTransaction>;
-    signTransaction(transactionConfig: TransactionConfig, address: string): Promise<RLPEncodedTransaction>;
-    signTransaction(transactionConfig: TransactionConfig, address: string, callback: (error: Error, signedTransaction: RLPEncodedTransaction) => void): Promise<RLPEncodedTransaction>;
+    signTransaction(
+      transactionConfig: TransactionConfig,
+      callback?: (error: Error, signedTransaction: RLPEncodedTransaction) => void,
+    ): Promise<RLPEncodedTransaction>;
+    signTransaction(
+      transactionConfig: TransactionConfig,
+      address: string,
+    ): Promise<RLPEncodedTransaction>;
+    signTransaction(
+      transactionConfig: TransactionConfig,
+      address: string,
+      callback: (error: Error, signedTransaction: RLPEncodedTransaction) => void,
+    ): Promise<RLPEncodedTransaction>;
 
     call(transactionConfig: TransactionConfig): Promise<string>;
     call(transactionConfig: TransactionConfig, defaultBlock?: number | string): Promise<string>;
-    call(transactionConfig: TransactionConfig, callback?: (error: Error, data: string) => void): Promise<string>;
-    call(transactionConfig: TransactionConfig, defaultBlock: number | string, callback: (error: Error, data: string) => void): Promise<string>;
+    call(
+      transactionConfig: TransactionConfig,
+      callback?: (error: Error, data: string) => void,
+    ): Promise<string>;
+    call(
+      transactionConfig: TransactionConfig,
+      defaultBlock: number | string,
+      callback: (error: Error, data: string) => void,
+    ): Promise<string>;
 
-    estimateGas(transactionConfig: TransactionConfig, callback?: (error: Error, gas: number) => void): Promise<number>;
+    estimateGas(
+      transactionConfig: TransactionConfig,
+      callback?: (error: Error, gas: number) => void,
+    ): Promise<number>;
 
-    getPastLogs(options: PastLogsOptions, callback?: (error: Error, logs: Log[]) => void): Promise<Log[]>;
+    getPastLogs(
+      options: PastLogsOptions,
+      callback?: (error: Error, logs: Log[]) => void,
+    ): Promise<Log[]>;
 
     getWork(callback?: (error: Error, result: string[]) => void): Promise<string[]>;
 
-    submitWork(data: [string, string, string], callback?: (error: Error, result: boolean) => void): Promise<boolean>;
+    submitWork(
+      data: [string, string, string],
+      callback?: (error: Error, result: boolean) => void,
+    ): Promise<boolean>;
 
     pendingTransactions(callback?: (error: Error, result: []) => void): Promise<[]>;
 
-    getProof(address: string, storageKey: string[], blockNumber: number | string | "latest" | "earliest", callback?: (error: Error, result: GetProof) => void): Promise<GetProof>;
+    getProof(
+      address: string,
+      storageKey: string[],
+      blockNumber: number | string | "latest" | "earliest",
+      callback?: (error: Error, result: GetProof) => void,
+    ): Promise<GetProof>;
   }
 
   class Accounts extends AbstractWeb3Module {
@@ -776,7 +935,11 @@ declare module 'web3'{
 
     privateKeyToAccount(privateKey: string): Account;
 
-    signTransaction(transactionConfig: TransactionConfig, privateKey: string, callback?: () => void): Promise<SignedTransaction>;
+    signTransaction(
+      transactionConfig: TransactionConfig,
+      privateKey: string,
+      callback?: () => void,
+    ): Promise<SignedTransaction>;
 
     recoverTransaction(signature: string): string;
 
@@ -832,8 +995,8 @@ declare module 'web3'{
     address: string;
     privateKey: string;
     signTransaction: (
-        transactionConfig: TransactionConfig,
-        callback?: (signTransaction: SignedTransaction) => void
+      transactionConfig: TransactionConfig,
+      callback?: (signTransaction: SignedTransaction) => void,
     ) => Promise<SignedTransaction>;
     sign: (data: string) => Sign;
     encrypt: (password: string) => EncryptedKeystoreV3Json;
@@ -849,18 +1012,18 @@ declare module 'web3'{
     id: string;
     address: string;
     crypto: {
-        ciphertext: string;
-        cipherparams: {iv: string};
-        cipher: string;
-        kdf: string;
-        kdfparams: {
-            dklen: number;
-            salt: string;
-            n: number;
-            r: number;
-            p: number;
-        };
-        mac: string;
+      ciphertext: string;
+      cipherparams: { iv: string };
+      cipher: string;
+      kdf: string;
+      kdfparams: {
+        dklen: number;
+        salt: string;
+        n: number;
+        r: number;
+        p: number;
+      };
+      mac: string;
     };
   }
 
@@ -881,33 +1044,33 @@ declare module 'web3'{
 
     unsubscribe(callback?: (error: Error, result: boolean) => void): Promise<undefined | boolean>;
 
-    on(type: 'data', handler: (data: T) => void): void
+    on(type: "data", handler: (data: T) => void): void;
 
-    on(type: 'changed', handler: (data: T) => void): void
+    on(type: "changed", handler: (data: T) => void): void;
 
-    on(type: 'error', handler: (data: Error) => void): void
+    on(type: "error", handler: (data: Error) => void): void;
   }
 
   interface LogsOptions {
     fromBlock?: number | string;
     address?: string | string[];
-    topics?: Array<string | string[]>
+    topics?: Array<string | string[]>;
   }
 
   interface RLPEncodedTransaction {
     raw: string;
     tx: {
-        nonce: string;
-        gasPrice: string;
-        gas: string;
-        to: string;
-        value: string;
-        input: string;
-        r: string;
-        s: string;
-        v: string;
-        hash: string;
-    }
+      nonce: string;
+      gasPrice: string;
+      gas: string;
+      to: string;
+      value: string;
+      input: string;
+      r: string;
+      s: string;
+      v: string;
+      hash: string;
+    };
   }
 
   interface PastLogsOptions {
@@ -918,20 +1081,20 @@ declare module 'web3'{
   }
 
   interface BlockHeader {
-    number: number
-    hash: string
-    parentHash: string
-    nonce: string
-    sha3Uncles: string
-    logsBloom: string
-    transactionRoot: string
-    stateRoot: string
-    receiptRoot: string
-    miner: string
-    extraData: string
-    gasLimit: number
-    gasUsed: number
-    timestamp: number
+    number: number;
+    hash: string;
+    parentHash: string;
+    nonce: string;
+    sha3Uncles: string;
+    logsBloom: string;
+    transactionRoot: string;
+    stateRoot: string;
+    receiptRoot: string;
+    miner: string;
+    extraData: string;
+    gasLimit: number;
+    gasUsed: number;
+    timestamp: number;
   }
 
   interface Transaction {
@@ -946,13 +1109,13 @@ declare module 'web3'{
     gasPrice: string;
     gas: number;
     input: string;
-}
+  }
 
   interface Block extends BlockHeader {
     transactions: Transaction[];
-    size: number
-    difficulty: number
-    totalDifficulty: number
+    size: number;
+    difficulty: number;
+    totalDifficulty: number;
     uncles: string[];
   }
 
@@ -989,7 +1152,10 @@ declare module 'web3'{
     static inputSignFormatter(data: string): string;
     static inputAddressFormatter(address: string): string;
     static isPredefinedBlockNumber(blockNumber: string): boolean;
-    static inputDefaultBlockNumberFormatter(blockNumber: string, moduleInstance: AbstractWeb3Module): string;
+    static inputDefaultBlockNumberFormatter(
+      blockNumber: string,
+      moduleInstance: AbstractWeb3Module,
+    ): string;
     static inputBlockNumberFormatter(blockNumber: string | number): string | number;
     static outputBlockFormatter(block: object): object; // TODO: Create Block interface
     static txInputFormatter(txObject: object): object;
@@ -1003,7 +1169,6 @@ declare module 'web3'{
     static outputPostFormatter(post: object): object; // TODO: Create Post interface
     static outputSyncingFormatter(result: object): object; // TODO: Create SyncLog interface
   }
-
 
   interface Units {
     noether: string;
@@ -1081,17 +1246,17 @@ declare module 'web3'{
     unitMap(): Units;
     testAddress(bloom: string, address: string): boolean;
     testTopic(bloom: string, topic: string): boolean;
-    getSignatureParameters(signature: string): {r: string; s: string; v: number};
+    getSignatureParameters(signature: string): { r: string; s: string; v: number };
     stripHexPrefix(str: string): string;
   }
 
   class AbstractMethod {
     constructor(
-        rpcMethod: string,
-        parametersAmount: number,
-        utils: Utils,
-        formatters: formatters,
-        moduleInstance: AbstractWeb3Module
+      rpcMethod: string,
+      parametersAmount: number,
+      utils: Utils,
+      formatters: formatters,
+      moduleInstance: AbstractWeb3Module,
     );
 
     utils: Utils;
@@ -1114,10 +1279,10 @@ declare module 'web3'{
 
   class AbstractWeb3Module {
     constructor(
-        provider: provider,
-        options?: Web3ModuleOptions,
-        methodFactory?: AbstractMethodFactory,
-        net?: net.Socket | null
+      provider: provider,
+      options?: Web3ModuleOptions,
+      methodFactory?: AbstractMethodFactory,
+      net?: net.Socket | null,
     );
 
     BatchRequest: new () => BatchRequest;
@@ -1129,7 +1294,12 @@ declare module 'web3'{
     defaultGas: number;
     static readonly providers: Providers;
     defaultAccount: string | null;
-    readonly currentProvider: Web3EthereumProvider | HttpProvider | IpcProvider | WebsocketProvider | CustomProvider;
+    readonly currentProvider:
+      | Web3EthereumProvider
+      | HttpProvider
+      | IpcProvider
+      | WebsocketProvider
+      | CustomProvider;
     readonly givenProvider: any;
 
     setProvider(provider: provider, net?: net.Socket): boolean;
@@ -1188,7 +1358,7 @@ declare module 'web3'{
   class BatchRequest {
     constructor(moduleInstance: AbstractWeb3Module);
     add(method: AbstractMethod): void;
-    execute(): Promise<{methods: AbstractMethod[]; response: any[]} | Error[]>;
+    execute(): Promise<{ methods: AbstractMethod[]; response: any[] } | Error[]>;
   }
 
   interface Providers {
@@ -1258,7 +1428,11 @@ declare module 'web3'{
 
     sendBatch(methods: AbstractMethod[], moduleInstance: AbstractWeb3Module): Promise<any[]>;
 
-    subscribe(subscribeMethod: string, subscriptionMethod: string, parameters: any[]): Promise<string>;
+    subscribe(
+      subscribeMethod: string,
+      subscriptionMethod: string,
+      parameters: any[],
+    ): Promise<string>;
 
     unsubscribe(subscriptionId: string, unsubscribeMethod: string): Promise<boolean>;
 
@@ -1286,7 +1460,7 @@ declare module 'web3'{
     transactionHash: string;
     blockHash: string;
     blockNumber: number;
-    raw?: {data: string; topics: any[]};
+    raw?: { data: string; topics: any[] };
   }
 
   interface Log {
@@ -1319,30 +1493,36 @@ declare module 'web3'{
   }
 
   interface PromiEvent<T> extends Promise<T> {
-    once(type: 'transactionHash', handler: (receipt: string) => void): PromiEvent<T>;
+    once(type: "transactionHash", handler: (receipt: string) => void): PromiEvent<T>;
 
-    once(type: 'receipt', handler: (receipt: TransactionReceipt) => void): PromiEvent<T>;
-
-    once(type: 'confirmation', handler: (confNumber: number, receipt: TransactionReceipt) => void): PromiEvent<T>;
-
-    once(type: 'error', handler: (error: Error) => void): PromiEvent<T>;
+    once(type: "receipt", handler: (receipt: TransactionReceipt) => void): PromiEvent<T>;
 
     once(
-      type: 'error' | 'confirmation' | 'receipt' | 'transactionHash',
-      handler: (error: Error | TransactionReceipt | string) => void
+      type: "confirmation",
+      handler: (confNumber: number, receipt: TransactionReceipt) => void,
     ): PromiEvent<T>;
 
-    on(type: 'transactionHash', handler: (receipt: string) => void): PromiEvent<T>;
+    once(type: "error", handler: (error: Error) => void): PromiEvent<T>;
 
-    on(type: 'receipt', handler: (receipt: TransactionReceipt) => void): PromiEvent<T>;
+    once(
+      type: "error" | "confirmation" | "receipt" | "transactionHash",
+      handler: (error: Error | TransactionReceipt | string) => void,
+    ): PromiEvent<T>;
 
-    on(type: 'confirmation', handler: (confNumber: number, receipt: TransactionReceipt) => void): PromiEvent<T>;
+    on(type: "transactionHash", handler: (receipt: string) => void): PromiEvent<T>;
 
-    on(type: 'error', handler: (error: Error) => void): PromiEvent<T>;
+    on(type: "receipt", handler: (receipt: TransactionReceipt) => void): PromiEvent<T>;
 
     on(
-      type: 'error' | 'confirmation' | 'receipt' | 'transactionHash',
-      handler: (error: Error | TransactionReceipt | string) => void
+      type: "confirmation",
+      handler: (confNumber: number, receipt: TransactionReceipt) => void,
+    ): PromiEvent<T>;
+
+    on(type: "error", handler: (error: Error) => void): PromiEvent<T>;
+
+    on(
+      type: "error" | "confirmation" | "receipt" | "transactionHash",
+      handler: (error: Error | TransactionReceipt | string) => void,
     ): PromiEvent<T>;
   }
 
@@ -1361,7 +1541,7 @@ declare module 'web3'{
     name: string;
     type: string;
     indexed?: boolean;
-  	components?: AbiInput[];
+    components?: AbiInput[];
   }
 
   interface AbiOutput {
@@ -1371,12 +1551,7 @@ declare module 'web3'{
   }
 
   class Contract {
-    constructor(
-      provider: provider,
-      abi: AbiItem[],
-      address?: string,
-      options?: ContractOptions
-    )
+    constructor(provider: provider, abi: AbiItem[], address?: string, options?: ContractOptions);
 
     address: string;
     jsonInterface: AbiModel;
@@ -1390,14 +1565,25 @@ declare module 'web3'{
     methods: any;
 
     once(event: string, callback: (error: Error, event: EventData) => void): void;
-    once(event: string, options: EventOptions, callback: (error: Error, event: EventData) => void): void;
+    once(
+      event: string,
+      options: EventOptions,
+      callback: (error: Error, event: EventData) => void,
+    ): void;
 
     events: any;
 
     getPastEvents(event: string): Promise<EventData[]>;
-    getPastEvents(event: string, options: EventOptions, callback: (error: Error, event: EventData) => void): Promise<EventData[]>;
+    getPastEvents(
+      event: string,
+      options: EventOptions,
+      callback: (error: Error, event: EventData) => void,
+    ): Promise<EventData[]>;
     getPastEvents(event: string, options: EventOptions): Promise<EventData[]>;
-    getPastEvents(event: string, callback: (error: Error, event: EventData) => void): Promise<EventData[]>;
+    getPastEvents(
+      event: string,
+      callback: (error: Error, event: EventData) => void,
+    ): Promise<EventData[]>;
   }
 
   interface Options {
@@ -1411,13 +1597,22 @@ declare module 'web3'{
   }
 
   interface ContractSendMethod {
-    send(options: SendOptions, callback?: (err: Error, transactionHash: string) => void): PromiEvent<Contract>;
+    send(
+      options: SendOptions,
+      callback?: (err: Error, transactionHash: string) => void,
+    ): PromiEvent<Contract>;
 
-    estimateGas(options: EstimateGasOptions, callback?: (err: Error, gas: number) => void): Promise<number>;
+    estimateGas(
+      options: EstimateGasOptions,
+      callback?: (err: Error, gas: number) => void,
+    ): Promise<number>;
 
     estimateGas(callback: (err: Error, gas: number) => void): Promise<number>;
 
-    estimateGas(options: EstimateGasOptions, callback: (err: Error, gas: number) => void): Promise<number>;
+    estimateGas(
+      options: EstimateGasOptions,
+      callback: (err: Error, gas: number) => void,
+    ): Promise<number>;
 
     estimateGas(options: EstimateGasOptions): Promise<number>;
 
@@ -1456,11 +1651,11 @@ declare module 'web3'{
   interface EventData {
     returnValues: {
       [key: string]: any;
-    },
+    };
     raw: {
       data: string;
       topics: string[];
-    },
+    };
     event: string;
     signature: string;
     logIndex: number;
