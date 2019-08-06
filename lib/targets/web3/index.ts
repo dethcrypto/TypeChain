@@ -45,12 +45,12 @@ export class Web3 extends TsGeneratorPlugin {
       {
         path: join(this.outDirAbs, "types.d.ts"),
         contents: `
-  import { EventLog } from "web3-core";
+  import { EventLog } from "web3/types";
   import BN from "bn.js";
-  import { EstimateGasOptions, EventOptions } from "web3-eth-contract";
+  import { EstimateGasOptions, EventOptions } from "web3/eth/contract";
   import { EventEmitter } from "events";
   // @ts-ignore
-  import PromiEvent from "web3-core-promievent";
+  import PromiEvent from "web3/promiEvent";
   export type Callback<T> = (error: Error, result: T) => void;
   export interface TransactionObject<T> {
     arguments: any[];
