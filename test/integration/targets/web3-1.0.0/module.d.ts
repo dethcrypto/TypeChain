@@ -54,6 +54,27 @@ declare module 'web3-eth-contract'{
     | 'gether'
     | 'tether';
 
+  export class formatters {
+    static outputBigNumberFormatter(number: number): number;
+    static inputSignFormatter(data: string): string;
+    static inputAddressFormatter(address: string): string;
+    static isPredefinedBlockNumber(blockNumber: string): boolean;
+    static inputDefaultBlockNumberFormatter(blockNumber: string, moduleInstance: AbstractWeb3Module): string;
+    static inputBlockNumberFormatter(blockNumber: string | number): string | number;
+    static outputBlockFormatter(block: object): object; // TODO: Create Block interface
+    static txInputFormatter(txObject: object): object;
+    static inputCallFormatter(txObject: object): object;
+    static inputTransactionFormatter(txObject: object): object;
+    static outputTransactionFormatter(receipt: object): object;
+    static outputTransactionReceiptFormatter(receipt: object): object;
+    static inputLogFormatter(log: object): object;
+    static outputLogFormatter(log: object): object;
+    static inputPostFormatter(post: object): object; // TODO: Create Post interface
+    static outputPostFormatter(post: object): object; // TODO: Create Post interface
+    static outputSyncingFormatter(result: object): object; // TODO: Create SyncLog interface
+  }
+
+
   interface Units {
     noether: string;
     wei: string;
@@ -151,21 +172,13 @@ declare module 'web3-eth-contract'{
     parameters: any[];
 
     getArguments(): any;
-
     setArguments(args: any[]): void;
-
     isHash(parameter: string): boolean;
-
     hasWallets(): boolean;
-
     callback(error: string | Error, response: any): void;
-
     beforeExecution(moduleInstance: AbstractWeb3Module): void;
-
     afterExecution(response: any): any;
-
     execute(): Promise<any> | PromiEvent<any> | string;
-
     clearSubscriptions(unsubscribeMethod: string): Promise<boolean | Error>;
   }
 
@@ -190,9 +203,7 @@ declare module 'web3-eth-contract'{
     readonly givenProvider: any;
 
     setProvider(provider: provider, net?: net.Socket): boolean;
-
     isSameProvider(provider: provider): boolean;
-
     clearSubscriptions(subscriptionType: string): Promise<boolean>;
   }
 
