@@ -105,7 +105,7 @@ describe("DumbContract", () => {
   });
 
   it("should allow to clone contracts ", async () => {
-    const contract = await deployContract<DumbContract>("DumbContract", 0);
+    const contract = await deployDumbContract();
 
     const contractClone = await contract.clone();
 
