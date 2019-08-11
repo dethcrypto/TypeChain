@@ -5,9 +5,6 @@
     "no-debugger": true
   },
   "cliOptions": {
-    "include": [
-      "./test/integration/targets/web3-1.0.0/module.d.ts"
-    ],
     "exclude": [
       "test/integration/abis/"
     ]

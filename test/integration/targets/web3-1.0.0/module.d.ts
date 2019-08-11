@@ -627,6 +627,7 @@ declare module "web3-core" {
   }
 }
 
+/*
 declare module "web3" {
   import BN = require("bn.js");
   import * as net from "net";
@@ -688,6 +689,7 @@ declare module "web3" {
     | "mether"
     | "gether"
     | "tether";
+
 
   export default class Web3 extends AbstractWeb3Module {
     constructor(provider: provider, net?: net.Socket, options?: Web3ModuleOptions);
@@ -1699,3 +1701,4 @@ declare module "web3" {
     isOfType(): boolean;
   }
 }
+*/
