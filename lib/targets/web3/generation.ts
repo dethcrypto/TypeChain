@@ -23,13 +23,21 @@ import {
 export function codegen(contract: Contract) {
   const template = `
   import BN from "bn.js";
-  import Contract, { contractOptions, EventOptions } from "web3/eth/contract";
-  import { EventLog } from "web3/types";
-  import { EventEmitter } from "events";
-  import { Callback, TransactionObject, ContractEvent } from "./types";
+  import Contract, { contractOptions } from "web3/eth/contract";
+  import { EventLog, Callback, EventEmitter } from "web3/types";
+  // import { EventEmitter } from "events";
+  import { TransactionObject, BlockType } from "web3/eth/types";
+  import { ContractEvent } from "./types";
+
+  interface EventOptions {
+    filter?: object;
+    fromBlock?: BlockType;
+    topics?: string[];
+  }
 
   export class ${contract.name} extends Contract {
     constructor(jsonInterface: any[], address?: string, options?: contractOptions);
+    clone(): Contract;
     methods: {
       ${contract.constantFunctions.map(generateFunction).join("\n")}
       ${contract.functions.map(generateFunction).join("\n")}
