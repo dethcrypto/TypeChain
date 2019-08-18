@@ -37,7 +37,7 @@ export function codegen(contract: Contract) {
 
   export class ${contract.name} extends Contract {
     constructor(jsonInterface: any[], address?: string, options?: contractOptions);
-    clone(): Contract;
+    clone(): ${contract.name};
     methods: {
       ${contract.constantFunctions.map(generateFunction).join("\n")}
       ${contract.functions.map(generateFunction).join("\n")}
