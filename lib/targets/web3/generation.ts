@@ -23,13 +23,20 @@ import {
 export function codegen(contract: Contract) {
   const template = `
   import BN from "bn.js";
-  import { Contract, ContractOptions, EventOptions } from "web3-eth-contract";
-  import { EventLog } from "web3-core";
-  import { EventEmitter } from "events";
-  import { Callback, TransactionObject, ContractEvent } from "./types";
+  import Contract, { contractOptions } from "web3/eth/contract";
+  import { EventLog, Callback, EventEmitter } from "web3/types";
+  import { TransactionObject, BlockType } from "web3/eth/types";
+  import { ContractEvent } from "./types";
+
+  interface EventOptions {
+    filter?: object;
+    fromBlock?: BlockType;
+    topics?: string[];
+  }
 
   export class ${contract.name} extends Contract {
-    constructor(jsonInterface: any[], address?: string, options?: ContractOptions);
+    constructor(jsonInterface: any[], address?: string, options?: contractOptions);
+    clone(): ${contract.name};
     methods: {
       ${contract.constantFunctions.map(generateFunction).join("\n")}
       ${contract.functions.map(generateFunction).join("\n")}
@@ -42,7 +49,7 @@ export function codegen(contract: Contract) {
           cb?: Callback<EventLog>
       ) => EventEmitter;
     };
-}
+  }
   `;
 
   return template;
@@ -75,7 +82,7 @@ function generateOutputTypes(outputs: Array<AbiParameter>): string {
   if (outputs.length === 1) {
     return generateOutputType(outputs[0].type);
   } else {
-    return `{ 
+    return `{
       ${outputs.map(t => t.name && `${t.name}: ${generateOutputType(t.type)}, `).join("")}
       ${outputs.map((t, i) => `${i}: ${generateOutputType(t.type)}`).join(", ")}
       }`;
