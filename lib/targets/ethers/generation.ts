@@ -7,19 +7,7 @@ import {
   EventDeclaration,
   FunctionDeclaration,
 } from "../../parser/abiParser";
-import {
-  AddressType,
-  ArrayType,
-  BooleanType,
-  BytesType,
-  DynamicBytesType,
-  EvmType,
-  IntegerType,
-  StringType,
-  TupleType,
-  UnsignedIntegerType,
-  VoidType,
-} from "../../parser/typeParser";
+import { EvmType, TupleType } from "../../parser/typeParser";
 
 export function codegenContractTypings(contract: Contract) {
   const template = `
@@ -242,54 +230,49 @@ function generateEventArgType(eventArg: EventArgDeclaration): string {
 
 // https://docs.ethers.io/ethers.js/html/api-contract.html#types
 function generateInputType(evmType: EvmType): string {
-  switch (evmType.constructor) {
-    case IntegerType:
+  switch (evmType.type) {
+    case "integer":
       return "BigNumberish";
-    case UnsignedIntegerType:
+    case "uinteger":
       return "BigNumberish";
-    case AddressType:
+    case "address":
       return "string";
-    case BytesType:
-    case DynamicBytesType:
+    case "bytes":
+    case "dynamic-bytes":
       return "Arrayish";
-    case ArrayType:
-      return `(${generateInputType((evmType as ArrayType).itemType)})[]`;
-    case BooleanType:
+    case "array":
+      return `(${generateInputType(evmType.itemType)})[]`;
+    case "boolean":
       return "boolean";
-    case StringType:
+    case "string":
       return "string";
-    case TupleType:
-      return generateTupleType(evmType as TupleType, generateInputType);
-
-    default:
-      throw new Error(`Unrecognized type ${evmType.constructor.name}`);
+    case "tuple":
+      return generateTupleType(evmType, generateInputType);
+    case "void":
+      throw new Error("Cant generate input type for void");
   }
 }
 
 function generateOutputType(evmType: EvmType): string {
-  switch (evmType.constructor) {
-    case IntegerType:
-      return (evmType as IntegerType).bits <= 48 ? "number" : "BigNumber";
-    case UnsignedIntegerType:
-      return (evmType as UnsignedIntegerType).bits <= 48 ? "number" : "BigNumber";
-    case AddressType:
+  switch (evmType.type) {
+    case "integer":
+    case "uinteger":
+      return evmType.bits <= 48 ? "number" : "BigNumber";
+    case "address":
       return "string";
-    case VoidType:
+    case "void":
       return "void";
-    case BytesType:
-    case DynamicBytesType:
+    case "bytes":
+    case "dynamic-bytes":
       return "string";
-    case ArrayType:
-      return `(${generateOutputType((evmType as ArrayType).itemType)})[]`;
-    case BooleanType:
+    case "array":
+      return `(${generateOutputType(evmType.itemType)})[]`;
+    case "boolean":
       return "boolean";
-    case StringType:
+    case "string":
       return "string";
-    case TupleType:
-      return generateTupleType(evmType as TupleType, generateOutputType);
-
-    default:
-      throw new Error(`Unrecognized type ${evmType.constructor.name}`);
+    case "tuple":
+      return generateTupleType(evmType, generateOutputType);
   }
 }
 

@@ -9,19 +9,7 @@ import {
   EventDeclaration,
   parse,
 } from "../../parser/abiParser";
-import {
-  EvmType,
-  ArrayType,
-  BooleanType,
-  IntegerType,
-  UnsignedIntegerType,
-  VoidType,
-  StringType,
-  BytesType,
-  DynamicBytesType,
-  AddressType,
-  TupleType,
-} from "../../parser/typeParser";
+import { EvmType, TupleType } from "../../parser/typeParser";
 import { IContext } from "../shared";
 import { join } from "path";
 import { readFileSync } from "fs";
@@ -148,11 +136,11 @@ function codeGenForParams(param: AbiParameter, index: number): string {
 
 function codeGenForArgs(param: AbiParameter, index: number): string {
   const paramName = param.name || `arg${index}`;
-  if (param.type instanceof ArrayType) {
+  if (param.type.type === "array") {
     const elemParam = { name: `${paramName}Elem`, type: param.type.itemType };
     return `${paramName}.map(${elemParam.name} => ${codeGenForArgs(elemParam, 0)})`;
   }
-  if (param.type instanceof BooleanType) return paramName;
+  if (param.type.type === "boolean") return paramName;
   return `${paramName}.toString()`;
 }
 
@@ -178,15 +166,15 @@ function codeGenForEventArgs(args: EventArgDeclaration[], onlyIndexed: boolean) 
 }
 
 function codeGenForInput(evmType: EvmType): string {
-  switch (evmType.constructor) {
-    case IntegerType:
+  switch (evmType.type) {
+    case "integer":
       return "BigNumber | number";
-    case UnsignedIntegerType:
+    case "uinteger":
       return "BigNumber | number";
-    case AddressType:
+    case "address":
       return "BigNumber | string";
-    case TupleType:
-      return generateTupleType(evmType as TupleType, codeGenForInput);
+    case "tuple":
+      return generateTupleType(evmType, codeGenForInput);
 
     default:
       return codeGenForOutput(evmType);
@@ -194,29 +182,29 @@ function codeGenForInput(evmType: EvmType): string {
 }
 
 function codeGenForOutput(evmType: EvmType): string {
-  switch (evmType.constructor) {
-    case BooleanType:
+  switch (evmType.type) {
+    case "boolean":
       return "boolean";
-    case IntegerType:
+    case "integer":
       return "BigNumber";
-    case UnsignedIntegerType:
+    case "uinteger":
       return "BigNumber";
-    case VoidType:
+    case "void":
       return "void";
-    case StringType:
+    case "string":
       return "string";
-    case BytesType:
-    case DynamicBytesType:
+    case "bytes":
+    case "dynamic-bytes":
       return "string";
-    case AddressType:
+    case "address":
       return "string";
-    case ArrayType:
-      return codeGenForOutput((evmType as ArrayType).itemType) + "[]";
-    case TupleType:
-      return generateTupleType(evmType as TupleType, codeGenForOutput);
+    case "array":
+      return codeGenForOutput(evmType.itemType) + "[]";
+    case "tuple":
+      return generateTupleType(evmType, codeGenForOutput);
 
     default:
-      throw new Error(`Unrecognized ABI piece: ${evmType.constructor}`);
+      throw new Error(`Unrecognized ABI piece: ${JSON.stringify(evmType)}`);
   }
 }
 

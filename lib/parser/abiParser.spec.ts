@@ -8,7 +8,6 @@ import {
   parseEvent,
   RawEventAbiDefinition,
 } from "./abiParser";
-import { AddressType, UnsignedIntegerType } from "./typeParser";
 
 describe("extractAbi", () => {
   it("should throw error on not JSON ABI", () => {
@@ -96,8 +95,8 @@ describe("parseEvent", () => {
     expect(parsedEvent).to.be.deep.eq({
       name: "Deposit",
       inputs: [
-        { name: "_from", isIndexed: true, type: new AddressType() },
-        { name: "_value", isIndexed: false, type: new UnsignedIntegerType(256) },
+        { name: "_from", isIndexed: true, type: { type: "address" } },
+        { name: "_value", isIndexed: false, type: { type: "uinteger", bits: 256 } },
       ],
     });
   });

@@ -1,7 +1,7 @@
 import debug from "../utils/debug";
 import { MalformedAbiError } from "../utils/errors";
 import { logger } from "../utils/logger";
-import { EvmType, EvmTypeComponent, parseEvmType, VoidType } from "./typeParser";
+import { EvmType, parseEvmType } from "./typeParser";
 
 export interface AbiParameter {
   name: string;
@@ -158,7 +158,7 @@ function checkForOverloads(
 
 function parseOutputs(outputs: Array<RawAbiParameter>): AbiParameter[] {
   if (outputs.length === 0) {
-    return [{ name: "", type: new VoidType() }];
+    return [{ name: "", type: { type: "void" } }];
   } else {
     return outputs.map(parseRawAbiParameter);
   }
@@ -226,9 +226,10 @@ function parseRawAbiParameter(rawAbiParameter: RawAbiParameter): AbiParameter {
 function parseRawAbiParameterType(rawAbiParameter: RawAbiParameter): EvmType {
   const components =
     rawAbiParameter.components &&
-    rawAbiParameter.components.map(
-      component => new EvmTypeComponent(component.name, parseRawAbiParameterType(component)),
-    );
+    rawAbiParameter.components.map(component => ({
+      name: component.name,
+      type: parseRawAbiParameterType(component),
+    }));
   return parseEvmType(rawAbiParameter.type, components);
 }
 

@@ -6,19 +6,7 @@ import {
   ConstantDeclaration,
   EventDeclaration,
 } from "../../parser/abiParser";
-import {
-  EvmType,
-  IntegerType,
-  UnsignedIntegerType,
-  AddressType,
-  VoidType,
-  BytesType,
-  DynamicBytesType,
-  BooleanType,
-  ArrayType,
-  StringType,
-  TupleType,
-} from "../../parser/typeParser";
+import { EvmType, TupleType } from "../../parser/typeParser";
 
 export function codegen(contract: Contract) {
   const template = `
@@ -94,24 +82,23 @@ function generateEvents(event: EventDeclaration) {
 }
 
 function generateInputType(evmType: EvmType): string {
-  switch (evmType.constructor) {
-    case IntegerType:
+  switch (evmType.type) {
+    case "integer":
+    case "uinteger":
       return "number | string";
-    case UnsignedIntegerType:
-      return "number | string";
-    case AddressType:
+    case "address":
       return "string";
-    case BytesType:
-    case DynamicBytesType:
+    case "bytes":
+    case "dynamic-bytes":
       return "string | number[]";
-    case ArrayType:
-      return `(${generateInputType((evmType as ArrayType).itemType)})[]`;
-    case BooleanType:
+    case "array":
+      return `(${generateInputType(evmType.itemType)})[]`;
+    case "boolean":
       return "boolean";
-    case StringType:
+    case "string":
       return "string";
-    case TupleType:
-      return generateTupleType(evmType as TupleType, generateInputType);
+    case "tuple":
+      return generateTupleType(evmType, generateInputType);
 
     default:
       throw new Error(`Unrecognized type ${evmType}`);
@@ -119,26 +106,26 @@ function generateInputType(evmType: EvmType): string {
 }
 
 function generateOutputType(evmType: EvmType): string {
-  switch (evmType.constructor) {
-    case IntegerType:
+  switch (evmType.type) {
+    case "integer":
       return "BN";
-    case UnsignedIntegerType:
+    case "uinteger":
       return "BN";
-    case AddressType:
+    case "address":
       return "string";
-    case VoidType:
+    case "void":
       return "void";
-    case BytesType:
-    case DynamicBytesType:
+    case "bytes":
+    case "dynamic-bytes":
       return "string";
-    case ArrayType:
-      return `(${generateOutputType((evmType as ArrayType).itemType)})[]`;
-    case BooleanType:
+    case "array":
+      return `(${generateOutputType(evmType.itemType)})[]`;
+    case "boolean":
       return "boolean";
-    case StringType:
+    case "string":
       return "string";
-    case TupleType:
-      return generateTupleType(evmType as TupleType, generateOutputType);
+    case "tuple":
+      return generateTupleType(evmType, generateOutputType);
 
     default:
       throw new Error(`Unrecognized type ${evmType}`);
