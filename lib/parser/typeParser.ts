@@ -2,41 +2,31 @@
  * This will be refactored in the near future. Parser should produce discriminating union types.
  */
 
-export abstract class EvmType {}
+export type EvmType = BooleanType | IntegerType | UnsignedIntegerType;
 
-export class BooleanType extends EvmType {}
+export type BooleanType = {
+  type: "boolean";
+};
 
-export class IntegerType extends EvmType {
-  constructor(public readonly bits: number) {
-    super();
-  }
-}
+export type IntegerType = {
+  type: "integer";
+  bits: number;
+};
 
-export class UnsignedIntegerType extends EvmType {
-  constructor(public readonly bits: number) {
-    super();
-  }
-}
+export type UnsignedIntegerType = {
+  type: "uinteger";
+  bits: number;
+};
 
-export class VoidType extends EvmType {}
+export type VoidType = { type: "void" };
+export type StringType = { type: "string" };
+export type BytesType = { type: "bytes"; size: number };
 
-export class StringType extends EvmType {}
+export type DynamicBytesType = { type: "dynamic-bytes" };
+export type AddressType = { type: "address" };
 
-export class BytesType extends EvmType {
-  constructor(public readonly size: number) {
-    super();
-  }
-}
+export type ArrayType = { type: "array"; itemType: EvmType; size?: number };
 
-export class DynamicBytesType extends EvmType {}
-
-export class AddressType extends EvmType {}
-
-export class ArrayType extends EvmType {
-  constructor(public readonly itemType: EvmType, public readonly size?: number) {
-    super();
-  }
-}
 export class EvmTypeComponent {
   constructor(public readonly name: string, public readonly type: EvmType) {}
 }
