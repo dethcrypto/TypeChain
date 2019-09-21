@@ -6,12 +6,19 @@ import { arrayify } from "ethers/utils/bytes";
 import { getTestSigner } from "./ethers";
 import { DumbContract } from "./types/ethers-contracts/DumbContract";
 import { DumbContractFactory } from "./types/ethers-contracts/DumbContractFactory";
+import { snapshotSource } from "../../utils/snapshotSource";
+import { join } from "path";
 
 describe("DumbContract", () => {
   function deployDumbContract(): Promise<DumbContract> {
     const factory = new DumbContractFactory(getTestSigner());
     return factory.deploy(0);
   }
+
+  it("should snapshot generated code", () => {
+    snapshotSource(join(__dirname, "./types/ethers-contracts/DumbContract.d.ts"));
+    snapshotSource(join(__dirname, "./types/ethers-contracts/DumbContractFactory.ts"));
+  });
 
   it("should work", async () => {
     const contract = await deployDumbContract();

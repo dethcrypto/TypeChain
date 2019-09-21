@@ -1,7 +1,9 @@
 import { deployContract, accounts, isBigNumber } from "./web3";
-import { DumbContract } from "./types/web3-contracts/DumbContract";
-
+import { join } from "path";
 import { expect } from "chai";
+
+import { DumbContract } from "./types/web3-contracts/DumbContract";
+import { snapshotSource } from "../../utils/snapshotSource";
 
 describe("DumbContract", () => {
   function deployDumbContract(): Promise<DumbContract> {

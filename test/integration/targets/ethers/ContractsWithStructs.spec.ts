@@ -3,11 +3,18 @@ import { ContractWithStructsFactory } from "./types/ethers-contracts/ContractWit
 import { BigNumber } from "ethers/utils";
 import { expect } from "chai";
 import { getTestSigner } from "./ethers";
+import { snapshotSource } from "../../utils/snapshotSource";
+import { join } from "path";
 
 describe("ContractWithStructs", () => {
   function deployContractWithStructs(): Promise<ContractWithStructs> {
     return new ContractWithStructsFactory(getTestSigner()).deploy();
   }
+
+  it("should snapshot generated code", () => {
+    snapshotSource(join(__dirname, "./types/ethers-contracts/ContractWithStructs.d.ts"));
+    snapshotSource(join(__dirname, "./types/ethers-contracts/ContractWithStructsFactory.ts"));
+  });
 
   it("should work", async () => {
     const contract = await deployContractWithStructs();

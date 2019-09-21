@@ -10,6 +10,7 @@
     "esModuleInterop": true
   },
   "include": [
-    "./**/*.ts"
+    "./**/*.ts",
+    "../../../../typings/*"
   ]
 }

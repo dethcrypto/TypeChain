@@ -1,374 +1,126 @@
 exports['DumbContract should snapshot generated code 1'] = `
 /* tslint:disable */
 
-import { BigNumber } from "bignumber.js";
-import * as TC from "./typechain-runtime";
+import { Contract, ContractTransaction, EventFilter, Signer } from "ethers";
+import { Listener, Provider } from "ethers/providers";
+import { Arrayish, BigNumber, BigNumberish, Interface } from "ethers/utils";
+import { TransactionOverrides, TypedEventDescription, TypedFunctionDescription } from ".";
 
-export class DumbContract extends TC.TypeChainContract {
-  public readonly rawWeb3Contract: any;
+interface DumbContractInterface extends Interface {
+  functions: {
+    countupForEther: TypedFunctionDescription<{ encode([]: []): string }>;
 
-  public constructor(web3: any, address: string | BigNumber) {
-    const abi = [
-      {
-        constant: true,
-        inputs: [],
-        name: "arrayParamLength",
-        outputs: [{ name: "", type: "uint256" }],
-        payable: false,
-        stateMutability: "view",
-        type: "function",
-      },
-      {
-        constant: false,
-        inputs: [],
-        name: "countupForEther",
-        outputs: [],
-        payable: true,
-        stateMutability: "payable",
-        type: "function",
-      },
-      {
-        constant: true,
-        inputs: [],
-        name: "someAddress",
-        outputs: [{ name: "", type: "address" }],
-        payable: false,
-        stateMutability: "view",
-        type: "function",
-      },
-      {
-        constant: false,
-        inputs: [
-          { name: "", type: "uint8" },
-          { name: "", type: "uint8" },
-          { name: "ret", type: "uint256" },
-        ],
-        name: "twoUnnamedArgs",
-        outputs: [{ name: "", type: "uint256" }],
-        payable: true,
-        stateMutability: "payable",
-        type: "function",
-      },
-      {
-        constant: true,
-        inputs: [{ name: "offset", type: "int256" }],
-        name: "returnSigned",
-        outputs: [{ name: "", type: "int256" }],
-        payable: false,
-        stateMutability: "pure",
-        type: "function",
-      },
-      {
-        constant: true,
-        inputs: [{ name: "boolParam", type: "bool" }],
-        name: "callWithBoolean",
-        outputs: [{ name: "", type: "bool" }],
-        payable: false,
-        stateMutability: "pure",
-        type: "function",
-      },
-      {
-        constant: true,
-        inputs: [{ name: "arrayParam", type: "uint256[]" }],
-        name: "callWithArray2",
-        outputs: [{ name: "", type: "uint256[]" }],
-        payable: false,
-        stateMutability: "pure",
-        type: "function",
-      },
-      {
-        constant: true,
-        inputs: [{ name: "a", type: "address" }],
-        name: "testAddress",
-        outputs: [{ name: "", type: "address" }],
-        payable: false,
-        stateMutability: "pure",
-        type: "function",
-      },
-      {
-        constant: true,
-        inputs: [],
-        name: "counter",
-        outputs: [{ name: "", type: "uint256" }],
-        payable: false,
-        stateMutability: "view",
-        type: "function",
-      },
-      {
-        constant: true,
-        inputs: [{ name: "a", type: "string" }],
-        name: "testString",
-        outputs: [{ name: "", type: "string" }],
-        payable: false,
-        stateMutability: "pure",
-        type: "function",
-      },
-      {
-        constant: false,
-        inputs: [{ name: "byteParam", type: "bytes32" }],
-        name: "callWithBytes",
-        outputs: [{ name: "", type: "bytes32" }],
-        payable: false,
-        stateMutability: "nonpayable",
-        type: "function",
-      },
-      {
-        constant: true,
-        inputs: [{ name: "boolArrayParam", type: "bool[]" }],
-        name: "callWithBooleanArray",
-        outputs: [{ name: "", type: "bool[]" }],
-        payable: false,
-        stateMutability: "pure",
-        type: "function",
-      },
-      {
-        constant: true,
-        inputs: [{ name: "", type: "uint256" }],
-        name: "counterArray",
-        outputs: [{ name: "", type: "uint256" }],
-        payable: false,
-        stateMutability: "view",
-        type: "function",
-      },
-      {
-        constant: false,
-        inputs: [{ name: "offset", type: "uint256" }],
-        name: "countup",
-        outputs: [],
-        payable: false,
-        stateMutability: "nonpayable",
-        type: "function",
-      },
-      {
-        constant: true,
-        inputs: [],
-        name: "returnAll",
-        outputs: [{ name: "", type: "uint256" }, { name: "", type: "uint256" }],
-        payable: false,
-        stateMutability: "view",
-        type: "function",
-      },
-      {
-        constant: true,
-        inputs: [],
-        name: "SOME_VALUE",
-        outputs: [{ name: "", type: "bool" }],
-        payable: false,
-        stateMutability: "view",
-        type: "function",
-      },
-      {
-        constant: true,
-        inputs: [{ name: "offset", type: "uint256" }],
-        name: "counterWithOffset",
-        outputs: [{ name: "sum", type: "uint256" }],
-        payable: false,
-        stateMutability: "view",
-        type: "function",
-      },
-      {
-        constant: true,
-        inputs: [],
-        name: "dynamicByteArray",
-        outputs: [{ name: "", type: "bytes" }],
-        payable: false,
-        stateMutability: "view",
-        type: "function",
-      },
-      {
-        constant: true,
-        inputs: [],
-        name: "testVoidReturn",
-        outputs: [],
-        payable: false,
-        stateMutability: "pure",
-        type: "function",
-      },
-      {
-        constant: false,
-        inputs: [{ name: "dynamicBytes", type: "bytes" }],
-        name: "callWithDynamicByteArray",
-        outputs: [{ name: "", type: "bytes" }],
-        payable: false,
-        stateMutability: "nonpayable",
-        type: "function",
-      },
-      {
-        constant: true,
-        inputs: [],
-        name: "byteArray",
-        outputs: [{ name: "", type: "bytes32" }],
-        payable: false,
-        stateMutability: "view",
-        type: "function",
-      },
-      {
-        constant: false,
-        inputs: [{ name: "arrayParam", type: "uint256[]" }],
-        name: "callWithArray",
-        outputs: [{ name: "", type: "uint256" }],
-        payable: false,
-        stateMutability: "nonpayable",
-        type: "function",
-      },
-      {
-        constant: true,
-        inputs: [],
-        name: "returnSmallUint",
-        outputs: [{ name: "", type: "uint8" }],
-        payable: false,
-        stateMutability: "pure",
-        type: "function",
-      },
-      {
-        inputs: [{ name: "initialCounter", type: "uint256" }],
-        payable: false,
-        stateMutability: "nonpayable",
-        type: "constructor",
-      },
-      {
-        anonymous: false,
-        inputs: [
-          { indexed: true, name: "from", type: "address" },
-          { indexed: false, name: "value", type: "uint256" },
-        ],
-        name: "Deposit",
-        type: "event",
-      },
-    ];
-    super(web3, address, abi);
-  }
+    twoUnnamedArgs: TypedFunctionDescription<{
+      encode([, , ret]: [BigNumberish, BigNumberish, BigNumberish]): string;
+    }>;
 
-  static async createAndValidate(web3: any, address: string | BigNumber): Promise<DumbContract> {
-    const contract = new DumbContract(web3, address);
-    const code = await TC.promisify(web3.eth.getCode, [address]);
+    callWithBytes: TypedFunctionDescription<{ encode([byteParam]: [Arrayish]): string }>;
 
-    // in case of missing smartcontract, code can be equal to "0x0" or "0x" depending on exact web3 implementation
-    // to cover all these cases we just check against the source code length — there won't be any meaningful EVM program in less then 3 chars
-    if (code.length < 4) {
-      throw new Error(\`Contract at \${address} doesn't exist!\`);
-    }
-    return contract;
-  }
+    countup: TypedFunctionDescription<{ encode([offset]: [BigNumberish]): string }>;
 
-  public get arrayParamLength(): Promise<BigNumber> {
-    return TC.promisify(this.rawWeb3Contract.arrayParamLength, []);
-  }
+    callWithDynamicByteArray: TypedFunctionDescription<{
+      encode([dynamicBytes]: [Arrayish]): string;
+    }>;
 
-  public get someAddress(): Promise<string> {
-    return TC.promisify(this.rawWeb3Contract.someAddress, []);
-  }
+    callWithArray: TypedFunctionDescription<{ encode([arrayParam]: [(BigNumberish)[]]): string }>;
+  };
 
-  public get counter(): Promise<BigNumber> {
-    return TC.promisify(this.rawWeb3Contract.counter, []);
-  }
+  events: {
+    Deposit: TypedEventDescription<{
+      encodeTopics([from, value]: [string | null, null]): string[];
+    }>;
+  };
+}
 
-  public get SOME_VALUE(): Promise<boolean> {
-    return TC.promisify(this.rawWeb3Contract.SOME_VALUE, []);
-  }
+export class DumbContract extends Contract {
+  connect(signerOrProvider: Signer | Provider | string): DumbContract;
+  attach(addressOrName: string): DumbContract;
+  deployed(): Promise<DumbContract>;
 
-  public get dynamicByteArray(): Promise<string> {
-    return TC.promisify(this.rawWeb3Contract.dynamicByteArray, []);
-  }
+  on(event: EventFilter | string, listener: Listener): DumbContract;
+  once(event: EventFilter | string, listener: Listener): DumbContract;
+  addListener(eventName: EventFilter | string, listener: Listener): DumbContract;
+  removeAllListeners(eventName: EventFilter | string): DumbContract;
+  removeListener(eventName: any, listener: Listener): DumbContract;
 
-  public get byteArray(): Promise<string> {
-    return TC.promisify(this.rawWeb3Contract.byteArray, []);
-  }
+  interface: DumbContractInterface;
 
-  public get returnSmallUint(): Promise<BigNumber> {
-    return TC.promisify(this.rawWeb3Contract.returnSmallUint, []);
-  }
+  functions: {
+    returnSigned(offset: BigNumberish): Promise<BigNumber>;
 
-  public returnSigned(offset: BigNumber | number): Promise<BigNumber> {
-    return TC.promisify(this.rawWeb3Contract.returnSigned, [offset.toString()]);
-  }
+    callWithBoolean(boolParam: boolean): Promise<boolean>;
 
-  public callWithBoolean(boolParam: boolean): Promise<boolean> {
-    return TC.promisify(this.rawWeb3Contract.callWithBoolean, [boolParam]);
-  }
+    callWithArray2(arrayParam: (BigNumberish)[]): Promise<(BigNumber)[]>;
 
-  public callWithArray2(arrayParam: BigNumber[]): Promise<BigNumber[]> {
-    return TC.promisify(this.rawWeb3Contract.callWithArray2, [
-      arrayParam.map(arrayParamElem => arrayParamElem.toString()),
-    ]);
-  }
+    testAddress(a: string): Promise<string>;
 
-  public testAddress(a: BigNumber | string): Promise<string> {
-    return TC.promisify(this.rawWeb3Contract.testAddress, [a.toString()]);
-  }
+    testString(a: string): Promise<string>;
 
-  public testString(a: string): Promise<string> {
-    return TC.promisify(this.rawWeb3Contract.testString, [a.toString()]);
-  }
+    callWithBooleanArray(boolArrayParam: (boolean)[]): Promise<(boolean)[]>;
 
-  public callWithBooleanArray(boolArrayParam: boolean[]): Promise<boolean[]> {
-    return TC.promisify(this.rawWeb3Contract.callWithBooleanArray, [
-      boolArrayParam.map(boolArrayParamElem => boolArrayParamElem),
-    ]);
-  }
+    counterArray(arg0: BigNumberish): Promise<BigNumber>;
 
-  public counterArray(arg0: BigNumber | number): Promise<BigNumber> {
-    return TC.promisify(this.rawWeb3Contract.counterArray, [arg0.toString()]);
-  }
+    returnAll(): Promise<{
+      0: BigNumber;
+      1: BigNumber;
+    }>;
 
-  public returnAll(): Promise<[BigNumber, BigNumber]> {
-    return TC.promisify(this.rawWeb3Contract.returnAll, []);
-  }
+    counterWithOffset(offset: BigNumberish): Promise<BigNumber>;
 
-  public counterWithOffset(offset: BigNumber | number): Promise<BigNumber> {
-    return TC.promisify(this.rawWeb3Contract.counterWithOffset, [offset.toString()]);
-  }
+    testVoidReturn(): Promise<void>;
 
-  public testVoidReturn(): Promise<void> {
-    return TC.promisify(this.rawWeb3Contract.testVoidReturn, []);
-  }
+    countupForEther(overrides?: TransactionOverrides): Promise<ContractTransaction>;
 
-  public countupForEtherTx(): TC.DeferredTransactionWrapper<TC.IPayableTxParams> {
-    return new TC.DeferredTransactionWrapper<TC.IPayableTxParams>(this, "countupForEther", []);
-  }
-  public twoUnnamedArgsTx(
-    arg0: BigNumber | number,
-    arg1: BigNumber | number,
-    ret: BigNumber | number,
-  ): TC.DeferredTransactionWrapper<TC.IPayableTxParams> {
-    return new TC.DeferredTransactionWrapper<TC.IPayableTxParams>(this, "twoUnnamedArgs", [
-      arg0.toString(),
-      arg1.toString(),
-      ret.toString(),
-    ]);
-  }
-  public callWithBytesTx(byteParam: string): TC.DeferredTransactionWrapper<TC.ITxParams> {
-    return new TC.DeferredTransactionWrapper<TC.ITxParams>(this, "callWithBytes", [
-      byteParam.toString(),
-    ]);
-  }
-  public countupTx(offset: BigNumber | number): TC.DeferredTransactionWrapper<TC.ITxParams> {
-    return new TC.DeferredTransactionWrapper<TC.ITxParams>(this, "countup", [offset.toString()]);
-  }
-  public callWithDynamicByteArrayTx(
-    dynamicBytes: string,
-  ): TC.DeferredTransactionWrapper<TC.ITxParams> {
-    return new TC.DeferredTransactionWrapper<TC.ITxParams>(this, "callWithDynamicByteArray", [
-      dynamicBytes.toString(),
-    ]);
-  }
-  public callWithArrayTx(arrayParam: BigNumber[]): TC.DeferredTransactionWrapper<TC.ITxParams> {
-    return new TC.DeferredTransactionWrapper<TC.ITxParams>(this, "callWithArray", [
-      arrayParam.map(arrayParamElem => arrayParamElem.toString()),
-    ]);
-  }
+    twoUnnamedArgs(
+      arg0: BigNumberish,
+      arg1: BigNumberish,
+      ret: BigNumberish,
+      overrides?: TransactionOverrides,
+    ): Promise<ContractTransaction>;
 
-  public DepositEvent(eventFilter: {
-    from?: BigNumber | string | Array<BigNumber | string>;
-  }): TC.DeferredEventWrapper<
-    { from: BigNumber | string; value: BigNumber | number },
-    { from?: BigNumber | string | Array<BigNumber | string> }
-  > {
-    return new TC.DeferredEventWrapper<
-      { from: BigNumber | string; value: BigNumber | number },
-      { from?: BigNumber | string | Array<BigNumber | string> }
-    >(this, "Deposit", eventFilter);
-  }
+    callWithBytes(
+      byteParam: Arrayish,
+      overrides?: TransactionOverrides,
+    ): Promise<ContractTransaction>;
+
+    countup(offset: BigNumberish, overrides?: TransactionOverrides): Promise<ContractTransaction>;
+
+    callWithDynamicByteArray(
+      dynamicBytes: Arrayish,
+      overrides?: TransactionOverrides,
+    ): Promise<ContractTransaction>;
+
+    callWithArray(
+      arrayParam: (BigNumberish)[],
+      overrides?: TransactionOverrides,
+    ): Promise<ContractTransaction>;
+
+    arrayParamLength(): Promise<BigNumber>;
+    someAddress(): Promise<string>;
+    counter(): Promise<BigNumber>;
+    SOME_VALUE(): Promise<boolean>;
+    dynamicByteArray(): Promise<string>;
+    byteArray(): Promise<string>;
+    returnSmallUint(): Promise<number>;
+  };
+
+  filters: {
+    Deposit(from: string | null, value: null): EventFilter;
+  };
+
+  estimate: {
+    countupForEther(): Promise<BigNumber>;
+
+    twoUnnamedArgs(arg0: BigNumberish, arg1: BigNumberish, ret: BigNumberish): Promise<BigNumber>;
+
+    callWithBytes(byteParam: Arrayish): Promise<BigNumber>;
+
+    countup(offset: BigNumberish): Promise<BigNumber>;
+
+    callWithDynamicByteArray(dynamicBytes: Arrayish): Promise<BigNumber>;
+
+    callWithArray(arrayParam: (BigNumberish)[]): Promise<BigNumber>;
+  };
 }
 
 `

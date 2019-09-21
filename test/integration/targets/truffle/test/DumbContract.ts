@@ -1,8 +1,16 @@
 import { BigNumber } from "bignumber.js";
+import { join } from "path";
+
+import { snapshotSource } from "../../../utils/snapshotSource";
 
 const DumbContract = artifacts.require("DumbContract");
 
 contract("DumbContract", ([deployer]) => {
+  it("should snapshot generated code", () => {
+    snapshotSource(join(__dirname, "../@types/truffle-contracts/index.d.ts"));
+    snapshotSource(join(__dirname, "../@types/truffle-contracts/merge.d.ts"));
+  });
+
   it("should work", async () => {
     const contract = await DumbContract.new(0, { from: deployer });
 

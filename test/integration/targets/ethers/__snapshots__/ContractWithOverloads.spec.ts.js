@@ -1,91 +1,48 @@
 exports['ContractWithOverloads should snapshot generated code 1'] = `
 /* tslint:disable */
 
-import { BigNumber } from "bignumber.js";
-import * as TC from "./typechain-runtime";
+import { Contract, ContractTransaction, EventFilter, Signer } from "ethers";
+import { Listener, Provider } from "ethers/providers";
+import { Arrayish, BigNumber, BigNumberish, Interface } from "ethers/utils";
+import { TransactionOverrides, TypedEventDescription, TypedFunctionDescription } from ".";
 
-export class ContractWithOverloads extends TC.TypeChainContract {
-  public readonly rawWeb3Contract: any;
+interface ContractWithOverloadsInterface extends Interface {
+  functions: {
+    increaseCounter: TypedFunctionDescription<{ encode([by]: [BigNumberish]): string }>;
+  };
 
-  public constructor(web3: any, address: string | BigNumber) {
-    const abi = [
-      {
-        constant: true,
-        inputs: [{ name: "offset", type: "uint256" }],
-        name: "getCounter",
-        outputs: [{ name: "", type: "uint256" }],
-        payable: false,
-        stateMutability: "view",
-        type: "function",
-      },
-      {
-        constant: true,
-        inputs: [],
-        name: "counter",
-        outputs: [{ name: "", type: "uint256" }],
-        payable: false,
-        stateMutability: "view",
-        type: "function",
-      },
-      {
-        constant: true,
-        inputs: [],
-        name: "getCounter",
-        outputs: [{ name: "", type: "uint256" }],
-        payable: false,
-        stateMutability: "view",
-        type: "function",
-      },
-      {
-        constant: false,
-        inputs: [{ name: "by", type: "uint256" }],
-        name: "increaseCounter",
-        outputs: [],
-        payable: false,
-        stateMutability: "nonpayable",
-        type: "function",
-      },
-      {
-        constant: false,
-        inputs: [],
-        name: "increaseCounter",
-        outputs: [],
-        payable: false,
-        stateMutability: "nonpayable",
-        type: "function",
-      },
-    ];
-    super(web3, address, abi);
-  }
+  events: {};
+}
 
-  static async createAndValidate(
-    web3: any,
-    address: string | BigNumber,
-  ): Promise<ContractWithOverloads> {
-    const contract = new ContractWithOverloads(web3, address);
-    const code = await TC.promisify(web3.eth.getCode, [address]);
+export class ContractWithOverloads extends Contract {
+  connect(signerOrProvider: Signer | Provider | string): ContractWithOverloads;
+  attach(addressOrName: string): ContractWithOverloads;
+  deployed(): Promise<ContractWithOverloads>;
 
-    // in case of missing smartcontract, code can be equal to "0x0" or "0x" depending on exact web3 implementation
-    // to cover all these cases we just check against the source code length — there won't be any meaningful EVM program in less then 3 chars
-    if (code.length < 4) {
-      throw new Error(\`Contract at \${address} doesn't exist!\`);
-    }
-    return contract;
-  }
+  on(event: EventFilter | string, listener: Listener): ContractWithOverloads;
+  once(event: EventFilter | string, listener: Listener): ContractWithOverloads;
+  addListener(eventName: EventFilter | string, listener: Listener): ContractWithOverloads;
+  removeAllListeners(eventName: EventFilter | string): ContractWithOverloads;
+  removeListener(eventName: any, listener: Listener): ContractWithOverloads;
 
-  public get counter(): Promise<BigNumber> {
-    return TC.promisify(this.rawWeb3Contract.counter, []);
-  }
+  interface: ContractWithOverloadsInterface;
 
-  public getCounter(offset: BigNumber | number): Promise<BigNumber> {
-    return TC.promisify(this.rawWeb3Contract.getCounter, [offset.toString()]);
-  }
+  functions: {
+    getCounter(offset: BigNumberish): Promise<BigNumber>;
 
-  public increaseCounterTx(by: BigNumber | number): TC.DeferredTransactionWrapper<TC.ITxParams> {
-    return new TC.DeferredTransactionWrapper<TC.ITxParams>(this, "increaseCounter", [
-      by.toString(),
-    ]);
-  }
+    increaseCounter(
+      by: BigNumberish,
+      overrides?: TransactionOverrides,
+    ): Promise<ContractTransaction>;
+
+    counter(): Promise<BigNumber>;
+  };
+
+  filters: {};
+
+  estimate: {
+    increaseCounter(by: BigNumberish): Promise<BigNumber>;
+  };
 }
 
 `

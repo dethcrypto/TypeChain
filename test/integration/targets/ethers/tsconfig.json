@@ -9,6 +9,7 @@
     "declaration": true
   },
   "include": [
-    "./**/*.ts"
+    "./**/*.ts", 
+    "../../../../typings/*"
   ]
 }
