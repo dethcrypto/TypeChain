@@ -7,7 +7,7 @@ import {
   EventDeclaration,
   FunctionDeclaration,
 } from "../../parser/abiParser";
-import { EvmType, TupleType } from "../../parser/typeParser";
+import { EvmType, TupleType } from "../../parser/parseEvmType";
 
 export function codegenContractTypings(contract: Contract) {
   const template = `

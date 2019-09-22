@@ -9,7 +9,7 @@ import {
   EventDeclaration,
   parse,
 } from "../../parser/abiParser";
-import { EvmType, TupleType } from "../../parser/typeParser";
+import { EvmType, TupleType } from "../../parser/parseEvmType";
 import { IContext } from "../shared";
 import { join } from "path";
 import { readFileSync } from "fs";

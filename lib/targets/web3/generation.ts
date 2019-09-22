@@ -6,7 +6,7 @@ import {
   ConstantDeclaration,
   EventDeclaration,
 } from "../../parser/abiParser";
-import { EvmType, TupleType } from "../../parser/typeParser";
+import { EvmType, TupleType } from "../../parser/parseEvmType";
 
 export function codegen(contract: Contract) {
   const template = `

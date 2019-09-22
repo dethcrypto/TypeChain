@@ -1,49 +1,48 @@
 import debug from "../utils/debug";
 import { MalformedAbiError } from "../utils/errors";
 import { logger } from "../utils/logger";
-import { EvmType, parseEvmType } from "./typeParser";
+import { EvmType, parseEvmType } from "./parseEvmType";
 
 export interface AbiParameter {
   name: string;
   type: EvmType;
 }
 
-export interface Constructor {
-  inputs: Array<AbiParameter>;
-  payable: boolean;
-}
-
-export interface ConstantDeclaration {
+export type Named<T> = {
   name: string;
-  output: EvmType;
-}
+  values: T;
+};
 
-export interface ConstantFunctionDeclaration {
-  name: string;
-  inputs: Array<AbiParameter>;
-  outputs: Array<AbiParameter>; //we dont care about named returns for now
-}
+export type StateMutability = "pure" | "view" | "nonpayable" | "payable";
 
 export interface FunctionDeclaration {
-  name: string;
+  stateMutability: StateMutability;
   inputs: Array<AbiParameter>;
-  outputs: Array<AbiParameter>; //we dont care about named returns for now
-  payable: boolean;
+  outputs: Array<AbiParameter>;
+}
+
+export interface FunctionWithoutOutputDeclaration extends FunctionDeclaration {
+  outputs: [];
+}
+
+export interface FunctionWithoutInputDeclaration extends FunctionDeclaration {
+  inputs: [];
 }
 
 export interface Contract {
   name: string;
 
-  constructor: Constructor; // possible bug: this should be probably an array (overloaded constructors)
-
-  constants: Array<ConstantDeclaration>;
-
-  constantFunctions: Array<ConstantFunctionDeclaration>;
-
-  functions: Array<FunctionDeclaration>;
-
-  events: Array<EventDeclaration>;
+  fallback?: FunctionWithoutInputDeclaration;
+  constructor: FunctionWithoutOutputDeclaration[];
+  functions: Array<Named<FunctionDeclaration[]>>;
+  events: Array<Named<EventDeclaration[]>>;
 }
+
+// tests:
+// - multiple constructors
+// - fallback functions
+// - override functions
+// - override events
 
 export interface RawAbiParameter {
   name: string;
@@ -55,6 +54,7 @@ export interface RawAbiDefinition {
   name: string;
   constant: boolean;
   payable: boolean;
+  stateMutability?: StateMutability; // for older ABIs this will be undefined
   inputs: RawAbiParameter[];
   outputs: RawAbiParameter[];
   type: string;
@@ -85,37 +85,31 @@ export interface RawEventArgAbiDefinition {
 }
 
 export function parse(abi: Array<RawAbiDefinition>, name: string): Contract {
-  const constants: Array<ConstantDeclaration> = [];
-  const constantFunctions: Array<ConstantFunctionDeclaration> = [];
-  const functions: Array<FunctionDeclaration> = [];
-  const events: Array<EventDeclaration> = [];
-  let constructor: Constructor | undefined = undefined;
+  const constructors: FunctionWithoutOutputDeclaration[] = [];
+  let fallback: FunctionWithoutInputDeclaration | undefined;
+  const functions: Named<FunctionDeclaration>[] = [];
+  const events: EventDeclaration[] = [];
 
   abi.forEach(abiPiece => {
-    // @todo implement missing abi pieces
-    // skip fallback functions
     if (abiPiece.type === "fallback") {
+      if (fallback) {
+        throw new Error(
+          `Fallback function can't be defined more than once! ${JSON.stringify(
+            abiPiece,
+          )} Previously defined: ${JSON.stringify(fallback)}`,
+        );
+      }
+      fallback = parseFallback(abiPiece);
       return;
     }
 
     if (abiPiece.type === "constructor") {
-      constructor = parseConstructor(abiPiece);
+      constructors.push(parseConstructor(abiPiece));
       return;
     }
 
     if (abiPiece.type === "function") {
-      if (checkForOverloads(constants, constantFunctions, functions, abiPiece.name)) {
-        logger.log(`Detected overloaded constant function ${abiPiece.name} skipping...`);
-        return;
-      }
-
-      if (abiPiece.constant && abiPiece.inputs.length === 0 && abiPiece.outputs.length === 1) {
-        constants.push(parseConstant(abiPiece));
-      } else if (abiPiece.constant) {
-        constantFunctions.push(parseConstantFunction(abiPiece));
-      } else {
-        functions.push(parseFunctionDeclaration(abiPiece));
-      }
+      functions.push(parseFunctionDeclaration(abiPiece));
       return;
     }
 
@@ -135,26 +129,14 @@ export function parse(abi: Array<RawAbiDefinition>, name: string): Contract {
 
   return {
     name,
-    constructor: constructor!,
-    constants,
-    constantFunctions,
+    fallback,
+    constructors,
     functions,
     events,
   };
 }
 
-function checkForOverloads(
-  constants: Array<ConstantDeclaration>,
-  constantFunctions: Array<ConstantFunctionDeclaration>,
-  functions: Array<FunctionDeclaration>,
-  name: string,
-) {
-  return (
-    constantFunctions.find(f => f.name === name) ||
-    constants.find(f => f.name === name) ||
-    functions.find(f => f.name === name)
-  );
-}
+// TODO: group by name
 
 function parseOutputs(outputs: Array<RawAbiParameter>): AbiParameter[] {
   if (outputs.length === 0) {
@@ -162,14 +144,6 @@ function parseOutputs(outputs: Array<RawAbiParameter>): AbiParameter[] {
   } else {
     return outputs.map(parseRawAbiParameter);
   }
-}
-
-function parseConstant(abiPiece: RawAbiDefinition): ConstantDeclaration {
-  debug(`Parsing constant "${abiPiece.name}"`);
-  return {
-    name: abiPiece.name,
-    output: parseRawAbiParameterType(abiPiece.outputs[0]),
-  };
 }
 
 export function parseEvent(abiPiece: RawEventAbiDefinition): EventDeclaration {
@@ -189,30 +163,34 @@ function parseRawEventArg(eventArg: RawEventArgAbiDefinition): EventArgDeclarati
   };
 }
 
-function parseConstantFunction(abiPiece: RawAbiDefinition): ConstantFunctionDeclaration {
-  debug(`Parsing constant function "${abiPiece.name}"`);
-  return {
-    name: abiPiece.name,
-    inputs: abiPiece.inputs.map(parseRawAbiParameter),
-    outputs: parseOutputs(abiPiece.outputs),
-  };
+// if stateMutability is not available we will use old spec containing constant and payable
+function findStateMutability(abiPiece: RawAbiDefinition): StateMutability {
+  if (abiPiece.stateMutability) {
+    return abiPiece.stateMutability;
+  }
+
+  if (abiPiece.constant) {
+    return "view";
+  }
+  return abiPiece.payable ? "payable" : "nonpayable";
 }
 
-function parseConstructor(abiPiece: RawAbiDefinition): Constructor {
+function parseConstructor(abiPiece: RawAbiDefinition): FunctionWithoutOutputDeclaration {
   debug(`Parsing constructor declaration`);
   return {
     inputs: abiPiece.inputs.map(parseRawAbiParameter),
-    payable: abiPiece.payable,
+    outputs: [],
+    stateMutability: findStateMutability(abiPiece),
   };
 }
 
-function parseFunctionDeclaration(abiPiece: RawAbiDefinition): FunctionDeclaration {
+function parseFunctionDeclaration(abiPiece: RawAbiDefinition): Named<FunctionDeclaration> {
   debug(`Parsing function declaration "${abiPiece.name}"`);
   return {
     name: abiPiece.name,
     inputs: abiPiece.inputs.map(parseRawAbiParameter),
     outputs: parseOutputs(abiPiece.outputs),
-    payable: abiPiece.payable,
+    stateMutability: findStateMutability(abiPiece),
   };
 }
 
