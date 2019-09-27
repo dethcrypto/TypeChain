@@ -1,13 +1,14 @@
 import {
   AbiParameter,
-  ConstantDeclaration,
-  ConstantFunctionDeclaration,
   Contract,
   EventArgDeclaration,
   EventDeclaration,
   FunctionDeclaration,
+  AbiOutputParameter,
 } from "../../parser/abiParser";
-import { EvmType, TupleType } from "../../parser/parseEvmType";
+import { EvmType, TupleType, EvmOutputType } from "../../parser/parseEvmType";
+import { values } from "lodash";
+import { UnreachableCaseError } from "ts-essentials";
 
 export function codegenContractTypings(contract: Contract) {
   const template = `
@@ -18,11 +19,17 @@ export function codegenContractTypings(contract: Contract) {
 
   interface ${contract.name}Interface extends Interface {
     functions: {
-      ${contract.functions.map(generateInterfaceFunctionDescription).join("\n")}
+      ${values(contract.functions)
+        .map(v => v[0])
+        .map(generateInterfaceFunctionDescription)
+        .join("\n")}
     };
 
     events: {
-      ${contract.events.map(generateInterfaceEventDescription).join("\n")}
+      ${values(contract.events)
+        .map(v => v[0])
+        .map(generateInterfaceEventDescription)
+        .join("\n")}
     };
   }
 
@@ -40,17 +47,24 @@ export function codegenContractTypings(contract: Contract) {
     interface: ${contract.name}Interface;
 
     functions: {
-      ${contract.constantFunctions.map(generateConstantFunction).join("\n")}
-      ${contract.functions.map(generateFunction).join("\n")}
-      ${contract.constants.map(generateConstant).join("\n")}
+      ${values(contract.functions)
+        .map(v => v[0])
+        .map(generateFunction)
+        .join("\n")}
     };
 
     filters: {
-      ${contract.events.map(generateEvents).join("\n")}
+      ${values(contract.events)
+        .map(v => v[0])
+        .map(generateEvents)
+        .join("\n")}
     };
 
     estimate: {
-      ${contract.functions.map(generateEstimateFunction).join("\n")}
+      ${values(contract.functions)
+        .map(v => v[0])
+        .map(generateEstimateFunction)
+        .join("\n")}
     };
   }`;
 
@@ -58,12 +72,14 @@ export function codegenContractTypings(contract: Contract) {
 }
 
 export function codegenContractFactory(contract: Contract, abi: any, bytecode: string): string {
-  const constructorArgs = contract.constructor
-    ? generateInputTypes(contract.constructor.inputs)
-    : "";
-  const constructorArgNames = contract.constructor
-    ? generateParamNames(contract.constructor.inputs)
-    : "";
+  const constructorArgs =
+    contract.constructor && contract.constructor[0]
+      ? generateInputTypes(contract.constructor[0].inputs)
+      : "";
+  const constructorArgNames =
+    contract.constructor && contract.constructor[0]
+      ? generateParamNames(contract.constructor[0].inputs)
+      : "";
   if (!bytecode) return codegenAbstractContractFactory(contract, abi);
 
   // tsc with noUnusedLocals would complain about unused imports
@@ -127,17 +143,13 @@ export function codegenAbstractContractFactory(contract: Contract, abi: any): st
   `;
 }
 
-function generateConstantFunction(fn: ConstantFunctionDeclaration): string {
-  return `
-  ${fn.name}(${generateInputTypes(fn.inputs)}): Promise<${generateOutputTypes(fn.outputs)}>;
-`;
-}
-
 function generateFunction(fn: FunctionDeclaration): string {
   return `
-  ${fn.name}(${generateInputTypes(
-    fn.inputs,
-  )}overrides?: TransactionOverrides): Promise<ContractTransaction>;
+  ${fn.name}(${generateInputTypes(fn.inputs)}overrides?: TransactionOverrides): Promise<${
+    fn.stateMutability === "pure" || fn.stateMutability === "view"
+      ? generateOutputTypes(fn.outputs)
+      : "ContractTransaction"
+  }>;
 `;
 }
 
@@ -155,10 +167,6 @@ function generateInterfaceFunctionDescription(fn: FunctionDeclaration): string {
 `;
 }
 
-function generateConstant(fn: ConstantDeclaration): string {
-  return `${fn.name}(): Promise<${generateOutputType(fn.output)}>;`;
-}
-
 function generateInputTypes(input: Array<AbiParameter>): string {
   if (input.length === 0) {
     return "";
@@ -170,7 +178,7 @@ function generateInputTypes(input: Array<AbiParameter>): string {
   );
 }
 
-function generateOutputTypes(outputs: Array<AbiParameter>): string {
+function generateOutputTypes(outputs: Array<AbiOutputParameter>): string {
   if (outputs.length === 1) {
     return generateOutputType(outputs[0].type);
   } else {
@@ -248,12 +256,12 @@ function generateInputType(evmType: EvmType): string {
       return "string";
     case "tuple":
       return generateTupleType(evmType, generateInputType);
-    case "void":
-      throw new Error("Cant generate input type for void");
+    default:
+      throw new UnreachableCaseError(evmType);
   }
 }
 
-function generateOutputType(evmType: EvmType): string {
+function generateOutputType(evmType: EvmOutputType): string {
   switch (evmType.type) {
     case "integer":
     case "uinteger":
@@ -273,6 +281,8 @@ function generateOutputType(evmType: EvmType): string {
       return "string";
     case "tuple":
       return generateTupleType(evmType, generateOutputType);
+    default:
+      throw new UnreachableCaseError(evmType);
   }
 }
 

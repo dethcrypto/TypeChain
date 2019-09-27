@@ -20,6 +20,7 @@
     "@types/debug": "^0.0.30",
     "@types/fs-extra": "^5.0.4",
     "@types/glob": "^5.0.35",
+    "@types/lodash": "^4.14.139",
     "@types/mocha": "^2.2.44",
     "@types/node": "^8.0.25",
     "@types/prettier": "^1.13.2",
@@ -53,6 +54,7 @@
     "command-line-args": "^4.0.7",
     "debug": "^3.0.1",
     "fs-extra": "^7.0.0",
+    "lodash": "^4.17.15",
     "ts-generator": "^0.0.8"
   },
   "scripts": {

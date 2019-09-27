@@ -3,7 +3,6 @@ export type EvmType =
   | BooleanType
   | IntegerType
   | UnsignedIntegerType
-  | VoidType
   | StringType
   | BytesType
   | DynamicBytesType
@@ -11,16 +10,23 @@ export type EvmType =
   | ArrayType
   | TupleType;
 
+/**
+ * Like EvmType but with void
+ */
+export type EvmOutputType = EvmType | VoidType;
+
 export type BooleanType = { type: "boolean" };
 export type IntegerType = { type: "integer"; bits: number };
 export type UnsignedIntegerType = { type: "uinteger"; bits: number };
-export type VoidType = { type: "void" };
 export type StringType = { type: "string" };
 export type BytesType = { type: "bytes"; size: number };
 export type DynamicBytesType = { type: "dynamic-bytes" };
 export type AddressType = { type: "address" };
 export type ArrayType = { type: "array"; itemType: EvmType; size?: number };
 export type TupleType = { type: "tuple"; components: EvmSymbol[] };
+
+// used only for output types
+export type VoidType = { type: "void" };
 
 export type EvmSymbol = {
   type: EvmType;

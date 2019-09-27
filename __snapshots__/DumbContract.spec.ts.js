@@ -255,28 +255,24 @@ export class DumbContract extends TC.TypeChainContract {
     return TC.promisify(this.rawWeb3Contract.arrayParamLength, []);
   }
 
+  public countupForEtherTx(): TC.DeferredTransactionWrapper<TC.IPayableTxParams> {
+    return new TC.DeferredTransactionWrapper<TC.IPayableTxParams>(this, "countupForEther", []);
+  }
+
   public get someAddress(): Promise<string> {
     return TC.promisify(this.rawWeb3Contract.someAddress, []);
   }
 
-  public get counter(): Promise<BigNumber> {
-    return TC.promisify(this.rawWeb3Contract.counter, []);
-  }
-
-  public get SOME_VALUE(): Promise<boolean> {
-    return TC.promisify(this.rawWeb3Contract.SOME_VALUE, []);
-  }
-
-  public get dynamicByteArray(): Promise<string> {
-    return TC.promisify(this.rawWeb3Contract.dynamicByteArray, []);
-  }
-
-  public get byteArray(): Promise<string> {
-    return TC.promisify(this.rawWeb3Contract.byteArray, []);
-  }
-
-  public get returnSmallUint(): Promise<BigNumber> {
-    return TC.promisify(this.rawWeb3Contract.returnSmallUint, []);
+  public twoUnnamedArgsTx(
+    arg0: BigNumber | number,
+    arg1: BigNumber | number,
+    ret: BigNumber | number,
+  ): TC.DeferredTransactionWrapper<TC.IPayableTxParams> {
+    return new TC.DeferredTransactionWrapper<TC.IPayableTxParams>(this, "twoUnnamedArgs", [
+      arg0.toString(),
+      arg1.toString(),
+      ret.toString(),
+    ]);
   }
 
   public returnSigned(offset: BigNumber | number): Promise<BigNumber> {
@@ -297,8 +293,18 @@ export class DumbContract extends TC.TypeChainContract {
     return TC.promisify(this.rawWeb3Contract.testAddress, [a.toString()]);
   }
 
+  public get counter(): Promise<BigNumber> {
+    return TC.promisify(this.rawWeb3Contract.counter, []);
+  }
+
   public testString(a: string): Promise<string> {
     return TC.promisify(this.rawWeb3Contract.testString, [a.toString()]);
+  }
+
+  public callWithBytesTx(byteParam: string): TC.DeferredTransactionWrapper<TC.ITxParams> {
+    return new TC.DeferredTransactionWrapper<TC.ITxParams>(this, "callWithBytes", [
+      byteParam.toString(),
+    ]);
   }
 
   public callWithBooleanArray(boolArrayParam: boolean[]): Promise<boolean[]> {
@@ -311,40 +317,30 @@ export class DumbContract extends TC.TypeChainContract {
     return TC.promisify(this.rawWeb3Contract.counterArray, [arg0.toString()]);
   }
 
+  public countupTx(offset: BigNumber | number): TC.DeferredTransactionWrapper<TC.ITxParams> {
+    return new TC.DeferredTransactionWrapper<TC.ITxParams>(this, "countup", [offset.toString()]);
+  }
+
   public returnAll(): Promise<[BigNumber, BigNumber]> {
     return TC.promisify(this.rawWeb3Contract.returnAll, []);
+  }
+
+  public get SOME_VALUE(): Promise<boolean> {
+    return TC.promisify(this.rawWeb3Contract.SOME_VALUE, []);
   }
 
   public counterWithOffset(offset: BigNumber | number): Promise<BigNumber> {
     return TC.promisify(this.rawWeb3Contract.counterWithOffset, [offset.toString()]);
   }
 
-  public testVoidReturn(): Promise<void> {
+  public get dynamicByteArray(): Promise<string> {
+    return TC.promisify(this.rawWeb3Contract.dynamicByteArray, []);
+  }
+
+  public get testVoidReturn(): Promise<void> {
     return TC.promisify(this.rawWeb3Contract.testVoidReturn, []);
   }
 
-  public countupForEtherTx(): TC.DeferredTransactionWrapper<TC.IPayableTxParams> {
-    return new TC.DeferredTransactionWrapper<TC.IPayableTxParams>(this, "countupForEther", []);
-  }
-  public twoUnnamedArgsTx(
-    arg0: BigNumber | number,
-    arg1: BigNumber | number,
-    ret: BigNumber | number,
-  ): TC.DeferredTransactionWrapper<TC.IPayableTxParams> {
-    return new TC.DeferredTransactionWrapper<TC.IPayableTxParams>(this, "twoUnnamedArgs", [
-      arg0.toString(),
-      arg1.toString(),
-      ret.toString(),
-    ]);
-  }
-  public callWithBytesTx(byteParam: string): TC.DeferredTransactionWrapper<TC.ITxParams> {
-    return new TC.DeferredTransactionWrapper<TC.ITxParams>(this, "callWithBytes", [
-      byteParam.toString(),
-    ]);
-  }
-  public countupTx(offset: BigNumber | number): TC.DeferredTransactionWrapper<TC.ITxParams> {
-    return new TC.DeferredTransactionWrapper<TC.ITxParams>(this, "countup", [offset.toString()]);
-  }
   public callWithDynamicByteArrayTx(
     dynamicBytes: string,
   ): TC.DeferredTransactionWrapper<TC.ITxParams> {
@@ -352,12 +348,20 @@ export class DumbContract extends TC.TypeChainContract {
       dynamicBytes.toString(),
     ]);
   }
+
+  public get byteArray(): Promise<string> {
+    return TC.promisify(this.rawWeb3Contract.byteArray, []);
+  }
+
   public callWithArrayTx(arrayParam: BigNumber[]): TC.DeferredTransactionWrapper<TC.ITxParams> {
     return new TC.DeferredTransactionWrapper<TC.ITxParams>(this, "callWithArray", [
       arrayParam.map(arrayParamElem => arrayParamElem.toString()),
     ]);
   }
 
+  public get returnSmallUint(): Promise<BigNumber> {
+    return TC.promisify(this.rawWeb3Contract.returnSmallUint, []);
+  }
   public DepositEvent(eventFilter: {
     from?: BigNumber | string | Array<BigNumber | string>;
   }): TC.DeferredEventWrapper<

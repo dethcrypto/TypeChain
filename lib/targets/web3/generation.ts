@@ -1,12 +1,13 @@
 import {
   Contract,
   AbiParameter,
-  ConstantFunctionDeclaration,
   FunctionDeclaration,
-  ConstantDeclaration,
   EventDeclaration,
+  AbiOutputParameter,
 } from "../../parser/abiParser";
-import { EvmType, TupleType } from "../../parser/parseEvmType";
+import { EvmType, TupleType, EvmOutputType } from "../../parser/parseEvmType";
+import { Dictionary, UnreachableCaseError } from "ts-essentials";
+import { values } from "lodash";
 
 export function codegen(contract: Contract) {
   const template = `
@@ -26,12 +27,10 @@ export function codegen(contract: Contract) {
     constructor(jsonInterface: any[], address?: string, options?: contractOptions);
     clone(): ${contract.name};
     methods: {
-      ${contract.constantFunctions.map(generateFunction).join("\n")}
-      ${contract.functions.map(generateFunction).join("\n")}
-      ${contract.constants.map(generateConstants).join("\n")}
+      ${codegenForFunctions(contract.functions)}
     };
     events: {
-      ${contract.events.map(generateEvents).join("\n")}
+      ${codegenForEvents(contract.events)}
       allEvents: (
           options?: EventOptions,
           cb?: Callback<EventLog>
@@ -43,18 +42,20 @@ export function codegen(contract: Contract) {
   return template;
 }
 
-function generateFunction(fn: ConstantFunctionDeclaration | FunctionDeclaration): string {
+function codegenForFunctions(fns: Dictionary<FunctionDeclaration[]>): string {
+  return values(fns)
+    .map(v => v[0])
+    .map(generateFunction)
+    .join("\n");
+}
+
+function generateFunction(fn: FunctionDeclaration): string {
   return `
   ${fn.name}(${generateInputTypes(fn.inputs)}): TransactionObject<${generateOutputTypes(
     fn.outputs,
   )}>;
 `;
 }
-
-function generateConstants(fn: ConstantDeclaration): string {
-  return `${fn.name}(): TransactionObject<${generateOutputType(fn.output)}>;`;
-}
-
 function generateInputTypes(input: Array<AbiParameter>): string {
   if (input.length === 0) {
     return "";
@@ -66,7 +67,7 @@ function generateInputTypes(input: Array<AbiParameter>): string {
   );
 }
 
-function generateOutputTypes(outputs: Array<AbiParameter>): string {
+function generateOutputTypes(outputs: Array<AbiOutputParameter>): string {
   if (outputs.length === 1) {
     return generateOutputType(outputs[0].type);
   } else {
@@ -77,7 +78,14 @@ function generateOutputTypes(outputs: Array<AbiParameter>): string {
   }
 }
 
-function generateEvents(event: EventDeclaration) {
+function codegenForEvents(events: Dictionary<EventDeclaration[]>): string {
+  return values(events)
+    .map(e => e[0])
+    .map(generateEvent)
+    .join("\n");
+}
+
+function generateEvent(event: EventDeclaration) {
   return `${event.name}: ContractEvent<${generateOutputTypes(event.inputs)}>`;
 }
 
@@ -101,11 +109,11 @@ function generateInputType(evmType: EvmType): string {
       return generateTupleType(evmType, generateInputType);
 
     default:
-      throw new Error(`Unrecognized type ${evmType}`);
+      throw new UnreachableCaseError(evmType);
   }
 }
 
-function generateOutputType(evmType: EvmType): string {
+function generateOutputType(evmType: EvmOutputType): string {
   switch (evmType.type) {
     case "integer":
       return "BN";
@@ -128,7 +136,7 @@ function generateOutputType(evmType: EvmType): string {
       return generateTupleType(evmType, generateOutputType);
 
     default:
-      throw new Error(`Unrecognized type ${evmType}`);
+      throw new UnreachableCaseError(evmType);
   }
 }
 

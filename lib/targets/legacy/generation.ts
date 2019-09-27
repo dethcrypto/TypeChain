@@ -3,16 +3,19 @@ import {
   Contract,
   AbiParameter,
   EventArgDeclaration,
-  ConstantDeclaration,
-  ConstantFunctionDeclaration,
   FunctionDeclaration,
   EventDeclaration,
   parse,
+  isConstant,
+  isConstantFn,
+  AbiOutputParameter,
 } from "../../parser/abiParser";
-import { EvmType, TupleType } from "../../parser/parseEvmType";
+import { EvmType, TupleType, EvmOutputType } from "../../parser/parseEvmType";
 import { IContext } from "../shared";
 import { join } from "path";
 import { readFileSync } from "fs";
+import { values } from "lodash";
+import { Dictionary, UnreachableCaseError } from "ts-essentials";
 
 export function getRuntime(): string {
   const runtimePath = join(__dirname, "./runtime/typechain-runtime.ts");
@@ -22,10 +25,10 @@ export function getRuntime(): string {
 export function codegen(abi: Array<RawAbiDefinition>, context: IContext): string {
   const parsedContractAbi = parse(abi, context.fileName);
 
-  return codeGenForContract(abi, parsedContractAbi, context);
+  return codegenForContract(abi, parsedContractAbi, context);
 }
 
-function codeGenForContract(abi: Array<RawAbiDefinition>, input: Contract, context: IContext) {
+function codegenForContract(abi: Array<RawAbiDefinition>, contract: Contract, context: IContext) {
   const runtimeNamespace = "TC";
   const typeName = context.fileName;
 
@@ -53,81 +56,89 @@ function codeGenForContract(abi: Array<RawAbiDefinition>, input: Contract, conte
         return contract; 
       }
       
-      ${codeGenForConstants(runtimeNamespace, input.constants)}
+      ${codegenForFunctions(runtimeNamespace, contract.functions)};
       
-      ${codeGenForConstantsFunctions(runtimeNamespace, input.constantFunctions)}
-      
-      ${codeGenForFunctions(runtimeNamespace, input.functions)}
-      
-      ${codeGenForEvents(runtimeNamespace, input.events)}
+      ${codegenForEvents(runtimeNamespace, contract.events)}
     }
 `;
 }
 
-function codeGenForConstants(runtimeNamespace: string, constants: Array<ConstantDeclaration>) {
-  return constants
-    .map(
-      ({ name, output }) => `
-        public get ${name}(): Promise<${codeGenForOutput(output)}> { 
-            return ${runtimeNamespace}.promisify(this.rawWeb3Contract.${name}, []); 
-        }
-    `,
-    )
-    .join("\n");
-}
-
-function codeGenForConstantsFunctions(
+function codegenForFunctions(
   runtimeNamespace: string,
-  constantFunctions: Array<ConstantFunctionDeclaration>,
+  functions: Dictionary<FunctionDeclaration[]>,
 ) {
-  return constantFunctions
-    .map(
-      ({ inputs, name, outputs }) => `
-        public ${name}(${inputs
-        .map(codeGenForParams)
-        .join(", ")}): Promise<${codeGenForOutputTypeList(outputs)}> { 
-            return ${runtimeNamespace}.promisify(this.rawWeb3Contract.${name}, [${inputs
-        .map(codeGenForArgs)
-        .join(", ")}]); 
+  const code = values(functions)
+    // we ignore overrides
+    .map(fns => fns[0])
+    .map(fnDecl => {
+      if (isConstantFn(fnDecl)) {
+        return codeGenForConstantsFunction(runtimeNamespace, fnDecl);
+      }
+
+      if (isConstant(fnDecl)) {
+        return codeGenForConstant(runtimeNamespace, fnDecl);
+      }
+
+      return codeGenForFunction(runtimeNamespace, fnDecl);
+    });
+
+  return code.join("\n");
+}
+function codeGenForConstant(runtimeNamespace: string, constant: FunctionDeclaration) {
+  return `
+        public get ${constant.name}(): Promise<${codeGenForOutput(constant.outputs[0].type)}> { 
+            return ${runtimeNamespace}.promisify(this.rawWeb3Contract.${constant.name}, []); 
         }
-   `,
-    )
-    .join("\n");
+    `;
 }
 
-function codeGenForFunctions(runtimeNamespace: string, functions: Array<FunctionDeclaration>) {
-  return functions
-    .map(({ payable, name, inputs }) => {
-      const txParamsType = payable
-        ? `${runtimeNamespace}.IPayableTxParams`
-        : `${runtimeNamespace}.ITxParams`;
-      return `public ${name}Tx(${inputs
-        .map(codeGenForParams)
-        .join(
-          ", ",
-        )}): ${runtimeNamespace}.DeferredTransactionWrapper<${txParamsType}> { return new ${runtimeNamespace}.DeferredTransactionWrapper<${txParamsType}>(this, "${name}", [${inputs
-        .map(codeGenForArgs)
-        .join(", ")}]);
+function codeGenForConstantsFunction(runtimeNamespace: string, fn: FunctionDeclaration) {
+  return `
+        public ${fn.name}(${fn.inputs
+    .map(codeGenForParams)
+    .join(", ")}): Promise<${codeGenForOutputTypeList(fn.outputs)}> { 
+            return ${runtimeNamespace}.promisify(this.rawWeb3Contract.${fn.name}, [${fn.inputs
+    .map(codeGenForArgs)
+    .join(", ")}]); 
+        }
+   `;
+}
+
+function codeGenForFunction(runtimeNamespace: string, fn: FunctionDeclaration) {
+  const txParamsType =
+    fn.stateMutability === "payable"
+      ? `${runtimeNamespace}.IPayableTxParams`
+      : `${runtimeNamespace}.ITxParams`;
+
+  return `public ${fn.name}Tx(${fn.inputs
+    .map(codeGenForParams)
+    .join(
+      ", ",
+    )}): ${runtimeNamespace}.DeferredTransactionWrapper<${txParamsType}> { return new ${runtimeNamespace}.DeferredTransactionWrapper<${txParamsType}>(this, "${
+    fn.name
+  }", [${fn.inputs.map(codeGenForArgs).join(", ")}]);
                 }`;
-    })
-    .join("\n");
 }
 
-function codeGenForEvents(runtimeNamespace: string, events: Array<EventDeclaration>) {
-  return events
-    .map(event => {
-      const filterableEventParams = codeGenForEventArgs(event.inputs, true);
-      const eventParams = codeGenForEventArgs(event.inputs, false);
+function codegenForEvents(runtimeNamespace: string, events: Dictionary<EventDeclaration[]>) {
+  return (
+    values(events)
+      // ignore overridden events
+      .map(v => v[0])
+      .map(event => {
+        const filterableEventParams = codeGenForEventArgs(event.inputs, true);
+        const eventParams = codeGenForEventArgs(event.inputs, false);
 
-      return `public ${
-        event.name
-      }Event(eventFilter: ${filterableEventParams}): ${runtimeNamespace}.DeferredEventWrapper<${eventParams}, ${filterableEventParams}> {
+        return `public ${
+          event.name
+        }Event(eventFilter: ${filterableEventParams}): ${runtimeNamespace}.DeferredEventWrapper<${eventParams}, ${filterableEventParams}> {
                 return new ${runtimeNamespace}.DeferredEventWrapper<${eventParams}, ${filterableEventParams}>(this, '${
-        event.name
-      }', eventFilter);
+          event.name
+        }', eventFilter);
               }`;
-    })
-    .join("\n");
+      })
+      .join("\n")
+  );
 }
 
 function codeGenForParams(param: AbiParameter, index: number): string {
@@ -144,7 +155,7 @@ function codeGenForArgs(param: AbiParameter, index: number): string {
   return `${paramName}.toString()`;
 }
 
-function codeGenForOutputTypeList(output: Array<AbiParameter>): string {
+function codeGenForOutputTypeList(output: Array<AbiOutputParameter>): string {
   if (output.length === 1) {
     return codeGenForOutput(output[0].type);
   } else {
@@ -181,7 +192,7 @@ function codeGenForInput(evmType: EvmType): string {
   }
 }
 
-function codeGenForOutput(evmType: EvmType): string {
+function codeGenForOutput(evmType: EvmOutputType): string {
   switch (evmType.type) {
     case "boolean":
       return "boolean";
@@ -204,7 +215,7 @@ function codeGenForOutput(evmType: EvmType): string {
       return generateTupleType(evmType, codeGenForOutput);
 
     default:
-      throw new Error(`Unrecognized ABI piece: ${JSON.stringify(evmType)}`);
+      throw new UnreachableCaseError(evmType);
   }
 }
 

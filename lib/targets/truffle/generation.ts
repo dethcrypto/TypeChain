@@ -1,11 +1,14 @@
 import {
   Contract,
   AbiParameter,
-  ConstantFunctionDeclaration,
   FunctionDeclaration,
-  ConstantDeclaration,
+  isConstant,
+  isConstantFn,
+  AbiOutputParameter,
 } from "../../parser/abiParser";
-import { EvmType, TupleType } from "../../parser/parseEvmType";
+import { EvmType, TupleType, EvmOutputType } from "../../parser/parseEvmType";
+import { values } from "lodash";
+import { UnreachableCaseError } from "ts-essentials";
 
 export function codegen(contracts: Contract[]) {
   const template = `
@@ -42,9 +45,9 @@ function generateContractInterface(c: Contract): string {
   return `
 export interface ${c.name}Contract extends Truffle.Contract<${c.name}Instance> {
   ${
-    c.constructor
+    c.constructor && c.constructor[0]
       ? `"new"(${generateInputTypes(
-          c.constructor.inputs,
+          c.constructor[0].inputs,
         )} meta?: Truffle.TransactionDetails): Promise<${c.name}Instance>;`
       : `"new"(meta?: Truffle.TransactionDetails): Promise<${c.name}Instance>;`
   }
@@ -55,14 +58,19 @@ export interface ${c.name}Contract extends Truffle.Contract<${c.name}Instance> {
 function generateContractInstanceInterface(c: Contract): string {
   return `
 export interface ${c.name}Instance extends Truffle.ContractInstance {
-  ${c.constantFunctions.map(generateConstantFunction).join("\n")}
-  ${c.functions.map(generateFunction).join("\n")}
-  ${c.constants.map(generateConstants).join("\n")}
+  ${values(c.functions)
+    .map(v => v[0])
+    .map(generateFunction)
+    .join("\n")}
 }
   `;
 }
 
-function generateFunction(fn: ConstantFunctionDeclaration | FunctionDeclaration): string {
+function generateFunction(fn: FunctionDeclaration): string {
+  if (isConstant(fn) || isConstantFn(fn)) {
+    return generateConstantFunction(fn);
+  }
+
   return `
   ${fn.name}: {
     (${generateInputTypes(
@@ -81,18 +89,12 @@ function generateFunction(fn: ConstantFunctionDeclaration | FunctionDeclaration)
 `;
 }
 
-function generateConstantFunction(fn: ConstantFunctionDeclaration): string {
+function generateConstantFunction(fn: FunctionDeclaration): string {
   return `
   ${fn.name}(${generateInputTypes(
     fn.inputs,
   )} txDetails?: Truffle.TransactionDetails): Promise<${generateOutputTypes(fn.outputs)}>;
 `;
-}
-
-function generateConstants(fn: ConstantDeclaration): string {
-  return `${fn.name}(txDetails?: Truffle.TransactionDetails): Promise<${generateOutputType(
-    fn.output,
-  )}>;`;
 }
 
 function generateInputTypes(input: Array<AbiParameter>): string {
@@ -106,7 +108,7 @@ function generateInputTypes(input: Array<AbiParameter>): string {
   );
 }
 
-function generateOutputTypes(outputs: Array<AbiParameter>): string {
+function generateOutputTypes(outputs: Array<AbiOutputParameter>): string {
   if (outputs.length === 1) {
     return generateOutputType(outputs[0].type);
   } else {
@@ -136,11 +138,11 @@ function generateInputType(evmType: EvmType): string {
       return generateTupleType(evmType, generateInputType);
 
     default:
-      throw new Error(`Unrecognized type ${evmType}`);
+      throw new UnreachableCaseError(evmType);
   }
 }
 
-function generateOutputType(evmType: EvmType): string {
+function generateOutputType(evmType: EvmOutputType): string {
   switch (evmType.type) {
     case "integer":
       return "BigNumber";
@@ -163,7 +165,7 @@ function generateOutputType(evmType: EvmType): string {
       return generateTupleType(evmType, generateOutputType);
 
     default:
-      throw new Error(`Unrecognized type ${evmType}`);
+      throw new UnreachableCaseError(evmType);
   }
 }
 

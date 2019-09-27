@@ -1,11 +1,18 @@
+import { groupBy } from "lodash";
+
 import debug from "../utils/debug";
 import { MalformedAbiError } from "../utils/errors";
-import { logger } from "../utils/logger";
-import { EvmType, parseEvmType } from "./parseEvmType";
+import { EvmType, parseEvmType, EvmOutputType } from "./parseEvmType";
+import { Dictionary } from "ts-essentials";
 
 export interface AbiParameter {
   name: string;
   type: EvmType;
+}
+
+export interface AbiOutputParameter {
+  name: string;
+  type: EvmOutputType;
 }
 
 export type Named<T> = {
@@ -16,9 +23,10 @@ export type Named<T> = {
 export type StateMutability = "pure" | "view" | "nonpayable" | "payable";
 
 export interface FunctionDeclaration {
+  name: string;
   stateMutability: StateMutability;
-  inputs: Array<AbiParameter>;
-  outputs: Array<AbiParameter>;
+  inputs: AbiParameter[];
+  outputs: AbiOutputParameter[];
 }
 
 export interface FunctionWithoutOutputDeclaration extends FunctionDeclaration {
@@ -34,15 +42,9 @@ export interface Contract {
 
   fallback?: FunctionWithoutInputDeclaration;
   constructor: FunctionWithoutOutputDeclaration[];
-  functions: Array<Named<FunctionDeclaration[]>>;
-  events: Array<Named<EventDeclaration[]>>;
+  functions: Dictionary<FunctionDeclaration[]>;
+  events: Dictionary<EventDeclaration[]>;
 }
-
-// tests:
-// - multiple constructors
-// - fallback functions
-// - override functions
-// - override events
 
 export interface RawAbiParameter {
   name: string;
@@ -87,7 +89,7 @@ export interface RawEventArgAbiDefinition {
 export function parse(abi: Array<RawAbiDefinition>, name: string): Contract {
   const constructors: FunctionWithoutOutputDeclaration[] = [];
   let fallback: FunctionWithoutInputDeclaration | undefined;
-  const functions: Named<FunctionDeclaration>[] = [];
+  const functions: FunctionDeclaration[] = [];
   const events: EventDeclaration[] = [];
 
   abi.forEach(abiPiece => {
@@ -116,7 +118,7 @@ export function parse(abi: Array<RawAbiDefinition>, name: string): Contract {
     if (abiPiece.type === "event") {
       const eventAbi = (abiPiece as any) as RawEventAbiDefinition;
       if (eventAbi.anonymous) {
-        logger.log("Skipping anonymous event...");
+        debug(`Skipping anonymous event... ${JSON.stringify(eventAbi)}`);
         return;
       }
 
@@ -130,15 +132,13 @@ export function parse(abi: Array<RawAbiDefinition>, name: string): Contract {
   return {
     name,
     fallback,
-    constructors,
-    functions,
-    events,
+    constructor: constructors,
+    functions: groupBy(functions, f => f.name),
+    events: groupBy(events, e => e.name),
   };
 }
 
-// TODO: group by name
-
-function parseOutputs(outputs: Array<RawAbiParameter>): AbiParameter[] {
+function parseOutputs(outputs: Array<RawAbiParameter>): AbiOutputParameter[] {
   if (outputs.length === 0) {
     return [{ name: "", type: { type: "void" } }];
   } else {
@@ -178,13 +178,25 @@ function findStateMutability(abiPiece: RawAbiDefinition): StateMutability {
 function parseConstructor(abiPiece: RawAbiDefinition): FunctionWithoutOutputDeclaration {
   debug(`Parsing constructor declaration`);
   return {
+    name: "constructor",
     inputs: abiPiece.inputs.map(parseRawAbiParameter),
     outputs: [],
     stateMutability: findStateMutability(abiPiece),
   };
 }
 
-function parseFunctionDeclaration(abiPiece: RawAbiDefinition): Named<FunctionDeclaration> {
+function parseFallback(abiPiece: RawAbiDefinition): FunctionWithoutInputDeclaration {
+  debug(`Parsing fallback declaration`);
+
+  return {
+    name: "fallback",
+    inputs: [],
+    outputs: parseOutputs(abiPiece.outputs),
+    stateMutability: findStateMutability(abiPiece),
+  };
+}
+
+function parseFunctionDeclaration(abiPiece: RawAbiDefinition): FunctionDeclaration {
   debug(`Parsing function declaration "${abiPiece.name}"`);
   return {
     name: abiPiece.name,
@@ -267,4 +279,19 @@ export function extractBytecode(rawContents: string): string | undefined {
 export function ensure0xPrefix(hexString: string): string {
   if (hexString.startsWith("0x")) return hexString;
   return "0x" + hexString;
+}
+
+export function isConstant(fn: FunctionDeclaration): boolean {
+  return (
+    (fn.stateMutability === "pure" || fn.stateMutability === "view") &&
+    fn.inputs.length === 0 &&
+    fn.outputs.length === 1
+  );
+}
+
+export function isConstantFn(fn: FunctionDeclaration): boolean {
+  return (
+    ((fn.stateMutability === "pure" || fn.stateMutability === "view") && fn.inputs.length !== 0) ||
+    fn.outputs.length !== 1
+  );
 }

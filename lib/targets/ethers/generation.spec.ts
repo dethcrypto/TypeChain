@@ -6,11 +6,9 @@ import { codegenContractFactory } from "./generation";
 describe("Ethers generation edge cases", () => {
   const emptyContract: Contract = {
     name: "TestContract",
-    constantFunctions: [],
-    constants: [],
-    functions: [],
-    events: [],
-    constructor: { inputs: [], payable: false },
+    functions: {},
+    events: {},
+    constructor: [{ name: "constructor", inputs: [], outputs: [], stateMutability: "nonpayable" }],
   };
 
   it("should generate simple factory when no bytecode available", () => {
