@@ -57,6 +57,10 @@ export function codegenContractTypings(contract: Contract) {
       ${contract.constants.map(generateConstant).join("\n")}
     };
 
+    ${contract.constantFunctions.map(generateConstantFunction).join("\n")}
+    ${contract.functions.map(generateFunction).join("\n")}
+    ${contract.constants.map(generateConstant).join("\n")}
+
     filters: {
       ${contract.events.map(generateEvents).join("\n")}
     };
