@@ -16,6 +16,13 @@
   version "1.13.2"
   resolved "https://registry.yarnpkg.com/@types/prettier/-/prettier-1.13.2.tgz#ffe96278e712a8d4e467e367a338b05e22872646"
 
+"@types/resolve@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@types/resolve/-/resolve-0.0.8.tgz#f26074d238e02659e323ce1a13d041eee280e194"
+  integrity sha512-auApPaJf3NPfe18hSoJkp8EbZzer2ISk7o8mCC3M9he/a04+gbMF97NkpD2S8riMGvm4BMRI59/SZQSaLTKpsQ==
+  dependencies:
+    "@types/node" "*"
+
 ansi-styles@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-3.2.1.tgz#41fbb20243e50b12be0f04b8dedbf07520ce841d"
@@ -140,6 +147,11 @@ jsonfile@^4.0.0:
   optionalDependencies:
     graceful-fs "^4.1.6"
 
+lodash@^4.17.15:
+  version "4.17.15"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
+  integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
+
 minimatch@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.0.4.tgz#5166e286457f03306064be5497e8dbb0c3d32083"
@@ -170,9 +182,21 @@ path-is-absolute@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/path-is-absolute/-/path-is-absolute-1.0.1.tgz#174b9268735534ffbc7ace6bf53a5a9e1b5c5f5f"
 
+path-parse@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/path-parse/-/path-parse-1.0.6.tgz#d62dbb5679405d72c4737ec58600e9ddcf06d24c"
+  integrity sha512-GSmOT2EbHrINBf9SR7CDELwlJ8AENk3Qn7OikK4nFYAu3Ote2+JYNVvkpAEQm3/TLNEJFD/xZJjzyxg3KBWOzw==
+
 prettier@^1.14.2:
   version "1.14.2"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.14.2.tgz#0ac1c6e1a90baa22a62925f41963c841983282f9"
+
+resolve@^1.8.1:
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.12.0.tgz#3fc644a35c84a48554609ff26ec52b66fa577df6"
+  integrity sha512-B/dOmuoAik5bKcD6s6nXDCjzUKnaDvdkRyAk6rsmsKLipWj4797iothd7jmmUhWTfinVMU+wc56rYKsit2Qy4w==
+  dependencies:
+    path-parse "^1.0.6"
 
 supports-color@^5.3.0:
   version "5.5.0"
@@ -187,24 +211,39 @@ test-value@^2.1.0:
     array-back "^1.0.3"
     typical "^2.6.0"
 
-ts-generator@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/ts-generator/-/ts-generator-0.0.5.tgz#9c2fa3ae201352ca672c8ff30873f446704d96fc"
+ts-essentials@^1.0.0:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/ts-essentials/-/ts-essentials-1.0.4.tgz#ce3b5dade5f5d97cf69889c11bf7d2da8555b15a"
+  integrity sha512-q3N1xS4vZpRouhYHDPwO0bDW3EZ6SK9CrrDHxi/D6BPReSjpVgWIOpLS2o0gSBZm+7q/wyKp6RVM1AeeW7uyfQ==
+
+ts-generator@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/ts-generator/-/ts-generator-0.0.8.tgz#7bd48ca064db026d9520bcb682b69efc20971d6a"
+  integrity sha512-Gi+aZCELpVL7Mqb+GuMgM+n8JZ/arZZib1iD/R9Ok8JDjOCOCrqS9b1lr72ku7J45WeDCFZxyJoRsiQvhokCnw==
   dependencies:
     "@types/mkdirp" "^0.5.2"
     "@types/prettier" "^1.13.2"
+    "@types/resolve" "^0.0.8"
     chalk "^2.4.1"
     glob "^7.1.2"
     mkdirp "^0.5.1"
     prettier "^1.14.2"
+    resolve "^1.8.1"
+    ts-essentials "^1.0.0"
 
-typechain@../..:
-  version "0.3.2"
+typechain-target-web3-1@../../packages/typechain-target-web3-1:
+  version "1.0.0-beta.0"
+  dependencies:
+    lodash "^4.17.15"
+
+typechain@../../packages/core:
+  version "1.0.0-beta.0"
   dependencies:
     command-line-args "^4.0.7"
     debug "^3.0.1"
     fs-extra "^7.0.0"
-    ts-generator "^0.0.5"
+    lodash "^4.17.15"
+    ts-generator "^0.0.8"
 
 typical@^2.6.0, typical@^2.6.1:
   version "2.6.1"
