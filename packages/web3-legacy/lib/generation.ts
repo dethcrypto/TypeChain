@@ -129,12 +129,8 @@ function codegenForEvents(runtimeNamespace: string, events: Dictionary<EventDecl
         const filterableEventParams = codeGenForEventArgs(event.inputs, true);
         const eventParams = codeGenForEventArgs(event.inputs, false);
 
-        return `public ${
-          event.name
-        }Event(eventFilter: ${filterableEventParams}): ${runtimeNamespace}.DeferredEventWrapper<${eventParams}, ${filterableEventParams}> {
-                return new ${runtimeNamespace}.DeferredEventWrapper<${eventParams}, ${filterableEventParams}>(this, '${
-          event.name
-        }', eventFilter);
+        return `public ${event.name}Event(eventFilter: ${filterableEventParams}): ${runtimeNamespace}.DeferredEventWrapper<${eventParams}, ${filterableEventParams}> {
+                return new ${runtimeNamespace}.DeferredEventWrapper<${eventParams}, ${filterableEventParams}>(this, '${event.name}', eventFilter);
               }`;
       })
       .join("\n")
