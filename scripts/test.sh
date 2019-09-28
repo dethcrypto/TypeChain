@@ -16,6 +16,7 @@ echo "Generating ABIs for sample contracts"
 echo "Compiling truffle project"
 (cd ../targets/truffle && ../../../../node_modules/.bin/truffle compile)
 
+echo "Running tests"
 if [ "$mode" = "COVERAGE" ]; then
   yarn test:mocha:coverage
 else
