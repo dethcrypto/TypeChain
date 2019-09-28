@@ -12,7 +12,7 @@ ABI_DIR="../abis"
 rm -rf $ABI_DIR
 
 echo "Generating ABIs for sample contracts"
-../../../node_modules/.bin/solcjs --abi ./* --bin -o $ABI_DIR
+../../../node_modules/krzkaczor-solc/solcjs --abi ./* --bin -o $ABI_DIR
 echo "Compiling truffle project"
 (cd ../targets/truffle && ../../../../node_modules/.bin/truffle compile)
 

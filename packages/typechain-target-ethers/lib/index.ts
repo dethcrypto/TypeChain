@@ -48,7 +48,6 @@ export default class Ethers extends TsGeneratorPlugin {
     if (fileExt === ".bin") {
       return this.transformBinFile(file);
     }
-
     return this.transformAbiOrFullJsonFile(file);
   }
 
