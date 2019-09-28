@@ -21,7 +21,7 @@
     "typechain": "0.9.0^"
   },
   "scripts": {
-    "build": "rm -rf ./dist && tsc -p ./tsconfig.production.json && cp -R ./lib/targets/legacy/runtime ./dist/targets/legacy/"
+    "build": "rm -rf ./dist && cp -R '../../dist/typechain-target-truffle/lib' ./dist/"
   },
   "main": "./dist/index.js"
 }

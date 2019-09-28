@@ -1,7 +1,6 @@
 import { TsGeneratorPlugin, TContext, TFileDesc } from "ts-generator";
 import { join } from "path";
-import { extractAbi, parse } from "typechain/parser/abiParser";
-import { getFilename } from "typechain/shared";
+import { extractAbi, parse, getFilename } from "typechain";
 import { codegen } from "./generation";
 
 export interface IWeb3Cfg {

@@ -2,7 +2,7 @@
 import { tsGenerator } from "ts-generator";
 
 import { parseArgs } from "./parseArgs";
-import { Typechain } from "..";
+import { Typechain } from "../TypeChain";
 import { logger } from "../utils/logger";
 
 async function main() {

@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { Contract } from "typechain/parser/abiParser";
+import { Contract } from "typechain";
 import { codegenContractFactory } from "./generation";
 
 describe("Ethers generation edge cases", () => {

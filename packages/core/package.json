@@ -8,7 +8,7 @@
     "smartcontract",
     "blockchain"
   ],
-  "version": "0.9.0-beta.0",
+  "version": "1.0.0-beta.0",
   "license": "MIT",
   "repository": "https://github.com/ethereum-ts/Typechain",
   "devDependencies": {
@@ -43,8 +43,7 @@
     "ts-generator": "^0.0.8"
   },
   "scripts": {
-    "build": "rm -rf ./dist && tsc -p ./tsconfig.production.json && cp -R ./lib/targets/legacy/runtime ./dist/targets/legacy/",
-    "postbuild": "chmod +x ./dist/cli/cli.js"
+    "build": "rm -rf ./dist && cp -R '../../dist/core/lib' ./dist/ && chmod +x ./dist/cli/cli.js && cp ../../README.md ."
   },
   "main": "./dist/index.js",
   "bin": "./dist/cli/cli.js"

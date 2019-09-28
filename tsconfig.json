@@ -8,7 +8,11 @@
     "outDir": "./dist",
     "module": "commonjs",
     "declaration": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": "packages",
+    "paths": {
+      "typechain": ["core/lib/index.ts"]
+    },
   },
   "include": [
     "packages/**/*.ts",
@@ -18,7 +22,6 @@
     "./node_modules/@types/chai-as-promised/index.d.ts"
   ],
   "exclude": [
-    "packages/web3-legacy/lib/runtime/typechain-runtime.ts",
     "./test/integration/targets/truffle/**/*.ts",
     "./test/integration/targets/web3-1.0.0/**/*",
     "./test/integration/targets/ethers/**/*",

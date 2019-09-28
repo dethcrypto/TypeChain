@@ -3,7 +3,7 @@ import { removeSync } from "fs-extra";
 
 import { tsGenerator } from "ts-generator";
 import { join } from "path";
-import { Typechain, ITypechainCfg } from "../../packages/core";
+import { Typechain, ITypechainCfg } from "../../packages/core/lib/TypeChain";
 import { TPluginCfg } from "ts-generator/dist/parseConfigFile";
 import { readFileSync } from "fs";
 

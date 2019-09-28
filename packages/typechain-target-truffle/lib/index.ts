@@ -1,8 +1,7 @@
-import { Contract } from "typechain/parser/abiParser";
+import { Contract, getFilename, extractAbi, parse } from "typechain";
 import { TsGeneratorPlugin, TContext, TFileDesc } from "ts-generator";
 import { join } from "path";
-import { extractAbi, parse } from "typechain/parser/abiParser";
-import { getFilename } from "typechain/shared";
+
 import { codegen, generateArtifactHeaders } from "./generation";
 
 export interface ITruffleCfg {

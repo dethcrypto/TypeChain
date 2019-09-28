@@ -7,15 +7,19 @@
     "target": "es2016",
     "outDir": "./dist",
     "module": "commonjs",
-    "declaration": true
+    "declaration": true,
+    "skipLibCheck": true,
+    "baseUrl": "packages",
+    "paths": {
+      "typechain": ["core/lib/index.ts"]
+    },
   },
   "include": [
-    "./lib/**/*.ts",
+    "./packages/**/*.ts",
     "./typings/*.ts",
     "./node_modules/web3-typescript-typings/index.d.ts"
   ],
   "exclude": [
-    "./lib/targets/legacy/runtime/**/*.ts",
     "./test/integration/targets/truffle/**/*.ts",
     "./test/integration/targets/web3-1.0.0/**/*",
     "./test/package-test/**/*"
