@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
-    "typechain": "../../packages/core",
+    "typechain": "../../packages/core"
   },
   "scripts": {
     "start": "typechain --target=truffle && typechain --target=web3-1 && typechain --target=ethers",
