@@ -1,0 +1,27 @@
+{
+  "name": "typechain-truffle-target",
+  "description": "TypeChain target with truffle support",
+  "keywords": [
+    "ethereum",
+    "typescript",
+    "bindings",
+    "truffle"
+  ],
+  "version": "1.0.0",
+  "license": "MIT",
+  "repository": "https://github.com/ethereum-ts/Typechain",
+  "devDependencies": {
+    "truffle": "^4.1.14",
+    "truffle-typings": "^1.0.4"
+  },
+  "dependencies": {
+    "lodash": "^4.17.15"
+  },
+  "peerDependencies": {
+    "typechain": "0.9.0^"
+  },
+  "scripts": {
+    "build": "rm -rf ./dist && tsc -p ./tsconfig.production.json && cp -R ./lib/targets/legacy/runtime ./dist/targets/legacy/"
+  },
+  "main": "./dist/index.js"
+}
