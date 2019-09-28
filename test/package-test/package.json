@@ -5,7 +5,6 @@
   "license": "MIT",
   "devDependencies": {
     "typechain": "../../packages/core",
-    "typechain-target-web3-1": "../../packages/typechain-target-web3-1"
   },
   "scripts": {
     "start": "typechain --target=truffle && typechain --target=web3-1 && typechain --target=ethers",
