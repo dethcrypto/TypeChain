@@ -1,9 +1,10 @@
 import { TsGeneratorPlugin, TFileDesc, TContext, TOutput } from "ts-generator";
-
-export type TTypechainTarget = "truffle" | "web3-1.0.0" | "legacy" | "ethers";
+import _ = require("lodash");
+import { compact } from "lodash";
+import debug from "./utils/debug";
 
 export interface ITypechainCfg {
-  target: TTypechainTarget;
+  target: string;
   outDir?: string;
 }
 
@@ -21,20 +22,28 @@ export class Typechain extends TsGeneratorPlugin {
   }
 
   private findRealImpl(ctx: TContext<ITypechainCfg>): TsGeneratorPlugin {
-    switch (ctx.rawConfig.target) {
-      // case "legacy":
-      //   return new TypechainLegacy(ctx);
-      // case "truffle":
-      //   return new Truffle(ctx);
-      // case "web3-1.0.0":
-      //   return new Web3(ctx);
-      // case "ethers":
-      //   return new Ethers(ctx);
-      case undefined:
-        throw new Error(`Please provide --target parameter!`);
-      default:
-        throw new Error(`Unsupported target ${this.ctx.rawConfig.target}!`);
+    const target = ctx.rawConfig.target;
+    if (!target) {
+      throw new Error(`Please provide --target parameter!`);
     }
+
+    const possiblePaths = [
+      process.env.NODE_ENV === "test" && `../typechain-target-${target}/lib/index`, // only for tests
+      `typechain-target-${target}`, //external module
+      target, // absolute path
+    ];
+
+    const module = _(possiblePaths)
+      .compact()
+      .map(tryRequire)
+      .compact()
+      .first();
+
+    if (!module) {
+      throw new Error(`Couldnt find ${ctx.rawConfig.target}. Tried: ${compact(possiblePaths)}`);
+    }
+
+    return new module.default(ctx);
   }
 
   beforeRun(): TOutput | Promise<TOutput> {
@@ -47,5 +56,13 @@ export class Typechain extends TsGeneratorPlugin {
 
   afterRun(): TOutput | Promise<TOutput> {
     return this.realImpl.afterRun();
+  }
+}
+
+function tryRequire(path: string): any {
+  try {
+    return require(path);
+  } catch (e) {
+    debug(e);
   }
 }

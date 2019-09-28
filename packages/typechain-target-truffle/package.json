@@ -1,6 +1,6 @@
 {
-  "name": "typechain-web3-1-target",
-  "description": "TypeChain target with Web3 1.x support",
+  "name": "typechain-target-truffle",
+  "description": "TypeChain target with truffle support",
   "keywords": [
     "ethereum",
     "typescript",
@@ -11,7 +11,8 @@
   "license": "MIT",
   "repository": "https://github.com/ethereum-ts/Typechain",
   "devDependencies": {
-    "web3": "1.2.1"
+    "truffle": "^4.1.14",
+    "truffle-typings": "^1.0.4"
   },
   "dependencies": {
     "lodash": "^4.17.15"

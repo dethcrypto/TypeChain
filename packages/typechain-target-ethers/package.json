@@ -1,5 +1,5 @@
 {
-  "name": "typechain-ethers-target",
+  "name": "typechain-target-ethers",
   "description": "TypeChain target with ethers.js support",
   "keywords": [
     "ethereum",

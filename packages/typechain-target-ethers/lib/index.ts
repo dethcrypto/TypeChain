@@ -16,7 +16,7 @@ export interface IEthersCfg {
 
 const DEFAULT_OUT_PATH = "./types/ethers-contracts/";
 
-export class Ethers extends TsGeneratorPlugin {
+export default class Ethers extends TsGeneratorPlugin {
   name = "Ethers";
 
   private readonly outDirAbs: string;

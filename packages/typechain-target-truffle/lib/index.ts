@@ -1,8 +1,8 @@
-import { Contract } from "../../core/parser/abiParser";
+import { Contract } from "typechain/parser/abiParser";
 import { TsGeneratorPlugin, TContext, TFileDesc } from "ts-generator";
 import { join } from "path";
-import { extractAbi, parse } from "../../core/parser/abiParser";
-import { getFilename } from "../../core/shared";
+import { extractAbi, parse } from "typechain/parser/abiParser";
+import { getFilename } from "typechain/shared";
 import { codegen, generateArtifactHeaders } from "./generation";
 
 export interface ITruffleCfg {
@@ -11,7 +11,7 @@ export interface ITruffleCfg {
 
 const DEFAULT_OUT_PATH = "./types/truffle-contracts/";
 
-export class Truffle extends TsGeneratorPlugin {
+export default class Truffle extends TsGeneratorPlugin {
   name = "Truffle";
 
   private readonly outDirAbs: string;
