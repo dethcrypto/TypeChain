@@ -12,7 +12,7 @@
     "baseUrl": "packages",
     "paths": {
       "typechain": ["core/lib/index.ts"]
-    },
+    }
   },
   "include": [
     "packages/**/*.ts",
