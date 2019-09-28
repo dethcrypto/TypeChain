@@ -4,8 +4,7 @@
     "text"
   ],
   "include": [
-    "lib/**/*.ts",
-    "runtime/**/*.ts"
+    "packages/**/*.ts"
   ],
   "exclude": [
     "**/*.spec.ts",
