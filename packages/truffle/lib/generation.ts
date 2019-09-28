@@ -5,8 +5,8 @@ import {
   isConstant,
   isConstantFn,
   AbiOutputParameter,
-} from "../../parser/abiParser";
-import { EvmType, TupleType, EvmOutputType } from "../../parser/parseEvmType";
+} from "../../core/parser/abiParser";
+import { EvmType, TupleType, EvmOutputType } from "../../core/parser/parseEvmType";
 import { values } from "lodash";
 import { UnreachableCaseError } from "ts-essentials";
 
