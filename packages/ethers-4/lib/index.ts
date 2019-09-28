@@ -2,8 +2,8 @@ import { join } from "path";
 import { Dictionary } from "ts-essentials";
 import { TContext, TFileDesc, TsGeneratorPlugin } from "ts-generator";
 
-import { Contract, extractAbi, extractBytecode, parse } from "../../parser/abiParser";
-import { getFileExtension, getFilename } from "../shared";
+import { Contract, extractAbi, extractBytecode, parse } from "typechain/parser/abiParser";
+import { getFileExtension, getFilename } from "typechain/shared";
 import {
   codegenAbstractContractFactory,
   codegenContractFactory,

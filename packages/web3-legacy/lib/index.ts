@@ -1,8 +1,8 @@
 import { TsGeneratorPlugin, TFileDesc, TContext, getRelativeModulePath } from "ts-generator";
 import { join, dirname } from "path";
 import { codegen, getRuntime } from "./generation";
-import { extractAbi } from "../../parser/abiParser";
-import { getFilename } from "../shared";
+import { extractAbi } from "typechain/parser/abiParser";
+import { getFilename } from "typechain/shared";
 
 export interface ITypechainCfg {
   outDir?: string;

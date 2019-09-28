@@ -2,7 +2,8 @@
   "extends": "typestrict",
   "rules": {
     "no-console": true,
-    "no-debugger": true
+    "no-debugger": true,
+    "restrict-plus-operands": false
   },
   "cliOptions": {
     "exclude": [

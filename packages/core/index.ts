@@ -1,5 +1,4 @@
 import { TsGeneratorPlugin, TFileDesc, TContext, TOutput } from "ts-generator";
-import { Truffle } from "../truffle/lib";
 
 export type TTypechainTarget = "truffle" | "web3-1.0.0" | "legacy" | "ethers";
 
@@ -21,7 +20,7 @@ export class Typechain extends TsGeneratorPlugin {
     this.realImpl = this.findRealImpl(ctx);
   }
 
-  private findRealImpl(ctx: TContext<ITypechainCfg>) {
+  private findRealImpl(ctx: TContext<ITypechainCfg>): TsGeneratorPlugin {
     switch (ctx.rawConfig.target) {
       // case "legacy":
       //   return new TypechainLegacy(ctx);

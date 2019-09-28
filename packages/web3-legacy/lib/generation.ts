@@ -9,9 +9,9 @@ import {
   isConstant,
   isConstantFn,
   AbiOutputParameter,
-} from "../../parser/abiParser";
-import { EvmType, TupleType, EvmOutputType } from "../../parser/parseEvmType";
-import { IContext } from "../shared";
+} from "typechain/parser/abiParser";
+import { EvmType, TupleType, EvmOutputType } from "typechain/parser/parseEvmType";
+import { IContext } from "typechain/shared";
 import { join } from "path";
 import { readFileSync } from "fs";
 import { values } from "lodash";

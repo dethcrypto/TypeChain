@@ -32,7 +32,6 @@
     "source-map-support": "^0.5.8",
     "ts-node": "^3.3.0",
     "tslint": "^5.20.0",
-    "tslint-language-service": "^0.9.7",
     "typescript": "^3.6.3",
     "typestrict": "^0.0.6"
   },
