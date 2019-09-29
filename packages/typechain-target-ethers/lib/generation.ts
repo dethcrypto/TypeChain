@@ -5,8 +5,10 @@ import {
   EventDeclaration,
   FunctionDeclaration,
   AbiOutputParameter,
-} from "../../parser/abiParser";
-import { EvmType, TupleType, EvmOutputType } from "../../parser/parseEvmType";
+  EvmType,
+  TupleType,
+  EvmOutputType,
+} from "typechain";
 import { values } from "lodash";
 import { UnreachableCaseError } from "ts-essentials";
 

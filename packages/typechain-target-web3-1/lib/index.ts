@@ -1,7 +1,6 @@
 import { TsGeneratorPlugin, TContext, TFileDesc } from "ts-generator";
 import { join } from "path";
-import { extractAbi, parse } from "../../parser/abiParser";
-import { getFilename } from "../shared";
+import { extractAbi, parse, getFilename } from "typechain";
 import { codegen } from "./generation";
 
 export interface IWeb3Cfg {
@@ -10,7 +9,7 @@ export interface IWeb3Cfg {
 
 const DEFAULT_OUT_PATH = "./types/web3-contracts/";
 
-export class Web3 extends TsGeneratorPlugin {
+export default class Web3 extends TsGeneratorPlugin {
   name = "Web3";
 
   private readonly outDirAbs: string;

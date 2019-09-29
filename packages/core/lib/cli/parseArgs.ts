@@ -1,11 +1,10 @@
 import * as commandLineArgs from "command-line-args";
-import { TTypechainTarget } from "..";
 
 const DEFAULT_GLOB_PATTERN = "**/*.abi";
 
 export interface IOptions {
   files: string;
-  target: TTypechainTarget;
+  target: string;
   outDir?: string;
 }
 

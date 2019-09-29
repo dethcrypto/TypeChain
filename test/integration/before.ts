@@ -3,7 +3,7 @@ import { removeSync } from "fs-extra";
 
 import { tsGenerator } from "ts-generator";
 import { join } from "path";
-import { Typechain, ITypechainCfg } from "../../lib";
+import { Typechain, ITypechainCfg } from "../../packages/core/lib/TypeChain";
 import { TPluginCfg } from "ts-generator/dist/parseConfigFile";
 import { readFileSync } from "fs";
 
@@ -17,7 +17,7 @@ prepare((done: any) => {
     const cwd = __dirname;
     const prettierCfg = JSON.parse(readFileSync(join(__dirname, "../../.prettierrc"), "utf8"));
 
-    await generateLegacy(cwd, prettierCfg);
+    process.env.NODE_ENV = "test";
     await generateTruffle(cwd, prettierCfg);
     await generateWeb3_1(cwd, prettierCfg);
     await generateEthers(cwd, prettierCfg);
@@ -29,20 +29,6 @@ prepare((done: any) => {
     process.exit(1);
   });
 });
-
-async function generateLegacy(cwd: string, prettierCfg: any) {
-  const outDir = "./targets/legacy/wrappers";
-
-  removeSync(join(__dirname, outDir));
-
-  const rawConfig: TPluginCfg<ITypechainCfg> = {
-    files: "**/*.abi",
-    target: "legacy",
-    outDir,
-  };
-
-  await tsGenerator({ cwd, prettier: prettierCfg }, new Typechain({ cwd, rawConfig }));
-}
 
 async function generateTruffle(cwd: string, prettierCfg: any) {
   const outDir = "./targets/truffle/@types/truffle-contracts";
@@ -65,7 +51,7 @@ async function generateWeb3_1(cwd: string, prettierCfg: any) {
 
   const rawConfig: TPluginCfg<ITypechainCfg> = {
     files: "**/*.abi",
-    target: "web3-1.0.0",
+    target: "web3-1",
     outDir,
   };
 

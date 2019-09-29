@@ -2,8 +2,14 @@ import { join } from "path";
 import { Dictionary } from "ts-essentials";
 import { TContext, TFileDesc, TsGeneratorPlugin } from "ts-generator";
 
-import { Contract, extractAbi, extractBytecode, parse } from "../../parser/abiParser";
-import { getFileExtension, getFilename } from "../shared";
+import {
+  Contract,
+  extractAbi,
+  extractBytecode,
+  parse,
+  getFileExtension,
+  getFilename,
+} from "typechain";
 import {
   codegenAbstractContractFactory,
   codegenContractFactory,
@@ -16,7 +22,7 @@ export interface IEthersCfg {
 
 const DEFAULT_OUT_PATH = "./types/ethers-contracts/";
 
-export class Ethers extends TsGeneratorPlugin {
+export default class Ethers extends TsGeneratorPlugin {
   name = "Ethers";
 
   private readonly outDirAbs: string;
@@ -48,7 +54,6 @@ export class Ethers extends TsGeneratorPlugin {
     if (fileExt === ".bin") {
       return this.transformBinFile(file);
     }
-
     return this.transformAbiOrFullJsonFile(file);
   }
 

@@ -1,0 +1,26 @@
+{
+  "name": "typechain-target-web3-1",
+  "description": "TypeChain target with Web3 1.x support",
+  "keywords": [
+    "ethereum",
+    "typescript",
+    "bindings",
+    "truffle"
+  ],
+  "version": "1.0.0-beta.0",
+  "license": "MIT",
+  "repository": "https://github.com/ethereum-ts/Typechain",
+  "devDependencies": {
+    "web3": "1.2.1"
+  },
+  "dependencies": {
+    "lodash": "^4.17.15"
+  },
+  "peerDependencies": {
+    "typechain": "0.9.0^"
+  },
+  "scripts": {
+    "build": "rm -rf ./dist && cp -R '../../dist/typechain-target-web3-1/lib' ./dist/"
+  },
+  "main": "./dist/index.js"
+}
