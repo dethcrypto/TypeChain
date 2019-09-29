@@ -18,13 +18,14 @@
     "test": "yarn lint && ./scripts/test.sh",
     "test:coverage": "yarn lint && ./scripts/test.sh COVERAGE",
     "test:fix": "yarn lint:fix && ./scripts/test.sh",
-    "test:mocha": "TS_NODE_IGNORE=\"/test/integration/targets/web3-1.0.0/\" mocha --require ts-node/register.js --require test/setup-chai.ts --require 'test/integration/before.ts' 'test/integration/web3.ts' './**/*.spec.ts'",
-    "test:mocha:coverage": "NODE_ENV=test nyc mocha --require ts-node/register.js --require source-map-support/register --require test/setup-chai.ts --require 'test/integration/before.ts' 'test/integration/web3.ts' './**/*.spec.ts'",
+    "test:mocha": "TS_NODE_IGNORE=\"/test/integration/targets/web3-1.0.0/\" mocha --require ts-node/register.js --require tsconfig-paths/register --require test/setup-chai.ts --require 'test/integration/before.ts' 'test/integration/web3.ts' './**/*.spec.ts'",
+    "test:mocha:coverage": "NODE_ENV=test nyc mocha --require ts-node/register.js --require tsconfig-paths/register --require source-map-support/register --require test/setup-chai.ts --require 'test/integration/before.ts' 'test/integration/web3.ts' './**/*.spec.ts'",
     "test:package-bundle": "cd ./test/package-test && yarn && yarn start",
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
   "devDependencies": {
     "@types/web3": "^1.0.20",
+    "krzkaczor-solc": "^0.4.24",
     "mocha": "^4.0.1",
     "mocha-prepare": "^0.1.0",
     "nyc": "^12.0.2",
@@ -33,12 +34,12 @@
     "snap-shot-it": "^6.1.1",
     "source-map-support": "^0.5.8",
     "ts-node": "^3.3.0",
+    "tsconfig-paths": "^3.9.0",
     "tslint": "^5.20.0",
     "typescript": "^3.6.3",
     "typestrict": "^0.0.6",
     "web3": "0.20.x",
-    "web3-typescript-typings": "^0.7.2",
-    "krzkaczor-solc": "^0.4.24"
+    "web3-typescript-typings": "^0.7.2"
   },
   "workspaces": [
     "packages/*"
