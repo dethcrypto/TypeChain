@@ -37,7 +37,7 @@
     "tsconfig-paths": "^3.9.0",
     "tslint": "^5.20.0",
     "typescript": "^3.6.3",
-    "typestrict": "^0.0.6",
+    "typestrict": "^1.0.3-beta.0",
     "web3": "0.20.x",
     "web3-typescript-typings": "^0.7.2"
   },

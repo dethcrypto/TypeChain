@@ -4710,17 +4710,17 @@ tslib@^1.8.0, tslib@^1.8.1:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.9.0.tgz#e37a86fda8cbbaf23a057f473c9f4dc64e5fc2e8"
   integrity sha512-f/qGG2tUkrISBlQZEjEqoZ3B2+npJjIf04H1wuAv9iA8i04Icp+61KRXxFdha22670NJopsZCIjhC3SnjPRKrQ==
 
-tslint-microsoft-contrib@^5.0.1:
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/tslint-microsoft-contrib/-/tslint-microsoft-contrib-5.0.2.tgz#ecc2a797f777a12f0066944cec0c81a9e7c59ee9"
-  integrity sha1-7MKnl/d3oS8AZpRM7AyBqefFnuk=
+tslint-microsoft-contrib@^5.0.3:
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/tslint-microsoft-contrib/-/tslint-microsoft-contrib-5.2.1.tgz#a6286839f800e2591d041ea2800c77487844ad81"
+  integrity sha512-PDYjvpo0gN9IfMULwKk0KpVOPMhU6cNoT9VwCOLeDl/QS8v8W2yspRpFFuUS7/c5EIH/n8ApMi8TxJAz1tfFUA==
   dependencies:
-    tsutils "^2.12.1"
+    tsutils "^2.27.2 <2.29.0"
 
-tslint-sonarts@^1.2.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/tslint-sonarts/-/tslint-sonarts-1.4.0.tgz#90ae06c884b2ba92f81fd7bf76d8aae12313a5f1"
-  integrity sha512-7+Wvts4jsMi6d61HvIbDJzbuun717xeDrsk8/78+UNxZsRg4d44HtuWMYydRk7UqNqsr1ySgDVn+gnfgaKG9ig==
+tslint-sonarts@^1.8.0:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/tslint-sonarts/-/tslint-sonarts-1.9.0.tgz#feb593e92db328c0328b430b838adbe65d504de9"
+  integrity sha512-CJWt+IiYI8qggb2O/JPkS6CkC5DY1IcqRsm9EHJ+AxoWK70lvtP7jguochyNDMP2vIz/giGdWCfEM39x/I/Vnw==
   dependencies:
     immutable "^3.8.2"
 
@@ -4743,10 +4743,10 @@ tslint@^5.20.0:
     tslib "^1.8.0"
     tsutils "^2.29.0"
 
-tsutils@^2.12.1:
-  version "2.21.0"
-  resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-2.21.0.tgz#43466a2283a0abce64e2209bc732ad72f8a04fab"
-  integrity sha512-zlOHTYtTwvTiKxUyAU8wiKzPpAgwZrGjb7AY18VUlxuCgBiTMVorIl5HjrCT8V64Hm34RI1BZITJMVQpBLMxVg==
+"tsutils@^2.27.2 <2.29.0":
+  version "2.28.0"
+  resolved "https://registry.yarnpkg.com/tsutils/-/tsutils-2.28.0.tgz#6bd71e160828f9d019b6f4e844742228f85169a1"
+  integrity sha512-bh5nAtW0tuhvOJnx1GLRn5ScraRLICGyJV5wJhtRWOLsxW70Kk5tZtpK3O/hW6LDnqKS9mlUMPZj9fEMJ0gxqA==
   dependencies:
     tslib "^1.8.1"
 
@@ -4799,13 +4799,13 @@ typescript@^3.6.3:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.6.3.tgz#fea942fabb20f7e1ca7164ff626f1a9f3f70b4da"
   integrity sha512-N7bceJL1CtRQ2RiG0AQME13ksR7DiuQh/QehubYcghzv20tnh+MQnQIuJddTmsbqYj+dztchykemz0zFzlvdQw==
 
-typestrict@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/typestrict/-/typestrict-0.0.6.tgz#44b2294589c6b00fb5ff9160b84fd646e3b4e870"
-  integrity sha512-XG1OSQWoBH4t4vBIexYog0zZE+rURSarjoeXIGMv5cRYobfaMfOh5FbVA+T9eUZ5tfKPkbK/6rOgamJfif3Fcw==
+typestrict@^1.0.3-beta.0:
+  version "1.0.3-beta.0"
+  resolved "https://registry.yarnpkg.com/typestrict/-/typestrict-1.0.3-beta.0.tgz#5ddb54294dedf8336991f49a275b7e074e34a086"
+  integrity sha512-okXZpwQ1HqEatOmFhcTRiUDKcHtNRFKOVNHWhBxx+M8qUNiL/tgRTtBx+IrW+ZILMxW47lXuCkqXH/zVirWLnw==
   dependencies:
-    tslint-microsoft-contrib "^5.0.1"
-    tslint-sonarts "^1.2.0"
+    tslint-microsoft-contrib "^5.0.3"
+    tslint-sonarts "^1.8.0"
 
 typical@^2.6.0, typical@^2.6.1:
   version "2.6.1"
