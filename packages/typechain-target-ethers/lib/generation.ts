@@ -55,6 +55,11 @@ export function codegenContractTypings(contract: Contract) {
         .join("\n")}
     };
 
+    ${values(contract.functions)
+      .map(v => v[0])
+      .map(generateFunction)
+      .join("\n")}
+
     filters: {
       ${values(contract.events)
         .map(v => v[0])

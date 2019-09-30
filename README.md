@@ -34,16 +34,23 @@
 npm install --save-dev typechain
 ```
 
-```bash
-yarn add --dev typechain
-```
+You will also need to install desired target for example `typechain-target-ethers`.
+
+## Packages 📦
+
+| Package                                                          | Version                                                                                                                     | Description        |
+| ---------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------ |
+| [`typechain`](/packages/core)                                    | [![npm](https://img.shields.io/npm/v/typechain.svg)](https://www.npmjs.com/package/typechain)                               | Core package       |
+| [`typechain-target-ethers`](/packages/typechain-target-ethers)   | [![npm](https://img.shields.io/npm/v/typechain-target-ethers.svg)](https://www.npmjs.com/package/typechain-target-ethers)   | Ethers support     |
+| [`typechain-target-truffle`](/packages/typechain-target-truffle) | [![npm](https://img.shields.io/npm/v/typechain-target-truffle.svg)](https://www.npmjs.com/package/typechain-target-truffle) | Truffle support    |
+| [`typechain-target-web3-1`](/packages/typechain-target-web3-1)   | [![npm](https://img.shields.io/npm/v/typechain-target-web3-1.svg)](https://www.npmjs.com/package/typechain-target-web3-1)   | Web3 1.x.x support |
 
 ## Usage
 
 ### CLI
 
 ```
-typechain --target=(truffle|web3-1.0.0|legacy) [glob]
+typechain --target=(truffle|web3-1|truffle|absolute-path-to-target) [glob]
 ```
 
 - `glob` - pattern that will be used to find ABIs, remember about adding quotes: `typechain "**/*.json"`
