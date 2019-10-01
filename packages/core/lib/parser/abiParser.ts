@@ -139,7 +139,7 @@ export function parse(abi: Array<RawAbiDefinition>, name: string): Contract {
 }
 
 function parseOutputs(outputs: Array<RawAbiParameter>): AbiOutputParameter[] {
-  if (outputs.length === 0) {
+  if (!outputs || outputs.length === 0) {
     return [{ name: "", type: { type: "void" } }];
   } else {
     return outputs.map(parseRawAbiParameter);

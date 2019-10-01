@@ -7,6 +7,8 @@ import {
   extractBytecode,
   parseEvent,
   RawEventAbiDefinition,
+  parse,
+  RawAbiDefinition,
 } from "./abiParser";
 
 describe("extractAbi", () => {
@@ -98,6 +100,20 @@ describe("parseEvent", () => {
         { name: "_from", isIndexed: true, type: { type: "address" } },
         { name: "_value", isIndexed: false, type: { type: "uinteger", bits: 256 } },
       ],
+    });
+  });
+});
+
+describe("parse", () => {
+  describe("fallback functions", () => {
+    it("should work on output-less fallback functions", () => {
+      const fallbackAbiFunc: RawAbiDefinition = {
+        payable: true,
+        stateMutability: "payable",
+        type: "fallback",
+      } as any;
+
+      expect(() => parse([fallbackAbiFunc], "fallback")).to.not.throw();
     });
   });
 });
