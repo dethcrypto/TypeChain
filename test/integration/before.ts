@@ -3,13 +3,13 @@ import { removeSync } from "fs-extra";
 
 import { tsGenerator } from "ts-generator";
 import { join } from "path";
-import { Typechain, ITypechainCfg } from "../../packages/core/lib/TypeChain";
+import { TypeChain, ITypeChainCfg } from "../../packages/core/lib/TypeChain";
 import { TPluginCfg } from "ts-generator/dist/parseConfigFile";
 import { readFileSync } from "fs";
 
 /**
  * NOTE: this is done here only to easily count code coverage.
- * Normally you would run typechain in separate build step, before running your tests.
+ * Normally you would run TypeChain in separate build step, before running your tests.
  */
 
 prepare((done: any) => {
@@ -35,13 +35,13 @@ async function generateTruffle(cwd: string, prettierCfg: any) {
 
   removeSync(join(__dirname, outDir));
 
-  const rawConfig: TPluginCfg<ITypechainCfg> = {
+  const rawConfig: TPluginCfg<ITypeChainCfg> = {
     files: "targets/truffle/build/**/*.json",
     target: "truffle",
     outDir,
   };
 
-  await tsGenerator({ cwd, prettier: prettierCfg }, new Typechain({ cwd, rawConfig }));
+  await tsGenerator({ cwd, prettier: prettierCfg }, new TypeChain({ cwd, rawConfig }));
 }
 
 async function generateWeb3_1(cwd: string, prettierCfg: any) {
@@ -49,13 +49,13 @@ async function generateWeb3_1(cwd: string, prettierCfg: any) {
 
   removeSync(join(__dirname, outDir));
 
-  const rawConfig: TPluginCfg<ITypechainCfg> = {
+  const rawConfig: TPluginCfg<ITypeChainCfg> = {
     files: "**/*.abi",
     target: "web3-1",
     outDir,
   };
 
-  await tsGenerator({ cwd, prettier: prettierCfg }, new Typechain({ cwd, rawConfig }));
+  await tsGenerator({ cwd, prettier: prettierCfg }, new TypeChain({ cwd, rawConfig }));
 }
 
 async function generateEthers(cwd: string, prettierCfg: any) {
@@ -63,11 +63,11 @@ async function generateEthers(cwd: string, prettierCfg: any) {
 
   removeSync(join(__dirname, outDir));
 
-  const rawConfig: TPluginCfg<ITypechainCfg> = {
+  const rawConfig: TPluginCfg<ITypeChainCfg> = {
     files: "**/*.{abi,bin}",
     target: "ethers",
     outDir,
   };
 
-  await tsGenerator({ cwd, prettier: prettierCfg }, new Typechain({ cwd, rawConfig }));
+  await tsGenerator({ cwd, prettier: prettierCfg }, new TypeChain({ cwd, rawConfig }));
 }

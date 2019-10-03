@@ -3,7 +3,7 @@ import _ = require("lodash");
 import { compact } from "lodash";
 import debug from "./utils/debug";
 
-export interface ITypechainCfg {
+export interface ITypeChainCfg {
   target: string;
   outDir?: string;
 }
@@ -11,17 +11,17 @@ export interface ITypechainCfg {
 /**
  * Proxies calls to real implementation that is selected based on target parameter.
  */
-export class Typechain extends TsGeneratorPlugin {
-  name = "Typechain";
+export class TypeChain extends TsGeneratorPlugin {
+  name = "TypeChain";
   private realImpl: TsGeneratorPlugin;
 
-  constructor(ctx: TContext<ITypechainCfg>) {
+  constructor(ctx: TContext<ITypeChainCfg>) {
     super(ctx);
 
     this.realImpl = this.findRealImpl(ctx);
   }
 
-  private findRealImpl(ctx: TContext<ITypechainCfg>): TsGeneratorPlugin {
+  private findRealImpl(ctx: TContext<ITypeChainCfg>): TsGeneratorPlugin {
     const target = ctx.rawConfig.target;
     if (!target) {
       throw new Error(`Please provide --target parameter!`);

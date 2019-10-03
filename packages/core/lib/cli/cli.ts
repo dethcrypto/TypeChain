@@ -2,7 +2,7 @@
 import { tsGenerator } from "ts-generator";
 
 import { parseArgs } from "./parseArgs";
-import { Typechain } from "../TypeChain";
+import { TypeChain } from "../TypeChain";
 import { logger } from "../utils/logger";
 
 async function main() {
@@ -10,7 +10,7 @@ async function main() {
   const options = parseArgs();
   const cwd = process.cwd();
 
-  await tsGenerator({ cwd, loggingLvl: "info" }, new Typechain({ cwd, rawConfig: options }));
+  await tsGenerator({ cwd, loggingLvl: "info" }, new TypeChain({ cwd, rawConfig: options }));
 }
 
 main().catch(e => {
