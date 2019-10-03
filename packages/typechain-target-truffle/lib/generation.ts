@@ -10,7 +10,6 @@ import {
   EvmOutputType,
 } from "typechain";
 import { values } from "lodash";
-import { UnreachableCaseError } from "ts-essentials";
 
 export function codegen(contracts: Contract[]) {
   const template = `
@@ -138,9 +137,6 @@ function generateInputType(evmType: EvmType): string {
       return "string";
     case "tuple":
       return generateTupleType(evmType, generateInputType);
-
-    default:
-      throw new UnreachableCaseError(evmType);
   }
 }
 
@@ -165,9 +161,6 @@ function generateOutputType(evmType: EvmOutputType): string {
       return "string";
     case "tuple":
       return generateTupleType(evmType, generateOutputType);
-
-    default:
-      throw new UnreachableCaseError(evmType);
   }
 }
 

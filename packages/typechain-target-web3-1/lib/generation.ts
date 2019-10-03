@@ -8,7 +8,7 @@ import {
   TupleType,
   EvmOutputType,
 } from "typechain";
-import { Dictionary, UnreachableCaseError } from "ts-essentials";
+import { Dictionary } from "ts-essentials";
 import { values } from "lodash";
 
 export function codegen(contract: Contract) {
@@ -109,9 +109,6 @@ function generateInputType(evmType: EvmType): string {
       return "string";
     case "tuple":
       return generateTupleType(evmType, generateInputType);
-
-    default:
-      throw new UnreachableCaseError(evmType);
   }
 }
 
@@ -136,9 +133,6 @@ function generateOutputType(evmType: EvmOutputType): string {
       return "string";
     case "tuple":
       return generateTupleType(evmType, generateOutputType);
-
-    default:
-      throw new UnreachableCaseError(evmType);
   }
 }
 
