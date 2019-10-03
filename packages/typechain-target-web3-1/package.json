@@ -7,7 +7,7 @@
     "bindings",
     "truffle"
   ],
-  "version": "1.0.0-beta.0",
+  "version": "1.0.0-beta.1",
   "license": "MIT",
   "repository": "https://github.com/ethereum-ts/Typechain",
   "devDependencies": {
@@ -17,10 +17,11 @@
     "lodash": "^4.17.15"
   },
   "peerDependencies": {
-    "typechain": "0.9.0^"
+    "typechain": "1.0.0^"
   },
   "scripts": {
-    "build": "rm -rf ./dist && cp -R '../../dist/typechain-target-web3-1/lib' ./dist/"
+    "build": "rm -rf ./dist && cp -R '../../dist/typechain-target-web3-1/lib' ./dist/",
+    "prepublishOnly": "cd .. && yarn prepublishOnly"
   },
   "main": "./dist/index.js"
 }

@@ -18,10 +18,11 @@
     "lodash": "^4.17.15"
   },
   "peerDependencies": {
-    "typechain": "0.9.0^"
+    "typechain": "1.0.0^"
   },
   "scripts": {
-    "build": "rm -rf ./dist && cp -R '../../dist/typechain-target-truffle/lib' ./dist/"
+    "build": "rm -rf ./dist && cp -R '../../dist/typechain-target-truffle/lib' ./dist/",
+    "prepublishOnly": "cd .. && yarn prepublishOnly"
   },
   "main": "./dist/index.js"
 }
