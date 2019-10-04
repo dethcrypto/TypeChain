@@ -290,8 +290,5 @@ export function isConstant(fn: FunctionDeclaration): boolean {
 }
 
 export function isConstantFn(fn: FunctionDeclaration): boolean {
-  return (
-    ((fn.stateMutability === "pure" || fn.stateMutability === "view") && fn.inputs.length !== 0) ||
-    fn.outputs.length !== 1
-  );
+  return (fn.stateMutability === "pure" || fn.stateMutability === "view") && !isConstant(fn);
 }

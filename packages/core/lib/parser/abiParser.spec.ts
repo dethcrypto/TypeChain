@@ -10,6 +10,8 @@ import {
   parse,
   RawAbiDefinition,
 } from "./abiParser";
+import { merge } from "lodash";
+import { FunctionDeclaration, isConstant, isConstantFn } from "core/dist";
 
 describe("extractAbi", () => {
   it("should throw error on not JSON ABI", () => {
@@ -114,6 +116,48 @@ describe("parse", () => {
       } as any;
 
       expect(() => parse([fallbackAbiFunc], "fallback")).to.not.throw();
+    });
+  });
+});
+
+export function fixtureFactory<T>(defaults: T): (params?: Partial<T>) => T {
+  return (params = {}) => merge({}, defaults, params);
+}
+
+describe("helpers", () => {
+  const fnFactory = fixtureFactory<FunctionDeclaration>({
+    name: "constant",
+    inputs: [],
+    outputs: [{ type: { type: "string" }, name: "output" }],
+    stateMutability: "view",
+  });
+
+  const viewFn = fnFactory();
+  const pureFn = fnFactory({ stateMutability: "pure" });
+  const payableFn = fnFactory(fnFactory({ stateMutability: "payable" }));
+  const nonPayableFn = fnFactory(fnFactory({ stateMutability: "nonpayable" }));
+  const viewWithInputs = fnFactory({
+    stateMutability: "pure",
+    inputs: [{ type: { type: "string" }, name: "output" }],
+  });
+
+  describe("isConstant", () => {
+    it("works", () => {
+      expect(isConstant(viewFn)).to.be.true;
+      expect(isConstant(pureFn)).to.be.true;
+      expect(isConstant(payableFn)).to.be.false;
+      expect(isConstant(nonPayableFn)).to.be.false;
+      expect(isConstant(viewWithInputs)).to.be.false;
+    });
+  });
+
+  describe("isConstantFn", () => {
+    it("works", () => {
+      expect(isConstantFn(viewFn)).to.be.false;
+      expect(isConstantFn(pureFn)).to.be.false;
+      expect(isConstantFn(payableFn)).to.be.false;
+      expect(isConstantFn(nonPayableFn)).to.be.false;
+      expect(isConstantFn(viewWithInputs)).to.be.true;
     });
   });
 });

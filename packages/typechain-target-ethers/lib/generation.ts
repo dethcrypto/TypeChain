@@ -10,6 +10,7 @@ import {
   EvmOutputType,
 } from "typechain";
 import { values } from "lodash";
+import { isConstant, isConstantFn } from "core/dist";
 
 export function codegenContractTypings(contract: Contract) {
   const template = `
@@ -151,7 +152,9 @@ export function codegenAbstractContractFactory(contract: Contract, abi: any): st
 
 function generateFunction(fn: FunctionDeclaration): string {
   return `
-  ${fn.name}(${generateInputTypes(fn.inputs)}overrides?: TransactionOverrides): Promise<${
+  ${fn.name}(${generateInputTypes(fn.inputs)}${
+    !isConstant(fn) && !isConstantFn(fn) ? "overrides?: TransactionOverrides" : ""
+  }): Promise<${
     fn.stateMutability === "pure" || fn.stateMutability === "view"
       ? generateOutputTypes(fn.outputs)
       : "ContractTransaction"
