@@ -8,9 +8,10 @@ import {
   EvmType,
   TupleType,
   EvmOutputType,
+  isConstant,
+  isConstantFn,
 } from "typechain";
 import { values } from "lodash";
-import { isConstant, isConstantFn } from "core/dist";
 
 export function codegenContractTypings(contract: Contract) {
   const template = `

@@ -2,6 +2,7 @@ import { TsGeneratorPlugin, TFileDesc, TContext, TOutput } from "ts-generator";
 import _ = require("lodash");
 import { compact } from "lodash";
 import debug from "./utils/debug";
+import { isAbsolute, join } from "path";
 
 export interface ITypeChainCfg {
   target: string;
@@ -30,7 +31,7 @@ export class TypeChain extends TsGeneratorPlugin {
     const possiblePaths = [
       process.env.NODE_ENV === "test" && `../../typechain-target-${target}/lib/index`, // only for tests
       `typechain-target-${target}`, //external module
-      target, // absolute path
+      ensureAbsPath(target), // path
     ];
 
     const module = _(possiblePaths)
@@ -40,7 +41,11 @@ export class TypeChain extends TsGeneratorPlugin {
       .first();
 
     if (!module) {
-      throw new Error(`Couldnt find ${ctx.rawConfig.target}. Tried: ${compact(possiblePaths)}`);
+      throw new Error(
+        `Couldnt find ${ctx.rawConfig.target}. Tried loading: ${compact(possiblePaths).join(
+          ", ",
+        )}.\nPerhaps you forgot to install typechain-target-${target}?`,
+      );
     }
 
     return new module.default(ctx);
@@ -65,4 +70,11 @@ function tryRequire(path: string): any {
   } catch (e) {
     debug(e);
   }
+}
+
+function ensureAbsPath(path: string): string {
+  if (isAbsolute(path)) {
+    return path;
+  }
+  return join(process.cwd(), path);
 }
