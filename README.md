@@ -25,7 +25,7 @@
 
 - static typing - you will never call not existing method again
 - IDE support - works with any IDE supporting Typescript
-- works with multiple libraries - use `truffle`,`Web3.js 1.0`, `ethers.js`, `Web3.js 0.20.x`
+- extendible - work with many different APIs: `ethers.js`, `truffle`, `Web3.js 1.0` or you can create your own target
 - frictionless - works with simple, JSON ABI files as well as with Truffle style ABIs
 
 ## Installation
@@ -34,7 +34,7 @@
 npm install --save-dev typechain
 ```
 
-You will also need to install desired target for example `typechain-target-ethers`.
+You will also need to install a desired target for example `typechain-target-ethers`. Here's a list of all officially supported targets:
 
 ## Packages 📦
 
@@ -50,40 +50,20 @@ You will also need to install desired target for example `typechain-target-ether
 ### CLI
 
 ```
-typechain --target=(truffle|web3-1|truffle|absolute-path-to-target) [glob]
+typechain --target=(ethers|truffle|web3-1|path-to-custom-target) [glob]
 ```
 
 - `glob` - pattern that will be used to find ABIs, remember about adding quotes: `typechain "**/*.json"`
-- `--target` - `truffle`, `web3-1.0.0`, `ethers` or `legacy`
+- `--target` - ethers, truffle, web3-1 or path to your custom target. typechain will try to load package named `typechain-target-${target}`, so make sure that desired package is installed.
 - `--outDir` - put all generated files to a specific dir
 
-Typechain always will rewrite existing files. You should not commit them. Read more in FAQ section.
+TypeChain always will rewrite existing files. You should not commit them. Read more in FAQ section.
 
 Example:
 
 ```
-typechain --target --outDir app/contracts './node_modules/neufund-contracts/build/contracts/*.json'
+typechain --target ethers --outDir app/contracts './node_modules/neufund-contracts/build/contracts/*.json'
 ```
-
-### ts-generator unified config
-
-Typechain is a plugin to [ts-generator](https://github.com/krzkaczor/ts-generator) meaning that you can as well create unified config.
-
-`ts-generator.json` file:
-
-```
-[
-  {
-    "generator": "typechain",
-    "files": "./build/**/*.json",
-    "target": "truffle"
-  }
-]
-```
-
-then just run `ts-generator` (you need to have `ts-generator` installed in your project).
-
-This can be a great way to run more code generation plugins (css modules types, graphql types etc. ) at the same time.
 
 ## Demo 🏎️
 
@@ -120,6 +100,10 @@ That's it! Now, just import contract bindings as any other file `import { MyAwes
 
 ## Targets 🎯
 
+### Ethers.js
+
+Use `ethers` target to generate wrappers for [ethers.js](https://github.com/ethers-io/ethers.js/) lib.
+
 ### Truffle
 
 Truffle target is great when you use truffle contracts already. Check out [truffle-typechain-example](https://github.com/ethereum-ts/truffle-typechain-example) for more details. It require installing [typings](https://www.npmjs.com/package/truffle-typings) for truffle library itself.
@@ -130,13 +114,9 @@ Now you can simply use your contracts as you did before and get full type safety
 
 Generates typings for contracts compatible with latest Web3.js version. Typings for library itself are now part of `Web3 1.0.0` library so nothing additional is needed. For now it needs explicit cast as shown [here](https://github.com/krzkaczor/TypeChain/pull/88/files#diff-540a9b8840419be93ddb8d4b53325637R8), this will be fixed after improving official typings.
 
-### Ethers.js
+### Your own target
 
-Use `ethers` target to generate wrappers for [ethers.js](https://github.com/ethers-io/ethers.js/) lib.
-
-### Legacy (Web3 0.2.x)
-
-This was default and only target for typechain 0.2.x. It requires `Web3.js 0.20.x` to be installed in your project and it generates promise based wrappers. It's nice upgrade comparing to raw callbacks but in the near future Typechain will support `Web3js 1.0` target.
+This might be useful when you're creating a library for users of your smartcontract and you don't want to lock yourself into any API provided by Web3 access providing library. You can generate basically any code (even for different languages than TypeScript!) that based on smartcontract's ABI.
 
 ## FAQ 🤔
 
@@ -152,13 +132,9 @@ and make `typechain` run automatically for example in post install hook in packa
 When you update ABI, just regenerate files with TypeChain and Typescript compiler will find any
 breaking changes for you.
 
-### Q: How do I customize generated classes? (legacy target only)
+### Q: How do I customize generated code?
 
-A: You can create your own class that extends generated one and adds additional methods etc.
-
-Currently we discuss various ideas around extendibility including APIs files (adding semantics to
-ABIs for covering popular cases like working with dates) or using user-defined templates for
-generated code.
+A: You can create your own target and generate basically any code.
 
 ### Q: Generated files won't match current codestyle of my project :(
 
@@ -185,8 +161,9 @@ async function main() {
 ### Running tests
 
 ```
-yarn        # install all dependencies
-yarn test   # runs tests + linting
+yarn           # install all dependencies
+yarn test      # runs tests + linting
+yarn test:fix  # autofix any errors + run tests
 ```
 
 ### Debugging 🐞

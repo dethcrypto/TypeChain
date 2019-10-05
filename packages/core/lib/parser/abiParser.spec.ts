@@ -9,9 +9,11 @@ import {
   RawEventAbiDefinition,
   parse,
   RawAbiDefinition,
+  FunctionDeclaration,
+  isConstant,
+  isConstantFn,
 } from "./abiParser";
 import { merge } from "lodash";
-import { FunctionDeclaration, isConstant, isConstantFn } from "core/dist";
 
 describe("extractAbi", () => {
   it("should throw error on not JSON ABI", () => {
