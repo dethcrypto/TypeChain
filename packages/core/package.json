@@ -43,7 +43,8 @@
     "ts-generator": "^0.0.8"
   },
   "scripts": {
-    "build": "rm -rf ./dist && cp -R '../../dist/core/lib' ./dist/ && chmod +x ./dist/cli/cli.js && cp ../../README.md ."
+    "build": "rm -rf ./dist && cp -R '../../dist/core/lib' ./dist/ && chmod +x ./dist/cli/cli.js && cp ../../README.md .",
+    "prepublishOnly": "cd .. && yarn prepublishOnly"
   },
   "main": "./dist/index.js",
   "bin": "./dist/cli/cli.js"
