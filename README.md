@@ -1,7 +1,7 @@
 <p align="center">
   <img src="https://github.com/Neufund/TypeChain/blob/d82f3cc644a11e22ca8e42505c16f035e2f2555d/docs/images/typechain-logo.png?raw=true" width="300" alt="TypeChain">
   <h3 align="center">TypeChain</h3>
-  <p align="center">🔌 Typescript bindings for Ethereum smartcontracts</p>
+  <p align="center">🔌 TypeScript bindings for Ethereum smartcontracts</p>
 
   <p align="center">
     <a href="https://circleci.com/gh/ethereum-ts/TypeChain"><img alt="Build Status" src="https://circleci.com/gh/ethereum-ts/TypeChain/tree/master.svg?style=svg"></a>
@@ -38,19 +38,19 @@ You will also need to install a desired target for example `typechain-target-eth
 
 ## Packages 📦
 
-| Package                                                          | Version                                                                                                                     | Description        |
-| ---------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------ |
-| [`typechain`](/packages/core)                                    | [![npm](https://img.shields.io/npm/v/typechain.svg)](https://www.npmjs.com/package/typechain)                               | Core package       |
-| [`typechain-target-ethers`](/packages/typechain-target-ethers)   | [![npm](https://img.shields.io/npm/v/typechain-target-ethers.svg)](https://www.npmjs.com/package/typechain-target-ethers)   | Ethers support     |
-| [`typechain-target-truffle`](/packages/typechain-target-truffle) | [![npm](https://img.shields.io/npm/v/typechain-target-truffle.svg)](https://www.npmjs.com/package/typechain-target-truffle) | Truffle support    |
-| [`typechain-target-web3-1`](/packages/typechain-target-web3-1)   | [![npm](https://img.shields.io/npm/v/typechain-target-web3-1.svg)](https://www.npmjs.com/package/typechain-target-web3-1)   | Web3 1.x.x support |
+| Package                                                          | Version                                                                                                                     | Description                |
+| ---------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
+| [`typechain`](/packages/core)                                    | [![npm](https://img.shields.io/npm/v/typechain.svg)](https://www.npmjs.com/package/typechain)                               | Core package               |
+| [`typechain-target-ethers`](/packages/typechain-target-ethers)   | [![npm](https://img.shields.io/npm/v/typechain-target-ethers.svg)](https://www.npmjs.com/package/typechain-target-ethers)   | Ethers support             |
+| [`typechain-target-truffle`](/packages/typechain-target-truffle) | [![npm](https://img.shields.io/npm/v/typechain-target-truffle.svg)](https://www.npmjs.com/package/typechain-target-truffle) | Truffle support            |
+| [`typechain-target-web3-v1`](/packages/typechain-target-web3-v1) | [![npm](https://img.shields.io/npm/v/typechain-target-web3-v1.svg)](https://www.npmjs.com/package/typechain-target-web3-v1) | Web3 version 1.x.x support |
 
 ## Usage
 
 ### CLI
 
 ```
-typechain --target=(ethers|truffle|web3-1|path-to-custom-target) [glob]
+typechain --target=(ethers|truffle|web3-v1|path-to-custom-target) [glob]
 ```
 
 - `glob` - pattern that will be used to find ABIs, remember about adding quotes: `typechain "**/*.json"`
@@ -84,11 +84,11 @@ use Typescript).
 
 TypeChain is code generator - provide ABI file and you will get Typescript class with flexible
 interface for interacting with blockchain. Depending on the target parameter it can generate typings for
-truffle, web3 1.0.0 or web3 0.20.x (legacy target).
+truffle, web3 1.0.0 or ethers.
 
 ### Step by step guide
 
-Install typechain with `yarn add --dev typechain`.
+Install typechain with `yarn add --dev typechain` and install desired target.
 
 Run `typechain --target=your_target` (you might need to make sure that it's available in your path if you installed it
 only locally), it will automatically find all `.abi` files in your project and generate Typescript
@@ -117,6 +117,10 @@ Generates typings for contracts compatible with latest Web3.js version. Typings 
 ### Your own target
 
 This might be useful when you're creating a library for users of your smartcontract and you don't want to lock yourself into any API provided by Web3 access providing library. You can generate basically any code (even for different languages than TypeScript!) that based on smartcontract's ABI.
+
+## Migration guide
+
+For users of 0.x.x versions: the only breaking change is extraction of targets for separate packages so now you need to install `typechain-target-${name}` for each target.
 
 ## FAQ 🤔
 

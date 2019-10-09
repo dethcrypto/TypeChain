@@ -3,12 +3,12 @@
   "description": "🔌 TypeScript bindings for Ethereum smartcontracts",
   "keywords": [
     "ethereum",
-    "typescript",
+    "TypeScript",
     "bindings",
     "smartcontract",
     "blockchain"
   ],
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0",
   "license": "MIT",
   "repository": "https://github.com/ethereum-ts/Typechain",
   "devDependencies": {

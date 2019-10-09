@@ -40,7 +40,7 @@ export class TypeChain extends TsGeneratorPlugin {
       .compact()
       .first();
 
-    if (!module) {
+    if (!module || !module.default) {
       throw new Error(
         `Couldnt find ${ctx.rawConfig.target}. Tried loading: ${compact(possiblePaths).join(
           ", ",
