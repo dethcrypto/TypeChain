@@ -3,6 +3,7 @@ import { merge } from "lodash";
 
 import { MalformedAbiError } from "../utils/errors";
 import {
+  BytecodeLinkReference,
   ensure0xPrefix,
   extractAbi,
   extractBytecode,
@@ -72,6 +73,69 @@ describe("extractBytecode", () => {
 
   it("should return undefined when nested abi bytecode is malformed", () => {
     expect(extractBytecode(`{ "bytecode": "surely-not-bytecode" }`)).to.be.undefined;
+  });
+});
+
+describe("extractBytecode with link references", () => {
+  // tslint:disable:max-line-length
+  const linkRef1: BytecodeLinkReference = { reference: "__./ContractWithLibrary.sol:TestLibrar__" };
+  const bytecodeStr1 = `565b005b60005481565b73${linkRef1.reference}63b7203ec673${linkRef1.reference}63b7203ec6846040518263ffffffff167c010000`;
+  const linkRef2: BytecodeLinkReference = { reference: "__TestLibrary___________________________" };
+  const bytecodeObj2 = {
+    bytecode: `0x565b005b60005481565b73${linkRef2.reference}63b7203ec673${linkRef2.reference}63b7203ec6846040518263ffffffff167c010000`,
+  };
+  const linkRef3: BytecodeLinkReference = { reference: "__$17aeeb93c354b782f3950a7152e030370b$__" };
+  const bytecodeObj3 = {
+    evm: {
+      bytecode: {
+        object: `0x565b005b60005481565b73${linkRef3.reference}63b7203ec673${linkRef3.reference}63b7203ec6846040518263ffffffff167c010000`,
+      },
+    },
+  };
+  const linkRef4: BytecodeLinkReference = {
+    reference: linkRef3.reference,
+    name: "ContractWithLibrary.sol:TestLibrary",
+  };
+  const bytecodeObj4 = {
+    evm: {
+      bytecode: {
+        linkReferences: {
+          "ContractWithLibrary.sol": {
+            TestLibrary: [{ length: 20, start: 151 }, { length: 20, start: 177 }],
+          },
+        },
+        object: bytecodeObj3.evm.bytecode.object,
+      },
+    },
+  };
+  // tslint:enable
+
+  it("should extract solc 0.4 link references", () => {
+    expect(extractBytecode(bytecodeStr1)).to.be.deep.eq({
+      bytecode: `0x${bytecodeStr1}`,
+      linkReferences: [linkRef1],
+    });
+  });
+
+  it("should extract bare library contract name link references", () => {
+    expect(extractBytecode(JSON.stringify(bytecodeObj2))).to.be.deep.eq({
+      bytecode: bytecodeObj2.bytecode,
+      linkReferences: [linkRef2],
+    });
+  });
+
+  it("should extract solc 0.5 link references", () => {
+    expect(extractBytecode(JSON.stringify(bytecodeObj3))).to.be.deep.eq({
+      bytecode: bytecodeObj3.evm.bytecode.object,
+      linkReferences: [linkRef3],
+    });
+  });
+
+  it("should extract solc 0.5 link references with contract names", () => {
+    expect(extractBytecode(JSON.stringify(bytecodeObj4))).to.be.deep.eq({
+      bytecode: bytecodeObj4.evm.bytecode.object,
+      linkReferences: [linkRef4],
+    });
   });
 });
 

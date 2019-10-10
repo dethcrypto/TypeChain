@@ -11,3 +11,5 @@ test/integration/targets/web3-v1/types/web3-contracts
 test/integration/targets/ethers/types/ethers-contracts
 test/package-test/types
 packages/core/README.md
+.vscode
+*.code-workspace
