@@ -1,6 +1,6 @@
 import { expect } from "chai";
-
 import { Contract } from "typechain";
+
 import { codegenContractFactory } from "./generation";
 
 describe("Ethers generation edge cases", () => {
@@ -12,7 +12,7 @@ describe("Ethers generation edge cases", () => {
   };
 
   it("should generate simple factory when no bytecode available", () => {
-    expect(codegenContractFactory(emptyContract, "abi", "")).to.match(
+    expect(codegenContractFactory(emptyContract, "abi", undefined)).to.match(
       /export class TestContractFactory \{/,
     );
   });
