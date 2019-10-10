@@ -54,7 +54,7 @@ typechain --target=(ethers|truffle|web3-v1|path-to-custom-target) [glob]
 ```
 
 - `glob` - pattern that will be used to find ABIs, remember about adding quotes: `typechain "**/*.json"`
-- `--target` - ethers, truffle, web3-1 or path to your custom target. typechain will try to load package named `typechain-target-${target}`, so make sure that desired package is installed.
+- `--target` - ethers, truffle, web3-v1 or path to your custom target. typechain will try to load package named `typechain-target-${target}`, so make sure that desired package is installed.
 - `--outDir` - put all generated files to a specific dir
 
 TypeChain always will rewrite existing files. You should not commit them. Read more in FAQ section.

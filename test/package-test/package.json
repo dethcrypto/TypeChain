@@ -7,7 +7,7 @@
     "typechain": "../../packages/core"
   },
   "scripts": {
-    "start": "typechain --target=truffle && typechain --target=web3-1 && typechain --target=ethers",
+    "start": "typechain --target=truffle && typechain --target=web3-v1 && typechain --target=ethers",
     "postinstall": "rm -rf ./node_modules/typechain/test && rm -rf ./node_modules/typechain/lib"
   }
 }

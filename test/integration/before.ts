@@ -1,11 +1,11 @@
 const prepare = require("mocha-prepare");
-import { removeSync } from "fs-extra";
+import { readFileSync } from 'fs';
+import { removeSync } from 'fs-extra';
+import { join } from 'path';
+import { tsGenerator } from 'ts-generator';
+import { TPluginCfg } from 'ts-generator/dist/parseConfigFile';
 
-import { tsGenerator } from "ts-generator";
-import { join } from "path";
-import { TypeChain, ITypeChainCfg } from "../../packages/core/lib/TypeChain";
-import { TPluginCfg } from "ts-generator/dist/parseConfigFile";
-import { readFileSync } from "fs";
+import { ITypeChainCfg, TypeChain } from '../../packages/core/lib/TypeChain';
 
 /**
  * NOTE: this is done here only to easily count code coverage.
@@ -45,7 +45,7 @@ async function generateTruffle(cwd: string, prettierCfg: any) {
 }
 
 async function generateWeb3_v1(cwd: string, prettierCfg: any) {
-  const outDir = "./targets/web3-1.0.0/types/web3-contracts";
+  const outDir = "./targets/web3-v1/types/web3-contracts";
 
   removeSync(join(__dirname, outDir));
 
