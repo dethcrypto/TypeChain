@@ -1,3 +1,4 @@
+import { keccak_256 } from "js-sha3";
 import { groupBy } from "lodash";
 import { Dictionary } from "ts-essentials";
 
@@ -283,30 +284,59 @@ export function extractBytecode(rawContents: string): BytecodeWithLinkReferences
     return extractLinkReferences(json.bytecode);
   }
 
-  // TODO for solc 6, extract unhashed link reference contract names
   if (
     json.evm &&
     json.evm.bytecode &&
     json.evm.bytecode.object &&
     json.evm.bytecode.object.match(bytecodeRegex)
   ) {
-    return extractLinkReferences(json.evm.bytecode.object);
+    return extractLinkReferences(json.evm.bytecode.object, json.evm.bytecode.linkReferences);
   }
 
   return undefined;
 }
 
-function extractLinkReferences(_bytecode: string): BytecodeWithLinkReferences {
+function extractLinkReferences(
+  _bytecode: string,
+  linkReferencesObj?: any,
+): BytecodeWithLinkReferences {
   const bytecode = ensure0xPrefix(_bytecode);
   // See comment in `extractBytecode` for explanation.
   const allLinkReferencesRegex = /__[a-zA-Z0-9\/\\:_$.-]{36}__/g;
   const allReferences = bytecode.match(allLinkReferencesRegex);
   if (!allReferences) return { bytecode };
+
   const uniqueReferences = Array.from(new Set(allReferences));
-  return {
-    bytecode,
-    linkReferences: uniqueReferences.map(reference => ({ reference })),
-  };
+  const refToNameMap = linkReferencesObj
+    ? extractLinkReferenceContractNames(linkReferencesObj)
+    : {};
+  const linkReferences = uniqueReferences.map(reference =>
+    refToNameMap[reference] ? { reference, name: refToNameMap[reference] } : { reference },
+  );
+
+  return { bytecode, linkReferences };
+}
+
+// Returns mapping from link reference (bytecode fake address) to readable contract name
+function extractLinkReferenceContractNames(linkReferences: any): Dictionary<string> {
+  // `evm.bytecode.linkReferences` example:
+  // {
+  //   "ContractWithLibrary.sol": {
+  //     "TestLibrary": [
+  //       { "length": 20, "start": 151 },
+  //       { "length": 20, "start": 177 },
+  //     ],
+  //   },
+  // },
+  const nameMap: Dictionary<string> = {};
+  Object.keys(linkReferences).forEach(contractFile =>
+    Object.keys(linkReferences[contractFile]).forEach(contractName => {
+      const contractPath = `${contractFile}:${contractName}`;
+      const contractRef = `__$${keccak_256(contractPath).slice(0, 34)}$__`;
+      nameMap[contractRef] = contractPath;
+    }),
+  );
+  return nameMap;
 }
 
 export function ensure0xPrefix(hexString: string): string {
