@@ -1,19 +1,19 @@
 import { expect } from "chai";
+import { merge } from "lodash";
 
 import { MalformedAbiError } from "../utils/errors";
 import {
   ensure0xPrefix,
   extractAbi,
   extractBytecode,
-  parseEvent,
-  RawEventAbiDefinition,
-  parse,
-  RawAbiDefinition,
   FunctionDeclaration,
   isConstant,
   isConstantFn,
+  parse,
+  parseEvent,
+  RawAbiDefinition,
+  RawEventAbiDefinition,
 } from "./abiParser";
-import { merge } from "lodash";
 
 describe("extractAbi", () => {
   it("should throw error on not JSON ABI", () => {
@@ -39,14 +39,14 @@ describe("extractAbi", () => {
 
 describe("extractBytecode", () => {
   const sampleBytecode = "1234abcd";
-  const resultBytecode = ensure0xPrefix(sampleBytecode);
+  const resultBytecode = { bytecode: ensure0xPrefix(sampleBytecode) };
 
   it("should return bytecode for bare bytecode string", () => {
-    expect(extractBytecode(sampleBytecode)).to.eq(resultBytecode);
+    expect(extractBytecode(sampleBytecode)).to.deep.eq(resultBytecode);
   });
 
   it("should return bytecode for bare bytecode with 0x prefix", () => {
-    expect(extractBytecode(resultBytecode)).to.eq(resultBytecode);
+    expect(extractBytecode(resultBytecode.bytecode)).to.deep.eq(resultBytecode);
   });
 
   it("should return undefined for non-bytecode non-json input", () => {
@@ -62,12 +62,12 @@ describe("extractBytecode", () => {
   });
 
   it("should return bytecode from nested abi (truffle style)", () => {
-    expect(extractBytecode(`{ "bytecode": "${sampleBytecode}" }`)).to.eq(resultBytecode);
+    expect(extractBytecode(`{ "bytecode": "${sampleBytecode}" }`)).to.deep.eq(resultBytecode);
   });
 
   it("should return bytecode from nested abi (ethers style)", () => {
     const inputJson = `{ "evm": { "bytecode": { "object": "${sampleBytecode}" }}}`;
-    expect(extractBytecode(inputJson)).to.eq(resultBytecode);
+    expect(extractBytecode(inputJson)).to.deep.eq(resultBytecode);
   });
 
   it("should return undefined when nested abi bytecode is malformed", () => {

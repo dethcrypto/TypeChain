@@ -1,9 +1,9 @@
 import { groupBy } from "lodash";
+import { Dictionary } from "ts-essentials";
 
 import debug from "../utils/debug";
 import { MalformedAbiError } from "../utils/errors";
-import { EvmType, parseEvmType, EvmOutputType } from "./parseEvmType";
-import { Dictionary } from "ts-essentials";
+import { EvmOutputType, EvmType, parseEvmType } from "./parseEvmType";
 
 export interface AbiParameter {
   name: string;
@@ -84,6 +84,16 @@ export interface RawEventArgAbiDefinition {
   indexed: boolean;
   name: string;
   type: string;
+}
+
+export interface BytecodeLinkReference {
+  reference: string;
+  name?: string;
+}
+
+export interface BytecodeWithLinkReferences {
+  bytecode: string;
+  linkReferences?: BytecodeLinkReference[];
 }
 
 export function parse(abi: Array<RawAbiDefinition>, name: string): Contract {
@@ -246,10 +256,19 @@ export function extractAbi(rawJson: string): RawAbiDefinition[] {
   throw new MalformedAbiError("Not a valid ABI");
 }
 
-export function extractBytecode(rawContents: string): string | undefined {
-  const bytecodeRegex = /^(0x)?([0-9a-fA-F][0-9a-fA-F])+$/;
+export function extractBytecode(rawContents: string): BytecodeWithLinkReferences | undefined {
+  // When there are some unlinked libraries, the compiler replaces their addresses in calls with
+  // "link references". There are many different kinds of those, depending on compiler version and usage.
+  // Examples:
+  // * `__TestLibrary___________________________`
+  //   (truffle with solc 0.4.x?, just the contract name)
+  // * `__./ContractWithLibrary.sol:TestLibrar__`
+  //   (solc 0.4.x, `${fileName}:${contractName}` truncated at 36 chars)
+  // * `__$8809803722eff063c8527a84f57d60014e$__`
+  //   (solc 0.5.x, ``solidityKeccak256(['string'], [`${fileName}:${contractName}`])``, truncated )
+  const bytecodeRegex = /^(0x)?(([0-9a-fA-F][0-9a-fA-F])|(__[a-zA-Z0-9\/\\:_$.-]{36}__))+$/;
   // First try to see if this is a .bin file with just the bytecode, otherwise a json
-  if (rawContents.match(bytecodeRegex)) return ensure0xPrefix(rawContents);
+  if (rawContents.match(bytecodeRegex)) return extractLinkReferences(rawContents);
 
   let json;
   try {
@@ -261,19 +280,33 @@ export function extractBytecode(rawContents: string): string | undefined {
   if (!json) return undefined;
 
   if (json.bytecode && json.bytecode.match(bytecodeRegex)) {
-    return ensure0xPrefix(json.bytecode);
+    return extractLinkReferences(json.bytecode);
   }
 
+  // TODO for solc 6, extract unhashed link reference contract names
   if (
     json.evm &&
     json.evm.bytecode &&
     json.evm.bytecode.object &&
     json.evm.bytecode.object.match(bytecodeRegex)
   ) {
-    return ensure0xPrefix(json.evm.bytecode.object);
+    return extractLinkReferences(json.evm.bytecode.object);
   }
 
   return undefined;
+}
+
+function extractLinkReferences(_bytecode: string): BytecodeWithLinkReferences {
+  const bytecode = ensure0xPrefix(_bytecode);
+  // See comment in `extractBytecode` for explanation.
+  const allLinkReferencesRegex = /__[a-zA-Z0-9\/\\:_$.-]{36}__/g;
+  const allReferences = bytecode.match(allLinkReferencesRegex);
+  if (!allReferences) return { bytecode };
+  const uniqueReferences = Array.from(new Set(allReferences));
+  return {
+    bytecode,
+    linkReferences: uniqueReferences.map(reference => ({ reference })),
+  };
 }
 
 export function ensure0xPrefix(hexString: string): string {

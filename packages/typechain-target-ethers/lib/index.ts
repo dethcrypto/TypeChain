@@ -1,15 +1,15 @@
 import { join } from "path";
 import { Dictionary } from "ts-essentials";
 import { TContext, TFileDesc, TsGeneratorPlugin } from "ts-generator";
-
 import {
   Contract,
   extractAbi,
   extractBytecode,
-  parse,
   getFileExtension,
   getFilename,
+  parse,
 } from "typechain";
+
 import {
   codegenAbstractContractFactory,
   codegenContractFactory,
@@ -59,7 +59,7 @@ export default class Ethers extends TsGeneratorPlugin {
 
   transformBinFile(file: TFileDesc): TFileDesc[] | void {
     const name = getFilename(file.path);
-    const bytecode = extractBytecode(file.contents);
+    const { bytecode } = extractBytecode(file.contents) || {};
 
     if (!bytecode) {
       return;
@@ -83,7 +83,7 @@ export default class Ethers extends TsGeneratorPlugin {
     }
 
     const contract = parse(abi, name);
-    const bytecode = extractBytecode(file.contents) || this.bytecodeCache[name];
+    const bytecode = (extractBytecode(file.contents) || {}).bytecode || this.bytecodeCache[name];
 
     if (bytecode) {
       return [
