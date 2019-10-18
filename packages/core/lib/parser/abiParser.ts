@@ -241,6 +241,8 @@ export function extractAbi(rawJson: string): RawAbiDefinition[] {
 
   if (Array.isArray(json.abi)) {
     return json.abi;
+  } else if (json.compilerOutput && Array.isArray(json.compilerOutput.abi)) {
+    return json.compilerOutput.abi;
   }
 
   throw new MalformedAbiError("Not a valid ABI");
