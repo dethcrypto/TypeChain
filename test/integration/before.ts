@@ -1,15 +1,15 @@
 const prepare = require("mocha-prepare");
-import { removeSync } from "fs-extra";
+import { readFileSync } from 'fs';
+import { removeSync } from 'fs-extra';
+import { join } from 'path';
+import { tsGenerator } from 'ts-generator';
+import { TPluginCfg } from 'ts-generator/dist/parseConfigFile';
 
-import { tsGenerator } from "ts-generator";
-import { join } from "path";
-import { Typechain, ITypechainCfg } from "../../lib";
-import { TPluginCfg } from "ts-generator/dist/parseConfigFile";
-import { readFileSync } from "fs";
+import { ITypeChainCfg, TypeChain } from '../../packages/core/lib/TypeChain';
 
 /**
  * NOTE: this is done here only to easily count code coverage.
- * Normally you would run typechain in separate build step, before running your tests.
+ * Normally you would run TypeChain in separate build step, before running your tests.
  */
 
 prepare((done: any) => {
@@ -17,9 +17,9 @@ prepare((done: any) => {
     const cwd = __dirname;
     const prettierCfg = JSON.parse(readFileSync(join(__dirname, "../../.prettierrc"), "utf8"));
 
-    await generateLegacy(cwd, prettierCfg);
+    process.env.NODE_ENV = "test";
     await generateTruffle(cwd, prettierCfg);
-    await generateWeb3_1(cwd, prettierCfg);
+    await generateWeb3_v1(cwd, prettierCfg);
     await generateEthers(cwd, prettierCfg);
 
     done();
@@ -30,46 +30,32 @@ prepare((done: any) => {
   });
 });
 
-async function generateLegacy(cwd: string, prettierCfg: any) {
-  const outDir = "./targets/legacy/wrappers";
-
-  removeSync(join(__dirname, outDir));
-
-  const rawConfig: TPluginCfg<ITypechainCfg> = {
-    files: "**/*.abi",
-    target: "legacy",
-    outDir,
-  };
-
-  await tsGenerator({ cwd, prettier: prettierCfg }, new Typechain({ cwd, rawConfig }));
-}
-
 async function generateTruffle(cwd: string, prettierCfg: any) {
   const outDir = "./targets/truffle/@types/truffle-contracts";
 
   removeSync(join(__dirname, outDir));
 
-  const rawConfig: TPluginCfg<ITypechainCfg> = {
+  const rawConfig: TPluginCfg<ITypeChainCfg> = {
     files: "targets/truffle/build/**/*.json",
     target: "truffle",
     outDir,
   };
 
-  await tsGenerator({ cwd, prettier: prettierCfg }, new Typechain({ cwd, rawConfig }));
+  await tsGenerator({ cwd, prettier: prettierCfg }, new TypeChain({ cwd, rawConfig }));
 }
 
-async function generateWeb3_1(cwd: string, prettierCfg: any) {
-  const outDir = "./targets/web3-1.0.0/types/web3-contracts";
+async function generateWeb3_v1(cwd: string, prettierCfg: any) {
+  const outDir = "./targets/web3-v1/types/web3-contracts";
 
   removeSync(join(__dirname, outDir));
 
-  const rawConfig: TPluginCfg<ITypechainCfg> = {
+  const rawConfig: TPluginCfg<ITypeChainCfg> = {
     files: "**/*.abi",
-    target: "web3-1.0.0",
+    target: "web3-v1",
     outDir,
   };
 
-  await tsGenerator({ cwd, prettier: prettierCfg }, new Typechain({ cwd, rawConfig }));
+  await tsGenerator({ cwd, prettier: prettierCfg }, new TypeChain({ cwd, rawConfig }));
 }
 
 async function generateEthers(cwd: string, prettierCfg: any) {
@@ -77,11 +63,11 @@ async function generateEthers(cwd: string, prettierCfg: any) {
 
   removeSync(join(__dirname, outDir));
 
-  const rawConfig: TPluginCfg<ITypechainCfg> = {
+  const rawConfig: TPluginCfg<ITypeChainCfg> = {
     files: "**/*.{abi,bin}",
     target: "ethers",
     outDir,
   };
 
-  await tsGenerator({ cwd, prettier: prettierCfg }, new Typechain({ cwd, rawConfig }));
+  await tsGenerator({ cwd, prettier: prettierCfg }, new TypeChain({ cwd, rawConfig }));
 }

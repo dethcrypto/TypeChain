@@ -7,6 +7,7 @@ coverage
 test/integration/targets/legacy/wrappers
 test/integration/targets/truffle/@types
 test/integration/targets/truffle/build
-test/integration/targets/web3-1.0.0/types/web3-contracts
+test/integration/targets/web3-v1/types/web3-contracts
 test/integration/targets/ethers/types/ethers-contracts
 test/package-test/types
+packages/core/README.md

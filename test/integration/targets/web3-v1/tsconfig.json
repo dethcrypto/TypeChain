@@ -7,6 +7,7 @@
     "target": "es2016",
     "module": "commonjs",
     "declaration": true,
+    "esModuleInterop": true,
     "skipLibCheck": true
   },
   "include": [

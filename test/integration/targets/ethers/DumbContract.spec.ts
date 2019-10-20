@@ -26,7 +26,7 @@ describe("DumbContract", () => {
     expect(contract.address).to.be.string;
   });
 
-  it("should allow passing a contructor argument in multiple ways", async () => {
+  it("should allow passing a constructor argument in multiple ways", async () => {
     const factory = new DumbContractFactory(getTestSigner());
     const contract1 = await factory.deploy(42);
     expect(await contract1.functions.counter()).to.be.deep.eq(new BigNumber("42"));
@@ -130,7 +130,7 @@ describe("DumbContract", () => {
 
     const tx = await contract.functions.countupForEther({ value, gasPrice });
 
-    expect(tx.value).to.be.deep.eq(new BigNumber(value));
+    expect(tx.value.toNumber()).to.be.deep.eq(value);
     expect(tx.gasPrice).to.be.deep.eq(new BigNumber(gasPrice));
   });
 

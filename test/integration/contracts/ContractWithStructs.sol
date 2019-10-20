@@ -15,8 +15,14 @@ contract ContractWithStructs {
     Person father;
   }
 
+  struct NestedThings {
+    Thing[] things;
+    uint no;
+  }
+
   Person public owner;
   Thing public thing;
+  NestedThings[] private things;
 
   constructor() public {
     owner = Person(12, "fred", address(0x0));
@@ -43,7 +49,7 @@ contract ContractWithStructs {
     thing = _thing;
   }
 
-  function getStuff() view public returns (Person _person, Thing _thing) {
-    return (owner, thing);
+  function getStuff() view public returns (Person _person, Thing _thing, NestedThings[] _things) {
+    return (owner, thing, things);
   }
 }

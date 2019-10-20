@@ -73,12 +73,12 @@ export class ContractWithOverloads extends TC.TypeChainContract {
     return contract;
   }
 
-  public get counter(): Promise<BigNumber> {
-    return TC.promisify(this.rawWeb3Contract.counter, []);
-  }
-
   public getCounter(offset: BigNumber | number): Promise<BigNumber> {
     return TC.promisify(this.rawWeb3Contract.getCounter, [offset.toString()]);
+  }
+
+  public get counter(): Promise<BigNumber> {
+    return TC.promisify(this.rawWeb3Contract.counter, []);
   }
 
   public increaseCounterTx(by: BigNumber | number): TC.DeferredTransactionWrapper<TC.ITxParams> {

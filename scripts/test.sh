@@ -12,10 +12,14 @@ ABI_DIR="../abis"
 rm -rf $ABI_DIR
 
 echo "Generating ABIs for sample contracts"
-../../../node_modules/.bin/solcjs --abi ./* --bin -o $ABI_DIR
+../../../node_modules/krzkaczor-solc/solcjs --abi ./* --bin -o $ABI_DIR
 echo "Compiling truffle project"
 (cd ../targets/truffle && ../../../../node_modules/.bin/truffle compile)
 
+echo "Building"
+yarn build
+
+echo "Running tests"
 if [ "$mode" = "COVERAGE" ]; then
   yarn test:mocha:coverage
 else
@@ -26,7 +30,7 @@ echo "Type checking generated wrappers"
 yarn tsc --noUnusedParameters
 yarn tsc:truffle
 (cd ../targets/truffle && ../../../../node_modules/.bin/truffle test)
-(cd ../targets/web3-1.0.0 && yarn && yarn test)
+(cd ../targets/web3-v1 && yarn && yarn test)
 (cd ../targets/ethers && yarn && yarn test)
 
 if [ "$mode" = "COVERAGE" ]; then
