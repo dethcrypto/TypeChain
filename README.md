@@ -34,7 +34,7 @@
 npm install --save-dev typechain
 ```
 
-You will also need to install a desired target for example `typechain-target-ethers`. Here's a list of all officially supported targets:
+You will also need to install a desired target for example `typechain-target-ethers`. [Learn more about targets](https://github.com/ethereum-ts/TypeChain#targets-).
 
 ## Packages 📦
 
