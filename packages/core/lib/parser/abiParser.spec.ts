@@ -35,6 +35,11 @@ describe("extractAbi", () => {
     const inputJson = `{ "abi": [{ "name": "piece" }] }`;
     expect(extractAbi(inputJson)).to.be.deep.eq([{ name: "piece" }]);
   });
+
+  it("should work with nested abi (@0x/solc-compiler style)", () => {
+    const inputJson = `{ "compilerOutput": { "abi": [{ "name": "piece" }] } }`;
+    expect(extractAbi(inputJson)).to.be.deep.eq([{ name: "piece" }]);
+  });
 });
 
 describe("extractBytecode", () => {
