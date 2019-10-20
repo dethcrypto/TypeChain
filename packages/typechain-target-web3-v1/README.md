@@ -2,7 +2,7 @@
 
 <p align="center">
   <img src="https://github.com/Neufund/TypeChain/blob/d82f3cc644a11e22ca8e42505c16f035e2f2555d/docs/images/typechain-logo.png?raw=true" width="300" alt="TypeChain">
-  <h3 align="center">Typechain target Web3 1.x.x</h3>
+  <h3 align="center">TypeChain target Web3 1.x.x</h3>
   <p align="center">🔌 TypeScript bindings for Web3 1.x.x smartcontracts</p>
 
   <p align="center">
@@ -17,3 +17,5 @@
     <a href="https://blog.neufund.org/introducing-typechain-typescript-bindings-for-ethereum-smart-contracts-839fc2becf22">Medium post</a> | <a href="https://www.youtube.com/watch?v=9x6AkShGkwU">DappCon Video</a>
   </p>
 </p>
+
+## [TypeChain readme](https://github.com/ethereum-ts/TypeChain)
