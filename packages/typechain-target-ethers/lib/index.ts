@@ -1,15 +1,16 @@
 import { join } from "path";
 import { Dictionary } from "ts-essentials";
 import { TContext, TFileDesc, TsGeneratorPlugin } from "ts-generator";
-
 import {
+  BytecodeWithLinkReferences,
   Contract,
   extractAbi,
   extractBytecode,
-  parse,
   getFileExtension,
   getFilename,
+  parse,
 } from "typechain";
+
 import {
   codegenAbstractContractFactory,
   codegenContractFactory,
@@ -30,7 +31,7 @@ export default class Ethers extends TsGeneratorPlugin {
     abi: any;
     contract: Contract;
   }> = {};
-  private readonly bytecodeCache: Dictionary<string> = {};
+  private readonly bytecodeCache: Dictionary<BytecodeWithLinkReferences> = {};
 
   constructor(ctx: TContext<IEthersCfg>) {
     super(ctx);
@@ -103,7 +104,7 @@ export default class Ethers extends TsGeneratorPlugin {
     };
   }
 
-  genContractFactoryFile(contract: Contract, abi: any, bytecode: string) {
+  genContractFactoryFile(contract: Contract, abi: any, bytecode?: BytecodeWithLinkReferences) {
     return {
       path: join(this.outDirAbs, `${contract.name}Factory.ts`),
       contents: codegenContractFactory(contract, abi, bytecode),

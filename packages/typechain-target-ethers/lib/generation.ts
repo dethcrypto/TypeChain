@@ -1,17 +1,18 @@
+import { values } from "lodash";
 import {
+  AbiOutputParameter,
   AbiParameter,
+  BytecodeWithLinkReferences,
   Contract,
   EventArgDeclaration,
   EventDeclaration,
-  FunctionDeclaration,
-  AbiOutputParameter,
-  EvmType,
-  TupleType,
   EvmOutputType,
+  EvmType,
+  FunctionDeclaration,
   isConstant,
   isConstantFn,
+  TupleType,
 } from "typechain";
-import { values } from "lodash";
 
 export function codegenContractTypings(contract: Contract) {
   const template = `
@@ -79,7 +80,11 @@ export function codegenContractTypings(contract: Contract) {
   return template;
 }
 
-export function codegenContractFactory(contract: Contract, abi: any, bytecode: string): string {
+export function codegenContractFactory(
+  contract: Contract,
+  abi: any,
+  bytecode?: BytecodeWithLinkReferences,
+): string {
   const constructorArgs =
     contract.constructor && contract.constructor[0]
       ? generateInputTypes(contract.constructor[0].inputs)
@@ -108,9 +113,7 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode: s
   import { ${contract.name} } from "./${contract.name}";
 
   export class ${contract.name}Factory extends ContractFactory {
-    constructor(signer?: Signer) {
-      super(_abi, _bytecode, signer);
-    }
+    ${generateFactoryConstructor(contract, bytecode)}
     deploy(${constructorArgs}): Promise<${contract.name}> {
       return super.deploy(${constructorArgNames}) as Promise<${contract.name}>;
     }
@@ -130,7 +133,9 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode: s
 
   const _abi = ${JSON.stringify(abi, null, 2)};
 
-  const _bytecode = "${bytecode}";
+  const _bytecode = "${bytecode.bytecode}";
+
+  ${generateLibraryAddressesInterface(contract, bytecode)}
   `;
 }
 
@@ -149,6 +154,59 @@ export function codegenAbstractContractFactory(contract: Contract, abi: any): st
 
   const _abi = ${JSON.stringify(abi, null, 2)};
   `;
+}
+
+function generateFactoryConstructor(
+  contract: Contract,
+  bytecode: BytecodeWithLinkReferences,
+): string {
+  if (!bytecode.linkReferences) {
+    return `
+    constructor(signer?: Signer) {
+      super(_abi, _bytecode, signer);
+    }
+    `;
+  }
+
+  const linkRefReplacements = bytecode.linkReferences.map(linkRef => {
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#Escaping
+    // We're using a double escape backslash, since the string will be pasted into generated code.
+    const escapedLinkRefRegex = linkRef.reference.replace(/[.*+?^${}()|[\]\\]/g, "\\\\$&");
+    const libraryKey = linkRef.name || linkRef.reference;
+    return `
+      linkedBytecode = linkedBytecode.replace(
+        new RegExp("${escapedLinkRefRegex}", "g"),
+        linkLibraryAddresses["${libraryKey}"].replace(/^0x/, '').toLowerCase(),
+      );`;
+  });
+
+  return `
+    constructor(linkLibraryAddresses: ${contract.name}LibraryAddresses, signer?: Signer) {
+      super(_abi, ${contract.name}Factory.linkBytecode(linkLibraryAddresses), signer);
+    }
+
+    static linkBytecode(linkLibraryAddresses: ${contract.name}LibraryAddresses): string {
+      let linkedBytecode = _bytecode;
+      ${linkRefReplacements.join("\n")}
+
+      return linkedBytecode;
+    }
+  `;
+}
+
+function generateLibraryAddressesInterface(
+  contract: Contract,
+  bytecode: BytecodeWithLinkReferences,
+): string {
+  if (!bytecode.linkReferences) return "";
+
+  const linkLibrariesKeys = bytecode.linkReferences.map(
+    linkRef => `    ["${linkRef.name || linkRef.reference}"]: string;`,
+  );
+  return `
+  export interface ${contract.name}LibraryAddresses {
+    ${linkLibrariesKeys.join("\n")}
+  };`;
 }
 
 function generateFunction(fn: FunctionDeclaration): string {

@@ -1,19 +1,20 @@
 import { expect } from "chai";
+import { merge } from "lodash";
 
 import { MalformedAbiError } from "../utils/errors";
 import {
+  BytecodeLinkReference,
   ensure0xPrefix,
   extractAbi,
   extractBytecode,
-  parseEvent,
-  RawEventAbiDefinition,
-  parse,
-  RawAbiDefinition,
   FunctionDeclaration,
   isConstant,
   isConstantFn,
+  parse,
+  parseEvent,
+  RawAbiDefinition,
+  RawEventAbiDefinition,
 } from "./abiParser";
-import { merge } from "lodash";
 
 describe("extractAbi", () => {
   it("should throw error on not JSON ABI", () => {
@@ -44,14 +45,14 @@ describe("extractAbi", () => {
 
 describe("extractBytecode", () => {
   const sampleBytecode = "1234abcd";
-  const resultBytecode = ensure0xPrefix(sampleBytecode);
+  const resultBytecode = { bytecode: ensure0xPrefix(sampleBytecode) };
 
   it("should return bytecode for bare bytecode string", () => {
-    expect(extractBytecode(sampleBytecode)).to.eq(resultBytecode);
+    expect(extractBytecode(sampleBytecode)).to.deep.eq(resultBytecode);
   });
 
   it("should return bytecode for bare bytecode with 0x prefix", () => {
-    expect(extractBytecode(resultBytecode)).to.eq(resultBytecode);
+    expect(extractBytecode(resultBytecode.bytecode)).to.deep.eq(resultBytecode);
   });
 
   it("should return undefined for non-bytecode non-json input", () => {
@@ -67,16 +68,90 @@ describe("extractBytecode", () => {
   });
 
   it("should return bytecode from nested abi (truffle style)", () => {
-    expect(extractBytecode(`{ "bytecode": "${sampleBytecode}" }`)).to.eq(resultBytecode);
+    expect(extractBytecode(`{ "bytecode": "${sampleBytecode}" }`)).to.deep.eq(resultBytecode);
   });
 
   it("should return bytecode from nested abi (ethers style)", () => {
     const inputJson = `{ "evm": { "bytecode": { "object": "${sampleBytecode}" }}}`;
-    expect(extractBytecode(inputJson)).to.eq(resultBytecode);
+    expect(extractBytecode(inputJson)).to.deep.eq(resultBytecode);
   });
 
   it("should return undefined when nested abi bytecode is malformed", () => {
     expect(extractBytecode(`{ "bytecode": "surely-not-bytecode" }`)).to.be.undefined;
+  });
+});
+
+describe("extractBytecode with link references", () => {
+  // tslint:disable:max-line-length
+  const linkRef1: BytecodeLinkReference = { reference: "__./ContractWithLibrary.sol:TestLibrar__" };
+  const bytecodeStr1 = `565b005b60005481565b73${linkRef1.reference}63b7203ec673${linkRef1.reference}63b7203ec6846040518263ffffffff167c010000`;
+  const linkRef2: BytecodeLinkReference = { reference: "__TestLibrary___________________________" };
+  const bytecodeObj2 = {
+    bytecode: `0x565b005b60005481565b73${linkRef2.reference}63b7203ec673${linkRef2.reference}63b7203ec6846040518263ffffffff167c010000`,
+  };
+  const linkRef3: BytecodeLinkReference = { reference: "__$17aeeb93c354b782f3950a7152e030370b$__" };
+  const bytecodeObj3 = {
+    evm: {
+      bytecode: {
+        object: `0x565b005b60005481565b73${linkRef3.reference}63b7203ec673${linkRef3.reference}63b7203ec6846040518263ffffffff167c010000`,
+      },
+    },
+  };
+  const linkRef4: BytecodeLinkReference = {
+    reference: linkRef3.reference,
+    name: "ContractWithLibrary.sol:TestLibrary",
+  };
+  const bytecodeObj4 = {
+    evm: {
+      bytecode: {
+        linkReferences: {
+          "ContractWithLibrary.sol": {
+            TestLibrary: [{ length: 20, start: 151 }, { length: 20, start: 177 }],
+          },
+        },
+        object: bytecodeObj3.evm.bytecode.object,
+      },
+    },
+  };
+  // tslint:enable
+
+  it("should extract solc 0.4 link references", () => {
+    expect(extractBytecode(bytecodeStr1)).to.be.deep.eq({
+      bytecode: `0x${bytecodeStr1}`,
+      linkReferences: [linkRef1],
+    });
+  });
+
+  it("should extract bare library contract name link references", () => {
+    expect(extractBytecode(JSON.stringify(bytecodeObj2))).to.be.deep.eq({
+      bytecode: bytecodeObj2.bytecode,
+      linkReferences: [linkRef2],
+    });
+  });
+
+  it("should extract solc 0.5 link references", () => {
+    expect(extractBytecode(JSON.stringify(bytecodeObj3))).to.be.deep.eq({
+      bytecode: bytecodeObj3.evm.bytecode.object,
+      linkReferences: [linkRef3],
+    });
+  });
+
+  it("should extract solc 0.5 link references with contract names", () => {
+    expect(extractBytecode(JSON.stringify(bytecodeObj4))).to.be.deep.eq({
+      bytecode: bytecodeObj4.evm.bytecode.object,
+      linkReferences: [linkRef4],
+    });
+  });
+
+  it("should still extract solc 0.5 link references when plain bytecode is also present", () => {
+    const bytecodeObj4a = {
+      ...bytecodeObj4,
+      bytecode: bytecodeObj4.evm.bytecode.object,
+    };
+    expect(extractBytecode(JSON.stringify(bytecodeObj4a))).to.be.deep.eq({
+      bytecode: bytecodeObj4.evm.bytecode.object,
+      linkReferences: [linkRef4],
+    });
   });
 });
 
