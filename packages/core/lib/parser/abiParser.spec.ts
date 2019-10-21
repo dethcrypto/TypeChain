@@ -137,6 +137,17 @@ describe("extractBytecode with link references", () => {
       linkReferences: [linkRef4],
     });
   });
+
+  it("should still extract solc 0.5 link references when plain bytecode is also present", () => {
+    const bytecodeObj4a = {
+      ...bytecodeObj4,
+      bytecode: bytecodeObj4.evm.bytecode.object,
+    };
+    expect(extractBytecode(JSON.stringify(bytecodeObj4a))).to.be.deep.eq({
+      bytecode: bytecodeObj4.evm.bytecode.object,
+      linkReferences: [linkRef4],
+    });
+  });
 });
 
 describe("ensure0xPrefix", () => {

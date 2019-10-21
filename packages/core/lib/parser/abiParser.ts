@@ -280,10 +280,7 @@ export function extractBytecode(rawContents: string): BytecodeWithLinkReferences
 
   if (!json) return undefined;
 
-  if (json.bytecode && json.bytecode.match(bytecodeRegex)) {
-    return extractLinkReferences(json.bytecode);
-  }
-
+  // `json.evm.bytecode` often has more information than `json.bytecode`, needs to be checked first
   if (
     json.evm &&
     json.evm.bytecode &&
@@ -291,6 +288,10 @@ export function extractBytecode(rawContents: string): BytecodeWithLinkReferences
     json.evm.bytecode.object.match(bytecodeRegex)
   ) {
     return extractLinkReferences(json.evm.bytecode.object, json.evm.bytecode.linkReferences);
+  }
+
+  if (json.bytecode && json.bytecode.match(bytecodeRegex)) {
+    return extractLinkReferences(json.bytecode);
   }
 
   return undefined;
