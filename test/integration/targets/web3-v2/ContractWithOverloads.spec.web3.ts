@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { ContractWithOverloads } from './types/web3-v1-contracts/ContractWithOverloads';
+import { ContractWithOverloads } from './types/web3-v2-contracts/ContractWithOverloads';
 import { accounts, deployContract, isBigNumber } from './web3';
 
 describe("ContractWithOverloads", () => {

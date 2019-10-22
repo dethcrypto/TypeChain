@@ -12,7 +12,7 @@
     "baseUrl": "packages",
     "paths": {
       "typechain": ["core/lib/index.ts"]
-    },
+    }
   },
   "include": [
     "./packages/**/*.ts",
@@ -22,6 +22,8 @@
   "exclude": [
     "./test/integration/targets/truffle/**/*.ts",
     "./test/integration/targets/web3-v1/**/*",
+    "./test/integration/targets/web3-v2/**/*",
+    "./test/integration/targets/ethers/**/*",
     "./test/package-test/**/*"
   ]
 }

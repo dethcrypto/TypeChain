@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { DumbContract } from './types/web3-v1-contracts/DumbContract';
+import { DumbContract } from './types/web3-v2-contracts/DumbContract';
 import { accounts, deployContract, isBigNumber } from './web3';
 
 describe("DumbContract", () => {
