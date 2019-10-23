@@ -76,6 +76,14 @@ describe("extractBytecode", () => {
     expect(extractBytecode(inputJson)).to.deep.eq(resultBytecode);
   });
 
+  it("should return bytecode from nested abi (@0x/sol-compiler style)", () => {
+    expect(
+      extractBytecode(
+        `{ "compilerOutput": { "evm": { "bytecode": { "object": "${sampleBytecode}" } } } }`,
+      ),
+    ).to.deep.eq(resultBytecode);
+  });
+
   it("should return undefined when nested abi bytecode is malformed", () => {
     expect(extractBytecode(`{ "bytecode": "surely-not-bytecode" }`)).to.be.undefined;
   });
@@ -113,6 +121,10 @@ describe("extractBytecode with link references", () => {
       },
     },
   };
+  const bytecodeObj5 = {
+    compilerOutput: bytecodeObj4,
+  };
+
   // tslint:enable
 
   it("should extract solc 0.4 link references", () => {
@@ -139,6 +151,13 @@ describe("extractBytecode with link references", () => {
   it("should extract solc 0.5 link references with contract names", () => {
     expect(extractBytecode(JSON.stringify(bytecodeObj4))).to.be.deep.eq({
       bytecode: bytecodeObj4.evm.bytecode.object,
+      linkReferences: [linkRef4],
+    });
+  });
+
+  it("should handle extracting link references in (@0x/sol-compiler) style", () => {
+    expect(extractBytecode(JSON.stringify(bytecodeObj5))).to.be.deep.eq({
+      bytecode: bytecodeObj5.compilerOutput.evm.bytecode.object,
       linkReferences: [linkRef4],
     });
   });

@@ -292,6 +292,20 @@ export function extractBytecode(rawContents: string): BytecodeWithLinkReferences
     return extractLinkReferences(json.evm.bytecode.object, json.evm.bytecode.linkReferences);
   }
 
+  // handle json schema of @0x/sol-compiler
+  if (
+    json.compilerOutput &&
+    json.compilerOutput.evm &&
+    json.compilerOutput.evm.bytecode &&
+    json.compilerOutput.evm.bytecode.object &&
+    json.compilerOutput.evm.bytecode.object.match(bytecodeRegex)
+  ) {
+    return extractLinkReferences(
+      json.compilerOutput.evm.bytecode.object,
+      json.compilerOutput.evm.bytecode.linkReferences,
+    );
+  }
+
   if (json.bytecode && json.bytecode.match(bytecodeRegex)) {
     return extractLinkReferences(json.bytecode);
   }
