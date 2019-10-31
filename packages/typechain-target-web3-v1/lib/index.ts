@@ -7,10 +7,10 @@ export interface IWeb3Cfg {
   outDir?: string;
 }
 
-const DEFAULT_OUT_PATH = "./types/web3-v1-contracts/";
+const DEFAULT_OUT_PATH = "./types/web3-contracts/";
 
-export default class Web3V1 extends TsGeneratorPlugin {
-  name = "Web3-v1";
+export default class Web3 extends TsGeneratorPlugin {
+  name = "Web3";
 
   private readonly outDirAbs: string;
 
@@ -46,9 +46,16 @@ export default class Web3V1 extends TsGeneratorPlugin {
         contents: `
   import { EventLog } from "web3-core/types";
   import BN from "bn.js";
-  import { BlockType } from "web3/eth/types";
   import { EventEmitter } from "events";
-  
+  // @ts-ignore
+  import PromiEvent from "web3/promiEvent";
+
+  interface EstimateGasOptions {
+    from?: string;
+    gas?: number;
+    value?: number | string | BN;
+  }
+
   interface EventOptions {
     filter?: object;
     fromBlock?: BlockType;
@@ -56,16 +63,20 @@ export default class Web3V1 extends TsGeneratorPlugin {
   }
 
   export type Callback<T> = (error: Error, result: T) => void;
-  
+  export interface TransactionObject<T> {
+    arguments: any[];
+    call(options?: EstimateGasOptions): Promise<T>;
+    send(options?: EstimateGasOptions): PromiEvent<T>;
+    estimateGas(options?: EstimateGasOptions): Promise<number>;
+    encodeABI(): string;
+  }
   export interface ContractEventLog<T> extends EventLog {
     returnValues: T;
   }
-  
   export interface ContractEventEmitter<T> extends EventEmitter {
     on(event: "data" | "changed", listener: (event: ContractEventLog<T>) => void): this;
     on(event: "error", listener: (error: Error) => void): this;
   }
-  
   export type ContractEvent<T> = (
     options?: EventOptions,
     cb?: Callback<ContractEventLog<T>>,
