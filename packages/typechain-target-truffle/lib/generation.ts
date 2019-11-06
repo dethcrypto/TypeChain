@@ -14,7 +14,7 @@ import { values } from "lodash";
 export function codegen(contracts: Contract[]) {
   const template = `
 /// <reference types="truffle-typings" />
-import { BigNumber } from "bignumber.js";
+import BN from "bn.js";
 
 ${contracts.map(generateContractInterface).join("\n")}
 
@@ -120,13 +120,13 @@ function generateOutputTypes(outputs: Array<AbiOutputParameter>): string {
 function generateInputType(evmType: EvmType): string {
   switch (evmType.type) {
     case "integer":
-      return "number | BigNumber | string";
+      return "number | BN | string";
     case "uinteger":
-      return "number | BigNumber | string";
+      return "number | BN | string";
     case "address":
-      return "string | BigNumber";
+      return "string | BN";
     case "bytes":
-      return "string | BigNumber";
+      return "string | BN";
     case "dynamic-bytes":
       return "string";
     case "array":
@@ -143,9 +143,9 @@ function generateInputType(evmType: EvmType): string {
 function generateOutputType(evmType: EvmOutputType): string {
   switch (evmType.type) {
     case "integer":
-      return "BigNumber";
+      return "BN";
     case "uinteger":
-      return "BigNumber";
+      return "BN";
     case "address":
       return "string";
     case "void":
