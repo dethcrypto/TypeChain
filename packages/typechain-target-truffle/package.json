@@ -15,7 +15,8 @@
     "truffle-typings": "^1.0.4"
   },
   "dependencies": {
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "@types/bn.js": "4.11.5"
   },
   "peerDependencies": {
     "typechain": "1.0.0^"
