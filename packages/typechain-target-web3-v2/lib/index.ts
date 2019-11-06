@@ -44,7 +44,9 @@ export default class Web3V2 extends TsGeneratorPlugin {
       {
         path: join(this.outDirAbs, "types.d.ts"),
         contents: `
-  import { PromiEvent, TransactionConfig } from "web3-core";
+  import { EventLog, PromiEvent, TransactionConfig } from "web3-core";
+  import { EventOptions } from "web3-eth-contract";
+  import { EventEmitter } from "events";
   
   export type Callback<T> = (error: Error, result: T) => void;
   export interface TransactionObject<T> {
@@ -53,7 +55,21 @@ export default class Web3V2 extends TsGeneratorPlugin {
     send(tx?: TransactionConfig): PromiEvent<T>;
     estimateGas(tx?: TransactionConfig): Promise<number>;
     encodeABI(): string;
-  }`,
+  }
+  
+  export interface ContractEventLog<T> extends EventLog {
+    returnValues: T;
+  }
+  
+  export interface ContractEventEmitter<T> extends EventEmitter {
+    on(event: 'data' | 'changed', listener: (event: ContractEventLog<T>) => void): this;
+    on(event: 'error', listener: (error: Error) => void): this;
+  }
+  
+  export type ContractEvent<T> = (
+    options?: EventOptions,
+    cb?: Callback<ContractEventLog<T>>
+  ) => ContractEventEmitter<T>;`,
       },
     ];
   }
