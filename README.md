@@ -151,15 +151,26 @@ Furthermore, we will silent tslint for generated files with `/* tslint:disable *
 You may want to use `ts-generator` api to kick off whole process by api:
 
 ```typescript
-import { tsGen } from "ts-generator";
-import { Typechain } from "typechain";
+import { tsGenerator } from "ts-generator";
+import { TypeChain } from "typechain/dist/TypeChain";
 
 async function main() {
-  await tsGen(
+  const cwd = process.cwd();
+
+  await tsGenerator(
     { cwd },
-    new Typechain({ cwd, rawConfig: { files: "your-glob-here", outDir: "optional out dir path" } }),
+    new TypeChain({
+      cwd,
+      rawConfig: {
+        files: "your-glob-here",
+        outDir: "optional out dir path",
+        target: "your-target",
+      },
+    }),
   );
 }
+
+main().catch(console.error);
 ```
 
 ### Running tests
