@@ -1,4 +1,4 @@
-import { join } from "path";
+import { join, resolve } from "path";
 import { Dictionary } from "ts-essentials";
 import { TContext, TFileDesc, TsGeneratorPlugin } from "ts-generator";
 import {
@@ -38,7 +38,7 @@ export default class Ethers extends TsGeneratorPlugin {
 
     const { cwd, rawConfig } = ctx;
 
-    this.outDirAbs = join(cwd, rawConfig.outDir || DEFAULT_OUT_PATH);
+    this.outDirAbs = resolve(cwd, rawConfig.outDir || DEFAULT_OUT_PATH);
   }
 
   transformFile(file: TFileDesc): TFileDesc[] | void {
