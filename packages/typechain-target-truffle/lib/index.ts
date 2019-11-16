@@ -1,6 +1,6 @@
 import { Contract, getFilename, extractAbi, parse } from "typechain";
 import { TsGeneratorPlugin, TContext, TFileDesc } from "ts-generator";
-import { join } from "path";
+import { join, resolve } from "path";
 
 import { codegen, generateArtifactHeaders } from "./generation";
 
@@ -21,7 +21,7 @@ export default class Truffle extends TsGeneratorPlugin {
 
     const { cwd, rawConfig } = ctx;
 
-    this.outDirAbs = join(cwd, rawConfig.outDir || DEFAULT_OUT_PATH);
+    this.outDirAbs = resolve(cwd, rawConfig.outDir || DEFAULT_OUT_PATH);
   }
 
   transformFile(file: TFileDesc): TFileDesc | void {

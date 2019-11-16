@@ -1,5 +1,5 @@
 import { TsGeneratorPlugin, TContext, TFileDesc } from "ts-generator";
-import { join } from "path";
+import { join, resolve } from "path";
 import { extractAbi, parse, getFilename } from "typechain";
 import { codegen } from "./generation";
 
@@ -19,7 +19,7 @@ export default class Web3 extends TsGeneratorPlugin {
 
     const { cwd, rawConfig } = ctx;
 
-    this.outDirAbs = join(cwd, rawConfig.outDir || DEFAULT_OUT_PATH);
+    this.outDirAbs = resolve(cwd, rawConfig.outDir || DEFAULT_OUT_PATH);
   }
 
   transformFile(file: TFileDesc): TFileDesc | void {
