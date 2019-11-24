@@ -24,7 +24,6 @@
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
   "devDependencies": {
-    "@types/web3": "^1.0.20",
     "krzkaczor-solc": "^0.4.24",
     "mocha": "^4.0.1",
     "mocha-prepare": "^0.1.0",
