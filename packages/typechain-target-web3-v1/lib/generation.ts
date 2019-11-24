@@ -14,10 +14,10 @@ import { values } from "lodash";
 export function codegen(contract: Contract) {
   const template = `
   import BN from "bn.js";
-  import Contract, { contractOptions } from "web3/eth/contract";
-  import { EventLog, Callback, EventEmitter } from "web3/types";
-  import { TransactionObject, BlockType } from "web3/eth/types";
-  import { ContractEvent } from "./types";
+  import { Contract, ContractOptions } from "web3-eth-contract";
+  import { EventLog } from "web3-core";
+  import { EventEmitter } from "events";
+  import { ContractEvent, Callback, TransactionObject, BlockType } from "./types";
 
   interface EventOptions {
     filter?: object;
@@ -26,7 +26,7 @@ export function codegen(contract: Contract) {
   }
 
   export class ${contract.name} extends Contract {
-    constructor(jsonInterface: any[], address?: string, options?: contractOptions);
+    constructor(jsonInterface: any[], address?: string, options?: ContractOptions);
     clone(): ${contract.name};
     methods: {
       ${codegenForFunctions(contract.functions)}

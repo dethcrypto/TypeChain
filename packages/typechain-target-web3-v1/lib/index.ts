@@ -44,8 +44,7 @@ export default class Web3 extends TsGeneratorPlugin {
       {
         path: join(this.outDirAbs, "types.d.ts"),
         contents: `
-  import { EventLog } from "web3/types";
-  import { TransactionObject, BlockType } from "web3/eth/types";
+  import { EventLog } from "web3-core/types";
   import BN from "bn.js";
   import { EventEmitter } from "events";
   // @ts-ignore
@@ -75,13 +74,34 @@ export default class Web3 extends TsGeneratorPlugin {
     returnValues: T;
   }
   export interface ContractEventEmitter<T> extends EventEmitter {
-    on(event: 'data' | 'changed', listener: (event: ContractEventLog<T>) => void): this;
-    on(event: 'error', listener: (error: Error) => void): this;
+    on(event: "data" | "changed", listener: (event: ContractEventLog<T>) => void): this;
+    on(event: "error", listener: (error: Error) => void): this;
   }
   export type ContractEvent<T> = (
     options?: EventOptions,
-    cb?: Callback<ContractEventLog<T>>
-  ) => ContractEventEmitter<T>;`,
+    cb?: Callback<ContractEventLog<T>>,
+  ) => ContractEventEmitter<T>;
+
+  export interface Tx {
+    nonce?: string | number;
+    chainId?: string | number;
+    from?: string;
+    to?: string;
+    data?: string;
+    value?: string | number;
+    gas?: string | number;
+    gasPrice?: string | number;
+  }
+
+  export interface TransactionObject<T> {
+    arguments: any[];
+    call(tx?: Tx): Promise<T>;
+    send(tx?: Tx): PromiEvent<T>;
+    estimateGas(tx?: Tx): Promise<number>;
+    encodeABI(): string;
+  }
+
+  export type BlockType = "latest" | "pending" | "genesis" | number;`,
       },
     ];
   }
