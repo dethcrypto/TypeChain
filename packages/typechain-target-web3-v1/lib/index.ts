@@ -7,10 +7,10 @@ export interface IWeb3Cfg {
   outDir?: string;
 }
 
-const DEFAULT_OUT_PATH = "./types/web3-contracts/";
+const DEFAULT_OUT_PATH = "./types/web3-v1-contracts/";
 
-export default class Web3 extends TsGeneratorPlugin {
-  name = "Web3";
+export default class Web3V1 extends TsGeneratorPlugin {
+  name = "Web3-v1";
 
   private readonly outDirAbs: string;
 
@@ -44,8 +44,8 @@ export default class Web3 extends TsGeneratorPlugin {
       {
         path: join(this.outDirAbs, "types.d.ts"),
         contents: `
-  import { EventLog } from "web3-core/types";
   import BN from "bn.js";
+  import { EventLog } from "web3-core/types";
   import { EventEmitter } from "events";
   // @ts-ignore
   import PromiEvent from "web3/promiEvent";
