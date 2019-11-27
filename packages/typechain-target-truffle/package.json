@@ -1,5 +1,5 @@
 {
-  "name": "typechain-target-truffle-v4",
+  "name": "typechain-target-truffle",
   "description": "TypeChain target with truffle v4 support",
   "keywords": [
     "ethereum",
@@ -21,7 +21,7 @@
     "typechain": "^1.0.0"
   },
   "scripts": {
-    "build": "rm -rf ./dist && cp -R '../../dist/typechain-target-truffle-v4/lib' ./dist/",
+    "build": "rm -rf ./dist && cp -R '../../dist/typechain-target-truffle/lib' ./dist/",
     "prepublishOnly": "cd .. && yarn prepublishOnly"
   },
   "main": "./dist/index.js"
