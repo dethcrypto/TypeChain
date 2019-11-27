@@ -22,7 +22,7 @@
     "typechain": "^1.0.0"
   },
   "scripts": {
-    "build": "rm -rf ./dist && cp -R '../../dist/typechain-target-truffle@5/lib' ./dist/",
+    "build": "rm -rf ./dist && cp -R '../../dist/typechain-target-truffle-v5/lib' ./dist/",
     "prepublishOnly": "cd .. && yarn prepublishOnly"
   },
   "main": "./dist/index.js"
