@@ -11,7 +11,7 @@
     "format": "prettier --list-different 'packages/**/*.{ts,tsx,json,md,gql}' README.md",
     "format:fix": "prettier --write 'packages/**/*.{ts,tsx,json,md,gql}' README.md",
     "tsc": "tsc --noEmit",
-    "tsc:truffle": "tsc --noEmit --project ./test/integration/targets/truffle/tsconfig.json",
+    "tsc:truffle": "tsc --noEmit --project ./test/integration/targets/truffle@4/tsconfig.json && tsc --noEmit --project ./test/integration/targets/truffle@5/tsconfig.json",
     "prepublishOnly": "yarn test && yarn build",
     "lint": "yarn format && yarn tslint",
     "lint:fix": "yarn tslint:fix && yarn format:fix",

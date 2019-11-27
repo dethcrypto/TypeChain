@@ -1,6 +1,6 @@
 {
-  "name": "typechain-target-truffle",
-  "description": "TypeChain target with truffle support",
+  "name": "typechain-target-truffle@5",
+  "description": "TypeChain target with truffle v5 support",
   "keywords": [
     "ethereum",
     "typescript",
