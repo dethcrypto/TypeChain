@@ -1,0 +1,28 @@
+{
+  "name": "typechain-target-truffle",
+  "description": "TypeChain target with truffle support",
+  "keywords": [
+    "ethereum",
+    "typescript",
+    "bindings",
+    "truffle"
+  ],
+  "version": "1.0.2",
+  "license": "MIT",
+  "repository": "https://github.com/ethereum-ts/Typechain",
+  "devDependencies": {
+    "truffle": "^4.1.14",
+    "truffle-typings": "^1.0.4"
+  },
+  "dependencies": {
+    "lodash": "^4.17.15"
+  },
+  "peerDependencies": {
+    "typechain": "^1.0.0"
+  },
+  "scripts": {
+    "build": "rm -rf ./dist && cp -R '../../dist/typechain-target-truffle/lib' ./dist/",
+    "prepublishOnly": "cd .. && yarn prepublishOnly"
+  },
+  "main": "./dist/index.js"
+}
