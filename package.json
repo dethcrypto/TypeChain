@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "prepare": "patch-package",
-    "build": "rm -rf ./dist && tsc -p ./tsconfig.prod.json && (cd packages/core/ && yarn build) && (cd packages/typechain-target-ethers/ && yarn build) && (cd packages/typechain-target-truffle/ && yarn build) && (cd packages/typechain-target-web3-v1/ && yarn build)",
+    "build": "rm -rf ./dist && tsc -p ./tsconfig.prod.json && (cd packages/core/ && yarn build) && (cd packages/typechain-target-ethers/ && yarn build) && (cd packages/typechain-target-truffle/ && yarn build) && (cd packages/typechain-target-web3-v1/ && yarn build) && (cd packages/typechain-target-web3-v2/ && yarn build)",
     "tslint": "tslint -p ./tsconfig.json -e 'node_modules/**/*' -e '**/node_modules/**/*' 'packages/**/*.ts'",
     "tslint:fix": "tslint --fix --format stylish -p ./tsconfig.json -e 'node_modules/**/*' -e '**/node_modules/**/*' 'packages/**/*.ts'",
     "format": "prettier --list-different 'packages/**/*.{ts,tsx,json,md,gql}' README.md",
@@ -18,7 +18,7 @@
     "test": "yarn lint && ./scripts/test.sh",
     "test:coverage": "yarn lint && ./scripts/test.sh COVERAGE",
     "test:fix": "yarn lint:fix && ./scripts/test.sh",
-    "test:mocha": "TS_NODE_IGNORE=\"/test/integration/targets/web3-v1/\" mocha --require ts-node/register.js --require tsconfig-paths/register --require test/setup-chai.ts --require 'test/integration/before.ts' 'test/integration/web3.ts' './**/*.spec.ts'",
+    "test:mocha": "TS_NODE_IGNORE=\"/test/integration/targets/web3-v*/\" mocha --require ts-node/register.js --require tsconfig-paths/register --require test/setup-chai.ts --require 'test/integration/before.ts' 'test/integration/web3.ts' './**/*.spec.ts'",
     "test:mocha:coverage": "NODE_ENV=test nyc mocha --require ts-node/register.js --require tsconfig-paths/register --require source-map-support/register --require test/setup-chai.ts --require 'test/integration/before.ts' 'test/integration/web3.ts' './**/*.spec.ts'",
     "test:package-bundle": "cd ./test/package-test && yarn && yarn start",
     "coveralls": "nyc report --reporter=text-lcov | coveralls"

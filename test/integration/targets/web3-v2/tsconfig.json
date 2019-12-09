@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "sourceMap": true,
+    "lib": ["es2015"],
+    "target": "es2016",
+    "module": "commonjs",
+    "declaration": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "types": ["node", "mocha"]
+  },
+  "include": [
+    "./**/*.ts"
+  ]
+}
