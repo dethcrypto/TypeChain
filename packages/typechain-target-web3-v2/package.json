@@ -17,7 +17,7 @@
     "lodash": "^4.17.15"
   },
   "peerDependencies": {
-    "typechain": "1.0.0^"
+    "typechain": "^1.0.0"
   },
   "scripts": {
     "build": "rm -rf ./dist && cp -R '../../dist/typechain-target-web3-v2/lib' ./dist/",
