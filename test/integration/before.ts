@@ -20,6 +20,7 @@ prepare((done: any) => {
     process.env.NODE_ENV = "test";
     await generateTruffle(cwd, prettierCfg);
     await generateWeb3_v1(cwd, prettierCfg);
+    await generateWeb3_v2(cwd, prettierCfg);
     await generateEthers(cwd, prettierCfg);
 
     done();
@@ -45,13 +46,27 @@ async function generateTruffle(cwd: string, prettierCfg: any) {
 }
 
 async function generateWeb3_v1(cwd: string, prettierCfg: any) {
-  const outDir = "./targets/web3-v1/types/web3-contracts";
+  const outDir = "./targets/web3-v1/types/web3-v1-contracts";
 
   removeSync(join(__dirname, outDir));
 
   const rawConfig: TPluginCfg<ITypeChainCfg> = {
     files: "**/*.abi",
     target: "web3-v1",
+    outDir,
+  };
+
+  await tsGenerator({ cwd, prettier: prettierCfg }, new TypeChain({ cwd, rawConfig }));
+}
+
+async function generateWeb3_v2(cwd: string, prettierCfg: any) {
+  const outDir = "./targets/web3-v2/types/web3-v2-contracts";
+
+  removeSync(join(__dirname, outDir));
+
+  const rawConfig: TPluginCfg<ITypeChainCfg> = {
+    files: "**/*.abi",
+    target: "web3-v2",
     outDir,
   };
 

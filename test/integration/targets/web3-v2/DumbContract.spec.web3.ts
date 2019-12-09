@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { DumbContract } from './types/web3-v1-contracts/DumbContract';
+import { DumbContract } from './types/web3-v2-contracts/DumbContract';
 import { accounts, deployContract, isBigNumber } from './web3';
 
 describe("DumbContract", () => {
@@ -110,7 +110,8 @@ describe("DumbContract", () => {
     const contractClone = await contract.clone();
 
     expect(contractClone).not.to.be.eq(contract);
-    // TypeChain with web3@1.0.0beta36 checked contracts in this fashion, web3@1.2.0 is most similar to web3@1.0.0beta37
-    expect(contractClone.options.address).to.be.eq(contract.options.address);
+    // web3@2.0.0 just shallow copies the contract and `address` is `undefined`
+    // https://github.com/ethereum/web3.js/blob/2.x/packages/web3-eth-contract/src/AbstractContract.js#L233
+    expect(contractClone.options.data).to.be.eq(contract.options.data);
   });
 });

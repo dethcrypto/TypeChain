@@ -25,7 +25,7 @@
 
 - static typing - you will never call not existing method again
 - IDE support - works with any IDE supporting Typescript
-- extendible - work with many different APIs: `ethers.js`, `truffle`, `Web3.js 1.0` or you can create your own target
+- extendible - work with many different APIs: `ethers.js`, `truffle`, `Web3.js 1.0`, `Web3.js 2.0` or you can create your own target
 - frictionless - works with simple, JSON ABI files as well as with Truffle style ABIs
 
 ## Installation
@@ -44,6 +44,7 @@ You will also need to install a desired target for example `typechain-target-eth
 | [`typechain-target-ethers`](/packages/typechain-target-ethers)   | [![npm](https://img.shields.io/npm/v/typechain-target-ethers.svg)](https://www.npmjs.com/package/typechain-target-ethers)   | Ethers support             |
 | [`typechain-target-truffle`](/packages/typechain-target-truffle) | [![npm](https://img.shields.io/npm/v/typechain-target-truffle.svg)](https://www.npmjs.com/package/typechain-target-truffle) | Truffle support            |
 | [`typechain-target-web3-v1`](/packages/typechain-target-web3-v1) | [![npm](https://img.shields.io/npm/v/typechain-target-web3-v1.svg)](https://www.npmjs.com/package/typechain-target-web3-v1) | Web3 version 1.x.x support |
+| [`typechain-target-web3-v1`](/packages/typechain-target-web3-v2) | [![npm](https://img.shields.io/npm/v/typechain-target-web3-v2.svg)](https://www.npmjs.com/package/typechain-target-web3-v2) | Web3 version 2.x.x support |
 
 ## Usage
 
