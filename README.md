@@ -44,14 +44,14 @@ You will also need to install a desired target for example `typechain-target-eth
 | [`typechain-target-ethers`](/packages/typechain-target-ethers)   | [![npm](https://img.shields.io/npm/v/typechain-target-ethers.svg)](https://www.npmjs.com/package/typechain-target-ethers)   | Ethers support             |
 | [`typechain-target-truffle`](/packages/typechain-target-truffle) | [![npm](https://img.shields.io/npm/v/typechain-target-truffle.svg)](https://www.npmjs.com/package/typechain-target-truffle) | Truffle support            |
 | [`typechain-target-web3-v1`](/packages/typechain-target-web3-v1) | [![npm](https://img.shields.io/npm/v/typechain-target-web3-v1.svg)](https://www.npmjs.com/package/typechain-target-web3-v1) | Web3 version 1.x.x support |
-| [`typechain-target-web3-v1`](/packages/typechain-target-web3-v2) | [![npm](https://img.shields.io/npm/v/typechain-target-web3-v2.svg)](https://www.npmjs.com/package/typechain-target-web3-v2) | Web3 version 2.x.x support |
+| [`typechain-target-web3-v2`](/packages/typechain-target-web3-v2) | [![npm](https://img.shields.io/npm/v/typechain-target-web3-v2.svg)](https://www.npmjs.com/package/typechain-target-web3-v2) | Web3 version 2.x.x support |
 
 ## Usage
 
 ### CLI
 
 ```
-typechain --target=(ethers|truffle|web3-v1|path-to-custom-target) [glob]
+typechain --target=(ethers|truffle|web3-v1|web3-v2|path-to-custom-target) [glob]
 ```
 
 - `glob` - pattern that will be used to find ABIs, remember about adding quotes: `typechain "**/*.json"`
@@ -113,7 +113,11 @@ Now you can simply use your contracts as you did before and get full type safety
 
 ### Web3-1.0.0
 
-Generates typings for contracts compatible with latest Web3.js version. Typings for library itself are now part of `Web3 1.0.0` library so nothing additional is needed. For now it needs explicit cast as shown [here](https://github.com/krzkaczor/TypeChain/pull/88/files#diff-540a9b8840419be93ddb8d4b53325637R8), this will be fixed after improving official typings.
+Generates typings for contracts compatible with latest stable Web3.js version. Typings for library itself are now part of `Web3 1.0.0` library so nothing additional is needed. For now it needs explicit cast as shown [here](https://github.com/krzkaczor/TypeChain/pull/88/files#diff-540a9b8840419be93ddb8d4b53325637R8), this will be fixed after improving official typings.
+
+### Web3-2.0.0
+
+Generates typings for contracts compatible with (unstable) Web3.js 2.x.x version. Typings for library itself are now part of `Web3 2.0.0` library so nothing additional is needed. [Usage example](https://github.com/ethereum-ts/TypeChain/blob/master/test/integration/targets/web3-v2/DumbContract.spec.web3.ts#L12).
 
 ### Your own target
 
