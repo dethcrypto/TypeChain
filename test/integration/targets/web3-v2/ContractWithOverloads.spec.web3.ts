@@ -1,7 +1,7 @@
-import { expect } from 'chai';
+import { expect } from "chai";
 
-import { ContractWithOverloads } from './types/web3-v2-contracts/ContractWithOverloads';
-import { accounts, deployContract, isBigNumber } from './web3';
+import { ContractWithOverloads } from "./types/web3-v2-contracts/ContractWithOverloads";
+import { accounts, deployContract, isBigNumber } from "./web3";
 
 describe("ContractWithOverloads", () => {
   it("should work", async () => {

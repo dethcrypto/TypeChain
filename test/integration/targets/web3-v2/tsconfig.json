@@ -10,7 +10,5 @@
     "skipLibCheck": true,
     "types": ["node", "mocha"]
   },
-  "include": [
-    "./**/*.ts"
-  ]
+  "include": ["./**/*.ts"]
 }

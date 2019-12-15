@@ -1,16 +1,15 @@
-import { expect } from 'chai';
+import { expect } from "chai";
 
-import { getTestSigner } from './ethers';
-import { ContractWithLibrary } from './types/ethers-contracts/ContractWithLibrary';
+import { getTestSigner } from "./ethers";
+import { ContractWithLibrary } from "./types/ethers-contracts/ContractWithLibrary";
 import {
-    ContractWithLibraryFactory,
-    ContractWithLibraryLibraryAddresses,
-} from './types/ethers-contracts/ContractWithLibraryFactory';
-import { TestLibrary } from './types/ethers-contracts/TestLibrary';
-import { TestLibraryFactory } from './types/ethers-contracts/TestLibraryFactory';
+  ContractWithLibraryFactory,
+  ContractWithLibraryLibraryAddresses,
+} from "./types/ethers-contracts/ContractWithLibraryFactory";
+import { TestLibrary } from "./types/ethers-contracts/TestLibrary";
+import { TestLibraryFactory } from "./types/ethers-contracts/TestLibraryFactory";
 
 describe("ContractWithLibrary", () => {
-
   let testLibrary: TestLibrary;
   let contract: ContractWithLibrary;
 
@@ -28,7 +27,7 @@ describe("ContractWithLibrary", () => {
     const linkedBytecode = ContractWithLibraryFactory.linkBytecode({
       "__./ContractWithLibrary.sol:TestLibrar__": testLibrary.address,
     });
-    expect(linkedBytecode).to.match(/^0x[0-9a-f]{100,}$/);  // no more link placeholders
+    expect(linkedBytecode).to.match(/^0x[0-9a-f]{100,}$/); // no more link placeholders
     const trimmedLibraryAddress = testLibrary.address.replace(/^0x/, "").toLowerCase();
     const matchedAddresses = linkedBytecode.match(new RegExp(trimmedLibraryAddress, "g"));
     expect(matchedAddresses).not.to.be.undefined;
@@ -48,5 +47,4 @@ describe("ContractWithLibrary", () => {
     await contract.setVal(336);
     expect((await contract.val()).toNumber()).to.eq(420);
   });
-
 });
