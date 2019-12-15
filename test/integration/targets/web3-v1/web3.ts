@@ -37,12 +37,6 @@ export async function deployContract<T>(contractName: string, ...args: any[]): P
   }) as any)) as T;
 }
 
-export function isBigNumber(object: any): boolean {
-  /* Cribbed from web3-utils until BNs/BigNumbers are resolved in web3
-  // https://github.com/ethereum/web3.js/issues/2468
-  // web3 returns uint256 values as strings https://web3js.readthedocs.io/en/v1.2.1/web3-eth-contract.html#methods-mymethod-call
-  // web3 utils use 'number-to-bn' to convert to BN.js object instances in Javascript
-  // https://github.com/ethereum/web3.js/blob/2.x/packages/web3-utils/src/Utils.js
-  */
-  return object && object.constructor && object.constructor.name === "String";
+export function isString(object: string): object is string {
+  return (object as any) && object.constructor && object.constructor.name === "String";
 }
