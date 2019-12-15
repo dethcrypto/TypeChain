@@ -1,11 +1,11 @@
 const prepare = require("mocha-prepare");
-import { readFileSync } from 'fs';
-import { removeSync } from 'fs-extra';
-import { join } from 'path';
-import { tsGenerator } from 'ts-generator';
-import { TPluginCfg } from 'ts-generator/dist/parseConfigFile';
+import { readFileSync } from "fs";
+import { removeSync } from "fs-extra";
+import { join } from "path";
+import { tsGenerator } from "ts-generator";
+import { TPluginCfg } from "ts-generator/dist/parseConfigFile";
 
-import { ITypeChainCfg, TypeChain } from '../../packages/core/lib/TypeChain';
+import { ITypeChainCfg, TypeChain } from "../../packages/core/lib/TypeChain";
 
 /**
  * NOTE: this is done here only to easily count code coverage.

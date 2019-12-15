@@ -115,9 +115,9 @@ function generateInputType(evmType: EvmType): string {
 function generateOutputType(evmType: EvmOutputType): string {
   switch (evmType.type) {
     case "integer":
-      return "BN";
+      return "string";
     case "uinteger":
-      return "BN";
+      return "string";
     case "address":
       return "string";
     case "void":

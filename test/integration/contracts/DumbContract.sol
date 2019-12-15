@@ -93,6 +93,11 @@ contract DumbContract {
 
   function testVoidReturn() pure public {}
 
+  // this is useful to ensure that small ints are handled properly (sometimes they are represented in a different way than bigger ones)
+  function testSmallUint() pure public returns (uint8) {
+    return 5;
+  }
+
   event Deposit(
     address indexed from,
     uint value

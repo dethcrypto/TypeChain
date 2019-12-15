@@ -1,7 +1,7 @@
-import { expect } from 'chai';
+import { expect } from "chai";
 
-import { DumbContract } from './types/web3-v1-contracts/DumbContract';
-import { accounts, deployContract, isBigNumber } from './web3';
+import { DumbContract } from "./types/web3-v1-contracts/DumbContract";
+import { accounts, deployContract, isString } from "./web3";
 
 describe("DumbContract", () => {
   function deployDumbContract(): Promise<DumbContract> {
@@ -12,8 +12,8 @@ describe("DumbContract", () => {
     const contract: DumbContract = await deployDumbContract();
 
     const res = await contract.methods.returnAll().call({ from: accounts[0] });
-    expect(isBigNumber(res[0])).to.be.true;
-    expect(isBigNumber(res[1])).to.be.true;
+    expect(isString(res[0])).to.be.true;
+    expect(isString(res[1])).to.be.true;
     expect(res[0].toString()).to.be.eq("0");
     expect(res[1].toString()).to.be.eq("5");
   });
@@ -29,12 +29,12 @@ describe("DumbContract", () => {
 
     await contract.methods.countup(2).send({ from: accounts[0] });
     const withNumber = await contract.methods.counter().call();
-    expect(isBigNumber(withNumber)).to.be.true;
+    expect(isString(withNumber)).to.be.true;
     expect(withNumber.toString()).to.be.eq("2");
 
     await contract.methods.countup("2").send({ from: accounts[0] });
     const withString = await contract.methods.counter().call();
-    expect(isBigNumber(withString)).to.be.true;
+    expect(isString(withString)).to.be.true;
     expect(withString.toString()).to.be.eq("4");
   });
 
@@ -42,11 +42,11 @@ describe("DumbContract", () => {
     const contract = await deployDumbContract();
 
     const withNumber = await contract.methods.returnSigned(2).call();
-    expect(isBigNumber(withNumber)).to.be.true;
+    expect(isString(withNumber)).to.be.true;
     expect(withNumber.toString()).to.be.eq("2");
 
     const withString = await contract.methods.returnSigned("2").call();
-    expect(isBigNumber(withString)).to.be.true;
+    expect(isString(withString)).to.be.true;
     expect(withString.toString()).to.be.eq("2");
   });
 
@@ -92,8 +92,8 @@ describe("DumbContract", () => {
 
     const res = await contract.methods.callWithArray2(["1", 2]).call();
     expect(res.length).to.be.eq(2);
-    expect(isBigNumber(res[0])).to.be.true;
-    expect(isBigNumber(res[1])).to.be.true;
+    expect(isString(res[0])).to.be.true;
+    expect(isString(res[1])).to.be.true;
     expect(res[0].toString()).to.be.eq("1");
     expect(res[1].toString()).to.be.eq("2");
   });
@@ -113,4 +113,15 @@ describe("DumbContract", () => {
     // TypeChain with web3@1.0.0beta36 checked contracts in this fashion, web3@1.2.0 is most similar to web3@1.0.0beta37
     expect(contractClone.options.address).to.be.eq(contract.options.address);
   });
+
+  it("should work with small ints ", async () => {
+    const contract = await deployDumbContract();
+
+    const result = await contract.methods.returnSmallUint().call();
+
+    expect(isString(result)).to.be.true;
+    expect(result).to.be.eq("18");
+  });
+
+  // @todo: tests for events
 });

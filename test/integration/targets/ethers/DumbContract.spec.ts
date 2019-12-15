@@ -38,15 +38,9 @@ describe("DumbContract", () => {
 
   it("should allow connecting to an existing contract instance with signer or provider", async () => {
     const contract1 = await new DumbContractFactory(getTestSigner()).deploy(42);
-    const contract2 = DumbContractFactory.connect(
-      contract1.address,
-      getTestSigner(),
-    );
+    const contract2 = DumbContractFactory.connect(contract1.address, getTestSigner());
     expect(await contract2.functions.counter()).to.be.deep.eq(new BigNumber("42"));
-    const contract3 = DumbContractFactory.connect(
-      contract1.address,
-      getTestSigner().provider!,
-    );
+    const contract3 = DumbContractFactory.connect(contract1.address, getTestSigner().provider!);
     expect(await contract3.functions.counter()).to.be.deep.eq(new BigNumber("42"));
   });
 
