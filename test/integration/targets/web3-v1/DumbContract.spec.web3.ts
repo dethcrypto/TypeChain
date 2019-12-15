@@ -113,4 +113,6 @@ describe("DumbContract", () => {
     // TypeChain with web3@1.0.0beta36 checked contracts in this fashion, web3@1.2.0 is most similar to web3@1.0.0beta37
     expect(contractClone.options.address).to.be.eq(contract.options.address);
   });
+
+  // @todo: tests for events
 });
