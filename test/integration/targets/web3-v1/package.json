@@ -17,7 +17,7 @@
   },
   "scripts": {
     "tsc": "tsc --noEmit",
-    "mocha": "NODE_ENV=test mocha --require ts-node/register.js './**/*.spec.web3.ts' --timeout 5000",
+    "mocha": "TS_NODE_FILES=true NODE_ENV=test mocha --require ts-node/register './**/*.spec.web3.ts' --timeout 5000",
     "test": "yarn tsc && yarn mocha"
   }
 }

@@ -17,7 +17,7 @@
   },
   "scripts": {
     "tsc": "tsc --noEmit",
-    "mocha": "NODE_ENV=test mocha --require ts-node/register.js './**/*.spec.ts'",
+    "mocha": "NODE_ENV=test mocha --require ts-node/register './**/*.spec.ts'",
     "test": "yarn tsc && yarn mocha"
   }
 }
