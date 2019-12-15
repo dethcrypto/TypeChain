@@ -24,6 +24,7 @@
   "exclude": [
     "./test/integration/targets/truffle/**/*.ts",
     "./test/integration/targets/web3-v1/**/*",
+    "./test/integration/targets/web3-v2/**/*",
     "./test/integration/targets/ethers/**/*",
     "./test/package-test/**/*"
   ]

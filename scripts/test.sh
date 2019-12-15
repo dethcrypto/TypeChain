@@ -34,6 +34,7 @@ yarn tsc --noUnusedParameters
 yarn tsc:truffle
 (cd ../targets/truffle && ../../../../node_modules/.bin/truffle test)
 (cd ../targets/web3-v1 && yarn && yarn test)
+(cd ../targets/web3-v2 && yarn && yarn test)
 (cd ../targets/ethers && yarn && yarn test)
 
 if [ "$mode" = "COVERAGE" ]; then
