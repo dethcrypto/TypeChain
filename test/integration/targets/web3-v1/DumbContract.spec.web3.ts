@@ -114,5 +114,14 @@ describe("DumbContract", () => {
     expect(contractClone.options.address).to.be.eq(contract.options.address);
   });
 
+  it("should work with small ints ", async () => {
+    const contract = await deployDumbContract();
+
+    const result = await contract.methods.returnSmallUint().call();
+
+    expect(isString(result)).to.be.true;
+    expect(result).to.be.eq("18");
+  });
+
   // @todo: tests for events
 });

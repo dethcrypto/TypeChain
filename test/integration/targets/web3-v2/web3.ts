@@ -4,7 +4,7 @@ import Web3 from "web3";
 import { join } from "path";
 import { readFileSync } from "fs";
 
-export const GAS_LIMIT_STANDARD = 1000000;
+export const GAS_LIMIT_STANDARD = 6000000;
 
 export let web3: Web3;
 export let accounts: string[];
