@@ -2,8 +2,8 @@
 
 <p align="center">
   <img src="https://github.com/Neufund/TypeChain/blob/d82f3cc644a11e22ca8e42505c16f035e2f2555d/docs/images/typechain-logo.png?raw=true" width="300" alt="TypeChain">
-  <h3 align="center">TypeChain target Truffle</h3>
-  <p align="center">🔌 TypeScript bindings for Truffle smartcontracts</p>
+  <h3 align="center">TypeChain target Truffle v5</h3>
+  <p align="center">🔌 TypeScript bindings for Truffle v5 smartcontracts</p>
 
   <p align="center">
     <a href="https://circleci.com/gh/ethereum-ts/TypeChain"><img alt="Build Status" src="https://circleci.com/gh/ethereum-ts/TypeChain/tree/master.svg?style=svg"></a>
