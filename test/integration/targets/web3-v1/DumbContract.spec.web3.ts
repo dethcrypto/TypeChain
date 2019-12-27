@@ -123,5 +123,21 @@ describe("DumbContract", () => {
     expect(result).to.be.eq("18");
   });
 
+  it("should work with nameless events", () => {
+    return new Promise(async resolve => {
+      const contract = await deployDumbContract();
+
+      contract.events.NamelessLog().on("data", e => {
+        console.log(e);
+
+        expect(e.returnValues[0]).to.be.string;
+        expect(e.returnValues[0]).to.eq("0");
+        resolve();
+      });
+
+      await contract.methods.countupForEther().send({ from: accounts[1] });
+    });
+  });
+
   // @todo: tests for events
 });
