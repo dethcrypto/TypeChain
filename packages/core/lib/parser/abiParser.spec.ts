@@ -255,7 +255,7 @@ describe("parse", () => {
             },
           ],
         },
-        fallback: [],
+        fallback: undefined,
         functions: {},
         name: "sc1",
       });

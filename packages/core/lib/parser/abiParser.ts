@@ -70,7 +70,7 @@ export interface EventDeclaration {
 
 export interface EventArgDeclaration {
   isIndexed: boolean;
-  name?: string;
+  name?: string; // undefined if original name was empty
   type: EvmType;
 }
 
