@@ -7,12 +7,12 @@ import { MalformedAbiError } from "../utils/errors";
 import { EvmOutputType, EvmType, parseEvmType } from "./parseEvmType";
 
 export interface AbiParameter {
-  name: string;
+  name: string; // @todo name should be normalized to undefined if empty string
   type: EvmType;
 }
 
 export interface AbiOutputParameter {
-  name: string;
+  name: string; // @todo name should be normalized to undefined if empty string
   type: EvmOutputType;
 }
 
@@ -70,7 +70,7 @@ export interface EventDeclaration {
 
 export interface EventArgDeclaration {
   isIndexed: boolean;
-  name: string;
+  name?: string;
   type: EvmType;
 }
 
@@ -129,6 +129,7 @@ export function parse(abi: Array<RawAbiDefinition>, name: string): Contract {
     if (abiPiece.type === "event") {
       const eventAbi = (abiPiece as any) as RawEventAbiDefinition;
       if (eventAbi.anonymous) {
+        // @todo: support for anonymous events?
         debug(`Skipping anonymous event... ${JSON.stringify(eventAbi)}`);
         return;
       }
@@ -168,7 +169,7 @@ export function parseEvent(abiPiece: RawEventAbiDefinition): EventDeclaration {
 
 function parseRawEventArg(eventArg: RawEventArgAbiDefinition): EventArgDeclaration {
   return {
-    name: eventArg.name,
+    name: parseEmptyAsUndefined(eventArg.name),
     isIndexed: eventArg.indexed,
     type: parseRawAbiParameterType(eventArg),
   };
@@ -184,6 +185,13 @@ function findStateMutability(abiPiece: RawAbiDefinition): StateMutability {
     return "view";
   }
   return abiPiece.payable ? "payable" : "nonpayable";
+}
+
+function parseEmptyAsUndefined(smt: string | undefined) {
+  if (smt === "") {
+    return undefined;
+  }
+  return smt;
 }
 
 function parseConstructor(abiPiece: RawAbiDefinition): FunctionWithoutOutputDeclaration {
