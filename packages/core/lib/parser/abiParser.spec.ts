@@ -14,6 +14,7 @@ import {
   parseEvent,
   RawAbiDefinition,
   RawEventAbiDefinition,
+  normalizeName,
 } from "./abiParser";
 
 describe("extractAbi", () => {
@@ -217,6 +218,61 @@ describe("parse", () => {
       } as any;
 
       expect(() => parse([fallbackAbiFunc], "fallback")).to.not.throw();
+    });
+  });
+
+  describe("empty names should be parsed as undefined", () => {
+    it("should work on output-less fallback functions", () => {
+      const event: RawAbiDefinition = {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: false,
+            internalType: "bytes32",
+            name: "",
+            type: "bytes32",
+          },
+        ],
+        name: "log_bytes32",
+        type: "event",
+      } as any;
+
+      expect(parse([event], "sc1")).to.be.deep.eq({
+        constructor: [],
+        events: {
+          log_bytes32: [
+            {
+              inputs: [
+                {
+                  isIndexed: false,
+                  name: undefined,
+                  type: {
+                    size: 32,
+                    type: "bytes",
+                  },
+                },
+              ],
+              name: "log_bytes32",
+            },
+          ],
+        },
+        fallback: undefined,
+        functions: {},
+        name: "Sc1",
+        rawName: "sc1",
+      });
+    });
+  });
+
+  describe("name normalizer", () => {
+    it("should work", () => {
+      expect(normalizeName("DsToken")).to.be.eq("DsToken");
+      expect(normalizeName("test")).to.be.eq("Test");
+      expect(normalizeName("ds-token")).to.be.eq("DsToken");
+      expect(normalizeName("ds_token")).to.be.eq("DsToken");
+      expect(normalizeName("ds token")).to.be.eq("DsToken");
+      expect(normalizeName("name.abi")).to.be.eq("NameAbi");
+      expect(normalizeName("1234name.abi")).to.be.eq("NameAbi");
     });
   });
 });

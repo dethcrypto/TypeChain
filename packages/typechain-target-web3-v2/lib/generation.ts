@@ -7,6 +7,7 @@ import {
   EvmType,
   TupleType,
   EvmOutputType,
+  EventArgDeclaration,
 } from "typechain";
 import { Dictionary } from "ts-essentials";
 import { values } from "lodash";
@@ -74,6 +75,16 @@ function generateOutputTypes(outputs: Array<AbiOutputParameter>): string {
   }
 }
 
+function generateEventInputTypes(outputs: Array<EventArgDeclaration>): string {
+  return `{
+    ${outputs
+      .filter(a => a.name)
+      .map(t => `${t.name}: ${generateOutputType(t.type)}, `)
+      .join("")}
+    ${outputs.map((t, i) => `${i}: ${generateOutputType(t.type)}`).join(", ")}
+    }`;
+}
+
 function codegenForEvents(events: Dictionary<EventDeclaration[]>): string {
   return values(events)
     .map(e => e[0])
@@ -82,7 +93,7 @@ function codegenForEvents(events: Dictionary<EventDeclaration[]>): string {
 }
 
 function generateEvent(event: EventDeclaration) {
-  return `${event.name}: ContractEvent<${generateOutputTypes(event.inputs)}>`;
+  return `${event.name}: ContractEvent<${generateEventInputTypes(event.inputs)}>`;
 }
 
 function generateInputType(evmType: EvmType): string {

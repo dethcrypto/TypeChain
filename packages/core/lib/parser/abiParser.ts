@@ -1,5 +1,5 @@
 import { keccak_256 } from "js-sha3";
-import { groupBy } from "lodash";
+import { groupBy, upperFirst, camelCase } from "lodash";
 import { Dictionary } from "ts-essentials";
 
 import debug from "../utils/debug";
@@ -7,12 +7,12 @@ import { MalformedAbiError } from "../utils/errors";
 import { EvmOutputType, EvmType, parseEvmType } from "./parseEvmType";
 
 export interface AbiParameter {
-  name: string;
+  name: string; // @todo name should be normalized to undefined if empty string
   type: EvmType;
 }
 
 export interface AbiOutputParameter {
-  name: string;
+  name: string; // @todo name should be normalized to undefined if empty string
   type: EvmOutputType;
 }
 
@@ -40,6 +40,7 @@ export interface FunctionWithoutInputDeclaration extends FunctionDeclaration {
 
 export interface Contract {
   name: string;
+  rawName: string;
 
   fallback?: FunctionWithoutInputDeclaration;
   constructor: FunctionWithoutOutputDeclaration[];
@@ -70,7 +71,7 @@ export interface EventDeclaration {
 
 export interface EventArgDeclaration {
   isIndexed: boolean;
-  name: string;
+  name?: string; // undefined if original name was empty
   type: EvmType;
 }
 
@@ -97,7 +98,7 @@ export interface BytecodeWithLinkReferences {
   linkReferences?: BytecodeLinkReference[];
 }
 
-export function parse(abi: Array<RawAbiDefinition>, name: string): Contract {
+export function parse(abi: Array<RawAbiDefinition>, rawName: string): Contract {
   const constructors: FunctionWithoutOutputDeclaration[] = [];
   let fallback: FunctionWithoutInputDeclaration | undefined;
   const functions: FunctionDeclaration[] = [];
@@ -129,6 +130,7 @@ export function parse(abi: Array<RawAbiDefinition>, name: string): Contract {
     if (abiPiece.type === "event") {
       const eventAbi = (abiPiece as any) as RawEventAbiDefinition;
       if (eventAbi.anonymous) {
+        // @todo: support for anonymous events?
         debug(`Skipping anonymous event... ${JSON.stringify(eventAbi)}`);
         return;
       }
@@ -141,12 +143,28 @@ export function parse(abi: Array<RawAbiDefinition>, name: string): Contract {
   });
 
   return {
-    name,
+    name: normalizeName(rawName),
+    rawName,
     fallback,
     constructor: constructors,
     functions: groupBy(functions, f => f.name),
     events: groupBy(events, e => e.name),
   };
+}
+
+/**
+ * Converts valid file names to valid javascript symbols and does best effort to make them readable. Example: ds-token.test becomes DsTokenTest
+ */
+export function normalizeName(rawName: string): string {
+  const t1 = rawName.split(" ").join("-"); // spaces to - so later we can automatically convert them
+  const t2 = t1.replace(/^\d+/, ""); // removes leading digits
+  const result = upperFirst(camelCase(t2));
+
+  if (result === "") {
+    throw new Error(`Can't guess class name, please rename file: ${rawName}`);
+  }
+
+  return result;
 }
 
 function parseOutputs(outputs: Array<RawAbiParameter>): AbiOutputParameter[] {
@@ -168,7 +186,7 @@ export function parseEvent(abiPiece: RawEventAbiDefinition): EventDeclaration {
 
 function parseRawEventArg(eventArg: RawEventArgAbiDefinition): EventArgDeclaration {
   return {
-    name: eventArg.name,
+    name: parseEmptyAsUndefined(eventArg.name),
     isIndexed: eventArg.indexed,
     type: parseRawAbiParameterType(eventArg),
   };
@@ -184,6 +202,13 @@ function findStateMutability(abiPiece: RawAbiDefinition): StateMutability {
     return "view";
   }
   return abiPiece.payable ? "payable" : "nonpayable";
+}
+
+function parseEmptyAsUndefined(smt: string | undefined) {
+  if (smt === "") {
+    return undefined;
+  }
+  return smt;
 }
 
 function parseConstructor(abiPiece: RawAbiDefinition): FunctionWithoutOutputDeclaration {

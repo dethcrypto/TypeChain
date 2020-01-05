@@ -6,6 +6,7 @@ import { codegenContractFactory } from "./generation";
 describe("Ethers generation edge cases", () => {
   const emptyContract: Contract = {
     name: "TestContract",
+    rawName: "testContract",
     functions: {},
     events: {},
     constructor: [{ name: "constructor", inputs: [], outputs: [], stateMutability: "nonpayable" }],

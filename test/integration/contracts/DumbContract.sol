@@ -45,6 +45,7 @@ contract DumbContract {
   function countupForEther() payable public {
     counter += msg.value;
     counterArray.push(counter);
+    emit NamelessLog(counter);
     emit Deposit(msg.sender, msg.value);
   }
 
@@ -102,4 +103,6 @@ contract DumbContract {
     address indexed from,
     uint value
   );
+
+  event NamelessLog (uint256);
 }
