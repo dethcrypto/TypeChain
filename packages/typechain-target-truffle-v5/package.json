@@ -1,5 +1,5 @@
 {
-  "name": "typechain-target-truffle-v5",
+  "name": "@typechain/truffle-v5",
   "description": "TypeChain target with truffle v5 support",
   "keywords": [
     "ethereum",
@@ -7,7 +7,7 @@
     "bindings",
     "truffle"
   ],
-  "version": "1.0.2",
+  "version": "1.0.0",
   "license": "MIT",
   "repository": "https://github.com/ethereum-ts/Typechain",
   "devDependencies": {
