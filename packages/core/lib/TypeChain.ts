@@ -31,6 +31,7 @@ export class TypeChain extends TsGeneratorPlugin {
     const possiblePaths = [
       process.env.NODE_ENV === "test" && `../../typechain-target-${target}/lib/index`, // only for tests
       `typechain-target-${target}`, //external module
+      `@typechain/${target}`, //external module
       ensureAbsPath(target), // path
     ];
 
