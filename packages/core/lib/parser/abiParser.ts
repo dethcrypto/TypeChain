@@ -137,7 +137,7 @@ export function parse(abi: Array<RawAbiDefinition>, name: string): Contract {
       return;
     }
 
-    throw new Error(`Unrecognized abi element: ${abiPiece.type}`);
+    debug(`Unrecognized abi element: ${abiPiece.type}`);
   });
 
   return {
