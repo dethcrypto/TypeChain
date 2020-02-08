@@ -1,2 +1,2 @@
 dist/
-test/integration/targets/ethers/types/
+test/integration/targets/**/*.d.ts
