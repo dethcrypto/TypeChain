@@ -20,7 +20,7 @@
     "test:fix": "yarn lint:fix && ./scripts/test.sh",
     "test:mocha": "TS_NODE_FILES=true TS_NODE_IGNORE=\"/test/integration/targets/web3-v*/\" mocha --require ts-node/register --require tsconfig-paths/register --require test/setup-chai.ts --require 'test/integration/before.ts' 'test/integration/web3.ts' './**/*.spec.ts'",
     "test:mocha:coverage": "TS_NODE_FILES=true NODE_ENV=test nyc mocha --require ts-node/register --require tsconfig-paths/register --require source-map-support/register --require test/setup-chai.ts --require 'test/integration/before.ts' 'test/integration/web3.ts' './**/*.spec.ts'",
-    "test:package-bundle": "cd ./test/package-test && yarn && yarn start",
+    "test:package-bundle": "cd ./test/package-test && yarn --frozen-lockfile && yarn start",
     "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
   "devDependencies": {
@@ -30,7 +30,6 @@
     "nyc": "^12.0.2",
     "patch-package": "^5.1.1",
     "prettier": "^1.18.2",
-    "snap-shot-it": "^6.1.1",
     "source-map-support": "^0.5.8",
     "ts-node": "^8.5.4",
     "tsconfig-paths": "^3.9.0",
