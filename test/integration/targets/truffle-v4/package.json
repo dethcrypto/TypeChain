@@ -1,0 +1,16 @@
+{
+  "name": "truffle-v4",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "truffle": "^4.1.14",
+    "truffle-typings": "^1.0.4",
+    "typescript": "^3.0.3"
+  },
+  "scripts": {
+    "test": "yarn tsc && yarn test:truffle",
+    "tsc": "tsc --noEmit",
+    "test:truffle": "TS_NODE_FILES=true truffle test"
+  }
+}

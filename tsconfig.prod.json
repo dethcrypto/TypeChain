@@ -20,10 +20,7 @@
     "./node_modules/web3-typescript-typings/index.d.ts"
   ],
   "exclude": [
-    "./test/integration/targets/truffle/**/*.ts",
-    "./test/integration/targets/web3-v1/**/*",
-    "./test/integration/targets/web3-v2/**/*",
-    "./test/integration/targets/ethers/**/*",
+    "./test/integration/targets/**/*.ts",
     "./test/package-test/**/*"
   ]
 }

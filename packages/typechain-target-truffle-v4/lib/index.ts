@@ -10,8 +10,8 @@ export interface ITruffleCfg {
 
 const DEFAULT_OUT_PATH = "./types/truffle-contracts/";
 
-export default class Truffle extends TsGeneratorPlugin {
-  name = "Truffle";
+export default class TruffleV4 extends TsGeneratorPlugin {
+  name = "truffle-v4";
 
   private readonly outDirAbs: string;
   private contracts: Contract[] = [];

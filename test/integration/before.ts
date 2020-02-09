@@ -18,7 +18,7 @@ prepare((done: any) => {
     const prettierCfg = JSON.parse(readFileSync(join(__dirname, "../../.prettierrc"), "utf8"));
 
     process.env.NODE_ENV = "test";
-    await generateTruffle(cwd, prettierCfg);
+    await generateTruffle_v4(cwd, prettierCfg);
     await generateWeb3_v1(cwd, prettierCfg);
     await generateWeb3_v2(cwd, prettierCfg);
     await generateEthers(cwd, prettierCfg);
@@ -31,14 +31,14 @@ prepare((done: any) => {
   });
 });
 
-async function generateTruffle(cwd: string, prettierCfg: any) {
-  const outDir = "./targets/truffle/@types/truffle-contracts";
+async function generateTruffle_v4(cwd: string, prettierCfg: any) {
+  const outDir = "./targets/truffle-v4/@types/truffle-contracts";
 
   removeSync(join(__dirname, outDir));
 
   const rawConfig: TPluginCfg<ITypeChainCfg> = {
-    files: "targets/truffle/build/**/*.json",
-    target: "truffle",
+    files: "targets/truffle-v4/build/**/*.json",
+    target: "truffle-v4",
     outDir,
   };
 

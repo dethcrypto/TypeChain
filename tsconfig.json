@@ -22,7 +22,7 @@
     "./node_modules/@types/chai-as-promised/index.d.ts"
   ],
   "exclude": [
-    "./test/integration/targets/truffle/**/*.ts",
+    "test/integration/targets/truffle-v4/**/*.ts",
     "./test/integration/targets/web3-v1/**/*",
     "./test/integration/targets/web3-v2/**/*",
     "./test/integration/targets/ethers/**/*",

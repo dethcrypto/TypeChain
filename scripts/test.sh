@@ -17,14 +17,14 @@ rm -rf $ABI_DIR
 echo "Generating ABIs for sample contracts"
 ../../../node_modules/krzkaczor-solc/solcjs --abi ./* --bin -o $ABI_DIR
 echo "Compiling truffle project"
-(cd ../targets/truffle && ../../../../node_modules/.bin/truffle compile)
+(cd ../targets/truffle-v4 && ../../../../test/integration/targets/truffle-v4/node_modules/.bin/truffle compile)
 
 echo "Building"
 yarn build
 
 echo "Running tests"
 # removing any generated files because tests will regenerate them
-rm -rf "test/integration/targets/truffle/@types" 
+rm -rf "test/integration/targets/truffle-v4/@types" 
 rm -rf "test/integration/targets/web3-v1/types/web3-v1-contracts" 
 rm -rf "test/integration/targets/web3-v2/types/web3-v2-contracts" 
 rm -rf "test/integration/targets/ethers/types/ethers-contracts" 
@@ -35,10 +35,9 @@ else
 fi
 
 echo "Type checking generated wrappers"
-yarn tsc --noUnusedParameters
+yarn tsc --noUnusedParameters --noEmit
 echo "--truffle"
-yarn tsc:truffle
-(cd ../targets/truffle && TS_NODE_FILES=true ../../../../node_modules/.bin/truffle test)
+(cd ../targets/truffle-v4 && yarn test)
 echo "--web3-v1"
 (cd ../targets/web3-v1 && yarn && yarn test)
 echo "--web3-v2"
