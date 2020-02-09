@@ -3,7 +3,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:8.11.2-stretch
+      - image: circleci/node:10.19.0-stretch
       
     working_directory: ~/repo
 
