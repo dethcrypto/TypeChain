@@ -4,6 +4,10 @@
 /// <reference types="truffle-typings" />
 import { BigNumber } from "bignumber.js";
 
+export interface ContractWithLibraryContract extends Truffle.Contract<ContractWithLibraryInstance> {
+  "new"(meta?: Truffle.TransactionDetails): Promise<ContractWithLibraryInstance>;
+}
+
 export interface DefaultConstructorContract extends Truffle.Contract<DefaultConstructorInstance> {
   "new"(meta?: Truffle.TransactionDetails): Promise<DefaultConstructorInstance>;
 }
@@ -17,6 +21,29 @@ export interface DumbContractContract extends Truffle.Contract<DumbContractInsta
 
 export interface MigrationsContract extends Truffle.Contract<MigrationsInstance> {
   "new"(meta?: Truffle.TransactionDetails): Promise<MigrationsInstance>;
+}
+
+export interface TestLibraryContract extends Truffle.Contract<TestLibraryInstance> {
+  "new"(meta?: Truffle.TransactionDetails): Promise<TestLibraryInstance>;
+}
+
+export interface ContractWithLibraryInstance extends Truffle.ContractInstance {
+  val(txDetails?: Truffle.TransactionDetails): Promise<BigNumber>;
+
+  setVal: {
+    (_val: number | BigNumber | string, txDetails?: Truffle.TransactionDetails): Promise<
+      Truffle.TransactionResponse
+    >;
+    call(_val: number | BigNumber | string, txDetails?: Truffle.TransactionDetails): Promise<void>;
+    sendTransaction(
+      _val: number | BigNumber | string,
+      txDetails?: Truffle.TransactionDetails,
+    ): Promise<string>;
+    estimateGas(
+      _val: number | BigNumber | string,
+      txDetails?: Truffle.TransactionDetails,
+    ): Promise<number>;
+  };
 }
 
 export interface DefaultConstructorInstance extends Truffle.ContractInstance {
@@ -173,4 +200,11 @@ export interface MigrationsInstance extends Truffle.ContractInstance {
       txDetails?: Truffle.TransactionDetails,
     ): Promise<number>;
   };
+}
+
+export interface TestLibraryInstance extends Truffle.ContractInstance {
+  enhanceVal(
+    _val: number | BigNumber | string,
+    txDetails?: Truffle.TransactionDetails,
+  ): Promise<BigNumber>;
 }

@@ -86,13 +86,13 @@ export function codegenContractFactory(
   bytecode?: BytecodeWithLinkReferences,
 ): string {
   const constructorArgs =
-    contract.constructor && contract.constructor[0]
+    (contract.constructor && contract.constructor[0]
       ? generateInputTypes(contract.constructor[0].inputs)
-      : "";
+      : "") + "overrides?: TransactionOverrides";
   const constructorArgNames =
-    contract.constructor && contract.constructor[0]
+    (contract.constructor && contract.constructor[0]
       ? generateParamNames(contract.constructor[0].inputs)
-      : "";
+      : "") + "overrides";
   if (!bytecode) return codegenAbstractContractFactory(contract, abi);
 
   // tsc with noUnusedLocals would complain about unused imports
@@ -110,6 +110,7 @@ export function codegenContractFactory(
   import { UnsignedTransaction } from "ethers/utils/transaction";
   ${ethersUtilsImportLine}
 
+  import { TransactionOverrides } from ".";
   import { ${contract.name} } from "./${contract.name}";
 
   export class ${contract.name}Factory extends ContractFactory {
@@ -262,7 +263,8 @@ function generateParamArrayTypes(params: Array<AbiParameter>): string {
 }
 
 function generateParamNames(params: Array<AbiParameter | EventArgDeclaration>): string {
-  return `${params.map(param => param.name).join(", ")}`;
+  if (params.length === 0) return "";
+  return params.map(param => param.name).join(", ") + ", ";
 }
 
 function generateParamArrayNames(params: Array<AbiParameter | EventArgDeclaration>): string {

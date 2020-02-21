@@ -5,6 +5,7 @@ import { Contract, ContractFactory, Signer } from "ethers";
 import { Provider } from "ethers/providers";
 import { UnsignedTransaction } from "ethers/utils/transaction";
 
+import { TransactionOverrides } from ".";
 import { TestLibrary } from "./TestLibrary";
 
 export class TestLibraryFactory extends ContractFactory {
@@ -12,11 +13,11 @@ export class TestLibraryFactory extends ContractFactory {
     super(_abi, _bytecode, signer);
   }
 
-  deploy(): Promise<TestLibrary> {
-    return super.deploy() as Promise<TestLibrary>;
+  deploy(overrides?: TransactionOverrides): Promise<TestLibrary> {
+    return super.deploy(overrides) as Promise<TestLibrary>;
   }
-  getDeployTransaction(): UnsignedTransaction {
-    return super.getDeployTransaction();
+  getDeployTransaction(overrides?: TransactionOverrides): UnsignedTransaction {
+    return super.getDeployTransaction(overrides);
   }
   attach(address: string): TestLibrary {
     return super.attach(address) as TestLibrary;

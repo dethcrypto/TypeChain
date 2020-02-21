@@ -44,6 +44,20 @@ describe("DumbContract", () => {
     expect(await contract3.functions.counter()).to.be.deep.eq(new BigNumber("42"));
   });
 
+  it("should allow optional tx overrides in factory::getDeployTransaction", async () => {
+    const deployTx = new DumbContractFactory(getTestSigner()).getDeployTransaction(1, {
+      gasLimit: 2010307,
+    });
+    expect(deployTx.gasLimit).to.eq(2010307);
+  });
+
+  it("should allow optional deploy tx overrides in factory::deploy", async () => {
+    const contract1 = await new DumbContractFactory(getTestSigner()).deploy(42, {
+      gasLimit: 2010307,
+    });
+    expect(contract1.deployTransaction.gasLimit.toNumber()).to.eq(2010307);
+  });
+
   it("should allow to pass unsigned values in multiple ways", async () => {
     const contract = await deployDumbContract();
 

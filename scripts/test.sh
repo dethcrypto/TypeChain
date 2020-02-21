@@ -27,7 +27,7 @@ echo "Running tests"
 rm -rf "test/integration/targets/truffle/@types" 
 rm -rf "test/integration/targets/web3-v1/types/web3-v1-contracts" 
 rm -rf "test/integration/targets/web3-v2/types/web3-v2-contracts" 
-rm -rf "test/integration/targets/ethers/types/ethers-contracts" 
+rm -rf "test/integration/targets/ethers/types/ethers-contracts"
 if [ "$mode" = "COVERAGE" ]; then
   yarn test:mocha:coverage
 else

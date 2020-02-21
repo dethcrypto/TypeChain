@@ -8,9 +8,11 @@ import * as TruffleContracts from ".";
 declare global {
   namespace Truffle {
     interface Artifacts {
+      require(name: "ContractWithLibrary"): TruffleContracts.ContractWithLibraryContract;
       require(name: "DefaultConstructor"): TruffleContracts.DefaultConstructorContract;
       require(name: "DumbContract"): TruffleContracts.DumbContractContract;
       require(name: "Migrations"): TruffleContracts.MigrationsContract;
+      require(name: "TestLibrary"): TruffleContracts.TestLibraryContract;
     }
   }
 }

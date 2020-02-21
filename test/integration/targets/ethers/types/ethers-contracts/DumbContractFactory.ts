@@ -6,6 +6,7 @@ import { Provider } from "ethers/providers";
 import { UnsignedTransaction } from "ethers/utils/transaction";
 import { BigNumberish } from "ethers/utils";
 
+import { TransactionOverrides } from ".";
 import { DumbContract } from "./DumbContract";
 
 export class DumbContractFactory extends ContractFactory {
@@ -13,11 +14,14 @@ export class DumbContractFactory extends ContractFactory {
     super(_abi, _bytecode, signer);
   }
 
-  deploy(initialCounter: BigNumberish): Promise<DumbContract> {
-    return super.deploy(initialCounter) as Promise<DumbContract>;
+  deploy(initialCounter: BigNumberish, overrides?: TransactionOverrides): Promise<DumbContract> {
+    return super.deploy(initialCounter, overrides) as Promise<DumbContract>;
   }
-  getDeployTransaction(initialCounter: BigNumberish): UnsignedTransaction {
-    return super.getDeployTransaction(initialCounter);
+  getDeployTransaction(
+    initialCounter: BigNumberish,
+    overrides?: TransactionOverrides,
+  ): UnsignedTransaction {
+    return super.getDeployTransaction(initialCounter, overrides);
   }
   attach(address: string): DumbContract {
     return super.attach(address) as DumbContract;
