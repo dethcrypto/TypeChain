@@ -89,10 +89,13 @@ export function codegenContractFactory(
     (contract.constructor && contract.constructor[0]
       ? generateInputTypes(contract.constructor[0].inputs)
       : "") + "overrides?: TransactionOverrides";
-  const constructorArgNames =
-    (contract.constructor && contract.constructor[0]
+  const constructorArgNamesWithoutOverrides =
+    contract.constructor && contract.constructor[0]
       ? generateParamNames(contract.constructor[0].inputs)
-      : "") + "overrides";
+      : "";
+  const constructorArgNames = constructorArgNamesWithoutOverrides
+    ? `${constructorArgNamesWithoutOverrides}, overrides`
+    : "overrides";
   if (!bytecode) return codegenAbstractContractFactory(contract, abi);
 
   // tsc with noUnusedLocals would complain about unused imports
@@ -263,8 +266,7 @@ function generateParamArrayTypes(params: Array<AbiParameter>): string {
 }
 
 function generateParamNames(params: Array<AbiParameter | EventArgDeclaration>): string {
-  if (params.length === 0) return "";
-  return params.map(param => param.name).join(", ") + ", ";
+  return params.map(param => param.name).join(", ");
 }
 
 function generateParamArrayNames(params: Array<AbiParameter | EventArgDeclaration>): string {

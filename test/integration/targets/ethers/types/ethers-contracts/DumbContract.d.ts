@@ -36,7 +36,7 @@ interface DumbContractInterface extends Interface {
       encode([boolArrayParam]: [(boolean)[]]): string;
     }>;
 
-    counterArray: TypedFunctionDescription<{ encode([,]: [BigNumberish]): string }>;
+    counterArray: TypedFunctionDescription<{ encode([]: [BigNumberish]): string }>;
 
     countup: TypedFunctionDescription<{ encode([offset]: [BigNumberish]): string }>;
 
