@@ -1,9 +1,7 @@
 node_modules
 dist
-test/integration/abis
-test-tmp
 .nyc_output
 coverage
-test/integration/targets/truffle/build
-test/package-test/types
 packages/core/README.md
+*.tsbuildinfo
+abis
