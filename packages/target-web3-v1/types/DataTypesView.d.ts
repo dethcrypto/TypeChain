@@ -52,11 +52,11 @@ export interface DataTypesView extends BaseContract {
 
     view_string(): TransactionObject<string>;
 
-    view_struct(): TransactionObject<{ uint256_0: string; uint256_1: string }>;
+    view_struct(): TransactionObject<[string, string]>;
 
     view_tuple(): TransactionObject<{
-      '0': string;
-      '1': string;
+      0: string;
+      1: string;
     }>;
 
     view_uint256(): TransactionObject<string>;

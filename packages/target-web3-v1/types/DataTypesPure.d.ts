@@ -45,7 +45,7 @@ export interface DataTypesPure extends BaseContract {
 
     pure_string(): TransactionObject<string>;
 
-    pure_struct(): TransactionObject<{ uint256_0: string; uint256_1: string }>;
+    pure_struct(): TransactionObject<[string, string]>;
 
     pure_tuple(): TransactionObject<{
       0: string;

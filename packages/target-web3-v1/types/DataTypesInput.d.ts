@@ -45,10 +45,9 @@ export interface DataTypesInput extends BaseContract {
 
     input_string(input1: string): TransactionObject<string>;
 
-    input_struct(input1: {
-      uint256_0: number | string;
-      uint256_1: number | string;
-    }): TransactionObject<{ uint256_0: string; uint256_1: string }>;
+    input_struct(
+      input1: [number | string, number | string]
+    ): TransactionObject<[string, string]>;
 
     input_tuple(
       input1: number | string,

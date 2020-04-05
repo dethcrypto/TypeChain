@@ -1,11 +1,5 @@
 import { expect } from 'chai'
-import {
-  parseEvmType,
-  UnsignedIntegerType,
-  IntegerType,
-  ArrayType,
-  BytesType,
-} from '../../src/parser/parseEvmType'
+import { parseEvmType, UnsignedIntegerType, IntegerType, ArrayType, BytesType } from '../../src/parser/parseEvmType'
 
 describe('parseEvmType function', () => {
   it('parses unsigned integer', () => {

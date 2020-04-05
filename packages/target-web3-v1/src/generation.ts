@@ -157,5 +157,5 @@ function generateOutputType(evmType: EvmOutputType): string {
 }
 
 function generateTupleType(tuple: TupleType, generator: (evmType: EvmType) => string) {
-  return '{' + tuple.components.map((component) => `${component.name}: ${generator(component.type)}`).join(', ') + '}'
+  return '[' + tuple.components.map((component) => generator(component.type)).join(', ') + ']'
 }

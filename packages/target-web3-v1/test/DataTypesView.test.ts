@@ -29,7 +29,7 @@ describe('DataTypesView', () => {
     typedAssert(await contract.methods.view_tuple().call(), { 0: '1', 1: '2' })
     typedAssert(await contract.methods.view_named().call(), { 0: '1', 1: '2', uint256_1: '1', uint256_2: '2' })
 
-    typedAssert(await contract.methods.view_struct().call(), { uint256_0: '1', uint256_1: '2' })
+    typedAssert(await contract.methods.view_struct().call(), ['1', '2'])
 
     typedAssert(await contract.methods.view_enum().call(), '1')
   })
