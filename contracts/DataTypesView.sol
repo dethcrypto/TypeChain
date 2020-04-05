@@ -35,6 +35,10 @@ contract DataTypesView {
   function view_tuple() public view returns (uint256, uint256) {
     return (1, 2);
   }
+  function view_named() public view returns (uint256 uint256_1, uint256 uint256_2) {
+    uint256_1 = 1;
+    uint256_2 = 2;
+  }
   struct Struct1 {
       uint256 uint256_0;
       uint256 uint256_1;

@@ -23,5 +23,14 @@ describe('DataTypesView', () => {
     typedAssert(await contract.methods.view_bytes().call(), '0x54797065436861696e')
 
     typedAssert(await contract.methods.view_string().call(), 'TypeChain')
+
+    typedAssert(await contract.methods.view_stat_array().call(), ['1', '2', '3'])
+
+    typedAssert(await contract.methods.view_tuple().call(), { 0: '1', 1: '2' })
+    typedAssert(await contract.methods.view_named().call(), { 0: '1', 1: '2', uint256_1: '1', uint256_2: '2' })
+
+    typedAssert(await contract.methods.view_struct().call(), { uint256_0: '1', uint256_1: '2' })
+
+    typedAssert(await contract.methods.view_enum().call(), '1')
   })
 })

@@ -39,7 +39,7 @@ export async function deployContract<T>(
  * Asserts values AND types equality
  */
 export function typedAssert<T>(actual: T, expected: T): void {
-  expect(actual).to.be.eq(expected)
+  expect(actual).to.be.deep.eq(expected)
 }
 
 export function q18(n: number): string {
