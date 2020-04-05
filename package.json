@@ -12,7 +12,7 @@
     "lint": "wsrun -c lint",
     "lint:fix": "wsrun -c lint:fix",
     "typecheck": "wsrun -c typecheck",
-    "build": "tsc --build --verbose && chmod +x ./packages/typechain/dist/cli/cli.js",
+    "build": "tsc --build --verbose && wsrun -c post-build",
     "watch": "tsc --build --verbose --watch",
     "clean": "wsrun -c clean",
     "test": "./scripts/compile-contracts.sh && wsrun -c test",

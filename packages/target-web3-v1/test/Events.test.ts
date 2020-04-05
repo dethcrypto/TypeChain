@@ -1,4 +1,4 @@
-import { createNewBlockchain, deployContract, typedAssert, GAS_LIMIT_STANDARD, asyncWithDone } from './common'
+import { createNewBlockchain, deployContract, typedAssert, GAS_LIMIT_STANDARD, asyncWithDoneCase } from './common'
 import { Events } from '../types/Events'
 
 // Docs: https://web3js.readthedocs.io/en/v1.2.6/web3-eth-contract.html#events
@@ -13,7 +13,7 @@ describe('Events', () => {
 
   it(
     'works using once',
-    asyncWithDone(async (done) => {
+    asyncWithDoneCase(async (done) => {
       contract.once('Event1', (_, event) => {
         typedAssert(event.returnValues.value1, '1')
         typedAssert(event.returnValues.value2, '2')
@@ -29,7 +29,7 @@ describe('Events', () => {
 
   it(
     'works using events property',
-    asyncWithDone(async (done) => {
+    asyncWithDoneCase(async (done) => {
       contract.events.Event1((_, event) => {
         typedAssert(event.returnValues.value1, '1')
         typedAssert(event.returnValues.value2, '2')

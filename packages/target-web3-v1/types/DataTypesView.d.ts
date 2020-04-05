@@ -7,7 +7,8 @@ import { EventLog } from "web3-core";
 import { EventEmitter } from "events";
 import {
   Callback,
-  TransactionObject,
+  PayableTransactionObject,
+  NonPayableTransactionObject,
   BlockType,
   ContractEventLog,
   BaseContract
@@ -27,41 +28,41 @@ export interface DataTypesView extends BaseContract {
   ): DataTypesView;
   clone(): DataTypesView;
   methods: {
-    view_address(): TransactionObject<string>;
+    view_address(): NonPayableTransactionObject<string>;
 
-    view_bool(): TransactionObject<boolean>;
+    view_bool(): NonPayableTransactionObject<boolean>;
 
-    view_bytes(): TransactionObject<string>;
+    view_bytes(): NonPayableTransactionObject<string>;
 
-    view_bytes1(): TransactionObject<string>;
+    view_bytes1(): NonPayableTransactionObject<string>;
 
-    view_enum(): TransactionObject<string>;
+    view_enum(): NonPayableTransactionObject<string>;
 
-    view_int256(): TransactionObject<string>;
+    view_int256(): NonPayableTransactionObject<string>;
 
-    view_int8(): TransactionObject<string>;
+    view_int8(): NonPayableTransactionObject<string>;
 
-    view_named(): TransactionObject<{
+    view_named(): NonPayableTransactionObject<{
       uint256_1: string;
       uint256_2: string;
       0: string;
       1: string;
     }>;
 
-    view_stat_array(): TransactionObject<string[]>;
+    view_stat_array(): NonPayableTransactionObject<string[]>;
 
-    view_string(): TransactionObject<string>;
+    view_string(): NonPayableTransactionObject<string>;
 
-    view_struct(): TransactionObject<[string, string]>;
+    view_struct(): NonPayableTransactionObject<[string, string]>;
 
-    view_tuple(): TransactionObject<{
+    view_tuple(): NonPayableTransactionObject<{
       0: string;
       1: string;
     }>;
 
-    view_uint256(): TransactionObject<string>;
+    view_uint256(): NonPayableTransactionObject<string>;
 
-    view_uint8(): TransactionObject<string>;
+    view_uint8(): NonPayableTransactionObject<string>;
   };
   events: {
     allEvents(options?: EventOptions, cb?: Callback<EventLog>): EventEmitter;

@@ -48,10 +48,15 @@ export function q18(n: number): string {
 }
 
 // async mocha test case both with done and promise
-export function asyncWithDone(fn: (done: Function) => Promise<any>) {
+export function asyncWithDoneCase(fn: (done: Function) => Promise<any>) {
   return (done: Function) => {
     fn(done).catch((e) => {
       done(e)
     })
   }
+}
+
+// ignore mocha test case as it should only test types
+export function typeCase(_fn: Function) {
+  return () => {}
 }

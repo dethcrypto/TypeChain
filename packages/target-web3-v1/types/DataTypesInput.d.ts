@@ -7,7 +7,8 @@ import { EventLog } from "web3-core";
 import { EventEmitter } from "events";
 import {
   Callback,
-  TransactionObject,
+  PayableTransactionObject,
+  NonPayableTransactionObject,
   BlockType,
   ContractEventLog,
   BaseContract
@@ -27,39 +28,43 @@ export interface DataTypesInput extends BaseContract {
   ): DataTypesInput;
   clone(): DataTypesInput;
   methods: {
-    input_address(input1: string): TransactionObject<string>;
+    input_address(input1: string): NonPayableTransactionObject<string>;
 
-    input_bool(input1: boolean): TransactionObject<boolean>;
+    input_bool(input1: boolean): NonPayableTransactionObject<boolean>;
 
-    input_bytes(input1: string | number[]): TransactionObject<string>;
+    input_bytes(input1: string | number[]): NonPayableTransactionObject<string>;
 
-    input_bytes1(input1: string | number[]): TransactionObject<string>;
+    input_bytes1(
+      input1: string | number[]
+    ): NonPayableTransactionObject<string>;
 
-    input_enum(input1: number | string): TransactionObject<string>;
+    input_enum(input1: number | string): NonPayableTransactionObject<string>;
 
-    input_int256(input1: number | string): TransactionObject<string>;
+    input_int256(input1: number | string): NonPayableTransactionObject<string>;
 
-    input_int8(input1: number | string): TransactionObject<string>;
+    input_int8(input1: number | string): NonPayableTransactionObject<string>;
 
-    input_stat_array(input1: (number | string)[]): TransactionObject<string[]>;
+    input_stat_array(
+      input1: (number | string)[]
+    ): NonPayableTransactionObject<string[]>;
 
-    input_string(input1: string): TransactionObject<string>;
+    input_string(input1: string): NonPayableTransactionObject<string>;
 
     input_struct(
       input1: [number | string, number | string]
-    ): TransactionObject<[string, string]>;
+    ): NonPayableTransactionObject<[string, string]>;
 
     input_tuple(
       input1: number | string,
       input2: number | string
-    ): TransactionObject<{
+    ): NonPayableTransactionObject<{
       0: string;
       1: string;
     }>;
 
-    input_uint256(input1: number | string): TransactionObject<string>;
+    input_uint256(input1: number | string): NonPayableTransactionObject<string>;
 
-    input_uint8(input1: number | string): TransactionObject<string>;
+    input_uint8(input1: number | string): NonPayableTransactionObject<string>;
   };
   events: {
     allEvents(options?: EventOptions, cb?: Callback<EventLog>): EventEmitter;

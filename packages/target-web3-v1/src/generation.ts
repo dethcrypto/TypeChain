@@ -17,7 +17,7 @@ export function codegen(contract: Contract) {
   import { ContractOptions } from "web3-eth-contract";
   import { EventLog } from "web3-core";
   import { EventEmitter } from "events";
-  import { Callback, TransactionObject, BlockType, ContractEventLog, BaseContract } from "./types";
+  import { Callback, PayableTransactionObject, NonPayableTransactionObject, BlockType, ContractEventLog, BaseContract } from "./types";
 
   interface EventOptions {
     filter?: object;
@@ -53,9 +53,14 @@ function codegenForFunctions(fns: Dictionary<FunctionDeclaration[]>): string {
 
 function generateFunction(fn: FunctionDeclaration): string {
   return `
-  ${fn.name}(${generateInputTypes(fn.inputs)}): TransactionObject<${generateOutputTypes(fn.outputs)}>;
+  ${fn.name}(${generateInputTypes(fn.inputs)}): ${getTransactionObject(fn)}<${generateOutputTypes(fn.outputs)}>;
 `
 }
+
+function getTransactionObject(fn: FunctionDeclaration): string {
+  return fn.stateMutability === 'payable' ? 'PayableTransactionObject' : 'NonPayableTransactionObject'
+}
+
 function generateInputTypes(input: Array<AbiParameter>): string {
   if (input.length === 0) {
     return ''

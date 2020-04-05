@@ -7,7 +7,8 @@ import { EventLog } from "web3-core";
 import { EventEmitter } from "events";
 import {
   Callback,
-  TransactionObject,
+  PayableTransactionObject,
+  NonPayableTransactionObject,
   BlockType,
   ContractEventLog,
   BaseContract
@@ -34,9 +35,9 @@ export interface Events extends BaseContract {
   ): Events;
   clone(): Events;
   methods: {
-    emit_anon1(): TransactionObject<void>;
+    emit_anon1(): NonPayableTransactionObject<void>;
 
-    emit_event1(): TransactionObject<void>;
+    emit_event1(): NonPayableTransactionObject<void>;
   };
   events: {
     Event1(cb?: Callback<Event1>): EventEmitter;

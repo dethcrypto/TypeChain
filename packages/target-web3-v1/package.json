@@ -18,8 +18,8 @@
     "lint": "eslint --ext .ts src test",
     "lint:fix": "yarn lint --fix",
     "typecheck": "tsc --noEmit --incremental false --composite false && tsc --noEmit --incremental false --composite false -p tsconfig.types.json",
-    "prebuild": "rm -rf dist",
     "clean": "rm -rf dist && rm -f tsconfig.build.tsbuildinfo",
+    "post-build": "cp ./src/types.d.ts ./dist/",
     "generate-types": "../typechain/dist/cli/cli.js --target=`pwd`/dist/index.js --outDir ./types/ '../../contracts/compiled/*.abi' ",
     "test": "yarn generate-types && mocha --config ../../.mocharc.js",
     "test:fix": "yarn lint:fix && yarn format:fix && yarn test && yarn typecheck"
@@ -57,7 +57,7 @@
     "sinon": "^8.0.1",
     "sinon-chai": "^3.3.0",
     "ts-node": "^8.5.4",
-    "typescript": "^3.8.3",
+    "typescript": "3.9.0-beta",
     "web3": "^1.2.6",
     "typechain": "2.0.0-beta0"
   }
