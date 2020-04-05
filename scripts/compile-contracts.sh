@@ -3,13 +3,15 @@ set -e
 cd "$(dirname "$0")"
 cd ..
 
+IN_DIR=./contracts
+OUT_DIR=./contracts/compiled
+
 echo "Cleaning up contracts/abis"
-rm -rf ./abis/
-mkdir -p ./abis/
+rm -rf ${OUT_DIR}
+# mkdir -p ${OUT_DIR}
 
 echo "Generating ABIs"
-./node_modules/solc/solcjs --abi ./contracts/* --bin -o ./abis
+./node_modules/solc/solcjs --abi ${IN_DIR}/* --bin -o ${OUT_DIR}
 
 echo "Renaming ABIs"
-# $ renamer -d --find "/.*_(\d+)_.*/" --replace "Video $1.mp4" *
-node ./scripts/rename.js
+node ./scripts/rename.js ${OUT_DIR}

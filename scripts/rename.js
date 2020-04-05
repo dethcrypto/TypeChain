@@ -5,7 +5,7 @@
 const fs = require('fs')
 const { join } = require('path')
 
-const dir = './abis/'
+const dir = process.argv[2];
 
 const files = fs.readdirSync(dir)
 

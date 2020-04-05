@@ -20,7 +20,7 @@ export async function deployContract<T>(
   contractName: string,
   ...args: any[]
 ): Promise<T> {
-  const abiDirPath = join(__dirname, '../../../abis')
+  const abiDirPath = join(__dirname, '../../../contracts/compiled')
 
   const abi = JSON.parse(readFileSync(join(abiDirPath, contractName + '.abi'), 'utf-8'))
   const bin = readFileSync(join(abiDirPath, contractName + '.bin'), 'utf-8')

@@ -4,4 +4,4 @@ dist
 coverage
 packages/core/README.md
 *.tsbuildinfo
-abis
+contracts/compiled
