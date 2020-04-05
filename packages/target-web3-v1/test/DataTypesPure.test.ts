@@ -23,5 +23,14 @@ describe('DataTypesPure', () => {
     typedAssert(await contract.methods.pure_bytes().call(), '0x54797065436861696e')
 
     typedAssert(await contract.methods.pure_string().call(), 'TypeChain')
+
+    typedAssert(await contract.methods.pure_stat_array().call(), ['1', '2', '3'])
+
+    typedAssert(await contract.methods.pure_tuple().call(), { 0: '1', 1: '2' })
+    typedAssert(await contract.methods.pure_named().call(), { 0: '1', 1: '2', uint256_1: '1', uint256_2: '2' })
+
+    typedAssert(await contract.methods.pure_struct().call(), ['1', '2'])
+
+    typedAssert(await contract.methods.pure_enum().call(), '1')
   })
 })

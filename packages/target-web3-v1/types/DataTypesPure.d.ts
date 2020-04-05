@@ -41,6 +41,13 @@ export interface DataTypesPure extends BaseContract {
 
     pure_int8(): TransactionObject<string>;
 
+    pure_named(): TransactionObject<{
+      uint256_1: string;
+      uint256_2: string;
+      0: string;
+      1: string;
+    }>;
+
     pure_stat_array(): TransactionObject<string[]>;
 
     pure_string(): TransactionObject<string>;

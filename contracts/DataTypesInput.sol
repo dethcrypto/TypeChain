@@ -35,6 +35,7 @@ contract DataTypesInput {
   function input_tuple(uint256 input1, uint256 input2) public pure returns (uint256, uint256) {
     return (input1, input2);
   }
+  // input_named test case doesnt make sense in this context
   struct Struct1 {
       uint256 uint256_0;
       uint256 uint256_1;

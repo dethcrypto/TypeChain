@@ -38,5 +38,17 @@ describe('DataTypesInput', () => {
     typedAssert(await contract.methods.input_bytes(web3.utils.fromAscii('TypeChain')).call(), '0x54797065436861696e')
 
     typedAssert(await contract.methods.input_string('TypeChain').call(), 'TypeChain')
+
+    typedAssert(await contract.methods.input_stat_array(['1', '2', '3']).call(), ['1', '2', '3'])
+    typedAssert(await contract.methods.input_stat_array([1, 2, 3]).call(), ['1', '2', '3'])
+
+    typedAssert(await contract.methods.input_tuple('1', '2').call(), { 0: '1', 1: '2' })
+    typedAssert(await contract.methods.input_tuple(1, 2).call(), { 0: '1', 1: '2' })
+
+    typedAssert(await contract.methods.input_struct(['1', '2']).call(), ['1', '2'])
+    typedAssert(await contract.methods.input_struct([1, 2]).call(), ['1', '2'])
+
+    typedAssert(await contract.methods.input_enum('1').call(), '1')
+    typedAssert(await contract.methods.input_enum(1).call(), '1')
   })
 })
