@@ -1,7 +1,7 @@
 pragma solidity ^0.6.4;
 pragma experimental ABIEncoderV2;
 
-contract DumbContract {
+contract DataTypesView {
   function view_uint8() public view returns (uint8) {
     return 42;
   }

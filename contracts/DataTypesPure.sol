@@ -1,7 +1,7 @@
 pragma solidity ^0.6.4;
 pragma experimental ABIEncoderV2;
 
-contract DumbContract {
+contract DataTypesPure {
   function pure_uint8() public pure returns (uint8) {
     return 42;
   }
