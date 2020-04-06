@@ -20,11 +20,18 @@ interface EventOptions {
   topics?: string[];
 }
 
+export type AnonEvent1 = ContractEventLog<{
+  value1: string;
+  0: string;
+}>;
 export type Event1 = ContractEventLog<{
   value1: string;
   value2: string;
   0: string;
   1: string;
+}>;
+export type Event2 = ContractEventLog<{
+  0: string;
 }>;
 
 export interface Events extends BaseContract {
@@ -38,14 +45,22 @@ export interface Events extends BaseContract {
     emit_anon1(): NonPayableTransactionObject<void>;
 
     emit_event1(): NonPayableTransactionObject<void>;
+
+    emit_event2(): NonPayableTransactionObject<void>;
   };
   events: {
     Event1(cb?: Callback<Event1>): EventEmitter;
     Event1(options?: EventOptions, cb?: Callback<Event1>): EventEmitter;
+
+    Event2(cb?: Callback<Event2>): EventEmitter;
+    Event2(options?: EventOptions, cb?: Callback<Event2>): EventEmitter;
 
     allEvents(options?: EventOptions, cb?: Callback<EventLog>): EventEmitter;
   };
 
   once(event: "Event1", cb: Callback<Event1>): void;
   once(event: "Event1", options: EventOptions, cb: Callback<Event1>): void;
+
+  once(event: "Event2", cb: Callback<Event2>): void;
+  once(event: "Event2", options: EventOptions, cb: Callback<Event2>): void;
 }

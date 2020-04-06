@@ -67,6 +67,7 @@ export interface RawAbiDefinition {
 
 export interface EventDeclaration {
   name: string
+  isAnonymous: boolean
   inputs: EventArgDeclaration[]
 }
 
@@ -130,10 +131,6 @@ export function parse(abi: Array<RawAbiDefinition>, rawName: string): Contract {
 
     if (abiPiece.type === 'event') {
       const eventAbi = (abiPiece as any) as RawEventAbiDefinition
-      if (eventAbi.anonymous) {
-        debug(`Skipping anonymous event... ${JSON.stringify(eventAbi)}`)
-        return
-      }
 
       events.push(parseEvent(eventAbi))
       return
@@ -165,6 +162,7 @@ export function parseEvent(abiPiece: RawEventAbiDefinition): EventDeclaration {
 
   return {
     name: abiPiece.name,
+    isAnonymous: abiPiece.anonymous ?? false,
     inputs: abiPiece.inputs.map(parseRawEventArg),
   }
 }

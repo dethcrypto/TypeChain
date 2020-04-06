@@ -7,6 +7,7 @@ import {
   EvmType,
   TupleType,
   EvmOutputType,
+  EventArgDeclaration,
 } from 'typechain'
 import { Dictionary } from 'ts-essentials'
 import { values } from 'lodash'
@@ -61,7 +62,7 @@ function getTransactionObject(fn: FunctionDeclaration): string {
   return fn.stateMutability === 'payable' ? 'PayableTransactionObject' : 'NonPayableTransactionObject'
 }
 
-function generateInputTypes(input: Array<AbiParameter>): string {
+function generateInputTypes(input: AbiParameter[]): string {
   if (input.length === 0) {
     return ''
   }
@@ -70,20 +71,28 @@ function generateInputTypes(input: Array<AbiParameter>): string {
   )
 }
 
-function generateOutputTypes(outputs: Array<AbiOutputParameter>): string {
+function generateOutputTypes(outputs: AbiOutputParameter[]): string {
   if (outputs.length === 1) {
     return generateOutputType(outputs[0].type)
   } else {
     return `{
       ${outputs.map((t) => t.name && `${t.name}: ${generateOutputType(t.type)}, `).join('')}
       ${outputs.map((t, i) => `${i}: ${generateOutputType(t.type)}`).join(', ')}
-      }`
+    }`
   }
+}
+
+function generateOutputTypesForEvents(outputs: EventArgDeclaration[]): string {
+  return `{
+    ${outputs.map((t) => t.name && `${t.name}: ${generateOutputType(t.type)}, `).join('')}
+    ${outputs.map((t, i) => `${i}: ${generateOutputType(t.type)}`).join(', ')}
+  }`
 }
 
 function codegenForEvents(events: Dictionary<EventDeclaration[]>): string {
   return values(events)
     .map((e) => e[0])
+    .filter((e) => !e.isAnonymous)
     .map(
       (event) => `
       ${event.name}(cb?: Callback<${event.name}>): EventEmitter;
@@ -96,6 +105,7 @@ function codegenForEvents(events: Dictionary<EventDeclaration[]>): string {
 function codegenForEventsOnceFns(events: Dictionary<EventDeclaration[]>): string {
   return values(events)
     .map((e) => e[0])
+    .filter((e) => !e.isAnonymous)
     .map(
       (e) => `
     once(event: '${e.name}', cb: Callback<${e.name}>): void;
@@ -113,7 +123,7 @@ function codegenForEventsDeclarations(events: Dictionary<EventDeclaration[]>): s
 }
 
 function generateEventDeclaration(event: EventDeclaration) {
-  return `export type ${event.name} = ContractEventLog<${generateOutputTypes(event.inputs)}>`
+  return `export type ${event.name} = ContractEventLog<${generateOutputTypesForEvents(event.inputs)}>`
 }
 
 function generateInputType(evmType: EvmType): string {

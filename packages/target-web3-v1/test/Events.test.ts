@@ -11,37 +11,54 @@ describe('Events', () => {
     contract = await deployContract<Events>(web3, accounts, 'Events')
   })
 
-  it(
-    'works using once',
-    asyncWithDoneCase(async (done) => {
-      contract.once('Event1', (_, event) => {
-        typedAssert(event.returnValues.value1, '1')
-        typedAssert(event.returnValues.value2, '2')
-        typedAssert(event.returnValues[0], '1')
-        typedAssert(event.returnValues[1], '2')
+  describe('Event1', () => {
+    it(
+      'works using once',
+      asyncWithDoneCase(async (done) => {
+        contract.once('Event1', (_, event) => {
+          typedAssert(event.returnValues.value1, '1')
+          typedAssert(event.returnValues.value2, '2')
+          typedAssert(event.returnValues[0], '1')
+          typedAssert(event.returnValues[1], '2')
 
-        done()
-      })
+          done()
+        })
 
-      await contract.methods.emit_event1().send({ from: accounts[0], gas: GAS_LIMIT_STANDARD })
-    }),
-  )
+        await contract.methods.emit_event1().send({ from: accounts[0], gas: GAS_LIMIT_STANDARD })
+      }),
+    )
 
-  it(
-    'works using events property',
-    asyncWithDoneCase(async (done) => {
-      contract.events.Event1((_, event) => {
-        typedAssert(event.returnValues.value1, '1')
-        typedAssert(event.returnValues.value2, '2')
-        typedAssert(event.returnValues[0], '1')
-        typedAssert(event.returnValues[1], '2')
+    it(
+      'works using events property',
+      asyncWithDoneCase(async (done) => {
+        contract.events.Event1((_, event) => {
+          typedAssert(event.returnValues.value1, '1')
+          typedAssert(event.returnValues.value2, '2')
+          typedAssert(event.returnValues[0], '1')
+          typedAssert(event.returnValues[1], '2')
 
-        done()
-      })
+          done()
+        })
 
-      await contract.methods.emit_event1().send({ from: accounts[0], gas: GAS_LIMIT_STANDARD })
-    }),
-  )
+        await contract.methods.emit_event1().send({ from: accounts[0], gas: GAS_LIMIT_STANDARD })
+      }),
+    )
 
-  it.skip('works using events property using EventEmitter')
+    it.skip('works using events property using EventEmitter')
+  })
+
+  describe('Event2', () => {
+    it(
+      'works using once',
+      asyncWithDoneCase(async (done) => {
+        contract.once('Event2', (_, event) => {
+          typedAssert(event.returnValues[0], '1')
+
+          done()
+        })
+
+        await contract.methods.emit_event2().send({ from: accounts[0], gas: GAS_LIMIT_STANDARD })
+      }),
+    )
+  })
 })

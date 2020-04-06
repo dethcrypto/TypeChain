@@ -186,7 +186,7 @@ describe('ensure0xPrefix', () => {
 })
 
 describe('parseEvent', () => {
-  it('should work', () => {
+  it('works', () => {
     const expectedEvent: RawEventAbiDefinition = {
       anonymous: false,
       inputs: [
@@ -200,6 +200,7 @@ describe('parseEvent', () => {
 
     expect(parsedEvent).to.be.deep.eq({
       name: 'Deposit',
+      isAnonymous: false,
       inputs: [
         { name: '_from', isIndexed: true, type: { type: 'address' } },
         { name: '_value', isIndexed: false, type: { type: 'uinteger', bits: 256 } },
@@ -253,6 +254,7 @@ describe('parse', () => {
                 },
               ],
               name: 'log_bytes32',
+              isAnonymous: false,
             },
           ],
         },
