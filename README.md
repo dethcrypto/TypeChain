@@ -54,7 +54,7 @@ You will also need to install a desired target for example `typechain-target-eth
 typechain --target=(ethers|truffle|web3-v1|web3-v2|path-to-custom-target) [glob]
 ```
 
-- `glob` - pattern that will be used to find ABIs, remember about adding quotes: `typechain "**/*.json"`
+- `glob` - pattern that will be used to find ABIs, remember about adding quotes: `typechain "**/*.json"`, examples: `./abis/**/*.abi`, `./abis/?(Oasis.abi|OasisHelper.abi)`
 - `--target` - ethers, truffle, web3-v1 or path to your custom target. typechain will try to load package named `typechain-target-${target}`, so make sure that desired package is installed.
 - `--outDir` - put all generated files to a specific dir
 

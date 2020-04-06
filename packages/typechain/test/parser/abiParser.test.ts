@@ -220,6 +220,49 @@ describe('parse', () => {
       expect(() => parse([fallbackAbiFunc], 'fallback')).to.not.throw()
     })
   })
+
+  describe('empty names should be parsed as undefined', () => {
+    it('should work on output-less fallback functions', () => {
+      const event: RawAbiDefinition = {
+        anonymous: false,
+        inputs: [
+          {
+            indexed: false,
+            internalType: 'bytes32',
+            name: '',
+            type: 'bytes32',
+          },
+        ],
+        name: 'log_bytes32',
+        type: 'event',
+      } as any
+
+      expect(parse([event], 'sc1')).to.be.deep.eq({
+        constructor: [],
+        events: {
+          log_bytes32: [
+            {
+              inputs: [
+                {
+                  isIndexed: false,
+                  name: undefined,
+                  type: {
+                    size: 32,
+                    type: 'bytes',
+                  },
+                },
+              ],
+              name: 'log_bytes32',
+            },
+          ],
+        },
+        fallback: undefined,
+        functions: {},
+        name: 'Sc1',
+        rawName: 'sc1',
+      })
+    })
+  })
 })
 
 export function fixtureFactory<T>(defaults: T): (params?: Partial<T>) => T {

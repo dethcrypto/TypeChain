@@ -5,14 +5,15 @@ import { Dictionary } from 'ts-essentials'
 import { debug } from '../utils/debug'
 import { MalformedAbiError } from '../utils/errors'
 import { EvmOutputType, EvmType, parseEvmType } from './parseEvmType'
+import { normalizeName } from './normalizeName'
 
 export interface AbiParameter {
-  name: string
+  name: string // @todo name should be normalized to undefined if empty string
   type: EvmType
 }
 
 export interface AbiOutputParameter {
-  name: string
+  name: string // @todo name should be normalized to undefined if empty string
   type: EvmOutputType
 }
 
@@ -40,6 +41,7 @@ export interface FunctionWithoutInputDeclaration extends FunctionDeclaration {
 
 export interface Contract {
   name: string
+  rawName: string
 
   fallback?: FunctionWithoutInputDeclaration
   constructor: FunctionWithoutOutputDeclaration[]
@@ -70,7 +72,7 @@ export interface EventDeclaration {
 
 export interface EventArgDeclaration {
   isIndexed: boolean
-  name: string
+  name?: string // undefined if original name was empty
   type: EvmType
 }
 
@@ -97,7 +99,7 @@ export interface BytecodeWithLinkReferences {
   linkReferences?: BytecodeLinkReference[]
 }
 
-export function parse(abi: Array<RawAbiDefinition>, name: string): Contract {
+export function parse(abi: Array<RawAbiDefinition>, rawName: string): Contract {
   const constructors: FunctionWithoutOutputDeclaration[] = []
   let fallback: FunctionWithoutInputDeclaration | undefined
   const functions: FunctionDeclaration[] = []
@@ -141,7 +143,8 @@ export function parse(abi: Array<RawAbiDefinition>, name: string): Contract {
   })
 
   return {
-    name,
+    name: normalizeName(rawName),
+    rawName,
     fallback,
     constructor: constructors,
     functions: groupBy(functions, (f) => f.name),
@@ -168,10 +171,17 @@ export function parseEvent(abiPiece: RawEventAbiDefinition): EventDeclaration {
 
 function parseRawEventArg(eventArg: RawEventArgAbiDefinition): EventArgDeclaration {
   return {
-    name: eventArg.name,
+    name: parseEmptyAsUndefined(eventArg.name),
     isIndexed: eventArg.indexed,
     type: parseRawAbiParameterType(eventArg),
   }
+}
+
+function parseEmptyAsUndefined(smt: string | undefined) {
+  if (smt === '') {
+    return undefined
+  }
+  return smt
 }
 
 // if stateMutability is not available we will use old spec containing constant and payable
