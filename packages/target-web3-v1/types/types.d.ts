@@ -2,10 +2,8 @@
 /* tslint:disable */
 import BN from "bn.js";
 import { Contract } from "web3-eth-contract";
-import { EventLog } from "web3-core/types";
+import { EventLog, PromiEvent, TransactionReceipt } from "web3-core/types";
 import { EventEmitter } from "events";
-// @ts-ignore
-import PromiEvent from "web3/promiEvent";
 
 interface EstimateGasOptions {
   from?: string;
@@ -43,13 +41,13 @@ export interface NonPayableTx {
 }
 
 export interface PayableTx extends NonPayableTx {
-  value: string | number;
+  value?: string | number;
 }
 
 export interface NonPayableTransactionObject<T> {
   arguments: any[];
   call(tx?: NonPayableTx): Promise<T>;
-  send(tx?: NonPayableTx): PromiEvent<T>;
+  send(tx?: NonPayableTx): PromiEvent<TransactionReceipt>;
   estimateGas(tx?: NonPayableTx): Promise<number>;
   encodeABI(): string;
 }
@@ -57,7 +55,7 @@ export interface NonPayableTransactionObject<T> {
 export interface PayableTransactionObject<T> {
   arguments: any[];
   call(tx?: PayableTx): Promise<T>;
-  send(tx?: PayableTx): PromiEvent<T>;
+  send(tx?: PayableTx): PromiEvent<TransactionReceipt>;
   estimateGas(tx?: PayableTx): Promise<number>;
   encodeABI(): string;
 }

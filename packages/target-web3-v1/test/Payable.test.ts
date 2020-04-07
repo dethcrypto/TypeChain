@@ -1,4 +1,4 @@
-import { createNewBlockchain, deployContract, typeCase } from './common'
+import { createNewBlockchain, deployContract, typeCase, typedAssert } from './common'
 import { Payable } from '../types/Payable'
 import Web3 from 'web3'
 
@@ -13,7 +13,8 @@ describe('Payable', () => {
   })
 
   it('allows to specify value when expected', async () => {
-    await contract.methods.payable_func().send({ value: 1, from: accounts[0] })
+    const result = await contract.methods.payable_func().send({ value: 1, from: accounts[0] })
+    typedAssert(result.transactionIndex, 0)
   })
 
   it(
