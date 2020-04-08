@@ -8,6 +8,7 @@ import {
   TupleType,
   EvmOutputType,
   EventArgDeclaration,
+  getFullSignatureAsSymbolForEvent,
 } from 'typechain'
 import { Dictionary } from 'ts-essentials'
 import { values } from 'lodash'
@@ -90,20 +91,43 @@ function generateOutputTypesForEvents(outputs: EventArgDeclaration[]): string {
 }
 
 function codegenForEvents(events: Dictionary<EventDeclaration[]>): string {
-  return values(events)
-    .map((e) => e[0])
-    .filter((e) => !e.isAnonymous)
-    .map(
-      (event) => `
-      ${event.name}(cb?: Callback<${event.name}>): EventEmitter;
-      ${event.name}(options?: EventOptions, cb?: Callback<${event.name}>): EventEmitter;
-      `,
-    )
+  return (
+    values(events)
+      // .map((e) => e[0])
+      .filter((e) => !e[0].isAnonymous)
+      .map((events) => {
+        if (events.length === 1) {
+          return codegenForSingleEvent(events[0])
+        } else {
+          return codegenForOverloadedEvent(events)
+        }
+      })
+      .join('\n')
+  )
+}
+
+function codegenForOverloadedEvent(events: EventDeclaration[]): string {
+  return events
+    .map((e) => codegenForSingleEvent(e, getWeb3StyleEventSignature(e), getFullSignatureAsSymbolForEvent(e)))
     .join('\n')
+}
+
+function getWeb3StyleEventSignature(e: EventDeclaration): string {
+  return `"${e.name}(${e.inputs.map((e) => e.type.originalType).join(',')})"`
+}
+
+function codegenForSingleEvent(event: EventDeclaration, overloadedName?: string, overloadedType?: string): string {
+  return `
+    ${overloadedName ?? event.name}(cb?: Callback<${overloadedType ?? event.name}>): EventEmitter;
+    ${overloadedName ?? event.name}(options?: EventOptions, cb?: Callback<${
+    overloadedType ?? event.name
+  }>): EventEmitter;
+  `
 }
 
 function codegenForEventsOnceFns(events: Dictionary<EventDeclaration[]>): string {
   return values(events)
+    .filter((e) => e.length === 1) // ignore overloaded events as it seems like Web3v1 doesnt support them in this context
     .map((e) => e[0])
     .filter((e) => !e.isAnonymous)
     .map(
@@ -117,13 +141,22 @@ function codegenForEventsOnceFns(events: Dictionary<EventDeclaration[]>): string
 
 function codegenForEventsDeclarations(events: Dictionary<EventDeclaration[]>): string {
   return values(events)
-    .map((e) => e[0])
-    .map(generateEventDeclaration)
+    .map((e) => {
+      if (e.length === 1) {
+        return generateEventDeclaration(e[0])
+      } else {
+        return generateEventDeclarationWithOverloads(e)
+      }
+    })
     .join('\n')
 }
 
-function generateEventDeclaration(event: EventDeclaration) {
-  return `export type ${event.name} = ContractEventLog<${generateOutputTypesForEvents(event.inputs)}>`
+function generateEventDeclarationWithOverloads(events: EventDeclaration[]): string {
+  return events.map((e) => generateEventDeclaration(e, getFullSignatureAsSymbolForEvent(e))).join('\n')
+}
+
+function generateEventDeclaration(event: EventDeclaration, overloadedName?: string) {
+  return `export type ${overloadedName ?? event.name} = ContractEventLog<${generateOutputTypesForEvents(event.inputs)}>`
 }
 
 function generateInputType(evmType: EvmType): string {

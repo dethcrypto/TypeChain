@@ -21,5 +21,14 @@ contract Events {
     emit AnonEvent1(1);
   }
 
-  // @TODO overriden event
+  event Event3(bool indexed value1, uint256 value2);
+  event Event3(uint256 indexed value1);
+
+  function emit_event3() public {
+    emit Event3(true, 2);
+  }
+
+  function emit_event3_overloaded() public {
+    emit Event3(1);
+  }
 }

@@ -65,19 +65,20 @@ describe('parseEvmType function', () => {
     const parsedType = parseEvmType('tuple', [
       {
         name: 'uint256_0',
-        type: { type: 'uinteger', bits: 256 },
+        type: { type: 'uinteger', bits: 256, originalType: 'uint256' },
       },
       {
         name: 'uint256_1',
-        type: { type: 'uinteger', bits: 256 },
+        type: { type: 'uinteger', bits: 256, originalType: 'uint256' },
       },
     ])
     expect(parsedType).to.be.deep.eq({
       type: 'tuple',
       components: [
-        { name: 'uint256_0', type: { type: 'uinteger', bits: 256 } },
-        { name: 'uint256_1', type: { type: 'uinteger', bits: 256 } },
+        { name: 'uint256_0', type: { type: 'uinteger', bits: 256, originalType: 'uint256' } },
+        { name: 'uint256_1', type: { type: 'uinteger', bits: 256, originalType: 'uint256' } },
       ],
+      originalType: 'tuple',
     })
   })
 })

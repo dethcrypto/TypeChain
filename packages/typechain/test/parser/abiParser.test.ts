@@ -202,8 +202,8 @@ describe('parseEvent', () => {
       name: 'Deposit',
       isAnonymous: false,
       inputs: [
-        { name: '_from', isIndexed: true, type: { type: 'address' } },
-        { name: '_value', isIndexed: false, type: { type: 'uinteger', bits: 256 } },
+        { name: '_from', isIndexed: true, type: { type: 'address', originalType: 'address' } },
+        { name: '_value', isIndexed: false, type: { type: 'uinteger', bits: 256, originalType: 'uint256' } },
       ],
     })
   })
@@ -250,6 +250,7 @@ describe('parse', () => {
                   type: {
                     size: 32,
                     type: 'bytes',
+                    originalType: 'bytes32',
                   },
                 },
               ],
@@ -275,7 +276,7 @@ describe('helpers', () => {
   const fnFactory = fixtureFactory<FunctionDeclaration>({
     name: 'constant',
     inputs: [],
-    outputs: [{ type: { type: 'string' }, name: 'output' }],
+    outputs: [{ type: { type: 'string', originalType: 'string' }, name: 'output' }],
     stateMutability: 'view',
   })
 
@@ -285,7 +286,7 @@ describe('helpers', () => {
   const nonPayableFn = fnFactory(fnFactory({ stateMutability: 'nonpayable' }))
   const viewWithInputs = fnFactory({
     stateMutability: 'pure',
-    inputs: [{ type: { type: 'string' }, name: 'output' }],
+    inputs: [{ type: { type: 'string', originalType: 'string' }, name: 'output' }],
   })
 
   describe('isConstant', () => {

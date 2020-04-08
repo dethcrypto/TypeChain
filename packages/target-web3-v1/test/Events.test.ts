@@ -61,4 +61,36 @@ describe('Events', () => {
       }),
     )
   })
+
+  describe('Event3 (overloads)', () => {
+    it(
+      'works using events property',
+      asyncWithDoneCase(async (done) => {
+        contract.events['Event3(bool,uint256)']((_, event) => {
+          typedAssert(event.returnValues.value1, true)
+          typedAssert(event.returnValues.value2, '2')
+          typedAssert(event.returnValues[0], true)
+          typedAssert(event.returnValues[1], '2')
+
+          done()
+        })
+
+        await contract.methods.emit_event3().send({ from: accounts[0], gas: GAS_LIMIT_STANDARD })
+      }),
+    )
+
+    it(
+      'works using events property for overloaded type',
+      asyncWithDoneCase(async (done) => {
+        contract.events['Event3(uint256)']((_, event) => {
+          typedAssert(event.returnValues.value1, '1')
+          typedAssert(event.returnValues[0], '1')
+
+          done()
+        })
+
+        await contract.methods.emit_event3_overloaded().send({ from: accounts[0], gas: GAS_LIMIT_STANDARD })
+      }),
+    )
+  })
 })
