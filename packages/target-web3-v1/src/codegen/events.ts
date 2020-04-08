@@ -54,11 +54,11 @@ function codegenForOverloadedEvent(events: EventDeclaration[]): string {
     .join('\n')
 }
 
-function codegenForSingleEvent(event: EventDeclaration, overloadedName?: string, overloadedType?: string): string {
+function codegenForSingleEvent(event: EventDeclaration, overloadedName?: string, overloadedTypeName?: string): string {
   return `
-    ${overloadedName ?? event.name}(cb?: Callback<${overloadedType ?? event.name}>): EventEmitter;
+    ${overloadedName ?? event.name}(cb?: Callback<${overloadedTypeName ?? event.name}>): EventEmitter;
     ${overloadedName ?? event.name}(options?: EventOptions, cb?: Callback<${
-    overloadedType ?? event.name
+    overloadedTypeName ?? event.name
   }>): EventEmitter;
   `
 }

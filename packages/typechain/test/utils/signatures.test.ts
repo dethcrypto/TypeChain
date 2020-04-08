@@ -3,6 +3,8 @@ import {
   EventDeclaration,
   getFullSignatureForEvent,
   getIndexedSignatureForEvent,
+  getSignatureForFn,
+  FunctionDeclaration,
 } from '../../src'
 import { expect } from 'chai'
 
@@ -14,6 +16,16 @@ const event1: EventDeclaration = {
     { isIndexed: true, type: { type: 'address', originalType: 'address' }, name: 'to' },
     { isIndexed: false, type: { type: 'integer', bits: 256, originalType: 'uint256' }, name: 'to' },
   ],
+}
+
+const fn1: FunctionDeclaration = {
+  name: 'transfer',
+  inputs: [
+    { name: 'to', type: { type: 'address', originalType: 'address' } },
+    { name: 'value', type: { type: 'integer', bits: 256, originalType: 'int256' } },
+  ],
+  outputs: [],
+  stateMutability: 'pure',
 }
 
 describe('utils > signatures > getFullSignatureAsSymbolForEvent', () => {
@@ -37,5 +49,13 @@ describe('utils > signatures > getIndexedSignatureForEvent', () => {
     const signature = getIndexedSignatureForEvent(event1)
 
     expect(signature).to.be.eq('Deposit(address,address)')
+  })
+})
+
+describe('utils >  signatures > getSignatureForFn', () => {
+  it('works', () => {
+    const signature = getSignatureForFn(fn1)
+
+    expect(signature).to.be.eq('transfer(address,int256)')
   })
 })
