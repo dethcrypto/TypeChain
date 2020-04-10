@@ -1,4 +1,6 @@
-import { createNewBlockchain, deployContract, typedAssert, GAS_LIMIT_STANDARD, asyncWithDoneCase } from './common'
+import { typedAssert, asyncWithDoneCase } from 'test-utils'
+
+import { createNewBlockchain, deployContract, GAS_LIMIT_STANDARD } from './common'
 import { Events } from '../types/Events'
 
 // Docs: https://web3js.readthedocs.io/en/v1.2.6/web3-eth-contract.html#events

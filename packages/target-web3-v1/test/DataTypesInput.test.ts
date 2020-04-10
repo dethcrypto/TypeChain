@@ -1,6 +1,7 @@
 import Web3 from 'web3'
+import { typedAssert, q18 } from 'test-utils'
 
-import { createNewBlockchain, deployContract, typedAssert, q18 } from './common'
+import { createNewBlockchain, deployContract } from './common'
 import { DataTypesInput } from '../types/DataTypesInput'
 
 describe('DataTypesInput', () => {

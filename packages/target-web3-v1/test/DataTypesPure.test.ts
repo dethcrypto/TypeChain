@@ -1,4 +1,6 @@
-import { createNewBlockchain, deployContract, typedAssert, q18 } from './common'
+import { typedAssert, q18 } from 'test-utils'
+
+import { createNewBlockchain, deployContract } from './common'
 import { DataTypesPure } from '../types/DataTypesPure'
 
 describe('DataTypesPure', () => {

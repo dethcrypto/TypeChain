@@ -5,13 +5,13 @@
 const fs = require('fs')
 const { join } = require('path')
 
-const dir = process.argv[2];
+const contractDir = join(__dirname, "../../contracts/compiled");
 
-const files = fs.readdirSync(dir)
+const files = fs.readdirSync(contractDir)
 
 for (const file of files) {
   const renamed = file.replace(/^__contracts_([A-Za-z]+)_sol_([A-Za-z]*)\.([a-z]+)$/, '$1.$3')
 
   console.log(file, ' => ', renamed)
-  fs.renameSync(join(dir, file), join(dir, renamed))
+  fs.renameSync(join(contractDir, file), join(contractDir, renamed))
 }

@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.json",
+  "include": ["src", "test", "types"],
+  "compilerOptions": {
+    "typeRoots": ["./node_modules/@types", "./types"],
+    "types": ["node", "truffle-contracts"],
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  }
+}

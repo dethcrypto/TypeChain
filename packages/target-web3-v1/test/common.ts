@@ -4,7 +4,6 @@ const ganache = require('ganache-cli')
 
 import { join } from 'path'
 import { readFileSync } from 'fs'
-import { expect } from 'chai'
 
 export const GAS_LIMIT_STANDARD = 6000000
 
@@ -33,30 +32,4 @@ export async function deployContract<T>(
     from: accounts[0],
     gas: GAS_LIMIT_STANDARD,
   }) as any)) as T
-}
-
-/**
- * Asserts values AND types equality
- */
-export function typedAssert<T>(actual: T, expected: T): void {
-  expect(actual).to.be.deep.eq(expected)
-}
-
-export function q18(n: number): string {
-  const BigNumber = require('bignumber.js')
-  return new BigNumber(n).mul(new BigNumber(10).pow(new BigNumber(18))).toString()
-}
-
-// async mocha test case both with done and promise
-export function asyncWithDoneCase(fn: (done: Function) => Promise<any>) {
-  return (done: Function) => {
-    fn(done).catch((e) => {
-      done(e)
-    })
-  }
-}
-
-// ignore mocha test case as it should only test types
-export function typeCase(_fn: Function) {
-  return () => {}
 }

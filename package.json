@@ -12,10 +12,11 @@
     "lint": "wsrun -c lint",
     "lint:fix": "wsrun -c lint:fix",
     "typecheck": "wsrun -c typecheck",
-    "build": "tsc --build --verbose && wsrun -c post-build",
+    "build": "tsc --build --verbose && wsrun -m -c post-build",
     "watch": "tsc --build --verbose --watch",
     "clean": "wsrun -c clean",
-    "test": "./scripts/compile-contracts.sh && wsrun -c test",
+    "compile-contracts": "./scripts/compile-contracts/compile-contracts.sh && wsrun -m -c compile-contracts",
+    "test": "yarn compile-contracts && wsrun -m -c test",
     "test:fix": "yarn lint:fix && yarn test && yarn format:fix && yarn typecheck"
   },
   "workspaces": [

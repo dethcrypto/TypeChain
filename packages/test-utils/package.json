@@ -1,6 +1,6 @@
 {
-  "name": "@typechain/web3-v1",
-  "version": "0.1.0",
+  "name": "test-utils",
+  "version": "1.0.0",
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -11,17 +11,13 @@
     "LICENSE"
   ],
   "scripts": {
-    "prepublishOnly": "yarn lint && yarn test && yarn build",
-    "start": "ts-node -T ./src/index.ts",
     "format": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --check \"./**/*.ts\"",
     "format:fix": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --write \"./**/*.ts\"",
-    "lint": "eslint --ext .ts src test",
+    "lint": "eslint --ext .ts src",
     "lint:fix": "yarn lint --fix",
-    "typecheck": "tsc --noEmit --incremental false --composite false && tsc --noEmit --incremental false --composite false -p tsconfig.types.json",
+    "typecheck": "tsc --noEmit --incremental false --composite false",
     "clean": "rm -rf dist && rm -f tsconfig.build.tsbuildinfo",
-    "post-build": "cp -rf ./src/static ./dist/",
-    "generate-types": "../typechain/dist/cli/cli.js --target=`pwd`/dist/index.js --outDir ./types/ '../../contracts/compiled/*.abi'",
-    "test": "yarn generate-types && mocha --config ../../.mocharc.js",
+    "test": "true",
     "test:fix": "yarn lint:fix && yarn format:fix && yarn test && yarn typecheck"
   },
   "dependencies": {
@@ -59,7 +55,6 @@
     "ts-node": "^8.5.4",
     "typescript": "3.9.0-beta",
     "web3": "^1.2.6",
-    "typechain": "2.0.0-beta0",
-    "test-utils": "1.0.0"
+    "typechain": "2.0.0-beta0"
   }
 }

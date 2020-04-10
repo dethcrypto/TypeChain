@@ -5,3 +5,5 @@ coverage
 packages/core/README.md
 *.tsbuildinfo
 contracts/compiled
+packages/target-truffle-v4-test/contracts
+packages/target-truffle-v4-test/build
