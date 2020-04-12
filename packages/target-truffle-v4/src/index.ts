@@ -3,7 +3,7 @@ import { TsGeneratorPlugin, TContext, TFileDesc } from 'ts-generator'
 import { join, resolve } from 'path'
 import { readFileSync } from 'fs'
 
-import { codegen, generateArtifactHeaders } from './codegen'
+import { codegenContracts, codegenArtifactHeaders } from './codegen'
 
 export interface ITruffleCfg {
   outDir?: string
@@ -43,11 +43,11 @@ export default class Truffle extends TsGeneratorPlugin {
     return [
       {
         path: join(this.outDirAbs, 'index.d.ts'),
-        contents: codegen(this.contracts),
+        contents: codegenContracts(this.contracts),
       },
       {
         path: join(this.outDirAbs, 'merge.d.ts'),
-        contents: generateArtifactHeaders(this.contracts),
+        contents: codegenArtifactHeaders(this.contracts),
       },
       {
         path: join(this.outDirAbs, 'types.d.ts'),
