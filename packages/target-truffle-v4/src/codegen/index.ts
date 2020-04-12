@@ -1,2 +1,2 @@
 export { codegenArtifactHeaders } from './codegen/headers'
-export { codegenContracts } from './codegen/contracts'
+export { codegenContract } from './codegen/contracts'

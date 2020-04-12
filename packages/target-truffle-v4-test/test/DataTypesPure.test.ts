@@ -1,5 +1,5 @@
 import { typedAssert, q18 } from 'test-utils'
-import { DataTypesPureInstance } from '../types/truffle-contracts'
+import { DataTypesPureInstance } from '../types/truffle-contracts/DataTypesPure'
 import BigNumber from 'bignumber.js'
 
 const DataTypesPure = artifacts.require('DataTypesPure')

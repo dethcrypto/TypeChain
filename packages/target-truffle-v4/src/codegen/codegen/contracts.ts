@@ -11,16 +11,14 @@ import {
 } from 'typechain'
 import { values } from 'lodash'
 
-export function codegenContracts(contracts: Contract[]) {
-  const template = `
+export function codegenContract(contract: Contract) {
+  return `
 import { BigNumber } from "bignumber.js";
 
-${contracts.map(codegenContractInterface).join('\n')}
+${codegenContractInterface(contract)}
 
-${contracts.map(codegenContractInstanceInterface).join('\n')}
+${codegenContractInstanceInterface(contract)}
   `
-
-  return template
 }
 
 function codegenContractInterface(c: Contract): string {

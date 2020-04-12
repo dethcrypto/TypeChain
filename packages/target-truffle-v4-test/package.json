@@ -18,7 +18,7 @@
     "lint": "eslint --ext .ts test",
     "lint:fix": "yarn lint --fix",
     "typecheck": "tsc --noEmit --incremental false --composite false && tsc --noEmit --incremental false --composite false -p tsconfig.types.json",
-    "clean": "rm -rf dist contracts/* && rm -f tsconfig.build.tsbuildinfo",
+    "clean": "rm -rf dist contracts/* && rm -f tsconfig.build.tsbuildinfo && rm -rf build",
     "compile-contracts": "truffle compile",
     "generate-types": "../typechain/dist/cli/cli.js --target=`pwd`/../target-truffle-v4/dist/index.js './build/**/*.json'",
     "test": "yarn generate-types && truffle test",
