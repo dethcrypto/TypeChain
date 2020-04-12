@@ -15,13 +15,29 @@ export interface Event1 {
   };
 }
 
-export interface Event3 {
+export interface AnonEvent1 {
+  name: "AnonEvent1";
+  args: {
+    value1: BigNumber;
+  };
+}
+
+export interface Event3_bool_uint256 {
   name: "Event3";
   args: {
     value1: boolean;
     value2: BigNumber;
   };
 }
+
+export interface Event3_uint256 {
+  name: "Event3";
+  args: {
+    value1: BigNumber;
+  };
+}
+
+type Event3 = Event3_bool_uint256 | Event3_uint256;
 
 type AllEvents = Event1 | Event3;
 

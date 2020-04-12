@@ -1,4 +1,4 @@
-import { Contract, EventDeclaration, EventArgDeclaration } from 'typechain'
+import { Contract, EventDeclaration, EventArgDeclaration, getFullSignatureAsSymbolForEvent } from 'typechain'
 import { some, values } from 'lodash'
 
 import { codegenOutputType } from './types'
@@ -6,9 +6,13 @@ import { codegenOutputType } from './types'
 export function codegenEventsDeclarations(contract: Contract): string {
   return values(contract.events)
     .filter((e) => !hasNamelessEvents(e))
-    .map((e) => e[0])
-    .filter((e) => !e.isAnonymous)
-    .map((e) => codegenEventsDeclaration(e))
+    .map((e) => {
+      if (e.length === 1) {
+        return codegenSingleEventsDeclaration(e[0])
+      } else {
+        return codegenOverloadEventsDeclaration(e)
+      }
+    })
     .join('\n')
 }
 
@@ -25,9 +29,21 @@ export function codegenAllPossibleEvents(contract: Contract): string {
   return `type AllEvents = ${allPossibleEvents.join(' | ')};`
 }
 
-function codegenEventsDeclaration(e: EventDeclaration): string {
+function codegenOverloadEventsDeclaration(e: EventDeclaration[]): string {
+  const eventsDecls = e.map((e) => codegenSingleEventsDeclaration(e, getFullSignatureAsSymbolForEvent(e)))
+
+  const union = `type ${e[0].name} = ${e.map((e) => getFullSignatureAsSymbolForEvent(e)).join('|')}`
+
   return `
-  export interface ${e.name} {
+  ${eventsDecls.join('\n')}
+
+  ${union}
+  `
+}
+
+function codegenSingleEventsDeclaration(e: EventDeclaration, overloadName?: string): string {
+  return `
+  export interface ${overloadName ?? e.name} {
     name: "${e.name}"
     args: ${codegenOutputTypesForEvents(e.inputs)}
   }
