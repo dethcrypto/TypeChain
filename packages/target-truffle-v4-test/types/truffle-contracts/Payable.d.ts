@@ -7,10 +7,12 @@ export interface PayableContract extends Truffle.Contract<PayableInstance> {
   "new"(meta?: Truffle.TransactionDetails): Promise<PayableInstance>;
 }
 
+type AllEvents = never;
+
 export interface PayableInstance extends Truffle.ContractInstance {
   payable_func: {
     (txDetails?: Truffle.TransactionDetails): Promise<
-      Truffle.TransactionResponse
+      Truffle.TransactionResponse<AllEvents>
     >;
     call(txDetails?: Truffle.TransactionDetails): Promise<void>;
     sendTransaction(txDetails?: Truffle.TransactionDetails): Promise<string>;
@@ -19,7 +21,7 @@ export interface PayableInstance extends Truffle.ContractInstance {
 
   non_payable_func: {
     (txDetails?: Truffle.TransactionDetails): Promise<
-      Truffle.TransactionResponse
+      Truffle.TransactionResponse<AllEvents>
     >;
     call(txDetails?: Truffle.TransactionDetails): Promise<void>;
     sendTransaction(txDetails?: Truffle.TransactionDetails): Promise<string>;

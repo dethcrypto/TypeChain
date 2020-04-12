@@ -8,6 +8,8 @@ export interface DataTypesPureContract
   "new"(meta?: Truffle.TransactionDetails): Promise<DataTypesPureInstance>;
 }
 
+type AllEvents = never;
+
 export interface DataTypesPureInstance extends Truffle.ContractInstance {
   pure_uint8(txDetails?: Truffle.TransactionDetails): Promise<BigNumber>;
 

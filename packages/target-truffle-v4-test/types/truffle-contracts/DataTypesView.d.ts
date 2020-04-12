@@ -8,6 +8,8 @@ export interface DataTypesViewContract
   "new"(meta?: Truffle.TransactionDetails): Promise<DataTypesViewInstance>;
 }
 
+type AllEvents = never;
+
 export interface DataTypesViewInstance extends Truffle.ContractInstance {
   view_uint8(txDetails?: Truffle.TransactionDetails): Promise<BigNumber>;
 

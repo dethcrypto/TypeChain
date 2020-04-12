@@ -57,22 +57,27 @@ declare namespace Truffle {
     value?: BN | string;
   }
 
-  export interface TransactionLog {
+  export interface TransactionLog<EVENTS extends AnyEvent> {
     address: string;
-    args: any;
+    event: EVENTS["name"];
+    args: EVENTS["args"];
     blockHash: string;
     blockNumber: number;
-    event: string;
     logIndex: number;
     transactionHash: string;
     transactionIndex: number;
     type: string;
   }
 
-  export interface TransactionResponse {
+  export interface TransactionResponse<EVENTS extends AnyEvent> {
     tx: string;
     receipt: any;
-    logs: TransactionLog[];
+    logs: TransactionLog<EVENTS>[];
+  }
+
+  export interface AnyEvent {
+    name: string;
+    args: any;
   }
 
   interface Contract<T> extends ContractNew<any[]> {

@@ -7,6 +7,8 @@ export interface OverloadsContract extends Truffle.Contract<OverloadsInstance> {
   "new"(meta?: Truffle.TransactionDetails): Promise<OverloadsInstance>;
 }
 
+type AllEvents = never;
+
 export interface OverloadsInstance extends Truffle.ContractInstance {
   overload1(
     input1: number | BigNumber | string,

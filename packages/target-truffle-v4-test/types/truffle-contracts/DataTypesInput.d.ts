@@ -8,6 +8,8 @@ export interface DataTypesInputContract
   "new"(meta?: Truffle.TransactionDetails): Promise<DataTypesInputInstance>;
 }
 
+type AllEvents = never;
+
 export interface DataTypesInputInstance extends Truffle.ContractInstance {
   input_uint8(
     input1: number | BigNumber | string,

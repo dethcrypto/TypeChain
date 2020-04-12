@@ -1,4 +1,6 @@
 import { expect } from 'chai'
+import { Dictionary } from 'ts-essentials'
+import { values, mapValues } from 'lodash'
 
 /**
  * Asserts values AND types equality.
@@ -15,6 +17,11 @@ export function typedAssert<T>(actual: T, expected: T): void {
     return
   }
 
+  if (isBigNumberObject(actual) && isBigNumberObject(expected)) {
+    expect(mapValues(actual as any, (a) => a.toString())).to.be.deep.eq(mapValues(expected as any, (a) => a.toString()))
+    return
+  }
+
   expect(actual).to.be.deep.eq(expected)
 }
 
@@ -23,7 +30,21 @@ export function isBigNumber(v: any): boolean {
 }
 
 export function isBigNumberArray(v: any): v is Array<any> {
-  return v instanceof Array && v[0].constructor.name === 'BigNumber'
+  return v instanceof Array && isBigNumber(v[0])
+}
+
+export function isBigNumberObject(val: any): val is Dictionary<any> {
+  if (!(val instanceof Object) || !val) {
+    return false
+  }
+
+  for (const v of values(val)) {
+    if (!isBigNumber(v)) {
+      return false
+    }
+  }
+
+  return true
 }
 
 export function q18(n: number): string {
