@@ -1,16 +1,8 @@
 {
   "name": "@typechain/truffle-v5-test",
   "private": true,
-  "version": "0.1.0",
+  "version": "1.0.0",
   "license": "MIT",
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "**/dist",
-    "README.md",
-    "LICENSE"
-  ],
   "scripts": {
     "prepublishOnly": "yarn lint && yarn test && yarn build",
     "format": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --check \"./**/*.ts\"",
@@ -28,10 +20,7 @@
     "@types/chai": "^4.2.7",
     "@types/chai-as-promised": "^7.1.2",
     "@types/chai-subset": "^1.3.3",
-    "@types/cheerio": "^0.22.16",
     "@types/mocha": "^5.2.7",
-    "@types/react": "^16.9.23",
-    "@types/react-dom": "^16.9.5",
     "@types/sinon": "^7.5.1",
     "@types/sinon-chai": "^3.2.3",
     "@typescript-eslint/eslint-plugin": "^2.25.0",
@@ -52,7 +41,7 @@
     "test-utils": "1.0.0",
     "truffle": "^5.1.21",
     "ts-node": "^8.5.4",
-    "typechain": "2.0.0-beta0",
+    "typechain": "2.0.0-beta1",
     "typescript": "3.9.0-beta"
   }
 }

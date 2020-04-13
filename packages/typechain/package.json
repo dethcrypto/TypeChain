@@ -8,7 +8,7 @@
     "smartcontract",
     "blockchain"
   ],
-  "version": "2.0.0-beta0",
+  "version": "2.0.0-beta1",
   "license": "MIT",
   "repository": "https://github.com/ethereum-ts/Typechain",
   "main": "./dist/index.js",
@@ -16,6 +16,7 @@
   "types": "./dist/index.d.ts",
   "bin": "./dist/cli/cli.js",
   "scripts": {
+    "prepublishOnly": "yarn lint && yarn format && yarn test && yarn typecheck && (cd ../.. && yarn build)",
     "start": "ts-node -T ./src/index.ts",
     "format": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --check \"./**/*.ts\"",
     "format:fix": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --write \"./**/*.ts\"",
