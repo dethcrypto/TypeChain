@@ -46,7 +46,7 @@ export default class Web3V1 extends TsGeneratorPlugin {
     return [
       {
         path: join(this.outDirAbs, 'types.d.ts'),
-        contents: readFileSync(join(__dirname, './static/types.d.ts'), 'utf-8'),
+        contents: readFileSync(join(__dirname, '../static/types.d.ts'), 'utf-8'),
       },
     ]
   }

@@ -6,7 +6,8 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "**/dist",
+    "dist/**",
+    "static/**",
     "README.md",
     "LICENSE"
   ],
@@ -18,7 +19,6 @@
     "lint:fix": "yarn lint --fix",
     "typecheck": "tsc --noEmit --incremental false --composite false && tsc --noEmit --incremental false --composite false -p tsconfig.types.json",
     "clean": "rm -rf dist && rm -f tsconfig.build.tsbuildinfo",
-    "post-build": "cp -rf ./src/static ./dist/",
     "test": "true",
     "test:fix": "yarn lint:fix && yarn format:fix && yarn test && yarn typecheck"
   },
