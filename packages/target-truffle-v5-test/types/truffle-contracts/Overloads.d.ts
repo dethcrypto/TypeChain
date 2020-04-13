@@ -10,8 +10,16 @@ export interface OverloadsContract extends Truffle.Contract<OverloadsInstance> {
 type AllEvents = never;
 
 export interface OverloadsInstance extends Truffle.ContractInstance {
-  overload1(
-    input1: number | BN | string,
-    txDetails?: Truffle.TransactionDetails
-  ): Promise<BN>;
+  methods: {
+    "overload1(int256)"(
+      input1: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<BN>;
+
+    "overload1(uint256,uint256)"(
+      input1: number | BN | string,
+      input2: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<BN>;
+  };
 }

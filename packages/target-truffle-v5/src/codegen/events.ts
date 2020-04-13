@@ -1,5 +1,5 @@
 import { Contract, EventDeclaration, EventArgDeclaration, getFullSignatureAsSymbolForEvent } from 'typechain'
-import { some, values } from 'lodash'
+import { values } from 'lodash'
 
 import { codegenOutputType } from './types'
 

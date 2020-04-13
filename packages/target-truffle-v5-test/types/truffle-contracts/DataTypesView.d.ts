@@ -40,4 +40,36 @@ export interface DataTypesViewInstance extends Truffle.ContractInstance {
   ): Promise<{ uint256_0: BN; uint256_1: BN }>;
 
   view_enum(txDetails?: Truffle.TransactionDetails): Promise<BN>;
+
+  methods: {
+    view_uint8(txDetails?: Truffle.TransactionDetails): Promise<BN>;
+
+    view_uint256(txDetails?: Truffle.TransactionDetails): Promise<BN>;
+
+    view_int8(txDetails?: Truffle.TransactionDetails): Promise<BN>;
+
+    view_int256(txDetails?: Truffle.TransactionDetails): Promise<BN>;
+
+    view_bool(txDetails?: Truffle.TransactionDetails): Promise<boolean>;
+
+    view_address(txDetails?: Truffle.TransactionDetails): Promise<string>;
+
+    view_bytes1(txDetails?: Truffle.TransactionDetails): Promise<string>;
+
+    view_bytes(txDetails?: Truffle.TransactionDetails): Promise<string>;
+
+    view_string(txDetails?: Truffle.TransactionDetails): Promise<string>;
+
+    view_stat_array(txDetails?: Truffle.TransactionDetails): Promise<BN[]>;
+
+    view_tuple(txDetails?: Truffle.TransactionDetails): Promise<[BN, BN]>;
+
+    view_named(txDetails?: Truffle.TransactionDetails): Promise<[BN, BN]>;
+
+    view_struct(
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<{ uint256_0: BN; uint256_1: BN }>;
+
+    view_enum(txDetails?: Truffle.TransactionDetails): Promise<BN>;
+  };
 }

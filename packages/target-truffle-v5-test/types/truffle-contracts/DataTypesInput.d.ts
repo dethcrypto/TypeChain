@@ -79,4 +79,75 @@ export interface DataTypesInputInstance extends Truffle.ContractInstance {
     input1: number | BN | string,
     txDetails?: Truffle.TransactionDetails
   ): Promise<BN>;
+
+  methods: {
+    input_uint8(
+      input1: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<BN>;
+
+    input_uint256(
+      input1: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<BN>;
+
+    input_int8(
+      input1: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<BN>;
+
+    input_int256(
+      input1: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<BN>;
+
+    input_bool(
+      input1: boolean,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<boolean>;
+
+    input_address(
+      input1: string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<string>;
+
+    input_bytes1(
+      input1: string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<string>;
+
+    input_bytes(
+      input1: string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<string>;
+
+    input_string(
+      input1: string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<string>;
+
+    input_stat_array(
+      input1: (number | BN | string)[],
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<BN[]>;
+
+    input_tuple(
+      input1: number | BN | string,
+      input2: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<[BN, BN]>;
+
+    input_struct(
+      input1: {
+        uint256_0: number | BN | string;
+        uint256_1: number | BN | string;
+      },
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<{ uint256_0: BN; uint256_1: BN }>;
+
+    input_enum(
+      input1: number | BN | string,
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<BN>;
+  };
 }

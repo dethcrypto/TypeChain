@@ -1,4 +1,4 @@
-import { Contract, FunctionDeclaration, isConstant, isConstantFn } from 'typechain'
+import { Contract, FunctionDeclaration, isConstant, isConstantFn, getSignatureForFn } from 'typechain'
 import { values } from 'lodash'
 import { codegenInputTypes, codegenOutputTypes } from './types'
 import { codegenEventsDeclarations, codegenAllPossibleEvents } from './events'
@@ -31,23 +31,34 @@ export interface ${c.name}Contract extends Truffle.Contract<${c.name}Instance> {
 }
 
 function codegenContractInstanceInterface(c: Contract): string {
+  const functionsCode = values(c.functions)
+    .filter((v) => v.length === 1) // no overloaded functions
+    .map((v) => v[0])
+    .map((fn) => generateFunction(fn))
+    .join('\n')
+
   return `
 export interface ${c.name}Instance extends Truffle.ContractInstance {
-  ${values(c.functions)
-    .map((v) => v[0])
-    .map(generateFunction)
-    .join('\n')}
+  ${functionsCode}
+
+  methods: {
+    ${functionsCode}
+    ${values(c.functions)
+      .filter((v) => v.length > 1) // has overloaded functions
+      .map(generateOverloadedFunctions)
+      .join('\n')}
+  }
 }
   `
 }
 
-function generateFunction(fn: FunctionDeclaration): string {
+function generateFunction(fn: FunctionDeclaration, overloadedName?: string): string {
   if (isConstant(fn) || isConstantFn(fn)) {
-    return generateConstantFunction(fn)
+    return generateConstantFunction(fn, overloadedName)
   }
 
   return `
-  ${fn.name}: {
+  ${overloadedName ?? fn.name}: {
     (${codegenInputTypes(
       fn.inputs,
     )} txDetails?: Truffle.TransactionDetails): Promise<Truffle.TransactionResponse<AllEvents>>;
@@ -60,10 +71,14 @@ function generateFunction(fn: FunctionDeclaration): string {
 `
 }
 
-function generateConstantFunction(fn: FunctionDeclaration): string {
+function generateConstantFunction(fn: FunctionDeclaration, overloadedName?: string): string {
   return `
-  ${fn.name}(${codegenInputTypes(fn.inputs)} txDetails?: Truffle.TransactionDetails): Promise<${codegenOutputTypes(
-    fn.outputs,
-  )}>;
+  ${overloadedName ?? fn.name}(${codegenInputTypes(
+    fn.inputs,
+  )} txDetails?: Truffle.TransactionDetails): Promise<${codegenOutputTypes(fn.outputs)}>;
 `
+}
+
+export function generateOverloadedFunctions(fns: FunctionDeclaration[]): string {
+  return fns.map((fn) => generateFunction(fn, `"${getSignatureForFn(fn)}"`)).join('\n')
 }
