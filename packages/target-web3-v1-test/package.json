@@ -1,34 +1,19 @@
 {
-  "name": "@typechain/web3-v1",
-  "version": "0.1.0",
+  "name": "@typechain/web3-v1-test",
+  "private": true,
+  "version": "1.0.0",
   "license": "MIT",
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist/**",
-    "static/**",
-    "README.md",
-    "LICENSE"
-  ],
   "scripts": {
     "prepublishOnly": "yarn lint && yarn test && yarn build",
-    "start": "ts-node -T ./src/index.ts",
     "format": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --check \"./**/*.ts\"",
     "format:fix": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --write \"./**/*.ts\"",
-    "lint": "eslint --ext .ts src",
+    "lint": "eslint --ext .ts test",
     "lint:fix": "yarn lint --fix",
     "typecheck": "tsc --noEmit --incremental false --composite false && tsc --noEmit --incremental false --composite false -p tsconfig.types.json",
-    "clean": "rm -rf dist && rm -f tsconfig.build.tsbuildinfo",
-    "test": "true",
+    "clean": "rm -rf dist contracts/* && rm -f tsconfig.build.tsbuildinfo && rm -rf build",
+    "generate-types": "../typechain/dist/cli/cli.js --target=`pwd`/../target-web3-v1/dist/index.js --outDir ./types/ '../../contracts/compiled/*.abi'",
+    "test": "yarn generate-types && mocha --config ../../.mocharc.js",
     "test:fix": "yarn lint:fix && yarn format:fix && yarn test && yarn typecheck"
-  },
-  "dependencies": {
-    "ts-essentials": "^6.0.3"
-  },
-  "peerDependencies": {
-    "typechain": "^1.0.0",
-    "web3": "^1.2.4"
   },
   "devDependencies": {
     "@types/chai": "^4.2.7",
@@ -55,10 +40,9 @@
     "prettier": "^2.0.1",
     "sinon": "^8.0.1",
     "sinon-chai": "^3.3.0",
+    "test-utils": "1.0.0",
     "ts-node": "^8.5.4",
-    "typescript": "3.9.0-beta",
-    "web3": "^1.2.6",
     "typechain": "2.0.0-beta0",
-    "test-utils": "1.0.0"
+    "typescript": "3.9.0-beta"
   }
 }
