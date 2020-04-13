@@ -27,6 +27,23 @@ export function codegenAllPossibleEvents(contract: Contract): string {
   return `type AllEvents = ${allPossibleEvents.join(' | ')};`
 }
 
+export function codegenEventsEmitters(contract: Contract): string {
+  return values(contract.events)
+    .filter((e) => !e[0].isAnonymous) // ignore anon events
+    .map((e) => {
+      if (e.length === 1) {
+        return codegenSingleEventsEmitter(e[0])
+      } else {
+        return '' //todo
+      }
+    })
+    .join('\n')
+}
+
+function codegenSingleEventsEmitter(e: EventDeclaration, overloadName?: string, overloadType?: string): string {
+  return `${overloadName ?? e.name}(cb?: Callback<${overloadType ?? e.name}>): EventEmitter;`
+}
+
 function codegenOverloadEventsDeclaration(e: EventDeclaration[]): string {
   const eventsDecls = e.map((e) => codegenSingleEventsDeclaration(e, getFullSignatureAsSymbolForEvent(e)))
 

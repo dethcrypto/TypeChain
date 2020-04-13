@@ -1,5 +1,5 @@
 import BigNumber from 'bn.js'
-import { typedAssert } from 'test-utils'
+import { typedAssert, asyncWithDoneCase } from 'test-utils'
 
 import { EventsInstance, Event3_bool_uint256 } from '../types/truffle-contracts/Events'
 
@@ -13,7 +13,7 @@ contract('Events', ([deployer]) => {
   })
 
   describe('Event1', () => {
-    it('works', async () => {
+    it('works with receipts', async () => {
       const response = await c.emit_event1()
       typedAssert(response.logs[0].event, 'Event1')
       typedAssert(response.logs[0].args, {
@@ -23,6 +23,24 @@ contract('Events', ([deployer]) => {
         '1': new BigNumber(2),
       })
     })
+
+    // c.Event1 doesnt seem to work
+    it.skip(
+      'works with event emitters',
+      asyncWithDoneCase(async (_done) => {
+        // c.Event1((_, e) => {
+        //   typedAssert(e.name, 'Event1')
+        //   typedAssert(e.args, {
+        //     value1: new BigNumber(1),
+        //     value2: new BigNumber(2),
+        //     '0': new BigNumber(1),
+        //     '1': new BigNumber(2),
+        //   })
+        //   done()
+        // })
+        // await c.emit_event1()
+      }),
+    )
   })
 
   describe('Event2', () => {

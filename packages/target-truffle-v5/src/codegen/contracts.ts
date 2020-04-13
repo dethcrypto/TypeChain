@@ -6,6 +6,7 @@ import { codegenEventsDeclarations, codegenAllPossibleEvents } from './events'
 export function codegenContract(contract: Contract) {
   return `
 import BN from "bn.js";
+import { EventData, PastEventOptions } from "web3-eth-contract"
 
 ${codegenContractInterface(contract)}
 
@@ -48,6 +49,18 @@ export interface ${c.name}Instance extends Truffle.ContractInstance {
       .map(generateOverloadedFunctions)
       .join('\n')}
   }
+
+  getPastEvents(event: string): Promise<EventData[]>;
+  getPastEvents(
+      event: string,
+      options: PastEventOptions,
+      callback: (error: Error, event: EventData) => void
+  ): Promise<EventData[]>;
+  getPastEvents(event: string, options: PastEventOptions): Promise<EventData[]>;
+  getPastEvents(
+      event: string,
+      callback: (error: Error, event: EventData) => void
+  ): Promise<EventData[]>;
 }
   `
 }

@@ -2,6 +2,7 @@
 /* tslint:disable */
 
 import BN from "bn.js";
+import { EventData, PastEventOptions } from "web3-eth-contract";
 
 export interface OverloadsContract extends Truffle.Contract<OverloadsInstance> {
   "new"(meta?: Truffle.TransactionDetails): Promise<OverloadsInstance>;
@@ -22,4 +23,16 @@ export interface OverloadsInstance extends Truffle.ContractInstance {
       txDetails?: Truffle.TransactionDetails
     ): Promise<BN>;
   };
+
+  getPastEvents(event: string): Promise<EventData[]>;
+  getPastEvents(
+    event: string,
+    options: PastEventOptions,
+    callback: (error: Error, event: EventData) => void
+  ): Promise<EventData[]>;
+  getPastEvents(event: string, options: PastEventOptions): Promise<EventData[]>;
+  getPastEvents(
+    event: string,
+    callback: (error: Error, event: EventData) => void
+  ): Promise<EventData[]>;
 }
