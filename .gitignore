@@ -7,3 +7,5 @@ packages/core/README.md
 contracts/compiled
 packages/target-truffle-v4-test/contracts
 packages/target-truffle-v4-test/build
+packages/target-truffle-v5-test/build
+packages/target-truffle-v5-test/contracts

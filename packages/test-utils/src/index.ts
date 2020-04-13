@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { Dictionary } from 'ts-essentials'
-import { values, mapValues } from 'lodash'
+import { isString, mapValues, omitBy } from 'lodash'
 
 /**
  * Asserts values AND types equality.
@@ -18,7 +18,10 @@ export function typedAssert<T>(actual: T, expected: T): void {
   }
 
   if (isBigNumberObject(actual) && isBigNumberObject(expected)) {
-    expect(mapValues(actual as any, (a) => a.toString())).to.be.deep.eq(mapValues(expected as any, (a) => a.toString()))
+    const actualFiltered = omitBy(actual as any, (v, k) => k.startsWith('__'))
+    expect(mapValues(actualFiltered as any, (a) => a.toString())).to.be.deep.eq(
+      mapValues(expected as any, (a) => a.toString()),
+    )
     return
   }
 
@@ -26,7 +29,7 @@ export function typedAssert<T>(actual: T, expected: T): void {
 }
 
 export function isBigNumber(v: any): boolean {
-  return v.constructor.name === 'BigNumber'
+  return v.constructor.name === 'BigNumber' || v.constructor.name === 'BN'
 }
 
 export function isBigNumberArray(v: any): v is Array<any> {
@@ -38,7 +41,11 @@ export function isBigNumberObject(val: any): val is Dictionary<any> {
     return false
   }
 
-  for (const v of values(val)) {
+  for (const [k, v] of Object.entries(val)) {
+    // filter out dummy properties Web3js (truffle v5) in it
+    if (isString(k) && k.startsWith('__')) {
+      continue
+    }
     if (!isBigNumber(v)) {
       return false
     }

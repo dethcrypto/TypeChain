@@ -4,7 +4,7 @@ import { join, resolve } from 'path'
 import { readFileSync } from 'fs'
 
 import { codegenArtifactHeaders } from './codegen'
-import { codegenContract } from './codegen/codegen/contracts'
+import { codegenContract } from './codegen/contracts'
 
 export interface ITruffleCfg {
   outDir?: string

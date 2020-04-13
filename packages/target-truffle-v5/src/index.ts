@@ -1,53 +1,60 @@
-import { Contract, getFilename, extractAbi, parse } from "typechain";
-import { TsGeneratorPlugin, TContext, TFileDesc } from "ts-generator";
-import { join, resolve } from "path";
+import { Contract, getFilename, extractAbi, parse } from 'typechain'
+import { TsGeneratorPlugin, TContext, TFileDesc } from 'ts-generator'
+import { join, resolve } from 'path'
+import { readFileSync } from 'fs'
 
-import { codegen, generateArtifactHeaders } from "./generation";
+import { codegenArtifactHeaders } from './codegen'
+import { codegenContract } from './codegen/contracts'
 
 export interface ITruffleCfg {
-  outDir?: string;
+  outDir?: string
 }
 
-const DEFAULT_OUT_PATH = "./types/truffle-contracts/";
+const DEFAULT_OUT_PATH = './types/truffle-contracts/'
 
 export default class Truffle extends TsGeneratorPlugin {
-  name = "Truffle";
+  name = 'Truffle'
 
-  private readonly outDirAbs: string;
-  private contracts: Contract[] = [];
+  private readonly outDirAbs: string
+  private contracts: Contract[] = []
 
   constructor(ctx: TContext<ITruffleCfg>) {
-    super(ctx);
+    super(ctx)
 
-    const { cwd, rawConfig } = ctx;
+    const { cwd, rawConfig } = ctx
 
-    this.outDirAbs = resolve(cwd, rawConfig.outDir || DEFAULT_OUT_PATH);
+    this.outDirAbs = resolve(cwd, rawConfig.outDir || DEFAULT_OUT_PATH)
   }
 
   transformFile(file: TFileDesc): TFileDesc | void {
-    const abi = extractAbi(file.contents);
-    const isEmptyAbi = abi.length === 0;
+    const abi = extractAbi(file.contents)
+    const isEmptyAbi = abi.length === 0
     if (isEmptyAbi) {
-      return;
+      return
     }
 
-    const name = getFilename(file.path);
+    const name = getFilename(file.path)
 
-    const contract = parse(abi, name);
+    const contract = parse(abi, name)
 
-    this.contracts.push(contract);
+    this.contracts.push(contract)
+
+    return {
+      path: join(this.outDirAbs, `${contract.name}.d.ts`),
+      contents: codegenContract(contract),
+    }
   }
 
   afterRun(): TFileDesc[] {
     return [
       {
-        path: join(this.outDirAbs, "index.d.ts"),
-        contents: codegen(this.contracts),
+        path: join(this.outDirAbs, 'index.d.ts'),
+        contents: codegenArtifactHeaders(this.contracts),
       },
       {
-        path: join(this.outDirAbs, "merge.d.ts"),
-        contents: generateArtifactHeaders(this.contracts),
+        path: join(this.outDirAbs, 'types.d.ts'),
+        contents: readFileSync(join(__dirname, './static/types.d.ts'), 'utf-8'),
       },
-    ];
+    ]
   }
 }
