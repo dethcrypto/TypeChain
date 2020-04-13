@@ -25,6 +25,13 @@ export interface Event1 {
   };
 }
 
+export interface Event2 {
+  name: "Event2";
+  args: {
+    0: BN;
+  };
+}
+
 export interface Event3_bool_uint256 {
   name: "Event3";
   args: {
@@ -45,7 +52,7 @@ export interface Event3_uint256 {
 
 type Event3 = Event3_bool_uint256 | Event3_uint256;
 
-type AllEvents = Event1 | Event3;
+type AllEvents = Event1 | Event2 | Event3;
 
 export interface EventsInstance extends Truffle.ContractInstance {
   emit_event1: {

@@ -25,7 +25,13 @@ contract('Events', ([deployer]) => {
     })
   })
 
-  // NOTE: events with nameless args like Event2 doesnt work with truffle AT ALL
+  describe('Event2', () => {
+    it('works', async () => {
+      const response = await c.emit_event2()
+      typedAssert(response.logs[0].event, 'Event2')
+      typedAssert(response.logs[0].args, { '0': new BigNumber(1) })
+    })
+  })
 
   describe('Event3 (overloaded)', () => {
     it('works', async () => {

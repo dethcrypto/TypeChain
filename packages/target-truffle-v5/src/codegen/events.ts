@@ -5,7 +5,6 @@ import { codegenOutputType } from './types'
 
 export function codegenEventsDeclarations(contract: Contract): string {
   return values(contract.events)
-    .filter((e) => !hasNamelessEvents(e))
     .map((e) => {
       if (e.length === 1) {
         return codegenSingleEventsDeclaration(e[0])
@@ -18,7 +17,6 @@ export function codegenEventsDeclarations(contract: Contract): string {
 
 export function codegenAllPossibleEvents(contract: Contract): string {
   const allPossibleEvents = values(contract.events)
-    .filter((e) => !hasNamelessEvents(e))
     .map((e) => e[0])
     .filter((e) => !e.isAnonymous)
     .map((e) => e.name)
@@ -52,11 +50,7 @@ function codegenSingleEventsDeclaration(e: EventDeclaration, overloadName?: stri
 
 function codegenOutputTypesForEvents(outputs: EventArgDeclaration[]): string {
   return `{
-    ${outputs.map((param) => `${param.name!} : ${codegenOutputType(param.type)}, `).join('\n')}
+    ${outputs.map((param) => (param.name ? `${param.name} : ${codegenOutputType(param.type)}, ` : '')).join('\n')}
     ${outputs.map((param, index) => index.toString() + ':' + codegenOutputType(param.type)).join(', ')}
   }`
-}
-
-function hasNamelessEvents(events: EventDeclaration[]): boolean {
-  return some(events, (e) => some(e.inputs, (e) => !e.name))
 }
