@@ -24,7 +24,7 @@
     "lint:fix": "yarn lint --fix",
     "typecheck": "tsc --noEmit --incremental false --composite false",
     "clean": "rm -rf dist && rm -f tsconfig.build.tsbuildinfo",
-    "post-build": "chmod +x ./dist/cli/cli.js",
+    "post-build": "chmod +x ./dist/cli/cli.js && cp ../../README.md .",
     "test": "mocha --config ../../.mocharc.js",
     "test:fix": "yarn lint:fix && yarn format:fix && yarn test && yarn typecheck"
   },

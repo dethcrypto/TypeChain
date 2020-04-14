@@ -1,7 +1,15 @@
 {
   "name": "@typechain/web3-v1",
+  "description": "🔌 TypeChain target for Web3-v1",
+  "keywords": [
+    "web3",
+    "ethereum",
+    "TypeChain",
+    "TypeScript"
+  ],
   "version": "1.0.0-beta",
   "license": "MIT",
+  "repository": "https://github.com/ethereum-ts/Typechain",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
