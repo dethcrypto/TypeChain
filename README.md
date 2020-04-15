@@ -40,13 +40,13 @@ You will also need to install a desired target for example `typechain-target-eth
 
 ## Packages 📦
 
-| Package                                                    | Version                                                                                                               | Description           |
-| ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------- |
-| [`typechain`](/packages/core)                              | [![npm](https://img.shields.io/npm/v/typechain.svg)](https://www.npmjs.com/package/typechain)                         | Core package          |
-| [`@typechain/ethers-v4`](/packages/@typechain/ethers-v4)   | [![npm](https://img.shields.io/npm/v/@typechain/ethers-v4.svg)](https://www.npmjs.com/package/@typechain/ethers-v4)   | Ethers ver 4 support  |
-| [`@typechain/truffle-v4`](/packages/@typechain/truffle-v4) | [![npm](https://img.shields.io/npm/v/@typechain/truffle-v4.svg)](https://www.npmjs.com/package/@typechain/truffle-v4) | Truffle ver 4 support |
-| [`@typechain/web3-v1`](/packages/@typechain/web3-v1)       | [![npm](https://img.shields.io/npm/v/@typechain/web3-v1.svg)](https://www.npmjs.com/package/@typechain/web3-v1)       | Web3 ver 1 support    |
-| [`@typechain/web3-v2`](/packages/@typechain/web3-v2)       | [![npm](https://img.shields.io/npm/v/@typechain/web3-v2.svg)](https://www.npmjs.com/package/@typechain/web3-v2)       | Web3 ver 2 support    |
+| Package                                                    | Version                                                                                                               | Description           | Examples                         |
+| ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | --------------------- | -------------------------------- |
+| [`typechain`](/packages/core)                              | [![npm](https://img.shields.io/npm/v/typechain.svg)](https://www.npmjs.com/package/typechain)                         | Core package          | -                                |
+| [`@typechain/ethers-v4`](/packages/@typechain/ethers-v4)   | [![npm](https://img.shields.io/npm/v/@typechain/ethers-v4.svg)](https://www.npmjs.com/package/@typechain/ethers-v4)   | Ethers ver 4 support  | [example](./examples/ethers-v4)  |
+| [`@typechain/truffle-v4`](/packages/@typechain/truffle-v4) | [![npm](https://img.shields.io/npm/v/@typechain/truffle-v4.svg)](https://www.npmjs.com/package/@typechain/truffle-v4) | Truffle ver 4 support | [example](./examples/truffle-v4) |
+| [`@typechain/web3-v1`](/packages/@typechain/web3-v1)       | [![npm](https://img.shields.io/npm/v/@typechain/web3-v1.svg)](https://www.npmjs.com/package/@typechain/web3-v1)       | Web3 ver 1 support    | [example](./examples/web3-v1)    |
+| [`@typechain/web3-v2`](/packages/@typechain/web3-v2)       | [![npm](https://img.shields.io/npm/v/@typechain/web3-v2.svg)](https://www.npmjs.com/package/@typechain/web3-v2)       | Web3 ver 2 support    | [example](./examples/web3-v2)    |
 
 ## Usage
 
