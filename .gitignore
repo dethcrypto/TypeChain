@@ -10,3 +10,4 @@ packages/target-truffle-v4-test/build
 packages/target-truffle-v5-test/build
 packages/target-truffle-v5-test/contracts
 packages/typechain/README.md
+examples/web3-v1/types
