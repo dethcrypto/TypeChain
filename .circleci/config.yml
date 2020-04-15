@@ -28,6 +28,7 @@ jobs:
       - run: yarn lint
       - run: yarn test
       - run: yarn format # do it at the very end because test can generate types (which should be formatted)
+      - run: yarn check-examples
 
 workflows:
   version: 2

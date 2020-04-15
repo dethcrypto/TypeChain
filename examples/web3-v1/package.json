@@ -6,7 +6,8 @@
   "scripts": {
     "generate-typings": "typechain --target=web3-v1 'abi/*.json'",
     "postinstall": "yarn generate-typings",
-    "start": "ts-node ./src/index.ts"
+    "start": "ts-node ./src/index.ts",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@typechain/web3-v1": "^1.0.0-beta",
