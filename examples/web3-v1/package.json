@@ -4,8 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "generate-typings": "typechain --target=web3-v1 'abi/*.json'",
-    "postinstall": "yarn generate-typings",
+    "generate-types": "typechain --target=web3-v1 'abi/*.json'",
+    "postinstall": "yarn generate-types",
     "start": "ts-node ./src/index.ts",
     "typecheck": "tsc --noEmit"
   },
