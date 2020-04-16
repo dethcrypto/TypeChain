@@ -114,9 +114,4 @@ declare namespace Truffle {
     network: string,
     accounts: Accounts
   ) => void;
-
-  // Wanna exact typings for your smartcontracts? Use typechain
-  interface Artifacts {
-    require<T = any>(name: string): T;
-  }
 }

@@ -35,17 +35,19 @@ export class TypeChain extends TsGeneratorPlugin {
       ensureAbsPath(target), // path
     ]
 
-    const module = _(possiblePaths).compact().map(tryRequire).compact().first()
+    const moduleInfo = _(possiblePaths).compact().map(tryRequire).compact().first()
 
-    if (!module || !module.default) {
+    if (!moduleInfo || !moduleInfo.module.default) {
       throw new Error(
-        `Couldnt find ${ctx.rawConfig.target}. Tried loading: ${compact(possiblePaths).join(
+        `Couldn't find ${ctx.rawConfig.target}. Tried loading: ${compact(possiblePaths).join(
           ', ',
         )}.\nPerhaps you forgot to install typechain-target-${target}?`,
       )
     }
 
-    return new module.default(ctx)
+    debug('Plugin found at', moduleInfo.path)
+
+    return new moduleInfo.module.default(ctx)
   }
 
   beforeRun(): TOutput | Promise<TOutput> {
@@ -61,11 +63,17 @@ export class TypeChain extends TsGeneratorPlugin {
   }
 }
 
-function tryRequire(path: string): any {
+function tryRequire(name: string): { module: any; name: string; path: string } | undefined {
   try {
-    return require(path)
+    const module = {
+      module: require(name),
+      name,
+      path: require.resolve(name),
+    }
+    debug('Load successfully: ', name)
+    return module
   } catch (e) {
-    debug(e)
+    debug("Couldn't load: ", name)
   }
 }
 
