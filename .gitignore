@@ -13,3 +13,4 @@ packages/typechain/README.md
 examples/web3-v1/types
 examples/truffle-v4/types
 examples/truffle-v4/build
+examples/truffle-v4/migrations
