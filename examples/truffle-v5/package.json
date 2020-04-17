@@ -1,0 +1,18 @@
+{
+  "name": "truffle-v5",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "generate-types": "typechain --target=truffle-v5 'build/contracts/*.json'",
+    "postinstall": "truffle compile && yarn generate-types",
+    "migrate": "tsc -p . --outDir ./migrations && truffle migrate",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@typechain/truffle-v5": "^1.0.0-beta",
+    "truffle": "^5.1.22",
+    "typechain": "2.0.0-beta1",
+    "typescript": "^3.8.3"
+  }
+}
