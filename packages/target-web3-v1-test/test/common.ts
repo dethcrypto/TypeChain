@@ -1,9 +1,8 @@
 import Web3 from 'web3'
 
-const ganache = require('ganache-cli')
+import { loadContract } from 'test-utils'
 
-import { join } from 'path'
-import { readFileSync } from 'fs'
+const ganache = require('ganache-cli')
 
 export const GAS_LIMIT_STANDARD = 6000000
 
@@ -19,11 +18,7 @@ export async function deployContract<T>(
   contractName: string,
   ...args: any[]
 ): Promise<T> {
-  const abiDirPath = join(__dirname, '../../../contracts/compiled')
-
-  const abi = JSON.parse(readFileSync(join(abiDirPath, contractName + '.abi'), 'utf-8'))
-  const bin = readFileSync(join(abiDirPath, contractName + '.bin'), 'utf-8')
-  const code = '0x' + bin
+  const { abi, code } = loadContract(contractName)
 
   const Contract = new web3.eth.Contract(abi)
   const t = Contract.deploy({ arguments: args, data: code })
