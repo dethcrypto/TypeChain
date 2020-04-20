@@ -1,6 +1,7 @@
 import { keccak_256 } from 'js-sha3'
 import { groupBy } from 'lodash'
 import { Dictionary } from 'ts-essentials'
+import transformNatSpec from 'natspec-typedoc'
 
 import { debug } from '../utils/debug'
 import { MalformedAbiError } from '../utils/errors'
@@ -100,7 +101,24 @@ export interface BytecodeWithLinkReferences {
   linkReferences?: BytecodeLinkReference[]
 }
 
-export function parse(abi: Array<RawAbiDefinition>, rawName: string): Contract {
+interface ASTNode {
+  documentation?: string
+  name?: string
+  nodeType: string
+  [nodeProps: string]: any
+}
+
+interface DocAnnotation {
+  name: string
+  documentation: string
+}
+
+interface DocAnnotationObject {
+  contracts: DocAnnotation[]
+  functions: DocAnnotation[]
+}
+
+export function parse(abi: RawAbiDefinition[], rawName: string): Contract {
   const constructors: FunctionWithoutOutputDeclaration[] = []
   let fallback: FunctionWithoutInputDeclaration | undefined
   const functions: FunctionDeclaration[] = []
@@ -314,6 +332,47 @@ export function extractBytecode(rawContents: string): BytecodeWithLinkReferences
   }
 
   return undefined
+}
+
+function traverseDocNodes(nodes: ASTNode[], foundDocs?: DocAnnotationObject) {
+  const docObject = foundDocs || { contracts: [], functions: [] }
+  nodes.forEach((node) => {
+    if (node.documentation && node.name) {
+      switch (node.nodeType) {
+        case 'ContractDefinition': {
+          docObject.contracts.push({
+            documentation: transformNatSpec(node.documentation),
+            name: node.name,
+          })
+          break
+        }
+        case 'FunctionDefinition': {
+          docObject.functions.push({
+            documentation: transformNatSpec(node.documentation),
+            name: node.name,
+          })
+          break
+        }
+        default:
+      }
+    }
+    // Continue with sub-nodes if there are any
+    if (node.nodes) traverseDocNodes(node.nodes, docObject)
+  })
+  return docObject
+}
+
+export function extractDocumentation(rawContents: string): DocAnnotationObject | undefined {
+  let json
+  try {
+    json = JSON.parse(rawContents)
+  } catch {
+    return undefined
+  }
+
+  if (!json || !json.ast || !json.ast.nodes || !json.ast.nodes.length) return undefined
+
+  return traverseDocNodes(json.ast.nodes)
 }
 
 function extractLinkReferences(_bytecode: string, linkReferencesObj?: any): BytecodeWithLinkReferences {

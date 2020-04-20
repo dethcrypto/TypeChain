@@ -7,6 +7,7 @@ import {
   ensure0xPrefix,
   extractAbi,
   extractBytecode,
+  extractDocumentation,
   FunctionDeclaration,
   isConstant,
   isConstantFn,
@@ -85,6 +86,45 @@ describe('extractBytecode', () => {
   it('should return undefined when nested abi bytecode is malformed', () => {
     expect(extractBytecode(`{ "bytecode": "surely-not-bytecode" }`)).to.be.undefined
   })
+})
+
+describe('extractDocumentation', () => {
+  const jsonString = `{ "ast": { "nodes": [
+    {
+      "documentation": "@title Contract Title\\n@notice Some helpful information",
+      "name": "ContractName",
+      "nodeType": "ContractDefinition",
+      "nodes": [
+        {
+          "documentation": "@notice Some function description\\n@param foo Cool input",
+          "name": "dooCoolStuff",
+          "nodeType": "FunctionDefinition"
+        },
+        {
+          "name": "bar",
+          "nodeType": "VariableDeclaration"
+        }
+      ]
+    }
+  ] } }`
+
+  it('should get the documentation', () => {
+    const docObj = extractDocumentation(jsonString)
+    expect(docObj).to.deep.equal({
+      contracts: [{ name: 'ContractName', documentation: 'Contract Title\nSome helpful information' }],
+      functions: [{ name: 'dooCoolStuff', documentation: 'Some function description\n@param foo Cool input' }],
+    })
+  })
+})
+
+it('should return an empty object on not existing documentation on some nodes', () => {
+  const docObj = extractDocumentation(`{ "ast": { "nodes": [{ "name": "Foo" }] } }`)
+  expect(docObj).to.deep.equal({ contracts: [], functions: [] })
+})
+
+it('should return undefined on empty node list', () => {
+  const docObj = extractDocumentation(`{ "ast": { "nodes": [] } }`)
+  expect(docObj).to.deep.equal(undefined)
 })
 
 describe('extractBytecode with link references', () => {

@@ -3029,6 +3029,11 @@ nano-json-stream-parser@^0.1.2:
   resolved "https://registry.yarnpkg.com/nano-json-stream-parser/-/nano-json-stream-parser-0.1.2.tgz#0cc8f6d0e2b622b479c40d499c46d64b755c6f5f"
   integrity sha1-DMj20OK2IrR5xA1JnEbWS3Vcb18=
 
+natspec-typedoc@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/natspec-typedoc/-/natspec-typedoc-1.0.0.tgz#8af865174182c8f57a406994c15aef506a997404"
+  integrity sha512-uggbxB0AyYwTpVXnDP8snj70S3GT5ENsa1oJeCR46O/wCB6TKOvMjCN5EfGxa4j9kOYhI6+F9WyMz4I4Ow0bfA==
+
 natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
