@@ -1,5 +1,5 @@
 import { keccak_256 } from 'js-sha3'
-import { groupBy, pick } from 'lodash'
+import { groupBy, omit } from 'lodash'
 import { Dictionary } from 'ts-essentials'
 
 import { debug } from '../utils/debug'
@@ -173,7 +173,7 @@ export function parse(abi: RawAbiDefinition[], rawName: string, documentation?: 
     constructor: constructors,
     functions: groupBy(functions, (f) => f.name),
     events: groupBy(events, (e) => e.name),
-    documentation: documentation ? pick(documentation, ['details', 'notice', 'author']) : undefined,
+    documentation: documentation ? omit(documentation, ['methods']) : undefined,
   }
 }
 
