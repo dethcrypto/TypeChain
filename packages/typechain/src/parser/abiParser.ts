@@ -1,5 +1,5 @@
 import { keccak_256 } from 'js-sha3'
-import { groupBy } from 'lodash'
+import { groupBy, pick } from 'lodash'
 import { Dictionary } from 'ts-essentials'
 
 import { debug } from '../utils/debug'
@@ -24,11 +24,22 @@ export type Named<T> = {
 
 export type StateMutability = 'pure' | 'view' | 'nonpayable' | 'payable'
 
+interface FunctionDocumentation {
+  author?: string
+  details?: string
+  notice?: string
+  params?: {
+    [paramName: string]: string
+  }
+  return?: string
+}
+
 export interface FunctionDeclaration {
   name: string
   stateMutability: StateMutability
   inputs: AbiParameter[]
   outputs: AbiOutputParameter[]
+  documentation?: FunctionDocumentation
 }
 
 export interface FunctionWithoutOutputDeclaration extends FunctionDeclaration {
@@ -47,6 +58,11 @@ export interface Contract {
   constructor: FunctionWithoutOutputDeclaration[]
   functions: Dictionary<FunctionDeclaration[]>
   events: Dictionary<EventDeclaration[]>
+  documentation?: {
+    author?: string
+    details?: string
+    notice?: string
+  }
 }
 
 export interface RawAbiParameter {
@@ -107,19 +123,11 @@ interface DocumentationResult {
   details?: string
   notice?: string
   methods?: {
-    [methodName: string]: {
-      author?: string
-      details?: string
-      notice?: string
-      params?: {
-        [paramName: string]: string
-      }
-      return?: string
-    }
+    [methodName: string]: FunctionDocumentation
   }
 }
 
-export function parse(abi: RawAbiDefinition[], rawName: string): Contract {
+export function parse(abi: RawAbiDefinition[], rawName: string, documentation?: DocumentationResult): Contract {
   const constructors: FunctionWithoutOutputDeclaration[] = []
   let fallback: FunctionWithoutInputDeclaration | undefined
   const functions: FunctionDeclaration[] = []
@@ -144,7 +152,7 @@ export function parse(abi: RawAbiDefinition[], rawName: string): Contract {
     }
 
     if (abiPiece.type === 'function') {
-      functions.push(parseFunctionDeclaration(abiPiece))
+      functions.push(parseFunctionDeclaration(abiPiece, documentation))
       return
     }
 
@@ -165,6 +173,7 @@ export function parse(abi: RawAbiDefinition[], rawName: string): Contract {
     constructor: constructors,
     functions: groupBy(functions, (f) => f.name),
     events: groupBy(events, (e) => e.name),
+    documentation: documentation ? pick(documentation, ['details', 'notice', 'author']) : undefined,
   }
 }
 
@@ -213,6 +222,14 @@ function findStateMutability(abiPiece: RawAbiDefinition): StateMutability {
   return abiPiece.payable ? 'payable' : 'nonpayable'
 }
 
+export function getFunctionDocumentation(
+  abiPiece: RawAbiDefinition,
+  documentation?: DocumentationResult,
+): FunctionDocumentation | undefined {
+  const docKey = `${abiPiece.name}(${abiPiece.inputs.map(({ type }) => type).join(',')})`
+  return documentation && documentation.methods && documentation.methods[docKey]
+}
+
 function parseConstructor(abiPiece: RawAbiDefinition): FunctionWithoutOutputDeclaration {
   debug(`Parsing constructor declaration`)
   return {
@@ -234,13 +251,17 @@ function parseFallback(abiPiece: RawAbiDefinition): FunctionWithoutInputDeclarat
   }
 }
 
-function parseFunctionDeclaration(abiPiece: RawAbiDefinition): FunctionDeclaration {
+function parseFunctionDeclaration(
+  abiPiece: RawAbiDefinition,
+  documentation?: DocumentationResult,
+): FunctionDeclaration {
   debug(`Parsing function declaration "${abiPiece.name}"`)
   return {
     name: abiPiece.name,
     inputs: abiPiece.inputs.map(parseRawAbiParameter),
     outputs: parseOutputs(abiPiece.outputs),
     stateMutability: findStateMutability(abiPiece),
+    documentation: getFunctionDocumentation(abiPiece, documentation),
   }
 }
 

@@ -254,6 +254,45 @@ describe('parseEvent', () => {
 })
 
 describe('parse', () => {
+  describe('functions', () => {
+    const abiPiece = {
+      constant: false,
+      inputs: [
+        {
+          name: 'foo',
+          type: 'uint256',
+        },
+        {
+          name: 'bar',
+          type: 'bytes32',
+        },
+      ],
+      name: 'doFooBar',
+      outputs: [],
+      payable: false,
+      type: 'function',
+    }
+
+    const documentation = {
+      details: 'A cool contract that does cool stuff',
+      methods: {
+        'doFooBar(uint256,bytes32)': {
+          details: 'Does a bit of foo and some bar',
+          params: {
+            foo: 'A bit of foo',
+            bar: 'Some bar',
+          },
+        },
+      },
+    }
+
+    it('should get the documentation', () => {
+      const res = parse([abiPiece], 'ACoolContract', documentation)
+      expect(res.functions.doFooBar[0].documentation).to.deep.equal(documentation.methods['doFooBar(uint256,bytes32)'])
+      expect(res.documentation!.details).to.equal(documentation.details)
+    })
+  })
+
   describe('fallback functions', () => {
     it('should work on output-less fallback functions', () => {
       const fallbackAbiFunc: RawAbiDefinition = {
@@ -304,6 +343,7 @@ describe('parse', () => {
           ],
         },
         fallback: undefined,
+        documentation: undefined,
         functions: {},
         name: 'Sc1',
         rawName: 'sc1',
