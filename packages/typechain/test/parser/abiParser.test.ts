@@ -89,7 +89,7 @@ describe('extractBytecode', () => {
 })
 
 describe('extractDocumentation', () => {
-  const jsonString = `{
+  const devUserDoc = `{
     "devdoc": {
       "author" : "Larry A. Gardner",
       "details" : "All function calls are currently implemented without side effects",
@@ -120,13 +120,34 @@ describe('extractDocumentation', () => {
     }
   }`
 
+  const userDoc = `{
+    "userdoc": {
+      "methods" :
+      {
+        "age(uint256)" :
+        {
+          "notice" : "Calculate tree age in years, rounded up, for live trees"
+        }
+      },
+      "notice" : "You can use this contract for only the most basic simulation"
+    }
+  }`
+
   it('should merge devdoc and userdoc', () => {
-    const doc = extractDocumentation(jsonString)
+    const doc = extractDocumentation(devUserDoc)
     if (!doc) throw new Error('Doc should exist')
     expect(doc.notice).to.equal('You can use this contract for only the most basic simulation')
     expect(doc.author).to.equal('Larry A. Gardner')
     if (!doc.methods) throw new Error('Methods should exist')
     expect(doc.methods['age(uint256)'].author).to.equal('Mary A. Botanist')
+    expect(doc.methods['age(uint256)'].notice).to.equal('Calculate tree age in years, rounded up, for live trees')
+  })
+
+  it('should parse userdoc only', () => {
+    const doc = extractDocumentation(userDoc)
+    if (!doc) throw new Error('Doc should exist')
+    expect(doc.notice).to.equal('You can use this contract for only the most basic simulation')
+    if (!doc.methods) throw new Error('Methods should exist')
     expect(doc.methods['age(uint256)'].notice).to.equal('Calculate tree age in years, rounded up, for live trees')
   })
 })

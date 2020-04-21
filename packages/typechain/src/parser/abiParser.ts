@@ -24,7 +24,7 @@ export type Named<T> = {
 
 export type StateMutability = 'pure' | 'view' | 'nonpayable' | 'payable'
 
-interface FunctionDocumentation {
+export interface FunctionDocumentation {
   author?: string
   details?: string
   notice?: string
@@ -118,7 +118,7 @@ export interface BytecodeWithLinkReferences {
 
 // This is the combined interface for devdocs and userdocs
 // See https://solidity.readthedocs.io/en/v0.5.12/natspec-format.html#documentation-output
-interface DocumentationResult {
+export interface DocumentationResult {
   author?: string
   details?: string
   notice?: string
@@ -374,9 +374,7 @@ export function extractDocumentation(rawContents: string): DocumentationResult |
     if (!json.userdoc.methods) return result
     result.methods = result.methods || {}
     Object.entries<{ notice: string }>(json.userdoc.methods).forEach(([key, { notice }]) => {
-      if (result.methods && result.methods[key]) {
-        result.methods[key].notice = notice
-      }
+      if (result.methods) result.methods[key] = { ...result.methods[key], notice }
     })
   }
   return result
