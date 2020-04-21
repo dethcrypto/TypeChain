@@ -89,42 +89,46 @@ describe('extractBytecode', () => {
 })
 
 describe('extractDocumentation', () => {
-  const jsonString = `{ "ast": { "nodes": [
-    {
-      "documentation": "@title Contract Title\\n@notice Some helpful information",
-      "name": "ContractName",
-      "nodeType": "ContractDefinition",
-      "nodes": [
+  const jsonString = `{
+    "devdoc": {
+      "author" : "Larry A. Gardner",
+      "details" : "All function calls are currently implemented without side effects",
+      "methods" :
+      {
+        "age(uint256)" :
         {
-          "documentation": "@notice Some function description\\n@param foo Cool input",
-          "name": "dooCoolStuff",
-          "nodeType": "FunctionDefinition"
-        },
-        {
-          "name": "bar",
-          "nodeType": "VariableDeclaration"
+          "author" : "Mary A. Botanist",
+          "details" : "The Alexandr N. Tetearing algorithm could increase precision",
+          "params" :
+          {
+            "rings" : "The number of rings from dendrochronological sample"
+          },
+          "return" : "age in years, rounded up for partial years"
         }
-      ]
+      },
+      "title" : "A simulator for trees"
+    },
+    "userdoc": {
+      "methods" :
+      {
+        "age(uint256)" :
+        {
+          "notice" : "Calculate tree age in years, rounded up, for live trees"
+        }
+      },
+      "notice" : "You can use this contract for only the most basic simulation"
     }
-  ] } }`
+  }`
 
-  it('should get the documentation', () => {
-    const docObj = extractDocumentation(jsonString)
-    expect(docObj).to.deep.equal({
-      contracts: [{ name: 'ContractName', documentation: 'Contract Title\nSome helpful information' }],
-      functions: [{ name: 'dooCoolStuff', documentation: 'Some function description\n@param foo Cool input' }],
-    })
+  it('should merge devdoc and userdoc', () => {
+    const doc = extractDocumentation(jsonString)
+    if (!doc) throw new Error('Doc should exist')
+    expect(doc.notice).to.equal('You can use this contract for only the most basic simulation')
+    expect(doc.author).to.equal('Larry A. Gardner')
+    if (!doc.methods) throw new Error('Methods should exist')
+    expect(doc.methods['age(uint256)'].author).to.equal('Mary A. Botanist')
+    expect(doc.methods['age(uint256)'].notice).to.equal('Calculate tree age in years, rounded up, for live trees')
   })
-})
-
-it('should return an empty object on not existing documentation on some nodes', () => {
-  const docObj = extractDocumentation(`{ "ast": { "nodes": [{ "name": "Foo" }] } }`)
-  expect(docObj).to.deep.equal({ contracts: [], functions: [] })
-})
-
-it('should return undefined on empty node list', () => {
-  const docObj = extractDocumentation(`{ "ast": { "nodes": [] } }`)
-  expect(docObj).to.deep.equal(undefined)
 })
 
 describe('extractBytecode with link references', () => {

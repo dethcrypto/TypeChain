@@ -34,7 +34,6 @@
     "fs-extra": "^7.0.0",
     "js-sha3": "^0.8.0",
     "lodash": "^4.17.15",
-    "natspec-typedoc": "^1.0.0",
     "ts-essentials": "^6.0.3",
     "ts-generator": "^0.0.8"
   },

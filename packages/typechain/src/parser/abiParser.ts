@@ -1,7 +1,6 @@
 import { keccak_256 } from 'js-sha3'
 import { groupBy } from 'lodash'
 import { Dictionary } from 'ts-essentials'
-import transformNatSpec from 'natspec-typedoc'
 
 import { debug } from '../utils/debug'
 import { MalformedAbiError } from '../utils/errors'
@@ -101,21 +100,23 @@ export interface BytecodeWithLinkReferences {
   linkReferences?: BytecodeLinkReference[]
 }
 
-interface ASTNode {
-  documentation?: string
-  name?: string
-  nodeType: string
-  [nodeProps: string]: any
-}
-
-interface DocAnnotation {
-  name: string
-  documentation: string
-}
-
-interface DocAnnotationObject {
-  contracts: DocAnnotation[]
-  functions: DocAnnotation[]
+// This is the combined interface for devdocs and userdocs
+// See https://solidity.readthedocs.io/en/v0.5.12/natspec-format.html#documentation-output
+interface DocumentationResult {
+  author?: string
+  details?: string
+  notice?: string
+  methods?: {
+    [methodName: string]: {
+      author?: string
+      details?: string
+      notice?: string
+      params?: {
+        [paramName: string]: string
+      }
+      return?: string
+    }
+  }
 }
 
 export function parse(abi: RawAbiDefinition[], rawName: string): Contract {
@@ -334,35 +335,7 @@ export function extractBytecode(rawContents: string): BytecodeWithLinkReferences
   return undefined
 }
 
-function traverseDocNodes(nodes: ASTNode[], foundDocs?: DocAnnotationObject) {
-  const docObject = foundDocs || { contracts: [], functions: [] }
-  nodes.forEach((node) => {
-    if (node.documentation && node.name) {
-      switch (node.nodeType) {
-        case 'ContractDefinition': {
-          docObject.contracts.push({
-            documentation: transformNatSpec(node.documentation),
-            name: node.name,
-          })
-          break
-        }
-        case 'FunctionDefinition': {
-          docObject.functions.push({
-            documentation: transformNatSpec(node.documentation),
-            name: node.name,
-          })
-          break
-        }
-        default:
-      }
-    }
-    // Continue with sub-nodes if there are any
-    if (node.nodes) traverseDocNodes(node.nodes, docObject)
-  })
-  return docObject
-}
-
-export function extractDocumentation(rawContents: string): DocAnnotationObject | undefined {
+export function extractDocumentation(rawContents: string): DocumentationResult | undefined {
   let json
   try {
     json = JSON.parse(rawContents)
@@ -370,9 +343,22 @@ export function extractDocumentation(rawContents: string): DocAnnotationObject |
     return undefined
   }
 
-  if (!json || !json.ast || !json.ast.nodes || !json.ast.nodes.length) return undefined
+  if (!json || (!json.devdoc && !json.userdoc)) return undefined
 
-  return traverseDocNodes(json.ast.nodes)
+  const result: DocumentationResult = json.devdoc || {}
+
+  // Merge devdoc and userdoc objects
+  if (json.userdoc) {
+    result.notice = json.userdoc.notice
+    if (!json.userdoc.methods) return result
+    result.methods = result.methods || {}
+    Object.entries<{ notice: string }>(json.userdoc.methods).forEach(([key, { notice }]) => {
+      if (result.methods && result.methods[key]) {
+        result.methods[key].notice = notice
+      }
+    })
+  }
+  return result
 }
 
 function extractLinkReferences(_bytecode: string, linkReferencesObj?: any): BytecodeWithLinkReferences {
