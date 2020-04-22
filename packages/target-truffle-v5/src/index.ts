@@ -1,4 +1,4 @@
-import { Contract, getFilename, extractAbi, parse } from 'typechain'
+import { Contract, extractDocumentation, getFilename, extractAbi, parse } from 'typechain'
 import { TsGeneratorPlugin, TContext, TFileDesc } from 'ts-generator'
 import { join, resolve } from 'path'
 import { readFileSync } from 'fs'
@@ -34,8 +34,9 @@ export default class Truffle extends TsGeneratorPlugin {
     }
 
     const name = getFilename(file.path)
+    const documentation = extractDocumentation(file.contents)
 
-    const contract = parse(abi, name)
+    const contract = parse(abi, name, documentation)
 
     this.contracts.push(contract)
 

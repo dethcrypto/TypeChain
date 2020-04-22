@@ -1,4 +1,11 @@
-import { Contract, FunctionDeclaration, isConstant, isConstantFn, getSignatureForFn } from 'typechain'
+import {
+  Contract,
+  FunctionDeclaration,
+  FunctionDocumentation,
+  isConstant,
+  isConstantFn,
+  getSignatureForFn,
+} from 'typechain'
 import { values } from 'lodash'
 import { codegenInputTypes, codegenOutputTypes } from './types'
 import { codegenEventsDeclarations, codegenAllPossibleEvents } from './events'
@@ -71,6 +78,7 @@ function generateFunction(fn: FunctionDeclaration, overloadedName?: string): str
   }
 
   return `
+  ${generateFunctionDocumentation(fn.documentation)}
   ${overloadedName ?? fn.name}: {
     (${codegenInputTypes(
       fn.inputs,
@@ -86,10 +94,32 @@ function generateFunction(fn: FunctionDeclaration, overloadedName?: string): str
 
 function generateConstantFunction(fn: FunctionDeclaration, overloadedName?: string): string {
   return `
+  ${generateFunctionDocumentation(fn.documentation)}
   ${overloadedName ?? fn.name}(${codegenInputTypes(
     fn.inputs,
   )} txDetails?: Truffle.TransactionDetails): Promise<${codegenOutputTypes(fn.outputs)}>;
 `
+}
+
+function generateFunctionDocumentation(doc?: FunctionDocumentation): string {
+  if (!doc) return ''
+
+  let docString = '/**'
+  if (doc.details) docString += `\n * ${doc.details}`
+  if (doc.notice) docString += `\n * ${doc.notice}`
+
+  const params = Object.entries(doc.params || {})
+  if (params.length) {
+    params.forEach(([key, value]) => {
+      docString += `\n * @param ${key} ${value}`
+    })
+  }
+
+  if (doc.return) docString += `\n * @returns ${doc.return}`
+
+  docString += '\n */'
+
+  return docString
 }
 
 export function generateOverloadedFunctions(fns: FunctionDeclaration[]): string {
