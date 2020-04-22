@@ -2,7 +2,7 @@ import { join, resolve } from 'path'
 import { readFileSync } from 'fs'
 
 import { TsGeneratorPlugin, TContext, TFileDesc } from 'ts-generator'
-import { extractAbi, parse, getFilename } from 'typechain'
+import { extractAbi, extractDocumentation, parse, getFilename } from 'typechain'
 
 import { codegen } from './codegen'
 
@@ -33,8 +33,9 @@ export default class Web3V1 extends TsGeneratorPlugin {
     }
 
     const name = getFilename(file.path)
+    const documentation = extractDocumentation(file.contents)
 
-    const contract = parse(abi, name)
+    const contract = parse(abi, name, documentation)
 
     return {
       path: join(this.outDirAbs, `${name}.d.ts`),
