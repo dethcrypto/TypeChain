@@ -1,6 +1,6 @@
 import { values } from 'lodash'
 import { Dictionary } from 'ts-essentials'
-import { FunctionDeclaration, getSignatureForFn } from 'typechain'
+import { FunctionDeclaration, FunctionDocumentation, getSignatureForFn } from 'typechain'
 
 import { codegenInputTypes, codegenOutputTypes } from './types'
 
@@ -22,6 +22,7 @@ function codegenForOverloadedFunctions(fns: FunctionDeclaration[]): string {
 
 function codegenForSingleFunction(fn: FunctionDeclaration, overloadedName?: string): string {
   return `
+  ${generateFunctionDocumentation(fn.documentation)}
   ${overloadedName ?? fn.name}(${codegenInputTypes(fn.inputs)}): ${getTransactionObject(fn)}<${codegenOutputTypes(
     fn.outputs,
   )}>;
@@ -30,4 +31,25 @@ function codegenForSingleFunction(fn: FunctionDeclaration, overloadedName?: stri
 
 function getTransactionObject(fn: FunctionDeclaration): string {
   return fn.stateMutability === 'payable' ? 'PayableTransactionObject' : 'NonPayableTransactionObject'
+}
+
+function generateFunctionDocumentation(doc?: FunctionDocumentation): string {
+  if (!doc) return ''
+
+  let docString = '/**'
+  if (doc.details) docString += `\n * ${doc.details}`
+  if (doc.notice) docString += `\n * ${doc.notice}`
+
+  const params = Object.entries(doc.params || {})
+  if (params.length) {
+    params.forEach(([key, value]) => {
+      docString += `\n * @param ${key} ${value}`
+    })
+  }
+
+  if (doc.return) docString += `\n * @returns ${doc.return}`
+
+  docString += '\n */'
+
+  return docString
 }

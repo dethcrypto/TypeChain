@@ -7,6 +7,7 @@ import {
   Contract,
   extractAbi,
   extractBytecode,
+  extractDocumentation,
   getFileExtension,
   getFilename,
   parse,
@@ -79,8 +80,9 @@ export default class Ethers extends TsGeneratorPlugin {
     if (abi.length === 0) {
       return
     }
+    const documentation = extractDocumentation(file.contents)
 
-    const contract = parse(abi, name)
+    const contract = parse(abi, name, documentation)
     const bytecode = extractBytecode(file.contents) || this.bytecodeCache[name]
 
     if (bytecode) {

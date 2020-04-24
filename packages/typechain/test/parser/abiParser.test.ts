@@ -7,6 +7,7 @@ import {
   ensure0xPrefix,
   extractAbi,
   extractBytecode,
+  extractDocumentation,
   FunctionDeclaration,
   isConstant,
   isConstantFn,
@@ -84,6 +85,70 @@ describe('extractBytecode', () => {
 
   it('should return undefined when nested abi bytecode is malformed', () => {
     expect(extractBytecode(`{ "bytecode": "surely-not-bytecode" }`)).to.be.undefined
+  })
+})
+
+describe('extractDocumentation', () => {
+  const devUserDoc = `{
+    "devdoc": {
+      "author" : "Larry A. Gardner",
+      "details" : "All function calls are currently implemented without side effects",
+      "methods" :
+      {
+        "age(uint256)" :
+        {
+          "author" : "Mary A. Botanist",
+          "details" : "The Alexandr N. Tetearing algorithm could increase precision",
+          "params" :
+          {
+            "rings" : "The number of rings from dendrochronological sample"
+          },
+          "return" : "age in years, rounded up for partial years"
+        }
+      },
+      "title" : "A simulator for trees"
+    },
+    "userdoc": {
+      "methods" :
+      {
+        "age(uint256)" :
+        {
+          "notice" : "Calculate tree age in years, rounded up, for live trees"
+        }
+      },
+      "notice" : "You can use this contract for only the most basic simulation"
+    }
+  }`
+
+  const userDoc = `{
+    "userdoc": {
+      "methods" :
+      {
+        "age(uint256)" :
+        {
+          "notice" : "Calculate tree age in years, rounded up, for live trees"
+        }
+      },
+      "notice" : "You can use this contract for only the most basic simulation"
+    }
+  }`
+
+  it('should merge devdoc and userdoc', () => {
+    const doc = extractDocumentation(devUserDoc)
+    if (!doc) throw new Error('Doc should exist')
+    expect(doc.notice).to.equal('You can use this contract for only the most basic simulation')
+    expect(doc.author).to.equal('Larry A. Gardner')
+    if (!doc.methods) throw new Error('Methods should exist')
+    expect(doc.methods['age(uint256)'].author).to.equal('Mary A. Botanist')
+    expect(doc.methods['age(uint256)'].notice).to.equal('Calculate tree age in years, rounded up, for live trees')
+  })
+
+  it('should parse userdoc only', () => {
+    const doc = extractDocumentation(userDoc)
+    if (!doc) throw new Error('Doc should exist')
+    expect(doc.notice).to.equal('You can use this contract for only the most basic simulation')
+    if (!doc.methods) throw new Error('Methods should exist')
+    expect(doc.methods['age(uint256)'].notice).to.equal('Calculate tree age in years, rounded up, for live trees')
   })
 })
 
@@ -210,6 +275,45 @@ describe('parseEvent', () => {
 })
 
 describe('parse', () => {
+  describe('functions', () => {
+    const abiPiece = {
+      constant: false,
+      inputs: [
+        {
+          name: 'foo',
+          type: 'uint256',
+        },
+        {
+          name: 'bar',
+          type: 'bytes32',
+        },
+      ],
+      name: 'doFooBar',
+      outputs: [],
+      payable: false,
+      type: 'function',
+    }
+
+    const documentation = {
+      details: 'A cool contract that does cool stuff',
+      methods: {
+        'doFooBar(uint256,bytes32)': {
+          details: 'Does a bit of foo and some bar',
+          params: {
+            foo: 'A bit of foo',
+            bar: 'Some bar',
+          },
+        },
+      },
+    }
+
+    it('should get the documentation', () => {
+      const res = parse([abiPiece], 'ACoolContract', documentation)
+      expect(res.functions.doFooBar[0].documentation).to.deep.equal(documentation.methods['doFooBar(uint256,bytes32)'])
+      expect(res.documentation!.details).to.equal(documentation.details)
+    })
+  })
+
   describe('fallback functions', () => {
     it('should work on output-less fallback functions', () => {
       const fallbackAbiFunc: RawAbiDefinition = {
@@ -260,6 +364,7 @@ describe('parse', () => {
           ],
         },
         fallback: undefined,
+        documentation: undefined,
         functions: {},
         name: 'Sc1',
         rawName: 'sc1',
