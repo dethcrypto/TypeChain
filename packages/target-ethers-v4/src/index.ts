@@ -13,7 +13,7 @@ import {
   parse,
 } from 'typechain'
 
-import { codegenAbstractContractFactory, codegenContractFactory, codegenContractTypings } from './generation'
+import { codegenAbstractContractFactory, codegenContractFactory, codegenContractTypings } from './codegen'
 
 export interface IEthersCfg {
   outDir?: string

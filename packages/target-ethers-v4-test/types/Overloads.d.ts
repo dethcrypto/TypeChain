@@ -34,10 +34,20 @@ export class Overloads extends Contract {
   interface: OverloadsInterface;
 
   functions: {
-    overload1(input1: BigNumberish): Promise<BigNumber>;
+    "overload1(int256)"(input1: BigNumberish): Promise<BigNumber>;
+
+    "overload1(uint256,uint256)"(
+      input1: BigNumberish,
+      input2: BigNumberish
+    ): Promise<BigNumber>;
   };
 
-  overload1(input1: BigNumberish): Promise<BigNumber>;
+  "overload1(int256)"(input1: BigNumberish): Promise<BigNumber>;
+
+  "overload1(uint256,uint256)"(
+    input1: BigNumberish,
+    input2: BigNumberish
+  ): Promise<BigNumber>;
 
   filters: {};
 

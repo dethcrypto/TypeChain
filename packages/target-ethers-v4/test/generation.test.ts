@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import { Contract } from 'typechain'
 
-import { codegenContractFactory } from '../src/generation'
+import { codegenContractFactory } from '../src/codegen'
 
 describe('Ethers generation edge cases', () => {
   const emptyContract: Contract = {
