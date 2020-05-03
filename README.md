@@ -46,14 +46,13 @@ You will also need to install a desired target for example `typechain-target-eth
 | [`@typechain/ethers-v4`](/packages/@typechain/ethers-v4)   | [![npm](https://img.shields.io/npm/v/@typechain/ethers-v4.svg)](https://www.npmjs.com/package/@typechain/ethers-v4)   | Ethers ver 4 support  | [example](./examples/ethers-v4)  |
 | [`@typechain/truffle-v4`](/packages/@typechain/truffle-v4) | [![npm](https://img.shields.io/npm/v/@typechain/truffle-v4.svg)](https://www.npmjs.com/package/@typechain/truffle-v4) | Truffle ver 4 support | [example](./examples/truffle-v4) |
 | [`@typechain/web3-v1`](/packages/@typechain/web3-v1)       | [![npm](https://img.shields.io/npm/v/@typechain/web3-v1.svg)](https://www.npmjs.com/package/@typechain/web3-v1)       | Web3 ver 1 support    | [example](./examples/web3-v1)    |
-| [`@typechain/web3-v2`](/packages/@typechain/web3-v2)       | [![npm](https://img.shields.io/npm/v/@typechain/web3-v2.svg)](https://www.npmjs.com/package/@typechain/web3-v2)       | Web3 ver 2 support    | [example](./examples/web3-v2)    |
 
 ## Usage
 
 ### CLI
 
 ```
-typechain --target=(ethers|truffle|web3-v1|web3-v2|path-to-custom-target) [glob]
+typechain --target=(ethers|truffle|web3-v1|path-to-custom-target) [glob]
 ```
 
 - `glob` - pattern that will be used to find ABIs, remember about adding quotes: `typechain "**/*.json"`, examples:
@@ -122,12 +121,6 @@ Generates typings for contracts compatible with latest stable Web3.js version. T
 of `Web3 1.0.0` library so nothing additional is needed. For now it needs explicit cast as shown
 [here](https://github.com/krzkaczor/TypeChain/pull/88/files#diff-540a9b8840419be93ddb8d4b53325637R8), this will be fixed
 after improving official typings.
-
-### Web3-2.0.0
-
-Generates typings for contracts compatible with (unstable) Web3.js 2.x.x version. Typings for library itself are now
-part of `Web3 2.0.0` library so nothing additional is needed.
-[Usage example](https://github.com/ethereum-ts/TypeChain/blob/master/test/integration/targets/web3-v2/DumbContract.spec.web3.ts#L12).
 
 ### Your own target
 
