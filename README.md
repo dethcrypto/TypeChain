@@ -97,9 +97,7 @@ only locally), it will automatically find all `.abi` files in your project and g
 them. You can specify your glob pattern: `typechain --target=your_target "**/*.abi.json"`. `node_modules` are always
 ignored. We recommend git ignoring these generated files and making typechain part of your build process.
 
-That's it! Now, just import contract bindings as any other file
-`import { MyAwesomeContract } from './contracts/MyAwesomeContract'` and start interacting with it. We use named exports
-because of [this](https://blog.neufund.org/why-we-have-banned-default-exports-and-you-should-do-the-same-d51fdc2cf2ad).
+That's it! Now, you can simply import typings, check out our examples for more details.
 
 ## Targets 🎯
 
@@ -122,16 +120,16 @@ of `Web3 1.0.0` library so nothing additional is needed. For now it needs explic
 [here](https://github.com/krzkaczor/TypeChain/pull/88/files#diff-540a9b8840419be93ddb8d4b53325637R8), this will be fixed
 after improving official typings.
 
+### NatSpec support
+
+If you provide solidity artifacts rather than plain ABIs as an input, TypeChain can generate NatSpec comments directly
+to your typings which enables simple access to docs while coding.
+
 ### Your own target
 
 This might be useful when you're creating a library for users of your smartcontract and you don't want to lock yourself
 into any API provided by Web3 access providing library. You can generate basically any code (even for different
 languages than TypeScript!) that based on smartcontract's ABI.
-
-## Migration guide
-
-For users of 0.x.x versions: the only breaking change is extraction of targets for separate packages so now you need to
-install `typechain-target-${name}` for each target.
 
 ## FAQ 🤔
 
