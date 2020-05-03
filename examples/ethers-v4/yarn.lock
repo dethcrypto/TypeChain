@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@typechain/ethers-v4@^1.0.0-beta":
-  version "1.0.0-beta"
-  resolved "https://registry.yarnpkg.com/@typechain/ethers-v4/-/ethers-v4-1.0.0-beta.tgz#7c9b530c77d3f939c4945a958d7da42f5d85a814"
-  integrity sha512-+yg+65UFRJrGnzCpcinK7dYh6HV1G3GkymBriCJsY+eqPk/VXDdYdzTV8KRCDVRbKS6F5kfZg/mLNjuza6JhiA==
+"@typechain/ethers-v4@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@typechain/ethers-v4/-/ethers-v4-1.0.0.tgz#290c8dd31a5ea042f9da44d58c3c17f22550afe6"
+  integrity sha512-tN9XV0ezbLaEuK6jC5gW6AiH4ihq9lMl1ifJr700oBjknKKNDO6jUSzUE56gJzhW/fuyGsb4zsCHwf3JCkBd9w==
 
 "@types/bn.js@^4.11.6":
   version "4.11.6"
@@ -423,10 +423,10 @@ ts-node@^8.8.2:
     source-map-support "^0.5.6"
     yn "3.1.1"
 
-typechain@^2.0.0-beta1:
-  version "2.0.0-beta1"
-  resolved "https://registry.yarnpkg.com/typechain/-/typechain-2.0.0-beta1.tgz#38d7cd3e6c57ae7f0a53915599c1102e10faa4af"
-  integrity sha512-B3RPy31MTkETWSidUUVHdYd5Xjp01f2E0IyY0r7eEbg5lz9QukJJp4qvJtjeWq5FXQYV4K7wTrYt0NGBl2Qofw==
+typechain@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/typechain/-/typechain-2.0.0.tgz#62143b48cdf8f95a777f1b76617af077b2d44eee"
+  integrity sha512-O+hsAUwtBpqCfoq46Grm52OEdm0GBEu78LxrEzkkGdwUdCoCZpNb2HPzPoNB1MXiRnNhEOGMFyf05UbT2/bUEw==
   dependencies:
     command-line-args "^4.0.7"
     debug "^4.1.1"
