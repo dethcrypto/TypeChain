@@ -14,10 +14,10 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
-"@typechain/web3-v1@^1.0.0-beta":
-  version "1.0.0-beta"
-  resolved "https://registry.yarnpkg.com/@typechain/web3-v1/-/web3-v1-1.0.0-beta.tgz#a72003c8ac7d63395dad689b092d2ae7ca576c0c"
-  integrity sha512-4n7A1rnGgXr668he2ns37zhchTJBCON0mRm+bxKxlHKu9aK1nJ4Ei96GTm48g0m9enkgax4+xv4HLli8fLJqgQ==
+"@typechain/web3-v1@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@typechain/web3-v1/-/web3-v1-1.0.0.tgz#842f925e45bdfb0d28e08c0e355f1c8efed7ea91"
+  integrity sha512-MM8PmsblePaxy5BCYEuPtR4ajigPf504VRQzZgFYqs6KuFnJxbOjF8jNYT12P6UvUX7us75Wc78QdbvOHbb4hA==
 
 "@types/bn.js@^4.11.3", "@types/bn.js@^4.11.4", "@types/bn.js@^4.11.6":
   version "4.11.6"
@@ -2309,10 +2309,10 @@ type@^2.0.0:
   resolved "https://registry.yarnpkg.com/type/-/type-2.0.0.tgz#5f16ff6ef2eb44f260494dae271033b29c09a9c3"
   integrity sha512-KBt58xCHry4Cejnc2ISQAF7QY+ORngsWfxezO68+12hKV6lQY8P/psIkcbjeHWn7MqcgciWJyCCevFMJdIXpow==
 
-typechain@^2.0.0-beta1:
-  version "2.0.0-beta1"
-  resolved "https://registry.yarnpkg.com/typechain/-/typechain-2.0.0-beta1.tgz#38d7cd3e6c57ae7f0a53915599c1102e10faa4af"
-  integrity sha512-B3RPy31MTkETWSidUUVHdYd5Xjp01f2E0IyY0r7eEbg5lz9QukJJp4qvJtjeWq5FXQYV4K7wTrYt0NGBl2Qofw==
+typechain@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/typechain/-/typechain-2.0.0.tgz#62143b48cdf8f95a777f1b76617af077b2d44eee"
+  integrity sha512-O+hsAUwtBpqCfoq46Grm52OEdm0GBEu78LxrEzkkGdwUdCoCZpNb2HPzPoNB1MXiRnNhEOGMFyf05UbT2/bUEw==
   dependencies:
     command-line-args "^4.0.7"
     debug "^4.1.1"

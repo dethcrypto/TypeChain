@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@typechain/truffle-v4@^1.0.0-beta":
-  version "1.0.0-beta"
-  resolved "https://registry.yarnpkg.com/@typechain/truffle-v4/-/truffle-v4-1.0.0-beta.tgz#c290c2674f4e56cf2b36c34833d9ac3f7802e6de"
-  integrity sha512-s8Rb+hnW3YvjSL+9Gc0ii7Vjik2rqkvBk7AbN1rzFgWT57vLCX5U7uCNFGPX1bfORBGaZ7stBTU0N60an8oVhA==
+"@typechain/truffle-v4@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@typechain/truffle-v4/-/truffle-v4-1.0.0.tgz#1e748c349c80c58e378c1e40f730b4467136a7cd"
+  integrity sha512-0FQ3DMKGyWR6BuU8Na72BIck5tDtAPTYluA6sLnllUakoyTMc1n6RTEgYNEknKo9bHpMei1/ryZ7ptrZFvYGxg==
 
 "@types/mkdirp@^0.5.2":
   version "0.5.2"
@@ -682,10 +682,10 @@ ts-generator@^0.0.8:
     resolve "^1.8.1"
     ts-essentials "^1.0.0"
 
-typechain@2.0.0-beta1:
-  version "2.0.0-beta1"
-  resolved "https://registry.yarnpkg.com/typechain/-/typechain-2.0.0-beta1.tgz#38d7cd3e6c57ae7f0a53915599c1102e10faa4af"
-  integrity sha512-B3RPy31MTkETWSidUUVHdYd5Xjp01f2E0IyY0r7eEbg5lz9QukJJp4qvJtjeWq5FXQYV4K7wTrYt0NGBl2Qofw==
+typechain@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/typechain/-/typechain-2.0.0.tgz#62143b48cdf8f95a777f1b76617af077b2d44eee"
+  integrity sha512-O+hsAUwtBpqCfoq46Grm52OEdm0GBEu78LxrEzkkGdwUdCoCZpNb2HPzPoNB1MXiRnNhEOGMFyf05UbT2/bUEw==
   dependencies:
     command-line-args "^4.0.7"
     debug "^4.1.1"

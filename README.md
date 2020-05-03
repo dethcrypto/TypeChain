@@ -45,22 +45,22 @@ You will also need to install a desired target for example `typechain-target-eth
 | [`typechain`](/packages/core)                              | [![npm](https://img.shields.io/npm/v/typechain.svg)](https://www.npmjs.com/package/typechain)                         | Core package          | -                                |
 | [`@typechain/ethers-v4`](/packages/@typechain/ethers-v4)   | [![npm](https://img.shields.io/npm/v/@typechain/ethers-v4.svg)](https://www.npmjs.com/package/@typechain/ethers-v4)   | Ethers ver 4 support  | [example](./examples/ethers-v4)  |
 | [`@typechain/truffle-v4`](/packages/@typechain/truffle-v4) | [![npm](https://img.shields.io/npm/v/@typechain/truffle-v4.svg)](https://www.npmjs.com/package/@typechain/truffle-v4) | Truffle ver 4 support | [example](./examples/truffle-v4) |
+| [`@typechain/truffle-v5`](/packages/@typechain/truffle-v5) | [![npm](https://img.shields.io/npm/v/@typechain/truffle-v5.svg)](https://www.npmjs.com/package/@typechain/truffle-v5) | Truffle ver 5 support | [example](./examples/truffle-v5) |
 | [`@typechain/web3-v1`](/packages/@typechain/web3-v1)       | [![npm](https://img.shields.io/npm/v/@typechain/web3-v1.svg)](https://www.npmjs.com/package/@typechain/web3-v1)       | Web3 ver 1 support    | [example](./examples/web3-v1)    |
-| [`@typechain/web3-v2`](/packages/@typechain/web3-v2)       | [![npm](https://img.shields.io/npm/v/@typechain/web3-v2.svg)](https://www.npmjs.com/package/@typechain/web3-v2)       | Web3 ver 2 support    | [example](./examples/web3-v2)    |
 
 ## Usage
 
 ### CLI
 
 ```
-typechain --target=(ethers|truffle|web3-v1|web3-v2|path-to-custom-target) [glob]
+typechain --target=(ethers|truffle|web3-v1|path-to-custom-target) [glob]
 ```
 
 - `glob` - pattern that will be used to find ABIs, remember about adding quotes: `typechain "**/*.json"`, examples:
   `./abis/**/*.abi`, `./abis/?(Oasis.abi|OasisHelper.abi)`
 - `--target` - ethers, truffle, web3-v1 or path to your custom target. typechain will try to load package named
   `typechain-target-${target}`, so make sure that desired package is installed.
-- `--outDir` - put all generated files to a specific dir
+- `--outDir` (optional) - put all generated files to a specific dir
 
 TypeChain always will rewrite existing files. You should not commit them. Read more in FAQ section.
 
@@ -98,9 +98,7 @@ only locally), it will automatically find all `.abi` files in your project and g
 them. You can specify your glob pattern: `typechain --target=your_target "**/*.abi.json"`. `node_modules` are always
 ignored. We recommend git ignoring these generated files and making typechain part of your build process.
 
-That's it! Now, just import contract bindings as any other file
-`import { MyAwesomeContract } from './contracts/MyAwesomeContract'` and start interacting with it. We use named exports
-because of [this](https://blog.neufund.org/why-we-have-banned-default-exports-and-you-should-do-the-same-d51fdc2cf2ad).
+That's it! Now, you can simply import typings, check out our examples for more details.
 
 ## Targets 🎯
 
@@ -123,22 +121,16 @@ of `Web3 1.0.0` library so nothing additional is needed. For now it needs explic
 [here](https://github.com/krzkaczor/TypeChain/pull/88/files#diff-540a9b8840419be93ddb8d4b53325637R8), this will be fixed
 after improving official typings.
 
-### Web3-2.0.0
+### NatSpec support
 
-Generates typings for contracts compatible with (unstable) Web3.js 2.x.x version. Typings for library itself are now
-part of `Web3 2.0.0` library so nothing additional is needed.
-[Usage example](https://github.com/ethereum-ts/TypeChain/blob/master/test/integration/targets/web3-v2/DumbContract.spec.web3.ts#L12).
+If you provide solidity artifacts rather than plain ABIs as an input, TypeChain can generate NatSpec comments directly
+to your typings which enables simple access to docs while coding.
 
 ### Your own target
 
 This might be useful when you're creating a library for users of your smartcontract and you don't want to lock yourself
 into any API provided by Web3 access providing library. You can generate basically any code (even for different
 languages than TypeScript!) that based on smartcontract's ABI.
-
-## Migration guide
-
-For users of 0.x.x versions: the only breaking change is extraction of targets for separate packages so now you need to
-install `typechain-target-${name}` for each target.
 
 ## FAQ 🤔
 
