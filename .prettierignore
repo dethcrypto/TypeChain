@@ -1,2 +1,4 @@
-dist/
-**/*.d.ts
+package.json
+**/dist/**
+**/types/**
+**/build/**  # truffle artifacts

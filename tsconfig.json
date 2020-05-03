@@ -1,31 +1,22 @@
 {
   "compilerOptions": {
-    "strict": true,
-    "sourceMap": true,
-    "types": ["node", "mocha"],
-    "lib": ["es2015"],
-    "target": "es2016",
-    "outDir": "./dist",
-    "module": "commonjs",
     "declaration": true,
-    "skipLibCheck": true,
-    "baseUrl": "packages",
-    "paths": {
-      "typechain": ["core/lib/index.ts"]
-    }
+    "lib": ["ES2018"],
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "strict": true,
+    "target": "ES2018",
+    "sourceMap": true,
+    "composite": true,
+    "incremental": true
   },
-  "include": [
-    "packages/**/*.ts",
-    "./test/**/*.ts",
-    "./typings/*.ts",
-    "./node_modules/web3-typescript-typings/index.d.ts",
-    "./node_modules/@types/chai-as-promised/index.d.ts"
-  ],
-  "exclude": [
-    "./test/integration/targets/truffle/**/*.ts",
-    "./test/integration/targets/web3-v1/**/*",
-    "./test/integration/targets/web3-v2/**/*",
-    "./test/integration/targets/ethers/**/*",
-    "./test/package-test/**/*"
+  "files": [],
+  "references": [
+    { "path": "./packages/typechain/tsconfig.build.json" },
+    { "path": "./packages/test-utils/tsconfig.build.json" },
+    { "path": "./packages/target-web3-v1/tsconfig.build.json" },
+    { "path": "./packages/target-truffle-v4/tsconfig.build.json" },
+    { "path": "./packages/target-truffle-v5/tsconfig.build.json" },
+    { "path": "./packages/target-ethers-v4/tsconfig.build.json" },
   ]
 }

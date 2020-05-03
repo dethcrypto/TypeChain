@@ -1,45 +1,30 @@
 {
-  "name": "root",
-  "version": "0.0.1",
+  "name": "monorepo-base",
   "private": true,
   "license": "MIT",
-  "scripts": {
-    "prepare": "patch-package",
-    "build": "rm -rf ./dist && tsc -p ./tsconfig.prod.json && (cd packages/core/ && yarn build) && (cd packages/typechain-target-ethers/ && yarn build) && (cd packages/typechain-target-truffle/ && yarn build) && (cd packages/typechain-target-web3-v1/ && yarn build) && (cd packages/typechain-target-web3-v2/ && yarn build)",
-    "tslint": "tslint -p ./tsconfig.json -e 'node_modules/**/*' -e '**/node_modules/**/*' 'packages/**/*.ts'",
-    "tslint:fix": "tslint --fix --format stylish -p ./tsconfig.json -e 'node_modules/**/*' -e '**/node_modules/**/*' 'packages/**/*.ts'",
-    "format": "prettier --list-different 'packages/**/*.{ts,tsx,json,md,gql}' README.md 'test/integration/**/*.{ts,tsx,json,md,gql}'",
-    "format:fix": "prettier --write 'packages/**/*.{ts,tsx,json,md,gql}' README.md 'test/integration/**/*.{ts,tsx,json,md,gql}'",
-    "tsc": "tsc --noEmit",
-    "tsc:truffle": "tsc --noEmit --project ./test/integration/targets/truffle/tsconfig.json",
-    "prepublishOnly": "yarn test && yarn build",
-    "lint": "yarn format && yarn tslint",
-    "lint:fix": "yarn tslint:fix && yarn format:fix",
-    "test": "yarn lint && ./scripts/test.sh",
-    "test:coverage": "yarn lint && ./scripts/test.sh COVERAGE",
-    "test:fix": "yarn lint:fix && ./scripts/test.sh",
-    "test:mocha": "TS_NODE_FILES=true TS_NODE_IGNORE=\"/test/integration/targets/web3-v*/\" mocha --require ts-node/register --require tsconfig-paths/register --require test/setup-chai.ts --require 'test/integration/before.ts' 'test/integration/web3.ts' './**/*.spec.ts'",
-    "test:mocha:coverage": "TS_NODE_FILES=true NODE_ENV=test nyc mocha --require ts-node/register --require tsconfig-paths/register --require source-map-support/register --require test/setup-chai.ts --require 'test/integration/before.ts' 'test/integration/web3.ts' './**/*.spec.ts'",
-    "test:package-bundle": "cd ./test/package-test && yarn --frozen-lockfile && yarn start",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls"
+  "engines": {
+    "yarn": ">=1.15.2"
   },
-  "devDependencies": {
-    "krzkaczor-solc": "^0.4.24",
-    "mocha": "^4.0.1",
-    "mocha-prepare": "^0.1.0",
-    "nyc": "^12.0.2",
-    "patch-package": "^5.1.1",
-    "prettier": "^1.18.2",
-    "source-map-support": "^0.5.8",
-    "ts-node": "^8.5.4",
-    "tsconfig-paths": "^3.9.0",
-    "tslint": "^5.20.0",
-    "typescript": "^3.6.3",
-    "typestrict": "^1.0.3-beta.0",
-    "web3": "0.20.x",
-    "web3-typescript-typings": "^0.7.2"
+  "scripts": {
+    "postinstall": "yarn build",
+    "format": "wsrun -c format",
+    "format:fix": "wsrun -c format:fix",
+    "lint": "wsrun -c lint",
+    "lint:fix": "wsrun -c lint:fix",
+    "typecheck": "wsrun -c typecheck",
+    "build": "tsc --build --verbose && wsrun -m -c post-build",
+    "watch": "tsc --build --verbose --watch",
+    "clean": "wsrun -c clean",
+    "compile-contracts": "./scripts/compile-contracts/compile-contracts.sh && wsrun -m -c compile-contracts",
+    "test": "yarn compile-contracts && wsrun -mse -c test",
+    "test:fix": "yarn lint:fix && yarn test && yarn format:fix && yarn typecheck",
+    "check-examples": "./scripts/check-examples.sh"
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "devDependencies": {
+    "solc": "^0.6.4",
+    "wsrun": "^5.2.0"
+  }
 }
