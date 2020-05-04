@@ -10,7 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@typechain/truffle-v5": "^1.0.0",
+    "@typechain/truffle-v5": "^2.0.0",
     "truffle": "^5.1.22",
     "typechain": "2.0.0",
     "typescript": "^3.8.3"
