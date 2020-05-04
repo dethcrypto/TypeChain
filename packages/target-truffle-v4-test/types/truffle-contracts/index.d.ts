@@ -20,3 +20,13 @@ declare global {
     }
   }
 }
+
+export {
+  DataTypesInputContract,
+  DataTypesInputInstance
+} from "./DataTypesInput";
+export { DataTypesPureContract, DataTypesPureInstance } from "./DataTypesPure";
+export { DataTypesViewContract, DataTypesViewInstance } from "./DataTypesView";
+export { EventsContract, EventsInstance } from "./Events";
+export { OverloadsContract, OverloadsInstance } from "./Overloads";
+export { PayableContract, PayableInstance } from "./Payable";
