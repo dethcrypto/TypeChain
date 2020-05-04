@@ -11,5 +11,7 @@ export function codegenArtifactHeaders(contracts: Contract[]): string {
       }
     }
   }
+
+  ${contracts.map((c) => `export {${c.name}Contract, ${c.name}Instance} from "./${c.name}";`).join('\n')}
   `
 }
