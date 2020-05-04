@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@typechain/truffle-v5@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@typechain/truffle-v5/-/truffle-v5-1.0.0.tgz#eb03228e1d18923076e16d928e326e840e9e1885"
-  integrity sha512-M7hZagfbRhCekn7z/FfaxqMnRPmZDlZ9qMjr7SGWC2AdnbHVv0HkwEIKQZYp8BZEvcPiokSWMZ/A0p3fAhf6WA==
+"@typechain/truffle-v5@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@typechain/truffle-v5/-/truffle-v5-2.0.0.tgz#712f282c222688ba5084948c649a7eeaad172b6d"
+  integrity sha512-SeF+UHHKbudjCfwsQdXlRUJHzQrv5iVzkjoILmmyzKoWihOzWr3wLh/QmRt0x2gihV/SIVJ7r2hskxrY4txMUw==
 
 "@types/mkdirp@^0.5.2":
   version "0.5.2"
