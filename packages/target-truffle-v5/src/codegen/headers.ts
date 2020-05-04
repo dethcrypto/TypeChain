@@ -7,7 +7,7 @@ export function codegenArtifactHeaders(contracts: Contract[]): string {
   declare global {
     namespace Truffle {
       interface Artifacts {
-        ${contracts.map((c) => `require(name: "${c.name}"): ${c.name}Contract;`).join('\n')}
+        ${contracts.map((c) => `require(name: "${c.rawName}"): ${c.name}Contract;`).join('\n')}
       }
     }
   }
