@@ -30,5 +30,9 @@ export {
 export { DataTypesPureContract, DataTypesPureInstance } from "./DataTypesPure";
 export { DataTypesViewContract, DataTypesViewInstance } from "./DataTypesView";
 export { EventsContract, EventsInstance } from "./Events";
+export {
+  Name12ManglingContract,
+  Name12ManglingInstance
+} from "./Name12Mangling";
 export { OverloadsContract, OverloadsInstance } from "./Overloads";
 export { PayableContract, PayableInstance } from "./Payable";
