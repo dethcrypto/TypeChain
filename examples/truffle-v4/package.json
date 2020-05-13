@@ -1,6 +1,7 @@
 {
-  "name": "truffle-v4",
-  "version": "2.0.1",
+  "name": "example-truffle-v4",
+  "private": true,
+  "version": "0.0.1",
   "main": "index.js",
   "license": "MIT",
   "scripts": {

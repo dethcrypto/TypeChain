@@ -1,6 +1,7 @@
 {
-  "name": "web3-v1",
-  "version": "1.0.0",
+  "name": "example-web3-v1",
+  "private": true,
+  "version": "0.0.1",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
