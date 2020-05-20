@@ -25,8 +25,7 @@
 
 - static typing - you will never call not existing method again
 - IDE support - works with any IDE supporting Typescript
-- extendible - work with many different APIs: `ethers.js`, `truffle`, `Web3.js 1.0`, `Web3.js 2.0` or you can create
-  your own target
+- extendible - work with many different APIs: `ethers.js v4`, `truffle v4 `, `truffle v5`, `Web3.js v1`, `Web3.js v2` or you can create your own target
 - frictionless - works with simple, JSON ABI files as well as with Truffle style ABIs
 
 ## Installation
@@ -53,21 +52,21 @@ You will also need to install a desired target for example `typechain-target-eth
 ### CLI
 
 ```
-typechain --target=(ethers|truffle|web3-v1|path-to-custom-target) [glob]
+typechain --target=(ethers-v4|truffle-v4|truffle-v5|web3-v1|path-to-custom-target) [glob]
 ```
 
 - `glob` - pattern that will be used to find ABIs, remember about adding quotes: `typechain "**/*.json"`, examples:
-  `./abis/**/*.abi`, `./abis/?(Oasis.abi|OasisHelper.abi)`
-- `--target` - ethers, truffle, web3-v1 or path to your custom target. typechain will try to load package named
+  `./abis/**/*.abi`, `./abis/?(Oasis.abi|OasisHelper.abi)`.
+- `--target` - ethers-v4, truffle-v4, truffle-v5, web3-v1 or path to your custom target. Typechain will try to load package named.
   `typechain-target-${target}`, so make sure that desired package is installed.
-- `--outDir` (optional) - put all generated files to a specific dir
+- `--outDir` (optional) - put all generated files to a specific dir.
 
 TypeChain always will rewrite existing files. You should not commit them. Read more in FAQ section.
 
 Example:
 
 ```
-typechain --target ethers --outDir app/contracts './node_modules/neufund-contracts/build/contracts/*.json'
+typechain --target ethers-v4 --outDir app/contracts './node_modules/neufund-contracts/build/contracts/*.json'
 ```
 
 ## Demo 🏎️
@@ -102,11 +101,11 @@ That's it! Now, you can simply import typings, check out our examples for more d
 
 ## Targets 🎯
 
-### Ethers.js
+### Ethers.js v4
 
-Use `ethers` target to generate wrappers for [ethers.js](https://github.com/ethers-io/ethers.js/) lib.
+Use `ethers-v4` target to generate wrappers for [ethers.js](https://github.com/ethers-io/ethers.js/) lib.
 
-### Truffle
+### Truffle v4-v5
 
 Truffle target is great when you use truffle contracts already. Check out
 [truffle-typechain-example](https://github.com/ethereum-ts/truffle-typechain-example) for more details. It require
@@ -114,10 +113,10 @@ installing [typings](https://www.npmjs.com/package/truffle-typings) for truffle 
 
 Now you can simply use your contracts as you did before and get full type safety, yay!
 
-### Web3-1.0.0
+### Web3 v1
 
 Generates typings for contracts compatible with latest stable Web3.js version. Typings for library itself are now part
-of `Web3 1.0.0` library so nothing additional is needed. For now it needs explicit cast as shown
+of the `Web3 1.0.0` library so nothing additional is needed. For now it needs explicit cast as shown
 [here](https://github.com/krzkaczor/TypeChain/pull/88/files#diff-540a9b8840419be93ddb8d4b53325637R8), this will be fixed
 after improving official typings.
 
