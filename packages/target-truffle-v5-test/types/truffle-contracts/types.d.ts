@@ -83,6 +83,8 @@ declare namespace Truffle {
   interface Contract<T> extends ContractNew<any[]> {
     deployed(): Promise<T>;
     at(address: string): Promise<T>;
+    link(name: string, address: string): void;
+    link<U>(contract: Contract<U>): void;
     address: string;
     contractName: string;
   }
