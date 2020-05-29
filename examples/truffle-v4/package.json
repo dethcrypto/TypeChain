@@ -7,12 +7,16 @@
   "scripts": {
     "generate-types": "typechain --target=truffle-v4 'build/contracts/*.json'",
     "postinstall": "truffle compile && yarn generate-types",
-    "migrate": "tsc -p . --outDir ./migrations && truffle migrate",
+    "migrate": "tsc -p ./tsconfig.migrate.json --outDir ./migrations && truffle migrate",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@typechain/truffle-v4": "^2.0.0",
+    "@types/bignumber.js": "^5.0.0",
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^7.0.2",
     "truffle": "4.1.17",
+    "ts-node": "^8.10.2",
     "typechain": "2.0.0",
     "typescript": "^3.8.3"
   }
