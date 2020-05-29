@@ -6,13 +6,10 @@
 /// <reference types="chai" />
 /// <reference types="mocha" />
 
-declare type BN = import("bn.js");
-declare type Web3 = import("web3").default;
+declare type BigNumber = import("bignumber.js").default;
 
 declare const assert: Chai.AssertStatic;
 declare const expect: Chai.ExpectStatic;
-
-declare const web3: Web3;
 
 declare const artifacts: Truffle.Artifacts;
 
@@ -52,9 +49,9 @@ declare namespace Truffle {
 
   interface TransactionDetails {
     from?: string;
-    gas?: BN | number | string;
-    gasPrice?: BN | number | string;
-    value?: BN | string;
+    gas?: BigNumber | number | string;
+    gasPrice?: BigNumber | number | string;
+    value?: BigNumber | string;
   }
 
   export interface TransactionLog<EVENTS extends AnyEvent> {
