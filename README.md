@@ -34,7 +34,7 @@
 npm install --save-dev typechain
 ```
 
-You will also need to install a desired target for example `typechain-target-ethers`.
+You will also need to install a desired target for example `@typechain/ethers-v4`.
 [Learn more about targets](#targets-)
 
 ## Packages 📦
