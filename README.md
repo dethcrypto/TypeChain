@@ -34,7 +34,7 @@
 npm install --save-dev typechain
 ```
 
-You will also need to install a desired target for example `typechain-target-ethers`.
+You will also need to install a desired target for example `@typechain/ethers-v4`.
 [Learn more about targets](#targets-)
 
 ## Packages 📦
@@ -58,7 +58,7 @@ typechain --target=(ethers-v4|truffle-v4|truffle-v5|web3-v1|path-to-custom-targe
 - `glob` - pattern that will be used to find ABIs, remember about adding quotes: `typechain "**/*.json"`, examples:
   `./abis/**/*.abi`, `./abis/?(Oasis.abi|OasisHelper.abi)`.
 - `--target` - ethers-v4, truffle-v4, truffle-v5, web3-v1 or path to your custom target. Typechain will try to load package named.
-  `typechain-target-${target}`, so make sure that desired package is installed.
+  `@typechain/${target}`, so make sure that desired package is installed.
 - `--outDir` (optional) - put all generated files to a specific dir.
 
 TypeChain always will rewrite existing files. You should not commit them. Read more in FAQ section.
