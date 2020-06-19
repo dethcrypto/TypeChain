@@ -13,6 +13,7 @@ import { codegenFunctions } from './functions'
 export function codegenContractTypings(contract: Contract) {
   const template = `
   import { Contract, ContractTransaction, EventFilter, Signer } from "ethers";
+  import { BytesLike } from '@ethersproject/bytes';
   import { Listener, Provider } from 'ethers/providers';
   import { Arrayish, BigNumber, BigNumberish, Interface } from "ethers/utils";
   import { TransactionOverrides, TypedEventDescription, TypedFunctionDescription } from ".";
@@ -82,17 +83,14 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
   if (!bytecode) return codegenAbstractContractFactory(contract, abi)
 
   // tsc with noUnusedLocals would complain about unused imports
-  const ethersUtilsImports: string[] = []
-  if (constructorArgs.match(/\WArrayish(\W|$)/)) ethersUtilsImports.push('Arrayish')
-  if (constructorArgs.match(/\WBigNumberish(\W|$)/)) ethersUtilsImports.push('BigNumberish')
-  const ethersUtilsImportLine =
-    ethersUtilsImports.length > 0 ? `import { ${ethersUtilsImports.join(', ')} } from "ethers/utils";` : ''
+  const ethersImports: string[] = ['Contract', 'ContractFactory', 'Signer']
+  if (constructorArgs.match(/\WBytesLike(\W|$)/)) ethersImports.push('BytesLike')
+  if (constructorArgs.match(/\WBigNumberish(\W|$)/)) ethersImports.push('BigNumberish')
 
   return `
-  import { Contract, ContractFactory, Signer } from "ethers";
+  import { ${ethersImports.join(', ')} } from "ethers";
   import { Provider } from "ethers/providers";
   import { UnsignedTransaction } from "ethers/utils/transaction";
-  ${ethersUtilsImportLine}
 
   import { TransactionOverrides } from ".";
   import { ${contract.name} } from "./${contract.name}";

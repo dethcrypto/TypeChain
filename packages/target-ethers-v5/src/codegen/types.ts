@@ -31,7 +31,7 @@ export function generateInputType(evmType: EvmType): string {
       return 'string'
     case 'bytes':
     case 'dynamic-bytes':
-      return 'Arrayish'
+      return 'BytesLike'
     case 'array':
       return `(${generateInputType(evmType.itemType)})[]`
     case 'boolean':
