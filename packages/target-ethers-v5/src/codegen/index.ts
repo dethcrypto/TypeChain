@@ -59,7 +59,7 @@ export function codegenContractTypings(contract: Contract) {
         .join('\n')}
     };
 
-    estimate: {
+    estimateGas: {
       ${values(contract.functions)
         .map((v) => v[0])
         .map(generateEstimateFunction)
