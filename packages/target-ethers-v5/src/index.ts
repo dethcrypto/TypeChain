@@ -117,12 +117,6 @@ export default class Ethers extends TsGeneratorPlugin {
         contents: codegenAbstractContractFactory(contract, abi),
       }
     })
-    return [
-      ...abstractFactoryFiles,
-      {
-        path: join(this.outDirAbs, 'index.d.ts'),
-        contents: readFileSync(join(__dirname, '../static/index.d.ts'), 'utf-8'),
-      },
-    ]
+    return abstractFactoryFiles
   }
 }
