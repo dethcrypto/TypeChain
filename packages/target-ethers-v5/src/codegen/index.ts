@@ -12,11 +12,11 @@ import { codegenFunctions } from './functions'
 
 export function codegenContractTypings(contract: Contract) {
   const template = `
-  import { EventFilter, Signer, BigNumber, BigNumberish } from 'ethers';
+  import { ethers, EventFilter, Signer, BigNumber, BigNumberish } from 'ethers';
   import { Contract, ContractTransaction, Overrides } from '@ethersproject/contracts';
   import { BytesLike } from '@ethersproject/bytes';
   import { Listener, Provider } from '@ethersproject/providers';
-  import { TypedEventDescription, TypedFunctionDescription } from ".";
+  import { FunctionFragment, EventFragment } from '@ethersproject/abi';
 
   interface ${contract.name}Interface extends ethers.utils.Interface {
     functions: {
@@ -193,11 +193,12 @@ function generateEstimateFunction(fn: FunctionDeclaration): string {
 }
 
 function generateInterfaceFunctionDescription(fn: FunctionDeclaration): string {
-  return `
-  ${fn.name}: TypedFunctionDescription<{ encode(${generateParamArrayNames(fn.inputs)}: ${generateParamArrayTypes(
-    fn.inputs,
-  )}): string; }>;
-`
+  // console.log(fn.name, fn.inputs)
+  return `'${generateFunctionSignature(fn)}': FunctionFragment;`
+}
+
+function generateFunctionSignature(fn: FunctionDeclaration): string {
+  return `${fn.name}(${fn.inputs.map((input: any) => input.type.originalType).join(',')})`
 }
 
 function generateParamArrayTypes(params: Array<AbiParameter>): string {
@@ -219,11 +220,11 @@ function generateEvents(event: EventDeclaration) {
 }
 
 function generateInterfaceEventDescription(event: EventDeclaration): string {
-  return `
-  ${event.name}: TypedEventDescription<{ encodeTopics(${generateParamArrayNames(
-    event.inputs,
-  )}: ${generateEventTopicTypes(event.inputs)}): string[]; }>;
-`
+  return `'${generateEventSignature(event)}': EventFragment;`
+}
+
+function generateEventSignature(event: EventDeclaration): string {
+  return `${event.name}(${event.inputs.map((input: any) => input.type.originalType).join(',')})`
 }
 
 function generateEventTopicTypes(eventArgs: Array<EventArgDeclaration>): string {
