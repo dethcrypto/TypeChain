@@ -35,15 +35,15 @@ export function codegenContractTypings(contract: Contract) {
   }
 
   export class ${contract.name} extends Contract {
-    connect(signerOrProvider: Signer | Provider | string): ${contract.name};
-    attach(addressOrName: string): ${contract.name};
-    deployed(): Promise<${contract.name}>;
+    connect(signerOrProvider: Signer | Provider | string): this;
+    attach(addressOrName: string): this;
+    deployed(): Promise<this>;
 
-    on(event: EventFilter | string, listener: Listener): ${contract.name};
-    once(event: EventFilter | string, listener: Listener): ${contract.name};
-    addListener(eventName: EventFilter | string, listener: Listener): ${contract.name};
-    removeAllListeners(eventName: EventFilter | string): ${contract.name};
-    removeListener(eventName: any, listener: Listener): ${contract.name};
+    on(event: EventFilter | string, listener: Listener): this;
+    once(event: EventFilter | string, listener: Listener): this;
+    addListener(eventName: EventFilter | string, listener: Listener): this;
+    removeAllListeners(eventName: EventFilter | string): this;
+    removeListener(eventName: any, listener: Listener): this;
 
     interface: ${contract.name}Interface;
 
