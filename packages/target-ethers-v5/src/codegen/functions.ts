@@ -17,7 +17,7 @@ function generateFunction(fn: FunctionDeclaration, overloadedName?: string): str
   return `
   ${generateFunctionDocumentation(fn.documentation)}
   ${overloadedName ?? fn.name}(${generateInputTypes(fn.inputs)}${
-    !isConstant(fn) && !isConstantFn(fn) ? 'overrides?: TransactionOverrides' : ''
+    !isConstant(fn) && !isConstantFn(fn) ? 'overrides?: Overrides' : ''
   }): Promise<${
     fn.stateMutability === 'pure' || fn.stateMutability === 'view'
       ? generateOutputTypes(fn.outputs)

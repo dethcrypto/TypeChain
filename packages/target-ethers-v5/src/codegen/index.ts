@@ -12,13 +12,13 @@ import { codegenFunctions } from './functions'
 
 export function codegenContractTypings(contract: Contract) {
   const template = `
-  import { Contract, ContractTransaction, EventFilter, Signer } from "ethers";
+  import { EventFilter, Signer, BigNumber, BigNumberish } from 'ethers';
+  import { Contract, ContractTransaction, Overrides } from '@ethersproject/contracts';
   import { BytesLike } from '@ethersproject/bytes';
-  import { Listener, Provider } from 'ethers/providers';
-  import { Arrayish, BigNumber, BigNumberish, Interface } from "ethers/utils";
-  import { TransactionOverrides, TypedEventDescription, TypedFunctionDescription } from ".";
+  import { Listener, Provider } from '@ethersproject/providers';
+  import { TypedEventDescription, TypedFunctionDescription } from ".";
 
-  interface ${contract.name}Interface extends Interface {
+  interface ${contract.name}Interface extends ethers.utils.Interface {
     functions: {
       ${values(contract.functions)
         .map((v) => v[0])
@@ -74,7 +74,7 @@ export function codegenContractTypings(contract: Contract) {
 export function codegenContractFactory(contract: Contract, abi: any, bytecode?: BytecodeWithLinkReferences): string {
   const constructorArgs =
     (contract.constructor && contract.constructor[0] ? generateInputTypes(contract.constructor[0].inputs) : '') +
-    'overrides?: TransactionOverrides'
+    'overrides?: Overrides'
   const constructorArgNamesWithoutOverrides =
     contract.constructor && contract.constructor[0] ? generateParamNames(contract.constructor[0].inputs) : ''
   const constructorArgNames = constructorArgNamesWithoutOverrides
@@ -83,16 +83,16 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
   if (!bytecode) return codegenAbstractContractFactory(contract, abi)
 
   // tsc with noUnusedLocals would complain about unused imports
-  const ethersImports: string[] = ['Contract', 'ContractFactory', 'Signer']
+  const ethersImports: string[] = ['Signer']
   if (constructorArgs.match(/\WBytesLike(\W|$)/)) ethersImports.push('BytesLike')
   if (constructorArgs.match(/\WBigNumberish(\W|$)/)) ethersImports.push('BigNumberish')
 
   return `
   import { ${ethersImports.join(', ')} } from "ethers";
-  import { Provider } from "ethers/providers";
-  import { UnsignedTransaction } from "ethers/utils/transaction";
+  import { Provider } from '@ethersproject/providers';
+  import { UnsignedTransaction } from '@ethersproject/transactions';
+  import { Contract, ContractFactory, Overrides } from "@ethersproject/contracts";
 
-  import { TransactionOverrides } from ".";
   import { ${contract.name} } from "./${contract.name}";
 
   export class ${contract.name}Factory extends ContractFactory {
