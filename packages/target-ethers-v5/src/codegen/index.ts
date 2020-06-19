@@ -89,8 +89,7 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
 
   return `
   import { ${ethersImports.join(', ')} } from "ethers";
-  import { Provider } from '@ethersproject/providers';
-  import { UnsignedTransaction } from '@ethersproject/transactions';
+  import { Provider, TransactionRequest } from '@ethersproject/providers';
   import { Contract, ContractFactory, Overrides } from "@ethersproject/contracts";
 
   import { ${contract.name} } from "./${contract.name}";
@@ -100,7 +99,7 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
     deploy(${constructorArgs}): Promise<${contract.name}> {
       return super.deploy(${constructorArgNames}) as Promise<${contract.name}>;
     }
-    getDeployTransaction(${constructorArgs}): UnsignedTransaction {
+    getDeployTransaction(${constructorArgs}): TransactionRequest {
       return super.getDeployTransaction(${constructorArgNames});
     };
     attach(address: string): ${contract.name} {
