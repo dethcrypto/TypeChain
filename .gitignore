@@ -14,3 +14,4 @@ examples/truffle-v4/types
 examples/truffle-v4/migrations
 examples/truffle-v5/types
 examples/truffle-v5/migrations
+.DS_Store
