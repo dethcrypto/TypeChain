@@ -12,7 +12,7 @@ import { codegenFunctions } from './functions'
 
 export function codegenContractTypings(contract: Contract) {
   const template = `
-  import { ethers, EventFilter, Signer, BigNumber, BigNumberish } from 'ethers';
+  import { ethers, EventFilter, Signer, BigNumber, BigNumberish, PopulatedTransaction } from 'ethers';
   import { Contract, ContractTransaction, Overrides } from '@ethersproject/contracts';
   import { BytesLike } from '@ethersproject/bytes';
   import { Listener, Provider } from '@ethersproject/providers';
@@ -64,6 +64,13 @@ export function codegenContractTypings(contract: Contract) {
       ${values(contract.functions)
         .map((v) => v[0])
         .map(generateEstimateFunction)
+        .join('\n')}
+    };
+
+    populateTransaction: {
+      ${values(contract.functions)
+        .map((v) => v[0])
+        .map(generatePopulateTransactionFunction)
         .join('\n')}
     };
   }`
@@ -199,13 +206,14 @@ function generateLibraryAddressesInterface(contract: Contract, bytecode: Bytecod
 }
 
 function generateEstimateFunction(fn: FunctionDeclaration): string {
-  return `
-  ${fn.name}(${generateInputTypes(fn.inputs)}): Promise<BigNumber>;
-`
+  return `${fn.name}(${generateInputTypes(fn.inputs)}): Promise<BigNumber>;`
+}
+
+function generatePopulateTransactionFunction(fn: FunctionDeclaration): string {
+  return `${fn.name}(${generateInputTypes(fn.inputs)}): Promise<PopulatedTransaction>;`
 }
 
 function generateInterfaceFunctionDescription(fn: FunctionDeclaration): string {
-  // console.log(fn.name, fn.inputs)
   return `'${generateFunctionSignature(fn)}': FunctionFragment;`
 }
 
