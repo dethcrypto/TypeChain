@@ -23,6 +23,7 @@ const DEFAULT_OUT_PATH = './types/ethers-contracts/'
 
 export default class Ethers extends TsGeneratorPlugin {
   name = 'Ethers'
+  contractFiles: string[] = []
 
   private readonly outDirAbs: string
   private readonly contractCache: Dictionary<{
@@ -80,6 +81,7 @@ export default class Ethers extends TsGeneratorPlugin {
     if (abi.length === 0) {
       return
     }
+
     const documentation = extractDocumentation(file.contents)
 
     const contract = parse(abi, name, documentation)
@@ -101,6 +103,8 @@ export default class Ethers extends TsGeneratorPlugin {
   }
 
   genContractFactoryFile(contract: Contract, abi: any, bytecode?: BytecodeWithLinkReferences) {
+    this.contractFiles.push(`${contract.name}Contract`)
+
     return {
       path: join(this.outDirAbs, `${contract.name}Contract.ts`),
       contents: codegenContractFactory(contract, abi, bytecode),
@@ -117,6 +121,13 @@ export default class Ethers extends TsGeneratorPlugin {
         contents: codegenAbstractContractFactory(contract, abi),
       }
     })
-    return abstractFactoryFiles
+
+    return [
+      ...abstractFactoryFiles,
+      {
+        path: join(this.outDirAbs, 'index.ts'),
+        contents: this.contractFiles.map((fileName) => `export * from './${fileName}'`).join('\n'),
+      },
+    ]
   }
 }
