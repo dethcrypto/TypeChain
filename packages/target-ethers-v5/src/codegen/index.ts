@@ -92,8 +92,8 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
   const constructorArgNamesWithoutOverrides =
     contract.constructor && contract.constructor[0] ? generateParamNames(contract.constructor[0].inputs) : ''
   const constructorArgNames = constructorArgNamesWithoutOverrides
-    ? `${constructorArgNamesWithoutOverrides}, overrides`
-    : 'overrides'
+    ? `${constructorArgNamesWithoutOverrides}, overrides || {}`
+    : 'overrides || {}'
   if (!bytecode) return codegenAbstractContractFactory(contract, abi)
 
   // tsc with noUnusedLocals would complain about unused imports
