@@ -13,11 +13,15 @@ export function codegenForOverloadedFunctions(fns: FunctionDeclaration[]): strin
   return fns.map((fn) => generateFunction(fn, `"${getSignatureForFn(fn)}"`)).join('\n')
 }
 
+function isPayable(fn: FunctionDeclaration): boolean {
+  return fn.stateMutability === 'payable'
+}
+
 function generateFunction(fn: FunctionDeclaration, overloadedName?: string): string {
   return `
   ${generateFunctionDocumentation(fn.documentation)}
   ${overloadedName ?? fn.name}(${generateInputTypes(fn.inputs)}${
-    !isConstant(fn) && !isConstantFn(fn) ? 'overrides?: Overrides' : ''
+    !isConstant(fn) && !isConstantFn(fn) ? `overrides?: ${isPayable(fn) ? 'PayableOverrides' : 'Overrides'}` : ''
   }): Promise<${
     fn.stateMutability === 'pure' || fn.stateMutability === 'view'
       ? generateOutputTypes(fn.outputs)
