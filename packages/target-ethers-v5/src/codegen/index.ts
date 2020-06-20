@@ -74,7 +74,7 @@ export function codegenContractTypings(contract: Contract) {
 export function codegenContractFactory(contract: Contract, abi: any, bytecode?: BytecodeWithLinkReferences): string {
   const constructorArgs =
     (contract.constructor && contract.constructor[0] ? generateInputTypes(contract.constructor[0].inputs) : '') +
-    'overrides?: Overrides'
+    `overrides?: ${contract.constructor[0]?.stateMutability === 'payable' ? 'PayableOverrides' : 'Overrides'}`
   const constructorArgNamesWithoutOverrides =
     contract.constructor && contract.constructor[0] ? generateParamNames(contract.constructor[0].inputs) : ''
   const constructorArgNames = constructorArgNamesWithoutOverrides
@@ -87,10 +87,17 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
   if (constructorArgs.match(/\WBytesLike(\W|$)/)) ethersImports.push('BytesLike')
   if (constructorArgs.match(/\WBigNumberish(\W|$)/)) ethersImports.push('BigNumberish')
 
+  const ethersContractImports: string[] = ['Contract', 'ContractFactory']
+  if (constructorArgs.match(/\WPayableOverrides(\W|$)/)) {
+    ethersContractImports.push('PayableOverrides')
+  } else {
+    ethersContractImports.push('Overrides')
+  }
+
   return `
   import { ${ethersImports.join(', ')} } from "ethers";
   import { Provider, TransactionRequest } from '@ethersproject/providers';
-  import { Contract, ContractFactory, Overrides } from "@ethersproject/contracts";
+  import { ${ethersContractImports.join(', ')} } from "@ethersproject/contracts";
 
   import { ${contract.name} as _${contract.name} } from "./${contract.name}";
 
