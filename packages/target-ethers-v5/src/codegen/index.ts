@@ -11,9 +11,16 @@ import { generateInputType, generateInputTypes } from './types'
 import { codegenFunctions } from './functions'
 
 export function codegenContractTypings(contract: Contract) {
+  const contractImports: string[] = ['Contract', 'ContractTransaction']
+  const allFunctions = values(contract.functions).map(codegenFunctions.bind(null, true)).join('')
+
+  if (allFunctions.match(/\W Overrides(\W|$)/)) contractImports.push('Overrides')
+  if (allFunctions.match(/\WPayableOverrides(\W|$)/)) contractImports.push('PayableOverrides')
+  if (allFunctions.match(/\WCallOverrides(\W|$)/)) contractImports.push('CallOverrides')
+
   const template = `
   import { ethers, EventFilter, Signer, BigNumber, BigNumberish, PopulatedTransaction } from 'ethers';
-  import { Contract, ContractTransaction, Overrides } from '@ethersproject/contracts';
+  import { ${contractImports.join(', ')} } from '@ethersproject/contracts';
   import { BytesLike } from '@ethersproject/bytes';
   import { Listener, Provider } from '@ethersproject/providers';
   import { FunctionFragment, EventFragment } from '@ethersproject/abi';
