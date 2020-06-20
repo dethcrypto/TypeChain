@@ -113,13 +113,7 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
   import { Provider, TransactionRequest } from '@ethersproject/providers';
   import { ${ethersContractImports.join(', ')} } from "@ethersproject/contracts";
 
-  import { ${contract.name} as _${contract.name} } from "./${contract.name}";
-
-  export class ${contract.name} extends _${contract.name} {
-    constructor(addressOrName: string, signerOrProvider?: Signer | Provider | undefined) {
-      super(addressOrName, _abi, signerOrProvider);
-    }
-  }
+  import { ${contract.name} } from "./${contract.name}";
 
   export class ${contract.name}Factory extends ContractFactory {
     ${generateFactoryConstructor(contract, bytecode)}
