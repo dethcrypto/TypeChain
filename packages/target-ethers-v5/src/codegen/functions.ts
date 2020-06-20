@@ -21,7 +21,9 @@ function generateFunction(returnResultObject: boolean, fn: FunctionDeclaration, 
   return `
   ${generateFunctionDocumentation(fn.documentation)}
   ${overloadedName ?? fn.name}(${generateInputTypes(fn.inputs)}${
-    !isConstant(fn) && !isConstantFn(fn) ? `overrides?: ${isPayable(fn) ? 'PayableOverrides' : 'Overrides'}` : ''
+    !isConstant(fn) && !isConstantFn(fn)
+      ? `overrides?: ${isPayable(fn) ? 'PayableOverrides' : 'Overrides'}`
+      : 'overrides?: CallOverrides'
   }): Promise<${
     fn.stateMutability === 'pure' || fn.stateMutability === 'view'
       ? generateOutputTypes(returnResultObject, fn.outputs)
