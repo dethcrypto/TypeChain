@@ -1,5 +1,4 @@
 import { join, resolve } from 'path'
-import { readFileSync } from 'fs'
 import { Dictionary } from 'ts-essentials'
 import { TContext, TFileDesc, TsGeneratorPlugin } from 'ts-generator'
 import {

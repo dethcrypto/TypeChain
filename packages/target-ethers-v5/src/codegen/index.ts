@@ -228,16 +228,8 @@ function generateFunctionSignature(fn: FunctionDeclaration): string {
   return `${fn.name}(${fn.inputs.map((input: any) => input.type.originalType).join(',')})`
 }
 
-function generateParamArrayTypes(params: Array<AbiParameter>): string {
-  return `[${params.map((param) => generateInputType(param.type)).join(', ')}]`
-}
-
 function generateParamNames(params: Array<AbiParameter | EventArgDeclaration>): string {
   return params.map((param) => param.name).join(', ')
-}
-
-function generateParamArrayNames(params: Array<AbiParameter | EventArgDeclaration>): string {
-  return `[${generateParamNames(params)}]`
 }
 
 function generateEvents(event: EventDeclaration) {
@@ -252,10 +244,6 @@ function generateInterfaceEventDescription(event: EventDeclaration): string {
 
 function generateEventSignature(event: EventDeclaration): string {
   return `${event.name}(${event.inputs.map((input: any) => input.type.originalType).join(',')})`
-}
-
-function generateEventTopicTypes(eventArgs: Array<EventArgDeclaration>): string {
-  return `[${eventArgs.map(generateEventArgType).join(', ')}]`
 }
 
 function generateEventTypes(eventArgs: EventArgDeclaration[]) {
