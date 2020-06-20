@@ -1,9 +1,9 @@
-# Typechain target Ethers-v4
+# Typechain target Ethers-v5
 
 <p align="center">
   <img src="https://github.com/Neufund/TypeChain/blob/d82f3cc644a11e22ca8e42505c16f035e2f2555d/docs/images/typechain-logo.png?raw=true" width="300" alt="TypeChain">
-  <h3 align="center">TypeChain target Ethers-v4</h3>
-  <p align="center">🔌 TypeScript bindings for Ethers 4.x.x smartcontracts</p>
+  <h3 align="center">TypeChain target Ethers-v5</h3>
+  <p align="center">🔌 TypeScript bindings for Ethers 5.x.x smartcontracts</p>
 
   <p align="center">
     <a href="https://circleci.com/gh/ethereum-ts/TypeChain"><img alt="Build Status" src="https://circleci.com/gh/ethereum-ts/TypeChain/tree/master.svg?style=svg"></a>
