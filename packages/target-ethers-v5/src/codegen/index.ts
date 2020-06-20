@@ -48,10 +48,10 @@ export function codegenContractTypings(contract: Contract) {
     interface: ${contract.name}Interface;
 
     functions: {
-      ${values(contract.functions).map(codegenFunctions).join('\n')}
+      ${values(contract.functions).map(codegenFunctions.bind(null, true)).join('\n')}
     };
 
-    ${values(contract.functions).map(codegenFunctions).join('\n')}
+    ${values(contract.functions).map(codegenFunctions.bind(null, false)).join('\n')}
 
     filters: {
       ${values(contract.events)
