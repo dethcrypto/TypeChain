@@ -155,7 +155,7 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
 export function codegenAbstractContractFactory(contract: Contract, abi: any): string {
   return `
   import { Contract, Signer } from "ethers";
-  import { Provider } from "ethers/providers";
+  import { Provider } from "@ethersproject/providers";
 
   import { ${contract.name} } from "./${contract.name}";
 
