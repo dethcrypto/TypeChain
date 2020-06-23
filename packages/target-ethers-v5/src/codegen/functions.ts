@@ -1,23 +1,23 @@
 import { FunctionDeclaration, isConstant, isConstantFn, FunctionDocumentation, getSignatureForFn } from 'typechain'
-import { generateInputTypes, generateOutputTypes } from './types'
+import { generateInputTypes, generateOutputTypes, GenerateFunctionOptions } from './types'
 
-export function codegenFunctions(returnResultObject: boolean, fns: FunctionDeclaration[]): string {
+export function codegenFunctions(options: GenerateFunctionOptions, fns: FunctionDeclaration[]): string {
   if (fns.length === 1) {
-    return generateFunction(returnResultObject, fns[0])
+    return generateFunction(options, fns[0])
   }
 
-  return codegenForOverloadedFunctions(returnResultObject, fns)
+  return codegenForOverloadedFunctions(options, fns)
 }
 
-export function codegenForOverloadedFunctions(returnResultObject: boolean, fns: FunctionDeclaration[]): string {
-  return fns.map((fn) => generateFunction(returnResultObject, fn, `"${getSignatureForFn(fn)}"`)).join('\n')
+export function codegenForOverloadedFunctions(options: GenerateFunctionOptions, fns: FunctionDeclaration[]): string {
+  return fns.map((fn) => generateFunction(options, fn, `"${getSignatureForFn(fn)}"`)).join('\n')
 }
 
 function isPayable(fn: FunctionDeclaration): boolean {
   return fn.stateMutability === 'payable'
 }
 
-function generateFunction(returnResultObject: boolean, fn: FunctionDeclaration, overloadedName?: string): string {
+function generateFunction(options: GenerateFunctionOptions, fn: FunctionDeclaration, overloadedName?: string): string {
   return `
   ${generateFunctionDocumentation(fn.documentation)}
   ${overloadedName ?? fn.name}(${generateInputTypes(fn.inputs)}${
@@ -25,8 +25,8 @@ function generateFunction(returnResultObject: boolean, fn: FunctionDeclaration, 
       ? `overrides?: ${isPayable(fn) ? 'PayableOverrides' : 'Overrides'}`
       : 'overrides?: CallOverrides'
   }): Promise<${
-    fn.stateMutability === 'pure' || fn.stateMutability === 'view'
-      ? generateOutputTypes(returnResultObject, fn.outputs)
+    options.isStaticCall || fn.stateMutability === 'pure' || fn.stateMutability === 'view'
+      ? generateOutputTypes(!!options.returnResultObject, fn.outputs)
       : 'ContractTransaction'
   }>;
 `

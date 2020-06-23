@@ -12,7 +12,9 @@ import { codegenFunctions } from './functions'
 
 export function codegenContractTypings(contract: Contract) {
   const contractImports: string[] = ['Contract', 'ContractTransaction']
-  const allFunctions = values(contract.functions).map(codegenFunctions.bind(null, true)).join('')
+  const allFunctions = values(contract.functions)
+    .map(codegenFunctions.bind(null, { returnResultObject: true }))
+    .join('')
 
   if (allFunctions.match(/\W Overrides(\W|$)/)) contractImports.push('Overrides')
   if (allFunctions.match(/\WPayableOverrides(\W|$)/)) contractImports.push('PayableOverrides')
@@ -55,10 +57,18 @@ export function codegenContractTypings(contract: Contract) {
     interface: ${contract.name}Interface;
 
     functions: {
-      ${values(contract.functions).map(codegenFunctions.bind(null, true)).join('\n')}
+      ${values(contract.functions)
+        .map(codegenFunctions.bind(null, { returnResultObject: true }))
+        .join('\n')}
     };
 
-    ${values(contract.functions).map(codegenFunctions.bind(null, false)).join('\n')}
+    ${values(contract.functions).map(codegenFunctions.bind(null, {})).join('\n')}
+
+    staticCall: {
+      ${values(contract.functions)
+        .map(codegenFunctions.bind(null, { isStaticCall: true }))
+        .join('\n')}
+    };
 
     filters: {
       ${values(contract.events)
