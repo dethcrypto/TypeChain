@@ -35,6 +35,11 @@ export function codegenContractTypings(contract: Contract) {
         .join('\n')}
     };
 
+    ${values(contract.functions)
+      .map((v) => v[0])
+      .map(generateEncodeFunctionDataOverload)
+      .join('\n')}
+    
     events: {
       ${values(contract.events)
         .map((v) => v[0])
@@ -230,6 +235,18 @@ function generateInterfaceFunctionDescription(fn: FunctionDeclaration): string {
 
 function generateFunctionSignature(fn: FunctionDeclaration): string {
   return `${fn.name}(${fn.inputs.map((input: any) => input.type.originalType).join(',')})`
+}
+
+function generateEncodeFunctionDataOverload(fn: FunctionDeclaration): string {
+  const methodInputs = [`functionFragment: '${fn.name}'`]
+
+  if (fn.inputs.length) {
+    methodInputs.push(`values: [${fn.inputs.map((input) => generateInputType(input.type)).join(', ')}]`)
+  } else {
+    methodInputs.push('values?: void')
+  }
+
+  return `encodeFunctionData(${methodInputs.join(', ')}): string;`
 }
 
 function generateParamNames(params: Array<AbiParameter | EventArgDeclaration>): string {
