@@ -51,6 +51,11 @@ export function codegenContractTypings(contract: Contract) {
         .map(generateInterfaceEventDescription)
         .join('\n')}
     };
+
+    ${values(contract.events)
+      .map((v) => v[0])
+      .map(generateGetEventOverload)
+      .join('\n')}
   }
 
   export class ${contract.name} extends Contract {
@@ -291,4 +296,8 @@ function generateEventTypes(eventArgs: EventArgDeclaration[]) {
 
 function generateEventArgType(eventArg: EventArgDeclaration): string {
   return eventArg.isIndexed ? `${generateInputType(eventArg.type)} | null` : 'null'
+}
+
+function generateGetEventOverload(event: EventDeclaration): string {
+  return `getEvent(nameOrSignatureOrTopic: '${event.name}'): EventFragment;`
 }
