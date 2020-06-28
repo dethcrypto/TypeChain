@@ -16,9 +16,8 @@ export function codegenContractTypings(contract: Contract) {
     .map(codegenFunctions.bind(null, { returnResultObject: true }))
     .join('')
 
-  if (allFunctions.match(/\W Overrides(\W|$)/)) contractImports.push('Overrides')
-  if (allFunctions.match(/\WPayableOverrides(\W|$)/)) contractImports.push('PayableOverrides')
-  if (allFunctions.match(/\WCallOverrides(\W|$)/)) contractImports.push('CallOverrides')
+  const optionalContractImports = ['Overrides', 'PayableOverrides', 'CallOverrides']
+  optionalContractImports.forEach((importName) => pushImportIfUsed(importName, allFunctions, contractImports))
 
   const template = `
   import { ethers, EventFilter, Signer, BigNumber, BigNumberish, PopulatedTransaction } from 'ethers';
@@ -123,15 +122,12 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
 
   // tsc with noUnusedLocals would complain about unused imports
   const ethersImports: string[] = ['Signer']
-  if (constructorArgs.match(/\WBytesLike(\W|$)/)) ethersImports.push('BytesLike')
-  if (constructorArgs.match(/\WBigNumberish(\W|$)/)) ethersImports.push('BigNumberish')
+  const optionalEthersImports = ['BytesLike', 'BigNumberish']
+  optionalEthersImports.forEach((importName) => pushImportIfUsed(importName, constructorArgs, ethersImports))
 
   const ethersContractImports: string[] = ['Contract', 'ContractFactory']
-  if (constructorArgs.match(/\WPayableOverrides(\W|$)/)) {
-    ethersContractImports.push('PayableOverrides')
-  } else {
-    ethersContractImports.push('Overrides')
-  }
+  const optionalContractImports = ['PayableOverrides', 'Overrides']
+  optionalContractImports.forEach((importName) => pushImportIfUsed(importName, constructorArgs, ethersContractImports))
 
   return `
   import { ${ethersImports.join(', ')} } from "ethers";
@@ -300,4 +296,8 @@ function generateEventArgType(eventArg: EventArgDeclaration): string {
 
 function generateGetEventOverload(event: EventDeclaration): string {
   return `getEvent(nameOrSignatureOrTopic: '${event.name}'): EventFragment;`
+}
+
+function pushImportIfUsed(importName: string, generatedCode: string, importArray: string[]): void {
+  if (new RegExp(`\\W${importName}(\\W|$)`).test(generatedCode)) importArray.push(importName)
 }
