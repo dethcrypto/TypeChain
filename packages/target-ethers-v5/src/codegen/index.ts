@@ -25,7 +25,7 @@ export function codegenContractTypings(contract: Contract) {
   import { ${contractImports.join(', ')} } from '@ethersproject/contracts';
   import { BytesLike } from '@ethersproject/bytes';
   import { Listener, Provider } from '@ethersproject/providers';
-  import { FunctionFragment, EventFragment } from '@ethersproject/abi';
+  import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
 
   interface ${contract.name}Interface extends ethers.utils.Interface {
     functions: {
@@ -40,6 +40,11 @@ export function codegenContractTypings(contract: Contract) {
       .map(generateEncodeFunctionDataOverload)
       .join('\n')}
     
+    ${values(contract.functions)
+      .map((v) => v[0])
+      .map(generateDecodeFunctionResultOverload)
+      .join('\n')}
+
     events: {
       ${values(contract.events)
         .map((v) => v[0])
@@ -247,6 +252,10 @@ function generateEncodeFunctionDataOverload(fn: FunctionDeclaration): string {
   }
 
   return `encodeFunctionData(${methodInputs.join(', ')}): string;`
+}
+
+function generateDecodeFunctionResultOverload(fn: FunctionDeclaration): string {
+  return `decodeFunctionResult(functionFragment: '${fn.name}', data: BytesLike): Result;`
 }
 
 function generateParamNames(params: Array<AbiParameter | EventArgDeclaration>): string {
