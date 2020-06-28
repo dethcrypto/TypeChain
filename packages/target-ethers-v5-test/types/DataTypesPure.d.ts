@@ -36,23 +36,53 @@ interface DataTypesPureInterface extends ethers.utils.Interface {
     "pure_uint8()": FunctionFragment;
   };
 
-  encodeFunctionData(functionFragment: "pure_address", values?: void): string;
-  encodeFunctionData(functionFragment: "pure_bool", values?: void): string;
-  encodeFunctionData(functionFragment: "pure_bytes", values?: void): string;
-  encodeFunctionData(functionFragment: "pure_bytes1", values?: void): string;
-  encodeFunctionData(functionFragment: "pure_enum", values?: void): string;
-  encodeFunctionData(functionFragment: "pure_int256", values?: void): string;
-  encodeFunctionData(functionFragment: "pure_int8", values?: void): string;
-  encodeFunctionData(functionFragment: "pure_named", values?: void): string;
+  encodeFunctionData(
+    functionFragment: "pure_address",
+    values?: undefined
+  ): string;
+  encodeFunctionData(functionFragment: "pure_bool", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "pure_bytes",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "pure_bytes1",
+    values?: undefined
+  ): string;
+  encodeFunctionData(functionFragment: "pure_enum", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "pure_int256",
+    values?: undefined
+  ): string;
+  encodeFunctionData(functionFragment: "pure_int8", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "pure_named",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "pure_stat_array",
-    values?: void
+    values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "pure_string", values?: void): string;
-  encodeFunctionData(functionFragment: "pure_struct", values?: void): string;
-  encodeFunctionData(functionFragment: "pure_tuple", values?: void): string;
-  encodeFunctionData(functionFragment: "pure_uint256", values?: void): string;
-  encodeFunctionData(functionFragment: "pure_uint8", values?: void): string;
+  encodeFunctionData(
+    functionFragment: "pure_string",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "pure_struct",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "pure_tuple",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "pure_uint256",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "pure_uint8",
+    values?: undefined
+  ): string;
 
   decodeFunctionResult(
     functionFragment: "pure_address",

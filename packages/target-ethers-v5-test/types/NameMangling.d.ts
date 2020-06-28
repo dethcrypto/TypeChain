@@ -23,7 +23,7 @@ interface NameManglingInterface extends ethers.utils.Interface {
     "works()": FunctionFragment;
   };
 
-  encodeFunctionData(functionFragment: "works", values?: void): string;
+  encodeFunctionData(functionFragment: "works", values?: undefined): string;
 
   decodeFunctionResult(functionFragment: "works", data: BytesLike): Result;
 

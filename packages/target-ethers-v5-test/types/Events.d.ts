@@ -27,13 +27,25 @@ interface EventsInterface extends ethers.utils.Interface {
     "emit_event3_overloaded()": FunctionFragment;
   };
 
-  encodeFunctionData(functionFragment: "emit_anon1", values?: void): string;
-  encodeFunctionData(functionFragment: "emit_event1", values?: void): string;
-  encodeFunctionData(functionFragment: "emit_event2", values?: void): string;
-  encodeFunctionData(functionFragment: "emit_event3", values?: void): string;
+  encodeFunctionData(
+    functionFragment: "emit_anon1",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "emit_event1",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "emit_event2",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "emit_event3",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "emit_event3_overloaded",
-    values?: void
+    values?: undefined
   ): string;
 
   decodeFunctionResult(functionFragment: "emit_anon1", data: BytesLike): Result;

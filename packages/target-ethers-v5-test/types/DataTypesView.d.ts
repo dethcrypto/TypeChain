@@ -36,23 +36,53 @@ interface DataTypesViewInterface extends ethers.utils.Interface {
     "view_uint8()": FunctionFragment;
   };
 
-  encodeFunctionData(functionFragment: "view_address", values?: void): string;
-  encodeFunctionData(functionFragment: "view_bool", values?: void): string;
-  encodeFunctionData(functionFragment: "view_bytes", values?: void): string;
-  encodeFunctionData(functionFragment: "view_bytes1", values?: void): string;
-  encodeFunctionData(functionFragment: "view_enum", values?: void): string;
-  encodeFunctionData(functionFragment: "view_int256", values?: void): string;
-  encodeFunctionData(functionFragment: "view_int8", values?: void): string;
-  encodeFunctionData(functionFragment: "view_named", values?: void): string;
+  encodeFunctionData(
+    functionFragment: "view_address",
+    values?: undefined
+  ): string;
+  encodeFunctionData(functionFragment: "view_bool", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "view_bytes",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "view_bytes1",
+    values?: undefined
+  ): string;
+  encodeFunctionData(functionFragment: "view_enum", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "view_int256",
+    values?: undefined
+  ): string;
+  encodeFunctionData(functionFragment: "view_int8", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "view_named",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "view_stat_array",
-    values?: void
+    values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "view_string", values?: void): string;
-  encodeFunctionData(functionFragment: "view_struct", values?: void): string;
-  encodeFunctionData(functionFragment: "view_tuple", values?: void): string;
-  encodeFunctionData(functionFragment: "view_uint256", values?: void): string;
-  encodeFunctionData(functionFragment: "view_uint8", values?: void): string;
+  encodeFunctionData(
+    functionFragment: "view_string",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "view_struct",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "view_tuple",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "view_uint256",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "view_uint8",
+    values?: undefined
+  ): string;
 
   decodeFunctionResult(
     functionFragment: "view_address",

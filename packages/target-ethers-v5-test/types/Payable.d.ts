@@ -27,9 +27,12 @@ interface PayableInterface extends ethers.utils.Interface {
 
   encodeFunctionData(
     functionFragment: "non_payable_func",
-    values?: void
+    values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "payable_func", values?: void): string;
+  encodeFunctionData(
+    functionFragment: "payable_func",
+    values?: undefined
+  ): string;
 
   decodeFunctionResult(
     functionFragment: "non_payable_func",
