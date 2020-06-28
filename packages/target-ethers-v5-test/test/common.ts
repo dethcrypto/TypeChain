@@ -1,4 +1,4 @@
-import { JsonRpcProvider } from 'ethers/providers'
+import { JsonRpcProvider } from '@ethersproject/providers'
 import { ethers } from 'ethers'
 import { loadContract } from 'test-utils'
 
