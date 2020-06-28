@@ -1,10 +1,5 @@
 import { EvmType, EvmOutputType, TupleType, AbiParameter, AbiOutputParameter } from 'typechain'
 
-export interface GenerateFunctionOptions {
-  returnResultObject?: boolean
-  isStaticCall?: boolean
-}
-
 export function generateInputTypes(input: Array<AbiParameter>): string {
   if (input.length === 0) {
     return ''

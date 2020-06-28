@@ -1,5 +1,10 @@
 import { FunctionDeclaration, isConstant, isConstantFn, FunctionDocumentation, getSignatureForFn } from 'typechain'
-import { generateInputTypes, generateOutputTypes, GenerateFunctionOptions } from './types'
+import { generateInputTypes, generateOutputTypes } from './types'
+
+interface GenerateFunctionOptions {
+  returnResultObject?: boolean
+  isStaticCall?: boolean
+}
 
 export function codegenFunctions(options: GenerateFunctionOptions, fns: FunctionDeclaration[]): string {
   if (fns.length === 1) {
