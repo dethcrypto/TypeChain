@@ -249,7 +249,7 @@ function generateEncodeFunctionDataOverload(fn: FunctionDeclaration): string {
   if (fn.inputs.length) {
     methodInputs.push(`values: [${fn.inputs.map((input) => generateInputType(input.type)).join(', ')}]`)
   } else {
-    methodInputs.push('values?: void')
+    methodInputs.push('values?: undefined')
   }
 
   return `encodeFunctionData(${methodInputs.join(', ')}): string;`
