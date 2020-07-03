@@ -295,7 +295,7 @@ export class DataTypesInput extends Contract {
 
   input_uint8(input1: BigNumberish, overrides?: CallOverrides): Promise<number>;
 
-  staticCall: {
+  callStatic: {
     input_address(input1: string, overrides?: CallOverrides): Promise<string>;
 
     input_bool(input1: boolean, overrides?: CallOverrides): Promise<boolean>;

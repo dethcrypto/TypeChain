@@ -78,7 +78,7 @@ export function codegenContractTypings(contract: Contract) {
 
     ${values(contract.functions).map(codegenFunctions.bind(null, {})).join('\n')}
 
-    staticCall: {
+    callStatic: {
       ${values(contract.functions)
         .map(codegenFunctions.bind(null, { isStaticCall: true }))
         .join('\n')}

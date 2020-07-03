@@ -278,7 +278,7 @@ export class DataTypesPure extends Contract {
 
   pure_uint8(overrides?: CallOverrides): Promise<number>;
 
-  staticCall: {
+  callStatic: {
     pure_address(overrides?: CallOverrides): Promise<string>;
 
     pure_bool(overrides?: CallOverrides): Promise<boolean>;

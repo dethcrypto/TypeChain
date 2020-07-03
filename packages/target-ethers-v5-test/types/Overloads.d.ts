@@ -74,7 +74,7 @@ export class Overloads extends Contract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  staticCall: {
+  callStatic: {
     "overload1(int256)"(
       input1: BigNumberish,
       overrides?: CallOverrides
