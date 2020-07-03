@@ -278,7 +278,7 @@ export class DataTypesView extends Contract {
 
   view_uint8(overrides?: CallOverrides): Promise<number>;
 
-  staticCall: {
+  callStatic: {
     view_address(overrides?: CallOverrides): Promise<string>;
 
     view_bool(overrides?: CallOverrides): Promise<boolean>;

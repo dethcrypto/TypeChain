@@ -114,7 +114,7 @@ export class Events extends Contract {
 
   emit_event3_overloaded(overrides?: Overrides): Promise<ContractTransaction>;
 
-  staticCall: {
+  callStatic: {
     emit_anon1(overrides?: Overrides): Promise<void>;
 
     emit_event1(overrides?: Overrides): Promise<void>;

@@ -53,7 +53,7 @@ export class NameMangling extends Contract {
 
   works(overrides?: CallOverrides): Promise<boolean>;
 
-  staticCall: {
+  callStatic: {
     works(overrides?: CallOverrides): Promise<boolean>;
   };
 
