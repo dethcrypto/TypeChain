@@ -62,17 +62,31 @@ export class Payable extends Contract {
   functions: {
     non_payable_func(overrides?: Overrides): Promise<ContractTransaction>;
 
+    "non_payable_func()"(overrides?: Overrides): Promise<ContractTransaction>;
+
     payable_func(overrides?: PayableOverrides): Promise<ContractTransaction>;
+
+    "payable_func()"(
+      overrides?: PayableOverrides
+    ): Promise<ContractTransaction>;
   };
 
   non_payable_func(overrides?: Overrides): Promise<ContractTransaction>;
 
+  "non_payable_func()"(overrides?: Overrides): Promise<ContractTransaction>;
+
   payable_func(overrides?: PayableOverrides): Promise<ContractTransaction>;
+
+  "payable_func()"(overrides?: PayableOverrides): Promise<ContractTransaction>;
 
   callStatic: {
     non_payable_func(overrides?: Overrides): Promise<void>;
 
+    "non_payable_func()"(overrides?: Overrides): Promise<void>;
+
     payable_func(overrides?: PayableOverrides): Promise<void>;
+
+    "payable_func()"(overrides?: PayableOverrides): Promise<void>;
   };
 
   filters: {};
@@ -80,12 +94,22 @@ export class Payable extends Contract {
   estimateGas: {
     non_payable_func(overrides?: Overrides): Promise<BigNumber>;
 
+    "non_payable_func()"(overrides?: Overrides): Promise<BigNumber>;
+
     payable_func(overrides?: PayableOverrides): Promise<BigNumber>;
+
+    "payable_func()"(overrides?: PayableOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
     non_payable_func(overrides?: Overrides): Promise<PopulatedTransaction>;
 
+    "non_payable_func()"(overrides?: Overrides): Promise<PopulatedTransaction>;
+
     payable_func(overrides?: PayableOverrides): Promise<PopulatedTransaction>;
+
+    "payable_func()"(
+      overrides?: PayableOverrides
+    ): Promise<PopulatedTransaction>;
   };
 }

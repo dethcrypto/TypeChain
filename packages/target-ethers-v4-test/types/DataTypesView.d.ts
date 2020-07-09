@@ -61,118 +61,252 @@ export class DataTypesView extends Contract {
   interface: DataTypesViewInterface;
 
   functions: {
-    view_address(): Promise<string>;
+    view_address(overrides?: TransactionOverrides): Promise<string>;
 
-    view_bool(): Promise<boolean>;
+    "view_address()"(overrides?: TransactionOverrides): Promise<string>;
 
-    view_bytes(): Promise<string>;
+    view_bool(overrides?: TransactionOverrides): Promise<boolean>;
 
-    view_bytes1(): Promise<string>;
+    "view_bool()"(overrides?: TransactionOverrides): Promise<boolean>;
 
-    view_enum(): Promise<number>;
+    view_bytes(overrides?: TransactionOverrides): Promise<string>;
 
-    view_int256(): Promise<BigNumber>;
+    "view_bytes()"(overrides?: TransactionOverrides): Promise<string>;
 
-    view_int8(): Promise<number>;
+    view_bytes1(overrides?: TransactionOverrides): Promise<string>;
 
-    view_named(): Promise<{
+    "view_bytes1()"(overrides?: TransactionOverrides): Promise<string>;
+
+    view_enum(overrides?: TransactionOverrides): Promise<number>;
+
+    "view_enum()"(overrides?: TransactionOverrides): Promise<number>;
+
+    view_int256(overrides?: TransactionOverrides): Promise<BigNumber>;
+
+    "view_int256()"(overrides?: TransactionOverrides): Promise<BigNumber>;
+
+    view_int8(overrides?: TransactionOverrides): Promise<number>;
+
+    "view_int8()"(overrides?: TransactionOverrides): Promise<number>;
+
+    view_named(
+      overrides?: TransactionOverrides
+    ): Promise<{
       uint256_1: BigNumber;
       uint256_2: BigNumber;
       0: BigNumber;
       1: BigNumber;
     }>;
 
-    view_stat_array(): Promise<number[]>;
+    "view_named()"(
+      overrides?: TransactionOverrides
+    ): Promise<{
+      uint256_1: BigNumber;
+      uint256_2: BigNumber;
+      0: BigNumber;
+      1: BigNumber;
+    }>;
 
-    view_string(): Promise<string>;
+    view_stat_array(overrides?: TransactionOverrides): Promise<number[]>;
 
-    view_struct(): Promise<{
+    "view_stat_array()"(overrides?: TransactionOverrides): Promise<number[]>;
+
+    view_string(overrides?: TransactionOverrides): Promise<string>;
+
+    "view_string()"(overrides?: TransactionOverrides): Promise<string>;
+
+    view_struct(
+      overrides?: TransactionOverrides
+    ): Promise<{
       uint256_0: BigNumber;
       uint256_1: BigNumber;
       0: BigNumber;
       1: BigNumber;
     }>;
 
-    view_tuple(): Promise<{
+    "view_struct()"(
+      overrides?: TransactionOverrides
+    ): Promise<{
+      uint256_0: BigNumber;
+      uint256_1: BigNumber;
       0: BigNumber;
       1: BigNumber;
     }>;
 
-    view_uint256(): Promise<BigNumber>;
+    view_tuple(
+      overrides?: TransactionOverrides
+    ): Promise<{
+      0: BigNumber;
+      1: BigNumber;
+    }>;
 
-    view_uint8(): Promise<number>;
+    "view_tuple()"(
+      overrides?: TransactionOverrides
+    ): Promise<{
+      0: BigNumber;
+      1: BigNumber;
+    }>;
+
+    view_uint256(overrides?: TransactionOverrides): Promise<BigNumber>;
+
+    "view_uint256()"(overrides?: TransactionOverrides): Promise<BigNumber>;
+
+    view_uint8(overrides?: TransactionOverrides): Promise<number>;
+
+    "view_uint8()"(overrides?: TransactionOverrides): Promise<number>;
   };
 
-  view_address(): Promise<string>;
+  view_address(overrides?: TransactionOverrides): Promise<string>;
 
-  view_bool(): Promise<boolean>;
+  "view_address()"(overrides?: TransactionOverrides): Promise<string>;
 
-  view_bytes(): Promise<string>;
+  view_bool(overrides?: TransactionOverrides): Promise<boolean>;
 
-  view_bytes1(): Promise<string>;
+  "view_bool()"(overrides?: TransactionOverrides): Promise<boolean>;
 
-  view_enum(): Promise<number>;
+  view_bytes(overrides?: TransactionOverrides): Promise<string>;
 
-  view_int256(): Promise<BigNumber>;
+  "view_bytes()"(overrides?: TransactionOverrides): Promise<string>;
 
-  view_int8(): Promise<number>;
+  view_bytes1(overrides?: TransactionOverrides): Promise<string>;
 
-  view_named(): Promise<{
+  "view_bytes1()"(overrides?: TransactionOverrides): Promise<string>;
+
+  view_enum(overrides?: TransactionOverrides): Promise<number>;
+
+  "view_enum()"(overrides?: TransactionOverrides): Promise<number>;
+
+  view_int256(overrides?: TransactionOverrides): Promise<BigNumber>;
+
+  "view_int256()"(overrides?: TransactionOverrides): Promise<BigNumber>;
+
+  view_int8(overrides?: TransactionOverrides): Promise<number>;
+
+  "view_int8()"(overrides?: TransactionOverrides): Promise<number>;
+
+  view_named(
+    overrides?: TransactionOverrides
+  ): Promise<{
     uint256_1: BigNumber;
     uint256_2: BigNumber;
     0: BigNumber;
     1: BigNumber;
   }>;
 
-  view_stat_array(): Promise<number[]>;
+  "view_named()"(
+    overrides?: TransactionOverrides
+  ): Promise<{
+    uint256_1: BigNumber;
+    uint256_2: BigNumber;
+    0: BigNumber;
+    1: BigNumber;
+  }>;
 
-  view_string(): Promise<string>;
+  view_stat_array(overrides?: TransactionOverrides): Promise<number[]>;
 
-  view_struct(): Promise<{
+  "view_stat_array()"(overrides?: TransactionOverrides): Promise<number[]>;
+
+  view_string(overrides?: TransactionOverrides): Promise<string>;
+
+  "view_string()"(overrides?: TransactionOverrides): Promise<string>;
+
+  view_struct(
+    overrides?: TransactionOverrides
+  ): Promise<{
     uint256_0: BigNumber;
     uint256_1: BigNumber;
     0: BigNumber;
     1: BigNumber;
   }>;
 
-  view_tuple(): Promise<{
+  "view_struct()"(
+    overrides?: TransactionOverrides
+  ): Promise<{
+    uint256_0: BigNumber;
+    uint256_1: BigNumber;
     0: BigNumber;
     1: BigNumber;
   }>;
 
-  view_uint256(): Promise<BigNumber>;
+  view_tuple(
+    overrides?: TransactionOverrides
+  ): Promise<{
+    0: BigNumber;
+    1: BigNumber;
+  }>;
 
-  view_uint8(): Promise<number>;
+  "view_tuple()"(
+    overrides?: TransactionOverrides
+  ): Promise<{
+    0: BigNumber;
+    1: BigNumber;
+  }>;
+
+  view_uint256(overrides?: TransactionOverrides): Promise<BigNumber>;
+
+  "view_uint256()"(overrides?: TransactionOverrides): Promise<BigNumber>;
+
+  view_uint8(overrides?: TransactionOverrides): Promise<number>;
+
+  "view_uint8()"(overrides?: TransactionOverrides): Promise<number>;
 
   filters: {};
 
   estimate: {
-    view_address(): Promise<BigNumber>;
+    view_address(overrides?: TransactionOverrides): Promise<BigNumber>;
 
-    view_bool(): Promise<BigNumber>;
+    "view_address()"(overrides?: TransactionOverrides): Promise<BigNumber>;
 
-    view_bytes(): Promise<BigNumber>;
+    view_bool(overrides?: TransactionOverrides): Promise<BigNumber>;
 
-    view_bytes1(): Promise<BigNumber>;
+    "view_bool()"(overrides?: TransactionOverrides): Promise<BigNumber>;
 
-    view_enum(): Promise<BigNumber>;
+    view_bytes(overrides?: TransactionOverrides): Promise<BigNumber>;
 
-    view_int256(): Promise<BigNumber>;
+    "view_bytes()"(overrides?: TransactionOverrides): Promise<BigNumber>;
 
-    view_int8(): Promise<BigNumber>;
+    view_bytes1(overrides?: TransactionOverrides): Promise<BigNumber>;
 
-    view_named(): Promise<BigNumber>;
+    "view_bytes1()"(overrides?: TransactionOverrides): Promise<BigNumber>;
 
-    view_stat_array(): Promise<BigNumber>;
+    view_enum(overrides?: TransactionOverrides): Promise<BigNumber>;
 
-    view_string(): Promise<BigNumber>;
+    "view_enum()"(overrides?: TransactionOverrides): Promise<BigNumber>;
 
-    view_struct(): Promise<BigNumber>;
+    view_int256(overrides?: TransactionOverrides): Promise<BigNumber>;
 
-    view_tuple(): Promise<BigNumber>;
+    "view_int256()"(overrides?: TransactionOverrides): Promise<BigNumber>;
 
-    view_uint256(): Promise<BigNumber>;
+    view_int8(overrides?: TransactionOverrides): Promise<BigNumber>;
 
-    view_uint8(): Promise<BigNumber>;
+    "view_int8()"(overrides?: TransactionOverrides): Promise<BigNumber>;
+
+    view_named(overrides?: TransactionOverrides): Promise<BigNumber>;
+
+    "view_named()"(overrides?: TransactionOverrides): Promise<BigNumber>;
+
+    view_stat_array(overrides?: TransactionOverrides): Promise<BigNumber>;
+
+    "view_stat_array()"(overrides?: TransactionOverrides): Promise<BigNumber>;
+
+    view_string(overrides?: TransactionOverrides): Promise<BigNumber>;
+
+    "view_string()"(overrides?: TransactionOverrides): Promise<BigNumber>;
+
+    view_struct(overrides?: TransactionOverrides): Promise<BigNumber>;
+
+    "view_struct()"(overrides?: TransactionOverrides): Promise<BigNumber>;
+
+    view_tuple(overrides?: TransactionOverrides): Promise<BigNumber>;
+
+    "view_tuple()"(overrides?: TransactionOverrides): Promise<BigNumber>;
+
+    view_uint256(overrides?: TransactionOverrides): Promise<BigNumber>;
+
+    "view_uint256()"(overrides?: TransactionOverrides): Promise<BigNumber>;
+
+    view_uint8(overrides?: TransactionOverrides): Promise<BigNumber>;
+
+    "view_uint8()"(overrides?: TransactionOverrides): Promise<BigNumber>;
   };
 }

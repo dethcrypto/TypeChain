@@ -49,21 +49,35 @@ export class NameMangling extends Contract {
     ): Promise<{
       0: boolean;
     }>;
+
+    "works()"(
+      overrides?: CallOverrides
+    ): Promise<{
+      0: boolean;
+    }>;
   };
 
   works(overrides?: CallOverrides): Promise<boolean>;
 
+  "works()"(overrides?: CallOverrides): Promise<boolean>;
+
   callStatic: {
     works(overrides?: CallOverrides): Promise<boolean>;
+
+    "works()"(overrides?: CallOverrides): Promise<boolean>;
   };
 
   filters: {};
 
   estimateGas: {
     works(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "works()"(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
     works(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "works()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }
