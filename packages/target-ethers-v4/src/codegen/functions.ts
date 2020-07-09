@@ -1,4 +1,4 @@
-import { FunctionDeclaration, isConstant, isConstantFn, FunctionDocumentation, getSignatureForFn } from 'typechain'
+import { FunctionDeclaration, FunctionDocumentation, getSignatureForFn } from 'typechain'
 import { generateInputTypes, generateOutputTypes } from './types'
 
 interface GenerateFunctionOptions {
@@ -20,9 +20,7 @@ export function codegenForOverloadedFunctions(options: GenerateFunctionOptions, 
 function generateFunction(options: GenerateFunctionOptions, fn: FunctionDeclaration, overloadedName?: string): string {
   return `
   ${generateFunctionDocumentation(fn.documentation)}
-  ${overloadedName ?? fn.name}(${generateInputTypes(fn.inputs)}${
-    !isConstant(fn) && !isConstantFn(fn) ? 'overrides?: TransactionOverrides' : ''
-  }): ${
+  ${overloadedName ?? fn.name}(${generateInputTypes(fn.inputs)} overrides?: TransactionOverrides): ${
     options.overrideOutput
       ? options.overrideOutput
       : `Promise<${
