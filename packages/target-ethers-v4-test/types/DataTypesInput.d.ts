@@ -87,32 +87,70 @@ export class DataTypesInput extends Contract {
   interface: DataTypesInputInterface;
 
   functions: {
-    input_address(input1: string): Promise<string>;
+    input_address(
+      input1: string
+    ): Promise<{
+      0: string;
+    }>;
 
-    input_bool(input1: boolean): Promise<boolean>;
+    input_bool(
+      input1: boolean
+    ): Promise<{
+      0: boolean;
+    }>;
 
-    input_bytes(input1: Arrayish): Promise<string>;
+    input_bytes(
+      input1: Arrayish
+    ): Promise<{
+      0: string;
+    }>;
 
-    input_bytes1(input1: Arrayish): Promise<string>;
+    input_bytes1(
+      input1: Arrayish
+    ): Promise<{
+      0: string;
+    }>;
 
-    input_enum(input1: BigNumberish): Promise<number>;
+    input_enum(
+      input1: BigNumberish
+    ): Promise<{
+      0: number;
+    }>;
 
-    input_int256(input1: BigNumberish): Promise<BigNumber>;
+    input_int256(
+      input1: BigNumberish
+    ): Promise<{
+      0: BigNumber;
+    }>;
 
-    input_int8(input1: BigNumberish): Promise<number>;
+    input_int8(
+      input1: BigNumberish
+    ): Promise<{
+      0: number;
+    }>;
 
-    input_stat_array(input1: BigNumberish[]): Promise<number[]>;
+    input_stat_array(
+      input1: BigNumberish[]
+    ): Promise<{
+      0: number[];
+    }>;
 
-    input_string(input1: string): Promise<string>;
+    input_string(
+      input1: string
+    ): Promise<{
+      0: string;
+    }>;
 
     input_struct(input1: {
       uint256_0: BigNumberish;
       uint256_1: BigNumberish;
     }): Promise<{
-      uint256_0: BigNumber;
-      uint256_1: BigNumber;
-      0: BigNumber;
-      1: BigNumber;
+      0: {
+        uint256_0: BigNumber;
+        uint256_1: BigNumber;
+        0: BigNumber;
+        1: BigNumber;
+      };
     }>;
 
     input_tuple(
@@ -123,9 +161,17 @@ export class DataTypesInput extends Contract {
       1: BigNumber;
     }>;
 
-    input_uint256(input1: BigNumberish): Promise<BigNumber>;
+    input_uint256(
+      input1: BigNumberish
+    ): Promise<{
+      0: BigNumber;
+    }>;
 
-    input_uint8(input1: BigNumberish): Promise<number>;
+    input_uint8(
+      input1: BigNumberish
+    ): Promise<{
+      0: number;
+    }>;
   };
 
   input_address(input1: string): Promise<string>;

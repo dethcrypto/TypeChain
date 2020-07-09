@@ -47,10 +47,12 @@ export function codegenContractTypings(contract: Contract) {
     interface: ${contract.name}Interface;
 
     functions: {
-      ${values(contract.functions).map(codegenFunctions).join('\n')}
+      ${values(contract.functions)
+        .map(codegenFunctions.bind(null, { returnResultObject: true }))
+        .join('\n')}
     };
 
-    ${values(contract.functions).map(codegenFunctions).join('\n')}
+    ${values(contract.functions).map(codegenFunctions.bind(null, {})).join('\n')}
 
     filters: {
       ${values(contract.events)
@@ -61,8 +63,7 @@ export function codegenContractTypings(contract: Contract) {
 
     estimate: {
       ${values(contract.functions)
-        .map((v) => v[0])
-        .map(generateEstimateFunction)
+        .map(codegenFunctions.bind(null, { overrideOutput: 'Promise<BigNumber>' }))
         .join('\n')}
     };
   }`
@@ -186,12 +187,6 @@ function generateLibraryAddressesInterface(contract: Contract, bytecode: Bytecod
   export interface ${contract.name}LibraryAddresses {
     ${linkLibrariesKeys.join('\n')}
   };`
-}
-
-function generateEstimateFunction(fn: FunctionDeclaration): string {
-  return `
-  ${fn.name}(${generateInputTypes(fn.inputs)}): Promise<BigNumber>;
-`
 }
 
 function generateInterfaceFunctionDescription(fn: FunctionDeclaration): string {
