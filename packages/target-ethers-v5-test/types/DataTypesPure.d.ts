@@ -330,36 +330,62 @@ export class DataTypesPure extends Contract {
   filters: {};
 
   estimateGas: {
-    pure_address(): Promise<BigNumber>;
-    pure_bool(): Promise<BigNumber>;
-    pure_bytes(): Promise<BigNumber>;
-    pure_bytes1(): Promise<BigNumber>;
-    pure_enum(): Promise<BigNumber>;
-    pure_int256(): Promise<BigNumber>;
-    pure_int8(): Promise<BigNumber>;
-    pure_named(): Promise<BigNumber>;
-    pure_stat_array(): Promise<BigNumber>;
-    pure_string(): Promise<BigNumber>;
-    pure_struct(): Promise<BigNumber>;
-    pure_tuple(): Promise<BigNumber>;
-    pure_uint256(): Promise<BigNumber>;
-    pure_uint8(): Promise<BigNumber>;
+    pure_address(overrides?: CallOverrides): Promise<BigNumber>;
+
+    pure_bool(overrides?: CallOverrides): Promise<BigNumber>;
+
+    pure_bytes(overrides?: CallOverrides): Promise<BigNumber>;
+
+    pure_bytes1(overrides?: CallOverrides): Promise<BigNumber>;
+
+    pure_enum(overrides?: CallOverrides): Promise<BigNumber>;
+
+    pure_int256(overrides?: CallOverrides): Promise<BigNumber>;
+
+    pure_int8(overrides?: CallOverrides): Promise<BigNumber>;
+
+    pure_named(overrides?: CallOverrides): Promise<BigNumber>;
+
+    pure_stat_array(overrides?: CallOverrides): Promise<BigNumber>;
+
+    pure_string(overrides?: CallOverrides): Promise<BigNumber>;
+
+    pure_struct(overrides?: CallOverrides): Promise<BigNumber>;
+
+    pure_tuple(overrides?: CallOverrides): Promise<BigNumber>;
+
+    pure_uint256(overrides?: CallOverrides): Promise<BigNumber>;
+
+    pure_uint8(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    pure_address(): Promise<PopulatedTransaction>;
-    pure_bool(): Promise<PopulatedTransaction>;
-    pure_bytes(): Promise<PopulatedTransaction>;
-    pure_bytes1(): Promise<PopulatedTransaction>;
-    pure_enum(): Promise<PopulatedTransaction>;
-    pure_int256(): Promise<PopulatedTransaction>;
-    pure_int8(): Promise<PopulatedTransaction>;
-    pure_named(): Promise<PopulatedTransaction>;
-    pure_stat_array(): Promise<PopulatedTransaction>;
-    pure_string(): Promise<PopulatedTransaction>;
-    pure_struct(): Promise<PopulatedTransaction>;
-    pure_tuple(): Promise<PopulatedTransaction>;
-    pure_uint256(): Promise<PopulatedTransaction>;
-    pure_uint8(): Promise<PopulatedTransaction>;
+    pure_address(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    pure_bool(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    pure_bytes(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    pure_bytes1(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    pure_enum(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    pure_int256(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    pure_int8(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    pure_named(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    pure_stat_array(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    pure_string(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    pure_struct(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    pure_tuple(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    pure_uint256(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    pure_uint8(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }

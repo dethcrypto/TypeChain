@@ -38,7 +38,7 @@ export function codegenContractTypings(contract: Contract) {
       .map((v) => v[0])
       .map(generateEncodeFunctionDataOverload)
       .join('\n')}
-    
+
     ${values(contract.functions)
       .map((v) => v[0])
       .map(generateDecodeFunctionResultOverload)
@@ -93,15 +93,13 @@ export function codegenContractTypings(contract: Contract) {
 
     estimateGas: {
       ${values(contract.functions)
-        .map((v) => v[0])
-        .map(generateEstimateFunction)
+        .map(codegenFunctions.bind(null, { overrideOutput: 'Promise<BigNumber>' }))
         .join('\n')}
     };
 
     populateTransaction: {
       ${values(contract.functions)
-        .map((v) => v[0])
-        .map(generatePopulateTransactionFunction)
+        .map(codegenFunctions.bind(null, { overrideOutput: 'Promise<PopulatedTransaction>' }))
         .join('\n')}
     };
   }`
@@ -225,14 +223,6 @@ function generateLibraryAddressesInterface(contract: Contract, bytecode: Bytecod
   export interface ${contract.name}LibraryAddresses {
     ${linkLibrariesKeys.join('\n')}
   };`
-}
-
-function generateEstimateFunction(fn: FunctionDeclaration): string {
-  return `${fn.name}(${generateInputTypes(fn.inputs)}): Promise<BigNumber>;`
-}
-
-function generatePopulateTransactionFunction(fn: FunctionDeclaration): string {
-  return `${fn.name}(${generateInputTypes(fn.inputs)}): Promise<PopulatedTransaction>;`
 }
 
 function generateInterfaceFunctionDescription(fn: FunctionDeclaration): string {
