@@ -19,7 +19,6 @@ describe('Overloads', () => {
   it('works with 1st overload', async () => {
     typedAssert(await contract['overload1(int256)'](1), BigNumber.from(1))
     typedAssert(await contract.functions['overload1(int256)'](1), { 0: BigNumber.from(1) })
-    expect(contract.overload1).to.be.undefined
   })
 
   it('still doesnt create overload1 fn anymore', () => {
