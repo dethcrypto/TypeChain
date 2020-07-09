@@ -1,0 +1,48 @@
+{
+  "name": "@typechain/ethers-v5-test",
+  "private": true,
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "prepublishOnly": "yarn lint && yarn test && yarn build",
+    "format": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --check \"./**/*.ts\"",
+    "format:fix": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --write \"./**/*.ts\"",
+    "lint": "eslint --ext .ts test",
+    "lint:fix": "yarn lint --fix",
+    "typecheck": "tsc --noEmit --incremental false --composite false && tsc --noEmit --incremental false --composite false -p tsconfig.types.json",
+    "clean": "rm -rf dist contracts/* && rm -f tsconfig.build.tsbuildinfo && rm -rf build",
+    "generate-types": "../typechain/dist/cli/cli.js --target=`pwd`/../target-ethers-v5/dist/index.js --outDir ./types/ '../../contracts/compiled/*.abi'",
+    "test": "yarn generate-types && mocha --config ../../.mocharc.js",
+    "test:fix": "yarn lint:fix && yarn format:fix && yarn test && yarn typecheck"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.7",
+    "@types/chai-as-promised": "^7.1.2",
+    "@types/chai-subset": "^1.3.3",
+    "@types/mocha": "^5.2.7",
+    "@types/sinon": "^7.5.1",
+    "@types/sinon-chai": "^3.2.3",
+    "@typescript-eslint/eslint-plugin": "^2.25.0",
+    "@typescript-eslint/parser": "^2.12.0",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "chai-http": "^4.3.0",
+    "chai-subset": "^1.6.0",
+    "eslint": "^6.8.0",
+    "eslint-config-typestrict": "^1.0.0",
+    "eslint-plugin-no-only-tests": "^2.4.0",
+    "eslint-plugin-sonarjs": "^0.5.0",
+    "ganache-cli": "^6.9.1",
+    "mocha": "^6.2.2",
+    "prettier": "^2.0.1",
+    "sinon": "^8.0.1",
+    "sinon-chai": "^3.3.0",
+    "test-utils": "1.0.0",
+    "ts-node": "^8.5.4",
+    "typechain": "^2.0.0",
+    "typescript": "3.9.0-beta"
+  },
+  "dependencies": {
+    "ethers": "^5.0.2"
+  }
+}

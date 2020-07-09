@@ -1,4 +1,4 @@
-# TypeChain x Ethers-v4 example
+# TypeChain x Ethers-v5 example
 
 ## Running
 
