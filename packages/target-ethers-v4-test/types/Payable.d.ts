@@ -38,15 +38,7 @@ export class Payable extends Contract {
       overrides?: TransactionOverrides
     ): Promise<ContractTransaction>;
 
-    "non_payable_func()"(
-      overrides?: TransactionOverrides
-    ): Promise<ContractTransaction>;
-
     payable_func(
-      overrides?: TransactionOverrides
-    ): Promise<ContractTransaction>;
-
-    "payable_func()"(
       overrides?: TransactionOverrides
     ): Promise<ContractTransaction>;
   };
@@ -55,25 +47,13 @@ export class Payable extends Contract {
     overrides?: TransactionOverrides
   ): Promise<ContractTransaction>;
 
-  "non_payable_func()"(
-    overrides?: TransactionOverrides
-  ): Promise<ContractTransaction>;
-
   payable_func(overrides?: TransactionOverrides): Promise<ContractTransaction>;
-
-  "payable_func()"(
-    overrides?: TransactionOverrides
-  ): Promise<ContractTransaction>;
 
   filters: {};
 
   estimate: {
-    non_payable_func(overrides?: TransactionOverrides): Promise<BigNumber>;
+    non_payable_func(): Promise<BigNumber>;
 
-    "non_payable_func()"(overrides?: TransactionOverrides): Promise<BigNumber>;
-
-    payable_func(overrides?: TransactionOverrides): Promise<BigNumber>;
-
-    "payable_func()"(overrides?: TransactionOverrides): Promise<BigNumber>;
+    payable_func(): Promise<BigNumber>;
   };
 }

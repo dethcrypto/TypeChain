@@ -61,252 +61,118 @@ export class DataTypesPure extends Contract {
   interface: DataTypesPureInterface;
 
   functions: {
-    pure_address(overrides?: TransactionOverrides): Promise<string>;
+    pure_address(): Promise<string>;
 
-    "pure_address()"(overrides?: TransactionOverrides): Promise<string>;
+    pure_bool(): Promise<boolean>;
 
-    pure_bool(overrides?: TransactionOverrides): Promise<boolean>;
+    pure_bytes(): Promise<string>;
 
-    "pure_bool()"(overrides?: TransactionOverrides): Promise<boolean>;
+    pure_bytes1(): Promise<string>;
 
-    pure_bytes(overrides?: TransactionOverrides): Promise<string>;
+    pure_enum(): Promise<number>;
 
-    "pure_bytes()"(overrides?: TransactionOverrides): Promise<string>;
+    pure_int256(): Promise<BigNumber>;
 
-    pure_bytes1(overrides?: TransactionOverrides): Promise<string>;
+    pure_int8(): Promise<number>;
 
-    "pure_bytes1()"(overrides?: TransactionOverrides): Promise<string>;
-
-    pure_enum(overrides?: TransactionOverrides): Promise<number>;
-
-    "pure_enum()"(overrides?: TransactionOverrides): Promise<number>;
-
-    pure_int256(overrides?: TransactionOverrides): Promise<BigNumber>;
-
-    "pure_int256()"(overrides?: TransactionOverrides): Promise<BigNumber>;
-
-    pure_int8(overrides?: TransactionOverrides): Promise<number>;
-
-    "pure_int8()"(overrides?: TransactionOverrides): Promise<number>;
-
-    pure_named(
-      overrides?: TransactionOverrides
-    ): Promise<{
+    pure_named(): Promise<{
       uint256_1: BigNumber;
       uint256_2: BigNumber;
       0: BigNumber;
       1: BigNumber;
     }>;
 
-    "pure_named()"(
-      overrides?: TransactionOverrides
-    ): Promise<{
-      uint256_1: BigNumber;
-      uint256_2: BigNumber;
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    pure_stat_array(): Promise<number[]>;
 
-    pure_stat_array(overrides?: TransactionOverrides): Promise<number[]>;
+    pure_string(): Promise<string>;
 
-    "pure_stat_array()"(overrides?: TransactionOverrides): Promise<number[]>;
-
-    pure_string(overrides?: TransactionOverrides): Promise<string>;
-
-    "pure_string()"(overrides?: TransactionOverrides): Promise<string>;
-
-    pure_struct(
-      overrides?: TransactionOverrides
-    ): Promise<{
+    pure_struct(): Promise<{
       uint256_0: BigNumber;
       uint256_1: BigNumber;
       0: BigNumber;
       1: BigNumber;
     }>;
 
-    "pure_struct()"(
-      overrides?: TransactionOverrides
-    ): Promise<{
-      uint256_0: BigNumber;
-      uint256_1: BigNumber;
+    pure_tuple(): Promise<{
       0: BigNumber;
       1: BigNumber;
     }>;
 
-    pure_tuple(
-      overrides?: TransactionOverrides
-    ): Promise<{
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    pure_uint256(): Promise<BigNumber>;
 
-    "pure_tuple()"(
-      overrides?: TransactionOverrides
-    ): Promise<{
-      0: BigNumber;
-      1: BigNumber;
-    }>;
-
-    pure_uint256(overrides?: TransactionOverrides): Promise<BigNumber>;
-
-    "pure_uint256()"(overrides?: TransactionOverrides): Promise<BigNumber>;
-
-    pure_uint8(overrides?: TransactionOverrides): Promise<number>;
-
-    "pure_uint8()"(overrides?: TransactionOverrides): Promise<number>;
+    pure_uint8(): Promise<number>;
   };
 
-  pure_address(overrides?: TransactionOverrides): Promise<string>;
+  pure_address(): Promise<string>;
 
-  "pure_address()"(overrides?: TransactionOverrides): Promise<string>;
+  pure_bool(): Promise<boolean>;
 
-  pure_bool(overrides?: TransactionOverrides): Promise<boolean>;
+  pure_bytes(): Promise<string>;
 
-  "pure_bool()"(overrides?: TransactionOverrides): Promise<boolean>;
+  pure_bytes1(): Promise<string>;
 
-  pure_bytes(overrides?: TransactionOverrides): Promise<string>;
+  pure_enum(): Promise<number>;
 
-  "pure_bytes()"(overrides?: TransactionOverrides): Promise<string>;
+  pure_int256(): Promise<BigNumber>;
 
-  pure_bytes1(overrides?: TransactionOverrides): Promise<string>;
+  pure_int8(): Promise<number>;
 
-  "pure_bytes1()"(overrides?: TransactionOverrides): Promise<string>;
-
-  pure_enum(overrides?: TransactionOverrides): Promise<number>;
-
-  "pure_enum()"(overrides?: TransactionOverrides): Promise<number>;
-
-  pure_int256(overrides?: TransactionOverrides): Promise<BigNumber>;
-
-  "pure_int256()"(overrides?: TransactionOverrides): Promise<BigNumber>;
-
-  pure_int8(overrides?: TransactionOverrides): Promise<number>;
-
-  "pure_int8()"(overrides?: TransactionOverrides): Promise<number>;
-
-  pure_named(
-    overrides?: TransactionOverrides
-  ): Promise<{
+  pure_named(): Promise<{
     uint256_1: BigNumber;
     uint256_2: BigNumber;
     0: BigNumber;
     1: BigNumber;
   }>;
 
-  "pure_named()"(
-    overrides?: TransactionOverrides
-  ): Promise<{
-    uint256_1: BigNumber;
-    uint256_2: BigNumber;
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  pure_stat_array(): Promise<number[]>;
 
-  pure_stat_array(overrides?: TransactionOverrides): Promise<number[]>;
+  pure_string(): Promise<string>;
 
-  "pure_stat_array()"(overrides?: TransactionOverrides): Promise<number[]>;
-
-  pure_string(overrides?: TransactionOverrides): Promise<string>;
-
-  "pure_string()"(overrides?: TransactionOverrides): Promise<string>;
-
-  pure_struct(
-    overrides?: TransactionOverrides
-  ): Promise<{
+  pure_struct(): Promise<{
     uint256_0: BigNumber;
     uint256_1: BigNumber;
     0: BigNumber;
     1: BigNumber;
   }>;
 
-  "pure_struct()"(
-    overrides?: TransactionOverrides
-  ): Promise<{
-    uint256_0: BigNumber;
-    uint256_1: BigNumber;
+  pure_tuple(): Promise<{
     0: BigNumber;
     1: BigNumber;
   }>;
 
-  pure_tuple(
-    overrides?: TransactionOverrides
-  ): Promise<{
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  pure_uint256(): Promise<BigNumber>;
 
-  "pure_tuple()"(
-    overrides?: TransactionOverrides
-  ): Promise<{
-    0: BigNumber;
-    1: BigNumber;
-  }>;
-
-  pure_uint256(overrides?: TransactionOverrides): Promise<BigNumber>;
-
-  "pure_uint256()"(overrides?: TransactionOverrides): Promise<BigNumber>;
-
-  pure_uint8(overrides?: TransactionOverrides): Promise<number>;
-
-  "pure_uint8()"(overrides?: TransactionOverrides): Promise<number>;
+  pure_uint8(): Promise<number>;
 
   filters: {};
 
   estimate: {
-    pure_address(overrides?: TransactionOverrides): Promise<BigNumber>;
+    pure_address(): Promise<BigNumber>;
 
-    "pure_address()"(overrides?: TransactionOverrides): Promise<BigNumber>;
+    pure_bool(): Promise<BigNumber>;
 
-    pure_bool(overrides?: TransactionOverrides): Promise<BigNumber>;
+    pure_bytes(): Promise<BigNumber>;
 
-    "pure_bool()"(overrides?: TransactionOverrides): Promise<BigNumber>;
+    pure_bytes1(): Promise<BigNumber>;
 
-    pure_bytes(overrides?: TransactionOverrides): Promise<BigNumber>;
+    pure_enum(): Promise<BigNumber>;
 
-    "pure_bytes()"(overrides?: TransactionOverrides): Promise<BigNumber>;
+    pure_int256(): Promise<BigNumber>;
 
-    pure_bytes1(overrides?: TransactionOverrides): Promise<BigNumber>;
+    pure_int8(): Promise<BigNumber>;
 
-    "pure_bytes1()"(overrides?: TransactionOverrides): Promise<BigNumber>;
+    pure_named(): Promise<BigNumber>;
 
-    pure_enum(overrides?: TransactionOverrides): Promise<BigNumber>;
+    pure_stat_array(): Promise<BigNumber>;
 
-    "pure_enum()"(overrides?: TransactionOverrides): Promise<BigNumber>;
+    pure_string(): Promise<BigNumber>;
 
-    pure_int256(overrides?: TransactionOverrides): Promise<BigNumber>;
+    pure_struct(): Promise<BigNumber>;
 
-    "pure_int256()"(overrides?: TransactionOverrides): Promise<BigNumber>;
+    pure_tuple(): Promise<BigNumber>;
 
-    pure_int8(overrides?: TransactionOverrides): Promise<BigNumber>;
+    pure_uint256(): Promise<BigNumber>;
 
-    "pure_int8()"(overrides?: TransactionOverrides): Promise<BigNumber>;
-
-    pure_named(overrides?: TransactionOverrides): Promise<BigNumber>;
-
-    "pure_named()"(overrides?: TransactionOverrides): Promise<BigNumber>;
-
-    pure_stat_array(overrides?: TransactionOverrides): Promise<BigNumber>;
-
-    "pure_stat_array()"(overrides?: TransactionOverrides): Promise<BigNumber>;
-
-    pure_string(overrides?: TransactionOverrides): Promise<BigNumber>;
-
-    "pure_string()"(overrides?: TransactionOverrides): Promise<BigNumber>;
-
-    pure_struct(overrides?: TransactionOverrides): Promise<BigNumber>;
-
-    "pure_struct()"(overrides?: TransactionOverrides): Promise<BigNumber>;
-
-    pure_tuple(overrides?: TransactionOverrides): Promise<BigNumber>;
-
-    "pure_tuple()"(overrides?: TransactionOverrides): Promise<BigNumber>;
-
-    pure_uint256(overrides?: TransactionOverrides): Promise<BigNumber>;
-
-    "pure_uint256()"(overrides?: TransactionOverrides): Promise<BigNumber>;
-
-    pure_uint8(overrides?: TransactionOverrides): Promise<BigNumber>;
-
-    "pure_uint8()"(overrides?: TransactionOverrides): Promise<BigNumber>;
+    pure_uint8(): Promise<BigNumber>;
   };
 }
