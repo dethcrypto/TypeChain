@@ -16,12 +16,12 @@ describe('Overloads', () => {
   afterEach(() => ganache.close())
 
   it('works with 1st overload', async () => {
-    const result = await contract['overload1(int256)'](1)
-    typedAssert(result, BigNumber.from(1))
+    typedAssert(await contract['overload1(int256)'](1), BigNumber.from(1))
+    typedAssert(await contract.functions['overload1(int256)'](1), { 0: BigNumber.from(1) })
   })
 
   it('works with 2n overload', async () => {
-    const result = await contract['overload1(uint256,uint256)'](1, 2)
-    typedAssert(result, BigNumber.from(3))
+    typedAssert(await contract['overload1(uint256,uint256)'](1, 2), BigNumber.from(3))
+    typedAssert(await contract.functions['overload1(uint256,uint256)'](1, 2), { 0: BigNumber.from(3) })
   })
 })

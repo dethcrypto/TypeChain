@@ -63,17 +63,31 @@ export class DataTypesPure extends Contract {
   functions: {
     pure_address(): Promise<string>;
 
+    "pure_address()"(): Promise<string>;
+
     pure_bool(): Promise<boolean>;
+
+    "pure_bool()"(): Promise<boolean>;
 
     pure_bytes(): Promise<string>;
 
+    "pure_bytes()"(): Promise<string>;
+
     pure_bytes1(): Promise<string>;
+
+    "pure_bytes1()"(): Promise<string>;
 
     pure_enum(): Promise<number>;
 
+    "pure_enum()"(): Promise<number>;
+
     pure_int256(): Promise<BigNumber>;
 
+    "pure_int256()"(): Promise<BigNumber>;
+
     pure_int8(): Promise<number>;
+
+    "pure_int8()"(): Promise<number>;
 
     pure_named(): Promise<{
       uint256_1: BigNumber;
@@ -82,11 +96,29 @@ export class DataTypesPure extends Contract {
       1: BigNumber;
     }>;
 
+    "pure_named()"(): Promise<{
+      uint256_1: BigNumber;
+      uint256_2: BigNumber;
+      0: BigNumber;
+      1: BigNumber;
+    }>;
+
     pure_stat_array(): Promise<number[]>;
+
+    "pure_stat_array()"(): Promise<number[]>;
 
     pure_string(): Promise<string>;
 
+    "pure_string()"(): Promise<string>;
+
     pure_struct(): Promise<{
+      uint256_0: BigNumber;
+      uint256_1: BigNumber;
+      0: BigNumber;
+      1: BigNumber;
+    }>;
+
+    "pure_struct()"(): Promise<{
       uint256_0: BigNumber;
       uint256_1: BigNumber;
       0: BigNumber;
@@ -98,24 +130,47 @@ export class DataTypesPure extends Contract {
       1: BigNumber;
     }>;
 
+    "pure_tuple()"(): Promise<{
+      0: BigNumber;
+      1: BigNumber;
+    }>;
+
     pure_uint256(): Promise<BigNumber>;
 
+    "pure_uint256()"(): Promise<BigNumber>;
+
     pure_uint8(): Promise<number>;
+
+    "pure_uint8()"(): Promise<number>;
   };
 
   pure_address(): Promise<string>;
 
+  "pure_address()"(): Promise<string>;
+
   pure_bool(): Promise<boolean>;
+
+  "pure_bool()"(): Promise<boolean>;
 
   pure_bytes(): Promise<string>;
 
+  "pure_bytes()"(): Promise<string>;
+
   pure_bytes1(): Promise<string>;
+
+  "pure_bytes1()"(): Promise<string>;
 
   pure_enum(): Promise<number>;
 
+  "pure_enum()"(): Promise<number>;
+
   pure_int256(): Promise<BigNumber>;
 
+  "pure_int256()"(): Promise<BigNumber>;
+
   pure_int8(): Promise<number>;
+
+  "pure_int8()"(): Promise<number>;
 
   pure_named(): Promise<{
     uint256_1: BigNumber;
@@ -124,11 +179,29 @@ export class DataTypesPure extends Contract {
     1: BigNumber;
   }>;
 
+  "pure_named()"(): Promise<{
+    uint256_1: BigNumber;
+    uint256_2: BigNumber;
+    0: BigNumber;
+    1: BigNumber;
+  }>;
+
   pure_stat_array(): Promise<number[]>;
+
+  "pure_stat_array()"(): Promise<number[]>;
 
   pure_string(): Promise<string>;
 
+  "pure_string()"(): Promise<string>;
+
   pure_struct(): Promise<{
+    uint256_0: BigNumber;
+    uint256_1: BigNumber;
+    0: BigNumber;
+    1: BigNumber;
+  }>;
+
+  "pure_struct()"(): Promise<{
     uint256_0: BigNumber;
     uint256_1: BigNumber;
     0: BigNumber;
@@ -140,9 +213,18 @@ export class DataTypesPure extends Contract {
     1: BigNumber;
   }>;
 
+  "pure_tuple()"(): Promise<{
+    0: BigNumber;
+    1: BigNumber;
+  }>;
+
   pure_uint256(): Promise<BigNumber>;
 
+  "pure_uint256()"(): Promise<BigNumber>;
+
   pure_uint8(): Promise<number>;
+
+  "pure_uint8()"(): Promise<number>;
 
   filters: {};
 

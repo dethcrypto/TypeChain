@@ -58,26 +58,66 @@ export class Events extends Contract {
   functions: {
     emit_anon1(overrides?: TransactionOverrides): Promise<ContractTransaction>;
 
+    "emit_anon1()"(
+      overrides?: TransactionOverrides
+    ): Promise<ContractTransaction>;
+
     emit_event1(overrides?: TransactionOverrides): Promise<ContractTransaction>;
+
+    "emit_event1()"(
+      overrides?: TransactionOverrides
+    ): Promise<ContractTransaction>;
 
     emit_event2(overrides?: TransactionOverrides): Promise<ContractTransaction>;
 
+    "emit_event2()"(
+      overrides?: TransactionOverrides
+    ): Promise<ContractTransaction>;
+
     emit_event3(overrides?: TransactionOverrides): Promise<ContractTransaction>;
 
+    "emit_event3()"(
+      overrides?: TransactionOverrides
+    ): Promise<ContractTransaction>;
+
     emit_event3_overloaded(
+      overrides?: TransactionOverrides
+    ): Promise<ContractTransaction>;
+
+    "emit_event3_overloaded()"(
       overrides?: TransactionOverrides
     ): Promise<ContractTransaction>;
   };
 
   emit_anon1(overrides?: TransactionOverrides): Promise<ContractTransaction>;
 
+  "emit_anon1()"(
+    overrides?: TransactionOverrides
+  ): Promise<ContractTransaction>;
+
   emit_event1(overrides?: TransactionOverrides): Promise<ContractTransaction>;
+
+  "emit_event1()"(
+    overrides?: TransactionOverrides
+  ): Promise<ContractTransaction>;
 
   emit_event2(overrides?: TransactionOverrides): Promise<ContractTransaction>;
 
+  "emit_event2()"(
+    overrides?: TransactionOverrides
+  ): Promise<ContractTransaction>;
+
   emit_event3(overrides?: TransactionOverrides): Promise<ContractTransaction>;
 
+  "emit_event3()"(
+    overrides?: TransactionOverrides
+  ): Promise<ContractTransaction>;
+
   emit_event3_overloaded(
+    overrides?: TransactionOverrides
+  ): Promise<ContractTransaction>;
+
+  "emit_event3_overloaded()"(
     overrides?: TransactionOverrides
   ): Promise<ContractTransaction>;
 

@@ -3,10 +3,10 @@ import { generateInputTypes, generateOutputTypes } from './types'
 
 export function codegenFunctions(fns: FunctionDeclaration[]): string {
   if (fns.length === 1) {
-    return generateFunction(fns[0])
+    return `${generateFunction(fns[0])}${codegenForOverloadedFunctions(fns)}`
   }
 
-  return codegenForOverloadedFunctions(fns)
+  return `${generateFunction(fns[0])}${codegenForOverloadedFunctions(fns)}`
 }
 
 export function codegenForOverloadedFunctions(fns: FunctionDeclaration[]): string {

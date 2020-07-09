@@ -36,9 +36,13 @@ export class NameMangling extends Contract {
 
   functions: {
     works(): Promise<boolean>;
+
+    "works()"(): Promise<boolean>;
   };
 
   works(): Promise<boolean>;
+
+  "works()"(): Promise<boolean>;
 
   filters: {};
 

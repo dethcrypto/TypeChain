@@ -62,17 +62,31 @@ export class Payable extends Contract {
   functions: {
     non_payable_func(overrides?: Overrides): Promise<ContractTransaction>;
 
+    "non_payable_func()"(overrides?: Overrides): Promise<ContractTransaction>;
+
     payable_func(overrides?: PayableOverrides): Promise<ContractTransaction>;
+
+    "payable_func()"(
+      overrides?: PayableOverrides
+    ): Promise<ContractTransaction>;
   };
 
   non_payable_func(overrides?: Overrides): Promise<ContractTransaction>;
 
+  "non_payable_func()"(overrides?: Overrides): Promise<ContractTransaction>;
+
   payable_func(overrides?: PayableOverrides): Promise<ContractTransaction>;
+
+  "payable_func()"(overrides?: PayableOverrides): Promise<ContractTransaction>;
 
   callStatic: {
     non_payable_func(overrides?: Overrides): Promise<void>;
 
+    "non_payable_func()"(overrides?: Overrides): Promise<void>;
+
     payable_func(overrides?: PayableOverrides): Promise<void>;
+
+    "payable_func()"(overrides?: PayableOverrides): Promise<void>;
   };
 
   filters: {};
