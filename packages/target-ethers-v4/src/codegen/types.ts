@@ -9,8 +9,8 @@ export function generateInputTypes(input: Array<AbiParameter>): string {
   )
 }
 
-export function generateOutputTypes(returnResultObject: boolean, outputs: Array<AbiOutputParameter>): string {
-  if (!returnResultObject && outputs.length === 1) {
+export function generateOutputTypes(outputs: Array<AbiOutputParameter>): string {
+  if (outputs.length === 1) {
     return generateOutputType(outputs[0].type)
   } else {
     return `{

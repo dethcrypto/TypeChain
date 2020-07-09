@@ -61,33 +61,19 @@ export class DataTypesView extends Contract {
   interface: DataTypesViewInterface;
 
   functions: {
-    view_address(): Promise<{
-      0: string;
-    }>;
+    view_address(): Promise<string>;
 
-    view_bool(): Promise<{
-      0: boolean;
-    }>;
+    view_bool(): Promise<boolean>;
 
-    view_bytes(): Promise<{
-      0: string;
-    }>;
+    view_bytes(): Promise<string>;
 
-    view_bytes1(): Promise<{
-      0: string;
-    }>;
+    view_bytes1(): Promise<string>;
 
-    view_enum(): Promise<{
-      0: number;
-    }>;
+    view_enum(): Promise<number>;
 
-    view_int256(): Promise<{
-      0: BigNumber;
-    }>;
+    view_int256(): Promise<BigNumber>;
 
-    view_int8(): Promise<{
-      0: number;
-    }>;
+    view_int8(): Promise<number>;
 
     view_named(): Promise<{
       uint256_1: BigNumber;
@@ -96,21 +82,15 @@ export class DataTypesView extends Contract {
       1: BigNumber;
     }>;
 
-    view_stat_array(): Promise<{
-      0: number[];
-    }>;
+    view_stat_array(): Promise<number[]>;
 
-    view_string(): Promise<{
-      0: string;
-    }>;
+    view_string(): Promise<string>;
 
     view_struct(): Promise<{
-      0: {
-        uint256_0: BigNumber;
-        uint256_1: BigNumber;
-        0: BigNumber;
-        1: BigNumber;
-      };
+      uint256_0: BigNumber;
+      uint256_1: BigNumber;
+      0: BigNumber;
+      1: BigNumber;
     }>;
 
     view_tuple(): Promise<{
@@ -118,13 +98,9 @@ export class DataTypesView extends Contract {
       1: BigNumber;
     }>;
 
-    view_uint256(): Promise<{
-      0: BigNumber;
-    }>;
+    view_uint256(): Promise<BigNumber>;
 
-    view_uint8(): Promise<{
-      0: number;
-    }>;
+    view_uint8(): Promise<number>;
   };
 
   view_address(): Promise<string>;

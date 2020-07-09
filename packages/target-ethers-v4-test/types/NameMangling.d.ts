@@ -35,9 +35,7 @@ export class NameMangling extends Contract {
   interface: NameManglingInterface;
 
   functions: {
-    works(): Promise<{
-      0: boolean;
-    }>;
+    works(): Promise<boolean>;
   };
 
   works(): Promise<boolean>;

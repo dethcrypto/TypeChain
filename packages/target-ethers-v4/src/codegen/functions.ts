@@ -2,7 +2,6 @@ import { FunctionDeclaration, isConstant, isConstantFn, FunctionDocumentation, g
 import { generateInputTypes, generateOutputTypes } from './types'
 
 interface GenerateFunctionOptions {
-  returnResultObject?: boolean
   overrideOutput?: string
 }
 
@@ -28,7 +27,7 @@ function generateFunction(options: GenerateFunctionOptions, fn: FunctionDeclarat
       ? options.overrideOutput
       : `Promise<${
           fn.stateMutability === 'pure' || fn.stateMutability === 'view'
-            ? generateOutputTypes(!!options.returnResultObject, fn.outputs)
+            ? generateOutputTypes(fn.outputs)
             : 'ContractTransaction'
         }>`
   };
