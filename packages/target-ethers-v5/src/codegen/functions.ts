@@ -31,9 +31,7 @@ function generateFunction(options: GenerateFunctionOptions, fn: FunctionDeclarat
       ? `overrides?: ${isPayable(fn) ? 'PayableOverrides' : 'Overrides'}`
       : 'overrides?: CallOverrides'
   }): ${
-    options.overrideOutput
-      ? options.overrideOutput
-      : `Promise<${
+    options.overrideOutput ?? `Promise<${
           options.isStaticCall || fn.stateMutability === 'pure' || fn.stateMutability === 'view'
             ? generateOutputTypes(!!options.returnResultObject, fn.outputs)
             : 'ContractTransaction'
