@@ -153,21 +153,7 @@ export class DataTypesInput extends Contract {
       0: string;
     }>;
 
-    "input_address(address)"(
-      input1: string,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
-
     input_bool(
-      input1: boolean,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: boolean;
-    }>;
-
-    "input_bool(bool)"(
       input1: boolean,
       overrides?: CallOverrides
     ): Promise<{
@@ -181,21 +167,7 @@ export class DataTypesInput extends Contract {
       0: string;
     }>;
 
-    "input_bytes(bytes)"(
-      input1: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
-
     input_bytes1(
-      input1: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
-
-    "input_bytes1(bytes1)"(
       input1: BytesLike,
       overrides?: CallOverrides
     ): Promise<{
@@ -209,21 +181,7 @@ export class DataTypesInput extends Contract {
       0: number;
     }>;
 
-    "input_enum(uint8)"(
-      input1: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: number;
-    }>;
-
     input_int256(
-      input1: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: BigNumber;
-    }>;
-
-    "input_int256(int256)"(
       input1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<{
@@ -237,21 +195,7 @@ export class DataTypesInput extends Contract {
       0: number;
     }>;
 
-    "input_int8(int8)"(
-      input1: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: number;
-    }>;
-
     input_stat_array(
-      input1: BigNumberish[],
-      overrides?: CallOverrides
-    ): Promise<{
-      0: number[];
-    }>;
-
-    "input_stat_array(uint8[3])"(
       input1: BigNumberish[],
       overrides?: CallOverrides
     ): Promise<{
@@ -265,26 +209,7 @@ export class DataTypesInput extends Contract {
       0: string;
     }>;
 
-    "input_string(string)"(
-      input1: string,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
-
     input_struct(
-      input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
-      overrides?: CallOverrides
-    ): Promise<{
-      0: {
-        uint256_0: BigNumber;
-        uint256_1: BigNumber;
-        0: BigNumber;
-        1: BigNumber;
-      };
-    }>;
-
-    "input_struct(tuple)"(
       input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
       overrides?: CallOverrides
     ): Promise<{
@@ -305,23 +230,7 @@ export class DataTypesInput extends Contract {
       1: BigNumber;
     }>;
 
-    "input_tuple(uint256,uint256)"(
-      input1: BigNumberish,
-      input2: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: BigNumber;
-      1: BigNumber;
-    }>;
-
     input_uint256(
-      input1: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: BigNumber;
-    }>;
-
-    "input_uint256(uint256)"(
       input1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<{
@@ -334,95 +243,33 @@ export class DataTypesInput extends Contract {
     ): Promise<{
       0: number;
     }>;
-
-    "input_uint8(uint8)"(
-      input1: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: number;
-    }>;
   };
 
   input_address(input1: string, overrides?: CallOverrides): Promise<string>;
 
-  "input_address(address)"(
-    input1: string,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
   input_bool(input1: boolean, overrides?: CallOverrides): Promise<boolean>;
-
-  "input_bool(bool)"(
-    input1: boolean,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
 
   input_bytes(input1: BytesLike, overrides?: CallOverrides): Promise<string>;
 
-  "input_bytes(bytes)"(
-    input1: BytesLike,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
   input_bytes1(input1: BytesLike, overrides?: CallOverrides): Promise<string>;
 
-  "input_bytes1(bytes1)"(
-    input1: BytesLike,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
   input_enum(input1: BigNumberish, overrides?: CallOverrides): Promise<number>;
-
-  "input_enum(uint8)"(
-    input1: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<number>;
 
   input_int256(
     input1: BigNumberish,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  "input_int256(int256)"(
-    input1: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
   input_int8(input1: BigNumberish, overrides?: CallOverrides): Promise<number>;
-
-  "input_int8(int8)"(
-    input1: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<number>;
 
   input_stat_array(
     input1: BigNumberish[],
     overrides?: CallOverrides
   ): Promise<number[]>;
 
-  "input_stat_array(uint8[3])"(
-    input1: BigNumberish[],
-    overrides?: CallOverrides
-  ): Promise<number[]>;
-
   input_string(input1: string, overrides?: CallOverrides): Promise<string>;
 
-  "input_string(string)"(
-    input1: string,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
   input_struct(
-    input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
-    overrides?: CallOverrides
-  ): Promise<{
-    uint256_0: BigNumber;
-    uint256_1: BigNumber;
-    0: BigNumber;
-    1: BigNumber;
-  }>;
-
-  "input_struct(tuple)"(
     input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
     overrides?: CallOverrides
   ): Promise<{
@@ -441,67 +288,23 @@ export class DataTypesInput extends Contract {
     1: BigNumber;
   }>;
 
-  "input_tuple(uint256,uint256)"(
-    input1: BigNumberish,
-    input2: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<{
-    0: BigNumber;
-    1: BigNumber;
-  }>;
-
   input_uint256(
-    input1: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
-  "input_uint256(uint256)"(
     input1: BigNumberish,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
   input_uint8(input1: BigNumberish, overrides?: CallOverrides): Promise<number>;
 
-  "input_uint8(uint8)"(
-    input1: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<number>;
-
   callStatic: {
     input_address(input1: string, overrides?: CallOverrides): Promise<string>;
 
-    "input_address(address)"(
-      input1: string,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
     input_bool(input1: boolean, overrides?: CallOverrides): Promise<boolean>;
-
-    "input_bool(bool)"(
-      input1: boolean,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
 
     input_bytes(input1: BytesLike, overrides?: CallOverrides): Promise<string>;
 
-    "input_bytes(bytes)"(
-      input1: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
     input_bytes1(input1: BytesLike, overrides?: CallOverrides): Promise<string>;
 
-    "input_bytes1(bytes1)"(
-      input1: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
     input_enum(
-      input1: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<number>;
-
-    "input_enum(uint8)"(
       input1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<number>;
@@ -511,17 +314,7 @@ export class DataTypesInput extends Contract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    "input_int256(int256)"(
-      input1: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     input_int8(
-      input1: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<number>;
-
-    "input_int8(int8)"(
       input1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<number>;
@@ -531,29 +324,9 @@ export class DataTypesInput extends Contract {
       overrides?: CallOverrides
     ): Promise<number[]>;
 
-    "input_stat_array(uint8[3])"(
-      input1: BigNumberish[],
-      overrides?: CallOverrides
-    ): Promise<number[]>;
-
     input_string(input1: string, overrides?: CallOverrides): Promise<string>;
 
-    "input_string(string)"(
-      input1: string,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
     input_struct(
-      input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
-      overrides?: CallOverrides
-    ): Promise<{
-      uint256_0: BigNumber;
-      uint256_1: BigNumber;
-      0: BigNumber;
-      1: BigNumber;
-    }>;
-
-    "input_struct(tuple)"(
       input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
       overrides?: CallOverrides
     ): Promise<{
@@ -572,31 +345,12 @@ export class DataTypesInput extends Contract {
       1: BigNumber;
     }>;
 
-    "input_tuple(uint256,uint256)"(
-      input1: BigNumberish,
-      input2: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: BigNumber;
-      1: BigNumber;
-    }>;
-
     input_uint256(
       input1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    "input_uint256(uint256)"(
-      input1: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     input_uint8(
-      input1: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<number>;
-
-    "input_uint8(uint8)"(
       input1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<number>;
@@ -610,24 +364,9 @@ export class DataTypesInput extends Contract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    "input_address(address)"(
-      input1: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     input_bool(input1: boolean, overrides?: CallOverrides): Promise<BigNumber>;
 
-    "input_bool(bool)"(
-      input1: boolean,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     input_bytes(
-      input1: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "input_bytes(bytes)"(
       input1: BytesLike,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -637,17 +376,7 @@ export class DataTypesInput extends Contract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    "input_bytes1(bytes1)"(
-      input1: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     input_enum(
-      input1: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "input_enum(uint8)"(
       input1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -657,17 +386,7 @@ export class DataTypesInput extends Contract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    "input_int256(int256)"(
-      input1: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     input_int8(
-      input1: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "input_int8(int8)"(
       input1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -677,24 +396,9 @@ export class DataTypesInput extends Contract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    "input_stat_array(uint8[3])"(
-      input1: BigNumberish[],
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     input_string(input1: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    "input_string(string)"(
-      input1: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     input_struct(
-      input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "input_struct(tuple)"(
       input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -705,28 +409,12 @@ export class DataTypesInput extends Contract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    "input_tuple(uint256,uint256)"(
-      input1: BigNumberish,
-      input2: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     input_uint256(
       input1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    "input_uint256(uint256)"(
-      input1: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     input_uint8(
-      input1: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "input_uint8(uint8)"(
       input1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -738,17 +426,7 @@ export class DataTypesInput extends Contract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    "input_address(address)"(
-      input1: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     input_bool(
-      input1: boolean,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "input_bool(bool)"(
       input1: boolean,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -758,17 +436,7 @@ export class DataTypesInput extends Contract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    "input_bytes(bytes)"(
-      input1: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     input_bytes1(
-      input1: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "input_bytes1(bytes1)"(
       input1: BytesLike,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -778,17 +446,7 @@ export class DataTypesInput extends Contract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    "input_enum(uint8)"(
-      input1: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     input_int256(
-      input1: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "input_int256(int256)"(
       input1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -798,17 +456,7 @@ export class DataTypesInput extends Contract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    "input_int8(int8)"(
-      input1: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     input_stat_array(
-      input1: BigNumberish[],
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "input_stat_array(uint8[3])"(
       input1: BigNumberish[],
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -818,17 +466,7 @@ export class DataTypesInput extends Contract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    "input_string(string)"(
-      input1: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     input_struct(
-      input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "input_struct(tuple)"(
       input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -839,28 +477,12 @@ export class DataTypesInput extends Contract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    "input_tuple(uint256,uint256)"(
-      input1: BigNumberish,
-      input2: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     input_uint256(
       input1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    "input_uint256(uint256)"(
-      input1: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     input_uint8(
-      input1: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "input_uint8(uint8)"(
       input1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
