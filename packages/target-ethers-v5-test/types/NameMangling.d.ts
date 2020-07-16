@@ -60,10 +60,10 @@ export class NameMangling extends Contract {
   filters: {};
 
   estimateGas: {
-    works(): Promise<BigNumber>;
+    works(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    works(): Promise<PopulatedTransaction>;
+    works(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }

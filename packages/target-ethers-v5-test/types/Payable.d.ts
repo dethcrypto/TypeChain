@@ -78,12 +78,14 @@ export class Payable extends Contract {
   filters: {};
 
   estimateGas: {
-    non_payable_func(): Promise<BigNumber>;
-    payable_func(): Promise<BigNumber>;
+    non_payable_func(overrides?: Overrides): Promise<BigNumber>;
+
+    payable_func(overrides?: PayableOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    non_payable_func(): Promise<PopulatedTransaction>;
-    payable_func(): Promise<PopulatedTransaction>;
+    non_payable_func(overrides?: Overrides): Promise<PopulatedTransaction>;
+
+    payable_func(overrides?: PayableOverrides): Promise<PopulatedTransaction>;
   };
 }

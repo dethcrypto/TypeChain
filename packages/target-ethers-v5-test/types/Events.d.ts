@@ -137,18 +137,28 @@ export class Events extends Contract {
   };
 
   estimateGas: {
-    emit_anon1(): Promise<BigNumber>;
-    emit_event1(): Promise<BigNumber>;
-    emit_event2(): Promise<BigNumber>;
-    emit_event3(): Promise<BigNumber>;
-    emit_event3_overloaded(): Promise<BigNumber>;
+    emit_anon1(overrides?: Overrides): Promise<BigNumber>;
+
+    emit_event1(overrides?: Overrides): Promise<BigNumber>;
+
+    emit_event2(overrides?: Overrides): Promise<BigNumber>;
+
+    emit_event3(overrides?: Overrides): Promise<BigNumber>;
+
+    emit_event3_overloaded(overrides?: Overrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    emit_anon1(): Promise<PopulatedTransaction>;
-    emit_event1(): Promise<PopulatedTransaction>;
-    emit_event2(): Promise<PopulatedTransaction>;
-    emit_event3(): Promise<PopulatedTransaction>;
-    emit_event3_overloaded(): Promise<PopulatedTransaction>;
+    emit_anon1(overrides?: Overrides): Promise<PopulatedTransaction>;
+
+    emit_event1(overrides?: Overrides): Promise<PopulatedTransaction>;
+
+    emit_event2(overrides?: Overrides): Promise<PopulatedTransaction>;
+
+    emit_event3(overrides?: Overrides): Promise<PopulatedTransaction>;
+
+    emit_event3_overloaded(
+      overrides?: Overrides
+    ): Promise<PopulatedTransaction>;
   };
 }

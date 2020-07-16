@@ -90,10 +90,28 @@ export class Overloads extends Contract {
   filters: {};
 
   estimateGas: {
-    overload1(input1: BigNumberish): Promise<BigNumber>;
+    "overload1(int256)"(
+      input1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "overload1(uint256,uint256)"(
+      input1: BigNumberish,
+      input2: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    overload1(input1: BigNumberish): Promise<PopulatedTransaction>;
+    "overload1(int256)"(
+      input1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "overload1(uint256,uint256)"(
+      input1: BigNumberish,
+      input2: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
   };
 }

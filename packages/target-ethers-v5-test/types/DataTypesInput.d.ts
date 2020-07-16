@@ -359,43 +359,132 @@ export class DataTypesInput extends Contract {
   filters: {};
 
   estimateGas: {
-    input_address(input1: string): Promise<BigNumber>;
-    input_bool(input1: boolean): Promise<BigNumber>;
-    input_bytes(input1: BytesLike): Promise<BigNumber>;
-    input_bytes1(input1: BytesLike): Promise<BigNumber>;
-    input_enum(input1: BigNumberish): Promise<BigNumber>;
-    input_int256(input1: BigNumberish): Promise<BigNumber>;
-    input_int8(input1: BigNumberish): Promise<BigNumber>;
-    input_stat_array(input1: BigNumberish[]): Promise<BigNumber>;
-    input_string(input1: string): Promise<BigNumber>;
-    input_struct(input1: {
-      uint256_0: BigNumberish;
-      uint256_1: BigNumberish;
-    }): Promise<BigNumber>;
-    input_tuple(input1: BigNumberish, input2: BigNumberish): Promise<BigNumber>;
-    input_uint256(input1: BigNumberish): Promise<BigNumber>;
-    input_uint8(input1: BigNumberish): Promise<BigNumber>;
+    input_address(
+      input1: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    input_bool(input1: boolean, overrides?: CallOverrides): Promise<BigNumber>;
+
+    input_bytes(
+      input1: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    input_bytes1(
+      input1: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    input_enum(
+      input1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    input_int256(
+      input1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    input_int8(
+      input1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    input_stat_array(
+      input1: BigNumberish[],
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    input_string(input1: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    input_struct(
+      input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    input_tuple(
+      input1: BigNumberish,
+      input2: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    input_uint256(
+      input1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    input_uint8(
+      input1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    input_address(input1: string): Promise<PopulatedTransaction>;
-    input_bool(input1: boolean): Promise<PopulatedTransaction>;
-    input_bytes(input1: BytesLike): Promise<PopulatedTransaction>;
-    input_bytes1(input1: BytesLike): Promise<PopulatedTransaction>;
-    input_enum(input1: BigNumberish): Promise<PopulatedTransaction>;
-    input_int256(input1: BigNumberish): Promise<PopulatedTransaction>;
-    input_int8(input1: BigNumberish): Promise<PopulatedTransaction>;
-    input_stat_array(input1: BigNumberish[]): Promise<PopulatedTransaction>;
-    input_string(input1: string): Promise<PopulatedTransaction>;
-    input_struct(input1: {
-      uint256_0: BigNumberish;
-      uint256_1: BigNumberish;
-    }): Promise<PopulatedTransaction>;
+    input_address(
+      input1: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    input_bool(
+      input1: boolean,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    input_bytes(
+      input1: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    input_bytes1(
+      input1: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    input_enum(
+      input1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    input_int256(
+      input1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    input_int8(
+      input1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    input_stat_array(
+      input1: BigNumberish[],
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    input_string(
+      input1: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    input_struct(
+      input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     input_tuple(
       input1: BigNumberish,
-      input2: BigNumberish
+      input2: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
-    input_uint256(input1: BigNumberish): Promise<PopulatedTransaction>;
-    input_uint8(input1: BigNumberish): Promise<PopulatedTransaction>;
+
+    input_uint256(
+      input1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    input_uint8(
+      input1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
   };
 }

@@ -4,6 +4,7 @@ import { generateInputTypes, generateOutputTypes } from './types'
 interface GenerateFunctionOptions {
   returnResultObject?: boolean
   isStaticCall?: boolean
+  overrideOutput?: string
 }
 
 export function codegenFunctions(options: GenerateFunctionOptions, fns: FunctionDeclaration[]): string {
@@ -29,11 +30,14 @@ function generateFunction(options: GenerateFunctionOptions, fn: FunctionDeclarat
     !isConstant(fn) && !isConstantFn(fn)
       ? `overrides?: ${isPayable(fn) ? 'PayableOverrides' : 'Overrides'}`
       : 'overrides?: CallOverrides'
-  }): Promise<${
-    options.isStaticCall || fn.stateMutability === 'pure' || fn.stateMutability === 'view'
-      ? generateOutputTypes(!!options.returnResultObject, fn.outputs)
-      : 'ContractTransaction'
-  }>;
+  }): ${
+    options.overrideOutput ??
+    `Promise<${
+      options.isStaticCall || fn.stateMutability === 'pure' || fn.stateMutability === 'view'
+        ? generateOutputTypes(!!options.returnResultObject, fn.outputs)
+        : 'ContractTransaction'
+    }>`
+  };
 `
 }
 
