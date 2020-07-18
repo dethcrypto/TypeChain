@@ -12,7 +12,8 @@ import {
 import {
   Contract,
   ContractTransaction,
-  Overrides
+  Overrides,
+  CallOverrides
 } from "@ethersproject/contracts";
 import { BytesLike } from "@ethersproject/bytes";
 import { Listener, Provider } from "@ethersproject/providers";
