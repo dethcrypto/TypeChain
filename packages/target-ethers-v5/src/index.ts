@@ -116,7 +116,7 @@ export default class Ethers extends TsGeneratorPlugin {
     const abstractFactoryFiles = Object.keys(this.contractCache).map((contractName) => {
       const { contract, abi } = this.contractCache[contractName]
       return {
-        path: join(this.outDirAbs, `${contract.name}Contract.ts`),
+        path: join(this.outDirAbs, `${contract.name}Factory.ts`),
         contents: codegenAbstractContractFactory(contract, abi),
       }
     })
