@@ -27,17 +27,16 @@ function generateFunction(options: GenerateFunctionOptions, fn: FunctionDeclarat
   return `
   ${generateFunctionDocumentation(fn.documentation)}
   ${overloadedName ?? fn.name}(${generateInputTypes(fn.inputs)}${
-    !isConstant(fn) && !isConstantFn(fn)
+    !options.isStaticCall && !isConstant(fn) && !isConstantFn(fn)
       ? `overrides?: ${isPayable(fn) ? 'PayableOverrides' : 'Overrides'}`
       : 'overrides?: CallOverrides'
   }): ${
-    options.overrideOutput
-      ? options.overrideOutput
-      : `Promise<${
-          options.isStaticCall || fn.stateMutability === 'pure' || fn.stateMutability === 'view'
-            ? generateOutputTypes(!!options.returnResultObject, fn.outputs)
-            : 'ContractTransaction'
-        }>`
+    options.overrideOutput ??
+    `Promise<${
+      options.isStaticCall || fn.stateMutability === 'pure' || fn.stateMutability === 'view'
+        ? generateOutputTypes(!!options.returnResultObject, fn.outputs)
+        : 'ContractTransaction'
+    }>`
   };
 `
 }

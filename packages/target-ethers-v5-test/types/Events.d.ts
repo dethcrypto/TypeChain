@@ -12,7 +12,8 @@ import {
 import {
   Contract,
   ContractTransaction,
-  Overrides
+  Overrides,
+  CallOverrides
 } from "@ethersproject/contracts";
 import { BytesLike } from "@ethersproject/bytes";
 import { Listener, Provider } from "@ethersproject/providers";
@@ -139,7 +140,7 @@ export class Events extends Contract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    emit_anon1(overrides?: Overrides): Promise<void>;
+    emit_anon1(overrides?: CallOverrides): Promise<void>;
 
     "emit_anon1()"(overrides?: Overrides): Promise<void>;
 

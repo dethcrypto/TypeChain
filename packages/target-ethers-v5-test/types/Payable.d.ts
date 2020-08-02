@@ -13,7 +13,8 @@ import {
   Contract,
   ContractTransaction,
   Overrides,
-  PayableOverrides
+  PayableOverrides,
+  CallOverrides
 } from "@ethersproject/contracts";
 import { BytesLike } from "@ethersproject/bytes";
 import { Listener, Provider } from "@ethersproject/providers";
@@ -80,7 +81,7 @@ export class Payable extends Contract {
   "payable_func()"(overrides?: PayableOverrides): Promise<ContractTransaction>;
 
   callStatic: {
-    non_payable_func(overrides?: Overrides): Promise<void>;
+    non_payable_func(overrides?: CallOverrides): Promise<void>;
 
     "non_payable_func()"(overrides?: Overrides): Promise<void>;
 

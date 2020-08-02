@@ -13,7 +13,7 @@ import { codegenFunctions } from './functions'
 export function codegenContractTypings(contract: Contract) {
   const contractImports: string[] = ['Contract', 'ContractTransaction']
   const allFunctions = values(contract.functions)
-    .map(codegenFunctions.bind(null, { returnResultObject: true }))
+    .map((fn) => codegenFunctions({ returnResultObject: true }, fn) + codegenFunctions({ isStaticCall: true }, fn))
     .join('')
 
   const optionalContractImports = ['Overrides', 'PayableOverrides', 'CallOverrides']
