@@ -35,6 +35,11 @@ describe('DataTypesInput', () => {
       '0x70b144972C5Ef6CB941A5379240B74239c418CD4',
     )
 
+    typedAssert(
+      await contract['input_address(address)']('0x70b144972C5Ef6CB941A5379240B74239c418CD4'),
+      '0x70b144972C5Ef6CB941A5379240B74239c418CD4',
+    )
+
     typedAssert(await contract.input_bytes1('0xaa'), '0xaa')
     typedAssert(await contract.input_bytes1([0]), '0x00')
 

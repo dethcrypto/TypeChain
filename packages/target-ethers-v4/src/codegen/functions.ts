@@ -1,28 +1,34 @@
-import { FunctionDeclaration, isConstant, isConstantFn, FunctionDocumentation, getSignatureForFn } from 'typechain'
+import { FunctionDeclaration, FunctionDocumentation, getSignatureForFn } from 'typechain'
 import { generateInputTypes, generateOutputTypes } from './types'
 
-export function codegenFunctions(fns: FunctionDeclaration[]): string {
+interface GenerateFunctionOptions {
+  overrideOutput?: string
+}
+
+export function codegenFunctions(options: GenerateFunctionOptions, fns: FunctionDeclaration[]): string {
   if (fns.length === 1) {
-    return generateFunction(fns[0])
+    return `${generateFunction(options, fns[0])}${codegenForOverloadedFunctions(options, fns)}`
   }
 
-  return codegenForOverloadedFunctions(fns)
+  return `${generateFunction(options, fns[0])}${codegenForOverloadedFunctions(options, fns)}`
 }
 
-export function codegenForOverloadedFunctions(fns: FunctionDeclaration[]): string {
-  return fns.map((fn) => generateFunction(fn, `"${getSignatureForFn(fn)}"`)).join('\n')
+export function codegenForOverloadedFunctions(options: GenerateFunctionOptions, fns: FunctionDeclaration[]): string {
+  return fns.map((fn) => generateFunction(options, fn, `"${getSignatureForFn(fn)}"`)).join('\n')
 }
 
-function generateFunction(fn: FunctionDeclaration, overloadedName?: string): string {
+function generateFunction(options: GenerateFunctionOptions, fn: FunctionDeclaration, overloadedName?: string): string {
   return `
   ${generateFunctionDocumentation(fn.documentation)}
-  ${overloadedName ?? fn.name}(${generateInputTypes(fn.inputs)}${
-    !isConstant(fn) && !isConstantFn(fn) ? 'overrides?: TransactionOverrides' : ''
-  }): Promise<${
-    fn.stateMutability === 'pure' || fn.stateMutability === 'view'
-      ? generateOutputTypes(fn.outputs)
-      : 'ContractTransaction'
-  }>;
+  ${overloadedName ?? fn.name}(${generateInputTypes(fn.inputs)} overrides?: TransactionOverrides): ${
+    options.overrideOutput
+      ? options.overrideOutput
+      : `Promise<${
+          fn.stateMutability === 'pure' || fn.stateMutability === 'view'
+            ? generateOutputTypes(fn.outputs)
+            : 'ContractTransaction'
+        }>`
+  };
 `
 }
 

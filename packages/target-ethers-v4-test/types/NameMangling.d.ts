@@ -35,14 +35,20 @@ export class NameMangling extends Contract {
   interface: NameManglingInterface;
 
   functions: {
-    works(): Promise<boolean>;
+    works(overrides?: TransactionOverrides): Promise<boolean>;
+
+    "works()"(overrides?: TransactionOverrides): Promise<boolean>;
   };
 
-  works(): Promise<boolean>;
+  works(overrides?: TransactionOverrides): Promise<boolean>;
+
+  "works()"(overrides?: TransactionOverrides): Promise<boolean>;
 
   filters: {};
 
   estimate: {
-    works(): Promise<BigNumber>;
+    works(overrides?: TransactionOverrides): Promise<BigNumber>;
+
+    "works()"(overrides?: TransactionOverrides): Promise<BigNumber>;
   };
 }

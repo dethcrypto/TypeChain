@@ -9,7 +9,7 @@ interface GenerateFunctionOptions {
 
 export function codegenFunctions(options: GenerateFunctionOptions, fns: FunctionDeclaration[]): string {
   if (fns.length === 1) {
-    return generateFunction(options, fns[0])
+    return `${generateFunction(options, fns[0])}${codegenForOverloadedFunctions(options, fns)}`
   }
 
   return codegenForOverloadedFunctions(options, fns)
