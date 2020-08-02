@@ -6,11 +6,12 @@ import {
   FunctionDescription
 } from "ethers/utils";
 
-export class TransactionOverrides {
-  nonce?: BigNumberish | Promise<BigNumberish>;
+export interface TransactionOverrides {
   gasLimit?: BigNumberish | Promise<BigNumberish>;
   gasPrice?: BigNumberish | Promise<BigNumberish>;
+  nonce?: BigNumberish | Promise<BigNumberish>;
   value?: BigNumberish | Promise<BigNumberish>;
+  from?: string | Promise<string>;
   chainId?: number | Promise<number>;
 }
 

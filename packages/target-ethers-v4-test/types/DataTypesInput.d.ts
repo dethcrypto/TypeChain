@@ -87,28 +87,55 @@ export class DataTypesInput extends Contract {
   interface: DataTypesInputInterface;
 
   functions: {
-    input_address(input1: string): Promise<string>;
+    input_address(
+      input1: string,
+      overrides?: TransactionOverrides
+    ): Promise<string>;
 
-    input_bool(input1: boolean): Promise<boolean>;
+    input_bool(
+      input1: boolean,
+      overrides?: TransactionOverrides
+    ): Promise<boolean>;
 
-    input_bytes(input1: Arrayish): Promise<string>;
+    input_bytes(
+      input1: Arrayish,
+      overrides?: TransactionOverrides
+    ): Promise<string>;
 
-    input_bytes1(input1: Arrayish): Promise<string>;
+    input_bytes1(
+      input1: Arrayish,
+      overrides?: TransactionOverrides
+    ): Promise<string>;
 
-    input_enum(input1: BigNumberish): Promise<number>;
+    input_enum(
+      input1: BigNumberish,
+      overrides?: TransactionOverrides
+    ): Promise<number>;
 
-    input_int256(input1: BigNumberish): Promise<BigNumber>;
+    input_int256(
+      input1: BigNumberish,
+      overrides?: TransactionOverrides
+    ): Promise<BigNumber>;
 
-    input_int8(input1: BigNumberish): Promise<number>;
+    input_int8(
+      input1: BigNumberish,
+      overrides?: TransactionOverrides
+    ): Promise<number>;
 
-    input_stat_array(input1: BigNumberish[]): Promise<number[]>;
+    input_stat_array(
+      input1: BigNumberish[],
+      overrides?: TransactionOverrides
+    ): Promise<number[]>;
 
-    input_string(input1: string): Promise<string>;
+    input_string(
+      input1: string,
+      overrides?: TransactionOverrides
+    ): Promise<string>;
 
-    input_struct(input1: {
-      uint256_0: BigNumberish;
-      uint256_1: BigNumberish;
-    }): Promise<{
+    input_struct(
+      input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
+      overrides?: TransactionOverrides
+    ): Promise<{
       uint256_0: BigNumber;
       uint256_1: BigNumber;
       0: BigNumber;
@@ -117,39 +144,73 @@ export class DataTypesInput extends Contract {
 
     input_tuple(
       input1: BigNumberish,
-      input2: BigNumberish
+      input2: BigNumberish,
+      overrides?: TransactionOverrides
     ): Promise<{
       0: BigNumber;
       1: BigNumber;
     }>;
 
-    input_uint256(input1: BigNumberish): Promise<BigNumber>;
+    input_uint256(
+      input1: BigNumberish,
+      overrides?: TransactionOverrides
+    ): Promise<BigNumber>;
 
-    input_uint8(input1: BigNumberish): Promise<number>;
+    input_uint8(
+      input1: BigNumberish,
+      overrides?: TransactionOverrides
+    ): Promise<number>;
   };
 
-  input_address(input1: string): Promise<string>;
+  input_address(
+    input1: string,
+    overrides?: TransactionOverrides
+  ): Promise<string>;
 
-  input_bool(input1: boolean): Promise<boolean>;
+  input_bool(
+    input1: boolean,
+    overrides?: TransactionOverrides
+  ): Promise<boolean>;
 
-  input_bytes(input1: Arrayish): Promise<string>;
+  input_bytes(
+    input1: Arrayish,
+    overrides?: TransactionOverrides
+  ): Promise<string>;
 
-  input_bytes1(input1: Arrayish): Promise<string>;
+  input_bytes1(
+    input1: Arrayish,
+    overrides?: TransactionOverrides
+  ): Promise<string>;
 
-  input_enum(input1: BigNumberish): Promise<number>;
+  input_enum(
+    input1: BigNumberish,
+    overrides?: TransactionOverrides
+  ): Promise<number>;
 
-  input_int256(input1: BigNumberish): Promise<BigNumber>;
+  input_int256(
+    input1: BigNumberish,
+    overrides?: TransactionOverrides
+  ): Promise<BigNumber>;
 
-  input_int8(input1: BigNumberish): Promise<number>;
+  input_int8(
+    input1: BigNumberish,
+    overrides?: TransactionOverrides
+  ): Promise<number>;
 
-  input_stat_array(input1: BigNumberish[]): Promise<number[]>;
+  input_stat_array(
+    input1: BigNumberish[],
+    overrides?: TransactionOverrides
+  ): Promise<number[]>;
 
-  input_string(input1: string): Promise<string>;
+  input_string(
+    input1: string,
+    overrides?: TransactionOverrides
+  ): Promise<string>;
 
-  input_struct(input1: {
-    uint256_0: BigNumberish;
-    uint256_1: BigNumberish;
-  }): Promise<{
+  input_struct(
+    input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
+    overrides?: TransactionOverrides
+  ): Promise<{
     uint256_0: BigNumber;
     uint256_1: BigNumber;
     0: BigNumber;
@@ -158,46 +219,90 @@ export class DataTypesInput extends Contract {
 
   input_tuple(
     input1: BigNumberish,
-    input2: BigNumberish
+    input2: BigNumberish,
+    overrides?: TransactionOverrides
   ): Promise<{
     0: BigNumber;
     1: BigNumber;
   }>;
 
-  input_uint256(input1: BigNumberish): Promise<BigNumber>;
+  input_uint256(
+    input1: BigNumberish,
+    overrides?: TransactionOverrides
+  ): Promise<BigNumber>;
 
-  input_uint8(input1: BigNumberish): Promise<number>;
+  input_uint8(
+    input1: BigNumberish,
+    overrides?: TransactionOverrides
+  ): Promise<number>;
 
   filters: {};
 
   estimate: {
-    input_address(input1: string): Promise<BigNumber>;
+    input_address(
+      input1: string,
+      overrides?: TransactionOverrides
+    ): Promise<BigNumber>;
 
-    input_bool(input1: boolean): Promise<BigNumber>;
+    input_bool(
+      input1: boolean,
+      overrides?: TransactionOverrides
+    ): Promise<BigNumber>;
 
-    input_bytes(input1: Arrayish): Promise<BigNumber>;
+    input_bytes(
+      input1: Arrayish,
+      overrides?: TransactionOverrides
+    ): Promise<BigNumber>;
 
-    input_bytes1(input1: Arrayish): Promise<BigNumber>;
+    input_bytes1(
+      input1: Arrayish,
+      overrides?: TransactionOverrides
+    ): Promise<BigNumber>;
 
-    input_enum(input1: BigNumberish): Promise<BigNumber>;
+    input_enum(
+      input1: BigNumberish,
+      overrides?: TransactionOverrides
+    ): Promise<BigNumber>;
 
-    input_int256(input1: BigNumberish): Promise<BigNumber>;
+    input_int256(
+      input1: BigNumberish,
+      overrides?: TransactionOverrides
+    ): Promise<BigNumber>;
 
-    input_int8(input1: BigNumberish): Promise<BigNumber>;
+    input_int8(
+      input1: BigNumberish,
+      overrides?: TransactionOverrides
+    ): Promise<BigNumber>;
 
-    input_stat_array(input1: BigNumberish[]): Promise<BigNumber>;
+    input_stat_array(
+      input1: BigNumberish[],
+      overrides?: TransactionOverrides
+    ): Promise<BigNumber>;
 
-    input_string(input1: string): Promise<BigNumber>;
+    input_string(
+      input1: string,
+      overrides?: TransactionOverrides
+    ): Promise<BigNumber>;
 
-    input_struct(input1: {
-      uint256_0: BigNumberish;
-      uint256_1: BigNumberish;
-    }): Promise<BigNumber>;
+    input_struct(
+      input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
+      overrides?: TransactionOverrides
+    ): Promise<BigNumber>;
 
-    input_tuple(input1: BigNumberish, input2: BigNumberish): Promise<BigNumber>;
+    input_tuple(
+      input1: BigNumberish,
+      input2: BigNumberish,
+      overrides?: TransactionOverrides
+    ): Promise<BigNumber>;
 
-    input_uint256(input1: BigNumberish): Promise<BigNumber>;
+    input_uint256(
+      input1: BigNumberish,
+      overrides?: TransactionOverrides
+    ): Promise<BigNumber>;
 
-    input_uint8(input1: BigNumberish): Promise<BigNumber>;
+    input_uint8(
+      input1: BigNumberish,
+      overrides?: TransactionOverrides
+    ): Promise<BigNumber>;
   };
 }
