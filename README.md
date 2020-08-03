@@ -42,9 +42,10 @@ You will also need to install a desired target for example `@typechain/ethers-v4
 | Package                                                | Version                                                                                                               | Description           | Examples                         |
 | ------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------- | --------------------- | -------------------------------- |
 | [`typechain`](/packages/typechain)                     | [![npm](https://img.shields.io/npm/v/typechain.svg)](https://www.npmjs.com/package/typechain)                         | Core package          | -                                |
+| [`@typechain/ethers-v5`](/packages/target-ethers-v5)   | [![npm](https://img.shields.io/npm/v/@typechain/ethers-v5.svg)](https://www.npmjs.com/package/@typechain/ethers-v5)   | Ethers ver 5 support  | [example](./examples/ethers-v5)  |
 | [`@typechain/ethers-v4`](/packages/target-ethers-v4)   | [![npm](https://img.shields.io/npm/v/@typechain/ethers-v4.svg)](https://www.npmjs.com/package/@typechain/ethers-v4)   | Ethers ver 4 support  | [example](./examples/ethers-v4)  |
-| [`@typechain/truffle-v4`](/packages/target-truffle-v4) | [![npm](https://img.shields.io/npm/v/@typechain/truffle-v4.svg)](https://www.npmjs.com/package/@typechain/truffle-v4) | Truffle ver 4 support | [example](./examples/truffle-v4) |
 | [`@typechain/truffle-v5`](/packages/target-truffle-v5) | [![npm](https://img.shields.io/npm/v/@typechain/truffle-v5.svg)](https://www.npmjs.com/package/@typechain/truffle-v5) | Truffle ver 5 support | [example](./examples/truffle-v5) |
+| [`@typechain/truffle-v4`](/packages/target-truffle-v4) | [![npm](https://img.shields.io/npm/v/@typechain/truffle-v4.svg)](https://www.npmjs.com/package/@typechain/truffle-v4) | Truffle ver 4 support | [example](./examples/truffle-v4) |
 | [`@typechain/web3-v1`](/packages/target-web3-v1)       | [![npm](https://img.shields.io/npm/v/@typechain/web3-v1.svg)](https://www.npmjs.com/package/@typechain/web3-v1)       | Web3 ver 1 support    | [example](./examples/web3-v1)    |
 
 ## Usage
@@ -101,11 +102,11 @@ That's it! Now, you can simply import typings, check out our examples for more d
 
 ## Targets 🎯
 
-### Ethers.js v4
+### Ethers.js v4 / v5
 
 Use `ethers-v4` target to generate wrappers for [ethers.js](https://github.com/ethers-io/ethers.js/) lib.
 
-### Truffle v4-v5
+### Truffle v4 / v5
 
 Truffle target is great when you use truffle contracts already. Check out
 [truffle-typechain-example](https://github.com/ethereum-ts/truffle-typechain-example) for more details. It require
