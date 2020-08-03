@@ -1,8 +1,9 @@
+import { expect } from 'chai'
 import { typedAssert } from 'test-utils'
 
 import { createNewBlockchain, deployContract } from './common'
 import { Overloads } from '../types/Overloads'
-import { BigNumber } from 'ethers/utils'
+import { BigNumber } from 'ethers'
 
 describe('Overloads', () => {
   let contract: Overloads
@@ -16,20 +17,16 @@ describe('Overloads', () => {
   afterEach(() => ganache.close())
 
   it('works with 1st overload', async () => {
-    const results = await Promise.all([
-      contract['overload1(int256)'](1),
-      contract.functions['overload1(int256)'](1),
-      contract.functions.overload1(1),
-      contract.overload1(1),
-    ])
-    results.forEach((result) => typedAssert(result, new BigNumber(1)))
+    typedAssert(await contract['overload1(int256)'](1), BigNumber.from(1))
+    typedAssert(await contract.functions['overload1(int256)'](1), { 0: BigNumber.from(1) })
+  })
+
+  it('still doesnt create overload1 fn anymore', () => {
+    expect(contract.overload1).to.be.undefined
   })
 
   it('works with 2n overload', async () => {
-    const results = await Promise.all([
-      contract.functions['overload1(uint256,uint256)'](1, 2),
-      contract['overload1(uint256,uint256)'](1, 2),
-    ])
-    results.forEach((result) => typedAssert(result, new BigNumber(3)))
+    typedAssert(await contract['overload1(uint256,uint256)'](1, 2), BigNumber.from(3))
+    typedAssert(await contract.functions['overload1(uint256,uint256)'](1, 2), { 0: BigNumber.from(3) })
   })
 })

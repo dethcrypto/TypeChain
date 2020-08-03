@@ -34,6 +34,11 @@ export class Overloads extends Contract {
   interface: OverloadsInterface;
 
   functions: {
+    overload1(
+      input1: BigNumberish,
+      overrides?: TransactionOverrides
+    ): Promise<BigNumber>;
+
     "overload1(int256)"(
       input1: BigNumberish,
       overrides?: TransactionOverrides
@@ -45,6 +50,11 @@ export class Overloads extends Contract {
       overrides?: TransactionOverrides
     ): Promise<BigNumber>;
   };
+
+  overload1(
+    input1: BigNumberish,
+    overrides?: TransactionOverrides
+  ): Promise<BigNumber>;
 
   "overload1(int256)"(
     input1: BigNumberish,
@@ -60,6 +70,11 @@ export class Overloads extends Contract {
   filters: {};
 
   estimate: {
+    overload1(
+      input1: BigNumberish,
+      overrides?: TransactionOverrides
+    ): Promise<BigNumber>;
+
     "overload1(int256)"(
       input1: BigNumberish,
       overrides?: TransactionOverrides

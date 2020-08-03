@@ -1,7 +1,9 @@
-import { FunctionDeclaration, FunctionDocumentation, getSignatureForFn } from 'typechain'
+import { FunctionDeclaration, isConstant, isConstantFn, FunctionDocumentation, getSignatureForFn } from 'typechain'
 import { generateInputTypes, generateOutputTypes } from './types'
 
 interface GenerateFunctionOptions {
+  returnResultObject?: boolean
+  isStaticCall?: boolean
   overrideOutput?: string
 }
 
@@ -10,24 +12,31 @@ export function codegenFunctions(options: GenerateFunctionOptions, fns: Function
     return `${generateFunction(options, fns[0])}${codegenForOverloadedFunctions(options, fns)}`
   }
 
-  return `${generateFunction(options, fns[0])}${codegenForOverloadedFunctions(options, fns)}`
+  return codegenForOverloadedFunctions(options, fns)
 }
 
 export function codegenForOverloadedFunctions(options: GenerateFunctionOptions, fns: FunctionDeclaration[]): string {
   return fns.map((fn) => generateFunction(options, fn, `"${getSignatureForFn(fn)}"`)).join('\n')
 }
 
+function isPayable(fn: FunctionDeclaration): boolean {
+  return fn.stateMutability === 'payable'
+}
+
 function generateFunction(options: GenerateFunctionOptions, fn: FunctionDeclaration, overloadedName?: string): string {
   return `
   ${generateFunctionDocumentation(fn.documentation)}
-  ${overloadedName ?? fn.name}(${generateInputTypes(fn.inputs)} overrides?: TransactionOverrides): ${
-    options.overrideOutput
-      ? options.overrideOutput
-      : `Promise<${
-          fn.stateMutability === 'pure' || fn.stateMutability === 'view'
-            ? generateOutputTypes(fn.outputs)
-            : 'ContractTransaction'
-        }>`
+  ${overloadedName ?? fn.name}(${generateInputTypes(fn.inputs)}${
+    !options.isStaticCall && !isConstant(fn) && !isConstantFn(fn)
+      ? `overrides?: ${isPayable(fn) ? 'PayableOverrides' : 'Overrides'}`
+      : 'overrides?: CallOverrides'
+  }): ${
+    options.overrideOutput ??
+    `Promise<${
+      options.isStaticCall || fn.stateMutability === 'pure' || fn.stateMutability === 'view'
+        ? generateOutputTypes(!!options.returnResultObject, fn.outputs)
+        : 'ContractTransaction'
+    }>`
   };
 `
 }
