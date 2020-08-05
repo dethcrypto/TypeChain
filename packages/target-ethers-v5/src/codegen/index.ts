@@ -129,7 +129,8 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
 
   return `
   import { ${ethersImports.join(', ')} } from "ethers";
-  import { Provider, TransactionRequest } from '@ethersproject/providers';
+  import { Provider } from '@ethersproject/providers';
+  import { TransactionRequest } from "@ethersproject/abstract-provider";
   import { ${ethersContractImports.join(', ')} } from "@ethersproject/contracts";
 
   import { ${contract.name} } from "./${contract.name}";
