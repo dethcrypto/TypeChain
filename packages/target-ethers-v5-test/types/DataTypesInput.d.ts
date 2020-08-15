@@ -62,7 +62,7 @@ interface DataTypesInputInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "input_stat_array",
-    values: [BigNumberish[]]
+    values: [[BigNumberish, BigNumberish, BigNumberish]]
   ): string;
   encodeFunctionData(
     functionFragment: "input_string",
@@ -245,17 +245,17 @@ export class DataTypesInput extends Contract {
     }>;
 
     input_stat_array(
-      input1: BigNumberish[],
+      input1: [BigNumberish, BigNumberish, BigNumberish],
       overrides?: CallOverrides
     ): Promise<{
-      0: number[];
+      0: [number, number, number];
     }>;
 
     "input_stat_array(uint8[3])"(
-      input1: BigNumberish[],
+      input1: [BigNumberish, BigNumberish, BigNumberish],
       overrides?: CallOverrides
     ): Promise<{
-      0: number[];
+      0: [number, number, number];
     }>;
 
     input_string(
@@ -396,14 +396,14 @@ export class DataTypesInput extends Contract {
   ): Promise<number>;
 
   input_stat_array(
-    input1: BigNumberish[],
+    input1: [BigNumberish, BigNumberish, BigNumberish],
     overrides?: CallOverrides
-  ): Promise<number[]>;
+  ): Promise<[number, number, number]>;
 
   "input_stat_array(uint8[3])"(
-    input1: BigNumberish[],
+    input1: [BigNumberish, BigNumberish, BigNumberish],
     overrides?: CallOverrides
-  ): Promise<number[]>;
+  ): Promise<[number, number, number]>;
 
   input_string(input1: string, overrides?: CallOverrides): Promise<string>;
 
@@ -527,14 +527,14 @@ export class DataTypesInput extends Contract {
     ): Promise<number>;
 
     input_stat_array(
-      input1: BigNumberish[],
+      input1: [BigNumberish, BigNumberish, BigNumberish],
       overrides?: CallOverrides
-    ): Promise<number[]>;
+    ): Promise<[number, number, number]>;
 
     "input_stat_array(uint8[3])"(
-      input1: BigNumberish[],
+      input1: [BigNumberish, BigNumberish, BigNumberish],
       overrides?: CallOverrides
-    ): Promise<number[]>;
+    ): Promise<[number, number, number]>;
 
     input_string(input1: string, overrides?: CallOverrides): Promise<string>;
 
@@ -673,12 +673,12 @@ export class DataTypesInput extends Contract {
     ): Promise<BigNumber>;
 
     input_stat_array(
-      input1: BigNumberish[],
+      input1: [BigNumberish, BigNumberish, BigNumberish],
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     "input_stat_array(uint8[3])"(
-      input1: BigNumberish[],
+      input1: [BigNumberish, BigNumberish, BigNumberish],
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -804,12 +804,12 @@ export class DataTypesInput extends Contract {
     ): Promise<PopulatedTransaction>;
 
     input_stat_array(
-      input1: BigNumberish[],
+      input1: [BigNumberish, BigNumberish, BigNumberish],
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     "input_stat_array(uint8[3])"(
-      input1: BigNumberish[],
+      input1: [BigNumberish, BigNumberish, BigNumberish],
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

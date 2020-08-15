@@ -242,13 +242,13 @@ export class DataTypesPure extends Contract {
     pure_stat_array(
       overrides?: CallOverrides
     ): Promise<{
-      0: number[];
+      0: [number, number, number];
     }>;
 
     "pure_stat_array()"(
       overrides?: CallOverrides
     ): Promise<{
-      0: number[];
+      0: [number, number, number];
     }>;
 
     pure_string(
@@ -370,9 +370,11 @@ export class DataTypesPure extends Contract {
     1: BigNumber;
   }>;
 
-  pure_stat_array(overrides?: CallOverrides): Promise<number[]>;
+  pure_stat_array(overrides?: CallOverrides): Promise<[number, number, number]>;
 
-  "pure_stat_array()"(overrides?: CallOverrides): Promise<number[]>;
+  "pure_stat_array()"(
+    overrides?: CallOverrides
+  ): Promise<[number, number, number]>;
 
   pure_string(overrides?: CallOverrides): Promise<string>;
 
@@ -465,9 +467,13 @@ export class DataTypesPure extends Contract {
       1: BigNumber;
     }>;
 
-    pure_stat_array(overrides?: CallOverrides): Promise<number[]>;
+    pure_stat_array(
+      overrides?: CallOverrides
+    ): Promise<[number, number, number]>;
 
-    "pure_stat_array()"(overrides?: CallOverrides): Promise<number[]>;
+    "pure_stat_array()"(
+      overrides?: CallOverrides
+    ): Promise<[number, number, number]>;
 
     pure_string(overrides?: CallOverrides): Promise<string>;
 
