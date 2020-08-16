@@ -33,7 +33,11 @@ export function generateInputType(evmType: EvmType): string {
     case 'dynamic-bytes':
       return 'BytesLike'
     case 'array':
-      return `(${generateInputType(evmType.itemType)})[]`
+      if (evmType.size !== undefined) {
+        return `[${Array(evmType.size).fill(generateInputType(evmType.itemType)).join(', ')}]`
+      } else {
+        return `(${generateInputType(evmType.itemType)})[]`
+      }
     case 'boolean':
       return 'boolean'
     case 'string':
@@ -56,7 +60,11 @@ export function generateOutputType(evmType: EvmOutputType): string {
     case 'dynamic-bytes':
       return 'string'
     case 'array':
-      return `(${generateOutputType(evmType.itemType)})[]`
+      if (evmType.size !== undefined) {
+        return `[${Array(evmType.size).fill(generateOutputType(evmType.itemType)).join(', ')}]`
+      } else {
+        return `(${generateOutputType(evmType.itemType)})[]`
+      }
     case 'boolean':
       return 'boolean'
     case 'string':

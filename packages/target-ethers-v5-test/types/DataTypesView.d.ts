@@ -242,13 +242,13 @@ export class DataTypesView extends Contract {
     view_stat_array(
       overrides?: CallOverrides
     ): Promise<{
-      0: number[];
+      0: [number, number, number];
     }>;
 
     "view_stat_array()"(
       overrides?: CallOverrides
     ): Promise<{
-      0: number[];
+      0: [number, number, number];
     }>;
 
     view_string(
@@ -370,9 +370,11 @@ export class DataTypesView extends Contract {
     1: BigNumber;
   }>;
 
-  view_stat_array(overrides?: CallOverrides): Promise<number[]>;
+  view_stat_array(overrides?: CallOverrides): Promise<[number, number, number]>;
 
-  "view_stat_array()"(overrides?: CallOverrides): Promise<number[]>;
+  "view_stat_array()"(
+    overrides?: CallOverrides
+  ): Promise<[number, number, number]>;
 
   view_string(overrides?: CallOverrides): Promise<string>;
 
@@ -465,9 +467,13 @@ export class DataTypesView extends Contract {
       1: BigNumber;
     }>;
 
-    view_stat_array(overrides?: CallOverrides): Promise<number[]>;
+    view_stat_array(
+      overrides?: CallOverrides
+    ): Promise<[number, number, number]>;
 
-    "view_stat_array()"(overrides?: CallOverrides): Promise<number[]>;
+    "view_stat_array()"(
+      overrides?: CallOverrides
+    ): Promise<[number, number, number]>;
 
     view_string(overrides?: CallOverrides): Promise<string>;
 
