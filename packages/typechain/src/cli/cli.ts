@@ -14,7 +14,6 @@ async function main() {
 }
 
 main().catch((e) => {
-  // tslint:disable-next-line
   logger.error('Error occured: ', e.message)
 
   const stackTracesEnabled = process.argv.includes('--show-stack-traces')
