@@ -68,6 +68,7 @@ export interface Contract {
 export interface RawAbiParameter {
   name: string
   type: string
+  internalType?: string
   components?: RawAbiParameter[]
 }
 
@@ -279,7 +280,7 @@ function parseRawAbiParameterType(rawAbiParameter: RawAbiParameter): EvmType {
       name: component.name,
       type: parseRawAbiParameterType(component),
     }))
-  return parseEvmType(rawAbiParameter.type, components)
+  return parseEvmType(rawAbiParameter.type, components, rawAbiParameter.internalType)
 }
 
 export function extractAbi(rawJson: string): RawAbiDefinition[] {

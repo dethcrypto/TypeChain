@@ -81,4 +81,14 @@ describe('parseEvmType function', () => {
       originalType: 'tuple',
     })
   })
+
+  // Turns out that USUALLY solidity won't leave enums in abis but for some reason they are part of libraries abis
+  // This is a test for workaround that forces it to parse as uint8
+  // Related issue: https://github.com/ethereum-ts/TypeChain/issues/216
+  it('parses enums in libraries', () => {
+    const parsedType = parseEvmType('Lib.BOOL', undefined, 'enum Lib.BOOL')
+
+    expect(parsedType.type).to.be.eq('uinteger')
+    expect((parsedType as UnsignedIntegerType).bits).to.be.eq(8)
+  })
 })
