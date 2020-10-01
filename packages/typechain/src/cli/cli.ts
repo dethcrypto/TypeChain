@@ -14,7 +14,13 @@ async function main() {
 }
 
 main().catch((e) => {
-  // tslint:disable-next-line
   logger.error('Error occured: ', e.message)
+
+  const stackTracesEnabled = process.argv.includes('--show-stack-traces')
+  if (stackTracesEnabled) {
+    logger.error('Stack trace: ', e.stack)
+  } else {
+    logger.error('Run with --show-stack-traces to see the full stacktrace')
+  }
   process.exit(1)
 })

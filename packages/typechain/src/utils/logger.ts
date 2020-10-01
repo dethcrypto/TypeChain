@@ -4,7 +4,6 @@ export class Logger {
       return
     }
 
-    // tslint:disable-next-line
     console.log(...args)
   }
   warn(...args: any[]) {
@@ -12,7 +11,6 @@ export class Logger {
       return
     }
 
-    // tslint:disable-next-line
     console.warn(...args)
   }
 
@@ -21,7 +19,6 @@ export class Logger {
       return
     }
 
-    // tslint:disable-next-line
     console.error(...args)
   }
 }
