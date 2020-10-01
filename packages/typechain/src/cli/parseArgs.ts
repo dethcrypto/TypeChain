@@ -13,6 +13,7 @@ export function parseArgs(): IOptions {
     { name: 'glob', type: String, defaultOption: true },
     { name: 'target', type: String },
     { name: 'outDir', type: String },
+    { name: 'show-stack-traces', type: Boolean },
   ]
 
   const rawOptions = commandLineArgs(optionDefinitions)
