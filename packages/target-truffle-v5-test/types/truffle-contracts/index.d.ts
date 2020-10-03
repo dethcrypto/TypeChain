@@ -5,6 +5,8 @@ import { DataTypesInputContract } from "./DataTypesInput";
 import { DataTypesPureContract } from "./DataTypesPure";
 import { DataTypesViewContract } from "./DataTypesView";
 import { EventsContract } from "./Events";
+import { LibContract } from "./Lib";
+import { LibraryConsumerContract } from "./LibraryConsumer";
 import { Name12ManglingContract } from "./Name12Mangling";
 import { OverloadsContract } from "./Overloads";
 import { PayableContract } from "./Payable";
@@ -16,6 +18,8 @@ declare global {
       require(name: "DataTypesPure"): DataTypesPureContract;
       require(name: "DataTypesView"): DataTypesViewContract;
       require(name: "Events"): EventsContract;
+      require(name: "Lib"): LibContract;
+      require(name: "LibraryConsumer"): LibraryConsumerContract;
       require(name: "NAME12mangling"): Name12ManglingContract;
       require(name: "Overloads"): OverloadsContract;
       require(name: "Payable"): PayableContract;
@@ -30,6 +34,11 @@ export {
 export { DataTypesPureContract, DataTypesPureInstance } from "./DataTypesPure";
 export { DataTypesViewContract, DataTypesViewInstance } from "./DataTypesView";
 export { EventsContract, EventsInstance } from "./Events";
+export { LibContract, LibInstance } from "./Lib";
+export {
+  LibraryConsumerContract,
+  LibraryConsumerInstance
+} from "./LibraryConsumer";
 export {
   Name12ManglingContract,
   Name12ManglingInstance

@@ -37,7 +37,7 @@ const isUIntTypeRegex = /^uint([0-9]*)$/
 const isIntTypeRegex = /^int([0-9]*)$/
 const isBytesTypeRegex = /^bytes([0-9]+)$/
 
-export function parseEvmType(rawType: string, components?: EvmSymbol[]): EvmType {
+export function parseEvmType(rawType: string, components?: EvmSymbol[], internalType?: string): EvmType {
   const lastChar = rawType[rawType.length - 1]
 
   // first we parse array type
@@ -87,6 +87,10 @@ export function parseEvmType(rawType: string, components?: EvmSymbol[]): EvmType
   if (isBytesTypeRegex.test(rawType)) {
     const match = isBytesTypeRegex.exec(rawType)
     return { type: 'bytes', size: parseInt(match![1] || '1'), originalType: rawType }
+  }
+
+  if (internalType?.startsWith('enum')) {
+    return parseEvmType('uint8')
   }
 
   throw new Error('Unknown type: ' + rawType)
