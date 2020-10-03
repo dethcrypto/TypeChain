@@ -25,7 +25,8 @@
 
 - static typing - you will never call not existing method again
 - IDE support - works with any IDE supporting Typescript
-- extendible - work with many different APIs: `ethers.js v4`, `truffle v4 `, `truffle v5`, `Web3.js v1`, `Web3.js v2` or you can create your own target
+- extendible - work with many different APIs: `ethers.js v4`, `truffle v4`, `truffle v5`, `Web3.js v1`, `Web3.js v2` or
+  you can create your own target
 - frictionless - works with simple, JSON ABI files as well as with Truffle style ABIs
 
 ## Installation
@@ -34,8 +35,7 @@
 npm install --save-dev typechain
 ```
 
-You will also need to install a desired target for example `@typechain/ethers-v4`.
-[Learn more about targets](#targets-)
+You will also need to install a desired target for example `@typechain/ethers-v4`. [Learn more about targets](#targets-)
 
 ## Packages 📦
 
@@ -58,8 +58,8 @@ typechain --target=(ethers-v4|truffle-v4|truffle-v5|web3-v1|path-to-custom-targe
 
 - `glob` - pattern that will be used to find ABIs, remember about adding quotes: `typechain "**/*.json"`, examples:
   `./abis/**/*.abi`, `./abis/?(Oasis.abi|OasisHelper.abi)`.
-- `--target` - ethers-v4, truffle-v4, truffle-v5, web3-v1 or path to your custom target. Typechain will try to load package named.
-  `@typechain/${target}`, so make sure that desired package is installed.
+- `--target` - ethers-v4, truffle-v4, truffle-v5, web3-v1 or path to your custom target. Typechain will try to load
+  package named. `@typechain/${target}`, so make sure that desired package is installed.
 - `--outDir` (optional) - put all generated files to a specific dir.
 
 TypeChain always will rewrite existing files. You should not commit them. Read more in FAQ section.
@@ -184,19 +184,9 @@ async function main() {
 main().catch(console.error)
 ```
 
-### Running tests
+# Contributing
 
-```
-yarn           # install all dependencies
-yarn test      # runs tests + linting
-yarn test:fix  # autofix any errors + run tests
-```
-
-### Debugging 🐞
-
-```sh
-DEBUG=typechain typechain
-```
+Check out our [contributing guidelines](./CONTRIBUTING.md)
 
 # Licence
 
