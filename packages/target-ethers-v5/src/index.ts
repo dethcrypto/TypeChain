@@ -125,7 +125,14 @@ export default class Ethers extends TsGeneratorPlugin {
       ...abstractFactoryFiles,
       {
         path: join(this.outDirAbs, 'index.ts'),
-        contents: this.contractFiles.map((fileName) => `export * from './${fileName}Factory'`).join('\n'),
+        contents: this.contractFiles
+          .map((fileName) =>
+            [
+              `export { ${fileName}Factory } from './${fileName}Factory'`,
+              `export type { ${fileName} } from './${fileName}'`,
+            ].join('\n'),
+          )
+          .join('\n'),
       },
     ]
   }
