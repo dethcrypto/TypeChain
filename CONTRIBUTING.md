@@ -11,6 +11,10 @@ We use TypeScript monorepo, each target is a separate package and has another pa
 
 Run `yarn test:fix` before pushing, it will run eslint, prettier in fix mode and run all tests.
 
+### Local linking
+
+Run `yarn build` to build all packages or `yarn watch` to start watching. Then enter desired package directory and run `yarn link`.
+
 ### Debugging 🐞
 
 ```sh
