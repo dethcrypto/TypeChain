@@ -38,7 +38,6 @@
     "eslint-plugin-sonarjs": "^0.5.0",
     "ganache-cli": "^6.9.1",
     "mocha": "^6.2.2",
-    "prettier": "^2.0.1",
     "sinon": "^8.0.1",
     "sinon-chai": "^3.3.0",
     "ts-node": "^8.5.4",

@@ -31,7 +31,7 @@
     "test:fix": "yarn lint:fix && yarn format:fix && yarn test && yarn typecheck"
   },
   "peerDependencies": {
-    "typechain": "^2.0.0",
+    "typechain": "^3.0.0",
     "truffle": "^5.0.0"
   },
   "devDependencies": {
@@ -53,12 +53,11 @@
     "eslint-plugin-sonarjs": "^0.5.0",
     "ganache-cli": "^6.9.1",
     "mocha": "^6.2.2",
-    "prettier": "^2.0.1",
     "sinon": "^8.0.1",
     "sinon-chai": "^3.3.0",
     "ts-node": "^8.5.4",
     "typescript": "3.9.0-beta",
     "web3": "^1.2.6",
-    "typechain": "^2.0.0"
+    "typechain": "^3.0.0"
   }
 }
