@@ -8,7 +8,7 @@
     "smartcontract",
     "blockchain"
   ],
-  "version": "2.0.1",
+  "version": "3.0.0",
   "license": "MIT",
   "repository": "https://github.com/ethereum-ts/Typechain",
   "main": "./dist/index.js",
@@ -35,7 +35,7 @@
     "js-sha3": "^0.8.0",
     "lodash": "^4.17.15",
     "ts-essentials": "^6.0.3",
-    "ts-generator": "^0.0.8"
+    "ts-generator": "^0.1.1"
   },
   "devDependencies": {
     "@types/bignumber.js": "^5.0.0",
