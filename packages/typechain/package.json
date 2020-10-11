@@ -35,7 +35,7 @@
     "js-sha3": "^0.8.0",
     "lodash": "^4.17.15",
     "ts-essentials": "^6.0.3",
-    "ts-generator": "^0.1.0"
+    "ts-generator": "^0.1.1"
   },
   "devDependencies": {
     "@types/bignumber.js": "^5.0.0",
