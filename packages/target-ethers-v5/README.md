@@ -45,7 +45,7 @@ Abstract contracts or solidity interfaces are handled a bit different, because t
 Suppose you have an `Erc20Token.sol` solidity interface and a `DummyToken.sol` contract implementing it.
 
 ```typescript
-import { BigNumber } from 'ethers/utils';
+import { BigNumber } from 'ethers';
 import { Wallet } from 'ethers';
 
 import { DummyTokenFactory } from 'typechain-out-dir/DummyTokenFactory';
