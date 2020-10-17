@@ -64,6 +64,6 @@ async function deployTestToken(ownerPK: string): Promise<DummyToken> {
 // can be used since the ABI is the same
 async function getTokenBalance(walletAddress: string, tokenAddress: string): Promise<BigNumber> {
     const token = Erc20TokenFactory.connect(tokenAddress, provider);
-    return token.functions.balanceOf(walletAddress);
+    return token.balanceOf(walletAddress);
 }
 ```
