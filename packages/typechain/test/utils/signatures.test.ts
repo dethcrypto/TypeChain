@@ -6,7 +6,7 @@ import {
   getSignatureForFn,
   FunctionDeclaration,
 } from '../../src'
-import { expect } from 'chai'
+import { expect } from 'earljs'
 
 const event1: EventDeclaration = {
   name: 'Deposit',
@@ -32,7 +32,7 @@ describe('utils > signatures > getFullSignatureAsSymbolForEvent', () => {
   it('works', () => {
     const signature = getFullSignatureAsSymbolForEvent(event1)
 
-    expect(signature).to.be.eq('Deposit_address_address_uint256')
+    expect(signature).toEqual('Deposit_address_address_uint256')
   })
 })
 
@@ -40,7 +40,7 @@ describe('utils > signatures > getFullSignatureForEvent', () => {
   it('works', () => {
     const signature = getFullSignatureForEvent(event1)
 
-    expect(signature).to.be.eq('Deposit(address,address,uint256)')
+    expect(signature).toEqual('Deposit(address,address,uint256)')
   })
 })
 
@@ -48,7 +48,7 @@ describe('utils > signatures > getIndexedSignatureForEvent', () => {
   it('works', () => {
     const signature = getIndexedSignatureForEvent(event1)
 
-    expect(signature).to.be.eq('Deposit(address,address)')
+    expect(signature).toEqual('Deposit(address,address)')
   })
 })
 
@@ -56,6 +56,6 @@ describe('utils >  signatures > getSignatureForFn', () => {
   it('works', () => {
     const signature = getSignatureForFn(fn1)
 
-    expect(signature).to.be.eq('transfer(address,int256)')
+    expect(signature).toEqual('transfer(address,int256)')
   })
 })

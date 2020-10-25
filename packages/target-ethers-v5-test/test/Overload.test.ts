@@ -1,4 +1,4 @@
-import { expect } from 'chai'
+import { expect } from 'earljs'
 import { typedAssert } from 'test-utils'
 
 import { createNewBlockchain, deployContract } from './common'
@@ -22,7 +22,7 @@ describe('Overloads', () => {
   })
 
   it('still doesnt create overload1 fn anymore', () => {
-    expect(contract.overload1).to.be.undefined
+    expect(contract.overload1).toEqual(undefined)
   })
 
   it('works with 2n overload', async () => {

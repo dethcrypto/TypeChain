@@ -123,6 +123,7 @@ export interface DocumentationResult {
   author?: string
   details?: string
   notice?: string
+  title?: string
   methods?: {
     [methodName: string]: FunctionDocumentation
   }

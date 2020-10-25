@@ -1,4 +1,4 @@
-import { expect } from 'chai'
+import { expect } from 'earljs'
 import { Dictionary } from 'ts-essentials'
 import { isString, mapValues, omitBy } from 'lodash'
 
@@ -8,24 +8,24 @@ import { isString, mapValues, omitBy } from 'lodash'
  */
 export function typedAssert<T>(actual: T, expected: T): void {
   if (isBigNumber(actual) && isBigNumber(expected)) {
-    expect((actual as any).toString()).to.be.deep.eq((expected as any).toString())
+    expect((actual as any).toString()).toEqual((expected as any).toString())
     return
   }
 
   if (isBigNumberArray(actual) && isBigNumberArray(expected)) {
-    expect(actual.map((a) => a.toString())).to.be.deep.eq(expected.map((a) => a.toString()))
+    expect(actual.map((a) => a.toString())).toEqual(expected.map((a) => a.toString()))
     return
   }
 
   if (isBigNumberObject(actual) && isBigNumberObject(expected)) {
     const actualFiltered = omitBy(actual as any, (v, k) => k.startsWith('__'))
-    expect(mapValues(actualFiltered as any, (a) => a.toString())).to.be.deep.eq(
+    expect(mapValues(actualFiltered as any, (a) => a.toString())).toEqual(
       mapValues(expected as any, (a) => a.toString()),
     )
     return
   }
 
-  expect(actual).to.be.deep.eq(expected)
+  expect(actual).toEqual(expected)
 }
 
 export function isBigNumber(v: any): boolean {

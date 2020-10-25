@@ -25,8 +25,9 @@
     "packages/*"
   ],
   "devDependencies": {
+    "mocha": "^8.2.0",
+    "prettier": "^2.1.2",
     "solc": "^0.6.4",
-    "wsrun": "^5.2.0",
-    "prettier": "^2.1.2"
+    "wsrun": "^5.2.0"
   }
 }
