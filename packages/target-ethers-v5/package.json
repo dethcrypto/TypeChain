@@ -34,7 +34,7 @@
   },
   "peerDependencies": {
     "typechain": "^3.0.0",
-    "ethers": "^5.0.0"
+    "ethers": "^5.0.19"
   },
   "devDependencies": {
     "@types/chai": "^4.2.7",
@@ -63,6 +63,6 @@
     "typescript": "3.9.0-beta"
   },
   "dependencies": {
-    "ethers": "^5.0.2"
+    "ethers": "^5.0.19"
   }
 }

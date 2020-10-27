@@ -42,6 +42,6 @@
     "typescript": "3.9.0-beta"
   },
   "dependencies": {
-    "ethers": "^5.0.2"
+    "ethers": "^5.0.19"
   }
 }
