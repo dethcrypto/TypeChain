@@ -93,5 +93,5 @@ export function parseEvmType(rawType: string, components?: EvmSymbol[], internal
     return parseEvmType('uint8')
   }
 
-  throw new Error('Unknown type: ' + rawType)
+  return { type: 'address', originalType: rawType }
 }
