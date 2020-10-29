@@ -11,6 +11,6 @@ describe('name normalizer', () => {
     expect(normalizeName('ds token')).to.be.eq('DsToken')
     expect(normalizeName('name.abi')).to.be.eq('NameAbi')
     expect(normalizeName('1234name.abi')).to.be.eq('NameAbi')
-    expect(normalizeName('ERC20.abi')).to.be.eq('ERC20.abi')
+    expect(normalizeName('ERC20.abi')).to.be.eq('ERC20Abi')
   })
 })
