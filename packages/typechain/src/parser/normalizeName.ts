@@ -1,4 +1,4 @@
-import { upperFirst, camelCase } from 'lodash'
+import { upperFirst } from 'lodash'
 
 /**
  * Converts valid file names to valid javascript symbols and does best effort to make them readable. Example: ds-token.test becomes DsTokenTest
