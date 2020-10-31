@@ -4,13 +4,13 @@
 
 import { BigNumber } from "bignumber.js";
 
-export interface Name12ManglingContract
-  extends Truffle.Contract<Name12ManglingInstance> {
-  "new"(meta?: Truffle.TransactionDetails): Promise<Name12ManglingInstance>;
+export interface NAME12manglingContract
+  extends Truffle.Contract<NAME12manglingInstance> {
+  "new"(meta?: Truffle.TransactionDetails): Promise<NAME12manglingInstance>;
 }
 
 type AllEvents = never;
 
-export interface Name12ManglingInstance extends Truffle.ContractInstance {
+export interface NAME12manglingInstance extends Truffle.ContractInstance {
   works(txDetails?: Truffle.TransactionDetails): Promise<boolean>;
 }

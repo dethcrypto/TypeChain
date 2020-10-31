@@ -5,11 +5,12 @@ import { upperFirst } from 'lodash'
  */
 export function normalizeName(rawName: string): string {
   const transformations: ((s: string) => string)[] = [
-    (s) => s.split(' ').join('-'), // spaces to - so later we can automatically convert them
+    (s) => s.replace(/\s+/g, '-'), // spaces to - so later we can automatically convert them
+    (s) => s.replace(/\./g, '-'), // replace "."
+    (s) => s.replace(/_/g, '-'), // replace "_"
+    (s) => s.replace(/-[a-z]/g, (match) => match.substr(-1).toUpperCase()), // delete '-' and capitalize the letter after them
+    (s) => s.replace(/-/g, ''), // delete any '-' left
     (s) => s.replace(/^\d+/, ''), // removes leading digits
-    (s) => deleteCharacterAndCaptializeNextCharacter(s, '-'),
-    (s) => deleteCharacterAndCaptializeNextCharacter(s, '_'),
-    (s) => deleteCharacterAndCaptializeNextCharacter(s, '.'),
     (s) => upperFirst(s),
   ]
 
@@ -20,21 +21,4 @@ export function normalizeName(rawName: string): string {
   }
 
   return finalName
-}
-
-function deleteCharacterAndCaptializeNextCharacter(string: string, toDeleteChar: string): string {
-  let newStr = ''
-  let toCapitalize = false
-
-  for (let i = 0; i < string.length; i++) {
-    const currentChar = string.charAt(i)
-    if (currentChar !== toDeleteChar) {
-      newStr += toCapitalize ? currentChar.toUpperCase() : currentChar
-      toCapitalize = false
-    } else {
-      toCapitalize = true
-    }
-  }
-
-  return newStr
 }
