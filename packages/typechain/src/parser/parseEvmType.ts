@@ -1,3 +1,5 @@
+import { logger } from '../utils/logger'
+
 // represent all possible EvmTypes using TypeScript's discriminating union
 export type EvmType =
   | BooleanType
@@ -102,5 +104,7 @@ export function parseEvmType(rawType: string, components?: EvmSymbol[], internal
   }
 
   // unknown type
+  logger.warn('Could not parse type:', rawType, 'with internal type:', internalType, 'Please submit a GitHub Issue to the TypeChain team with the failing contract/library.')
+
   return { type: 'any', originalType: rawType };
 }
