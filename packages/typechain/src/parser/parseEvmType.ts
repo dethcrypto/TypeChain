@@ -9,6 +9,7 @@ export type EvmType =
   | AddressType
   | ArrayType
   | TupleType
+  | UnknownType
 
 /**
  * Like EvmType but with void
@@ -27,6 +28,9 @@ export type TupleType = { type: 'tuple'; components: EvmSymbol[]; originalType: 
 
 // used only for output types
 export type VoidType = { type: 'void' }
+
+// used when type cannot be detected
+export type UnknownType = { type: 'any'; originalType: string }
 
 export type EvmSymbol = {
   type: EvmType
@@ -93,5 +97,10 @@ export function parseEvmType(rawType: string, components?: EvmSymbol[], internal
     return parseEvmType('uint8')
   }
 
-  return { type: 'address', originalType: rawType }
+  if (internalType?.startsWith('contract')) {
+    return { type: 'address', originalType: rawType }
+  }
+
+  // unknown type
+  return { type: 'any', originalType: rawType };
 }
