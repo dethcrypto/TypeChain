@@ -73,6 +73,8 @@ export function generateOutputType(evmType: EvmOutputType): string {
       return 'string'
     case 'tuple':
       return generateOutputTupleType(evmType)
+    case 'unknown':
+      return 'unknown';
   }
 }
 
