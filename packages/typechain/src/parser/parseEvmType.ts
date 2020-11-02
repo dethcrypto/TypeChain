@@ -104,7 +104,13 @@ export function parseEvmType(rawType: string, components?: EvmSymbol[], internal
   }
 
   // unknown type
-  logger.warn('Could not parse type:', rawType, 'with internal type:', internalType, 'Please submit a GitHub Issue to the TypeChain team with the failing contract/library.')
+  logger.warn(
+    'Could not parse type:',
+    rawType,
+    'with internal type:',
+    internalType,
+    'Please submit a GitHub Issue to the TypeChain team with the failing contract/library.',
+  )
 
   return { type: 'unknown', originalType: rawType }
 }

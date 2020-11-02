@@ -100,7 +100,7 @@ describe('parseEvmType function', () => {
 
   it('returns "unknown" type on unknown parse', () => {
     const parsedType = parseEvmType('DummyUnparsable', undefined, 'Something random unparsable')
-    
+
     expect(parsedType.type).to.be.eq('unknown')
   })
 })
