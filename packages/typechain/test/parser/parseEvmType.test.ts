@@ -98,9 +98,9 @@ describe('parseEvmType function', () => {
     expect(parsedType.type).to.be.eq('address')
   })
 
-  it('returns "any" type on unknown parse', () => {
+  it('returns "unknown" type on unknown parse', () => {
     const parsedType = parseEvmType('DummyUnparsable', undefined, 'Something random unparsable');
     
-    expect(parsedType.type).to.be.eq('any');
+    expect(parsedType.type).to.be.eq('unknown');
   });
 })

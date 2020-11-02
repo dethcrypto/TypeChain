@@ -32,7 +32,7 @@ export type TupleType = { type: 'tuple'; components: EvmSymbol[]; originalType: 
 export type VoidType = { type: 'void' }
 
 // used when type cannot be detected
-export type UnknownType = { type: 'any'; originalType: string }
+export type UnknownType = { type: 'unknown'; originalType: string }
 
 export type EvmSymbol = {
   type: EvmType
@@ -106,5 +106,5 @@ export function parseEvmType(rawType: string, components?: EvmSymbol[], internal
   // unknown type
   logger.warn('Could not parse type:', rawType, 'with internal type:', internalType, 'Please submit a GitHub Issue to the TypeChain team with the failing contract/library.')
 
-  return { type: 'any', originalType: rawType };
+  return { type: 'unknown', originalType: rawType };
 }

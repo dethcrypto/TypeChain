@@ -44,6 +44,8 @@ export function generateInputType(evmType: EvmType): string {
       return 'string'
     case 'tuple':
       return generateTupleType(evmType, generateInputType)
+    case 'unknown':
+      return 'unknown';
   }
 }
 
