@@ -38,7 +38,7 @@ export function codegenInputType(evmType: EvmType): string {
     case 'tuple':
       return codegenTupleType(evmType, codegenInputType)
     case 'unknown':
-      return 'unknown'
+      return 'any'
   }
 }
 
@@ -64,7 +64,7 @@ export function codegenOutputType(evmType: EvmOutputType): string {
     case 'tuple':
       return codegenTupleType(evmType, codegenOutputType)
     case 'unknown':
-      return 'unknown'
+      return 'any'
   }
 }
 
