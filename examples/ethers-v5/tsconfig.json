@@ -6,6 +6,7 @@
     "strict": true,
     "target": "ES2018",
     "sourceMap": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true
   }
 }
