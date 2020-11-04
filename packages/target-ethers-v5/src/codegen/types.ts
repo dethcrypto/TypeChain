@@ -44,6 +44,8 @@ export function generateInputType(evmType: EvmType): string {
       return 'string'
     case 'tuple':
       return generateTupleType(evmType, generateInputType)
+    case 'unknown':
+      return 'any'
   }
 }
 
@@ -71,6 +73,8 @@ export function generateOutputType(evmType: EvmOutputType): string {
       return 'string'
     case 'tuple':
       return generateOutputTupleType(evmType)
+    case 'unknown':
+      return 'any'
   }
 }
 

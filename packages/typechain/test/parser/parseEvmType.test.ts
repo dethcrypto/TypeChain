@@ -91,4 +91,16 @@ describe('parseEvmType function', () => {
     expect(parsedType.type).to.be.eq('uinteger')
     expect((parsedType as UnsignedIntegerType).bits).to.be.eq(8)
   })
+
+  it('parses contracts in libraries', () => {
+    const parsedType = parseEvmType('SomeContract', undefined, 'contract SomeContract')
+
+    expect(parsedType.type).to.be.eq('address')
+  })
+
+  it('returns "unknown" type on unknown parse', () => {
+    const parsedType = parseEvmType('DummyUnparsable', undefined, 'Something random unparsable')
+
+    expect(parsedType.type).to.be.eq('unknown')
+  })
 })

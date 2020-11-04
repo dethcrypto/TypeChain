@@ -1,3 +1,5 @@
+import { logger } from '../utils/logger'
+
 // represent all possible EvmTypes using TypeScript's discriminating union
 export type EvmType =
   | BooleanType
@@ -9,6 +11,7 @@ export type EvmType =
   | AddressType
   | ArrayType
   | TupleType
+  | UnknownType
 
 /**
  * Like EvmType but with void
@@ -27,6 +30,9 @@ export type TupleType = { type: 'tuple'; components: EvmSymbol[]; originalType: 
 
 // used only for output types
 export type VoidType = { type: 'void' }
+
+// used when type cannot be detected
+export type UnknownType = { type: 'unknown'; originalType: string }
 
 export type EvmSymbol = {
   type: EvmType
@@ -93,5 +99,14 @@ export function parseEvmType(rawType: string, components?: EvmSymbol[], internal
     return parseEvmType('uint8') // this is a best effort approach. Sometimes enums can be uint16 too. Read more: https://github.com/ethereum-ts/TypeChain/pull/281#discussion_r513303099
   }
 
-  throw new Error('Unknown type: ' + rawType)
+  if (internalType?.startsWith('contract')) {
+    return { type: 'address', originalType: rawType }
+  }
+
+  // unknown type
+  logger.warn(
+    `Could not parse type: ${rawType} with internal type: ${internalType}.\n\nPlease submit a GitHub Issue to the TypeChain team with the failing contract/library.`,
+  )
+
+  return { type: 'unknown', originalType: rawType }
 }
