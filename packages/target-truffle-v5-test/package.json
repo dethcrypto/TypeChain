@@ -40,7 +40,7 @@
     "test-utils": "1.0.0",
     "truffle": "^5.1.21",
     "ts-node": "^8.5.4",
-    "typechain": "^3.0.0",
+    "typechain": "^4.0.0",
     "typescript": "3.9.0-beta"
   }
 }
