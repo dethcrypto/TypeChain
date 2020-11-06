@@ -9,6 +9,7 @@ import { EventsContract } from "./Events";
 import { NAME12manglingContract } from "./NAME12mangling";
 import { OverloadsContract } from "./Overloads";
 import { PayableContract } from "./Payable";
+import { PayableFactoryContract } from "./PayableFactory";
 
 declare global {
   namespace Truffle {
@@ -20,6 +21,7 @@ declare global {
       require(name: "NAME12mangling"): NAME12manglingContract;
       require(name: "Overloads"): OverloadsContract;
       require(name: "Payable"): PayableContract;
+      require(name: "PayableFactory"): PayableFactoryContract;
     }
   }
 }
@@ -37,3 +39,7 @@ export {
 } from "./NAME12mangling";
 export { OverloadsContract, OverloadsInstance } from "./Overloads";
 export { PayableContract, PayableInstance } from "./Payable";
+export {
+  PayableFactoryContract,
+  PayableFactoryInstance,
+} from "./PayableFactory";
