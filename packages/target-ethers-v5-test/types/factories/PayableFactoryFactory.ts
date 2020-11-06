@@ -5,30 +5,29 @@
 import { Contract, Signer } from "ethers";
 import { Provider } from "@ethersproject/providers";
 
-import type { Payable } from "./Payable";
+import type { PayableFactory } from "../PayableFactory";
 
-export class PayableFactory {
+export class PayableFactoryFactory {
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
-  ): Payable {
-    return new Contract(address, _abi, signerOrProvider) as Payable;
+  ): PayableFactory {
+    return new Contract(address, _abi, signerOrProvider) as PayableFactory;
   }
 }
 
 const _abi = [
   {
     inputs: [],
-    name: "non_payable_func",
-    outputs: [],
+    name: "newPayable",
+    outputs: [
+      {
+        internalType: "contract Payable",
+        name: "",
+        type: "address",
+      },
+    ],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "payable_func",
-    outputs: [],
-    stateMutability: "payable",
     type: "function",
   },
 ];

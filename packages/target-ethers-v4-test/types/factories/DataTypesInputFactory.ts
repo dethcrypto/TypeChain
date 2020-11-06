@@ -3,9 +3,9 @@
 /* eslint-disable */
 
 import { Contract, Signer } from "ethers";
-import { Provider } from "@ethersproject/providers";
+import { Provider } from "ethers/providers";
 
-import type { DataTypesInput } from "./DataTypesInput";
+import { DataTypesInput } from "../DataTypesInput";
 
 export class DataTypesInputFactory {
   static connect(

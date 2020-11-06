@@ -5,7 +5,7 @@
 import { Contract, Signer } from "ethers";
 import { Provider } from "@ethersproject/providers";
 
-import type { Events } from "./Events";
+import type { Events } from "../Events";
 
 export class EventsFactory {
   static connect(address: string, signerOrProvider: Signer | Provider): Events {
