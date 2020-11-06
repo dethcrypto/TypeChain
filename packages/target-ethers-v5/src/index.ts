@@ -105,7 +105,7 @@ export default class Ethers extends TsGeneratorPlugin {
     this.contractFiles.push(`${contract.name}`)
 
     return {
-      path: join(this.outDirAbs, `${contract.name}Factory.ts`),
+      path: join(this.outDirAbs, 'factories', `${contract.name}Factory.ts`),
       contents: codegenContractFactory(contract, abi, bytecode),
     }
   }
@@ -116,7 +116,7 @@ export default class Ethers extends TsGeneratorPlugin {
     const abstractFactoryFiles = Object.keys(this.contractCache).map((contractName) => {
       const { contract, abi } = this.contractCache[contractName]
       return {
-        path: join(this.outDirAbs, `${contract.name}Factory.ts`),
+        path: join(this.outDirAbs, 'factories', `${contract.name}Factory.ts`),
         contents: codegenAbstractContractFactory(contract, abi),
       }
     })
@@ -128,7 +128,7 @@ export default class Ethers extends TsGeneratorPlugin {
         contents: this.contractFiles
           .map((fileName) =>
             [
-              `export { ${fileName}Factory } from './${fileName}Factory'`,
+              `export { ${fileName}Factory } from './factories/${fileName}Factory'`,
               `export type { ${fileName} } from './${fileName}'`,
             ].join('\n'),
           )
