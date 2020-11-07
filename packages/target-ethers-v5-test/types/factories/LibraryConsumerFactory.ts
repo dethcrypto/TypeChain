@@ -5,14 +5,14 @@
 import { Contract, Signer } from "ethers";
 import { Provider } from "@ethersproject/providers";
 
-import type { Library } from "./Library";
+import type { LibraryConsumer } from "../LibraryConsumer";
 
-export class LibraryFactory {
+export class LibraryConsumerFactory {
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
-  ): Library {
-    return new Contract(address, _abi, signerOrProvider) as Library;
+  ): LibraryConsumer {
+    return new Contract(address, _abi, signerOrProvider) as LibraryConsumer;
   }
 }
 
@@ -22,15 +22,15 @@ const _abi = [
       {
         internalType: "enum Lib.BOOL",
         name: "b",
-        type: "Lib.BOOL",
+        type: "uint8",
       },
     ],
-    name: "other",
+    name: "someOther",
     outputs: [
       {
         internalType: "enum Lib.BOOL",
         name: "",
-        type: "Lib.BOOL",
+        type: "uint8",
       },
     ],
     stateMutability: "pure",

@@ -3,9 +3,9 @@
 /* eslint-disable */
 
 import { Contract, Signer } from "ethers";
-import { Provider } from "ethers/providers";
+import { Provider } from "@ethersproject/providers";
 
-import { Library } from "./Library";
+import type { Library } from "../Library";
 
 export class LibraryFactory {
   static connect(

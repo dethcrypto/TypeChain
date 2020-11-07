@@ -5,7 +5,7 @@
 import { Contract, Signer } from "ethers";
 import { Provider } from "@ethersproject/providers";
 
-import type { NameMangling } from "./NameMangling";
+import type { NameMangling } from "../NameMangling";
 
 export class NameManglingFactory {
   static connect(

@@ -3,9 +3,9 @@
 /* eslint-disable */
 
 import { Contract, Signer } from "ethers";
-import { Provider } from "@ethersproject/providers";
+import { Provider } from "ethers/providers";
 
-import type { Overloads } from "./Overloads";
+import { Overloads } from "../Overloads";
 
 export class OverloadsFactory {
   static connect(

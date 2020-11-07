@@ -5,7 +5,7 @@
 import { Contract, Signer } from "ethers";
 import { Provider } from "ethers/providers";
 
-import { NameMangling } from "./NameMangling";
+import { NameMangling } from "../NameMangling";
 
 export class NameManglingFactory {
   static connect(

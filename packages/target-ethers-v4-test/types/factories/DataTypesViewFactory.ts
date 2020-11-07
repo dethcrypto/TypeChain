@@ -5,7 +5,7 @@
 import { Contract, Signer } from "ethers";
 import { Provider } from "ethers/providers";
 
-import { DataTypesView } from "./DataTypesView";
+import { DataTypesView } from "../DataTypesView";
 
 export class DataTypesViewFactory {
   static connect(
