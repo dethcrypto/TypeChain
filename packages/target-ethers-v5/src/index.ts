@@ -22,7 +22,7 @@ const DEFAULT_OUT_PATH = './types/ethers-contracts/'
 
 export default class Ethers extends TsGeneratorPlugin {
   name = 'Ethers'
-  contractFiles: string[] = []
+  allContracts: string[] = []
 
   private readonly outDirAbs: string
   private readonly contractCache: Dictionary<{
@@ -46,9 +46,6 @@ export default class Ethers extends TsGeneratorPlugin {
     // generated at once. For split files (.abi and .bin) we don't know in which order they will
     // be transformed -- so we temporarily store whichever comes first, and generate the factory
     // only when both ABI and bytecode are present.
-
-    // TODO we might want to add a configuration switch to control whether we want to generate the
-    // factories, or just contract type declarations.
 
     if (fileExt === '.bin') {
       return this.transformBinFile(file)
@@ -95,6 +92,8 @@ export default class Ethers extends TsGeneratorPlugin {
   }
 
   genContractTypingsFile(contract: Contract): TFileDesc {
+    this.allContracts.push(contract.name)
+
     return {
       path: join(this.outDirAbs, `${contract.name}.d.ts`),
       contents: codegenContractTypings(contract),
@@ -102,8 +101,6 @@ export default class Ethers extends TsGeneratorPlugin {
   }
 
   genContractFactoryFile(contract: Contract, abi: any, bytecode?: BytecodeWithLinkReferences) {
-    this.contractFiles.push(`${contract.name}`)
-
     return {
       path: join(this.outDirAbs, 'factories', `${contract.name}Factory.ts`),
       contents: codegenContractFactory(contract, abi, bytecode),
@@ -121,19 +118,54 @@ export default class Ethers extends TsGeneratorPlugin {
       }
     })
 
-    return [
+    const allFiles = [
       ...abstractFactoryFiles,
       {
         path: join(this.outDirAbs, 'index.ts'),
-        contents: this.contractFiles
-          .map((fileName) =>
-            [
-              `export { ${fileName}Factory } from './factories/${fileName}Factory'`,
-              `export type { ${fileName} } from './${fileName}'`,
-            ].join('\n'),
-          )
-          .join('\n'),
+        contents: this.genReExports(),
       },
     ]
+    return allFiles
+  }
+
+  private genReExports(): string {
+    const usedSymbols: Dictionary<boolean> = {}
+    function findUniqSymbol(base: string): string {
+      if (!usedSymbols[base]) {
+        usedSymbols[base] = true
+        return base
+      }
+      return findUniqSymbol('_' + base)
+    }
+
+    const codegen: string[] = []
+
+    // first generate user provided contracts reexports this will minimize symbol collision
+    for (const fileName of this.allContracts) {
+      const desiredSymbol = fileName
+      const availableSymbol = findUniqSymbol(desiredSymbol)
+
+      if (desiredSymbol === availableSymbol) {
+        codegen.push(`export type { ${desiredSymbol} } from './${desiredSymbol}'`)
+      } else {
+        codegen.push(`export type { ${desiredSymbol} as ${availableSymbol} } from './${desiredSymbol}'`)
+      }
+    }
+
+    codegen.push('\n')
+
+    // then generate reexports for TypeChain generated factories
+    for (const fileName of this.allContracts) {
+      const desiredSymbol = fileName + 'Factory'
+      const availableSymbol = findUniqSymbol(desiredSymbol)
+
+      if (desiredSymbol === availableSymbol) {
+        codegen.push(`export { ${desiredSymbol} } from './factories/${desiredSymbol}'`)
+      } else {
+        codegen.push(`export { ${desiredSymbol} as ${availableSymbol} } from './${desiredSymbol}'`)
+      }
+    }
+
+    return codegen.join('\n')
   }
 }
