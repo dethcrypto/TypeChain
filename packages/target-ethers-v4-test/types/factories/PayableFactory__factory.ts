@@ -5,29 +5,29 @@
 import { Contract, Signer } from "ethers";
 import { Provider } from "ethers/providers";
 
-import { NameMangling } from "../NameMangling";
+import { PayableFactory } from "../PayableFactory";
 
-export class NameManglingFactory {
+export class PayableFactory__factory {
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
-  ): NameMangling {
-    return new Contract(address, _abi, signerOrProvider) as NameMangling;
+  ): PayableFactory {
+    return new Contract(address, _abi, signerOrProvider) as PayableFactory;
   }
 }
 
 const _abi = [
   {
     inputs: [],
-    name: "works",
+    name: "newPayable",
     outputs: [
       {
-        internalType: "bool",
+        internalType: "contract Payable",
         name: "",
-        type: "bool",
+        type: "address",
       },
     ],
-    stateMutability: "view",
+    stateMutability: "nonpayable",
     type: "function",
   },
 ];

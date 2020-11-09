@@ -7,7 +7,7 @@ import { Provider } from "ethers/providers";
 
 import { DataTypesView } from "../DataTypesView";
 
-export class DataTypesViewFactory {
+export class DataTypesView__factory {
   static connect(
     address: string,
     signerOrProvider: Signer | Provider

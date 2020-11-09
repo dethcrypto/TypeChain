@@ -7,7 +7,7 @@ import { Provider } from "ethers/providers";
 
 import { LibraryConsumer } from "../LibraryConsumer";
 
-export class LibraryConsumerFactory {
+export class LibraryConsumer__factory {
   static connect(
     address: string,
     signerOrProvider: Signer | Provider

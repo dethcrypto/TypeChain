@@ -13,6 +13,6 @@ describe('Ethers generation edge cases', () => {
   }
 
   it('should generate simple factory when no bytecode available', () => {
-    expect(codegenContractFactory(emptyContract, 'abi', undefined)).to.match(/export class TestContractFactory \{/)
+    expect(codegenContractFactory(emptyContract, 'abi', undefined)).to.match(/export class TestContract__factory \{/)
   })
 })
