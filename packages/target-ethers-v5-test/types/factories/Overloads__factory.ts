@@ -7,7 +7,7 @@ import { Provider } from "@ethersproject/providers";
 
 import type { Overloads } from "../Overloads";
 
-export class OverloadsFactory {
+export class Overloads__factory {
   static connect(
     address: string,
     signerOrProvider: Signer | Provider

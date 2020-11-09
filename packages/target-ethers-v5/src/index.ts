@@ -13,6 +13,7 @@ import {
 } from 'typechain'
 
 import { codegenAbstractContractFactory, codegenContractFactory, codegenContractTypings } from './codegen'
+import { FACTORY_POSTFIX } from './common'
 
 export interface IEthersCfg {
   outDir?: string
@@ -102,7 +103,7 @@ export default class Ethers extends TsGeneratorPlugin {
 
   genContractFactoryFile(contract: Contract, abi: any, bytecode?: BytecodeWithLinkReferences) {
     return {
-      path: join(this.outDirAbs, 'factories', `${contract.name}Factory.ts`),
+      path: join(this.outDirAbs, 'factories', `${contract.name}${FACTORY_POSTFIX}.ts`),
       contents: codegenContractFactory(contract, abi, bytecode),
     }
   }
@@ -113,7 +114,7 @@ export default class Ethers extends TsGeneratorPlugin {
     const abstractFactoryFiles = Object.keys(this.contractCache).map((contractName) => {
       const { contract, abi } = this.contractCache[contractName]
       return {
-        path: join(this.outDirAbs, 'factories', `${contract.name}Factory.ts`),
+        path: join(this.outDirAbs, 'factories', `${contract.name}${FACTORY_POSTFIX}.ts`),
         contents: codegenAbstractContractFactory(contract, abi),
       }
     })
@@ -129,41 +130,21 @@ export default class Ethers extends TsGeneratorPlugin {
   }
 
   private genReExports(): string {
-    const usedSymbols: Dictionary<boolean> = {}
-    function findUniqSymbol(base: string): string {
-      if (!usedSymbols[base]) {
-        usedSymbols[base] = true
-        return base
-      }
-      return findUniqSymbol('_' + base)
-    }
-
     const codegen: string[] = []
 
-    // first generate user provided contracts reexports this will minimize symbol collision
     for (const fileName of this.allContracts) {
       const desiredSymbol = fileName
-      const availableSymbol = findUniqSymbol(desiredSymbol)
 
-      if (desiredSymbol === availableSymbol) {
-        codegen.push(`export type { ${desiredSymbol} } from './${desiredSymbol}'`)
-      } else {
-        codegen.push(`export type { ${desiredSymbol} as ${availableSymbol} } from './${desiredSymbol}'`)
-      }
+      codegen.push(`export type { ${desiredSymbol} } from './${desiredSymbol}'`)
     }
 
     codegen.push('\n')
 
     // then generate reexports for TypeChain generated factories
     for (const fileName of this.allContracts) {
-      const desiredSymbol = fileName + 'Factory'
-      const availableSymbol = findUniqSymbol(desiredSymbol)
+      const desiredSymbol = fileName + '__factory'
 
-      if (desiredSymbol === availableSymbol) {
-        codegen.push(`export { ${desiredSymbol} } from './factories/${desiredSymbol}'`)
-      } else {
-        codegen.push(`export { ${desiredSymbol} as ${availableSymbol} } from './${desiredSymbol}'`)
-      }
+      codegen.push(`export { ${desiredSymbol} } from './factories/${desiredSymbol}'`)
     }
 
     return codegen.join('\n')

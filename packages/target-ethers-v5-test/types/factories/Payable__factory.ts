@@ -7,7 +7,7 @@ import { Provider } from "@ethersproject/providers";
 
 import type { Payable } from "../Payable";
 
-export class PayableFactory {
+export class Payable__factory {
   static connect(
     address: string,
     signerOrProvider: Signer | Provider

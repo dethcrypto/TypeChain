@@ -5,27 +5,21 @@
 import { Contract, Signer } from "ethers";
 import { Provider } from "@ethersproject/providers";
 
-import type { DataTypesInput } from "../DataTypesInput";
+import type { DataTypesPure } from "../DataTypesPure";
 
-export class DataTypesInputFactory {
+export class DataTypesPure__factory {
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
-  ): DataTypesInput {
-    return new Contract(address, _abi, signerOrProvider) as DataTypesInput;
+  ): DataTypesPure {
+    return new Contract(address, _abi, signerOrProvider) as DataTypesPure;
   }
 }
 
 const _abi = [
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "input1",
-        type: "address",
-      },
-    ],
-    name: "input_address",
+    inputs: [],
+    name: "pure_address",
     outputs: [
       {
         internalType: "address",
@@ -37,14 +31,8 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "bool",
-        name: "input1",
-        type: "bool",
-      },
-    ],
-    name: "input_bool",
+    inputs: [],
+    name: "pure_bool",
     outputs: [
       {
         internalType: "bool",
@@ -56,14 +44,8 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "bytes",
-        name: "input1",
-        type: "bytes",
-      },
-    ],
-    name: "input_bytes",
+    inputs: [],
+    name: "pure_bytes",
     outputs: [
       {
         internalType: "bytes",
@@ -75,14 +57,8 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "bytes1",
-        name: "input1",
-        type: "bytes1",
-      },
-    ],
-    name: "input_bytes1",
+    inputs: [],
+    name: "pure_bytes1",
     outputs: [
       {
         internalType: "bytes1",
@@ -94,17 +70,11 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "enum DataTypesInput.Enum1",
-        name: "input1",
-        type: "uint8",
-      },
-    ],
-    name: "input_enum",
+    inputs: [],
+    name: "pure_enum",
     outputs: [
       {
-        internalType: "enum DataTypesInput.Enum1",
+        internalType: "enum DataTypesPure.Enum1",
         name: "",
         type: "uint8",
       },
@@ -113,14 +83,8 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "int256",
-        name: "input1",
-        type: "int256",
-      },
-    ],
-    name: "input_int256",
+    inputs: [],
+    name: "pure_int256",
     outputs: [
       {
         internalType: "int256",
@@ -132,14 +96,8 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "int8",
-        name: "input1",
-        type: "int8",
-      },
-    ],
-    name: "input_int8",
+    inputs: [],
+    name: "pure_int8",
     outputs: [
       {
         internalType: "int8",
@@ -151,14 +109,26 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [
+    inputs: [],
+    name: "pure_named",
+    outputs: [
       {
-        internalType: "uint8[3]",
-        name: "input1",
-        type: "uint8[3]",
+        internalType: "uint256",
+        name: "uint256_1",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "uint256_2",
+        type: "uint256",
       },
     ],
-    name: "input_stat_array",
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "pure_stat_array",
     outputs: [
       {
         internalType: "uint8[3]",
@@ -170,14 +140,8 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "string",
-        name: "input1",
-        type: "string",
-      },
-    ],
-    name: "input_string",
+    inputs: [],
+    name: "pure_string",
     outputs: [
       {
         internalType: "string",
@@ -189,26 +153,8 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        components: [
-          {
-            internalType: "uint256",
-            name: "uint256_0",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "uint256_1",
-            type: "uint256",
-          },
-        ],
-        internalType: "struct DataTypesInput.Struct1",
-        name: "input1",
-        type: "tuple",
-      },
-    ],
-    name: "input_struct",
+    inputs: [],
+    name: "pure_struct",
     outputs: [
       {
         components: [
@@ -223,7 +169,7 @@ const _abi = [
             type: "uint256",
           },
         ],
-        internalType: "struct DataTypesInput.Struct1",
+        internalType: "struct DataTypesPure.Struct1",
         name: "",
         type: "tuple",
       },
@@ -232,19 +178,8 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "input1",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "input2",
-        type: "uint256",
-      },
-    ],
-    name: "input_tuple",
+    inputs: [],
+    name: "pure_tuple",
     outputs: [
       {
         internalType: "uint256",
@@ -261,14 +196,8 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "input1",
-        type: "uint256",
-      },
-    ],
-    name: "input_uint256",
+    inputs: [],
+    name: "pure_uint256",
     outputs: [
       {
         internalType: "uint256",
@@ -280,14 +209,8 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "uint8",
-        name: "input1",
-        type: "uint8",
-      },
-    ],
-    name: "input_uint8",
+    inputs: [],
+    name: "pure_uint8",
     outputs: [
       {
         internalType: "uint8",

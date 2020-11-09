@@ -5,21 +5,21 @@
 import { Contract, Signer } from "ethers";
 import { Provider } from "@ethersproject/providers";
 
-import type { DataTypesPure } from "../DataTypesPure";
+import type { DataTypesView } from "../DataTypesView";
 
-export class DataTypesPureFactory {
+export class DataTypesView__factory {
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
-  ): DataTypesPure {
-    return new Contract(address, _abi, signerOrProvider) as DataTypesPure;
+  ): DataTypesView {
+    return new Contract(address, _abi, signerOrProvider) as DataTypesView;
   }
 }
 
 const _abi = [
   {
     inputs: [],
-    name: "pure_address",
+    name: "view_address",
     outputs: [
       {
         internalType: "address",
@@ -27,12 +27,12 @@ const _abi = [
         type: "address",
       },
     ],
-    stateMutability: "pure",
+    stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
-    name: "pure_bool",
+    name: "view_bool",
     outputs: [
       {
         internalType: "bool",
@@ -40,12 +40,12 @@ const _abi = [
         type: "bool",
       },
     ],
-    stateMutability: "pure",
+    stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
-    name: "pure_bytes",
+    name: "view_bytes",
     outputs: [
       {
         internalType: "bytes",
@@ -53,12 +53,12 @@ const _abi = [
         type: "bytes",
       },
     ],
-    stateMutability: "pure",
+    stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
-    name: "pure_bytes1",
+    name: "view_bytes1",
     outputs: [
       {
         internalType: "bytes1",
@@ -66,25 +66,25 @@ const _abi = [
         type: "bytes1",
       },
     ],
-    stateMutability: "pure",
+    stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
-    name: "pure_enum",
+    name: "view_enum",
     outputs: [
       {
-        internalType: "enum DataTypesPure.Enum1",
+        internalType: "enum DataTypesView.Enum1",
         name: "",
         type: "uint8",
       },
     ],
-    stateMutability: "pure",
+    stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
-    name: "pure_int256",
+    name: "view_int256",
     outputs: [
       {
         internalType: "int256",
@@ -92,12 +92,12 @@ const _abi = [
         type: "int256",
       },
     ],
-    stateMutability: "pure",
+    stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
-    name: "pure_int8",
+    name: "view_int8",
     outputs: [
       {
         internalType: "int8",
@@ -105,12 +105,12 @@ const _abi = [
         type: "int8",
       },
     ],
-    stateMutability: "pure",
+    stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
-    name: "pure_named",
+    name: "view_named",
     outputs: [
       {
         internalType: "uint256",
@@ -123,12 +123,12 @@ const _abi = [
         type: "uint256",
       },
     ],
-    stateMutability: "pure",
+    stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
-    name: "pure_stat_array",
+    name: "view_stat_array",
     outputs: [
       {
         internalType: "uint8[3]",
@@ -136,12 +136,12 @@ const _abi = [
         type: "uint8[3]",
       },
     ],
-    stateMutability: "pure",
+    stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
-    name: "pure_string",
+    name: "view_string",
     outputs: [
       {
         internalType: "string",
@@ -149,12 +149,12 @@ const _abi = [
         type: "string",
       },
     ],
-    stateMutability: "pure",
+    stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
-    name: "pure_struct",
+    name: "view_struct",
     outputs: [
       {
         components: [
@@ -169,17 +169,17 @@ const _abi = [
             type: "uint256",
           },
         ],
-        internalType: "struct DataTypesPure.Struct1",
+        internalType: "struct DataTypesView.Struct1",
         name: "",
         type: "tuple",
       },
     ],
-    stateMutability: "pure",
+    stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
-    name: "pure_tuple",
+    name: "view_tuple",
     outputs: [
       {
         internalType: "uint256",
@@ -192,12 +192,12 @@ const _abi = [
         type: "uint256",
       },
     ],
-    stateMutability: "pure",
+    stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
-    name: "pure_uint256",
+    name: "view_uint256",
     outputs: [
       {
         internalType: "uint256",
@@ -205,12 +205,12 @@ const _abi = [
         type: "uint256",
       },
     ],
-    stateMutability: "pure",
+    stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
-    name: "pure_uint8",
+    name: "view_uint8",
     outputs: [
       {
         internalType: "uint8",
@@ -218,7 +218,7 @@ const _abi = [
         type: "uint8",
       },
     ],
-    stateMutability: "pure",
+    stateMutability: "view",
     type: "function",
   },
 ];
