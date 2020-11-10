@@ -5,9 +5,9 @@
 import { Contract, Signer } from "ethers";
 import { Provider } from "ethers/providers";
 
-import { Overloads } from "./Overloads";
+import { Overloads } from "../Overloads";
 
-export class OverloadsFactory {
+export class Overloads__factory {
   static connect(
     address: string,
     signerOrProvider: Signer | Provider

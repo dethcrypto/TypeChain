@@ -14,6 +14,7 @@ import {
 } from 'typechain'
 
 import { codegenAbstractContractFactory, codegenContractFactory, codegenContractTypings } from './codegen'
+import { FACTORY_POSTFIX } from './common'
 
 export interface IEthersCfg {
   outDir?: string
@@ -102,7 +103,7 @@ export default class Ethers extends TsGeneratorPlugin {
 
   genContractFactoryFile(contract: Contract, abi: any, bytecode?: BytecodeWithLinkReferences) {
     return {
-      path: join(this.outDirAbs, `${contract.name}Factory.ts`),
+      path: join(this.outDirAbs, 'factories', `${contract.name}${FACTORY_POSTFIX}.ts`),
       contents: codegenContractFactory(contract, abi, bytecode),
     }
   }
@@ -113,7 +114,7 @@ export default class Ethers extends TsGeneratorPlugin {
     const abstractFactoryFiles = Object.keys(this.contractCache).map((contractName) => {
       const { contract, abi } = this.contractCache[contractName]
       return {
-        path: join(this.outDirAbs, `${contract.name}Factory.ts`),
+        path: join(this.outDirAbs, 'factories', `${contract.name}${FACTORY_POSTFIX}.ts`),
         contents: codegenAbstractContractFactory(contract, abi),
       }
     })

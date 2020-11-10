@@ -5,9 +5,9 @@
 import { Contract, Signer } from "ethers";
 import { Provider } from "ethers/providers";
 
-import { DataTypesInput } from "./DataTypesInput";
+import { DataTypesInput } from "../DataTypesInput";
 
-export class DataTypesInputFactory {
+export class DataTypesInput__factory {
   static connect(
     address: string,
     signerOrProvider: Signer | Provider

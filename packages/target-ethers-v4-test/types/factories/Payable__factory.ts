@@ -5,9 +5,9 @@
 import { Contract, Signer } from "ethers";
 import { Provider } from "ethers/providers";
 
-import { Payable } from "./Payable";
+import { Payable } from "../Payable";
 
-export class PayableFactory {
+export class Payable__factory {
   static connect(
     address: string,
     signerOrProvider: Signer | Provider

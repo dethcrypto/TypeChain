@@ -3,16 +3,16 @@
 /* eslint-disable */
 
 import { Contract, Signer } from "ethers";
-import { Provider } from "ethers/providers";
+import { Provider } from "@ethersproject/providers";
 
-import { LibraryConsumer } from "./LibraryConsumer";
+import type { Library } from "../Library";
 
-export class LibraryConsumerFactory {
+export class Library__factory {
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
-  ): LibraryConsumer {
-    return new Contract(address, _abi, signerOrProvider) as LibraryConsumer;
+  ): Library {
+    return new Contract(address, _abi, signerOrProvider) as Library;
   }
 }
 
@@ -22,15 +22,15 @@ const _abi = [
       {
         internalType: "enum Lib.BOOL",
         name: "b",
-        type: "uint8",
+        type: "Lib.BOOL",
       },
     ],
-    name: "someOther",
+    name: "other",
     outputs: [
       {
         internalType: "enum Lib.BOOL",
         name: "",
-        type: "uint8",
+        type: "Lib.BOOL",
       },
     ],
     stateMutability: "pure",

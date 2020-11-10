@@ -9,6 +9,7 @@ import {
 } from 'typechain'
 import { generateInputType, generateInputTypes } from './types'
 import { codegenFunctions } from './functions'
+import { FACTORY_POSTFIX } from '../common'
 
 export function codegenContractTypings(contract: Contract) {
   const template = `
@@ -94,9 +95,9 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
   ${ethersUtilsImportLine}
 
   import { TransactionOverrides } from ".";
-  import { ${contract.name} } from "./${contract.name}";
+  import { ${contract.name} } from "../${contract.name}";
 
-  export class ${contract.name}Factory extends ContractFactory {
+  export class ${contract.name}${FACTORY_POSTFIX} extends ContractFactory {
     ${generateFactoryConstructor(contract, bytecode)}
     deploy(${constructorArgs}): Promise<${contract.name}> {
       return super.deploy(${constructorArgNames}) as Promise<${contract.name}>;
@@ -107,8 +108,8 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
     attach(address: string): ${contract.name} {
       return super.attach(address) as ${contract.name};
     }
-    connect(signer: Signer): ${contract.name}Factory {
-      return super.connect(signer) as ${contract.name}Factory;
+    connect(signer: Signer): ${contract.name}${FACTORY_POSTFIX} {
+      return super.connect(signer) as ${contract.name}${FACTORY_POSTFIX};
     }
     static connect(address: string, signerOrProvider: Signer | Provider): ${contract.name} {
       return new Contract(address, _abi, signerOrProvider) as ${contract.name};
@@ -128,9 +129,9 @@ export function codegenAbstractContractFactory(contract: Contract, abi: any): st
   import { Contract, Signer } from "ethers";
   import { Provider } from "ethers/providers";
 
-  import { ${contract.name} } from "./${contract.name}";
+  import { ${contract.name} } from "../${contract.name}";
 
-  export class ${contract.name}Factory {
+  export class ${contract.name}${FACTORY_POSTFIX} {
     static connect(address: string, signerOrProvider: Signer | Provider): ${contract.name} {
       return new Contract(address, _abi, signerOrProvider) as ${contract.name};
     }
@@ -163,7 +164,7 @@ function generateFactoryConstructor(contract: Contract, bytecode: BytecodeWithLi
 
   return `
     constructor(linkLibraryAddresses: ${contract.name}LibraryAddresses, signer?: Signer) {
-      super(_abi, ${contract.name}Factory.linkBytecode(linkLibraryAddresses), signer);
+      super(_abi, ${contract.name}${FACTORY_POSTFIX}.linkBytecode(linkLibraryAddresses), signer);
     }
 
     static linkBytecode(linkLibraryAddresses: ${contract.name}LibraryAddresses): string {

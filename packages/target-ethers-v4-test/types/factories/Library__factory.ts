@@ -3,11 +3,11 @@
 /* eslint-disable */
 
 import { Contract, Signer } from "ethers";
-import { Provider } from "@ethersproject/providers";
+import { Provider } from "ethers/providers";
 
-import type { Library } from "./Library";
+import { Library } from "../Library";
 
-export class LibraryFactory {
+export class Library__factory {
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
