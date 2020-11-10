@@ -34,7 +34,7 @@
   },
   "peerDependencies": {
     "typechain": "^4.0.0",
-    "typescript": "^3.8.0 || 4.x",
+    "typescript": ">=3.8.0",
     "ethers": "^5.0.0"
   },
   "devDependencies": {
