@@ -1,16 +1,16 @@
-import { expect } from 'chai'
+import { expect } from 'earljs'
 
 import { normalizeName } from '../../src/parser/normalizeName'
 
 describe('name normalizer', () => {
   it('should work', () => {
-    expect(normalizeName('DsToken')).to.be.eq('DsToken')
-    expect(normalizeName('test')).to.be.eq('Test')
-    expect(normalizeName('ds-token')).to.be.eq('DsToken')
-    expect(normalizeName('ds_token')).to.be.eq('DsToken')
-    expect(normalizeName('ds token')).to.be.eq('DsToken')
-    expect(normalizeName('name.abi')).to.be.eq('NameAbi')
-    expect(normalizeName('1234name.abi')).to.be.eq('NameAbi')
-    expect(normalizeName('ERC20.abi')).to.be.eq('ERC20Abi')
+    expect(normalizeName('DsToken')).toEqual('DsToken')
+    expect(normalizeName('test')).toEqual('Test')
+    expect(normalizeName('ds-token')).toEqual('DsToken')
+    expect(normalizeName('ds_token')).toEqual('DsToken')
+    expect(normalizeName('ds token')).toEqual('DsToken')
+    expect(normalizeName('name.abi')).toEqual('NameAbi')
+    expect(normalizeName('1234name.abi')).toEqual('NameAbi')
+    expect(normalizeName('ERC20.abi')).toEqual('ERC20Abi')
   })
 })
