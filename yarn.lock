@@ -1738,6 +1738,16 @@ earljs@^0.0.13:
     stacktracey "^1.2.127"
     ts-essentials "^6.0.5"
 
+earljs@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/earljs/-/earljs-0.1.0.tgz#9bf666623de95106ff67426b42df8dd48958b81b"
+  integrity sha512-r3w3sH4UrlMtPnGtLPdXpkRfHRL7tShaeTp7Ywn8sDSEimt/wz/F03UwWkrTBNjiAhwNlbH24uJcfBgcJH3HGw==
+  dependencies:
+    debug "^4.1.1"
+    lodash "^4.17.15"
+    pretty-format "^26.1.0"
+    ts-essentials "^6.0.5"
+
 ecc-jsbn@~0.1.1:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/ecc-jsbn/-/ecc-jsbn-0.1.2.tgz#3a83a904e54353287874c564b7549386849a98c9"
@@ -4965,6 +4975,19 @@ type@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/type/-/type-2.0.0.tgz#5f16ff6ef2eb44f260494dae271033b29c09a9c3"
   integrity sha512-KBt58xCHry4Cejnc2ISQAF7QY+ORngsWfxezO68+12hKV6lQY8P/psIkcbjeHWn7MqcgciWJyCCevFMJdIXpow==
+
+typechain@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/typechain/-/typechain-3.0.0.tgz#d5a47700831f238e43f7429b987b4bb54849b92e"
+  integrity sha512-ft4KVmiN3zH4JUFu2WJBrwfHeDf772Tt2d8bssDTo/YcckKW2D+OwFrHXRC6hJvO3mHjFQTihoMV6fJOi0Hngg==
+  dependencies:
+    command-line-args "^4.0.7"
+    debug "^4.1.1"
+    fs-extra "^7.0.0"
+    js-sha3 "^0.8.0"
+    lodash "^4.17.15"
+    ts-essentials "^6.0.3"
+    ts-generator "^0.1.1"
 
 typedarray-to-buffer@^3.1.5:
   version "3.1.5"

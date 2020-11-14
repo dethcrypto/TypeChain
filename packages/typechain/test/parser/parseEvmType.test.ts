@@ -95,12 +95,12 @@ describe('parseEvmType function', () => {
   it('parses contracts in libraries', () => {
     const parsedType = parseEvmType('SomeContract', undefined, 'contract SomeContract')
 
-    expect(parsedType.type).to.be.eq('address')
+    expect(parsedType.type).toEqual('address')
   })
 
   it('returns "unknown" type on unknown parse', () => {
     const parsedType = parseEvmType('DummyUnparsable', undefined, 'Something random unparsable')
 
-    expect(parsedType.type).to.be.eq('unknown')
+    expect(parsedType.type).toEqual('unknown')
   })
 })

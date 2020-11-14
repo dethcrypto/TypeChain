@@ -41,8 +41,6 @@
   "devDependencies": {
     "@types/bignumber.js": "^5.0.0",
     "@types/bluebird": "^3.5.18",
-    "@types/chai": "^4.2.7",
-    "@types/chai-as-promised": "^7.1.2",
     "@types/command-line-args": "^4.0.2",
     "@types/debug": "^4.1.5",
     "@types/fs-extra": "^5.0.4",
@@ -55,8 +53,6 @@
     "@typescript-eslint/parser": "^2.12.0",
     "bignumber.js": "^5.0.0",
     "bluebird": "^3.5.1",
-    "chai": "^4.2.0",
-    "chai-as-promised": "^7.1.1",
     "coveralls": "^3.0.2",
     "eslint": "^6.8.0",
     "eslint-config-typestrict": "^1.0.0",
@@ -64,8 +60,6 @@
     "eslint-plugin-sonarjs": "^0.5.0",
     "glob": "^7.1.2",
     "mocha": "^8.2.0",
-    "sinon": "^8.0.1",
-    "sinon-chai": "^3.3.0",
     "ts-node": "^8.5.4",
     "typescript": "3.9.0-beta"
   }
