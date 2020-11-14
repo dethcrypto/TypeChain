@@ -31,7 +31,6 @@
   "dependencies": {
     "command-line-args": "^4.0.7",
     "debug": "^4.1.1",
-    "earljs": "^0.0.13",
     "fs-extra": "^7.0.0",
     "js-sha3": "^0.8.0",
     "lodash": "^4.17.15",
