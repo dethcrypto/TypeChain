@@ -94,7 +94,7 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
   import { UnsignedTransaction } from "ethers/utils/transaction";
   ${ethersUtilsImportLine}
 
-  import { TransactionOverrides } from ".";
+  import { TransactionOverrides } from "..";
   import { ${contract.name} } from "../${contract.name}";
 
   export class ${contract.name}${FACTORY_POSTFIX} extends ContractFactory {
