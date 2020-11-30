@@ -7,7 +7,7 @@ on:
       - master
 
 jobs:
-  build:
+  test:
     strategy:
       matrix:
         node: ['10.x', '12.x']
@@ -36,6 +36,32 @@ jobs:
       - run: yarn lint
       - run: yarn test
       - run: yarn format # do it at the very end because "yarn test" can generate types (which should be formatted)
+      - run: yarn no-git-changes # ensure that committed types are up to date
+
+  test-examples:
+    strategy:
+      matrix:
+        node: ['10.x', '12.x']
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Cache YARN dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.OS }}-${{ matrix.node }}-yarn-cache-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.OS }}-${{ matrix.node }}-yarn-cache-
+
+      - run: yarn --no-progress --non-interactive --frozen-lockfile
+
       - run: yarn check-examples
       - run: yarn no-git-changes # ensure that committed types are up to date
 
