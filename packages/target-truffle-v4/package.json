@@ -47,6 +47,6 @@
     "ts-node": "^8.5.4",
     "typescript": "3.9.0-beta",
     "web3": "^1.2.6",
-    "typechain": "^3.0.0"
+    "typechain": "*"
   }
 }

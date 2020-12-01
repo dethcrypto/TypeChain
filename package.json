@@ -5,6 +5,11 @@
   "engines": {
     "yarn": ">=1.15.2"
   },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
   "scripts": {
     "postinstall": "yarn build",
     "format": "wsrun -c format",
@@ -21,14 +26,12 @@
     "no-git-changes": "./scripts/no-git-changes.sh",
     "check-examples": "./scripts/check-examples.sh"
   },
-  "workspaces": [
-    "packages/*"
-  ],
   "devDependencies": {
     "earljs": "^0.1.0",
     "mocha": "^8.2.0",
     "prettier": "^2.1.2",
     "solc": "^0.6.4",
-    "wsrun": "^5.2.0"
+    "wsrun": "^5.2.4",
+    "@changesets/cli": "^2.11.2"
   }
 }

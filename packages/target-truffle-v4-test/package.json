@@ -39,7 +39,7 @@
     "sinon-chai": "^3.3.0",
     "truffle": "v4",
     "ts-node": "^8.5.4",
-    "typechain": "^4.0.0",
+    "typechain": "*",
     "typescript": "3.9.0-beta",
     "test-utils": "1.0.0"
   }

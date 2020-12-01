@@ -15,6 +15,9 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": "./dist/cli/cli.js",
+  "files": [
+    "dist/**/*"
+  ],
   "scripts": {
     "prepublishOnly": "yarn lint && yarn format && yarn test && yarn typecheck && (cd ../.. && yarn build)",
     "start": "ts-node -T ./src/index.ts",

@@ -1,0 +1,98 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  lint:
+    strategy:
+      matrix:
+        node: ['10.x']
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Cache YARN dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.OS }}-${{ matrix.node }}-yarn-cache-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.OS }}-${{ matrix.node }}-yarn-cache-
+
+      - run: yarn --no-progress --non-interactive --frozen-lockfile
+
+      - run: yarn build
+      - run: yarn typecheck
+      - run: yarn lint
+      - run: yarn no-git-changes # ensure that committed types are up to date
+
+  test:
+    strategy:
+      matrix:
+        node: ['10.x']
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Cache YARN dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.OS }}-${{ matrix.node }}-yarn-cache-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.OS }}-${{ matrix.node }}-yarn-cache-
+
+      - run: yarn --no-progress --non-interactive --frozen-lockfile
+
+      - run: yarn build
+      - run: yarn test
+      - run: yarn format # do it at the very end because "yarn test" can generate types (which should be formatted)
+      - run: yarn no-git-changes # ensure that committed types are up to date
+
+  test-examples:
+    strategy:
+      matrix:
+        node: ['10.x']
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Cache YARN dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.OS }}-${{ matrix.node }}-yarn-cache-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ runner.OS }}-${{ matrix.node }}-yarn-cache-
+
+      - run: yarn --no-progress --non-interactive --frozen-lockfile
+
+      - run: yarn check-examples
+      - run: yarn no-git-changes # ensure that committed types are up to date
+
+# Few tips github actions
+# - name: Setup SSH debug session
+#   uses: mxschmitt/action-tmate@v2
+
