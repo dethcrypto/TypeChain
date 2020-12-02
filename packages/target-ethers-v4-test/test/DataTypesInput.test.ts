@@ -1,5 +1,6 @@
-import { typedAssert, q18 } from 'test-utils'
+import { typedAssert, q18, IsExact, AssertTrue } from 'test-utils'
 import { BigNumber, formatBytes32String } from 'ethers/utils'
+import { Awaited } from 'ts-essentials'
 
 import { createNewBlockchain, deployContract } from './common'
 import { DataTypesInput } from '../types/DataTypesInput'
@@ -66,5 +67,12 @@ describe('DataTypesInput', () => {
 
     typedAssert(await contract.input_enum('1'), 1)
     typedAssert(await contract.input_enum(1), 1)
+  })
+
+  // TESTS: https://github.com/ethereum-ts/TypeChain/issues/232
+  // NOTE: typesAssert is too simple to tests type compatibility here so we can't use it
+  it('generates correct types for tuples', () => {
+    type ViewTupleType = Awaited<ReturnType<typeof contract.input_tuple>>
+    type t1 = AssertTrue<IsExact<ViewTupleType, [BigNumber, BigNumber]>>
   })
 })

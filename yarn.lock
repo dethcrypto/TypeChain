@@ -1713,6 +1713,11 @@ concat-map@0.0.1:
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   integrity sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=
 
+conditional-type-checks@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/conditional-type-checks/-/conditional-type-checks-1.0.5.tgz#310ecd13c46c3963fbe9a2f8f93511d88cdcc973"
+  integrity sha512-DkfkvmjXVe4ye4llJ1JADtO3dNvqqcQM08cA9BhNt9Oe8pyRW8X1CZyBg9Qst05bDV9BJM01KLmnFh78NcJgNg==
+
 content-disposition@0.5.3:
   version "0.5.3"
   resolved "https://registry.yarnpkg.com/content-disposition/-/content-disposition-0.5.3.tgz#e130caf7e7279087c5616c2007d0485698984fbd"
@@ -5621,15 +5626,15 @@ ts-essentials@^1.0.0:
   resolved "https://registry.yarnpkg.com/ts-essentials/-/ts-essentials-1.0.4.tgz#ce3b5dade5f5d97cf69889c11bf7d2da8555b15a"
   integrity sha512-q3N1xS4vZpRouhYHDPwO0bDW3EZ6SK9CrrDHxi/D6BPReSjpVgWIOpLS2o0gSBZm+7q/wyKp6RVM1AeeW7uyfQ==
 
-ts-essentials@^6.0.3:
-  version "6.0.3"
-  resolved "https://registry.yarnpkg.com/ts-essentials/-/ts-essentials-6.0.3.tgz#d9a88760edd67c1ed73265dbd48a165572832efe"
-  integrity sha512-0yRg5v3JQk+8RR7zLo0ior2mbHyOVIYdvH3URqGQ32Mhx2oJ/LLXgfRF4tkoRhlL4x9iamXBCQjhBesb1mHsgg==
-
 ts-essentials@^6.0.5:
   version "6.0.7"
   resolved "https://registry.yarnpkg.com/ts-essentials/-/ts-essentials-6.0.7.tgz#5f4880911b7581a873783740ce8b94da163d18a6"
   integrity sha512-2E4HIIj4tQJlIHuATRHayv0EfMGK3ris/GRk1E3CFnsZzeNV+hUmelbaTZHLtXaZppM5oLhHRtO04gINC4Jusw==
+
+ts-essentials@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/ts-essentials/-/ts-essentials-7.0.1.tgz#d205508cae0cdadfb73c89503140cf2228389e2d"
+  integrity sha512-8lwh3QJtIc1UWhkQtr9XuksXu3O0YQdEE5g79guDfhCaU1FWTDIEDZ1ZSx4HTHUmlJZ8L812j3BZQ4a0aOUkSA==
 
 ts-generator@^0.1.1:
   version "0.1.1"
