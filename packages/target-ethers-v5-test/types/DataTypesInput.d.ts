@@ -232,28 +232,14 @@ export class DataTypesInput extends Contract {
       input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
       overrides?: CallOverrides
     ): Promise<
-      [
-        {
-          uint256_0: BigNumber;
-          uint256_1: BigNumber;
-          0: BigNumber;
-          1: BigNumber;
-        }
-      ]
+      [[BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }]
     >;
 
     "input_struct(tuple)"(
       input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
       overrides?: CallOverrides
     ): Promise<
-      [
-        {
-          uint256_0: BigNumber;
-          uint256_1: BigNumber;
-          0: BigNumber;
-          1: BigNumber;
-        }
-      ]
+      [[BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }]
     >;
 
     input_tuple(
@@ -361,22 +347,16 @@ export class DataTypesInput extends Contract {
   input_struct(
     input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
     overrides?: CallOverrides
-  ): Promise<{
-    uint256_0: BigNumber;
-    uint256_1: BigNumber;
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  ): Promise<
+    [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
+  >;
 
   "input_struct(tuple)"(
     input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
     overrides?: CallOverrides
-  ): Promise<{
-    uint256_0: BigNumber;
-    uint256_1: BigNumber;
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  ): Promise<
+    [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
+  >;
 
   input_tuple(
     input1: BigNumberish,
@@ -486,22 +466,16 @@ export class DataTypesInput extends Contract {
     input_struct(
       input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
       overrides?: CallOverrides
-    ): Promise<{
-      uint256_0: BigNumber;
-      uint256_1: BigNumber;
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<
+      [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
+    >;
 
     "input_struct(tuple)"(
       input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
       overrides?: CallOverrides
-    ): Promise<{
-      uint256_0: BigNumber;
-      uint256_1: BigNumber;
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<
+      [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
+    >;
 
     input_tuple(
       input1: BigNumberish,

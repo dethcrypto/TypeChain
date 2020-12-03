@@ -13,17 +13,7 @@ export function generateOutputTypes(returnResultObject: boolean, outputs: Array<
   if (!returnResultObject && outputs.length === 1) {
     return generateOutputType(outputs[0].type)
   } else {
-    // if there are no named elements return array type otherwise object
-    // this generates slightly better typings fixing: https://github.com/ethereum-ts/TypeChain/issues/232
-    const noNamedElements = outputs.every((e) => !e.name)
-    if (noNamedElements) {
-      return `[${outputs.map((t) => generateOutputType(t.type)).join(', ')}]`
-    } else {
-      return `{
-        ${outputs.map((t) => t.name && `${t.name}: ${generateOutputType(t.type)}, `).join('')}
-        ${outputs.map((t, i) => `${i}: ${generateOutputType(t.type)}`).join(', ')}
-        }`
-    }
+    return generateOutputComplexType(outputs)
   }
 }
 
@@ -79,7 +69,7 @@ export function generateOutputType(evmType: EvmOutputType): string {
     case 'string':
       return 'string'
     case 'tuple':
-      return generateOutputTupleType(evmType)
+      return generateOutputComplexType(evmType.components)
     case 'unknown':
       return 'any'
   }
@@ -89,11 +79,15 @@ export function generateTupleType(tuple: TupleType, generator: (evmType: EvmType
   return '{' + tuple.components.map((component) => `${component.name}: ${generator(component.type)}`).join(',') + '}'
 }
 
-export function generateOutputTupleType(tuple: TupleType) {
-  return (
-    '{' +
-    tuple.components.map((component) => `${component.name}: ${generateOutputType(component.type)} ,`).join('\n') +
-    tuple.components.map((component, index) => `${index}: ${generateOutputType(component.type)}`).join(', ') +
-    '}'
-  )
+/**
+ * always return an array type; if there are named outputs, merge them to that type
+ * this generates slightly better typings fixing: https://github.com/ethereum-ts/TypeChain/issues/232
+ **/
+export function generateOutputComplexType(components: AbiOutputParameter[]) {
+  let namedElementsCode = ''
+  const namedElements = components.filter((e) => !!e.name)
+  if (namedElements.length > 0) {
+    namedElementsCode = ' & {' + namedElements.map((t) => `${t.name}: ${generateOutputType(t.type)}`).join(',') + ' }'
+  }
+  return `[${components.map((t) => generateOutputType(t.type)).join(', ')}] ${namedElementsCode}`
 }
