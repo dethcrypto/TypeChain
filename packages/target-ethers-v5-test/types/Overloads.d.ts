@@ -51,17 +51,13 @@ export class Overloads extends Contract {
     "overload1(int256)"(
       input1: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<{
-      0: BigNumber;
-    }>;
+    ): Promise<[BigNumber]>;
 
     "overload1(uint256,uint256)"(
       input1: BigNumberish,
       input2: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<{
-      0: BigNumber;
-    }>;
+    ): Promise<[BigNumber]>;
   };
 
   "overload1(int256)"(

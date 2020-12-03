@@ -1,8 +1,9 @@
-import { typedAssert, q18 } from 'test-utils'
+import { typedAssert, q18, AssertTrue, IsExact } from 'test-utils'
 import { ethers, BigNumber } from 'ethers'
 
 import { createNewBlockchain, deployContract } from './common'
 import { DataTypesInput } from '../types/DataTypesInput'
+import { Awaited } from 'earljs/dist/mocks/types'
 
 describe('DataTypesInput', () => {
   let contract!: DataTypesInput
@@ -34,6 +35,9 @@ describe('DataTypesInput', () => {
       await contract.input_address('0x70b144972C5Ef6CB941A5379240B74239c418CD4'),
       '0x70b144972C5Ef6CB941A5379240B74239c418CD4',
     )
+    typedAssert(await contract.functions.input_address('0x70b144972C5Ef6CB941A5379240B74239c418CD4'), [
+      '0x70b144972C5Ef6CB941A5379240B74239c418CD4',
+    ])
 
     typedAssert(
       await contract['input_address(address)']('0x70b144972C5Ef6CB941A5379240B74239c418CD4'),
@@ -66,5 +70,12 @@ describe('DataTypesInput', () => {
 
     typedAssert(await contract.input_enum('1'), 1)
     typedAssert(await contract.input_enum(1), 1)
+  })
+
+  // tests: https://github.com/ethereum-ts/TypeChain/issues/232
+  // NOTE: typesAssert is too simple to tests type compatibility here so we can't use it
+  it('generates correct types for tuples', () => {
+    type ViewTupleType = Awaited<ReturnType<typeof contract.input_tuple>>
+    type t1 = AssertTrue<IsExact<ViewTupleType, [BigNumber, BigNumber]>>
   })
 })

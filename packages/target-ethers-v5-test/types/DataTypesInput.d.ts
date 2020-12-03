@@ -147,201 +147,146 @@ export class DataTypesInput extends Contract {
   interface: DataTypesInputInterface;
 
   functions: {
-    input_address(
-      input1: string,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
+    input_address(input1: string, overrides?: CallOverrides): Promise<[string]>;
 
     "input_address(address)"(
       input1: string,
       overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
+    ): Promise<[string]>;
 
-    input_bool(
-      input1: boolean,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: boolean;
-    }>;
+    input_bool(input1: boolean, overrides?: CallOverrides): Promise<[boolean]>;
 
     "input_bool(bool)"(
       input1: boolean,
       overrides?: CallOverrides
-    ): Promise<{
-      0: boolean;
-    }>;
+    ): Promise<[boolean]>;
 
     input_bytes(
       input1: BytesLike,
       overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
+    ): Promise<[string]>;
 
     "input_bytes(bytes)"(
       input1: BytesLike,
       overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
+    ): Promise<[string]>;
 
     input_bytes1(
       input1: BytesLike,
       overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
+    ): Promise<[string]>;
 
     "input_bytes1(bytes1)"(
       input1: BytesLike,
       overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
+    ): Promise<[string]>;
 
     input_enum(
       input1: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<{
-      0: number;
-    }>;
+    ): Promise<[number]>;
 
     "input_enum(uint8)"(
       input1: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<{
-      0: number;
-    }>;
+    ): Promise<[number]>;
 
     input_int256(
       input1: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<{
-      0: BigNumber;
-    }>;
+    ): Promise<[BigNumber]>;
 
     "input_int256(int256)"(
       input1: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<{
-      0: BigNumber;
-    }>;
+    ): Promise<[BigNumber]>;
 
     input_int8(
       input1: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<{
-      0: number;
-    }>;
+    ): Promise<[number]>;
 
     "input_int8(int8)"(
       input1: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<{
-      0: number;
-    }>;
+    ): Promise<[number]>;
 
     input_stat_array(
       input1: [BigNumberish, BigNumberish, BigNumberish],
       overrides?: CallOverrides
-    ): Promise<{
-      0: [number, number, number];
-    }>;
+    ): Promise<[[number, number, number]]>;
 
     "input_stat_array(uint8[3])"(
       input1: [BigNumberish, BigNumberish, BigNumberish],
       overrides?: CallOverrides
-    ): Promise<{
-      0: [number, number, number];
-    }>;
+    ): Promise<[[number, number, number]]>;
 
-    input_string(
-      input1: string,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
+    input_string(input1: string, overrides?: CallOverrides): Promise<[string]>;
 
     "input_string(string)"(
       input1: string,
       overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
+    ): Promise<[string]>;
 
     input_struct(
       input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
       overrides?: CallOverrides
-    ): Promise<{
-      0: {
-        uint256_0: BigNumber;
-        uint256_1: BigNumber;
-        0: BigNumber;
-        1: BigNumber;
-      };
-    }>;
+    ): Promise<
+      [
+        {
+          uint256_0: BigNumber;
+          uint256_1: BigNumber;
+          0: BigNumber;
+          1: BigNumber;
+        }
+      ]
+    >;
 
     "input_struct(tuple)"(
       input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
       overrides?: CallOverrides
-    ): Promise<{
-      0: {
-        uint256_0: BigNumber;
-        uint256_1: BigNumber;
-        0: BigNumber;
-        1: BigNumber;
-      };
-    }>;
+    ): Promise<
+      [
+        {
+          uint256_0: BigNumber;
+          uint256_1: BigNumber;
+          0: BigNumber;
+          1: BigNumber;
+        }
+      ]
+    >;
 
     input_tuple(
       input1: BigNumberish,
       input2: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<{
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<[BigNumber, BigNumber]>;
 
     "input_tuple(uint256,uint256)"(
       input1: BigNumberish,
       input2: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<{
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<[BigNumber, BigNumber]>;
 
     input_uint256(
       input1: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<{
-      0: BigNumber;
-    }>;
+    ): Promise<[BigNumber]>;
 
     "input_uint256(uint256)"(
       input1: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<{
-      0: BigNumber;
-    }>;
+    ): Promise<[BigNumber]>;
 
     input_uint8(
       input1: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<{
-      0: number;
-    }>;
+    ): Promise<[number]>;
 
     "input_uint8(uint8)"(
       input1: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<{
-      0: number;
-    }>;
+    ): Promise<[number]>;
   };
 
   input_address(input1: string, overrides?: CallOverrides): Promise<string>;
@@ -437,19 +382,13 @@ export class DataTypesInput extends Contract {
     input1: BigNumberish,
     input2: BigNumberish,
     overrides?: CallOverrides
-  ): Promise<{
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  ): Promise<[BigNumber, BigNumber]>;
 
   "input_tuple(uint256,uint256)"(
     input1: BigNumberish,
     input2: BigNumberish,
     overrides?: CallOverrides
-  ): Promise<{
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  ): Promise<[BigNumber, BigNumber]>;
 
   input_uint256(
     input1: BigNumberish,
@@ -568,19 +507,13 @@ export class DataTypesInput extends Contract {
       input1: BigNumberish,
       input2: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<{
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<[BigNumber, BigNumber]>;
 
     "input_tuple(uint256,uint256)"(
       input1: BigNumberish,
       input2: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<{
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<[BigNumber, BigNumber]>;
 
     input_uint256(
       input1: BigNumberish,

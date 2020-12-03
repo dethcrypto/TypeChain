@@ -45,19 +45,12 @@ export class Library extends Contract {
   interface: LibraryInterface;
 
   functions: {
-    other(
-      b: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<{
-      0: number;
-    }>;
+    other(b: BigNumberish, overrides?: CallOverrides): Promise<[number]>;
 
     "other(uint8)"(
       b: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<{
-      0: number;
-    }>;
+    ): Promise<[number]>;
   };
 
   other(b: BigNumberish, overrides?: CallOverrides): Promise<number>;

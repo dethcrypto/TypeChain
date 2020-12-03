@@ -13,10 +13,17 @@ export function generateOutputTypes(returnResultObject: boolean, outputs: Array<
   if (!returnResultObject && outputs.length === 1) {
     return generateOutputType(outputs[0].type)
   } else {
-    return `{
-      ${outputs.map((t) => t.name && `${t.name}: ${generateOutputType(t.type)}, `).join('')}
-      ${outputs.map((t, i) => `${i}: ${generateOutputType(t.type)}`).join(', ')}
-      }`
+    // if there are no named elements return array type otherwise object
+    // this generates slightly better typings fixing: https://github.com/ethereum-ts/TypeChain/issues/232
+    const noNamedElements = outputs.every((e) => !e.name)
+    if (noNamedElements) {
+      return `[${outputs.map((t) => generateOutputType(t.type)).join(', ')}]`
+    } else {
+      return `{
+        ${outputs.map((t) => t.name && `${t.name}: ${generateOutputType(t.type)}, `).join('')}
+        ${outputs.map((t, i) => `${i}: ${generateOutputType(t.type)}`).join(', ')}
+        }`
+    }
   }
 }
 
