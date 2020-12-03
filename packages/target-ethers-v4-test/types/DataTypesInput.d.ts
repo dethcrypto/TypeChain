@@ -202,19 +202,13 @@ export class DataTypesInput extends Contract {
       input1: BigNumberish,
       input2: BigNumberish,
       overrides?: TransactionOverrides
-    ): Promise<{
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<[BigNumber, BigNumber]>;
 
     "input_tuple(uint256,uint256)"(
       input1: BigNumberish,
       input2: BigNumberish,
       overrides?: TransactionOverrides
-    ): Promise<{
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<[BigNumber, BigNumber]>;
 
     input_uint256(
       input1: BigNumberish,
@@ -351,19 +345,13 @@ export class DataTypesInput extends Contract {
     input1: BigNumberish,
     input2: BigNumberish,
     overrides?: TransactionOverrides
-  ): Promise<{
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  ): Promise<[BigNumber, BigNumber]>;
 
   "input_tuple(uint256,uint256)"(
     input1: BigNumberish,
     input2: BigNumberish,
     overrides?: TransactionOverrides
-  ): Promise<{
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  ): Promise<[BigNumber, BigNumber]>;
 
   input_uint256(
     input1: BigNumberish,

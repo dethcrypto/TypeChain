@@ -136,17 +136,11 @@ export class DataTypesPure extends Contract {
 
     pure_tuple(
       overrides?: TransactionOverrides
-    ): Promise<{
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<[BigNumber, BigNumber]>;
 
     "pure_tuple()"(
       overrides?: TransactionOverrides
-    ): Promise<{
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<[BigNumber, BigNumber]>;
 
     pure_uint256(overrides?: TransactionOverrides): Promise<BigNumber>;
 
@@ -229,19 +223,11 @@ export class DataTypesPure extends Contract {
     1: BigNumber;
   }>;
 
-  pure_tuple(
-    overrides?: TransactionOverrides
-  ): Promise<{
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  pure_tuple(overrides?: TransactionOverrides): Promise<[BigNumber, BigNumber]>;
 
   "pure_tuple()"(
     overrides?: TransactionOverrides
-  ): Promise<{
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  ): Promise<[BigNumber, BigNumber]>;
 
   pure_uint256(overrides?: TransactionOverrides): Promise<BigNumber>;
 

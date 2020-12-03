@@ -136,17 +136,11 @@ export class DataTypesView extends Contract {
 
     view_tuple(
       overrides?: TransactionOverrides
-    ): Promise<{
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<[BigNumber, BigNumber]>;
 
     "view_tuple()"(
       overrides?: TransactionOverrides
-    ): Promise<{
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<[BigNumber, BigNumber]>;
 
     view_uint256(overrides?: TransactionOverrides): Promise<BigNumber>;
 
@@ -229,19 +223,11 @@ export class DataTypesView extends Contract {
     1: BigNumber;
   }>;
 
-  view_tuple(
-    overrides?: TransactionOverrides
-  ): Promise<{
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  view_tuple(overrides?: TransactionOverrides): Promise<[BigNumber, BigNumber]>;
 
   "view_tuple()"(
     overrides?: TransactionOverrides
-  ): Promise<{
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  ): Promise<[BigNumber, BigNumber]>;
 
   view_uint256(overrides?: TransactionOverrides): Promise<BigNumber>;
 
