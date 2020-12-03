@@ -33,9 +33,9 @@ export interface DataTypesPureInstance extends Truffle.ContractInstance {
 
   pure_stat_array(txDetails?: Truffle.TransactionDetails): Promise<BN[]>;
 
-  pure_tuple(txDetails?: Truffle.TransactionDetails): Promise<[BN, BN]>;
+  pure_tuple(txDetails?: Truffle.TransactionDetails): Promise<{ 0: BN; 1: BN }>;
 
-  pure_named(txDetails?: Truffle.TransactionDetails): Promise<[BN, BN]>;
+  pure_named(txDetails?: Truffle.TransactionDetails): Promise<{ 0: BN; 1: BN }>;
 
   pure_struct(
     txDetails?: Truffle.TransactionDetails
@@ -64,9 +64,13 @@ export interface DataTypesPureInstance extends Truffle.ContractInstance {
 
     pure_stat_array(txDetails?: Truffle.TransactionDetails): Promise<BN[]>;
 
-    pure_tuple(txDetails?: Truffle.TransactionDetails): Promise<[BN, BN]>;
+    pure_tuple(
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<{ 0: BN; 1: BN }>;
 
-    pure_named(txDetails?: Truffle.TransactionDetails): Promise<[BN, BN]>;
+    pure_named(
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<{ 0: BN; 1: BN }>;
 
     pure_struct(
       txDetails?: Truffle.TransactionDetails

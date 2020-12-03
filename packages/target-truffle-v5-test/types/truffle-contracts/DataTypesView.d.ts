@@ -33,9 +33,9 @@ export interface DataTypesViewInstance extends Truffle.ContractInstance {
 
   view_stat_array(txDetails?: Truffle.TransactionDetails): Promise<BN[]>;
 
-  view_tuple(txDetails?: Truffle.TransactionDetails): Promise<[BN, BN]>;
+  view_tuple(txDetails?: Truffle.TransactionDetails): Promise<{ 0: BN; 1: BN }>;
 
-  view_named(txDetails?: Truffle.TransactionDetails): Promise<[BN, BN]>;
+  view_named(txDetails?: Truffle.TransactionDetails): Promise<{ 0: BN; 1: BN }>;
 
   view_struct(
     txDetails?: Truffle.TransactionDetails
@@ -64,9 +64,13 @@ export interface DataTypesViewInstance extends Truffle.ContractInstance {
 
     view_stat_array(txDetails?: Truffle.TransactionDetails): Promise<BN[]>;
 
-    view_tuple(txDetails?: Truffle.TransactionDetails): Promise<[BN, BN]>;
+    view_tuple(
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<{ 0: BN; 1: BN }>;
 
-    view_named(txDetails?: Truffle.TransactionDetails): Promise<[BN, BN]>;
+    view_named(
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<{ 0: BN; 1: BN }>;
 
     view_struct(
       txDetails?: Truffle.TransactionDetails
