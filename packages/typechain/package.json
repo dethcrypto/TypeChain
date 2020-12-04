@@ -37,7 +37,7 @@
     "fs-extra": "^7.0.0",
     "js-sha3": "^0.8.0",
     "lodash": "^4.17.15",
-    "ts-essentials": "^6.0.3",
+    "ts-essentials": "^7.0.1",
     "ts-generator": "^0.1.1"
   },
   "devDependencies": {

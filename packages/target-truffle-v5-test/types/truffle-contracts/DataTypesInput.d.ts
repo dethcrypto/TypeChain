@@ -67,7 +67,7 @@ export interface DataTypesInputInstance extends Truffle.ContractInstance {
     input1: number | BN | string,
     input2: number | BN | string,
     txDetails?: Truffle.TransactionDetails
-  ): Promise<[BN, BN]>;
+  ): Promise<{ 0: BN; 1: BN }>;
 
   input_struct(
     input1: {
@@ -137,7 +137,7 @@ export interface DataTypesInputInstance extends Truffle.ContractInstance {
       input1: number | BN | string,
       input2: number | BN | string,
       txDetails?: Truffle.TransactionDetails
-    ): Promise<[BN, BN]>;
+    ): Promise<{ 0: BN; 1: BN }>;
 
     input_struct(
       input1: {

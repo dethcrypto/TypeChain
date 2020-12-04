@@ -92,21 +92,15 @@ export class DataTypesPure extends Contract {
 
     pure_named(
       overrides?: TransactionOverrides
-    ): Promise<{
-      uint256_1: BigNumber;
-      uint256_2: BigNumber;
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<
+      [BigNumber, BigNumber] & { uint256_1: BigNumber; uint256_2: BigNumber }
+    >;
 
     "pure_named()"(
       overrides?: TransactionOverrides
-    ): Promise<{
-      uint256_1: BigNumber;
-      uint256_2: BigNumber;
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<
+      [BigNumber, BigNumber] & { uint256_1: BigNumber; uint256_2: BigNumber }
+    >;
 
     pure_stat_array(overrides?: TransactionOverrides): Promise<number[]>;
 
@@ -118,35 +112,23 @@ export class DataTypesPure extends Contract {
 
     pure_struct(
       overrides?: TransactionOverrides
-    ): Promise<{
-      uint256_0: BigNumber;
-      uint256_1: BigNumber;
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<
+      [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
+    >;
 
     "pure_struct()"(
       overrides?: TransactionOverrides
-    ): Promise<{
-      uint256_0: BigNumber;
-      uint256_1: BigNumber;
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<
+      [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
+    >;
 
     pure_tuple(
       overrides?: TransactionOverrides
-    ): Promise<{
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<[BigNumber, BigNumber]>;
 
     "pure_tuple()"(
       overrides?: TransactionOverrides
-    ): Promise<{
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<[BigNumber, BigNumber]>;
 
     pure_uint256(overrides?: TransactionOverrides): Promise<BigNumber>;
 
@@ -187,21 +169,15 @@ export class DataTypesPure extends Contract {
 
   pure_named(
     overrides?: TransactionOverrides
-  ): Promise<{
-    uint256_1: BigNumber;
-    uint256_2: BigNumber;
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  ): Promise<
+    [BigNumber, BigNumber] & { uint256_1: BigNumber; uint256_2: BigNumber }
+  >;
 
   "pure_named()"(
     overrides?: TransactionOverrides
-  ): Promise<{
-    uint256_1: BigNumber;
-    uint256_2: BigNumber;
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  ): Promise<
+    [BigNumber, BigNumber] & { uint256_1: BigNumber; uint256_2: BigNumber }
+  >;
 
   pure_stat_array(overrides?: TransactionOverrides): Promise<number[]>;
 
@@ -213,35 +189,21 @@ export class DataTypesPure extends Contract {
 
   pure_struct(
     overrides?: TransactionOverrides
-  ): Promise<{
-    uint256_0: BigNumber;
-    uint256_1: BigNumber;
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  ): Promise<
+    [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
+  >;
 
   "pure_struct()"(
     overrides?: TransactionOverrides
-  ): Promise<{
-    uint256_0: BigNumber;
-    uint256_1: BigNumber;
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  ): Promise<
+    [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
+  >;
 
-  pure_tuple(
-    overrides?: TransactionOverrides
-  ): Promise<{
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  pure_tuple(overrides?: TransactionOverrides): Promise<[BigNumber, BigNumber]>;
 
   "pure_tuple()"(
     overrides?: TransactionOverrides
-  ): Promise<{
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  ): Promise<[BigNumber, BigNumber]>;
 
   pure_uint256(overrides?: TransactionOverrides): Promise<BigNumber>;
 

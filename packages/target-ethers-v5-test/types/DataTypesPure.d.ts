@@ -138,191 +138,81 @@ export class DataTypesPure extends Contract {
   interface: DataTypesPureInterface;
 
   functions: {
-    pure_address(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
+    pure_address(overrides?: CallOverrides): Promise<[string]>;
 
-    "pure_address()"(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
+    "pure_address()"(overrides?: CallOverrides): Promise<[string]>;
 
-    pure_bool(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: boolean;
-    }>;
+    pure_bool(overrides?: CallOverrides): Promise<[boolean]>;
 
-    "pure_bool()"(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: boolean;
-    }>;
+    "pure_bool()"(overrides?: CallOverrides): Promise<[boolean]>;
 
-    pure_bytes(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
+    pure_bytes(overrides?: CallOverrides): Promise<[string]>;
 
-    "pure_bytes()"(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
+    "pure_bytes()"(overrides?: CallOverrides): Promise<[string]>;
 
-    pure_bytes1(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
+    pure_bytes1(overrides?: CallOverrides): Promise<[string]>;
 
-    "pure_bytes1()"(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
+    "pure_bytes1()"(overrides?: CallOverrides): Promise<[string]>;
 
-    pure_enum(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: number;
-    }>;
+    pure_enum(overrides?: CallOverrides): Promise<[number]>;
 
-    "pure_enum()"(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: number;
-    }>;
+    "pure_enum()"(overrides?: CallOverrides): Promise<[number]>;
 
-    pure_int256(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: BigNumber;
-    }>;
+    pure_int256(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    "pure_int256()"(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: BigNumber;
-    }>;
+    "pure_int256()"(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    pure_int8(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: number;
-    }>;
+    pure_int8(overrides?: CallOverrides): Promise<[number]>;
 
-    "pure_int8()"(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: number;
-    }>;
+    "pure_int8()"(overrides?: CallOverrides): Promise<[number]>;
 
     pure_named(
       overrides?: CallOverrides
-    ): Promise<{
-      uint256_1: BigNumber;
-      uint256_2: BigNumber;
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<
+      [BigNumber, BigNumber] & { uint256_1: BigNumber; uint256_2: BigNumber }
+    >;
 
     "pure_named()"(
       overrides?: CallOverrides
-    ): Promise<{
-      uint256_1: BigNumber;
-      uint256_2: BigNumber;
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<
+      [BigNumber, BigNumber] & { uint256_1: BigNumber; uint256_2: BigNumber }
+    >;
 
     pure_stat_array(
       overrides?: CallOverrides
-    ): Promise<{
-      0: [number, number, number];
-    }>;
+    ): Promise<[[number, number, number]]>;
 
     "pure_stat_array()"(
       overrides?: CallOverrides
-    ): Promise<{
-      0: [number, number, number];
-    }>;
+    ): Promise<[[number, number, number]]>;
 
-    pure_string(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
+    pure_string(overrides?: CallOverrides): Promise<[string]>;
 
-    "pure_string()"(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
+    "pure_string()"(overrides?: CallOverrides): Promise<[string]>;
 
     pure_struct(
       overrides?: CallOverrides
-    ): Promise<{
-      0: {
-        uint256_0: BigNumber;
-        uint256_1: BigNumber;
-        0: BigNumber;
-        1: BigNumber;
-      };
-    }>;
+    ): Promise<
+      [[BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }]
+    >;
 
     "pure_struct()"(
       overrides?: CallOverrides
-    ): Promise<{
-      0: {
-        uint256_0: BigNumber;
-        uint256_1: BigNumber;
-        0: BigNumber;
-        1: BigNumber;
-      };
-    }>;
+    ): Promise<
+      [[BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }]
+    >;
 
-    pure_tuple(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    pure_tuple(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
-    "pure_tuple()"(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    "pure_tuple()"(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
-    pure_uint256(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: BigNumber;
-    }>;
+    pure_uint256(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    "pure_uint256()"(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: BigNumber;
-    }>;
+    "pure_uint256()"(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    pure_uint8(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: number;
-    }>;
+    pure_uint8(overrides?: CallOverrides): Promise<[number]>;
 
-    "pure_uint8()"(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: number;
-    }>;
+    "pure_uint8()"(overrides?: CallOverrides): Promise<[number]>;
   };
 
   pure_address(overrides?: CallOverrides): Promise<string>;
@@ -355,21 +245,15 @@ export class DataTypesPure extends Contract {
 
   pure_named(
     overrides?: CallOverrides
-  ): Promise<{
-    uint256_1: BigNumber;
-    uint256_2: BigNumber;
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  ): Promise<
+    [BigNumber, BigNumber] & { uint256_1: BigNumber; uint256_2: BigNumber }
+  >;
 
   "pure_named()"(
     overrides?: CallOverrides
-  ): Promise<{
-    uint256_1: BigNumber;
-    uint256_2: BigNumber;
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  ): Promise<
+    [BigNumber, BigNumber] & { uint256_1: BigNumber; uint256_2: BigNumber }
+  >;
 
   pure_stat_array(overrides?: CallOverrides): Promise<[number, number, number]>;
 
@@ -383,35 +267,19 @@ export class DataTypesPure extends Contract {
 
   pure_struct(
     overrides?: CallOverrides
-  ): Promise<{
-    uint256_0: BigNumber;
-    uint256_1: BigNumber;
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  ): Promise<
+    [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
+  >;
 
   "pure_struct()"(
     overrides?: CallOverrides
-  ): Promise<{
-    uint256_0: BigNumber;
-    uint256_1: BigNumber;
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  ): Promise<
+    [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
+  >;
 
-  pure_tuple(
-    overrides?: CallOverrides
-  ): Promise<{
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  pure_tuple(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
-  "pure_tuple()"(
-    overrides?: CallOverrides
-  ): Promise<{
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  "pure_tuple()"(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
   pure_uint256(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -452,21 +320,15 @@ export class DataTypesPure extends Contract {
 
     pure_named(
       overrides?: CallOverrides
-    ): Promise<{
-      uint256_1: BigNumber;
-      uint256_2: BigNumber;
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<
+      [BigNumber, BigNumber] & { uint256_1: BigNumber; uint256_2: BigNumber }
+    >;
 
     "pure_named()"(
       overrides?: CallOverrides
-    ): Promise<{
-      uint256_1: BigNumber;
-      uint256_2: BigNumber;
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<
+      [BigNumber, BigNumber] & { uint256_1: BigNumber; uint256_2: BigNumber }
+    >;
 
     pure_stat_array(
       overrides?: CallOverrides
@@ -482,35 +344,19 @@ export class DataTypesPure extends Contract {
 
     pure_struct(
       overrides?: CallOverrides
-    ): Promise<{
-      uint256_0: BigNumber;
-      uint256_1: BigNumber;
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<
+      [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
+    >;
 
     "pure_struct()"(
       overrides?: CallOverrides
-    ): Promise<{
-      uint256_0: BigNumber;
-      uint256_1: BigNumber;
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<
+      [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
+    >;
 
-    pure_tuple(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    pure_tuple(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
-    "pure_tuple()"(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    "pure_tuple()"(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
     pure_uint256(overrides?: CallOverrides): Promise<BigNumber>;
 

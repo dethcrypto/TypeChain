@@ -45,17 +45,9 @@ export class NameMangling extends Contract {
   interface: NameManglingInterface;
 
   functions: {
-    works(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: boolean;
-    }>;
+    works(overrides?: CallOverrides): Promise<[boolean]>;
 
-    "works()"(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: boolean;
-    }>;
+    "works()"(overrides?: CallOverrides): Promise<[boolean]>;
   };
 
   works(overrides?: CallOverrides): Promise<boolean>;

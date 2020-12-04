@@ -1,6 +1,7 @@
-import { typedAssert, q18 } from 'test-utils'
+import { typedAssert, q18, IsExact, AssertTrue } from 'test-utils'
 import { DataTypesViewInstance } from '../types/truffle-contracts/DataTypesView'
 import BigNumber from 'bn.js'
+import { Awaited } from 'ts-essentials'
 
 const DataTypesView = artifacts.require('DataTypesView')
 
@@ -30,7 +31,7 @@ contract('DataTypesView', ([deployer]) => {
 
     typedAssert(await c.view_stat_array(), [new BigNumber('1'), new BigNumber('2'), new BigNumber('3')])
 
-    typedAssert(await c.view_tuple(), [new BigNumber('1'), new BigNumber('2')])
+    typedAssert(await c.view_tuple(), { 0: new BigNumber('1'), 1: new BigNumber('2') })
 
     // structs doesnt work: could be because of solidty 0.4.x but we are stuck at it
     // typedAssert(await c.view_struct(), {
@@ -39,5 +40,12 @@ contract('DataTypesView', ([deployer]) => {
     // })
 
     typedAssert(await c.view_enum(), new BigNumber('1'))
+  })
+
+  // tests: https://github.com/ethereum-ts/TypeChain/issues/232
+  // NOTE: typesAssert is too simple to tests type compatibility here so we can't use it
+  it('generates correct types for tuples', () => {
+    type ViewTupleType = Awaited<ReturnType<typeof c.view_tuple>>
+    type t1 = AssertTrue<IsExact<ViewTupleType, { 0: BigNumber; 1: BigNumber }>>
   })
 })

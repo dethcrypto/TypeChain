@@ -138,191 +138,81 @@ export class DataTypesView extends Contract {
   interface: DataTypesViewInterface;
 
   functions: {
-    view_address(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
+    view_address(overrides?: CallOverrides): Promise<[string]>;
 
-    "view_address()"(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
+    "view_address()"(overrides?: CallOverrides): Promise<[string]>;
 
-    view_bool(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: boolean;
-    }>;
+    view_bool(overrides?: CallOverrides): Promise<[boolean]>;
 
-    "view_bool()"(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: boolean;
-    }>;
+    "view_bool()"(overrides?: CallOverrides): Promise<[boolean]>;
 
-    view_bytes(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
+    view_bytes(overrides?: CallOverrides): Promise<[string]>;
 
-    "view_bytes()"(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
+    "view_bytes()"(overrides?: CallOverrides): Promise<[string]>;
 
-    view_bytes1(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
+    view_bytes1(overrides?: CallOverrides): Promise<[string]>;
 
-    "view_bytes1()"(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
+    "view_bytes1()"(overrides?: CallOverrides): Promise<[string]>;
 
-    view_enum(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: number;
-    }>;
+    view_enum(overrides?: CallOverrides): Promise<[number]>;
 
-    "view_enum()"(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: number;
-    }>;
+    "view_enum()"(overrides?: CallOverrides): Promise<[number]>;
 
-    view_int256(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: BigNumber;
-    }>;
+    view_int256(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    "view_int256()"(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: BigNumber;
-    }>;
+    "view_int256()"(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    view_int8(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: number;
-    }>;
+    view_int8(overrides?: CallOverrides): Promise<[number]>;
 
-    "view_int8()"(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: number;
-    }>;
+    "view_int8()"(overrides?: CallOverrides): Promise<[number]>;
 
     view_named(
       overrides?: CallOverrides
-    ): Promise<{
-      uint256_1: BigNumber;
-      uint256_2: BigNumber;
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<
+      [BigNumber, BigNumber] & { uint256_1: BigNumber; uint256_2: BigNumber }
+    >;
 
     "view_named()"(
       overrides?: CallOverrides
-    ): Promise<{
-      uint256_1: BigNumber;
-      uint256_2: BigNumber;
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<
+      [BigNumber, BigNumber] & { uint256_1: BigNumber; uint256_2: BigNumber }
+    >;
 
     view_stat_array(
       overrides?: CallOverrides
-    ): Promise<{
-      0: [number, number, number];
-    }>;
+    ): Promise<[[number, number, number]]>;
 
     "view_stat_array()"(
       overrides?: CallOverrides
-    ): Promise<{
-      0: [number, number, number];
-    }>;
+    ): Promise<[[number, number, number]]>;
 
-    view_string(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
+    view_string(overrides?: CallOverrides): Promise<[string]>;
 
-    "view_string()"(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: string;
-    }>;
+    "view_string()"(overrides?: CallOverrides): Promise<[string]>;
 
     view_struct(
       overrides?: CallOverrides
-    ): Promise<{
-      0: {
-        uint256_0: BigNumber;
-        uint256_1: BigNumber;
-        0: BigNumber;
-        1: BigNumber;
-      };
-    }>;
+    ): Promise<
+      [[BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }]
+    >;
 
     "view_struct()"(
       overrides?: CallOverrides
-    ): Promise<{
-      0: {
-        uint256_0: BigNumber;
-        uint256_1: BigNumber;
-        0: BigNumber;
-        1: BigNumber;
-      };
-    }>;
+    ): Promise<
+      [[BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }]
+    >;
 
-    view_tuple(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    view_tuple(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
-    "view_tuple()"(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    "view_tuple()"(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
-    view_uint256(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: BigNumber;
-    }>;
+    view_uint256(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    "view_uint256()"(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: BigNumber;
-    }>;
+    "view_uint256()"(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    view_uint8(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: number;
-    }>;
+    view_uint8(overrides?: CallOverrides): Promise<[number]>;
 
-    "view_uint8()"(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: number;
-    }>;
+    "view_uint8()"(overrides?: CallOverrides): Promise<[number]>;
   };
 
   view_address(overrides?: CallOverrides): Promise<string>;
@@ -355,21 +245,15 @@ export class DataTypesView extends Contract {
 
   view_named(
     overrides?: CallOverrides
-  ): Promise<{
-    uint256_1: BigNumber;
-    uint256_2: BigNumber;
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  ): Promise<
+    [BigNumber, BigNumber] & { uint256_1: BigNumber; uint256_2: BigNumber }
+  >;
 
   "view_named()"(
     overrides?: CallOverrides
-  ): Promise<{
-    uint256_1: BigNumber;
-    uint256_2: BigNumber;
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  ): Promise<
+    [BigNumber, BigNumber] & { uint256_1: BigNumber; uint256_2: BigNumber }
+  >;
 
   view_stat_array(overrides?: CallOverrides): Promise<[number, number, number]>;
 
@@ -383,35 +267,19 @@ export class DataTypesView extends Contract {
 
   view_struct(
     overrides?: CallOverrides
-  ): Promise<{
-    uint256_0: BigNumber;
-    uint256_1: BigNumber;
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  ): Promise<
+    [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
+  >;
 
   "view_struct()"(
     overrides?: CallOverrides
-  ): Promise<{
-    uint256_0: BigNumber;
-    uint256_1: BigNumber;
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  ): Promise<
+    [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
+  >;
 
-  view_tuple(
-    overrides?: CallOverrides
-  ): Promise<{
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  view_tuple(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
-  "view_tuple()"(
-    overrides?: CallOverrides
-  ): Promise<{
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  "view_tuple()"(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
   view_uint256(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -452,21 +320,15 @@ export class DataTypesView extends Contract {
 
     view_named(
       overrides?: CallOverrides
-    ): Promise<{
-      uint256_1: BigNumber;
-      uint256_2: BigNumber;
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<
+      [BigNumber, BigNumber] & { uint256_1: BigNumber; uint256_2: BigNumber }
+    >;
 
     "view_named()"(
       overrides?: CallOverrides
-    ): Promise<{
-      uint256_1: BigNumber;
-      uint256_2: BigNumber;
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<
+      [BigNumber, BigNumber] & { uint256_1: BigNumber; uint256_2: BigNumber }
+    >;
 
     view_stat_array(
       overrides?: CallOverrides
@@ -482,35 +344,19 @@ export class DataTypesView extends Contract {
 
     view_struct(
       overrides?: CallOverrides
-    ): Promise<{
-      uint256_0: BigNumber;
-      uint256_1: BigNumber;
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<
+      [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
+    >;
 
     "view_struct()"(
       overrides?: CallOverrides
-    ): Promise<{
-      uint256_0: BigNumber;
-      uint256_1: BigNumber;
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<
+      [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
+    >;
 
-    view_tuple(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    view_tuple(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
-    "view_tuple()"(
-      overrides?: CallOverrides
-    ): Promise<{
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    "view_tuple()"(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
     view_uint256(overrides?: CallOverrides): Promise<BigNumber>;
 
