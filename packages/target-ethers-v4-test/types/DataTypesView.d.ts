@@ -92,21 +92,15 @@ export class DataTypesView extends Contract {
 
     view_named(
       overrides?: TransactionOverrides
-    ): Promise<{
-      uint256_1: BigNumber;
-      uint256_2: BigNumber;
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<
+      [BigNumber, BigNumber] & { uint256_1: BigNumber; uint256_2: BigNumber }
+    >;
 
     "view_named()"(
       overrides?: TransactionOverrides
-    ): Promise<{
-      uint256_1: BigNumber;
-      uint256_2: BigNumber;
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<
+      [BigNumber, BigNumber] & { uint256_1: BigNumber; uint256_2: BigNumber }
+    >;
 
     view_stat_array(overrides?: TransactionOverrides): Promise<number[]>;
 
@@ -118,21 +112,15 @@ export class DataTypesView extends Contract {
 
     view_struct(
       overrides?: TransactionOverrides
-    ): Promise<{
-      uint256_0: BigNumber;
-      uint256_1: BigNumber;
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<
+      [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
+    >;
 
     "view_struct()"(
       overrides?: TransactionOverrides
-    ): Promise<{
-      uint256_0: BigNumber;
-      uint256_1: BigNumber;
-      0: BigNumber;
-      1: BigNumber;
-    }>;
+    ): Promise<
+      [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
+    >;
 
     view_tuple(
       overrides?: TransactionOverrides
@@ -181,21 +169,15 @@ export class DataTypesView extends Contract {
 
   view_named(
     overrides?: TransactionOverrides
-  ): Promise<{
-    uint256_1: BigNumber;
-    uint256_2: BigNumber;
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  ): Promise<
+    [BigNumber, BigNumber] & { uint256_1: BigNumber; uint256_2: BigNumber }
+  >;
 
   "view_named()"(
     overrides?: TransactionOverrides
-  ): Promise<{
-    uint256_1: BigNumber;
-    uint256_2: BigNumber;
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  ): Promise<
+    [BigNumber, BigNumber] & { uint256_1: BigNumber; uint256_2: BigNumber }
+  >;
 
   view_stat_array(overrides?: TransactionOverrides): Promise<number[]>;
 
@@ -207,21 +189,15 @@ export class DataTypesView extends Contract {
 
   view_struct(
     overrides?: TransactionOverrides
-  ): Promise<{
-    uint256_0: BigNumber;
-    uint256_1: BigNumber;
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  ): Promise<
+    [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
+  >;
 
   "view_struct()"(
     overrides?: TransactionOverrides
-  ): Promise<{
-    uint256_0: BigNumber;
-    uint256_1: BigNumber;
-    0: BigNumber;
-    1: BigNumber;
-  }>;
+  ): Promise<
+    [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
+  >;
 
   view_tuple(overrides?: TransactionOverrides): Promise<[BigNumber, BigNumber]>;
 
