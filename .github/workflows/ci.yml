@@ -64,6 +64,8 @@ jobs:
       - run: yarn test
       - run: yarn format # do it at the very end because "yarn test" can generate types (which should be formatted)
       - run: yarn no-git-changes # ensure that committed types are up to date
+      - name: Setup SSH debug session
+        uses: mxschmitt/action-tmate@v2
 
   test-examples:
     strategy:
