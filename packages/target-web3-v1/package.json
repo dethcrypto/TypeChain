@@ -20,7 +20,6 @@
     "LICENSE"
   ],
   "scripts": {
-    "prepublishOnly": "yarn lint && yarn format && yarn test && yarn typecheck && (cd ../.. && yarn build)",
     "start": "ts-node -T ./src/index.ts",
     "format": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --check \"./**/*.ts\"",
     "format:fix": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --write \"./**/*.ts\"",

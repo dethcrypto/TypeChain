@@ -4,7 +4,6 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "prepublishOnly": "yarn lint && yarn test && yarn build",
     "format": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --check \"./**/*.ts\"",
     "format:fix": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --write \"./**/*.ts\"",
     "lint": "eslint --ext .ts test",

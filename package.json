@@ -24,7 +24,9 @@
     "test": "yarn compile-contracts && wsrun -mse -c test",
     "test:fix": "yarn lint:fix && yarn test && yarn format:fix && yarn typecheck",
     "no-git-changes": "./scripts/no-git-changes.sh",
-    "check-examples": "./scripts/check-examples.sh"
+    "check-examples": "./scripts/check-examples.sh",
+    "prerelease": "yarn lint && yarn format && yarn test && yarn typecheck",
+    "release": "yarn build && yarn changeset publish"
   },
   "devDependencies": {
     "earljs": "^0.1.0",
