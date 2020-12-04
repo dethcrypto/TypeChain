@@ -25,4 +25,3 @@ x(overrides?: CallOverrides): Promise<[BigNumber]>;
 ```
 
 The difference is that now you can use standard array destructuring while working with output types.
-There should be no changes needed to existing code.
