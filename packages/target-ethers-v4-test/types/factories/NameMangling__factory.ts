@@ -19,6 +19,19 @@ export class NameMangling__factory {
 const _abi = [
   {
     inputs: [],
+    name: "provider",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "works",
     outputs: [
       {

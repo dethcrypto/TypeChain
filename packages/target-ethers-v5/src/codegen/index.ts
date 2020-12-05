@@ -10,6 +10,7 @@ import {
 import { generateInputType, generateInputTypes } from './types'
 import { codegenFunctions } from './functions'
 import { FACTORY_POSTFIX } from '../common'
+import { reservedKeywords } from './reserved-keywords'
 
 export function codegenContractTypings(contract: Contract) {
   const contractImports: string[] = ['Contract', 'ContractTransaction']
@@ -77,7 +78,10 @@ export function codegenContractTypings(contract: Contract) {
         .join('\n')}
     };
 
-    ${values(contract.functions).map(codegenFunctions.bind(null, {})).join('\n')}
+    ${values(contract.functions)
+      .filter((f) => !reservedKeywords.has(f[0].name))
+      .map(codegenFunctions.bind(null, {}))
+      .join('\n')}
 
     callStatic: {
       ${values(contract.functions)
