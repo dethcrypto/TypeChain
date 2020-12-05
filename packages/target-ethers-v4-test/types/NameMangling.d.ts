@@ -13,6 +13,8 @@ import {
 
 interface NameManglingInterface extends Interface {
   functions: {
+    provider: TypedFunctionDescription<{ encode([]: []): string }>;
+
     works: TypedFunctionDescription<{ encode([]: []): string }>;
   };
 
@@ -36,6 +38,10 @@ export class NameMangling extends Contract {
   interface: NameManglingInterface;
 
   functions: {
+    provider(overrides?: TransactionOverrides): Promise<boolean>;
+
+    "provider()"(overrides?: TransactionOverrides): Promise<boolean>;
+
     works(overrides?: TransactionOverrides): Promise<boolean>;
 
     "works()"(overrides?: TransactionOverrides): Promise<boolean>;
@@ -48,6 +54,10 @@ export class NameMangling extends Contract {
   filters: {};
 
   estimate: {
+    provider(overrides?: TransactionOverrides): Promise<BigNumber>;
+
+    "provider()"(overrides?: TransactionOverrides): Promise<BigNumber>;
+
     works(overrides?: TransactionOverrides): Promise<BigNumber>;
 
     "works()"(overrides?: TransactionOverrides): Promise<BigNumber>;

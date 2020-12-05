@@ -29,6 +29,8 @@ export interface NameMangling extends BaseContract {
   ): NameMangling;
   clone(): NameMangling;
   methods: {
+    provider(): NonPayableTransactionObject<boolean>;
+
     works(): NonPayableTransactionObject<boolean>;
   };
   events: {

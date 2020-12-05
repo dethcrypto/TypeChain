@@ -13,4 +13,6 @@ type AllEvents = never;
 
 export interface NAME12manglingInstance extends Truffle.ContractInstance {
   works(txDetails?: Truffle.TransactionDetails): Promise<boolean>;
+
+  provider(txDetails?: Truffle.TransactionDetails): Promise<boolean>;
 }

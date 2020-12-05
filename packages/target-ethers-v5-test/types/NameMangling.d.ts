@@ -21,11 +21,14 @@ import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 
 interface NameManglingInterface extends ethers.utils.Interface {
   functions: {
+    "provider()": FunctionFragment;
     "works()": FunctionFragment;
   };
 
+  encodeFunctionData(functionFragment: "provider", values?: undefined): string;
   encodeFunctionData(functionFragment: "works", values?: undefined): string;
 
+  decodeFunctionResult(functionFragment: "provider", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "works", data: BytesLike): Result;
 
   events: {};
@@ -45,6 +48,10 @@ export class NameMangling extends Contract {
   interface: NameManglingInterface;
 
   functions: {
+    provider(overrides?: CallOverrides): Promise<[boolean]>;
+
+    "provider()"(overrides?: CallOverrides): Promise<[boolean]>;
+
     works(overrides?: CallOverrides): Promise<[boolean]>;
 
     "works()"(overrides?: CallOverrides): Promise<[boolean]>;
@@ -55,6 +62,10 @@ export class NameMangling extends Contract {
   "works()"(overrides?: CallOverrides): Promise<boolean>;
 
   callStatic: {
+    provider(overrides?: CallOverrides): Promise<boolean>;
+
+    "provider()"(overrides?: CallOverrides): Promise<boolean>;
+
     works(overrides?: CallOverrides): Promise<boolean>;
 
     "works()"(overrides?: CallOverrides): Promise<boolean>;
@@ -63,12 +74,20 @@ export class NameMangling extends Contract {
   filters: {};
 
   estimateGas: {
+    provider(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "provider()"(overrides?: CallOverrides): Promise<BigNumber>;
+
     works(overrides?: CallOverrides): Promise<BigNumber>;
 
     "works()"(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
+    provider(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "provider()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     works(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     "works()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
