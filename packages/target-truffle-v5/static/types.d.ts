@@ -95,8 +95,8 @@ declare namespace Truffle {
     contract: any
     transactionHash: string
     abi: AbiItem[]
-    allEvents(params: EventOptions): EventEmitter
-    send(value: BN | string, txParams: TransactionConfig): PromiEvent<TransactionReceipt | TransactionRevertInstructionError>
+    allEvents(params?: EventOptions): EventEmitter
+    send(value: BN | string, txParams?: TransactionConfig): PromiEvent<TransactionReceipt | TransactionRevertInstructionError>
     sendTransaction(transactionConfig: TransactionConfig): PromiEvent<TransactionReceipt | TransactionRevertInstructionError>
   }
 
