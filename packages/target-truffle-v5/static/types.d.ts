@@ -6,7 +6,7 @@
 
 declare type BN = import('bn.js')
 declare type Web3 = import('web3').default
-declare type ABIItem = import("web3-utils").ABIItem
+declare type AbiItem = import("web3-utils").AbiItem
 declare type EventEmitter = import("events").EventEmitter
 declare type TransactionConfig = import("web3-eth").TransactionConfig
 declare type PromiEvent = import("web3-core").PromiEvent
@@ -94,10 +94,10 @@ declare namespace Truffle {
     address: string
     contract: any
     transactionHash: string
-    abi: ABIItem[]
+    abi: AbiItem[]
     allEvents(params: EventOptions): EventEmitter
     send(value: BN | string, txParams: TransactionConfig): PromiEvent<TransactionReceipt | TransactionRevertInstructionError>
-    sendTransaction(TransactionConfig: TransactionConfig): PromiEvent<TransactionReceipt | TransactionRevertInstructionError>
+    sendTransaction(transactionConfig: TransactionConfig): PromiEvent<TransactionReceipt | TransactionRevertInstructionError>
   }
 
   interface ContractNew<ARGs extends any[]> {
