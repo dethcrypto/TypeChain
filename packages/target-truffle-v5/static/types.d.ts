@@ -6,6 +6,12 @@
 
 declare type BN = import('bn.js')
 declare type Web3 = import('web3').default
+declare type ABIItem = import("web3-utils").ABIItem
+declare type EventEmitter = import("events").EventEmitter
+declare type TransactionConfig = import("web3-eth").TransactionConfig
+declare type PromiEvent = import("web3-core").PromiEvent
+declare type TransactionReceipt = import("web3-core").TransactionReceipt
+declare type TransactionRevertInstructionError = import("web3-core-helpers").TransactionRevertInstructionError
 
 declare const assert: Chai.AssertStatic
 declare const expect: Chai.ExpectStatic
@@ -78,10 +84,20 @@ declare namespace Truffle {
     contractName: string
   }
 
+  interface EventOptions {
+    filter?: object;
+    fromBlock?: BlockType;
+    topics?: string[];
+  }
+
   interface ContractInstance {
     address: string
     contract: any
     transactionHash: string
+    abi: ABIItem[]
+    allEvents(params: EventOptions): EventEmitter
+    send(value: BN | string, txParams: TransactionConfig): PromiEvent<TransactionReceipt | TransactionRevertInstructionError>
+    sendTransaction(TransactionConfig: TransactionConfig): PromiEvent<TransactionReceipt | TransactionRevertInstructionError>
   }
 
   interface ContractNew<ARGs extends any[]> {
