@@ -4,14 +4,14 @@
 /// <reference types="chai" />
 /// <reference types="mocha" />
 
-declare type EventEmitter = import("events").EventEmitter
+declare type EventEmitter = import('events').EventEmitter
 
 declare type BN = import('bn.js')
 declare type Web3 = import('web3').default
-declare type AbiItem = import("web3-utils").AbiItem
-declare type TransactionConfig = import("web3-core").TransactionConfig
-declare type PromiEvent<T> = import("web3-core").PromiEvent<T>
-declare type TransactionReceipt = import("web3-core").TransactionReceipt
+declare type AbiItem = import('web3-utils').AbiItem
+declare type TransactionConfig = import('web3-core').TransactionConfig
+declare type PromiEvent<T> = import('web3-core').PromiEvent<T>
+declare type TransactionReceipt = import('web3-core').TransactionReceipt
 
 declare const assert: Chai.AssertStatic
 declare const expect: Chai.ExpectStatic
@@ -85,9 +85,9 @@ declare namespace Truffle {
   }
 
   interface EventOptions {
-    filter?: object;
-    fromBlock?: BlockType;
-    topics?: string[];
+    filter?: object
+    fromBlock?: BlockType
+    topics?: string[]
   }
 
   interface ContractInstance {
@@ -96,7 +96,7 @@ declare namespace Truffle {
     transactionHash: string
     abi: AbiItem[]
     allEvents(params?: EventOptions): EventEmitter
-    send(value: Required<TransactionConfig>["value"], txParams?: TransactionConfig): PromiEvent<TransactionReceipt>
+    send(value: Required<TransactionConfig>['value'], txParams?: TransactionConfig): PromiEvent<TransactionReceipt>
     sendTransaction(transactionConfig: TransactionConfig): PromiEvent<TransactionReceipt>
   }
 
