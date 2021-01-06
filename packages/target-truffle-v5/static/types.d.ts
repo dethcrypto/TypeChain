@@ -86,9 +86,9 @@ declare namespace Truffle {
   }
 
   interface EventOptions {
-    filter?: EventOptions["filter"]
-    fromBlock?: EventOptions["fromBlock"]
-    topics?: EventOptions["topics"]
+    filter?: EventOptions['filter']
+    fromBlock?: EventOptions['fromBlock']
+    topics?: EventOptions['topics']
   }
 
   interface ContractInstance {
