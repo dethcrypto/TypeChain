@@ -30,8 +30,8 @@
     "test:fix": "yarn lint:fix && yarn format:fix && yarn test && yarn typecheck"
   },
   "peerDependencies": {
-    "truffle": "^5.0.0",
-    "typechain": "^4.0.0"
+    "typechain": "^4.0.0",
+    "truffle": "^5.0.0"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.7",
