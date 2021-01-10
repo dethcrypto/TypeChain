@@ -12,7 +12,7 @@ declare type AbiItem = import('web3-utils').AbiItem
 declare type TransactionConfig = import('web3-core').TransactionConfig
 declare type PromiEvent<T> = import('web3-core').PromiEvent<T>
 declare type TransactionReceipt = import('web3-core').TransactionReceipt
-declare type EventOptions = import('web3-core').EventOptions
+declare type Web3EventOptions = import('web3-eth-contract').EventOptions
 
 declare const assert: Chai.AssertStatic
 declare const expect: Chai.ExpectStatic
@@ -86,9 +86,9 @@ declare namespace Truffle {
   }
 
   interface EventOptions {
-    filter?: EventOptions['filter']
-    fromBlock?: EventOptions['fromBlock']
-    topics?: EventOptions['topics']
+    filter?: Web3EventOptions['filter']
+    fromBlock?: Web3EventOptions['fromBlock']
+    topics?: Web3EventOptions['topics']
   }
 
   interface ContractInstance {
