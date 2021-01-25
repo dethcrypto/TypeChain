@@ -14,7 +14,7 @@ export function getIndexedSignatureForEvent(event: EventDeclaration): string {
   return `${event.name}(${indexedType.map((e) => e.type.originalType).join(',')})`
 }
 
-export function getArgumentSignature(argument: AbiParameter): string {
+export function getArgumentForSignature(argument: AbiParameter): string {
   if (argument.type.originalType !== 'tuple') return argument.type.originalType
   return `(${(argument.type as TupleType).components.map((i) => getArgumentSignature(i)).join(',')})`
 }
