@@ -7,7 +7,7 @@ import {
   EventDeclaration,
   FunctionDeclaration,
 } from 'typechain'
-import { generateInputType, generateInputTypes } from './types'
+import { generateInputType, generateInputTypes, generateOutputTypes } from './types'
 import { codegenFunctions } from './functions'
 import { FACTORY_POSTFIX } from '../common'
 import { reservedKeywords } from './reserved-keywords'
@@ -27,6 +27,7 @@ export function codegenContractTypings(contract: Contract) {
   import { BytesLike } from '@ethersproject/bytes';
   import { Listener, Provider } from '@ethersproject/providers';
   import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
+  import { TypedEventFilter, TypedEvent } from './commons';
 
   interface ${contract.name}Interface extends ethers.utils.Interface {
     functions: {
@@ -69,6 +70,12 @@ export function codegenContractTypings(contract: Contract) {
     addListener(eventName: EventFilter | string, listener: Listener): this;
     removeAllListeners(eventName: EventFilter | string): this;
     removeListener(eventName: any, listener: Listener): this;
+
+    queryFilter<T>(
+      event: TypedEventFilter<T>, 
+      fromBlockOrBlockhash?: string | number | undefined, 
+      toBlock?: string | number | undefined
+    ): Promise<TypedEvent<T>>;
 
     interface: ${contract.name}Interface;
 
@@ -175,7 +182,7 @@ export function codegenAbstractContractFactory(contract: Contract, abi: any): st
 
   export class ${contract.name}${FACTORY_POSTFIX} {
     static connect(address: string, signerOrProvider: Signer | Provider): ${contract.name} {
-      return new Contract(address, _abi, signerOrProvider) as ${contract.name};
+      return new Contract(address, _abi, signerOrProvider) as unknown as ${contract.name};
     }
   }
 
@@ -260,7 +267,10 @@ function generateParamNames(params: Array<AbiParameter | EventArgDeclaration>): 
 
 function generateEvents(event: EventDeclaration) {
   return `
-  ${event.name}(${generateEventTypes(event.inputs)}): EventFilter;
+  ${event.name}(${generateEventTypes(event.inputs)}): TypedEventFilter<${generateOutputTypes(
+    true,
+    event.inputs.map((input, i) => ({ name: input.name ?? 'arg' + i, type: input.type })),
+  )}>;
 `
 }
 
