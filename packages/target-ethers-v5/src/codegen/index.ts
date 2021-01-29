@@ -83,7 +83,7 @@ export function codegenContractTypings(contract: Contract) {
       event: TypedEventFilter<T, G>, 
       fromBlockOrBlockhash?: string | number | undefined, 
       toBlock?: string | number | undefined
-    ): Promise<TypedEvent<T & G>>;
+    ): Promise<Array<TypedEvent<T & G>>>;
 
     interface: ${contract.name}Interface;
 
@@ -190,7 +190,7 @@ export function codegenAbstractContractFactory(contract: Contract, abi: any): st
 
   export class ${contract.name}${FACTORY_POSTFIX} {
     static connect(address: string, signerOrProvider: Signer | Provider): ${contract.name} {
-      return new Contract(address, _abi, signerOrProvider) as unknown as ${contract.name};
+      return new Contract(address, _abi, signerOrProvider) as ${contract.name};
     }
   }
 
