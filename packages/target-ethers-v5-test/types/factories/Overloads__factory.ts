@@ -12,7 +12,11 @@ export class Overloads__factory {
     address: string,
     signerOrProvider: Signer | Provider
   ): Overloads {
-    return new Contract(address, _abi, signerOrProvider) as Overloads;
+    return (new Contract(
+      address,
+      _abi,
+      signerOrProvider
+    ) as unknown) as Overloads;
   }
 }
 

@@ -9,7 +9,7 @@ import type { Events } from "../Events";
 
 export class Events__factory {
   static connect(address: string, signerOrProvider: Signer | Provider): Events {
-    return new Contract(address, _abi, signerOrProvider) as Events;
+    return (new Contract(address, _abi, signerOrProvider) as unknown) as Events;
   }
 }
 

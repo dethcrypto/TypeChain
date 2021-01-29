@@ -12,7 +12,11 @@ export class DataTypesPure__factory {
     address: string,
     signerOrProvider: Signer | Provider
   ): DataTypesPure {
-    return new Contract(address, _abi, signerOrProvider) as DataTypesPure;
+    return (new Contract(
+      address,
+      _abi,
+      signerOrProvider
+    ) as unknown) as DataTypesPure;
   }
 }
 
