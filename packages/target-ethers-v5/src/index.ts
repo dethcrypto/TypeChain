@@ -138,11 +138,13 @@ export default class Ethers extends TsGeneratorPlugin {
     import { EventFilter, Event } from 'ethers'
     import { Result } from '@ethersproject/abi'
 
-    export interface TypedEventFilter<T> extends EventFilter {}
+    export interface TypedEventFilter<T, G> extends EventFilter {}
 
     export interface TypedEvent<T extends Result> extends Event {
       args: T;
-    }`
+    }
+    
+    export type TypedListener<T extends Array<any>, G> = (...listenerArg: [...T, TypedEventFilter<T, G>]) => void;`
   }
 
   private genReExports(): string {
