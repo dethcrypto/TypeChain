@@ -72,7 +72,7 @@ export class Overloads extends Contract {
     event: TypedEventFilter<T, G>,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<TypedEvent<T & G>>;
+  ): Promise<Array<TypedEvent<T & G>>>;
 
   interface: OverloadsInterface;
 

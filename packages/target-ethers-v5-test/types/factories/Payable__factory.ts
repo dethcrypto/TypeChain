@@ -12,11 +12,7 @@ export class Payable__factory {
     address: string,
     signerOrProvider: Signer | Provider
   ): Payable {
-    return (new Contract(
-      address,
-      _abi,
-      signerOrProvider
-    ) as unknown) as Payable;
+    return new Contract(address, _abi, signerOrProvider) as Payable;
   }
 }
 

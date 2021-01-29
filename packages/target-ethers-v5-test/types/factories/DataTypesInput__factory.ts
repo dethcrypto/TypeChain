@@ -12,11 +12,7 @@ export class DataTypesInput__factory {
     address: string,
     signerOrProvider: Signer | Provider
   ): DataTypesInput {
-    return (new Contract(
-      address,
-      _abi,
-      signerOrProvider
-    ) as unknown) as DataTypesInput;
+    return new Contract(address, _abi, signerOrProvider) as DataTypesInput;
   }
 }
 
