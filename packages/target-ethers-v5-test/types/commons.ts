@@ -5,12 +5,19 @@
 import { EventFilter, Event } from "ethers";
 import { Result } from "@ethersproject/abi";
 
-export interface TypedEventFilter<T, G> extends EventFilter {}
+export interface TypedEventFilter<EventArgsArray, EventArgsObject>
+  extends EventFilter {}
 
-export interface TypedEvent<T extends Result> extends Event {
-  args: T;
+export interface TypedEvent<EventArgs extends Result> extends Event {
+  args: EventArgs;
 }
 
-export type TypedListener<T extends Array<any>, G> = (
-  ...listenerArg: [...T, TypedEventFilter<T, G>]
+export type TypedListener<
+  EventArgsArray extends Array<any>,
+  EventArgsObject
+> = (
+  ...listenerArg: [
+    ...EventArgsArray,
+    TypedEventFilter<EventArgsArray, EventArgsObject>
+  ]
 ) => void;
