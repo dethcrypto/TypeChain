@@ -72,18 +72,18 @@ export function codegenContractTypings(contract: Contract) {
     removeListener(eventName: string, listener: Listener): this;
     removeAllListeners(eventName?: string): this;
 
-    listeners<T, G>(eventFilter?: TypedEventFilter<T, G>): Array<TypedListener<T, G>>;
-    off<T, G>(eventFilter: TypedEventFilter<T, G>, listener: TypedListener<T, G>): this;
-    on<T, G>(eventFilter: TypedEventFilter<T, G>, listener: TypedListener<T, G>): this;
-    once<T, G>(eventFilter: TypedEventFilter<T, G>, listener: TypedListener<T, G>): this;
-    removeListener<T, G>(eventFilter: TypedEventFilter<T, G>, listener: TypedListener<T, G>): this;
-    removeAllListeners<T, G>(eventFilter: TypedEventFilter<T, G>): this;
+    listeners<EventArgsArray extends Array<any>, EventArgsObject>(eventFilter?: TypedEventFilter<EventArgsArray, EventArgsObject>): Array<TypedListener<EventArgsArray, EventArgsObject>>;
+    off<EventArgsArray extends Array<any>, EventArgsObject>(eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>, listener: TypedListener<EventArgsArray, EventArgsObject>): this;
+    on<EventArgsArray extends Array<any>, EventArgsObject>(eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>, listener: TypedListener<EventArgsArray, EventArgsObject>): this;
+    once<EventArgsArray extends Array<any>, EventArgsObject>(eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>, listener: TypedListener<EventArgsArray, EventArgsObject>): this;
+    removeListener<EventArgsArray extends Array<any>, EventArgsObject>(eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>, listener: TypedListener<EventArgsArray, EventArgsObject>): this;
+    removeAllListeners<EventArgsArray extends Array<any>, EventArgsObject>(eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>): this;
 
-    queryFilter<T, G>(
-      event: TypedEventFilter<T, G>, 
+    queryFilter<EventArgsArray extends Array<any>, EventArgsObject>(
+      event: TypedEventFilter<EventArgsArray, EventArgsObject>, 
       fromBlockOrBlockhash?: string | number | undefined, 
       toBlock?: string | number | undefined
-    ): Promise<Array<TypedEvent<T & G>>>;
+    ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
     interface: ${contract.name}Interface;
 
