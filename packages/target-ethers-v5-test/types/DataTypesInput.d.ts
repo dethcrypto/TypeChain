@@ -235,7 +235,7 @@ export class DataTypesInput extends Contract {
       [[BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }]
     >;
 
-    "input_struct(tuple)"(
+    "input_struct((uint256,uint256))"(
       input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
       overrides?: CallOverrides
     ): Promise<
@@ -351,7 +351,7 @@ export class DataTypesInput extends Contract {
     [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
   >;
 
-  "input_struct(tuple)"(
+  "input_struct((uint256,uint256))"(
     input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
     overrides?: CallOverrides
   ): Promise<
@@ -470,7 +470,7 @@ export class DataTypesInput extends Contract {
       [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
     >;
 
-    "input_struct(tuple)"(
+    "input_struct((uint256,uint256))"(
       input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
       overrides?: CallOverrides
     ): Promise<
@@ -602,7 +602,7 @@ export class DataTypesInput extends Contract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    "input_struct(tuple)"(
+    "input_struct((uint256,uint256))"(
       input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -736,7 +736,7 @@ export class DataTypesInput extends Contract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    "input_struct(tuple)"(
+    "input_struct((uint256,uint256))"(
       input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;

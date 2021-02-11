@@ -5,6 +5,7 @@ import {
   getIndexedSignatureForEvent,
   getSignatureForFn,
   FunctionDeclaration,
+  EvmSymbol,
 } from '../../src'
 import { expect } from 'earljs'
 
@@ -57,5 +58,37 @@ describe('utils >  signatures > getSignatureForFn', () => {
     const signature = getSignatureForFn(fn1)
 
     expect(signature).toEqual('transfer(address,int256)')
+  })
+
+  it('tuple', () => {
+    const struct: EvmSymbol[] = [
+      { name: 'number', type: { type: 'uinteger', originalType: 'uint256', bits: 256 } },
+      {
+        name: 'inner',
+        type: {
+          type: 'tuple',
+          originalType: 'tuple',
+          components: [
+            { name: 'bool', type: { type: 'boolean', originalType: 'boolean' } },
+            {
+              name: 'addresses',
+              type: {
+                type: 'array',
+                originalType: 'address[]',
+                itemType: { type: 'address', originalType: 'address' },
+              },
+            },
+          ],
+        },
+      },
+    ]
+    const fn: FunctionDeclaration = {
+      name: 'add',
+      inputs: [{ name: 'arg1', type: { type: 'tuple', originalType: 'tuple', components: struct } }],
+      outputs: [],
+      stateMutability: 'pure',
+    }
+    const signature = getSignatureForFn(fn)
+    expect(signature).toEqual('add((uint256,(boolean,address[])))')
   })
 })
