@@ -18,6 +18,6 @@ export type TypedListener<
 > = (
   ...listenerArg: [
     ...EventArgsArray,
-    TypedEventFilter<EventArgsArray, EventArgsObject>
+    TypedEvent<EventArgsArray & EventArgsObject>
   ]
 ) => void;

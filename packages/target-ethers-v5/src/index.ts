@@ -144,7 +144,7 @@ export default class Ethers extends TsGeneratorPlugin {
       args: EventArgs;
     }
     
-    export type TypedListener<EventArgsArray extends Array<any>, EventArgsObject> = (...listenerArg: [...EventArgsArray, TypedEventFilter<EventArgsArray, EventArgsObject>]) => void;`
+    export type TypedListener<EventArgsArray extends Array<any>, EventArgsObject> = (...listenerArg: [...EventArgsArray, TypedEvent<EventArgsArray & EventArgsObject>]) => void;`
   }
 
   private genReExports(): string {
