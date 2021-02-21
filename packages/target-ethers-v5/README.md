@@ -18,7 +18,7 @@
   </p>
 </p>
 
-This package requires TypeScript >= 3.8. If you need support for earlier TS versions check out: 1.0 version of this
+This package requires TypeScript >= 4.0. If you need support for earlier TS versions check out: 1.0 version of this
 package.
 
 ## [TypeChain readme](https://github.com/ethereum-ts/TypeChain)

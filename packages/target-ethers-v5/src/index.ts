@@ -122,11 +122,29 @@ export default class Ethers extends TsGeneratorPlugin {
     const allFiles = [
       ...abstractFactoryFiles,
       {
+        path: join(this.outDirAbs, 'commons.ts'),
+        contents: this.genCommons(),
+      },
+      {
         path: join(this.outDirAbs, 'index.ts'),
         contents: this.genReExports(),
       },
     ]
     return allFiles
+  }
+
+  private genCommons(): string {
+    return `
+    import { EventFilter, Event } from 'ethers'
+    import { Result } from '@ethersproject/abi'
+
+    export interface TypedEventFilter<EventArgsArray, EventArgsObject> extends EventFilter {}
+
+    export interface TypedEvent<EventArgs extends Result> extends Event {
+      args: EventArgs;
+    }
+    
+    export type TypedListener<EventArgsArray extends Array<any>, EventArgsObject> = (...listenerArg: [...EventArgsArray, TypedEvent<EventArgsArray & EventArgsObject>]) => void;`
   }
 
   private genReExports(): string {
