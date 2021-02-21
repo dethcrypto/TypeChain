@@ -71,7 +71,7 @@ export function codegenContractTypings(contract: Contract) {
     once<EventArgsArray extends Array<any>, EventArgsObject>(eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>, listener: TypedListener<EventArgsArray, EventArgsObject>): this;
     removeListener<EventArgsArray extends Array<any>, EventArgsObject>(eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>, listener: TypedListener<EventArgsArray, EventArgsObject>): this;
     removeAllListeners<EventArgsArray extends Array<any>, EventArgsObject>(eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>): this;
-    
+
     listeners(eventName?: string): Array<Listener>;
     off(eventName: string, listener: Listener): this;
     on(eventName: string, listener: Listener): this;
@@ -80,8 +80,8 @@ export function codegenContractTypings(contract: Contract) {
     removeAllListeners(eventName?: string): this;
 
     queryFilter<EventArgsArray extends Array<any>, EventArgsObject>(
-      event: TypedEventFilter<EventArgsArray, EventArgsObject>, 
-      fromBlockOrBlockhash?: string | number | undefined, 
+      event: TypedEventFilter<EventArgsArray, EventArgsObject>,
+      fromBlockOrBlockhash?: string | number | undefined,
       toBlock?: string | number | undefined
     ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
@@ -277,7 +277,7 @@ function generateEvents(event: EventDeclaration) {
   return `
   ${event.name}(${generateEventTypes(event.inputs)}): TypedEventFilter<${generateOutputTypes(
     true,
-    event.inputs.map((input, i) => ({ name: input.name ?? 'arg' + i, type: input.type })),
+    event.inputs.map((input, i) => ({ name: input.name ?? `arg${i.toString()}`, type: input.type })),
   ).replace(' &', ',')}>;
 `
 }

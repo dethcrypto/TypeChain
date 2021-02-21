@@ -3,15 +3,14 @@
     "es6": true
   },
   "extends": ["typestrict"],
-  "plugins": [
-    "no-only-tests"
-  ],
+  "plugins": ["no-only-tests"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": "./tsconfig.json",
     "sourceType": "module"
   },
   "rules": {
+    "@typescript-eslint/no-unused-vars": ["off"],
     "@typescript-eslint/no-use-before-define": "off",
     "@typescript-eslint/no-useless-constructor": "error",
     "accessor-pairs": "error",
@@ -23,10 +22,7 @@
         "null": "ignore"
       }
     ],
-    "handle-callback-err": [
-      "error",
-      "^(err|error)$"
-    ],
+    "handle-callback-err": ["error", "^(err|error)$"],
     "new-parens": "error",
     "no-array-constructor": "error",
     "no-async-promise-executor": "error",
@@ -54,19 +50,13 @@
     "no-extend-native": "error",
     "no-extra-bind": "error",
     "no-extra-boolean-cast": "error",
-    "no-extra-parens": [
-      "error",
-      "functions"
-    ],
+    "no-extra-parens": ["error", "functions"],
     "no-fallthrough": "error",
     "no-floating-decimal": "error",
     "no-func-assign": "error",
     "no-global-assign": "error",
     "no-implied-eval": "error",
-    "no-inner-declarations": [
-      "error",
-      "functions"
-    ],
+    "no-inner-declarations": ["error", "functions"],
     "no-invalid-regexp": "error",
     "no-iterator": "error",
     "no-label-var": "error",
@@ -84,24 +74,9 @@
       {
         "allowSamePrecedence": true,
         "groups": [
-          [
-            "==",
-            "!=",
-            "===",
-            "!==",
-            ">",
-            ">=",
-            "<",
-            "<="
-          ],
-          [
-            "&&",
-            "||"
-          ],
-          [
-            "in",
-            "instanceof"
-          ]
+          ["==", "!=", "===", "!==", ">", ">=", "<", "<="],
+          ["&&", "||"],
+          ["in", "instanceof"]
         ]
       }
     ],
@@ -133,10 +108,7 @@
       }
     ],
     "no-regex-spaces": "error",
-    "no-return-assign": [
-      "error",
-      "except-parens"
-    ],
+    "no-return-assign": ["error", "except-parens"],
     "no-self-assign": "error",
     "no-self-compare": "error",
     "no-sequences": "error",
@@ -156,17 +128,8 @@
     "no-unreachable": "error",
     "no-unsafe-finally": "error",
     "no-unsafe-negation": "error",
-    "no-restricted-imports": [
-      "error"
-    ],
-    "no-use-before-define": [
-      "error",
-      {
-        "classes": false,
-        "functions": false,
-        "variables": false
-      }
-    ],
+    "no-restricted-imports": ["error"],
+    "no-use-before-define": ["off"],
     "no-useless-call": "error",
     "no-useless-catch": "error",
     "no-useless-computed-key": "error",
@@ -174,10 +137,7 @@
     "no-useless-rename": "error",
     "no-useless-return": "error",
     "no-with": "error",
-    "object-curly-spacing": [
-      "error",
-      "always"
-    ],
+    "object-curly-spacing": ["error", "always"],
     "object-property-newline": [
       "error",
       {
@@ -216,10 +176,7 @@
     ],
     "prefer-promise-reject-errors": "error",
     "symbol-description": "error",
-    "unicode-bom": [
-      "error",
-      "never"
-    ],
+    "unicode-bom": ["error", "never"],
     "use-isnan": "error",
     "valid-typeof": [
       "error",
@@ -234,17 +191,12 @@
         "functionPrototypeMethods": true
       }
     ],
-    "yoda": [
-      "error",
-      "never"
-    ],
+    "yoda": ["error", "never"],
     "no-only-tests/no-only-tests": "error"
   },
   "overrides": [
     {
-      "files": [
-        "test/**/*.{js,ts,tsx}"
-      ],
+      "files": ["test/**/*.{js,ts,tsx}"],
       "rules": {
         "@typescript-eslint/no-non-null-assertion": "off"
       }

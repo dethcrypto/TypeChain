@@ -77,12 +77,12 @@ describe('DataTypesInput', () => {
   // NOTE: typesAssert is too simple to tests type compatibility here so we can't use it
   it('generates correct types for tuples', () => {
     type ViewTupleType = Awaited<ReturnType<typeof contract.input_tuple>>
-    type t1 = AssertTrue<IsExact<ViewTupleType, [BigNumber, BigNumber]>>
+    type _t1 = AssertTrue<IsExact<ViewTupleType, [BigNumber, BigNumber]>>
   })
 
   it('generates correct types for structs', () => {
     type ViewStructType = Awaited<ReturnType<typeof contract.input_struct>>
-    type t1 = AssertTrue<
+    type _t1 = AssertTrue<
       IsExact<ViewStructType, [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }>
     >
   })
