@@ -47,7 +47,7 @@ export interface PayableTx extends NonPayableTx {
 
 export interface NonPayableTransactionObject<T> {
   arguments: any[];
-  call(tx?: NonPayableTx): Promise<T>;
+  call(tx?: NonPayableTx, block?: BlockType): Promise<T>;
   send(tx?: NonPayableTx): PromiEvent<TransactionReceipt>;
   estimateGas(tx?: NonPayableTx): Promise<number>;
   encodeABI(): string;
@@ -55,11 +55,17 @@ export interface NonPayableTransactionObject<T> {
 
 export interface PayableTransactionObject<T> {
   arguments: any[];
-  call(tx?: PayableTx): Promise<T>;
+  call(tx?: PayableTx, block?: BlockType): Promise<T>;
   send(tx?: PayableTx): PromiEvent<TransactionReceipt>;
   estimateGas(tx?: PayableTx): Promise<number>;
   encodeABI(): string;
 }
 
-export type BlockType = "latest" | "pending" | "genesis" | number;
+export type BlockType =
+  | "latest"
+  | "pending"
+  | "genesis"
+  | "earliest"
+  | number
+  | BN;
 export type BaseContract = Omit<Contract, "clone" | "once">;
