@@ -61,7 +61,7 @@ describe('DataTypesInput', () => {
 
     typedAssert(await contract.methods.input_struct(['1', '2']).call(), ['1', '2'])
     typedAssert(await contract.methods.input_struct([1, 2]).call(), ['1', '2'])
-    // TODO this fails without the .toString() due to an issue in web3 abi coder handling of inner BN:
+    // TODO this fails due to an issue in web3 abi coder handling of inner BN:
     // typedAssert(await contract.methods.input_struct([bn('1'), bn('2')]).call(), ['1', '2'])
 
     typedAssert(await contract.methods.input_enum('1').call(), '1')
