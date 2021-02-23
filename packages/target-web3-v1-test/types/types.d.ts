@@ -32,17 +32,17 @@ export interface ContractEventEmitter<T> extends EventEmitter {
 }
 
 export interface NonPayableTx {
-  nonce?: string | number;
-  chainId?: string | number;
+  nonce?: string | number | BN;
+  chainId?: string | number | BN;
   from?: string;
   to?: string;
   data?: string;
-  gas?: string | number;
-  gasPrice?: string | number;
+  gas?: string | number | BN;
+  gasPrice?: string | number | BN;
 }
 
 export interface PayableTx extends NonPayableTx {
-  value?: string | number;
+  value?: string | number | BN;
 }
 
 export interface NonPayableTransactionObject<T> {
