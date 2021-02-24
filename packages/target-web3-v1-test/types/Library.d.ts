@@ -29,7 +29,7 @@ export interface Library extends BaseContract {
   ): Library;
   clone(): Library;
   methods: {
-    other(b: number | string): NonPayableTransactionObject<string>;
+    other(b: number | string | BN): NonPayableTransactionObject<string>;
   };
   events: {
     allEvents(options?: EventOptions, cb?: Callback<EventLog>): EventEmitter;

@@ -30,12 +30,12 @@ export interface Overloads extends BaseContract {
   clone(): Overloads;
   methods: {
     "overload1(int256)"(
-      input1: number | string
+      input1: number | string | BN
     ): NonPayableTransactionObject<string>;
 
     "overload1(uint256,uint256)"(
-      input1: number | string,
-      input2: number | string
+      input1: number | string | BN,
+      input2: number | string | BN
     ): NonPayableTransactionObject<string>;
   };
   events: {

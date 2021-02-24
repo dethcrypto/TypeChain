@@ -3,6 +3,7 @@ import { typedAssert, q18 } from 'test-utils'
 
 import { createNewBlockchain, deployContract } from './common'
 import { DataTypesInput } from '../types/DataTypesInput'
+import BN from 'bn.js'
 
 describe('DataTypesInput', () => {
   let contract!: DataTypesInput
@@ -13,18 +14,24 @@ describe('DataTypesInput', () => {
     contract = await deployContract<DataTypesInput>(web3, accounts, 'DataTypesInput')
   })
 
+  const bn = (s: string) => new BN(s)
+
   it('works', async () => {
     typedAssert(await contract.methods.input_uint8('42').call(), '42')
     typedAssert(await contract.methods.input_uint8(42).call(), '42')
+    typedAssert(await contract.methods.input_uint8(bn('42')).call(), '42')
 
     typedAssert(await contract.methods.input_uint256(q18(1)).call(), q18(1))
     typedAssert(await contract.methods.input_uint256(1).call(), '1')
+    typedAssert(await contract.methods.input_uint256(bn(q18(1))).call(), q18(1))
 
     typedAssert(await contract.methods.input_int8('42').call(), '42')
     typedAssert(await contract.methods.input_int8(42).call(), '42')
+    typedAssert(await contract.methods.input_int8(bn('42')).call(), '42')
 
     typedAssert(await contract.methods.input_int256(q18(1)).call(), q18(1))
     typedAssert(await contract.methods.input_int256(1).call(), '1')
+    typedAssert(await contract.methods.input_int256(bn(q18(1))).call(), q18(1))
 
     typedAssert(await contract.methods.input_bool(true).call(), true)
 
@@ -43,13 +50,24 @@ describe('DataTypesInput', () => {
     typedAssert(await contract.methods.input_stat_array(['1', '2', '3']).call(), ['1', '2', '3'])
     typedAssert(await contract.methods.input_stat_array([1, 2, 3]).call(), ['1', '2', '3'])
 
+    // TODO this fails due to an issue in web3 abi coder handling of inner BN (see https://github.com/ChainSafe/web3.js/issues/3920)
+    // typedAssert(
+    //   await contract.methods.input_stat_array([bn('1'), bn('2'), bn('3')]).call(),
+    //   ['1', '2', '3'],
+    // )
+
     typedAssert(await contract.methods.input_tuple('1', '2').call(), { 0: '1', 1: '2' })
     typedAssert(await contract.methods.input_tuple(1, 2).call(), { 0: '1', 1: '2' })
+    typedAssert(await contract.methods.input_tuple(bn('1'), bn('2')).call(), { 0: '1', 1: '2' })
 
     typedAssert(await contract.methods.input_struct(['1', '2']).call(), ['1', '2'])
     typedAssert(await contract.methods.input_struct([1, 2]).call(), ['1', '2'])
 
+    // TODO this fails due to an issue in web3 abi coder handling of inner BN (see https://github.com/ChainSafe/web3.js/issues/3920)
+    // typedAssert(await contract.methods.input_struct([bn('1'), bn('2')]).call(), ['1', '2'])
+
     typedAssert(await contract.methods.input_enum('1').call(), '1')
     typedAssert(await contract.methods.input_enum(1).call(), '1')
+    typedAssert(await contract.methods.input_enum(bn('1')).call(), '1')
   })
 })
