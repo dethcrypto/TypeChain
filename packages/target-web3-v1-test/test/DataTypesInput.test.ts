@@ -49,7 +49,8 @@ describe('DataTypesInput', () => {
 
     typedAssert(await contract.methods.input_stat_array(['1', '2', '3']).call(), ['1', '2', '3'])
     typedAssert(await contract.methods.input_stat_array([1, 2, 3]).call(), ['1', '2', '3'])
-    // TODO this fails due to an issue in web3 abi coder handling of inner BN:
+
+    // TODO this fails due to an issue in web3 abi coder handling of inner BN (see https://github.com/ChainSafe/web3.js/issues/3920)
     // typedAssert(
     //   await contract.methods.input_stat_array([bn('1'), bn('2'), bn('3')]).call(),
     //   ['1', '2', '3'],
@@ -61,7 +62,8 @@ describe('DataTypesInput', () => {
 
     typedAssert(await contract.methods.input_struct(['1', '2']).call(), ['1', '2'])
     typedAssert(await contract.methods.input_struct([1, 2]).call(), ['1', '2'])
-    // TODO this fails due to an issue in web3 abi coder handling of inner BN:
+
+    // TODO this fails due to an issue in web3 abi coder handling of inner BN (see https://github.com/ChainSafe/web3.js/issues/3920)
     // typedAssert(await contract.methods.input_struct([bn('1'), bn('2')]).call(), ['1', '2'])
 
     typedAssert(await contract.methods.input_enum('1').call(), '1')
