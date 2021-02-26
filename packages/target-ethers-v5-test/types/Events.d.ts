@@ -218,7 +218,7 @@ export class Events extends Contract {
       { value1: boolean; value2: BigNumber }
     >;
 
-    NoArgsEvent(): TypedEventFilter<[]>;
+    NoArgsEvent(): TypedEventFilter<[], {}>;
   };
 
   estimateGas: {
