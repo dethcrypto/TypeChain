@@ -31,4 +31,6 @@ contract Events {
   function emit_event3_overloaded() public {
     emit Event3(1);
   }
+
+  event NoArgsEvent();
 }
