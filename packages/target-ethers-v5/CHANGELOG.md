@@ -1,5 +1,11 @@
 # @typechain/ethers-v5
 
+## 6.0.1
+
+### Patch Changes
+
+- 9ab1929: Fix code generation for events without any args
+
 ## 6.0.0
 
 ### Major Changes
