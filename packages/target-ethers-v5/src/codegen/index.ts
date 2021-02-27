@@ -274,11 +274,15 @@ function generateParamNames(params: Array<AbiParameter | EventArgDeclaration>): 
 }
 
 function generateEvents(event: EventDeclaration) {
+  const outputTypes =
+    event.inputs.length > 0
+      ? generateOutputTypes(
+          true,
+          event.inputs.map((input, i) => ({ name: input.name ?? `arg${i.toString()}`, type: input.type })),
+        ).replace(' &', ',')
+      : '[], {}'
   return `
-  ${event.name}(${generateEventTypes(event.inputs)}): TypedEventFilter<${generateOutputTypes(
-    true,
-    event.inputs.map((input, i) => ({ name: input.name ?? `arg${i.toString()}`, type: input.type })),
-  ).replace(' &', ',')}>;
+  ${event.name}(${generateEventTypes(event.inputs)}): TypedEventFilter<${outputTypes}>;
 `
 }
 

@@ -74,12 +74,14 @@ interface EventsInterface extends ethers.utils.Interface {
     "Event1(uint256,uint256)": EventFragment;
     "Event2(uint256)": EventFragment;
     "Event3(bool,uint256)": EventFragment;
+    "NoArgsEvent()": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "AnonEvent1"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Event1"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Event2"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Event3"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NoArgsEvent"): EventFragment;
 }
 
 export class Events extends Contract {
@@ -215,6 +217,8 @@ export class Events extends Contract {
       [boolean, BigNumber],
       { value1: boolean; value2: BigNumber }
     >;
+
+    NoArgsEvent(): TypedEventFilter<[], {}>;
   };
 
   estimateGas: {

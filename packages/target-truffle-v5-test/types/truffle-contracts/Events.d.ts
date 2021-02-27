@@ -54,7 +54,12 @@ export interface Event3_uint256 {
 
 type Event3 = Event3_bool_uint256 | Event3_uint256;
 
-type AllEvents = Event1 | Event2 | Event3;
+export interface NoArgsEvent {
+  name: "NoArgsEvent";
+  args: {};
+}
+
+type AllEvents = Event1 | Event2 | Event3 | NoArgsEvent;
 
 export interface EventsInstance extends Truffle.ContractInstance {
   emit_event1: {

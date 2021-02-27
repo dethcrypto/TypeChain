@@ -40,6 +40,8 @@ interface EventsInterface extends Interface {
     Event3: TypedEventDescription<{
       encodeTopics([value1, value2]: [boolean | null, null]): string[];
     }>;
+
+    NoArgsEvent: TypedEventDescription<{ encodeTopics([]: []): string[] }>;
   };
 }
 
@@ -130,6 +132,8 @@ export class Events extends Contract {
     Event2(undefined: null): EventFilter;
 
     Event3(value1: boolean | null, value2: null): EventFilter;
+
+    NoArgsEvent(): EventFilter;
   };
 
   estimate: {

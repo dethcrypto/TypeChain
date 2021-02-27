@@ -92,6 +92,12 @@ const _abi = [
     type: "event",
   },
   {
+    anonymous: false,
+    inputs: [],
+    name: "NoArgsEvent",
+    type: "event",
+  },
+  {
     inputs: [],
     name: "emit_anon1",
     outputs: [],
