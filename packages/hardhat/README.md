@@ -1,0 +1,1 @@
+# TypeChain Hardhat plugin
