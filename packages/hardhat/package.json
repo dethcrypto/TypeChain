@@ -1,9 +1,12 @@
 {
   "name": "@typechain/hardhat",
-  "description": "🔌 TypeScript bindings for Ethereum smartcontracts",
+  "description": "Zero-config TypeChain support for Hardhat",
   "keywords": [
-    "ethereum",
     "TypeScript",
+    "hardhat",
+    "plugin",
+    "typechain",
+    "ethereum",
     "bindings",
     "smartcontract",
     "blockchain"
