@@ -1,5 +1,11 @@
 # typechain
 
+## 4.0.3
+
+### Patch Changes
+
+- dbfe92a: Improve error message in case of a missing target
+
 ## 4.0.2
 
 ### Patch Changes
