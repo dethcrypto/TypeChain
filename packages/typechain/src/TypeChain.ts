@@ -30,8 +30,8 @@ export class TypeChain extends TsGeneratorPlugin {
 
     const possiblePaths = [
       process.env.NODE_ENV === 'test' && `../../typechain-target-${target}/lib/index`, // only for tests
-      `typechain-target-${target}`, //external module
       `@typechain/${target}`, //external module
+      `typechain-target-${target}`, //external module
       ensureAbsPath(target), // path
     ]
 
@@ -41,7 +41,7 @@ export class TypeChain extends TsGeneratorPlugin {
       throw new Error(
         `Couldn't find ${ctx.rawConfig.target}. Tried loading: ${compact(possiblePaths).join(
           ', ',
-        )}.\nPerhaps you forgot to install typechain-target-${target}?`,
+        )}.\nPerhaps you forgot to install @typechain/${target}?`,
       )
     }
 

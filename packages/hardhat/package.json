@@ -1,0 +1,47 @@
+{
+  "name": "@typechain/hardhat",
+  "description": "Zero-config TypeChain support for Hardhat",
+  "keywords": [
+    "TypeScript",
+    "hardhat",
+    "plugin",
+    "typechain",
+    "ethereum",
+    "bindings",
+    "smartcontract",
+    "blockchain"
+  ],
+  "version": "0.0.1",
+  "license": "MIT",
+  "repository": "https://github.com/ethereum-ts/Typechain",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
+  "scripts": {
+    "format": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --check \"./**/*.ts\"",
+    "format:fix": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --write \"./**/*.ts\"",
+    "lint": "eslint --ext .ts src test",
+    "lint:fix": "yarn lint --fix",
+    "typecheck": "tsc --noEmit --incremental false --composite false",
+    "clean": "rm -rf dist && rm -f tsconfig.build.tsbuildinfo",
+    "test": "mocha --config ../../.mocharc.js",
+    "test:fix": "yarn lint:fix && yarn format:fix && yarn test && yarn typecheck"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^9.0.7",
+    "ethers": "^5.0.31",
+    "fs-extra": "^9.1.0",
+    "hardhat": "^2.0.10",
+    "@typechain/ethers-v5": "*",
+    "typechain": "*"
+  },
+  "peerDependencies": {
+    "hardhat": "^2.0.10",
+    "ts-generator": "^0.1.1",
+    "typechain": "^4.0.0"
+  }
+}
