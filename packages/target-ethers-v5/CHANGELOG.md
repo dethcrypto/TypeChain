@@ -1,5 +1,11 @@
 # @typechain/ethers-v5
 
+## 6.0.2
+
+### Patch Changes
+
+- ffc67f2: Fix "unused type parameter" ts error
+
 ## 6.0.1
 
 ### Patch Changes
