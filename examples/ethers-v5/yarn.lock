@@ -792,9 +792,9 @@ ts-node@^9.1.1:
     yn "3.1.1"
 
 typechain@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/typechain/-/typechain-4.0.2.tgz#31a961bf1fc43b8cde39193247439715e43ce5d3"
-  integrity sha512-SopnfdQrS5ek6sTbvymsnBACA+70FstX/ZLWY8lQWNdLUXGyoGFoa73Y+1hKlbz2DfCnO39bQ551qUMhk5GYSw==
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/typechain/-/typechain-4.0.3.tgz#e8fcd6c984676858c64eeeb155ea783a10b73779"
+  integrity sha512-tmoHQeXZWHxIdeLK+i6dU0CU0vOd9Cndr3jFTZIMzak5/YpFZ8XoiYpTZcngygGBqZo+Z1EUmttLbW9KkFZLgQ==
   dependencies:
     command-line-args "^4.0.7"
     debug "^4.1.1"
