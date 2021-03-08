@@ -24,13 +24,13 @@ npm install --save-dev typechain ts-generator @typechain/hardhat @typechain/ethe
 And add the following statement to your hardhat.config.js:
 
 ```javascript
-require('hardhat-typechain')
+require('@typechain/hardhat')
 ```
 
 Or, if you are using TypeScript, add this to your hardhat.config.ts:
 
 ```typescript
-import 'hardhat-typechain'
+import '@typechain/hardhat';
 ```
 
 ## Zero Config Usage
