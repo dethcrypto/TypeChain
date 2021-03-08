@@ -44,7 +44,7 @@ task(TASK_COMPILE, 'Compiles the entire project, building all artifacts')
       new TypeChain({
         cwd,
         rawConfig: {
-          files: `${config.paths.artifacts}/!(build-info)/**/+([a-zA-Z0-9]).json`,
+          files: `${config.paths.artifacts}/!(build-info)/**/+([a-zA-Z0-9_]).json`,
           outDir: typechain.outDir,
           target: typechain.target,
         },
