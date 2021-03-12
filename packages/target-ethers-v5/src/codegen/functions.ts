@@ -28,7 +28,7 @@ function generateFunction(options: GenerateFunctionOptions, fn: FunctionDeclarat
   ${generateFunctionDocumentation(fn.documentation)}
   ${overloadedName ?? fn.name}(${generateInputTypes(fn.inputs)}${
     !options.isStaticCall && !isConstant(fn) && !isConstantFn(fn)
-      ? `overrides?: ${isPayable(fn) ? 'PayableOverrides' : 'Overrides'}`
+      ? `overrides?: ${isPayable(fn) ? 'CallOverrides' : 'Overrides'}`
       : 'overrides?: CallOverrides'
   }): ${
     options.overrideOutput ??
