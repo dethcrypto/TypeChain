@@ -22,8 +22,9 @@ export function codegenContractTypings(contract: Contract) {
   optionalContractImports.forEach((importName) => pushImportIfUsed(importName, allFunctions, contractImports))
 
   const template = `
-  import { ethers, EventFilter, Signer, BigNumber, BigNumberish, PopulatedTransaction } from 'ethers';
-  import { ${contractImports.join(', ')} } from '@ethersproject/contracts';
+  import { ethers, EventFilter, Signer, BigNumber, BigNumberish, PopulatedTransaction, ${contractImports.join(
+    ', ',
+  )} } from 'ethers';
   import { BytesLike } from '@ethersproject/bytes';
   import { Listener, Provider } from '@ethersproject/providers';
   import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
@@ -148,28 +149,27 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
   optionalContractImports.forEach((importName) => pushImportIfUsed(importName, constructorArgs, ethersContractImports))
 
   return `
-  import { ${ethersImports.join(', ')} } from "ethers";
+  import { ${[...ethersImports, ...ethersContractImports].join(', ')} } from "ethers";
   import { Provider, TransactionRequest } from '@ethersproject/providers';
-  import { ${ethersContractImports.join(', ')} } from "@ethersproject/contracts";
 
   import type { ${contract.name} } from "../${contract.name}";
 
   export class ${contract.name}${FACTORY_POSTFIX} extends ContractFactory {
     ${generateFactoryConstructor(contract, bytecode)}
     deploy(${constructorArgs}): Promise<${contract.name}> {
-      return super.deploy(${constructorArgNames}) as Promise<${contract.name}>;
+      return super.deploy(${constructorArgNames}) as any as Promise<${contract.name}>;
     }
     getDeployTransaction(${constructorArgs}): TransactionRequest {
       return super.getDeployTransaction(${constructorArgNames});
     };
     attach(address: string): ${contract.name} {
-      return super.attach(address) as ${contract.name};
+      return super.attach(address) as any as ${contract.name};
     }
     connect(signer: Signer): ${contract.name}${FACTORY_POSTFIX} {
-      return super.connect(signer) as ${contract.name}${FACTORY_POSTFIX};
+      return super.connect(signer) as any as ${contract.name}${FACTORY_POSTFIX};
     }
     static connect(address: string, signerOrProvider: Signer | Provider): ${contract.name} {
-      return new Contract(address, _abi, signerOrProvider) as ${contract.name};
+      return new Contract(address, _abi, signerOrProvider) as any as ${contract.name};
     }
   }
 
@@ -190,7 +190,7 @@ export function codegenAbstractContractFactory(contract: Contract, abi: any): st
 
   export class ${contract.name}${FACTORY_POSTFIX} {
     static connect(address: string, signerOrProvider: Signer | Provider): ${contract.name} {
-      return new Contract(address, _abi, signerOrProvider) as ${contract.name};
+      return new Contract(address, _abi, signerOrProvider) as any as ${contract.name};
     }
   }
 

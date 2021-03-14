@@ -12,7 +12,11 @@ export class DataTypesView__factory {
     address: string,
     signerOrProvider: Signer | Provider
   ): DataTypesView {
-    return new Contract(address, _abi, signerOrProvider) as DataTypesView;
+    return (new Contract(
+      address,
+      _abi,
+      signerOrProvider
+    ) as any) as DataTypesView;
   }
 }
 
