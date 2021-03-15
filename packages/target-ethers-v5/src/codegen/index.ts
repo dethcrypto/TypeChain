@@ -131,7 +131,11 @@ export function codegenContractTypings(contract: Contract) {
 export function codegenContractFactory(contract: Contract, abi: any, bytecode?: BytecodeWithLinkReferences): string {
   const constructorArgs =
     (contract.constructor && contract.constructor[0] ? generateInputTypes(contract.constructor[0].inputs) : '') +
-    `overrides?: ${contract.constructor[0]?.stateMutability === 'payable' ? 'PayableOverrides' : 'Overrides'}`
+    `overrides?: ${
+      contract.constructor[0]?.stateMutability === 'payable'
+        ? 'PayableOverrides & { from?: string | Promise<string> }'
+        : 'Overrides & { from?: string | Promise<string> }'
+    }`
   const constructorArgNamesWithoutOverrides =
     contract.constructor && contract.constructor[0] ? generateParamNames(contract.constructor[0].inputs) : ''
   const constructorArgNames = constructorArgNamesWithoutOverrides
