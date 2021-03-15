@@ -91,24 +91,38 @@ export class Payable extends Contract {
   interface: PayableInterface;
 
   functions: {
-    non_payable_func(overrides?: Overrides): Promise<ContractTransaction>;
+    non_payable_func(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
-    "non_payable_func()"(overrides?: Overrides): Promise<ContractTransaction>;
+    "non_payable_func()"(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
-    payable_func(overrides?: PayableOverrides): Promise<ContractTransaction>;
+    payable_func(
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
     "payable_func()"(
-      overrides?: PayableOverrides
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
 
-  non_payable_func(overrides?: Overrides): Promise<ContractTransaction>;
+  non_payable_func(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
-  "non_payable_func()"(overrides?: Overrides): Promise<ContractTransaction>;
+  "non_payable_func()"(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
-  payable_func(overrides?: PayableOverrides): Promise<ContractTransaction>;
+  payable_func(
+    overrides?: PayableOverrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
-  "payable_func()"(overrides?: PayableOverrides): Promise<ContractTransaction>;
+  "payable_func()"(
+    overrides?: PayableOverrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   callStatic: {
     non_payable_func(overrides?: CallOverrides): Promise<void>;
@@ -123,24 +137,38 @@ export class Payable extends Contract {
   filters: {};
 
   estimateGas: {
-    non_payable_func(overrides?: Overrides): Promise<BigNumber>;
+    non_payable_func(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
 
-    "non_payable_func()"(overrides?: Overrides): Promise<BigNumber>;
+    "non_payable_func()"(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
 
-    payable_func(overrides?: PayableOverrides): Promise<BigNumber>;
+    payable_func(
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
 
-    "payable_func()"(overrides?: PayableOverrides): Promise<BigNumber>;
+    "payable_func()"(
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    non_payable_func(overrides?: Overrides): Promise<PopulatedTransaction>;
+    non_payable_func(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
 
-    "non_payable_func()"(overrides?: Overrides): Promise<PopulatedTransaction>;
+    "non_payable_func()"(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
 
-    payable_func(overrides?: PayableOverrides): Promise<PopulatedTransaction>;
+    payable_func(
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
 
     "payable_func()"(
-      overrides?: PayableOverrides
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };
 }

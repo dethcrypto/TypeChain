@@ -126,49 +126,85 @@ export class Events extends Contract {
   interface: EventsInterface;
 
   functions: {
-    emit_anon1(overrides?: Overrides): Promise<ContractTransaction>;
+    emit_anon1(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
-    "emit_anon1()"(overrides?: Overrides): Promise<ContractTransaction>;
+    "emit_anon1()"(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
-    emit_event1(overrides?: Overrides): Promise<ContractTransaction>;
+    emit_event1(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
-    "emit_event1()"(overrides?: Overrides): Promise<ContractTransaction>;
+    "emit_event1()"(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
-    emit_event2(overrides?: Overrides): Promise<ContractTransaction>;
+    emit_event2(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
-    "emit_event2()"(overrides?: Overrides): Promise<ContractTransaction>;
+    "emit_event2()"(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
-    emit_event3(overrides?: Overrides): Promise<ContractTransaction>;
+    emit_event3(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
-    "emit_event3()"(overrides?: Overrides): Promise<ContractTransaction>;
+    "emit_event3()"(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
-    emit_event3_overloaded(overrides?: Overrides): Promise<ContractTransaction>;
+    emit_event3_overloaded(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
     "emit_event3_overloaded()"(
-      overrides?: Overrides
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
 
-  emit_anon1(overrides?: Overrides): Promise<ContractTransaction>;
+  emit_anon1(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
-  "emit_anon1()"(overrides?: Overrides): Promise<ContractTransaction>;
+  "emit_anon1()"(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
-  emit_event1(overrides?: Overrides): Promise<ContractTransaction>;
+  emit_event1(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
-  "emit_event1()"(overrides?: Overrides): Promise<ContractTransaction>;
+  "emit_event1()"(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
-  emit_event2(overrides?: Overrides): Promise<ContractTransaction>;
+  emit_event2(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
-  "emit_event2()"(overrides?: Overrides): Promise<ContractTransaction>;
+  "emit_event2()"(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
-  emit_event3(overrides?: Overrides): Promise<ContractTransaction>;
+  emit_event3(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
-  "emit_event3()"(overrides?: Overrides): Promise<ContractTransaction>;
+  "emit_event3()"(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
-  emit_event3_overloaded(overrides?: Overrides): Promise<ContractTransaction>;
+  emit_event3_overloaded(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   "emit_event3_overloaded()"(
-    overrides?: Overrides
+    overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   callStatic: {
@@ -220,50 +256,86 @@ export class Events extends Contract {
   };
 
   estimateGas: {
-    emit_anon1(overrides?: Overrides): Promise<BigNumber>;
+    emit_anon1(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
 
-    "emit_anon1()"(overrides?: Overrides): Promise<BigNumber>;
+    "emit_anon1()"(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
 
-    emit_event1(overrides?: Overrides): Promise<BigNumber>;
+    emit_event1(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
 
-    "emit_event1()"(overrides?: Overrides): Promise<BigNumber>;
+    "emit_event1()"(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
 
-    emit_event2(overrides?: Overrides): Promise<BigNumber>;
+    emit_event2(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
 
-    "emit_event2()"(overrides?: Overrides): Promise<BigNumber>;
+    "emit_event2()"(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
 
-    emit_event3(overrides?: Overrides): Promise<BigNumber>;
+    emit_event3(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
 
-    "emit_event3()"(overrides?: Overrides): Promise<BigNumber>;
+    "emit_event3()"(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
 
-    emit_event3_overloaded(overrides?: Overrides): Promise<BigNumber>;
+    emit_event3_overloaded(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
 
-    "emit_event3_overloaded()"(overrides?: Overrides): Promise<BigNumber>;
+    "emit_event3_overloaded()"(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    emit_anon1(overrides?: Overrides): Promise<PopulatedTransaction>;
+    emit_anon1(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
 
-    "emit_anon1()"(overrides?: Overrides): Promise<PopulatedTransaction>;
+    "emit_anon1()"(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
 
-    emit_event1(overrides?: Overrides): Promise<PopulatedTransaction>;
+    emit_event1(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
 
-    "emit_event1()"(overrides?: Overrides): Promise<PopulatedTransaction>;
+    "emit_event1()"(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
 
-    emit_event2(overrides?: Overrides): Promise<PopulatedTransaction>;
+    emit_event2(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
 
-    "emit_event2()"(overrides?: Overrides): Promise<PopulatedTransaction>;
+    "emit_event2()"(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
 
-    emit_event3(overrides?: Overrides): Promise<PopulatedTransaction>;
+    emit_event3(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
 
-    "emit_event3()"(overrides?: Overrides): Promise<PopulatedTransaction>;
+    "emit_event3()"(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
 
     emit_event3_overloaded(
-      overrides?: Overrides
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     "emit_event3_overloaded()"(
-      overrides?: Overrides
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };
 }

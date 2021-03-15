@@ -78,14 +78,22 @@ export class PayableFactory extends Contract {
   interface: PayableFactoryInterface;
 
   functions: {
-    newPayable(overrides?: Overrides): Promise<ContractTransaction>;
+    newPayable(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
-    "newPayable()"(overrides?: Overrides): Promise<ContractTransaction>;
+    "newPayable()"(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
   };
 
-  newPayable(overrides?: Overrides): Promise<ContractTransaction>;
+  newPayable(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
-  "newPayable()"(overrides?: Overrides): Promise<ContractTransaction>;
+  "newPayable()"(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   callStatic: {
     newPayable(overrides?: CallOverrides): Promise<string>;
@@ -96,14 +104,22 @@ export class PayableFactory extends Contract {
   filters: {};
 
   estimateGas: {
-    newPayable(overrides?: Overrides): Promise<BigNumber>;
+    newPayable(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
 
-    "newPayable()"(overrides?: Overrides): Promise<BigNumber>;
+    "newPayable()"(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    newPayable(overrides?: Overrides): Promise<PopulatedTransaction>;
+    newPayable(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
 
-    "newPayable()"(overrides?: Overrides): Promise<PopulatedTransaction>;
+    "newPayable()"(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
   };
 }
