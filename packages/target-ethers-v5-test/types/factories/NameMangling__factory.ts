@@ -12,11 +12,7 @@ export class NameMangling__factory {
     address: string,
     signerOrProvider: Signer | Provider
   ): NameMangling {
-    return (new Contract(
-      address,
-      _abi,
-      signerOrProvider
-    ) as any) as NameMangling;
+    return new Contract(address, _abi, signerOrProvider) as NameMangling;
   }
 }
 

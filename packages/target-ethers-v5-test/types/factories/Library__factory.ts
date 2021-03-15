@@ -12,7 +12,7 @@ export class Library__factory {
     address: string,
     signerOrProvider: Signer | Provider
   ): Library {
-    return (new Contract(address, _abi, signerOrProvider) as any) as Library;
+    return new Contract(address, _abi, signerOrProvider) as Library;
   }
 }
 

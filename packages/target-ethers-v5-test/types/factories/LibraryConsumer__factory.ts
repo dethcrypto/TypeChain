@@ -12,11 +12,7 @@ export class LibraryConsumer__factory {
     address: string,
     signerOrProvider: Signer | Provider
   ): LibraryConsumer {
-    return (new Contract(
-      address,
-      _abi,
-      signerOrProvider
-    ) as any) as LibraryConsumer;
+    return new Contract(address, _abi, signerOrProvider) as LibraryConsumer;
   }
 }
 

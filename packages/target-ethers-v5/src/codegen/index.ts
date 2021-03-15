@@ -157,19 +157,19 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
   export class ${contract.name}${FACTORY_POSTFIX} extends ContractFactory {
     ${generateFactoryConstructor(contract, bytecode)}
     deploy(${constructorArgs}): Promise<${contract.name}> {
-      return super.deploy(${constructorArgNames}) as any as Promise<${contract.name}>;
+      return super.deploy(${constructorArgNames}) as Promise<${contract.name}>;
     }
     getDeployTransaction(${constructorArgs}): TransactionRequest {
       return super.getDeployTransaction(${constructorArgNames});
     };
     attach(address: string): ${contract.name} {
-      return super.attach(address) as any as ${contract.name};
+      return super.attach(address) as ${contract.name};
     }
     connect(signer: Signer): ${contract.name}${FACTORY_POSTFIX} {
-      return super.connect(signer) as any as ${contract.name}${FACTORY_POSTFIX};
+      return super.connect(signer) as ${contract.name}${FACTORY_POSTFIX};
     }
     static connect(address: string, signerOrProvider: Signer | Provider): ${contract.name} {
-      return new Contract(address, _abi, signerOrProvider) as any as ${contract.name};
+      return new Contract(address, _abi, signerOrProvider) as ${contract.name};
     }
   }
 
@@ -190,7 +190,7 @@ export function codegenAbstractContractFactory(contract: Contract, abi: any): st
 
   export class ${contract.name}${FACTORY_POSTFIX} {
     static connect(address: string, signerOrProvider: Signer | Provider): ${contract.name} {
-      return new Contract(address, _abi, signerOrProvider) as any as ${contract.name};
+      return new Contract(address, _abi, signerOrProvider) as ${contract.name};
     }
   }
 
