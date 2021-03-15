@@ -22,8 +22,9 @@ export function codegenContractTypings(contract: Contract) {
   optionalContractImports.forEach((importName) => pushImportIfUsed(importName, allFunctions, contractImports))
 
   const template = `
-  import { ethers, EventFilter, Signer, BigNumber, BigNumberish, PopulatedTransaction } from 'ethers';
-  import { ${contractImports.join(', ')} } from '@ethersproject/contracts';
+  import { ethers, EventFilter, Signer, BigNumber, BigNumberish, PopulatedTransaction, ${contractImports.join(
+    ', ',
+  )} } from 'ethers';
   import { BytesLike } from '@ethersproject/bytes';
   import { Listener, Provider } from '@ethersproject/providers';
   import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
@@ -148,9 +149,8 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
   optionalContractImports.forEach((importName) => pushImportIfUsed(importName, constructorArgs, ethersContractImports))
 
   return `
-  import { ${ethersImports.join(', ')} } from "ethers";
+  import { ${[...ethersImports, ...ethersContractImports].join(', ')} } from "ethers";
   import { Provider, TransactionRequest } from '@ethersproject/providers';
-  import { ${ethersContractImports.join(', ')} } from "@ethersproject/contracts";
 
   import type { ${contract.name} } from "../${contract.name}";
 
