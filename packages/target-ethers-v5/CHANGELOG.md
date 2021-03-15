@@ -1,5 +1,12 @@
 # @typechain/ethers-v5
 
+## 6.0.3
+
+### Patch Changes
+
+- 8528c8f: Allow passing `from` as part of the overrides to contract call
+- 5a1cb26: Prefer imports from `ethers` namespace to avoid mixing incompatible versions
+
 ## 6.0.2
 
 ### Patch Changes
