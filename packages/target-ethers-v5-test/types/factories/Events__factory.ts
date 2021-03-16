@@ -93,6 +93,31 @@ const _abi = [
   },
   {
     anonymous: false,
+    inputs: [
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "index",
+            type: "uint256",
+          },
+          {
+            internalType: "string",
+            name: "name",
+            type: "string",
+          },
+        ],
+        indexed: false,
+        internalType: "struct Events.EventData",
+        name: "data",
+        type: "tuple",
+      },
+    ],
+    name: "Event4",
+    type: "event",
+  },
+  {
+    anonymous: false,
     inputs: [],
     name: "NoArgsEvent",
     type: "event",
@@ -128,6 +153,13 @@ const _abi = [
   {
     inputs: [],
     name: "emit_event3_overloaded",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "emit_event4",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

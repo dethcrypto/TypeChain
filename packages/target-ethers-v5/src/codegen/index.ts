@@ -7,7 +7,13 @@ import {
   EventDeclaration,
   FunctionDeclaration,
 } from 'typechain'
-import { generateInputType, generateInputTypes, generateOutputTypes } from './types'
+import {
+  generateInputType,
+  generateInputTypes,
+  generateOutputComplexTypeAsArray,
+  generateOutputComplexTypesAsObject,
+  generateOutputTypes,
+} from './types'
 import { codegenFunctions } from './functions'
 import { FACTORY_POSTFIX } from '../common'
 import { reservedKeywords } from './reserved-keywords'
@@ -278,15 +284,12 @@ function generateParamNames(params: Array<AbiParameter | EventArgDeclaration>): 
 }
 
 function generateEvents(event: EventDeclaration) {
-  const outputTypes =
-    event.inputs.length > 0
-      ? generateOutputTypes(
-          true,
-          event.inputs.map((input, i) => ({ name: input.name ?? `arg${i.toString()}`, type: input.type })),
-        ).replace(' &', ',')
-      : '[], {}'
+  const components = event.inputs.map((input, i) => ({ name: input.name ?? `arg${i.toString()}`, type: input.type }))
+  const arrayOutput = generateOutputComplexTypeAsArray(components)
+  const objectOutput = generateOutputComplexTypesAsObject(components) || '{}'
+
   return `
-  ${event.name}(${generateEventTypes(event.inputs)}): TypedEventFilter<${outputTypes}>;
+  ${event.name}(${generateEventTypes(event.inputs)}): TypedEventFilter<${arrayOutput}, ${objectOutput}>;
 `
 }
 

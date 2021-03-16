@@ -40,12 +40,19 @@ export interface Event3_uint256 {
 
 type Event3 = Event3_bool_uint256 | Event3_uint256;
 
+export interface Event4 {
+  name: "Event4";
+  args: {
+    data: { index: BigNumber; name: string };
+  };
+}
+
 export interface NoArgsEvent {
   name: "NoArgsEvent";
   args: {};
 }
 
-type AllEvents = Event1 | Event3 | NoArgsEvent;
+type AllEvents = Event1 | Event3 | Event4 | NoArgsEvent;
 
 export interface EventsInstance extends Truffle.ContractInstance {
   emit_event1: {
@@ -85,6 +92,15 @@ export interface EventsInstance extends Truffle.ContractInstance {
   };
 
   emit_event3_overloaded: {
+    (txDetails?: Truffle.TransactionDetails): Promise<
+      Truffle.TransactionResponse<AllEvents>
+    >;
+    call(txDetails?: Truffle.TransactionDetails): Promise<void>;
+    sendTransaction(txDetails?: Truffle.TransactionDetails): Promise<string>;
+    estimateGas(txDetails?: Truffle.TransactionDetails): Promise<number>;
+  };
+
+  emit_event4: {
     (txDetails?: Truffle.TransactionDetails): Promise<
       Truffle.TransactionResponse<AllEvents>
     >;
