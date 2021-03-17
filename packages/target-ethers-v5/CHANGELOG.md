@@ -1,5 +1,11 @@
 # @typechain/ethers-v5
 
+## 6.0.4
+
+### Patch Changes
+
+- 743a600: Fix code generation for events with tuples
+
 ## 6.0.3
 
 ### Patch Changes
