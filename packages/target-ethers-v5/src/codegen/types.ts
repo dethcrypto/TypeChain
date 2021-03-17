@@ -1,4 +1,5 @@
 import { EvmType, EvmOutputType, TupleType, AbiParameter, AbiOutputParameter } from 'typechain'
+import { compact } from 'lodash'
 
 export function generateInputTypes(input: Array<AbiParameter>): string {
   if (input.length === 0) {
@@ -80,14 +81,27 @@ export function generateTupleType(tuple: TupleType, generator: (evmType: EvmType
 }
 
 /**
- * always return an array type; if there are named outputs, merge them to that type
+ * Always return an array type; if there are named outputs, merge them to that type
  * this generates slightly better typings fixing: https://github.com/ethereum-ts/TypeChain/issues/232
  **/
 export function generateOutputComplexType(components: AbiOutputParameter[]) {
-  let namedElementsCode = ''
+  const existingOutputComponents = compact([
+    generateOutputComplexTypeAsArray(components),
+    generateOutputComplexTypesAsObject(components),
+  ])
+  return existingOutputComponents.join(' & ')
+}
+
+export function generateOutputComplexTypeAsArray(components: AbiOutputParameter[]): string {
+  return `[${components.map((t) => generateOutputType(t.type)).join(', ')}]`
+}
+
+export function generateOutputComplexTypesAsObject(components: AbiOutputParameter[]): string | undefined {
+  let namedElementsCode
   const namedElements = components.filter((e) => !!e.name)
   if (namedElements.length > 0) {
-    namedElementsCode = ' & {' + namedElements.map((t) => `${t.name}: ${generateOutputType(t.type)}`).join(',') + ' }'
+    namedElementsCode = '{' + namedElements.map((t) => `${t.name}: ${generateOutputType(t.type)}`).join(',') + ' }'
   }
-  return `[${components.map((t) => generateOutputType(t.type)).join(', ')}] ${namedElementsCode}`
+
+  return namedElementsCode
 }

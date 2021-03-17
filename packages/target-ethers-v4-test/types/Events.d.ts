@@ -24,6 +24,8 @@ interface EventsInterface extends Interface {
     emit_event3_overloaded: TypedFunctionDescription<{
       encode([]: []): string;
     }>;
+
+    emit_event4: TypedFunctionDescription<{ encode([]: []): string }>;
   };
 
   events: {
@@ -40,6 +42,8 @@ interface EventsInterface extends Interface {
     Event3: TypedEventDescription<{
       encodeTopics([value1, value2]: [boolean | null, null]): string[];
     }>;
+
+    Event4: TypedEventDescription<{ encodeTopics([data]: [null]): string[] }>;
 
     NoArgsEvent: TypedEventDescription<{ encodeTopics([]: []): string[] }>;
   };
@@ -90,6 +94,12 @@ export class Events extends Contract {
     "emit_event3_overloaded()"(
       overrides?: TransactionOverrides
     ): Promise<ContractTransaction>;
+
+    emit_event4(overrides?: TransactionOverrides): Promise<ContractTransaction>;
+
+    "emit_event4()"(
+      overrides?: TransactionOverrides
+    ): Promise<ContractTransaction>;
   };
 
   emit_anon1(overrides?: TransactionOverrides): Promise<ContractTransaction>;
@@ -124,6 +134,12 @@ export class Events extends Contract {
     overrides?: TransactionOverrides
   ): Promise<ContractTransaction>;
 
+  emit_event4(overrides?: TransactionOverrides): Promise<ContractTransaction>;
+
+  "emit_event4()"(
+    overrides?: TransactionOverrides
+  ): Promise<ContractTransaction>;
+
   filters: {
     AnonEvent1(value1: BigNumberish | null): EventFilter;
 
@@ -132,6 +148,8 @@ export class Events extends Contract {
     Event2(undefined: null): EventFilter;
 
     Event3(value1: boolean | null, value2: null): EventFilter;
+
+    Event4(data: null): EventFilter;
 
     NoArgsEvent(): EventFilter;
   };
@@ -160,5 +178,9 @@ export class Events extends Contract {
     "emit_event3_overloaded()"(
       overrides?: TransactionOverrides
     ): Promise<BigNumber>;
+
+    emit_event4(overrides?: TransactionOverrides): Promise<BigNumber>;
+
+    "emit_event4()"(overrides?: TransactionOverrides): Promise<BigNumber>;
   };
 }
