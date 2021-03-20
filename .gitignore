@@ -19,3 +19,7 @@ examples/ethers-v5/types
 examples/hardhat/artifacts
 examples/hardhat/cache
 examples/hardhat/typechain
+examples/hardhat-truffe-v5/artifacts
+examples/hardhat-truffe-v5/cache
+examples/hardhat-truffe-v5/typechain
+
