@@ -17,8 +17,16 @@ Automatically generate TypeScript bindings for smartcontracts while using [Hardh
 
 # Installation
 
+If you use Ethers/Waffle do:
+
 ```bash
 npm install --save-dev typechain ts-generator @typechain/hardhat @typechain/ethers-v5
+```
+
+If you're a Truffle user you need:
+
+```bash
+npm install --save-dev typechain ts-generator @typechain/hardhat @typechain/truffle-v5
 ```
 
 And add the following statement to your hardhat.config.js:
@@ -30,7 +38,7 @@ require('@typechain/hardhat')
 Or, if you are using TypeScript, add this to your hardhat.config.ts:
 
 ```typescript
-import '@typechain/hardhat';
+import '@typechain/hardhat'
 ```
 
 ## Zero Config Usage
@@ -129,6 +137,7 @@ describe('Counter', () => {
 ## Examples
 
 - [starter kit](https://github.com/rhlsthrm/typescript-solidity-dev-starter-kit)
-- [example](https://github.com/ethereum-ts/TypeChain/tree/master/examples/hardhat)
+- [example-ethers](https://github.com/ethereum-ts/TypeChain/tree/master/examples/hardhat)
+- [example-truffle](https://github.com/ethereum-ts/TypeChain/tree/master/examples/hardhat-truffle-v5)
 
 Original work done by [@RHLSTHRM](https://twitter.com/RHLSTHRM).
