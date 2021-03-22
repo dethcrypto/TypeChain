@@ -31,11 +31,13 @@
   },
   "dependencies": {},
   "devDependencies": {
+    "@typechain/ethers-v5": "*",
     "@types/fs-extra": "^9.0.7",
+    "@types/rimraf": "^3.0.0",
     "ethers": "^5.0.31",
     "fs-extra": "^9.1.0",
     "hardhat": "^2.0.10",
-    "@typechain/ethers-v5": "*",
+    "rimraf": "^3.0.2",
     "typechain": "*"
   },
   "peerDependencies": {
