@@ -1,5 +1,11 @@
 # @typechain/ethers-v5
 
+## 6.0.5
+
+### Patch Changes
+
+- 833b7ea: Avoid generating reexports for duplicated contracts
+
 ## 6.0.4
 
 ### Patch Changes
