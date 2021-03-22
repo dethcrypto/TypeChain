@@ -1,5 +1,13 @@
-import { Contract, extractDocumentation, getFilename, extractAbi, parse } from 'typechain'
-import { TsGeneratorPlugin, TContext, TFileDesc } from 'ts-generator'
+import {
+  Contract,
+  extractDocumentation,
+  getFilename,
+  extractAbi,
+  parse,
+  TypeChainTarget,
+  Config,
+  FileDescription,
+} from 'typechain'
 import { join, resolve } from 'path'
 import { readFileSync } from 'fs'
 
@@ -12,21 +20,21 @@ export interface ITruffleCfg {
 
 const DEFAULT_OUT_PATH = './types/truffle-contracts/'
 
-export default class Truffle extends TsGeneratorPlugin {
+export default class Truffle extends TypeChainTarget {
   name = 'Truffle'
 
   private readonly outDirAbs: string
   private contracts: Contract[] = []
 
-  constructor(ctx: TContext<ITruffleCfg>) {
-    super(ctx)
+  constructor(config: Config) {
+    super(config)
 
-    const { cwd, rawConfig } = ctx
+    const { cwd, outDir } = config
 
-    this.outDirAbs = resolve(cwd, rawConfig.outDir || DEFAULT_OUT_PATH)
+    this.outDirAbs = resolve(cwd, outDir || DEFAULT_OUT_PATH)
   }
 
-  transformFile(file: TFileDesc): TFileDesc | void {
+  transformFile(file: FileDescription): FileDescription | void {
     const abi = extractAbi(file.contents)
     const isEmptyAbi = abi.length === 0
     if (isEmptyAbi) {
@@ -46,7 +54,7 @@ export default class Truffle extends TsGeneratorPlugin {
     }
   }
 
-  afterRun(): TFileDesc[] {
+  afterRun(): FileDescription[] {
     return [
       {
         path: join(this.outDirAbs, 'index.d.ts'),

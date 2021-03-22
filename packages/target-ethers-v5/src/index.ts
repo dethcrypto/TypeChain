@@ -1,16 +1,18 @@
 import { join, resolve, basename } from 'path'
 import { uniqBy } from 'lodash'
 import { Dictionary } from 'ts-essentials'
-import { TContext, TFileDesc, TsGeneratorPlugin } from 'ts-generator'
 import {
   BytecodeWithLinkReferences,
+  Config,
   Contract,
   extractAbi,
   extractBytecode,
   extractDocumentation,
+  FileDescription,
   getFileExtension,
   getFilename,
   parse,
+  TypeChainTarget,
 } from 'typechain'
 
 import { codegenAbstractContractFactory, codegenContractFactory, codegenContractTypings } from './codegen'
@@ -22,7 +24,7 @@ export interface IEthersCfg {
 
 const DEFAULT_OUT_PATH = './types/ethers-contracts/'
 
-export default class Ethers extends TsGeneratorPlugin {
+export default class Ethers extends TypeChainTarget {
   name = 'Ethers'
   allContracts: string[] = []
 
@@ -33,15 +35,15 @@ export default class Ethers extends TsGeneratorPlugin {
   }> = {}
   private readonly bytecodeCache: Dictionary<BytecodeWithLinkReferences> = {}
 
-  constructor(ctx: TContext<IEthersCfg>) {
-    super(ctx)
+  constructor(config: Config) {
+    super(config)
 
-    const { cwd, rawConfig } = ctx
+    const { cwd, outDir } = config
 
-    this.outDirAbs = resolve(cwd, rawConfig.outDir || DEFAULT_OUT_PATH)
+    this.outDirAbs = resolve(cwd, outDir || DEFAULT_OUT_PATH)
   }
 
-  transformFile(file: TFileDesc): TFileDesc[] | void {
+  transformFile(file: FileDescription): FileDescription[] | void {
     const fileExt = getFileExtension(file.path)
 
     // For json files with both ABI and bytecode, both the contract typing and factory can be
@@ -55,7 +57,7 @@ export default class Ethers extends TsGeneratorPlugin {
     return this.transformAbiOrFullJsonFile(file)
   }
 
-  transformBinFile(file: TFileDesc): TFileDesc[] | void {
+  transformBinFile(file: FileDescription): FileDescription[] | void {
     const name = getFilename(file.path)
     const bytecode = extractBytecode(file.contents)
 
@@ -72,7 +74,7 @@ export default class Ethers extends TsGeneratorPlugin {
     }
   }
 
-  transformAbiOrFullJsonFile(file: TFileDesc): TFileDesc[] | void {
+  transformAbiOrFullJsonFile(file: FileDescription): FileDescription[] | void {
     const name = getFilename(file.path)
     const abi = extractAbi(file.contents)
 
@@ -93,7 +95,7 @@ export default class Ethers extends TsGeneratorPlugin {
     }
   }
 
-  genContractTypingsFile(contract: Contract): TFileDesc {
+  genContractTypingsFile(contract: Contract): FileDescription {
     this.allContracts.push(contract.name)
 
     return {
@@ -109,7 +111,7 @@ export default class Ethers extends TsGeneratorPlugin {
     }
   }
 
-  afterRun(): TFileDesc[] {
+  afterRun(): FileDescription[] {
     // For each contract that doesn't have bytecode (it's either abstract, or only ABI was provided)
     // generate a simplified factory, that allows to interact with deployed contract instances.
     const abstractFactoryFiles = Object.keys(this.contractCache).map((contractName) => {
@@ -144,7 +146,7 @@ export default class Ethers extends TsGeneratorPlugin {
     export interface TypedEvent<EventArgs extends Result> extends Event {
       args: EventArgs;
     }
-    
+
     export type TypedListener<EventArgsArray extends Array<any>, EventArgsObject> = (...listenerArg: [...EventArgsArray, TypedEvent<EventArgsArray & EventArgsObject>]) => void;`
   }
 

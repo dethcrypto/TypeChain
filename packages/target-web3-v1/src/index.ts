@@ -1,8 +1,15 @@
 import { join, resolve } from 'path'
 import { readFileSync } from 'fs'
 
-import { TsGeneratorPlugin, TContext, TFileDesc } from 'ts-generator'
-import { extractAbi, extractDocumentation, parse, getFilename } from 'typechain'
+import {
+  extractAbi,
+  extractDocumentation,
+  parse,
+  getFilename,
+  Config,
+  TypeChainTarget,
+  FileDescription,
+} from 'typechain'
 
 import { codegen } from './codegen'
 
@@ -12,20 +19,20 @@ export interface IWeb3Cfg {
 
 const DEFAULT_OUT_PATH = './types/web3-v1-contracts/'
 
-export default class Web3V1 extends TsGeneratorPlugin {
+export default class Web3V1 extends TypeChainTarget {
   name = 'Web3-v1'
 
   private readonly outDirAbs: string
 
-  constructor(ctx: TContext<IWeb3Cfg>) {
-    super(ctx)
+  constructor(config: Config) {
+    super(config)
 
-    const { cwd, rawConfig } = ctx
+    const { cwd, outDir } = config
 
-    this.outDirAbs = resolve(cwd, rawConfig.outDir || DEFAULT_OUT_PATH)
+    this.outDirAbs = resolve(cwd, outDir || DEFAULT_OUT_PATH)
   }
 
-  transformFile(file: TFileDesc): TFileDesc | void {
+  transformFile(file: FileDescription): FileDescription | void {
     const abi = extractAbi(file.contents)
     const isEmptyAbi = abi.length === 0
     if (isEmptyAbi) {
@@ -43,7 +50,7 @@ export default class Web3V1 extends TsGeneratorPlugin {
     }
   }
 
-  afterRun(): TFileDesc[] {
+  afterRun(): FileDescription[] {
     return [
       {
         path: join(this.outDirAbs, 'types.d.ts'),
