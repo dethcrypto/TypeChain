@@ -1,4 +1,5 @@
-import { join, resolve } from 'path'
+import { join, resolve, basename } from 'path'
+import { uniqBy } from 'lodash'
 import { Dictionary } from 'ts-essentials'
 import { TContext, TFileDesc, TsGeneratorPlugin } from 'ts-generator'
 import {
@@ -150,7 +151,9 @@ export default class Ethers extends TsGeneratorPlugin {
   private genReExports(): string {
     const codegen: string[] = []
 
-    for (const fileName of this.allContracts) {
+    const allContractsNoDuplicates = uniqBy(this.allContracts, (c) => basename(c))
+
+    for (const fileName of allContractsNoDuplicates) {
       const desiredSymbol = fileName
 
       codegen.push(`export type { ${desiredSymbol} } from './${desiredSymbol}'`)
@@ -159,7 +162,7 @@ export default class Ethers extends TsGeneratorPlugin {
     codegen.push('\n')
 
     // then generate reexports for TypeChain generated factories
-    for (const fileName of this.allContracts) {
+    for (const fileName of allContractsNoDuplicates) {
       const desiredSymbol = fileName + '__factory'
 
       codegen.push(`export { ${desiredSymbol} } from './factories/${desiredSymbol}'`)
