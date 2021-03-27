@@ -1,5 +1,5 @@
 import fsExtra from 'fs-extra'
-import { flatten, uniq } from 'lodash'
+import _, { flatten, uniq } from 'lodash'
 import { TASK_CLEAN, TASK_COMPILE, TASK_COMPILE_SOLIDITY_COMPILE_JOBS } from 'hardhat/builtin-tasks/task-names'
 import { extendConfig, task, subtask } from 'hardhat/config'
 import { HardhatPluginError } from 'hardhat/plugins'
@@ -8,7 +8,7 @@ import { getFullyQualifiedName } from 'hardhat/utils/contract-names'
 import { getDefaultTypechainConfig } from './config'
 import './type-extensions'
 
-const taskArgsStore: { noTypechain: boolean } = { noTypechain: false }
+const taskArgsStore: { noTypechain: boolean; fullRebuild: boolean } = { noTypechain: false, fullRebuild: false }
 
 extendConfig((config) => {
   config.typechain = getDefaultTypechainConfig(config)
@@ -34,18 +34,18 @@ task(TASK_COMPILE, 'Compiles the entire project, building all artifacts')
 subtask(TASK_COMPILE_SOLIDITY_COMPILE_JOBS, 'Compiles the entire project, building all artifacts').setAction(
   async (taskArgs, { config, artifacts }, runSuper) => {
     const compileSolOutput = await runSuper(taskArgs)
-    const artifactFQNs: string[] = flatten(
-      compileSolOutput.artifactsEmittedPerJob[0].artifactsEmittedPerFile.map((artifactPerFile: any) => {
-        return artifactPerFile.artifactsEmitted.map((artifactName: any) => {
-          return getFullyQualifiedName(artifactPerFile.file.sourceName, artifactName)
-        })
-      }),
-    )
+
+    const artifactFQNs: string[] = getFQNamesFromCompilationOutput(compileSolOutput)
     const artifactPaths = uniq(
       artifactFQNs.map((fqn) => (artifacts as any)._getArtifactPathFromFullyQualifiedName(fqn)),
     )
 
     if (taskArgsStore.noTypechain) {
+      return compileSolOutput
+    }
+
+    if (artifactPaths.length === 0 && !taskArgsStore.fullRebuild) {
+      console.log('No need to generate any newer typings.')
       return compileSolOutput
     }
 
@@ -56,20 +56,22 @@ subtask(TASK_COMPILE_SOLIDITY_COMPILE_JOBS, 'Compiles the entire project, buildi
     )
     const cwd = process.cwd()
     const { runTypeChain, glob } = await import('typechain')
-    await runTypeChain({
+    const allFiles = glob(cwd, [`${config.paths.artifacts}/!(build-info)/**/+([a-zA-Z0-9_]).json`])
+    const results = await runTypeChain({
       cwd,
-      filesToProcess: glob(cwd, [`${config.paths.artifacts}/!(build-info)/**/+([a-zA-Z0-9_]).json`]),
-      allFiles: glob(cwd, [`${config.paths.artifacts}/!(build-info)/**/+([a-zA-Z0-9_]).json`]),
+      filesToProcess: taskArgsStore.fullRebuild ? allFiles : glob(cwd, artifactPaths), // only process changed files if not forceRebuild
+      allFiles,
       outDir: typechainCfg.outDir,
       target: typechainCfg.target,
     })
-    console.log(`Successfully generated Typechain artifacts!`)
+    console.log(`Successfully generated ${results.filesGenerated} typings!`)
 
     return compileSolOutput
   },
 )
 
 task('typechain', 'Generate Typechain typings for compiled contracts').setAction(async (_, { run }) => {
+  taskArgsStore.fullRebuild = true
   await run(TASK_COMPILE, { quiet: true })
 })
 
@@ -88,3 +90,15 @@ task(
     await runSuper()
   },
 )
+
+function getFQNamesFromCompilationOutput(compileSolOutput: any): string[] {
+  const allFQNNamesNested = compileSolOutput.artifactsEmittedPerJob.map((a: any) => {
+    return a.artifactsEmittedPerFile.map((artifactPerFile: any) => {
+      return artifactPerFile.artifactsEmitted.map((artifactName: any) => {
+        return getFullyQualifiedName(artifactPerFile.file.sourceName, artifactName)
+      })
+    })
+  })
+
+  return _(allFQNNamesNested).flatten().flatten().value()
+}
