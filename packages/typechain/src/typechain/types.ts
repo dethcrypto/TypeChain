@@ -1,7 +1,6 @@
 import * as fs from 'fs'
 import * as prettier from 'prettier'
 import { sync as mkdirp } from 'mkdirp'
-import * as resolve from 'resolve'
 
 export interface Config {
   cwd: string
