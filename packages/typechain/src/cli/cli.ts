@@ -20,7 +20,8 @@ async function main() {
     prettier,
   }
 
-  await runTypeChain(config)
+  const result = await runTypeChain(config)
+  console.log(`Generated ${result.filesGenerated} typings.`)
 }
 
 main().catch((e) => {

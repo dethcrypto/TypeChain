@@ -6,7 +6,7 @@ export interface Config {
   cwd: string
   target: string
   outDir?: string
-  prettier: object
+  prettier?: object
   filesToProcess: string[] // filesToProcess is a subset of allFiles, used during incremental generating
   allFiles: string[]
 }

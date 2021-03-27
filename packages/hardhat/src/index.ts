@@ -55,19 +55,14 @@ subtask(TASK_COMPILE_SOLIDITY_COMPILE_JOBS, 'Compiles the entire project, buildi
       `Generating typings for: ${artifactPaths.length} artifacts in dir: ${typechainCfg.outDir} for target: ${typechainCfg.target}`,
     )
     const cwd = process.cwd()
-    const { TypeChain } = await import('typechain/dist/TypeChain')
-    const { tsGenerator } = await import('ts-generator')
-    await tsGenerator(
-      { cwd },
-      new TypeChain({
-        cwd,
-        rawConfig: {
-          files: `${config.paths.artifacts}/!(build-info)/**/+([a-zA-Z0-9_]).json`,
-          outDir: typechainCfg.outDir,
-          target: typechainCfg.target,
-        },
-      }),
-    )
+    const { runTypeChain, glob } = await import('typechain')
+    await runTypeChain({
+      cwd,
+      filesToProcess: glob(cwd, [`${config.paths.artifacts}/!(build-info)/**/+([a-zA-Z0-9_]).json`]),
+      allFiles: glob(cwd, [`${config.paths.artifacts}/!(build-info)/**/+([a-zA-Z0-9_]).json`]),
+      outDir: typechainCfg.outDir,
+      target: typechainCfg.target,
+    })
     console.log(`Successfully generated Typechain artifacts!`)
 
     return compileSolOutput
