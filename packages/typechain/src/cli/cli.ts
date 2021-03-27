@@ -1,16 +1,26 @@
 #!/usr/bin/env node
-import { tsGenerator } from 'ts-generator'
-
 import { parseArgs } from './parseArgs'
-import { TypeChain } from '../TypeChain'
+import { runTypeChain } from '../typechain/runTypeChain'
 import { logger } from '../utils/logger'
+import { Config } from '../typechain/types'
+import { glob } from '../utils/glob'
+import * as prettier from 'prettier'
 
 async function main() {
   ;(global as any).IS_CLI = true
   const options = parseArgs()
   const cwd = process.cwd()
 
-  await tsGenerator({ cwd, loggingLvl: 'info' }, new TypeChain({ cwd, rawConfig: options }))
+  const config: Config = {
+    cwd,
+    target: options.target,
+    outDir: options.outDir,
+    allFiles: glob(cwd, [options.files]),
+    filesToProcess: glob(cwd, [options.files]),
+    prettier,
+  }
+
+  await runTypeChain(config)
 }
 
 main().catch((e) => {
