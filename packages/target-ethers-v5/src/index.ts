@@ -12,6 +12,7 @@ import {
   getFilename,
   parse,
   TypeChainTarget,
+  normalizeName,
 } from 'typechain'
 
 import { codegenAbstractContractFactory, codegenContractFactory, codegenContractTypings } from './codegen'
@@ -25,8 +26,8 @@ const DEFAULT_OUT_PATH = './types/ethers-contracts/'
 
 export default class Ethers extends TypeChainTarget {
   name = 'Ethers'
-  allContracts: string[] = []
 
+  private readonly allContracts: string[]
   private readonly outDirAbs: string
   private readonly contractCache: Dictionary<{
     abi: any
@@ -37,9 +38,11 @@ export default class Ethers extends TypeChainTarget {
   constructor(config: Config) {
     super(config)
 
-    const { cwd, outDir } = config
+    const { cwd, outDir, allFiles } = config
 
     this.outDirAbs = resolve(cwd, outDir || DEFAULT_OUT_PATH)
+
+    this.allContracts = allFiles.map((fp) => normalizeName(getFilename(fp)))
   }
 
   transformFile(file: FileDescription): FileDescription[] | void {
@@ -95,8 +98,6 @@ export default class Ethers extends TypeChainTarget {
   }
 
   genContractTypingsFile(contract: Contract): FileDescription {
-    this.allContracts.push(contract.name)
-
     return {
       path: join(this.outDirAbs, `${contract.name}.d.ts`),
       contents: codegenContractTypings(contract),
