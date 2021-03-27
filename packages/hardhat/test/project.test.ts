@@ -35,7 +35,7 @@ describe('Typechain x Hardhat', function () {
   })
 
   describe('when recompiling', () => {
-    it.only('generates typings only for changed files', async function () {
+    it('generates typings only for changed files', async function () {
       const exists = existsSync(this.hre.config.typechain.outDir)
       expect(exists).toEqual(false)
 
