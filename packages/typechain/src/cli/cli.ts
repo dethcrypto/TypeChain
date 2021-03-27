@@ -15,13 +15,13 @@ async function main() {
     cwd,
     target: options.target,
     outDir: options.outDir,
-    allFiles: glob(cwd, [options.files]),
-    filesToProcess: glob(cwd, [options.files]),
+    allFiles: glob(cwd, options.files),
+    filesToProcess: glob(cwd, options.files),
     prettier,
   }
 
   const result = await runTypeChain(config)
-  console.log(`Generated ${result.filesGenerated} typings.`)
+  console.log(`Successfully generated ${result.filesGenerated} typings!`)
 }
 
 main().catch((e) => {
