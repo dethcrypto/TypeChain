@@ -1,7 +1,9 @@
 import fsExtra from 'fs-extra'
+import { flatten, uniq } from 'lodash'
 import { TASK_CLEAN, TASK_COMPILE, TASK_COMPILE_SOLIDITY_COMPILE_JOBS } from 'hardhat/builtin-tasks/task-names'
 import { extendConfig, task, subtask } from 'hardhat/config'
 import { HardhatPluginError } from 'hardhat/plugins'
+import { getFullyQualifiedName } from 'hardhat/utils/contract-names'
 
 import { getDefaultTypechainConfig } from './config'
 import './type-extensions'
@@ -30,22 +32,27 @@ task(TASK_COMPILE, 'Compiles the entire project, building all artifacts')
   })
 
 subtask(TASK_COMPILE_SOLIDITY_COMPILE_JOBS, 'Compiles the entire project, building all artifacts').setAction(
-  async (taskArgs, { config }, runSuper) => {
+  async (taskArgs, { config, artifacts }, runSuper) => {
     const compileSolOutput = await runSuper(taskArgs)
-    const filesToCompile: string[] = compileSolOutput.artifactsEmittedPerJob[0].compilationJob
-      .getResolvedFiles()
-      .map((rf: any) => rf.absolutePath)
+    const artifactFQNs: string[] = flatten(
+      compileSolOutput.artifactsEmittedPerJob[0].artifactsEmittedPerFile.map((artifactPerFile: any) => {
+        return artifactPerFile.artifactsEmitted.map((artifactName: any) => {
+          return getFullyQualifiedName(artifactPerFile.file.sourceName, artifactName)
+        })
+      }),
+    )
+    const artifactPaths = uniq(
+      artifactFQNs.map((fqn) => (artifacts as any)._getArtifactPathFromFullyQualifiedName(fqn)),
+    )
 
     if (taskArgsStore.noTypechain) {
       return compileSolOutput
     }
 
-    debugger
-
     // RUN TYPECHAIN TASK
     const typechainCfg = config.typechain
     console.log(
-      `Generating TypeChain typings for: ${filesToCompile.length} artifacts in dir: ${typechainCfg.outDir} for target: ${typechainCfg.target}`,
+      `Generating typings for: ${artifactPaths.length} artifacts in dir: ${typechainCfg.outDir} for target: ${typechainCfg.target}`,
     )
     const cwd = process.cwd()
     const { TypeChain } = await import('typechain/dist/TypeChain')
