@@ -57,14 +57,14 @@ subtask(TASK_COMPILE_SOLIDITY_COMPILE_JOBS, 'Compiles the entire project, buildi
     const cwd = process.cwd()
     const { runTypeChain, glob } = await import('typechain')
     const allFiles = glob(cwd, [`${config.paths.artifacts}/!(build-info)/**/+([a-zA-Z0-9_]).json`])
-    const results = await runTypeChain({
+    const result = await runTypeChain({
       cwd,
       filesToProcess: taskArgsStore.fullRebuild ? allFiles : glob(cwd, artifactPaths), // only process changed files if not forceRebuild
       allFiles,
       outDir: typechainCfg.outDir,
       target: typechainCfg.target,
     })
-    console.log(`Successfully generated ${results.filesGenerated} typings!`)
+    console.log(`Successfully generated ${result.filesGenerated} typings!`)
 
     return compileSolOutput
   },
