@@ -3,14 +3,14 @@ import commandLineArgs from 'command-line-args'
 const DEFAULT_GLOB_PATTERN = '**/*.abi'
 
 export interface IOptions {
-  files: string
+  files: string[]
   target: string
   outDir?: string
 }
 
 export function parseArgs(): IOptions {
   const optionDefinitions = [
-    { name: 'glob', type: String, defaultOption: true },
+    { name: 'glob', type: String, defaultOption: true, multiple: true },
     { name: 'target', type: String },
     { name: 'outDir', type: String },
     { name: 'show-stack-traces', type: Boolean },
