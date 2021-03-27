@@ -1,5 +1,5 @@
 /* eslint-disable no-invalid-this */
-import { expect } from 'earljs'
+import { expect, Mock, mockFn } from 'earljs'
 import { join } from 'path'
 import { existsSync, promises as fsPromises, copyFileSync, readFileSync } from 'fs'
 
@@ -35,19 +35,60 @@ describe('Typechain x Hardhat', function () {
   })
 
   describe('when recompiling', () => {
+    let originalConsoleLog: any
+    let consoleLogMock: Mock<any, any>
+
+    beforeEach(() => {
+      consoleLogMock = mockFn().returns(undefined)
+      originalConsoleLog = console.log
+      console.log = consoleLogMock
+    })
+
+    afterEach(() => {
+      console.log = originalConsoleLog
+    })
+
     it('generates typings only for changed files', async function () {
       const exists = existsSync(this.hre.config.typechain.outDir)
       expect(exists).toEqual(false)
 
       await this.hre.run('compile')
+      expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 8 typings!'])
+
+      // copy one more file and recompile project
       copyFileSync(TestContract2OriginPath, TestContract2DestinationPath)
       await this.hre.run('compile')
 
       expect(existsSync(this.hre.config.typechain.outDir)).toEqual(true)
       expect(readFileSync(typechainIndexFilePath, 'utf-8')).toMatchSnapshot()
+      expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 4 typings!']) // 4 b/c commons.ts, index.ts, TestContract2 and TestContract2Factory
     })
 
-    it('does nothing when there are no changes to recompile')
+    it('does nothing when there are no changes to recompile', async function () {
+      const exists = existsSync(this.hre.config.typechain.outDir)
+      expect(exists).toEqual(false)
+
+      await this.hre.run('compile')
+      expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 8 typings!'])
+
+      await this.hre.run('compile')
+
+      expect(existsSync(this.hre.config.typechain.outDir)).toEqual(true)
+      expect(consoleLogMock).toHaveBeenCalledWith(['No need to generate any newer typings.'])
+    })
+
+    it('does full recompile when forced', async function () {
+      const exists = existsSync(this.hre.config.typechain.outDir)
+      expect(exists).toEqual(false)
+
+      await this.hre.run('compile')
+      expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 8 typings!'])
+
+      await this.hre.run('typechain')
+
+      expect(existsSync(this.hre.config.typechain.outDir)).toEqual(true)
+      expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 8 typings!'])
+    })
   })
 })
 
