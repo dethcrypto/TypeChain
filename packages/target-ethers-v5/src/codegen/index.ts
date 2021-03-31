@@ -20,7 +20,7 @@ import { FACTORY_POSTFIX } from '../common'
 import { reservedKeywords } from './reserved-keywords'
 
 export function codegenContractTypings(contract: Contract, codegenConfig: CodegenConfig) {
-  const contractImports: string[] = ['Contract', 'ContractTransaction']
+  const contractImports: string[] = ['ContractTransaction']
   const allFunctions = values(contract.functions)
     .map(
       (fn) =>
@@ -39,9 +39,9 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
   import { BytesLike } from '@ethersproject/bytes';
   import { Listener, Provider } from '@ethersproject/providers';
   import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
-  import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
+  import { TypedEventFilter, TypedEvent, TypedListener, TCBaseContract, TCBaseInterface } from './commons';
 
-  interface ${contract.name}Interface extends ethers.utils.Interface {
+  interface ${contract.name}Interface extends TCBaseInterface {
     functions: {
       ${values(contract.functions)
         .map((v) => v[0])
@@ -72,7 +72,7 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
       .join('\n')}
   }
 
-  export class ${contract.name} extends Contract {
+  export interface ${contract.name} implements TCBaseContract {
     connect(signerOrProvider: Signer | Provider | string): this;
     attach(addressOrName: string): this;
     deployed(): Promise<this>;
@@ -178,13 +178,13 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
       return super.getDeployTransaction(${constructorArgNames});
     };
     attach(address: string): ${contract.name} {
-      return super.attach(address) as ${contract.name};
+      return super.attach(address) as any as ${contract.name};
     }
     connect(signer: Signer): ${contract.name}${FACTORY_POSTFIX} {
-      return super.connect(signer) as ${contract.name}${FACTORY_POSTFIX};
+      return super.connect(signer) as any as ${contract.name}${FACTORY_POSTFIX};
     }
     static connect(address: string, signerOrProvider: Signer | Provider): ${contract.name} {
-      return new Contract(address, _abi, signerOrProvider) as ${contract.name};
+      return new Contract(address, _abi, signerOrProvider) as any as ${contract.name};
     }
   }
 
@@ -205,7 +205,7 @@ export function codegenAbstractContractFactory(contract: Contract, abi: any): st
 
   export class ${contract.name}${FACTORY_POSTFIX} {
     static connect(address: string, signerOrProvider: Signer | Provider): ${contract.name} {
-      return new Contract(address, _abi, signerOrProvider) as ${contract.name};
+      return new Contract(address, _abi, signerOrProvider) as any as ${contract.name};
     }
   }
 

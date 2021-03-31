@@ -22,6 +22,7 @@ describe('Overloads', () => {
   })
 
   it('still doesnt create overload1 fn anymore', () => {
+    // @ts-expect-error
     expect(contract.overload1).toEqual(undefined)
   })
 

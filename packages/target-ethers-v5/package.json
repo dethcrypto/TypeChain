@@ -32,9 +32,9 @@
     "test:fix": "yarn lint:fix && yarn format:fix && yarn test && yarn typecheck"
   },
   "peerDependencies": {
+    "ethers": "^5.1.0",
     "typechain": "^4.0.0",
-    "typescript": ">=4.0.0",
-    "ethers": "^5.0.0"
+    "typescript": ">=4.0.0"
   },
   "devDependencies": {
     "ganache-cli": "^6.9.1",

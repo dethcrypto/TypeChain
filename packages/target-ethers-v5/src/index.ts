@@ -143,7 +143,7 @@ export default class Ethers extends TypeChainTarget {
 
   private genCommons(): string {
     return `
-    import { EventFilter, Event } from 'ethers'
+    import { EventFilter, Event, BaseContract, utils } from 'ethers'
     import { Result } from '@ethersproject/abi'
 
     export interface TypedEventFilter<_EventArgsArray, _EventArgsObject> extends EventFilter {}
@@ -152,7 +152,12 @@ export default class Ethers extends TypeChainTarget {
       args: EventArgs;
     }
 
-    export type TypedListener<EventArgsArray extends Array<any>, EventArgsObject> = (...listenerArg: [...EventArgsArray, TypedEvent<EventArgsArray & EventArgsObject>]) => void;`
+    export type TypedListener<EventArgsArray extends Array<any>, EventArgsObject> = (...listenerArg: [...EventArgsArray, TypedEvent<EventArgsArray & EventArgsObject>]) => void;
+
+    export type TCBaseContract = Omit<BaseContract, "connect" | "attach" | "deployed" | "functions">
+    export type TCBaseInterface = Omit<utils.Interface, "connect" | "attach" | "deployed" | "functions">
+
+    `
   }
 
   private genReExports(): string {
