@@ -10,7 +10,7 @@
     "lint:fix": "yarn lint --fix",
     "typecheck": "tsc --noEmit --incremental false --composite false && tsc --noEmit --incremental false --composite false -p tsconfig.types.json",
     "clean": "rm -rf dist contracts/* && rm -f tsconfig.build.tsbuildinfo && rm -rf build",
-    "generate-types": "../typechain/dist/cli/cli.js --target=`pwd`/../target-web3-v1/dist/index.js --outDir ./types/ '../../contracts/compiled/*.abi'",
+    "generate-types": "../typechain/dist/cli/cli.js --target=`pwd`/../target-web3-v1/dist/index.js --out-dir ./types/ '../../contracts/compiled/*.abi'",
     "test": "yarn generate-types && mocha --config ../../.mocharc.js",
     "test:fix": "yarn lint:fix && yarn format:fix && yarn test && yarn typecheck"
   },

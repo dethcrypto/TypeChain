@@ -75,41 +75,22 @@ export class Library extends Contract {
 
   functions: {
     other(b: BigNumberish, overrides?: CallOverrides): Promise<[number]>;
-
-    "other(uint8)"(
-      b: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[number]>;
   };
 
   other(b: BigNumberish, overrides?: CallOverrides): Promise<number>;
 
-  "other(uint8)"(b: BigNumberish, overrides?: CallOverrides): Promise<number>;
-
   callStatic: {
     other(b: BigNumberish, overrides?: CallOverrides): Promise<number>;
-
-    "other(uint8)"(b: BigNumberish, overrides?: CallOverrides): Promise<number>;
   };
 
   filters: {};
 
   estimateGas: {
     other(b: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
-
-    "other(uint8)"(
-      b: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
     other(
-      b: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "other(uint8)"(
       b: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;

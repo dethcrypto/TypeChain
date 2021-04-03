@@ -8,16 +8,17 @@ import * as prettier from 'prettier'
 
 async function main() {
   ;(global as any).IS_CLI = true
-  const options = parseArgs()
+  const cliConfig = parseArgs()
   const cwd = process.cwd()
 
   const config: Config = {
     cwd,
-    target: options.target,
-    outDir: options.outDir,
-    allFiles: glob(cwd, options.files),
-    filesToProcess: glob(cwd, options.files),
+    target: cliConfig.target,
+    outDir: cliConfig.outDir,
+    allFiles: glob(cwd, cliConfig.files),
+    filesToProcess: glob(cwd, cliConfig.files),
     prettier,
+    flags: cliConfig.flags,
   }
 
   const result = await runTypeChain(config)

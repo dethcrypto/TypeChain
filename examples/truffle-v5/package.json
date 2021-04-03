@@ -7,7 +7,7 @@
   "scripts": {
     "generate-types": "typechain --target=truffle-v5 'build/contracts/*.json'",
     "postinstall": "truffle compile && yarn generate-types",
-    "migrate": "tsc -p ./tsconfig.migrate.json --outDir ./migrations && truffle migrate",
+    "migrate": "tsc -p ./tsconfig.migrate.json --out-dir ./migrations && truffle migrate",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

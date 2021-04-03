@@ -79,25 +79,15 @@ export class NameMangling extends Contract {
   functions: {
     provider(overrides?: CallOverrides): Promise<[boolean]>;
 
-    "provider()"(overrides?: CallOverrides): Promise<[boolean]>;
-
     works(overrides?: CallOverrides): Promise<[boolean]>;
-
-    "works()"(overrides?: CallOverrides): Promise<[boolean]>;
   };
 
   works(overrides?: CallOverrides): Promise<boolean>;
 
-  "works()"(overrides?: CallOverrides): Promise<boolean>;
-
   callStatic: {
     provider(overrides?: CallOverrides): Promise<boolean>;
 
-    "provider()"(overrides?: CallOverrides): Promise<boolean>;
-
     works(overrides?: CallOverrides): Promise<boolean>;
-
-    "works()"(overrides?: CallOverrides): Promise<boolean>;
   };
 
   filters: {};
@@ -105,20 +95,12 @@ export class NameMangling extends Contract {
   estimateGas: {
     provider(overrides?: CallOverrides): Promise<BigNumber>;
 
-    "provider()"(overrides?: CallOverrides): Promise<BigNumber>;
-
     works(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "works()"(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
     provider(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    "provider()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     works(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    "works()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }

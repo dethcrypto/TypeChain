@@ -1,7 +1,7 @@
 import _ = require('lodash')
 import { debug } from '../utils/debug'
 import { relative } from 'path'
-import { Config, Services } from './types'
+import { Config, PublicConfig, Services } from './types'
 import { findTarget } from './findTarget'
 import { loadFileDescriptions, processOutput } from './io'
 
@@ -13,7 +13,8 @@ interface Result {
   filesGenerated: number
 }
 
-export async function runTypeChain(config: Config): Promise<Result> {
+export async function runTypeChain(publicConfig: PublicConfig): Promise<Result> {
+  const config: Config = { ...{ flags: { alwaysGenerateOverloads: false } }, ...publicConfig }
   const services: Services = {
     fs,
     prettier,
