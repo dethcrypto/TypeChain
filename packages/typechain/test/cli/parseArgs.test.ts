@@ -15,7 +15,12 @@ describe('cli > parseArgs', () => {
 
     const res = parseArgs()
 
-    expect(res).toEqual({ files: ['**/*.abi'], target: 'sample-target', outDir: undefined })
+    expect(res).toEqual({
+      files: ['**/*.abi'],
+      target: 'sample-target',
+      outDir: undefined,
+      flags: { alwaysGenerateOverloads: false },
+    })
   })
 
   it('parses a single file or glob', () => {
@@ -23,7 +28,12 @@ describe('cli > parseArgs', () => {
 
     const res = parseArgs()
 
-    expect(res).toEqual({ files: ['*.abi'], target: 'sample-target', outDir: undefined })
+    expect(res).toEqual({
+      files: ['*.abi'],
+      target: 'sample-target',
+      outDir: undefined,
+      flags: { alwaysGenerateOverloads: false },
+    })
   })
 
   it('parses multiple files', () => {
@@ -31,6 +41,24 @@ describe('cli > parseArgs', () => {
 
     const res = parseArgs()
 
-    expect(res).toEqual({ files: ['*.json', '**/*.json'], target: 'sample-target', outDir: undefined })
+    expect(res).toEqual({
+      files: ['*.json', '**/*.json'],
+      target: 'sample-target',
+      outDir: undefined,
+      flags: { alwaysGenerateOverloads: false },
+    })
+  })
+
+  it('parses --always-generate-overloads flag', () => {
+    process.argv = ['', '', '--target', 'sample-target', '--always-generate-overloads']
+
+    const res = parseArgs()
+
+    expect(res).toEqual({
+      files: ['**/*.abi'],
+      target: 'sample-target',
+      outDir: undefined,
+      flags: { alwaysGenerateOverloads: true },
+    })
   })
 })

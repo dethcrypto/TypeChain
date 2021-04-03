@@ -1,6 +1,7 @@
 import * as fs from 'fs'
 import * as prettier from 'prettier'
 import { sync as mkdirp } from 'mkdirp'
+import { MarkOptional } from 'ts-essentials'
 
 export interface Config {
   cwd: string
@@ -9,7 +10,14 @@ export interface Config {
   prettier?: object
   filesToProcess: string[] // filesToProcess is a subset of allFiles, used during incremental generating
   allFiles: string[]
+  flags: CodegenConfig
 }
+
+export interface CodegenConfig {
+  alwaysGenerateOverloads: boolean
+}
+
+export type PublicConfig = MarkOptional<Config, 'flags'>
 
 export abstract class TypeChainTarget {
   public abstract readonly name: string

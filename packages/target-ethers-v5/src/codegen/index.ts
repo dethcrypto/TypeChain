@@ -2,6 +2,7 @@ import { values } from 'lodash'
 import {
   AbiParameter,
   BytecodeWithLinkReferences,
+  CodegenConfig,
   Contract,
   EventArgDeclaration,
   EventDeclaration,
@@ -18,10 +19,14 @@ import { codegenFunctions } from './functions'
 import { FACTORY_POSTFIX } from '../common'
 import { reservedKeywords } from './reserved-keywords'
 
-export function codegenContractTypings(contract: Contract) {
+export function codegenContractTypings(contract: Contract, codegenConfig: CodegenConfig) {
   const contractImports: string[] = ['Contract', 'ContractTransaction']
   const allFunctions = values(contract.functions)
-    .map((fn) => codegenFunctions({ returnResultObject: true }, fn) + codegenFunctions({ isStaticCall: true }, fn))
+    .map(
+      (fn) =>
+        codegenFunctions({ returnResultObject: true, codegenConfig }, fn) +
+        codegenFunctions({ isStaticCall: true, codegenConfig }, fn),
+    )
     .join('')
 
   const optionalContractImports = ['Overrides', 'PayableOverrides', 'CallOverrides']
@@ -96,18 +101,18 @@ export function codegenContractTypings(contract: Contract) {
 
     functions: {
       ${values(contract.functions)
-        .map(codegenFunctions.bind(null, { returnResultObject: true }))
+        .map(codegenFunctions.bind(null, { returnResultObject: true, codegenConfig }))
         .join('\n')}
     };
 
     ${values(contract.functions)
       .filter((f) => !reservedKeywords.has(f[0].name))
-      .map(codegenFunctions.bind(null, {}))
+      .map(codegenFunctions.bind(null, { codegenConfig }))
       .join('\n')}
 
     callStatic: {
       ${values(contract.functions)
-        .map(codegenFunctions.bind(null, { isStaticCall: true }))
+        .map(codegenFunctions.bind(null, { isStaticCall: true, codegenConfig }))
         .join('\n')}
     };
 
@@ -120,13 +125,13 @@ export function codegenContractTypings(contract: Contract) {
 
     estimateGas: {
       ${values(contract.functions)
-        .map(codegenFunctions.bind(null, { overrideOutput: 'Promise<BigNumber>' }))
+        .map(codegenFunctions.bind(null, { overrideOutput: 'Promise<BigNumber>', codegenConfig }))
         .join('\n')}
     };
 
     populateTransaction: {
       ${values(contract.functions)
-        .map(codegenFunctions.bind(null, { overrideOutput: 'Promise<PopulatedTransaction>' }))
+        .map(codegenFunctions.bind(null, { overrideOutput: 'Promise<PopulatedTransaction>', codegenConfig }))
         .join('\n')}
     };
   }`

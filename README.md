@@ -60,14 +60,16 @@ typechain --target=(ethers-v4|truffle-v4|truffle-v5|web3-v1|path-to-custom-targe
   `./abis/**/*.abi`, `./abis/?(Oasis.abi|OasisHelper.abi)`.
 - `--target` - ethers-v4, truffle-v4, truffle-v5, web3-v1 or path to your custom target. Typechain will try to load
   package named: `@typechain/${target}`, so make sure that desired package is installed.
-- `--outDir` (optional) - put all generated files to a specific dir.
+- `--out-dir` (optional) - put all generated files to a specific dir.
+- `--always-generate-overloads` (optional) - some targets won't generate unnecessary types for overloaded functions by
+  default, this option forces to always generate them
 
 TypeChain always will rewrite existing files. You should not commit them. Read more in FAQ section.
 
 Example:
 
 ```
-typechain --target ethers-v4 --outDir app/contracts './node_modules/neufund-contracts/build/contracts/*.json'
+typechain --target ethers-v4 --out-dir app/contracts './node_modules/neufund-contracts/build/contracts/*.json'
 ```
 
 ## Demo 🏎️

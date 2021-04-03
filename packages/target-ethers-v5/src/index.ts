@@ -14,6 +14,7 @@ import {
   parse,
   TypeChainTarget,
   normalizeName,
+  CodegenConfig,
 } from 'typechain'
 
 import { codegenAbstractContractFactory, codegenContractFactory, codegenContractTypings } from './codegen'
@@ -91,17 +92,20 @@ export default class Ethers extends TypeChainTarget {
     const bytecode = extractBytecode(file.contents) || this.bytecodeCache[name]
 
     if (bytecode) {
-      return [this.genContractTypingsFile(contract), this.genContractFactoryFile(contract, abi, bytecode)]
+      return [
+        this.genContractTypingsFile(contract, this.cfg.flags),
+        this.genContractFactoryFile(contract, abi, bytecode),
+      ]
     } else {
       this.contractCache[name] = { abi, contract }
-      return [this.genContractTypingsFile(contract)]
+      return [this.genContractTypingsFile(contract, this.cfg.flags)]
     }
   }
 
-  genContractTypingsFile(contract: Contract): FileDescription {
+  genContractTypingsFile(contract: Contract, codegenConfig: CodegenConfig): FileDescription {
     return {
       path: join(this.outDirAbs, `${contract.name}.d.ts`),
-      contents: codegenContractTypings(contract),
+      contents: codegenContractTypings(contract, codegenConfig),
     }
   }
 
