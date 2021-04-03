@@ -19,7 +19,7 @@ export function parseArgs(): IOptions {
   const rawOptions = commandLineArgs(optionDefinitions)
 
   return {
-    files: rawOptions.glob || DEFAULT_GLOB_PATTERN,
+    files: rawOptions.glob || [DEFAULT_GLOB_PATTERN],
     outDir: rawOptions.outDir,
     target: rawOptions.target,
   }
