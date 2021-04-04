@@ -9,16 +9,21 @@ import {
   BigNumber,
   BigNumberish,
   PopulatedTransaction,
-  Contract,
   ContractTransaction,
   CallOverrides,
 } from "ethers";
 import { BytesLike } from "@ethersproject/bytes";
 import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
-import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
+import {
+  TypedEventFilter,
+  TypedEvent,
+  TypedListener,
+  TCBaseContract,
+  TCBaseInterface,
+} from "./commons";
 
-interface NameManglingInterface extends ethers.utils.Interface {
+interface NameManglingInterface extends TCBaseInterface {
   functions: {
     "provider()": FunctionFragment;
     "works()": FunctionFragment;
@@ -33,7 +38,7 @@ interface NameManglingInterface extends ethers.utils.Interface {
   events: {};
 }
 
-export class NameMangling extends Contract {
+export interface NameMangling {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

@@ -155,8 +155,8 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
   if (!bytecode) return codegenAbstractContractFactory(contract, abi)
 
   // tsc with noUnusedLocals would complain about unused imports
-  const ethersImports: string[] = ['Signer']
-  const optionalEthersImports = ['BytesLike', 'BigNumberish']
+  const ethersImports: string[] = ['Signer', 'ContractInterface', 'BytesLike']
+  const optionalEthersImports = ['BigNumberish']
   optionalEthersImports.forEach((importName) => pushImportIfUsed(importName, constructorArgs, ethersImports))
 
   const ethersContractImports: string[] = ['Contract', 'ContractFactory']
@@ -169,22 +169,24 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
 
   import type { ${contract.name} } from "../${contract.name}";
 
-  export class ${contract.name}${FACTORY_POSTFIX} extends ContractFactory {
+  const ContractFactoryBase = ContractFactory as any as new (contractInterface: ContractInterface, bytecode: BytesLike | { object: string }, signer?: Signer) => Omit<typeof ContractFactory, "deploy"|"attach"|"connect">
+
+  export class ${contract.name}${FACTORY_POSTFIX} extends ContractFactoryBase {
     ${generateFactoryConstructor(contract, bytecode)}
     deploy(${constructorArgs}): Promise<${contract.name}> {
-      return super.deploy(${constructorArgNames}) as Promise<${contract.name}>;
+      return ContractFactory.prototype.deploy.call(this, ${constructorArgNames}) as any;
     }
     getDeployTransaction(${constructorArgs}): TransactionRequest {
-      return super.getDeployTransaction(${constructorArgNames});
+      return ContractFactory.prototype.getDeployTransaction.call(this, ${constructorArgNames}) as any;
     };
     attach(address: string): ${contract.name} {
-      return super.attach(address) as any as ${contract.name};
+      return ContractFactory.prototype.attach.call(this, address) as any;
     }
     connect(signer: Signer): ${contract.name}${FACTORY_POSTFIX} {
-      return super.connect(signer) as any as ${contract.name}${FACTORY_POSTFIX};
+      return ContractFactory.prototype.connect.call(this, signer) as any;
     }
     static connect(address: string, signerOrProvider: Signer | Provider): ${contract.name} {
-      return new Contract(address, _abi, signerOrProvider) as any as ${contract.name};
+      return new Contract(address, _abi, signerOrProvider) as any;
     }
   }
 

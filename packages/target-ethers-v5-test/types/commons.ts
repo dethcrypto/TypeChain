@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { EventFilter, Event } from "ethers";
+import { EventFilter, Event, BaseContract, utils } from "ethers";
 import { Result } from "@ethersproject/abi";
 
 export interface TypedEventFilter<_EventArgsArray, _EventArgsObject>
@@ -21,3 +21,12 @@ export type TypedListener<
     TypedEvent<EventArgsArray & EventArgsObject>
   ]
 ) => void;
+
+export type TCBaseContract = Omit<
+  BaseContract,
+  "connect" | "attach" | "deployed" | "functions"
+>;
+export type TCBaseInterface = Omit<
+  utils.Interface,
+  "connect" | "attach" | "deployed" | "functions"
+>;

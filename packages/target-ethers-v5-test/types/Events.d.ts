@@ -9,7 +9,6 @@ import {
   BigNumber,
   BigNumberish,
   PopulatedTransaction,
-  Contract,
   ContractTransaction,
   Overrides,
   CallOverrides,
@@ -17,9 +16,15 @@ import {
 import { BytesLike } from "@ethersproject/bytes";
 import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
-import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
+import {
+  TypedEventFilter,
+  TypedEvent,
+  TypedListener,
+  TCBaseContract,
+  TCBaseInterface,
+} from "./commons";
 
-interface EventsInterface extends ethers.utils.Interface {
+interface EventsInterface extends TCBaseInterface {
   functions: {
     "emit_anon1()": FunctionFragment;
     "emit_event1()": FunctionFragment;
@@ -93,7 +98,7 @@ interface EventsInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "NoArgsEvent"): EventFragment;
 }
 
-export class Events extends Contract {
+export interface Events {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

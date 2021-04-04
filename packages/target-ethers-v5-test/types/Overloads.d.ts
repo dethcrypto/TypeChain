@@ -9,16 +9,21 @@ import {
   BigNumber,
   BigNumberish,
   PopulatedTransaction,
-  Contract,
   ContractTransaction,
   CallOverrides,
 } from "ethers";
 import { BytesLike } from "@ethersproject/bytes";
 import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
-import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
+import {
+  TypedEventFilter,
+  TypedEvent,
+  TypedListener,
+  TCBaseContract,
+  TCBaseInterface,
+} from "./commons";
 
-interface OverloadsInterface extends ethers.utils.Interface {
+interface OverloadsInterface extends TCBaseInterface {
   functions: {
     "overload1(int256)": FunctionFragment;
   };
@@ -33,7 +38,7 @@ interface OverloadsInterface extends ethers.utils.Interface {
   events: {};
 }
 
-export class Overloads extends Contract {
+export interface Overloads {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

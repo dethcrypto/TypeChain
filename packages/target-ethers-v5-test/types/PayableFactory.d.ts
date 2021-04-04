@@ -9,7 +9,6 @@ import {
   BigNumber,
   BigNumberish,
   PopulatedTransaction,
-  Contract,
   ContractTransaction,
   Overrides,
   CallOverrides,
@@ -17,9 +16,15 @@ import {
 import { BytesLike } from "@ethersproject/bytes";
 import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
-import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
+import {
+  TypedEventFilter,
+  TypedEvent,
+  TypedListener,
+  TCBaseContract,
+  TCBaseInterface,
+} from "./commons";
 
-interface PayableFactoryInterface extends ethers.utils.Interface {
+interface PayableFactoryInterface extends TCBaseInterface {
   functions: {
     "newPayable()": FunctionFragment;
   };
@@ -34,7 +39,7 @@ interface PayableFactoryInterface extends ethers.utils.Interface {
   events: {};
 }
 
-export class PayableFactory extends Contract {
+export interface PayableFactory {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

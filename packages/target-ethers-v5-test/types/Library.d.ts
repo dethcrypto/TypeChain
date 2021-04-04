@@ -9,16 +9,21 @@ import {
   BigNumber,
   BigNumberish,
   PopulatedTransaction,
-  Contract,
   ContractTransaction,
   CallOverrides,
 } from "ethers";
 import { BytesLike } from "@ethersproject/bytes";
 import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
-import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
+import {
+  TypedEventFilter,
+  TypedEvent,
+  TypedListener,
+  TCBaseContract,
+  TCBaseInterface,
+} from "./commons";
 
-interface LibraryInterface extends ethers.utils.Interface {
+interface LibraryInterface extends TCBaseInterface {
   functions: {
     "other(uint8)": FunctionFragment;
   };
@@ -30,7 +35,7 @@ interface LibraryInterface extends ethers.utils.Interface {
   events: {};
 }
 
-export class Library extends Contract {
+export interface Library {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
