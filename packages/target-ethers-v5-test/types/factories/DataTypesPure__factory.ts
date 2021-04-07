@@ -5,17 +5,7 @@
 import { Contract, Signer } from "ethers";
 import { Provider } from "@ethersproject/providers";
 
-import type { DataTypesPure } from "../DataTypesPure";
-
-export class DataTypesPure__factory {
-  static connect(
-    address: string,
-    signerOrProvider: Signer | Provider
-  ): DataTypesPure {
-    return new Contract(address, _abi, signerOrProvider) as DataTypesPure;
-  }
-}
-
+import { Interface } from "@ethersproject/abi";
 const _abi = [
   {
     inputs: [],
@@ -222,3 +212,17 @@ const _abi = [
     type: "function",
   },
 ];
+
+import type { DataTypesPure, DataTypesPureInterface } from "../DataTypesPure";
+export class DataTypesPure__factory {
+  static abi = _abi;
+  static get interface(): DataTypesPureInterface {
+    return new Interface(_abi) as DataTypesPureInterface;
+  }
+  static connect(
+    address: string,
+    signerOrProvider: Signer | Provider
+  ): DataTypesPure {
+    return new Contract(address, _abi, signerOrProvider) as DataTypesPure;
+  }
+}

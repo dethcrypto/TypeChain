@@ -5,17 +5,7 @@
 import { Contract, Signer } from "ethers";
 import { Provider } from "@ethersproject/providers";
 
-import type { Overloads } from "../Overloads";
-
-export class Overloads__factory {
-  static connect(
-    address: string,
-    signerOrProvider: Signer | Provider
-  ): Overloads {
-    return new Contract(address, _abi, signerOrProvider) as Overloads;
-  }
-}
-
+import { Interface } from "@ethersproject/abi";
 const _abi = [
   {
     inputs: [
@@ -61,3 +51,17 @@ const _abi = [
     type: "function",
   },
 ];
+
+import type { Overloads, OverloadsInterface } from "../Overloads";
+export class Overloads__factory {
+  static abi = _abi;
+  static get interface(): OverloadsInterface {
+    return new Interface(_abi) as OverloadsInterface;
+  }
+  static connect(
+    address: string,
+    signerOrProvider: Signer | Provider
+  ): Overloads {
+    return new Contract(address, _abi, signerOrProvider) as Overloads;
+  }
+}

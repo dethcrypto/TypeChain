@@ -5,17 +5,7 @@
 import { Contract, Signer } from "ethers";
 import { Provider } from "@ethersproject/providers";
 
-import type { DataTypesView } from "../DataTypesView";
-
-export class DataTypesView__factory {
-  static connect(
-    address: string,
-    signerOrProvider: Signer | Provider
-  ): DataTypesView {
-    return new Contract(address, _abi, signerOrProvider) as DataTypesView;
-  }
-}
-
+import { Interface } from "@ethersproject/abi";
 const _abi = [
   {
     inputs: [],
@@ -222,3 +212,17 @@ const _abi = [
     type: "function",
   },
 ];
+
+import type { DataTypesView, DataTypesViewInterface } from "../DataTypesView";
+export class DataTypesView__factory {
+  static abi = _abi;
+  static get interface(): DataTypesViewInterface {
+    return new Interface(_abi) as DataTypesViewInterface;
+  }
+  static connect(
+    address: string,
+    signerOrProvider: Signer | Provider
+  ): DataTypesView {
+    return new Contract(address, _abi, signerOrProvider) as DataTypesView;
+  }
+}

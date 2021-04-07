@@ -5,17 +5,7 @@
 import { Contract, Signer } from "ethers";
 import { Provider } from "@ethersproject/providers";
 
-import type { NameMangling } from "../NameMangling";
-
-export class NameMangling__factory {
-  static connect(
-    address: string,
-    signerOrProvider: Signer | Provider
-  ): NameMangling {
-    return new Contract(address, _abi, signerOrProvider) as NameMangling;
-  }
-}
-
+import { Interface } from "@ethersproject/abi";
 const _abi = [
   {
     inputs: [],
@@ -44,3 +34,17 @@ const _abi = [
     type: "function",
   },
 ];
+
+import type { NameMangling, NameManglingInterface } from "../NameMangling";
+export class NameMangling__factory {
+  static abi = _abi;
+  static get interface(): NameManglingInterface {
+    return new Interface(_abi) as NameManglingInterface;
+  }
+  static connect(
+    address: string,
+    signerOrProvider: Signer | Provider
+  ): NameMangling {
+    return new Contract(address, _abi, signerOrProvider) as NameMangling;
+  }
+}

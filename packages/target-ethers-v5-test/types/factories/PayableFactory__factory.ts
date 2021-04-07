@@ -5,17 +5,7 @@
 import { Contract, Signer } from "ethers";
 import { Provider } from "@ethersproject/providers";
 
-import type { PayableFactory } from "../PayableFactory";
-
-export class PayableFactory__factory {
-  static connect(
-    address: string,
-    signerOrProvider: Signer | Provider
-  ): PayableFactory {
-    return new Contract(address, _abi, signerOrProvider) as PayableFactory;
-  }
-}
-
+import { Interface } from "@ethersproject/abi";
 const _abi = [
   {
     inputs: [],
@@ -31,3 +21,20 @@ const _abi = [
     type: "function",
   },
 ];
+
+import type {
+  PayableFactory,
+  PayableFactoryInterface,
+} from "../PayableFactory";
+export class PayableFactory__factory {
+  static abi = _abi;
+  static get interface(): PayableFactoryInterface {
+    return new Interface(_abi) as PayableFactoryInterface;
+  }
+  static connect(
+    address: string,
+    signerOrProvider: Signer | Provider
+  ): PayableFactory {
+    return new Contract(address, _abi, signerOrProvider) as PayableFactory;
+  }
+}

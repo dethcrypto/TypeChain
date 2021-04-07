@@ -5,14 +5,7 @@
 import { Contract, Signer } from "ethers";
 import { Provider } from "@ethersproject/providers";
 
-import type { Events } from "../Events";
-
-export class Events__factory {
-  static connect(address: string, signerOrProvider: Signer | Provider): Events {
-    return new Contract(address, _abi, signerOrProvider) as Events;
-  }
-}
-
+import { Interface } from "@ethersproject/abi";
 const _abi = [
   {
     anonymous: true,
@@ -165,3 +158,14 @@ const _abi = [
     type: "function",
   },
 ];
+
+import type { Events, EventsInterface } from "../Events";
+export class Events__factory {
+  static abi = _abi;
+  static get interface(): EventsInterface {
+    return new Interface(_abi) as EventsInterface;
+  }
+  static connect(address: string, signerOrProvider: Signer | Provider): Events {
+    return new Contract(address, _abi, signerOrProvider) as Events;
+  }
+}

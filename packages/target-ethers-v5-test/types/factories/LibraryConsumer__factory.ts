@@ -5,17 +5,7 @@
 import { Contract, Signer } from "ethers";
 import { Provider } from "@ethersproject/providers";
 
-import type { LibraryConsumer } from "../LibraryConsumer";
-
-export class LibraryConsumer__factory {
-  static connect(
-    address: string,
-    signerOrProvider: Signer | Provider
-  ): LibraryConsumer {
-    return new Contract(address, _abi, signerOrProvider) as LibraryConsumer;
-  }
-}
-
+import { Interface } from "@ethersproject/abi";
 const _abi = [
   {
     inputs: [
@@ -37,3 +27,20 @@ const _abi = [
     type: "function",
   },
 ];
+
+import type {
+  LibraryConsumer,
+  LibraryConsumerInterface,
+} from "../LibraryConsumer";
+export class LibraryConsumer__factory {
+  static abi = _abi;
+  static get interface(): LibraryConsumerInterface {
+    return new Interface(_abi) as LibraryConsumerInterface;
+  }
+  static connect(
+    address: string,
+    signerOrProvider: Signer | Provider
+  ): LibraryConsumer {
+    return new Contract(address, _abi, signerOrProvider) as LibraryConsumer;
+  }
+}

@@ -5,17 +5,7 @@
 import { Contract, Signer } from "ethers";
 import { Provider } from "@ethersproject/providers";
 
-import type { DataTypesInput } from "../DataTypesInput";
-
-export class DataTypesInput__factory {
-  static connect(
-    address: string,
-    signerOrProvider: Signer | Provider
-  ): DataTypesInput {
-    return new Contract(address, _abi, signerOrProvider) as DataTypesInput;
-  }
-}
-
+import { Interface } from "@ethersproject/abi";
 const _abi = [
   {
     inputs: [
@@ -299,3 +289,20 @@ const _abi = [
     type: "function",
   },
 ];
+
+import type {
+  DataTypesInput,
+  DataTypesInputInterface,
+} from "../DataTypesInput";
+export class DataTypesInput__factory {
+  static abi = _abi;
+  static get interface(): DataTypesInputInterface {
+    return new Interface(_abi) as DataTypesInputInterface;
+  }
+  static connect(
+    address: string,
+    signerOrProvider: Signer | Provider
+  ): DataTypesInput {
+    return new Contract(address, _abi, signerOrProvider) as DataTypesInput;
+  }
+}

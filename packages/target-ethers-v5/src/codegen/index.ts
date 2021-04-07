@@ -7,16 +7,15 @@ import {
   EventDeclaration,
   FunctionDeclaration,
 } from 'typechain'
+import { FACTORY_POSTFIX } from '../common'
+import { codegenFunctions } from './functions'
+import { reservedKeywords } from './reserved-keywords'
 import {
   generateInputType,
   generateInputTypes,
   generateOutputComplexTypeAsArray,
   generateOutputComplexTypesAsObject,
-  generateOutputTypes,
 } from './types'
-import { codegenFunctions } from './functions'
-import { FACTORY_POSTFIX } from '../common'
-import { reservedKeywords } from './reserved-keywords'
 
 export function codegenContractTypings(contract: Contract) {
   const contractImports: string[] = ['Contract', 'ContractTransaction']
@@ -154,15 +153,19 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
   const optionalEthersImports = ['BytesLike', 'BigNumberish']
   optionalEthersImports.forEach((importName) => pushImportIfUsed(importName, constructorArgs, ethersImports))
 
-  const ethersContractImports: string[] = ['Contract', 'ContractFactory']
+  const ethersContractImports: string[] = ['Contract', 'ContractFactory', 'Interface']
   const optionalContractImports = ['PayableOverrides', 'Overrides']
   optionalContractImports.forEach((importName) => pushImportIfUsed(importName, constructorArgs, ethersContractImports))
+
+  const { body, header } = codegenCommonContractFactory(contract, abi)
 
   return `
   import { ${[...ethersImports, ...ethersContractImports].join(', ')} } from "ethers";
   import { Provider, TransactionRequest } from '@ethersproject/providers';
 
-  import type { ${contract.name} } from "../${contract.name}";
+  import type { ${contract.name}, ${contract.name}Interface } from "../${contract.name}";
+
+  ${header}
 
   export class ${contract.name}${FACTORY_POSTFIX} extends ContractFactory {
     ${generateFactoryConstructor(contract, bytecode)}
@@ -178,12 +181,10 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
     connect(signer: Signer): ${contract.name}${FACTORY_POSTFIX} {
       return super.connect(signer) as ${contract.name}${FACTORY_POSTFIX};
     }
-    static connect(address: string, signerOrProvider: Signer | Provider): ${contract.name} {
-      return new Contract(address, _abi, signerOrProvider) as ${contract.name};
-    }
+    ${body}
   }
 
-  const _abi = ${JSON.stringify(abi, null, 2)};
+  ${header}
 
   const _bytecode = "${bytecode.bytecode}";
 
@@ -192,20 +193,35 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
 }
 
 export function codegenAbstractContractFactory(contract: Contract, abi: any): string {
+  const { body, header } = codegenCommonContractFactory(contract, abi)
   return `
   import { Contract, Signer } from "ethers";
   import { Provider } from "@ethersproject/providers";
-
-  import type { ${contract.name} } from "../${contract.name}";
+  import type { ${contract.name}, ${contract.name}Interface } from "../${contract.name}";
+  ${header}
 
   export class ${contract.name}${FACTORY_POSTFIX} {
+    ${body}
+  }
+  `
+}
+
+function codegenCommonContractFactory(contract: Contract, abi: any): { header: string; body: string } {
+  const header = `
+  import { Interface } from '@ethersproject/abi';
+
+  const _abi = ${JSON.stringify(abi, null, 2)};
+  `.trim()
+  const body = `
+    static abi = _abi;
+    static get interface(): ${contract.name}Interface {
+      return new Interface(_abi) as ${contract.name}Interface;
+    }
     static connect(address: string, signerOrProvider: Signer | Provider): ${contract.name} {
       return new Contract(address, _abi, signerOrProvider) as ${contract.name};
     }
-  }
-
-  const _abi = ${JSON.stringify(abi, null, 2)};
-  `
+  `.trim()
+  return { header, body }
 }
 
 function generateFactoryConstructor(contract: Contract, bytecode: BytecodeWithLinkReferences): string {
