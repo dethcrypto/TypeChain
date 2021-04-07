@@ -4,8 +4,9 @@
 
 import { Contract, Signer } from "ethers";
 import { Provider } from "@ethersproject/providers";
-
+import type { NameMangling, NameManglingInterface } from "../NameMangling";
 import { Interface } from "@ethersproject/abi";
+
 const _abi = [
   {
     inputs: [],
@@ -35,7 +36,6 @@ const _abi = [
   },
 ];
 
-import type { NameMangling, NameManglingInterface } from "../NameMangling";
 export class NameMangling__factory {
   static abi = _abi;
   static get interface(): NameManglingInterface {

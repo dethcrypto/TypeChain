@@ -4,8 +4,9 @@
 
 import { Contract, Signer } from "ethers";
 import { Provider } from "@ethersproject/providers";
-
+import type { Overloads, OverloadsInterface } from "../Overloads";
 import { Interface } from "@ethersproject/abi";
+
 const _abi = [
   {
     inputs: [
@@ -52,7 +53,6 @@ const _abi = [
   },
 ];
 
-import type { Overloads, OverloadsInterface } from "../Overloads";
 export class Overloads__factory {
   static abi = _abi;
   static get interface(): OverloadsInterface {

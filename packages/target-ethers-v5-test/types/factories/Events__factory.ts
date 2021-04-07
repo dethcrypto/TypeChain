@@ -4,8 +4,9 @@
 
 import { Contract, Signer } from "ethers";
 import { Provider } from "@ethersproject/providers";
-
+import type { Events, EventsInterface } from "../Events";
 import { Interface } from "@ethersproject/abi";
+
 const _abi = [
   {
     anonymous: true,
@@ -159,7 +160,6 @@ const _abi = [
   },
 ];
 
-import type { Events, EventsInterface } from "../Events";
 export class Events__factory {
   static abi = _abi;
   static get interface(): EventsInterface {

@@ -4,8 +4,12 @@
 
 import { Contract, Signer } from "ethers";
 import { Provider } from "@ethersproject/providers";
-
+import type {
+  DataTypesInput,
+  DataTypesInputInterface,
+} from "../DataTypesInput";
 import { Interface } from "@ethersproject/abi";
+
 const _abi = [
   {
     inputs: [
@@ -290,10 +294,6 @@ const _abi = [
   },
 ];
 
-import type {
-  DataTypesInput,
-  DataTypesInputInterface,
-} from "../DataTypesInput";
 export class DataTypesInput__factory {
   static abi = _abi;
   static get interface(): DataTypesInputInterface {

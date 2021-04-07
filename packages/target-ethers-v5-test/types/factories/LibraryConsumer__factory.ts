@@ -4,8 +4,12 @@
 
 import { Contract, Signer } from "ethers";
 import { Provider } from "@ethersproject/providers";
-
+import type {
+  LibraryConsumer,
+  LibraryConsumerInterface,
+} from "../LibraryConsumer";
 import { Interface } from "@ethersproject/abi";
+
 const _abi = [
   {
     inputs: [
@@ -28,10 +32,6 @@ const _abi = [
   },
 ];
 
-import type {
-  LibraryConsumer,
-  LibraryConsumerInterface,
-} from "../LibraryConsumer";
 export class LibraryConsumer__factory {
   static abi = _abi;
   static get interface(): LibraryConsumerInterface {

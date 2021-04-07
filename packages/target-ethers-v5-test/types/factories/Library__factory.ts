@@ -4,8 +4,9 @@
 
 import { Contract, Signer } from "ethers";
 import { Provider } from "@ethersproject/providers";
-
+import type { Library, LibraryInterface } from "../Library";
 import { Interface } from "@ethersproject/abi";
+
 const _abi = [
   {
     inputs: [
@@ -28,7 +29,6 @@ const _abi = [
   },
 ];
 
-import type { Library, LibraryInterface } from "../Library";
 export class Library__factory {
   static abi = _abi;
   static get interface(): LibraryInterface {

@@ -4,8 +4,9 @@
 
 import { Contract, Signer } from "ethers";
 import { Provider } from "@ethersproject/providers";
-
+import type { Payable, PayableInterface } from "../Payable";
 import { Interface } from "@ethersproject/abi";
+
 const _abi = [
   {
     inputs: [],
@@ -23,7 +24,6 @@ const _abi = [
   },
 ];
 
-import type { Payable, PayableInterface } from "../Payable";
 export class Payable__factory {
   static abi = _abi;
   static get interface(): PayableInterface {

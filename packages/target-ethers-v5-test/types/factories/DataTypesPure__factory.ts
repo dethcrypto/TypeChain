@@ -4,8 +4,9 @@
 
 import { Contract, Signer } from "ethers";
 import { Provider } from "@ethersproject/providers";
-
+import type { DataTypesPure, DataTypesPureInterface } from "../DataTypesPure";
 import { Interface } from "@ethersproject/abi";
+
 const _abi = [
   {
     inputs: [],
@@ -213,7 +214,6 @@ const _abi = [
   },
 ];
 
-import type { DataTypesPure, DataTypesPureInterface } from "../DataTypesPure";
 export class DataTypesPure__factory {
   static abi = _abi;
   static get interface(): DataTypesPureInterface {
