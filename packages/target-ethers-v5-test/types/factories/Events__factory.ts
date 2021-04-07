@@ -161,7 +161,7 @@ const _abi = [
 ];
 
 export class Events__factory {
-  static abi = _abi;
+  static readonly abi = _abi;
   static get interface(): EventsInterface {
     return new Interface(_abi) as EventsInterface;
   }

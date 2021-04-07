@@ -37,7 +37,7 @@ const _abi = [
 ];
 
 export class NameMangling__factory {
-  static abi = _abi;
+  static readonly abi = _abi;
   static get interface(): NameManglingInterface {
     return new Interface(_abi) as NameManglingInterface;
   }

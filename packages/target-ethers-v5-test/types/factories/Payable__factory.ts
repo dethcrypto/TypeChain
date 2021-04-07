@@ -25,7 +25,7 @@ const _abi = [
 ];
 
 export class Payable__factory {
-  static abi = _abi;
+  static readonly abi = _abi;
   static get interface(): PayableInterface {
     return new Interface(_abi) as PayableInterface;
   }

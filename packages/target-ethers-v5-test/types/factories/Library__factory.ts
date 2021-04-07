@@ -30,7 +30,7 @@ const _abi = [
 ];
 
 export class Library__factory {
-  static abi = _abi;
+  static readonly abi = _abi;
   static get interface(): LibraryInterface {
     return new Interface(_abi) as LibraryInterface;
   }

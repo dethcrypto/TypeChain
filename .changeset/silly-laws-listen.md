@@ -2,4 +2,4 @@
 '@typechain/ethers-v5': minor
 ---
 
-Expose ABI and contract interface in factories
+Expose ABI, bytecode, and contract interface in factories

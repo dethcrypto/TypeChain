@@ -215,7 +215,7 @@ const _abi = [
 ];
 
 export class DataTypesView__factory {
-  static abi = _abi;
+  static readonly abi = _abi;
   static get interface(): DataTypesViewInterface {
     return new Interface(_abi) as DataTypesViewInterface;
   }

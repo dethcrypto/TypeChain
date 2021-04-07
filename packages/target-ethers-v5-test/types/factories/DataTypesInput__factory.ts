@@ -295,7 +295,7 @@ const _abi = [
 ];
 
 export class DataTypesInput__factory {
-  static abi = _abi;
+  static readonly abi = _abi;
   static get interface(): DataTypesInputInterface {
     return new Interface(_abi) as DataTypesInputInterface;
   }

@@ -54,7 +54,7 @@ const _abi = [
 ];
 
 export class Overloads__factory {
-  static abi = _abi;
+  static readonly abi = _abi;
   static get interface(): OverloadsInterface {
     return new Interface(_abi) as OverloadsInterface;
   }

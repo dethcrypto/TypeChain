@@ -162,10 +162,10 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
   return `
   import { ${[...ethersImports, ...ethersContractImports].join(', ')} } from "ethers";
   import { Provider, TransactionRequest } from '@ethersproject/providers';
-
   import type { ${contract.name}, ${contract.name}Interface } from "../${contract.name}";
-
   ${header}
+
+  const _bytecode = "${bytecode.bytecode}";
 
   export class ${contract.name}${FACTORY_POSTFIX} extends ContractFactory {
     ${generateFactoryConstructor(contract, bytecode)}
@@ -181,12 +181,9 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
     connect(signer: Signer): ${contract.name}${FACTORY_POSTFIX} {
       return super.connect(signer) as ${contract.name}${FACTORY_POSTFIX};
     }
+    static readonly bytecode = "${bytecode.bytecode}";
     ${body}
   }
-
-  ${header}
-
-  const _bytecode = "${bytecode.bytecode}";
 
   ${generateLibraryAddressesInterface(contract, bytecode)}
   `
@@ -213,7 +210,7 @@ function codegenCommonContractFactory(contract: Contract, abi: any): { header: s
   const _abi = ${JSON.stringify(abi, null, 2)};
   `.trim()
   const body = `
-    static abi = _abi;
+    static readonly abi = _abi;
     static get interface(): ${contract.name}Interface {
       return new Interface(_abi) as ${contract.name}Interface;
     }
