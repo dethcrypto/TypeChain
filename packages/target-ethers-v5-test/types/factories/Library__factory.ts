@@ -2,10 +2,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer } from "ethers";
+import { Contract, Signer, utils } from "ethers";
 import { Provider } from "@ethersproject/providers";
 import type { Library, LibraryInterface } from "../Library";
-import { Interface } from "@ethersproject/abi";
 
 const _abi = [
   {
@@ -31,8 +30,8 @@ const _abi = [
 
 export class Library__factory {
   static readonly abi = _abi;
-  static get interface(): LibraryInterface {
-    return new Interface(_abi) as LibraryInterface;
+  static createInterface(): LibraryInterface {
+    return new utils.Interface(_abi) as LibraryInterface;
   }
   static connect(
     address: string,

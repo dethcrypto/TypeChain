@@ -149,7 +149,7 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
   if (!bytecode) return codegenAbstractContractFactory(contract, abi)
 
   // tsc with noUnusedLocals would complain about unused imports
-  const ethersImports: string[] = ['Signer']
+  const ethersImports: string[] = ['Signer', 'utils']
   const optionalEthersImports = ['BytesLike', 'BigNumberish']
   optionalEthersImports.forEach((importName) => pushImportIfUsed(importName, constructorArgs, ethersImports))
 
@@ -162,7 +162,6 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
   return `
   import { ${[...ethersImports, ...ethersContractImports].join(', ')} } from "ethers";
   import { Provider, TransactionRequest } from '@ethersproject/providers';
-  import type { ${contract.name}, ${contract.name}Interface } from "../${contract.name}";
   ${header}
 
   const _bytecode = "${bytecode.bytecode}";
@@ -181,7 +180,7 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
     connect(signer: Signer): ${contract.name}${FACTORY_POSTFIX} {
       return super.connect(signer) as ${contract.name}${FACTORY_POSTFIX};
     }
-    static readonly bytecode = "${bytecode.bytecode}";
+    static readonly bytecode = _bytecode;
     ${body}
   }
 
@@ -192,9 +191,8 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
 export function codegenAbstractContractFactory(contract: Contract, abi: any): string {
   const { body, header } = codegenCommonContractFactory(contract, abi)
   return `
-  import { Contract, Signer } from "ethers";
+  import { Contract, Signer, utils } from "ethers";
   import { Provider } from "@ethersproject/providers";
-  import type { ${contract.name}, ${contract.name}Interface } from "../${contract.name}";
   ${header}
 
   export class ${contract.name}${FACTORY_POSTFIX} {
@@ -205,14 +203,14 @@ export function codegenAbstractContractFactory(contract: Contract, abi: any): st
 
 function codegenCommonContractFactory(contract: Contract, abi: any): { header: string; body: string } {
   const header = `
-  import { Interface } from '@ethersproject/abi';
+  import type { ${contract.name}, ${contract.name}Interface } from "../${contract.name}";
 
   const _abi = ${JSON.stringify(abi, null, 2)};
   `.trim()
   const body = `
     static readonly abi = _abi;
-    static get interface(): ${contract.name}Interface {
-      return new Interface(_abi) as ${contract.name}Interface;
+    static createInterface(): ${contract.name}Interface {
+      return new utils.Interface(_abi) as ${contract.name}Interface;
     }
     static connect(address: string, signerOrProvider: Signer | Provider): ${contract.name} {
       return new Contract(address, _abi, signerOrProvider) as ${contract.name};

@@ -2,13 +2,12 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer } from "ethers";
+import { Contract, Signer, utils } from "ethers";
 import { Provider } from "@ethersproject/providers";
 import type {
   PayableFactory,
   PayableFactoryInterface,
 } from "../PayableFactory";
-import { Interface } from "@ethersproject/abi";
 
 const _abi = [
   {
@@ -28,8 +27,8 @@ const _abi = [
 
 export class PayableFactory__factory {
   static readonly abi = _abi;
-  static get interface(): PayableFactoryInterface {
-    return new Interface(_abi) as PayableFactoryInterface;
+  static createInterface(): PayableFactoryInterface {
+    return new utils.Interface(_abi) as PayableFactoryInterface;
   }
   static connect(
     address: string,

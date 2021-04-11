@@ -2,10 +2,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer } from "ethers";
+import { Contract, Signer, utils } from "ethers";
 import { Provider } from "@ethersproject/providers";
 import type { Overloads, OverloadsInterface } from "../Overloads";
-import { Interface } from "@ethersproject/abi";
 
 const _abi = [
   {
@@ -55,8 +54,8 @@ const _abi = [
 
 export class Overloads__factory {
   static readonly abi = _abi;
-  static get interface(): OverloadsInterface {
-    return new Interface(_abi) as OverloadsInterface;
+  static createInterface(): OverloadsInterface {
+    return new utils.Interface(_abi) as OverloadsInterface;
   }
   static connect(
     address: string,
