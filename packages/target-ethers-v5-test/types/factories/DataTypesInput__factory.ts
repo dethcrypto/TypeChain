@@ -2,19 +2,12 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer } from "ethers";
+import { Contract, Signer, utils } from "ethers";
 import { Provider } from "@ethersproject/providers";
-
-import type { DataTypesInput } from "../DataTypesInput";
-
-export class DataTypesInput__factory {
-  static connect(
-    address: string,
-    signerOrProvider: Signer | Provider
-  ): DataTypesInput {
-    return new Contract(address, _abi, signerOrProvider) as DataTypesInput;
-  }
-}
+import type {
+  DataTypesInput,
+  DataTypesInputInterface,
+} from "../DataTypesInput";
 
 const _abi = [
   {
@@ -299,3 +292,16 @@ const _abi = [
     type: "function",
   },
 ];
+
+export class DataTypesInput__factory {
+  static readonly abi = _abi;
+  static createInterface(): DataTypesInputInterface {
+    return new utils.Interface(_abi) as DataTypesInputInterface;
+  }
+  static connect(
+    address: string,
+    signerOrProvider: Signer | Provider
+  ): DataTypesInput {
+    return new Contract(address, _abi, signerOrProvider) as DataTypesInput;
+  }
+}

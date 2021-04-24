@@ -7,16 +7,15 @@ import {
   EventDeclaration,
   FunctionDeclaration,
 } from 'typechain'
+import { FACTORY_POSTFIX } from '../common'
+import { codegenFunctions } from './functions'
+import { reservedKeywords } from './reserved-keywords'
 import {
   generateInputType,
   generateInputTypes,
   generateOutputComplexTypeAsArray,
   generateOutputComplexTypesAsObject,
-  generateOutputTypes,
 } from './types'
-import { codegenFunctions } from './functions'
-import { FACTORY_POSTFIX } from '../common'
-import { reservedKeywords } from './reserved-keywords'
 
 export function codegenContractTypings(contract: Contract) {
   const contractImports: string[] = ['Contract', 'ContractTransaction']
@@ -150,19 +149,22 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
   if (!bytecode) return codegenAbstractContractFactory(contract, abi)
 
   // tsc with noUnusedLocals would complain about unused imports
-  const ethersImports: string[] = ['Signer']
+  const ethersImports: string[] = ['Signer', 'utils']
   const optionalEthersImports = ['BytesLike', 'BigNumberish']
   optionalEthersImports.forEach((importName) => pushImportIfUsed(importName, constructorArgs, ethersImports))
 
-  const ethersContractImports: string[] = ['Contract', 'ContractFactory']
+  const ethersContractImports: string[] = ['Contract', 'ContractFactory', 'Interface']
   const optionalContractImports = ['PayableOverrides', 'Overrides']
   optionalContractImports.forEach((importName) => pushImportIfUsed(importName, constructorArgs, ethersContractImports))
+
+  const { body, header } = codegenCommonContractFactory(contract, abi)
 
   return `
   import { ${[...ethersImports, ...ethersContractImports].join(', ')} } from "ethers";
   import { Provider, TransactionRequest } from '@ethersproject/providers';
+  ${header}
 
-  import type { ${contract.name} } from "../${contract.name}";
+  const _bytecode = "${bytecode.bytecode}";
 
   export class ${contract.name}${FACTORY_POSTFIX} extends ContractFactory {
     ${generateFactoryConstructor(contract, bytecode)}
@@ -178,34 +180,43 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
     connect(signer: Signer): ${contract.name}${FACTORY_POSTFIX} {
       return super.connect(signer) as ${contract.name}${FACTORY_POSTFIX};
     }
-    static connect(address: string, signerOrProvider: Signer | Provider): ${contract.name} {
-      return new Contract(address, _abi, signerOrProvider) as ${contract.name};
-    }
+    static readonly bytecode = _bytecode;
+    ${body}
   }
-
-  const _abi = ${JSON.stringify(abi, null, 2)};
-
-  const _bytecode = "${bytecode.bytecode}";
 
   ${generateLibraryAddressesInterface(contract, bytecode)}
   `
 }
 
 export function codegenAbstractContractFactory(contract: Contract, abi: any): string {
+  const { body, header } = codegenCommonContractFactory(contract, abi)
   return `
-  import { Contract, Signer } from "ethers";
+  import { Contract, Signer, utils } from "ethers";
   import { Provider } from "@ethersproject/providers";
-
-  import type { ${contract.name} } from "../${contract.name}";
+  ${header}
 
   export class ${contract.name}${FACTORY_POSTFIX} {
+    ${body}
+  }
+  `
+}
+
+function codegenCommonContractFactory(contract: Contract, abi: any): { header: string; body: string } {
+  const header = `
+  import type { ${contract.name}, ${contract.name}Interface } from "../${contract.name}";
+
+  const _abi = ${JSON.stringify(abi, null, 2)};
+  `.trim()
+  const body = `
+    static readonly abi = _abi;
+    static createInterface(): ${contract.name}Interface {
+      return new utils.Interface(_abi) as ${contract.name}Interface;
+    }
     static connect(address: string, signerOrProvider: Signer | Provider): ${contract.name} {
       return new Contract(address, _abi, signerOrProvider) as ${contract.name};
     }
-  }
-
-  const _abi = ${JSON.stringify(abi, null, 2)};
-  `
+  `.trim()
+  return { header, body }
 }
 
 function generateFactoryConstructor(contract: Contract, bytecode: BytecodeWithLinkReferences): string {

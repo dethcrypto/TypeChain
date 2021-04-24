@@ -2,19 +2,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer } from "ethers";
+import { Contract, Signer, utils } from "ethers";
 import { Provider } from "@ethersproject/providers";
-
-import type { DataTypesPure } from "../DataTypesPure";
-
-export class DataTypesPure__factory {
-  static connect(
-    address: string,
-    signerOrProvider: Signer | Provider
-  ): DataTypesPure {
-    return new Contract(address, _abi, signerOrProvider) as DataTypesPure;
-  }
-}
+import type { DataTypesPure, DataTypesPureInterface } from "../DataTypesPure";
 
 const _abi = [
   {
@@ -222,3 +212,16 @@ const _abi = [
     type: "function",
   },
 ];
+
+export class DataTypesPure__factory {
+  static readonly abi = _abi;
+  static createInterface(): DataTypesPureInterface {
+    return new utils.Interface(_abi) as DataTypesPureInterface;
+  }
+  static connect(
+    address: string,
+    signerOrProvider: Signer | Provider
+  ): DataTypesPure {
+    return new Contract(address, _abi, signerOrProvider) as DataTypesPure;
+  }
+}

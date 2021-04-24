@@ -2,19 +2,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer } from "ethers";
+import { Contract, Signer, utils } from "ethers";
 import { Provider } from "@ethersproject/providers";
-
-import type { Library } from "../Library";
-
-export class Library__factory {
-  static connect(
-    address: string,
-    signerOrProvider: Signer | Provider
-  ): Library {
-    return new Contract(address, _abi, signerOrProvider) as Library;
-  }
-}
+import type { Library, LibraryInterface } from "../Library";
 
 const _abi = [
   {
@@ -37,3 +27,16 @@ const _abi = [
     type: "function",
   },
 ];
+
+export class Library__factory {
+  static readonly abi = _abi;
+  static createInterface(): LibraryInterface {
+    return new utils.Interface(_abi) as LibraryInterface;
+  }
+  static connect(
+    address: string,
+    signerOrProvider: Signer | Provider
+  ): Library {
+    return new Contract(address, _abi, signerOrProvider) as Library;
+  }
+}

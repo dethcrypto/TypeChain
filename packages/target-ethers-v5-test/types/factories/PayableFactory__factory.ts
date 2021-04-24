@@ -2,19 +2,12 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer } from "ethers";
+import { Contract, Signer, utils } from "ethers";
 import { Provider } from "@ethersproject/providers";
-
-import type { PayableFactory } from "../PayableFactory";
-
-export class PayableFactory__factory {
-  static connect(
-    address: string,
-    signerOrProvider: Signer | Provider
-  ): PayableFactory {
-    return new Contract(address, _abi, signerOrProvider) as PayableFactory;
-  }
-}
+import type {
+  PayableFactory,
+  PayableFactoryInterface,
+} from "../PayableFactory";
 
 const _abi = [
   {
@@ -31,3 +24,16 @@ const _abi = [
     type: "function",
   },
 ];
+
+export class PayableFactory__factory {
+  static readonly abi = _abi;
+  static createInterface(): PayableFactoryInterface {
+    return new utils.Interface(_abi) as PayableFactoryInterface;
+  }
+  static connect(
+    address: string,
+    signerOrProvider: Signer | Provider
+  ): PayableFactory {
+    return new Contract(address, _abi, signerOrProvider) as PayableFactory;
+  }
+}

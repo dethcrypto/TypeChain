@@ -2,19 +2,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer } from "ethers";
+import { Contract, Signer, utils } from "ethers";
 import { Provider } from "@ethersproject/providers";
-
-import type { NameMangling } from "../NameMangling";
-
-export class NameMangling__factory {
-  static connect(
-    address: string,
-    signerOrProvider: Signer | Provider
-  ): NameMangling {
-    return new Contract(address, _abi, signerOrProvider) as NameMangling;
-  }
-}
+import type { NameMangling, NameManglingInterface } from "../NameMangling";
 
 const _abi = [
   {
@@ -44,3 +34,16 @@ const _abi = [
     type: "function",
   },
 ];
+
+export class NameMangling__factory {
+  static readonly abi = _abi;
+  static createInterface(): NameManglingInterface {
+    return new utils.Interface(_abi) as NameManglingInterface;
+  }
+  static connect(
+    address: string,
+    signerOrProvider: Signer | Provider
+  ): NameMangling {
+    return new Contract(address, _abi, signerOrProvider) as NameMangling;
+  }
+}

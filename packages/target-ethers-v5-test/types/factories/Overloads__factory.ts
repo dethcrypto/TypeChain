@@ -2,19 +2,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer } from "ethers";
+import { Contract, Signer, utils } from "ethers";
 import { Provider } from "@ethersproject/providers";
-
-import type { Overloads } from "../Overloads";
-
-export class Overloads__factory {
-  static connect(
-    address: string,
-    signerOrProvider: Signer | Provider
-  ): Overloads {
-    return new Contract(address, _abi, signerOrProvider) as Overloads;
-  }
-}
+import type { Overloads, OverloadsInterface } from "../Overloads";
 
 const _abi = [
   {
@@ -61,3 +51,16 @@ const _abi = [
     type: "function",
   },
 ];
+
+export class Overloads__factory {
+  static readonly abi = _abi;
+  static createInterface(): OverloadsInterface {
+    return new utils.Interface(_abi) as OverloadsInterface;
+  }
+  static connect(
+    address: string,
+    signerOrProvider: Signer | Provider
+  ): Overloads {
+    return new Contract(address, _abi, signerOrProvider) as Overloads;
+  }
+}
