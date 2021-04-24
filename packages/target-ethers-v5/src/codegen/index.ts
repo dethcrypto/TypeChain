@@ -19,7 +19,7 @@ import {
 } from './types'
 
 export function codegenContractTypings(contract: Contract, codegenConfig: CodegenConfig) {
-  const contractImports: string[] = ['Contract', 'ContractTransaction']
+  const contractImports: string[] = ['BaseContract', 'ContractTransaction']
   const allFunctions = values(contract.functions)
     .map(
       (fn) =>
@@ -71,7 +71,7 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
       .join('\n')}
   }
 
-  export class ${contract.name} extends Contract {
+  export class ${contract.name} extends BaseContract {
     connect(signerOrProvider: Signer | Provider | string): this;
     attach(addressOrName: string): this;
     deployed(): Promise<this>;
