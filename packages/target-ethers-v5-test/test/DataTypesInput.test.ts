@@ -89,4 +89,12 @@ describe('DataTypesInput', () => {
       IsExact<ViewStructType, [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }>
     >
   })
+
+  // we skip this test as ts only about types
+  it.skip('prevents from using not existing methods', () => {
+    // @ts-expect-error
+    contract.not_existing(1)
+    // @ts-expect-error
+    contract.functions.not_existing(1)
+  })
 })
