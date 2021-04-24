@@ -9,7 +9,7 @@ import {
   BigNumber,
   BigNumberish,
   PopulatedTransaction,
-  Contract,
+  BaseContract,
   ContractTransaction,
   CallOverrides,
 } from "ethers";
@@ -33,7 +33,7 @@ interface NameManglingInterface extends ethers.utils.Interface {
   events: {};
 }
 
-export class NameMangling extends Contract {
+export class NameMangling extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

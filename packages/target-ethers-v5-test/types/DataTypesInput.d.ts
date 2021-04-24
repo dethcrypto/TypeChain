@@ -9,7 +9,7 @@ import {
   BigNumber,
   BigNumberish,
   PopulatedTransaction,
-  Contract,
+  BaseContract,
   ContractTransaction,
   CallOverrides,
 } from "ethers";
@@ -132,7 +132,7 @@ interface DataTypesInputInterface extends ethers.utils.Interface {
   events: {};
 }
 
-export class DataTypesInput extends Contract {
+export class DataTypesInput extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

@@ -20,6 +20,6 @@
     "typechain": "*"
   },
   "dependencies": {
-    "ethers": "^5.0.2"
+    "ethers": "^5.1.3"
   }
 }

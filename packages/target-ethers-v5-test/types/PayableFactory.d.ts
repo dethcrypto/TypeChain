@@ -9,7 +9,7 @@ import {
   BigNumber,
   BigNumberish,
   PopulatedTransaction,
-  Contract,
+  BaseContract,
   ContractTransaction,
   Overrides,
   CallOverrides,
@@ -34,7 +34,7 @@ interface PayableFactoryInterface extends ethers.utils.Interface {
   events: {};
 }
 
-export class PayableFactory extends Contract {
+export class PayableFactory extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

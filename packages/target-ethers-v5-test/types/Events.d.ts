@@ -9,7 +9,7 @@ import {
   BigNumber,
   BigNumberish,
   PopulatedTransaction,
-  Contract,
+  BaseContract,
   ContractTransaction,
   Overrides,
   CallOverrides,
@@ -93,7 +93,7 @@ interface EventsInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "NoArgsEvent"): EventFragment;
 }
 
-export class Events extends Contract {
+export class Events extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

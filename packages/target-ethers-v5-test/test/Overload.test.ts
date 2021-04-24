@@ -22,6 +22,8 @@ describe('Overloads', () => {
   })
 
   it('still doesnt create overload1 fn anymore', () => {
+    // this is exepcted error as there is no index signature anymore on Contract
+    // @ts-expect-error
     expect(contract.overload1).toEqual(undefined)
   })
 
