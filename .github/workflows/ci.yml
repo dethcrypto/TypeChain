@@ -32,7 +32,6 @@ jobs:
       - run: yarn --no-progress --non-interactive --frozen-lockfile
 
       - run: yarn build
-      - run: yarn typecheck
       - run: yarn lint
       - run: yarn no-git-changes # ensure that committed types are up to date
 
@@ -63,6 +62,7 @@ jobs:
       - run: yarn build
       - run: yarn test
       - run: yarn format # do it at the very end because "yarn test" can generate types (which should be formatted)
+      - run: yarn typecheck # this has to happen after yarn test b/c test does type generation
       - run: yarn no-git-changes # ensure that committed types are up to date
 
   test-examples:
