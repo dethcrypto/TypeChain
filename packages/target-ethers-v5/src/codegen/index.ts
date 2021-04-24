@@ -158,7 +158,7 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
   const optionalEthersImports = ['BytesLike', 'BigNumberish']
   optionalEthersImports.forEach((importName) => pushImportIfUsed(importName, constructorArgs, ethersImports))
 
-  const ethersContractImports: string[] = ['Contract', 'ContractFactory', 'Interface']
+  const ethersContractImports: string[] = ['Contract', 'ContractFactory']
   const optionalContractImports = ['PayableOverrides', 'Overrides']
   optionalContractImports.forEach((importName) => pushImportIfUsed(importName, constructorArgs, ethersContractImports))
 
