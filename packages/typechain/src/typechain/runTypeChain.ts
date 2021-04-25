@@ -3,18 +3,25 @@ import { debug } from '../utils/debug'
 import { relative } from 'path'
 import { Config, PublicConfig, Services } from './types'
 import { findTarget } from './findTarget'
-import { loadFileDescriptions, processOutput } from './io'
+import { loadFileDescriptions, processOutput, skipEmptyAbis } from './io'
 
 import * as fs from 'fs'
 import * as prettier from 'prettier'
 import { sync as mkdirp } from 'mkdirp'
+import { config } from 'bluebird'
 
 interface Result {
   filesGenerated: number
 }
 
 export async function runTypeChain(publicConfig: PublicConfig): Promise<Result> {
-  const config: Config = { ...{ flags: { alwaysGenerateOverloads: false } }, ...publicConfig }
+  const _config: Config = { ...{ flags: { alwaysGenerateOverloads: false } }, ...publicConfig }
+  // skip empty paths
+  const config: Config = {
+    ..._config,
+    allFiles: skipEmptyAbis(_config.allFiles),
+    filesToProcess: skipEmptyAbis(_config.filesToProcess),
+  }
   const services: Services = {
     fs,
     prettier,

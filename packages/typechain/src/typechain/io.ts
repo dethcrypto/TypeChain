@@ -3,6 +3,8 @@ import { debug } from '../utils/debug'
 import { isArray } from 'lodash'
 import { dirname, relative } from 'path'
 import { outputTransformers } from '../codegen/outputTransformers'
+import { readFileSync } from 'fs'
+import { extractAbi } from '..'
 
 export function processOutput(services: Services, cfg: Config, output: Output): number {
   const { fs, mkdirp } = services
@@ -34,4 +36,12 @@ export function loadFileDescriptions(services: Services, files: string[]): FileD
   }))
 
   return fileDescriptions
+}
+
+export function skipEmptyAbis(paths: string[]): string[] {
+  const notEmptyAbis = paths
+    .map((p) => ({ path: p, contents: readFileSync(p, 'utf-8') }))
+    .filter((fd) => extractAbi(fd.contents).length !== 0)
+
+  return notEmptyAbis.map((p) => p.path)
 }
