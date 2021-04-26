@@ -63,6 +63,10 @@ subtask(TASK_COMPILE_SOLIDITY_COMPILE_JOBS, 'Compiles the entire project, buildi
       allFiles,
       outDir: typechainCfg.outDir,
       target: typechainCfg.target,
+      flags: {
+        alwaysGenerateOverloads: config.typechain.alwaysGenerateOverloads,
+        environment: 'hardhat',
+      },
     })
     console.log(`Successfully generated ${result.filesGenerated} typings!`)
 

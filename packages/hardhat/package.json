@@ -30,6 +30,7 @@
     "test:fix": "yarn lint:fix && yarn format:fix && yarn test && yarn typecheck"
   },
   "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.2",
     "@typechain/ethers-v5": "*",
     "@types/fs-extra": "^9.0.7",
     "@types/rimraf": "^3.0.0",

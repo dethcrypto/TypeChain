@@ -18,7 +18,10 @@ async function main() {
     allFiles: glob(cwd, cliConfig.files),
     filesToProcess: glob(cwd, cliConfig.files),
     prettier,
-    flags: cliConfig.flags,
+    flags: {
+      ...cliConfig.flags,
+      environment: undefined,
+    },
   }
 
   const result = await runTypeChain(config)

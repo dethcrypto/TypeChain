@@ -15,7 +15,7 @@ interface Result {
 }
 
 export async function runTypeChain(publicConfig: PublicConfig): Promise<Result> {
-  const _config: Config = { ...{ flags: { alwaysGenerateOverloads: false } }, ...publicConfig }
+  const _config: Config = { ...{ flags: { alwaysGenerateOverloads: false, environment: undefined } }, ...publicConfig }
   // skip empty paths
   const config: Config = {
     ..._config,

@@ -15,6 +15,7 @@ export interface Config {
 
 export interface CodegenConfig {
   alwaysGenerateOverloads: boolean
+  environment: 'hardhat' | undefined
 }
 
 export type PublicConfig = MarkOptional<Config, 'flags'>

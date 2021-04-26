@@ -826,6 +826,11 @@
     safe-buffer "^5.1.1"
     util.promisify "^1.0.0"
 
+"@nomiclabs/hardhat-ethers@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@nomiclabs/hardhat-ethers/-/hardhat-ethers-2.0.2.tgz#c472abcba0c5185aaa4ad4070146e95213c68511"
+  integrity sha512-6quxWe8wwS4X5v3Au8q1jOvXYEPkS1Fh+cME5u6AwNdnI4uERvPlVjlgRWzpnb+Rrt1l/cEqiNRH9GlsBMSDQg==
+
 "@sentry/core@5.30.0":
   version "5.30.0"
   resolved "https://registry.yarnpkg.com/@sentry/core/-/core-5.30.0.tgz#6b203664f69e75106ee8b5a2fe1d717379b331f3"

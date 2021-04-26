@@ -1,5 +1,5 @@
 import { join, resolve, basename } from 'path'
-import { uniqBy } from 'lodash'
+import { uniqBy, compact } from 'lodash'
 import { Dictionary } from 'ts-essentials'
 import {
   BytecodeWithLinkReferences,
@@ -19,6 +19,7 @@ import {
 
 import { codegenAbstractContractFactory, codegenContractFactory, codegenContractTypings } from './codegen'
 import { FACTORY_POSTFIX } from './common'
+import { generateHardhatHelper } from './codegen/hardhat'
 
 export interface IEthersCfg {
   outDir?: string
@@ -127,7 +128,12 @@ export default class Ethers extends TypeChainTarget {
       }
     })
 
-    const allFiles = [
+    const hardhatHelper =
+      this.cfg.flags.environment === 'hardhat'
+        ? { path: join(this.outDirAbs, 'hardhat.d.ts'), contents: generateHardhatHelper(this.allContracts) }
+        : undefined
+
+    const allFiles = compact([
       ...abstractFactoryFiles,
       {
         path: join(this.outDirAbs, 'commons.ts'),
@@ -137,22 +143,31 @@ export default class Ethers extends TypeChainTarget {
         path: join(this.outDirAbs, 'index.ts'),
         contents: this.genReExports(),
       },
-    ]
+      hardhatHelper,
+    ])
     return allFiles
   }
 
   private genCommons(): string {
     return `
-    import { EventFilter, Event } from 'ethers'
-    import { Result } from '@ethersproject/abi'
+import { EventFilter, Event } from 'ethers'
+import { Result } from '@ethersproject/abi'
 
-    export interface TypedEventFilter<_EventArgsArray, _EventArgsObject> extends EventFilter {}
+export interface TypedEventFilter<_EventArgsArray, _EventArgsObject> extends EventFilter {}
 
-    export interface TypedEvent<EventArgs extends Result> extends Event {
-      args: EventArgs;
-    }
+export interface TypedEvent<EventArgs extends Result> extends Event {
+  args: EventArgs;
+}
 
-    export type TypedListener<EventArgsArray extends Array<any>, EventArgsObject> = (...listenerArg: [...EventArgsArray, TypedEvent<EventArgsArray & EventArgsObject>]) => void;`
+export type TypedListener<EventArgsArray extends Array<any>, EventArgsObject> = (...listenerArg: [...EventArgsArray, TypedEvent<EventArgsArray & EventArgsObject>]) => void;
+
+export type MinEthersFactory<C, ARGS> = {
+  deploy(...a: ARGS[]): Promise<C>
+}
+export type GetContractTypeFromFactory<F> = F extends MinEthersFactory<infer C, any> ? C : never
+export type GetARGsTypeFromFactory<F> = F extends MinEthersFactory<any, any> ? Parameters<F['deploy']> : never
+
+    `
   }
 
   private genReExports(): string {
