@@ -17,7 +17,7 @@
   <p align="center">
     <i>Used by best:</i> <br/>
     <img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/maker-logo.png" height="110" alt="Maker DAO" />
-    <img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/uniswap-logo.png" height="90" alt="Uniswap" />
+    <a href="https://github.com/Uniswap/uniswap-v3-core/blob/main/hardhat.config.ts#L1"><img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/uniswap-logo.png" height="90" alt="Uniswap" /></a>
     <img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/aave-logo.png" height="60" alt="AAVE" />
     <br/>
     <img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/optimism-logo.png" height="90" alt="Optimism" />
