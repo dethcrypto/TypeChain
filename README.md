@@ -16,11 +16,11 @@
 
   <p align="center">
     Used by best: <br/>
-    <img src="./docs/images/maker-logo.png" width="100" alt="Maker DAO" />
-    <img src="./docs/images/uniswap-logo.png" width="100" alt="Uniswap" />
-    <img src="./docs/images/aave-logo.png" width="100" alt="AAVE" />
-    <img src="./docs/images/optimism-logo.png" width="100" alt="Optimism" />
-    <img src="./docs/images/zksync-logo.png" width="100" alt="zkSync" />
+    <img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/maker-logo.png" width="100" alt="Maker DAO" />
+    <img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/uniswap-logo.png" width="100" alt="Uniswap" />
+    <img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/aave-logo.png" width="100" alt="AAVE" />
+    <img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/optimism-logo.png" width="100" alt="Optimism" />
+    <img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/zksync-logo.png" width="100" alt="zkSync" />
   </p>
 </p>
 
