@@ -15,12 +15,13 @@
   </p>
 
   <p align="center">
-    Used by best: <br/>
-    <img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/maker-logo.png" width="100" alt="Maker DAO" />
-    <img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/uniswap-logo.png" width="100" alt="Uniswap" />
-    <img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/aave-logo.png" width="100" alt="AAVE" />
-    <img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/optimism-logo.png" width="100" alt="Optimism" />
-    <img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/zksync-logo.png" width="100" alt="zkSync" />
+    <i>Used by best:</i> <br/>
+    <img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/maker-logo.png" height="110" alt="Maker DAO" />
+    <img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/uniswap-logo.png" height="90" alt="Uniswap" />
+    <img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/aave-logo.png" height="60" alt="AAVE" />
+    <br/>
+    <img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/optimism-logo.png" height="90" alt="Optimism" />
+    <img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/zksync-logo.png" height="100" alt="zkSync" />
   </p>
 </p>
 
@@ -28,8 +29,8 @@
 
 - static typing - you will never call not existing method again
 - IDE support - works with any IDE supporting Typescript
-- extendible - work with many different APIs: `ethers.js v4`, `truffle v4`, `truffle v5`, `Web3.js v1` or you can create
-  your own target
+- extendible - work with many different tools: `ethers.js`, `hardhat`, `truffle`, `Web3.js` or you can create your own
+  target
 - frictionless - works with simple, JSON ABI files as well as with Truffle style ABIs
 
 ## Installation
@@ -196,4 +197,4 @@ Check out our [contributing guidelines](./CONTRIBUTING.md)
 
 # Licence
 
-Krzysztof Kaczor (krzkaczor) MIT | [Github](https://github.com/krzkaczor) | [Twitter](https://twitter.com/krzkaczor)
+Kris Kaczor (krzkaczor) MIT | [Github](https://github.com/krzkaczor) | [Twitter](https://twitter.com/krzkaczor)
