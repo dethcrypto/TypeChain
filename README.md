@@ -11,12 +11,16 @@
   </p>
 
   <p align="center">
-    <a href="https://blog.neufund.org/introducing-typechain-typescript-bindings-for-ethereum-smart-contracts-839fc2becf22">Medium post</a> | <a href="https://www.youtube.com/watch?v=9x6AkShGkwU">DappCon Video</a>
+    <a href="https://www.youtube.com/watch?v=Ho4dGNKVkTE">Devcon5 Video (2019)</a>
   </p>
 
   <p align="center">
-    Contributed with: <br/>
-    <img src="https://github.com/Neufund/TypeChain/blob/6d358df7b2da6b62d56f9935f1666b17b93176f0/docs/images/neufund-logo.png?raw=true" width="100" alt="Neufund">
+    Used by best: <br/>
+    <img src="./docs/images/maker-logo.png" width="100" alt="Maker DAO" />
+    <img src="./docs/images/uniswap-logo.png" width="100" alt="Uniswap" />
+    <img src="./docs/images/aave-logo.png" width="100" alt="AAVE" />
+    <img src="./docs/images/optimism-logo.png" width="100" alt="Optimism" />
+    <img src="./docs/images/zksync-logo.png" width="100" alt="zkSync" />
   </p>
 </p>
 
