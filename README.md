@@ -11,17 +11,13 @@
   </p>
 
   <p align="center">
-    <a href="https://www.youtube.com/watch?v=Ho4dGNKVkTE">Devcon5 Video (2019)</a>
-  </p>
-
-  <p align="center">
     <i>Used by best:</i> <br/>
     <img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/maker-logo.png" height="110" alt="Maker DAO" />
     <a href="https://github.com/Uniswap/uniswap-v3-core/blob/main/hardhat.config.ts#L1"><img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/uniswap-logo.png" height="90" alt="Uniswap" /></a>
-    <img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/aave-logo.png" height="60" alt="AAVE" />
+    <a href="https://github.com/aave/protocol-v2/blob/master/hardhat.config.ts#L16"><img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/aave-logo.png" height="60" alt="AAVE" /></a>
     <br/>
-    <img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/optimism-logo.png" height="90" alt="Optimism" />
-    <img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/zksync-logo.png" height="100" alt="zkSync" />
+    <a href="https://github.com/ethereum-optimism/optimism/blob/master/packages/contracts/hardhat.config.ts#L14"><img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/optimism-logo.png" height="90" alt="Optimism" /></a>
+    <a href="https://github.com/matter-labs/zksync/blob/9687049af1efbd14d8e47d97ebea643e1516da9d/contracts/hardhat.config.ts#L4"><img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/zksync-logo.png" height="100" alt="zkSync" /></a>
   </p>
 </p>
 
@@ -77,11 +73,9 @@ Example:
 typechain --target ethers-v4 --out-dir app/contracts './node_modules/neufund-contracts/build/contracts/*.json'
 ```
 
-## Demo 🏎️
+## Videos
 
-![Demo](https://media.giphy.com/media/3oFzmqgHxrPZFhBst2/giphy.gif)
-
-[Example usage](https://github.com/Neufund/commit.neufund.org/pull/331/files)
+- [Devcon5 Video (2019)](https://www.youtube.com/watch?v=Ho4dGNKVkTE)
 
 ## Getting started 📚
 
