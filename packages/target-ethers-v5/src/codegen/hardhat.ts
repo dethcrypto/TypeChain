@@ -9,7 +9,7 @@ import { FactoryOptions } from '@nomiclabs/hardhat-ethers/types'
 
 import * as Contracts from "."
 
-module 'hardhat/types/runtime' {
+declare module 'hardhat/types/runtime' {
   ${contracts
     .map(
       (n) =>

@@ -1,22 +1,22 @@
 <p align="center">
   <img src="https://github.com/Neufund/TypeChain/blob/d82f3cc644a11e22ca8e42505c16f035e2f2555d/docs/images/typechain-logo.png?raw=true" width="300" alt="TypeChain">
   <h3 align="center">TypeChain</h3>
-  <p align="center">🔌 TypeScript bindings for Ethereum smartcontracts</p>
+  <p align="center">🔌 TypeScript bindings for Ethereum smart contracts</p>
 
   <p align="center">
     <a href="https://github.com/ethereum-ts/TypeChain/actions"><img alt="Build Status" src="https://github.com/ethereum-ts/TypeChain/workflows/CI/badge.svg"></a>
     <img alt="Downloads" src="https://img.shields.io/npm/dm/typechain.svg">
-    <a href="https://github.com/prettier/prettier"><img alt="Prettier" src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg"></a>
     <a href="/package.json"><img alt="Software License" src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"></a>
   </p>
 
   <p align="center">
-    <a href="https://blog.neufund.org/introducing-typechain-typescript-bindings-for-ethereum-smart-contracts-839fc2becf22">Medium post</a> | <a href="https://www.youtube.com/watch?v=9x6AkShGkwU">DappCon Video</a>
-  </p>
-
-  <p align="center">
-    Contributed with: <br/>
-    <img src="https://github.com/Neufund/TypeChain/blob/6d358df7b2da6b62d56f9935f1666b17b93176f0/docs/images/neufund-logo.png?raw=true" width="100" alt="Neufund">
+    <i>Used by best:</i> <br/>
+    <img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/maker-logo.png" height="110" alt="Maker DAO" />
+    <a href="https://github.com/Uniswap/uniswap-v3-core/blob/main/hardhat.config.ts#L1"><img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/uniswap-logo.png" height="90" alt="Uniswap" /></a>
+    <a href="https://github.com/aave/protocol-v2/blob/master/hardhat.config.ts#L16"><img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/aave-logo.png" height="60" alt="AAVE" /></a>
+    <br/>
+    <a href="https://github.com/ethereum-optimism/optimism/blob/master/packages/contracts/hardhat.config.ts#L14"><img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/optimism-logo.png" height="90" alt="Optimism" /></a>
+    <a href="https://github.com/matter-labs/zksync/blob/9687049af1efbd14d8e47d97ebea643e1516da9d/contracts/hardhat.config.ts#L4"><img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/zksync-logo.png" height="100" alt="zkSync" /></a>
   </p>
 </p>
 
@@ -24,9 +24,9 @@
 
 - static typing - you will never call not existing method again
 - IDE support - works with any IDE supporting Typescript
-- extendible - work with many different APIs: `ethers.js v4`, `truffle v4`, `truffle v5`, `Web3.js v1` or you can create
-  your own target
-- frictionless - works with simple, JSON ABI files as well as with Truffle style ABIs
+- extendible - work with many different tools: `ethers.js`, `hardhat`, `truffle`, `Web3.js` or you can create your own
+  target
+- frictionless - works with simple, JSON ABI files as well as with Truffle/Hardhat artifacts
 
 ## Installation
 
@@ -52,6 +52,9 @@ You will also need to install a desired target for example `@typechain/ethers-v4
 
 ### CLI
 
+_Note: If you use hardhat just use
+[hardhat plugin](https://github.com/ethereum-ts/TypeChain/tree/master/packages/hardhat)._
+
 ```
 typechain --target=(ethers-v4|truffle-v4|truffle-v5|web3-v1|path-to-custom-target) [glob]
 ```
@@ -72,28 +75,26 @@ Example:
 typechain --target ethers-v4 --out-dir app/contracts './node_modules/neufund-contracts/build/contracts/*.json'
 ```
 
-## Demo 🏎️
+## Videos
 
-![Demo](https://media.giphy.com/media/3oFzmqgHxrPZFhBst2/giphy.gif)
-
-[Example usage](https://github.com/Neufund/commit.neufund.org/pull/331/files)
+- [Devcon5 Video (2019)](https://www.youtube.com/watch?v=Ho4dGNKVkTE)
 
 ## Getting started 📚
 
 ### Motivation
 
-Interacting with blockchain in Javascript is a pain. Web3 interface is sluggish and when using it with Typescript it
-gets even worse. Often, you can't be sure what given method call will actually do without looking at ABI file. TypeChain
-is here to solve these problems (as long as you use Typescript).
+Interacting with blockchain in Javascript is a pain. Developers need to remember not only a name of a given smart
+contract method or event but also it's full signature. This wastes time and might introduce bugs that will be triggered
+only in runtime. TypeChain solves these problems (as long as you use TypeScript).
 
 ### How does it work?
 
-TypeChain is code generator - provide ABI file and you will get Typescript class with flexible interface for interacting
-with blockchain. Depending on the target parameter it can generate typings for truffle, web3 1.0.0 or ethers.
+TypeChain is a code generator - provide ABI file and name of your blockchain access library (ethers/truffle/web3.js) and
+you will get TypeScript typings compatible with a given library.
 
 ### Step by step guide
 
-Install typechain with `yarn add --dev typechain` and install desired target.
+Install TypeChain with `yarn add --dev typechain` and install desired target.
 
 Run `typechain --target=your_target` (you might need to make sure that it's available in your path if you installed it
 only locally), it will automatically find all `.abi` files in your project and generate Typescript classes based on
@@ -106,7 +107,8 @@ That's it! Now, you can simply import typings, check out our examples for more d
 
 ### Ethers.js v4 / v5
 
-Use `ethers-v4` target to generate wrappers for [ethers.js](https://github.com/ethers-io/ethers.js/) lib.
+Use `ethers-v4` target to generate wrappers for [ethers.js](https://github.com/ethers-io/ethers.js/) lib. To make it
+work great with Hardhat, use [Hardhat plugin](https://github.com/ethereum-ts/TypeChain/tree/master/packages/hardhat).
 
 ### Truffle v4 / v5
 
@@ -157,34 +159,33 @@ A: You can create your own target and generate basically any code.
 A: We will automatically format generated classes with `prettier` to match your coding preferences (just make sure to
 use `.prettierrc` file).
 
-Furthermore, we will silent tslint for generated files with `/* tslint:disable */` comments.
+Furthermore, TypeChain will silent `eslint` and `tslint` errors for generated files.
 
 ### Usage as API
 
-You may want to use `ts-generator` api to kick off whole process by api:
-
 ```typescript
-import { tsGenerator } from 'ts-generator'
-import { TypeChain } from 'typechain/dist/TypeChain'
+import { runTypeChain, glob } from 'typechain'
 
 async function main() {
   const cwd = process.cwd()
+  // find all files matching the glob
+  const allFiles = glob(cwd, [`${config.paths.artifacts}/!(build-info)/**/+([a-zA-Z0-9_]).json`])
 
-  await tsGenerator(
-    { cwd },
-    new TypeChain({
-      cwd,
-      rawConfig: {
-        files: 'your-glob-here',
-        outDir: 'optional out dir path',
-        target: 'your-target',
-      },
-    }),
-  )
+  const result = await runTypeChain({
+    cwd,
+    filesToProcess: allFiles,
+    allFiles,
+    outDir: 'out directory',
+    target: 'target name',
+  })
 }
 
 main().catch(console.error)
 ```
+
+If you don't care about incremental generation just specify the same set of files for `filesToProcess` and `allFiles`.
+For incremental generation example read the source code of
+[hardhat plugin](https://github.com/ethereum-ts/TypeChain/blob/master/packages/hardhat/src/index.ts).
 
 # Contributing
 
@@ -192,4 +193,4 @@ Check out our [contributing guidelines](./CONTRIBUTING.md)
 
 # Licence
 
-Krzysztof Kaczor (krzkaczor) MIT | [Github](https://github.com/krzkaczor) | [Twitter](https://twitter.com/krzkaczor)
+Kris Kaczor (krzkaczor) MIT | [Github](https://github.com/krzkaczor) | [Twitter](https://twitter.com/krzkaczor)
