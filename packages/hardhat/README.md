@@ -46,7 +46,7 @@ import '@typechain/hardhat'
 - **Zero Config Usage** - Run the _compile_ task as normal, and Typechain artifacts will automatically be generated in a
   root directory called `typechain`.
 - **Incremental generation** - Only recompiled files will have their types regenerated
-- **Frictionless** - return of `ethers.getContractFactory` will be typed properly - no need for hard casts
+- **Frictionless** - return type of `ethers.getContractFactory` will be typed properly - no need for casts
 
 ## Tasks
 
