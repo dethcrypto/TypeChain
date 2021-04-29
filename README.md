@@ -27,7 +27,7 @@
 - IDE support - works with any IDE supporting Typescript
 - extendible - work with many different tools: `ethers.js`, `hardhat`, `truffle`, `Web3.js` or you can create your own
   target
-- frictionless - works with simple, JSON ABI files as well as with Truffle style ABIs
+- frictionless - works with simple, JSON ABI files as well as with Truffle/Hardhat artifacts
 
 ## Installation
 
@@ -52,6 +52,9 @@ You will also need to install a desired target for example `@typechain/ethers-v4
 ## Usage
 
 ### CLI
+
+_Note: If you use hardhat just use
+[hardhat plugin](https://github.com/ethereum-ts/TypeChain/tree/master/packages/hardhat)._
 
 ```
 typechain --target=(ethers-v4|truffle-v4|truffle-v5|web3-v1|path-to-custom-target) [glob]
@@ -81,18 +84,18 @@ typechain --target ethers-v4 --out-dir app/contracts './node_modules/neufund-con
 
 ### Motivation
 
-Interacting with blockchain in Javascript is a pain. Web3 interface is sluggish and when using it with Typescript it
-gets even worse. Often, you can't be sure what given method call will actually do without looking at ABI file. TypeChain
-is here to solve these problems (as long as you use Typescript).
+Interacting with blockchain in Javascript is a pain. Developers need to remember not only a name of a given smart
+contract method or event but also it's full signature. This wastes time and might introduce bugs that will be triggered
+only in runtime. TypeChain solves these problems (as long as you use TypeScript).
 
 ### How does it work?
 
-TypeChain is code generator - provide ABI file and you will get Typescript class with flexible interface for interacting
-with blockchain. Depending on the target parameter it can generate typings for truffle, web3 1.0.0 or ethers.
+TypeChain is a code generator - provide ABI file and name of your blockchain access library (ethers/truffle/web3.js) and
+you will get TypeScript typings compatible with a given library.
 
 ### Step by step guide
 
-Install typechain with `yarn add --dev typechain` and install desired target.
+Install TypeChain with `yarn add --dev typechain` and install desired target.
 
 Run `typechain --target=your_target` (you might need to make sure that it's available in your path if you installed it
 only locally), it will automatically find all `.abi` files in your project and generate Typescript classes based on
@@ -105,7 +108,8 @@ That's it! Now, you can simply import typings, check out our examples for more d
 
 ### Ethers.js v4 / v5
 
-Use `ethers-v4` target to generate wrappers for [ethers.js](https://github.com/ethers-io/ethers.js/) lib.
+Use `ethers-v4` target to generate wrappers for [ethers.js](https://github.com/ethers-io/ethers.js/) lib. To make it
+work great with Hardhat, use [Hardhat plugin](https://github.com/ethereum-ts/TypeChain/tree/master/packages/hardhat).
 
 ### Truffle v4 / v5
 
@@ -156,34 +160,33 @@ A: You can create your own target and generate basically any code.
 A: We will automatically format generated classes with `prettier` to match your coding preferences (just make sure to
 use `.prettierrc` file).
 
-Furthermore, we will silent tslint for generated files with `/* tslint:disable */` comments.
+Furthermore, TypeChain will silent `eslint` and `tslint` errors for generated files.
 
 ### Usage as API
 
-You may want to use `ts-generator` api to kick off whole process by api:
-
 ```typescript
-import { tsGenerator } from 'ts-generator'
-import { TypeChain } from 'typechain/dist/TypeChain'
+import { runTypeChain, glob } from 'typechain'
 
 async function main() {
   const cwd = process.cwd()
+  // find all files matching the glob
+  const allFiles = glob(cwd, [`${config.paths.artifacts}/!(build-info)/**/+([a-zA-Z0-9_]).json`])
 
-  await tsGenerator(
-    { cwd },
-    new TypeChain({
-      cwd,
-      rawConfig: {
-        files: 'your-glob-here',
-        outDir: 'optional out dir path',
-        target: 'your-target',
-      },
-    }),
-  )
+  const result = await runTypeChain({
+    cwd,
+    filesToProcess: allFiles,
+    allFiles,
+    outDir: 'out directory',
+    target: 'target name',
+  })
 }
 
 main().catch(console.error)
 ```
+
+If you don't care about incremental generation just specify the same set of files for `filesToProcess` and `allFiles`.
+For incremental generation example read the source code of
+[hardhat plugin](https://github.com/ethereum-ts/TypeChain/blob/master/packages/hardhat/src/index.ts).
 
 # Contributing
 
