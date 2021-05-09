@@ -1,5 +1,17 @@
 # typechain
 
+## 5.0.0
+
+### Major Changes
+
+- d60a343: Rename `--outDir` CLI option to `--out-dir`
+- 5a60d00: Remove dependency on `ts-generator`
+
+### Minor Changes
+
+- d60a343: Add `--always-generate-overloads` option and by default stop generating types for overloaded functions if
+  there are no overloads (reduces bloat)
+
 ## 4.0.3
 
 ### Patch Changes

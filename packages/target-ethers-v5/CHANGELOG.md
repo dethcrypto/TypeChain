@@ -1,5 +1,21 @@
 # @typechain/ethers-v5
 
+## 7.0.0
+
+### Minor Changes
+
+- 021e959: Expose ABI, bytecode, and contract interface in factories
+
+### Patch Changes
+
+- d590f88: Make filter parameters optional
+- bc4539a: Generated types now extend new `BaseContract` not `Contract` from ethers. This removes all index signatures
+  and makes calling a non-existing function a compile-time error.
+- Updated dependencies [d60a343]
+- Updated dependencies [5a60d00]
+- Updated dependencies [d60a343]
+  - typechain@5.0.0
+
 ## 6.0.5
 
 ### Patch Changes
