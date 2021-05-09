@@ -11,12 +11,12 @@
 
   <p align="center">
     <i>Used by best:</i> <br/>
-    <img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/maker-logo.png" height="110" alt="Maker DAO" />
-    <a href="https://github.com/Uniswap/uniswap-v3-core/blob/main/hardhat.config.ts#L1"><img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/uniswap-logo.png" height="90" alt="Uniswap" /></a>
-    <a href="https://github.com/aave/protocol-v2/blob/master/hardhat.config.ts#L16"><img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/aave-logo.png" height="60" alt="AAVE" /></a>
+    <img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/master/docs/images/maker-logo.png" height="110" alt="Maker DAO" />
+    <a href="https://github.com/Uniswap/uniswap-v3-core/blob/main/hardhat.config.ts#L1"><img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/master/docs/images/uniswap-logo.png" height="90" alt="Uniswap" /></a>
+    <a href="https://github.com/aave/protocol-v2/blob/master/hardhat.config.ts#L16"><img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/master/docs/images/aave-logo.png" height="60" alt="AAVE" /></a>
     <br/>
-    <a href="https://github.com/ethereum-optimism/optimism/blob/master/packages/contracts/hardhat.config.ts#L14"><img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/optimism-logo.png" height="90" alt="Optimism" /></a>
-    <a href="https://github.com/matter-labs/zksync/blob/9687049af1efbd14d8e47d97ebea643e1516da9d/contracts/hardhat.config.ts#L4"><img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/kk/readme-v5/docs/images/zksync-logo.png" height="100" alt="zkSync" /></a>
+    <a href="https://github.com/ethereum-optimism/optimism/blob/master/packages/contracts/hardhat.config.ts#L14"><img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/master/docs/images/optimism-logo.png" height="90" alt="Optimism" /></a>
+    <a href="https://github.com/matter-labs/zksync/blob/9687049af1efbd14d8e47d97ebea643e1516da9d/contracts/hardhat.config.ts#L4"><img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/master/docs/images/zksync-logo.png" height="100" alt="zkSync" /></a>
   </p>
 </p>
 
