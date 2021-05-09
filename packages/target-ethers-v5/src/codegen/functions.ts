@@ -1,15 +1,27 @@
-import { FunctionDeclaration, isConstant, isConstantFn, FunctionDocumentation, getSignatureForFn } from 'typechain'
+import {
+  FunctionDeclaration,
+  isConstant,
+  isConstantFn,
+  FunctionDocumentation,
+  getSignatureForFn,
+  CodegenConfig,
+} from 'typechain'
 import { generateInputTypes, generateOutputTypes } from './types'
 
 interface GenerateFunctionOptions {
   returnResultObject?: boolean
   isStaticCall?: boolean
   overrideOutput?: string
+  codegenConfig: CodegenConfig
 }
 
 export function codegenFunctions(options: GenerateFunctionOptions, fns: FunctionDeclaration[]): string {
   if (fns.length === 1) {
-    return `${generateFunction(options, fns[0])}${codegenForOverloadedFunctions(options, fns)}`
+    if (options.codegenConfig.alwaysGenerateOverloads) {
+      return generateFunction(options, fns[0]) + codegenForOverloadedFunctions(options, fns)
+    } else {
+      return generateFunction(options, fns[0])
+    }
   }
 
   return codegenForOverloadedFunctions(options, fns)

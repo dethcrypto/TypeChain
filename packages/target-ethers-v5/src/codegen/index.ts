@@ -2,6 +2,7 @@ import { values } from 'lodash'
 import {
   AbiParameter,
   BytecodeWithLinkReferences,
+  CodegenConfig,
   Contract,
   EventArgDeclaration,
   EventDeclaration,
@@ -17,10 +18,14 @@ import {
   generateOutputComplexTypesAsObject,
 } from './types'
 
-export function codegenContractTypings(contract: Contract) {
-  const contractImports: string[] = ['Contract', 'ContractTransaction']
+export function codegenContractTypings(contract: Contract, codegenConfig: CodegenConfig) {
+  const contractImports: string[] = ['BaseContract', 'ContractTransaction']
   const allFunctions = values(contract.functions)
-    .map((fn) => codegenFunctions({ returnResultObject: true }, fn) + codegenFunctions({ isStaticCall: true }, fn))
+    .map(
+      (fn) =>
+        codegenFunctions({ returnResultObject: true, codegenConfig }, fn) +
+        codegenFunctions({ isStaticCall: true, codegenConfig }, fn),
+    )
     .join('')
 
   const optionalContractImports = ['Overrides', 'PayableOverrides', 'CallOverrides']
@@ -66,7 +71,7 @@ export function codegenContractTypings(contract: Contract) {
       .join('\n')}
   }
 
-  export class ${contract.name} extends Contract {
+  export class ${contract.name} extends BaseContract {
     connect(signerOrProvider: Signer | Provider | string): this;
     attach(addressOrName: string): this;
     deployed(): Promise<this>;
@@ -95,18 +100,18 @@ export function codegenContractTypings(contract: Contract) {
 
     functions: {
       ${values(contract.functions)
-        .map(codegenFunctions.bind(null, { returnResultObject: true }))
+        .map(codegenFunctions.bind(null, { returnResultObject: true, codegenConfig }))
         .join('\n')}
     };
 
     ${values(contract.functions)
       .filter((f) => !reservedKeywords.has(f[0].name))
-      .map(codegenFunctions.bind(null, {}))
+      .map(codegenFunctions.bind(null, { codegenConfig }))
       .join('\n')}
 
     callStatic: {
       ${values(contract.functions)
-        .map(codegenFunctions.bind(null, { isStaticCall: true }))
+        .map(codegenFunctions.bind(null, { isStaticCall: true, codegenConfig }))
         .join('\n')}
     };
 
@@ -119,13 +124,13 @@ export function codegenContractTypings(contract: Contract) {
 
     estimateGas: {
       ${values(contract.functions)
-        .map(codegenFunctions.bind(null, { overrideOutput: 'Promise<BigNumber>' }))
+        .map(codegenFunctions.bind(null, { overrideOutput: 'Promise<BigNumber>', codegenConfig }))
         .join('\n')}
     };
 
     populateTransaction: {
       ${values(contract.functions)
-        .map(codegenFunctions.bind(null, { overrideOutput: 'Promise<PopulatedTransaction>' }))
+        .map(codegenFunctions.bind(null, { overrideOutput: 'Promise<PopulatedTransaction>', codegenConfig }))
         .join('\n')}
     };
   }`
@@ -153,7 +158,7 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
   const optionalEthersImports = ['BytesLike', 'BigNumberish']
   optionalEthersImports.forEach((importName) => pushImportIfUsed(importName, constructorArgs, ethersImports))
 
-  const ethersContractImports: string[] = ['Contract', 'ContractFactory', 'Interface']
+  const ethersContractImports: string[] = ['Contract', 'ContractFactory']
   const optionalContractImports = ['PayableOverrides', 'Overrides']
   optionalContractImports.forEach((importName) => pushImportIfUsed(importName, constructorArgs, ethersContractImports))
 
@@ -319,7 +324,7 @@ function generateEventTypes(eventArgs: EventArgDeclaration[]) {
   return (
     eventArgs
       .map((arg) => {
-        return `${arg.name}: ${generateEventArgType(arg)}`
+        return `${arg.name}?: ${generateEventArgType(arg)}`
       })
       .join(', ') + ', '
   )

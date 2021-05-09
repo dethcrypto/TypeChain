@@ -9,7 +9,7 @@ import {
   BigNumber,
   BigNumberish,
   PopulatedTransaction,
-  Contract,
+  BaseContract,
   ContractTransaction,
   CallOverrides,
 } from "ethers";
@@ -33,7 +33,7 @@ interface NameManglingInterface extends ethers.utils.Interface {
   events: {};
 }
 
-export class NameMangling extends Contract {
+export class NameMangling extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -79,25 +79,15 @@ export class NameMangling extends Contract {
   functions: {
     provider(overrides?: CallOverrides): Promise<[boolean]>;
 
-    "provider()"(overrides?: CallOverrides): Promise<[boolean]>;
-
     works(overrides?: CallOverrides): Promise<[boolean]>;
-
-    "works()"(overrides?: CallOverrides): Promise<[boolean]>;
   };
 
   works(overrides?: CallOverrides): Promise<boolean>;
 
-  "works()"(overrides?: CallOverrides): Promise<boolean>;
-
   callStatic: {
     provider(overrides?: CallOverrides): Promise<boolean>;
 
-    "provider()"(overrides?: CallOverrides): Promise<boolean>;
-
     works(overrides?: CallOverrides): Promise<boolean>;
-
-    "works()"(overrides?: CallOverrides): Promise<boolean>;
   };
 
   filters: {};
@@ -105,20 +95,12 @@ export class NameMangling extends Contract {
   estimateGas: {
     provider(overrides?: CallOverrides): Promise<BigNumber>;
 
-    "provider()"(overrides?: CallOverrides): Promise<BigNumber>;
-
     works(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "works()"(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
     provider(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    "provider()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     works(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    "works()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }

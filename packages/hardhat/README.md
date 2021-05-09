@@ -20,13 +20,13 @@ Automatically generate TypeScript bindings for smartcontracts while using [Hardh
 If you use Ethers/Waffle do:
 
 ```bash
-npm install --save-dev typechain ts-generator @typechain/hardhat @typechain/ethers-v5
+npm install --save-dev typechain @typechain/hardhat @typechain/ethers-v5
 ```
 
 If you're a Truffle user you need:
 
 ```bash
-npm install --save-dev typechain ts-generator @typechain/hardhat @typechain/truffle-v5
+npm install --save-dev typechain @typechain/hardhat @typechain/truffle-v5
 ```
 
 And add the following statement to your hardhat.config.js:
@@ -41,10 +41,12 @@ Or, if you are using TypeScript, add this to your hardhat.config.ts:
 import '@typechain/hardhat'
 ```
 
-## Zero Config Usage
+## Features
 
-Run the _compile_ task as normal, and Typechain artifacts will automatically be generated in a root directory called
-`typechain`. Further configuration options are detailed below.
+- **Zero Config Usage** - Run the _compile_ task as normal, and Typechain artifacts will automatically be generated in a
+  root directory called `typechain`.
+- **Incremental generation** - Only recompiled files will have their types regenerated
+- **Frictionless** - return type of `ethers.getContractFactory` will be typed properly - no need for casts
 
 ## Tasks
 
@@ -72,6 +74,7 @@ module.exports = {
   typechain: {
     outDir: 'src/types',
     target: 'ethers-v5',
+    alwaysGenerateOverloads: false, // should overloads with full signatures like deposit(uint256) be generated always, even if there are no overloads?
   },
 }
 ```

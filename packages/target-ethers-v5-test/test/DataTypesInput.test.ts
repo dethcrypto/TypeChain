@@ -41,7 +41,7 @@ describe('DataTypesInput', () => {
     ])
 
     typedAssert(
-      await contract['input_address(address)']('0x70b144972C5Ef6CB941A5379240B74239c418CD4'),
+      await contract.input_address('0x70b144972C5Ef6CB941A5379240B74239c418CD4'),
       '0x70b144972C5Ef6CB941A5379240B74239c418CD4',
     )
 
@@ -88,5 +88,13 @@ describe('DataTypesInput', () => {
     type t1 = AssertTrue<
       IsExact<ViewStructType, [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }>
     >
+  })
+
+  // we skip this test as ts only about types
+  it.skip('prevents from using not existing methods', () => {
+    // @ts-expect-error
+    contract.not_existing(1)
+    // @ts-expect-error
+    contract.functions.not_existing(1)
   })
 })

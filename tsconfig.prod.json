@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "lib": ["ES2018"],
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "strict": true,
+    "target": "ES2018",
+    "sourceMap": true,
+    "composite": true,
+    "incremental": true
+  },
+  "files": [],
+  "references": [
+    { "path": "./packages/typechain/tsconfig.build.json" },
+    { "path": "./packages/test-utils/tsconfig.build.json" },
+    { "path": "./packages/target-web3-v1/tsconfig.build.json" },
+    { "path": "./packages/target-truffle-v4/tsconfig.build.json" },
+    { "path": "./packages/target-truffle-v5/tsconfig.build.json" },
+    { "path": "./packages/target-ethers-v4/tsconfig.build.json" },
+    { "path": "./packages/target-ethers-v5/tsconfig.build.json" },
+    { "path": "./packages/hardhat/tsconfig.build.json" }
+  ]
+}

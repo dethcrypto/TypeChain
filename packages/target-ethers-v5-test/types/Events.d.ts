@@ -9,7 +9,7 @@ import {
   BigNumber,
   BigNumberish,
   PopulatedTransaction,
-  Contract,
+  BaseContract,
   ContractTransaction,
   Overrides,
   CallOverrides,
@@ -93,7 +93,7 @@ interface EventsInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "NoArgsEvent"): EventFragment;
 }
 
-export class Events extends Contract {
+export class Events extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -141,15 +141,7 @@ export class Events extends Contract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    "emit_anon1()"(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     emit_event1(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "emit_event1()"(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -157,15 +149,7 @@ export class Events extends Contract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    "emit_event2()"(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     emit_event3(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "emit_event3()"(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -173,15 +157,7 @@ export class Events extends Contract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    "emit_event3_overloaded()"(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     emit_event4(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "emit_event4()"(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
@@ -190,15 +166,7 @@ export class Events extends Contract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  "emit_anon1()"(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   emit_event1(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "emit_event1()"(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -206,15 +174,7 @@ export class Events extends Contract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  "emit_event2()"(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   emit_event3(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "emit_event3()"(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -222,69 +182,51 @@ export class Events extends Contract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  "emit_event3_overloaded()"(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   emit_event4(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "emit_event4()"(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   callStatic: {
     emit_anon1(overrides?: CallOverrides): Promise<void>;
 
-    "emit_anon1()"(overrides?: CallOverrides): Promise<void>;
-
     emit_event1(overrides?: CallOverrides): Promise<void>;
-
-    "emit_event1()"(overrides?: CallOverrides): Promise<void>;
 
     emit_event2(overrides?: CallOverrides): Promise<void>;
 
-    "emit_event2()"(overrides?: CallOverrides): Promise<void>;
-
     emit_event3(overrides?: CallOverrides): Promise<void>;
-
-    "emit_event3()"(overrides?: CallOverrides): Promise<void>;
 
     emit_event3_overloaded(overrides?: CallOverrides): Promise<void>;
 
-    "emit_event3_overloaded()"(overrides?: CallOverrides): Promise<void>;
-
     emit_event4(overrides?: CallOverrides): Promise<void>;
-
-    "emit_event4()"(overrides?: CallOverrides): Promise<void>;
   };
 
   filters: {
     AnonEvent1(
-      value1: BigNumberish | null
+      value1?: BigNumberish | null
     ): TypedEventFilter<[BigNumber], { value1: BigNumber }>;
 
     Event1(
-      value1: BigNumberish | null,
-      value2: null
+      value1?: BigNumberish | null,
+      value2?: null
     ): TypedEventFilter<
       [BigNumber, BigNumber],
       { value1: BigNumber; value2: BigNumber }
     >;
 
-    Event2(undefined: null): TypedEventFilter<[BigNumber], { arg0: BigNumber }>;
+    Event2(
+      undefined?: null
+    ): TypedEventFilter<[BigNumber], { arg0: BigNumber }>;
 
     Event3(
-      value1: boolean | null,
-      value2: null
+      value1?: boolean | null,
+      value2?: null
     ): TypedEventFilter<
       [boolean, BigNumber],
       { value1: boolean; value2: BigNumber }
     >;
 
     Event4(
-      data: null
+      data?: null
     ): TypedEventFilter<
       [[BigNumber, string] & { index: BigNumber; name: string }],
       { data: [BigNumber, string] & { index: BigNumber; name: string } }
@@ -298,15 +240,7 @@ export class Events extends Contract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    "emit_anon1()"(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     emit_event1(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "emit_event1()"(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -314,15 +248,7 @@ export class Events extends Contract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    "emit_event2()"(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     emit_event3(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "emit_event3()"(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -330,15 +256,7 @@ export class Events extends Contract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    "emit_event3_overloaded()"(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     emit_event4(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "emit_event4()"(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
@@ -348,15 +266,7 @@ export class Events extends Contract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    "emit_anon1()"(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     emit_event1(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "emit_event1()"(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -364,15 +274,7 @@ export class Events extends Contract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    "emit_event2()"(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     emit_event3(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "emit_event3()"(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -380,15 +282,7 @@ export class Events extends Contract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    "emit_event3_overloaded()"(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     emit_event4(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "emit_event4()"(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };

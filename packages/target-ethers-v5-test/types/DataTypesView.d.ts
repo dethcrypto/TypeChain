@@ -9,7 +9,7 @@ import {
   BigNumber,
   BigNumberish,
   PopulatedTransaction,
-  Contract,
+  BaseContract,
   ContractTransaction,
   CallOverrides,
 } from "ethers";
@@ -123,7 +123,7 @@ interface DataTypesViewInterface extends ethers.utils.Interface {
   events: {};
 }
 
-export class DataTypesView extends Contract {
+export class DataTypesView extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -169,39 +169,19 @@ export class DataTypesView extends Contract {
   functions: {
     view_address(overrides?: CallOverrides): Promise<[string]>;
 
-    "view_address()"(overrides?: CallOverrides): Promise<[string]>;
-
     view_bool(overrides?: CallOverrides): Promise<[boolean]>;
-
-    "view_bool()"(overrides?: CallOverrides): Promise<[boolean]>;
 
     view_bytes(overrides?: CallOverrides): Promise<[string]>;
 
-    "view_bytes()"(overrides?: CallOverrides): Promise<[string]>;
-
     view_bytes1(overrides?: CallOverrides): Promise<[string]>;
-
-    "view_bytes1()"(overrides?: CallOverrides): Promise<[string]>;
 
     view_enum(overrides?: CallOverrides): Promise<[number]>;
 
-    "view_enum()"(overrides?: CallOverrides): Promise<[number]>;
-
     view_int256(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    "view_int256()"(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     view_int8(overrides?: CallOverrides): Promise<[number]>;
 
-    "view_int8()"(overrides?: CallOverrides): Promise<[number]>;
-
     view_named(
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber] & { uint256_1: BigNumber; uint256_2: BigNumber }
-    >;
-
-    "view_named()"(
       overrides?: CallOverrides
     ): Promise<
       [BigNumber, BigNumber] & { uint256_1: BigNumber; uint256_2: BigNumber }
@@ -211,13 +191,7 @@ export class DataTypesView extends Contract {
       overrides?: CallOverrides
     ): Promise<[[number, number, number]]>;
 
-    "view_stat_array()"(
-      overrides?: CallOverrides
-    ): Promise<[[number, number, number]]>;
-
     view_string(overrides?: CallOverrides): Promise<[string]>;
-
-    "view_string()"(overrides?: CallOverrides): Promise<[string]>;
 
     view_struct(
       overrides?: CallOverrides
@@ -225,52 +199,26 @@ export class DataTypesView extends Contract {
       [[BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }]
     >;
 
-    "view_struct()"(
-      overrides?: CallOverrides
-    ): Promise<
-      [[BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }]
-    >;
-
     view_tuple(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
-
-    "view_tuple()"(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
     view_uint256(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    "view_uint256()"(overrides?: CallOverrides): Promise<[BigNumber]>;
-
     view_uint8(overrides?: CallOverrides): Promise<[number]>;
-
-    "view_uint8()"(overrides?: CallOverrides): Promise<[number]>;
   };
 
   view_address(overrides?: CallOverrides): Promise<string>;
 
-  "view_address()"(overrides?: CallOverrides): Promise<string>;
-
   view_bool(overrides?: CallOverrides): Promise<boolean>;
-
-  "view_bool()"(overrides?: CallOverrides): Promise<boolean>;
 
   view_bytes(overrides?: CallOverrides): Promise<string>;
 
-  "view_bytes()"(overrides?: CallOverrides): Promise<string>;
-
   view_bytes1(overrides?: CallOverrides): Promise<string>;
-
-  "view_bytes1()"(overrides?: CallOverrides): Promise<string>;
 
   view_enum(overrides?: CallOverrides): Promise<number>;
 
-  "view_enum()"(overrides?: CallOverrides): Promise<number>;
-
   view_int256(overrides?: CallOverrides): Promise<BigNumber>;
 
-  "view_int256()"(overrides?: CallOverrides): Promise<BigNumber>;
-
   view_int8(overrides?: CallOverrides): Promise<number>;
-
-  "view_int8()"(overrides?: CallOverrides): Promise<number>;
 
   view_named(
     overrides?: CallOverrides
@@ -278,21 +226,9 @@ export class DataTypesView extends Contract {
     [BigNumber, BigNumber] & { uint256_1: BigNumber; uint256_2: BigNumber }
   >;
 
-  "view_named()"(
-    overrides?: CallOverrides
-  ): Promise<
-    [BigNumber, BigNumber] & { uint256_1: BigNumber; uint256_2: BigNumber }
-  >;
-
   view_stat_array(overrides?: CallOverrides): Promise<[number, number, number]>;
 
-  "view_stat_array()"(
-    overrides?: CallOverrides
-  ): Promise<[number, number, number]>;
-
   view_string(overrides?: CallOverrides): Promise<string>;
-
-  "view_string()"(overrides?: CallOverrides): Promise<string>;
 
   view_struct(
     overrides?: CallOverrides
@@ -300,60 +236,28 @@ export class DataTypesView extends Contract {
     [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
   >;
 
-  "view_struct()"(
-    overrides?: CallOverrides
-  ): Promise<
-    [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
-  >;
-
   view_tuple(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
-
-  "view_tuple()"(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
   view_uint256(overrides?: CallOverrides): Promise<BigNumber>;
 
-  "view_uint256()"(overrides?: CallOverrides): Promise<BigNumber>;
-
   view_uint8(overrides?: CallOverrides): Promise<number>;
-
-  "view_uint8()"(overrides?: CallOverrides): Promise<number>;
 
   callStatic: {
     view_address(overrides?: CallOverrides): Promise<string>;
 
-    "view_address()"(overrides?: CallOverrides): Promise<string>;
-
     view_bool(overrides?: CallOverrides): Promise<boolean>;
-
-    "view_bool()"(overrides?: CallOverrides): Promise<boolean>;
 
     view_bytes(overrides?: CallOverrides): Promise<string>;
 
-    "view_bytes()"(overrides?: CallOverrides): Promise<string>;
-
     view_bytes1(overrides?: CallOverrides): Promise<string>;
-
-    "view_bytes1()"(overrides?: CallOverrides): Promise<string>;
 
     view_enum(overrides?: CallOverrides): Promise<number>;
 
-    "view_enum()"(overrides?: CallOverrides): Promise<number>;
-
     view_int256(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "view_int256()"(overrides?: CallOverrides): Promise<BigNumber>;
 
     view_int8(overrides?: CallOverrides): Promise<number>;
 
-    "view_int8()"(overrides?: CallOverrides): Promise<number>;
-
     view_named(
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber] & { uint256_1: BigNumber; uint256_2: BigNumber }
-    >;
-
-    "view_named()"(
       overrides?: CallOverrides
     ): Promise<
       [BigNumber, BigNumber] & { uint256_1: BigNumber; uint256_2: BigNumber }
@@ -363,13 +267,7 @@ export class DataTypesView extends Contract {
       overrides?: CallOverrides
     ): Promise<[number, number, number]>;
 
-    "view_stat_array()"(
-      overrides?: CallOverrides
-    ): Promise<[number, number, number]>;
-
     view_string(overrides?: CallOverrides): Promise<string>;
-
-    "view_string()"(overrides?: CallOverrides): Promise<string>;
 
     view_struct(
       overrides?: CallOverrides
@@ -377,23 +275,11 @@ export class DataTypesView extends Contract {
       [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
     >;
 
-    "view_struct()"(
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
-    >;
-
     view_tuple(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
-
-    "view_tuple()"(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
     view_uint256(overrides?: CallOverrides): Promise<BigNumber>;
 
-    "view_uint256()"(overrides?: CallOverrides): Promise<BigNumber>;
-
     view_uint8(overrides?: CallOverrides): Promise<number>;
-
-    "view_uint8()"(overrides?: CallOverrides): Promise<number>;
   };
 
   filters: {};
@@ -401,118 +287,60 @@ export class DataTypesView extends Contract {
   estimateGas: {
     view_address(overrides?: CallOverrides): Promise<BigNumber>;
 
-    "view_address()"(overrides?: CallOverrides): Promise<BigNumber>;
-
     view_bool(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "view_bool()"(overrides?: CallOverrides): Promise<BigNumber>;
 
     view_bytes(overrides?: CallOverrides): Promise<BigNumber>;
 
-    "view_bytes()"(overrides?: CallOverrides): Promise<BigNumber>;
-
     view_bytes1(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "view_bytes1()"(overrides?: CallOverrides): Promise<BigNumber>;
 
     view_enum(overrides?: CallOverrides): Promise<BigNumber>;
 
-    "view_enum()"(overrides?: CallOverrides): Promise<BigNumber>;
-
     view_int256(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "view_int256()"(overrides?: CallOverrides): Promise<BigNumber>;
 
     view_int8(overrides?: CallOverrides): Promise<BigNumber>;
 
-    "view_int8()"(overrides?: CallOverrides): Promise<BigNumber>;
-
     view_named(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "view_named()"(overrides?: CallOverrides): Promise<BigNumber>;
 
     view_stat_array(overrides?: CallOverrides): Promise<BigNumber>;
 
-    "view_stat_array()"(overrides?: CallOverrides): Promise<BigNumber>;
-
     view_string(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "view_string()"(overrides?: CallOverrides): Promise<BigNumber>;
 
     view_struct(overrides?: CallOverrides): Promise<BigNumber>;
 
-    "view_struct()"(overrides?: CallOverrides): Promise<BigNumber>;
-
     view_tuple(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "view_tuple()"(overrides?: CallOverrides): Promise<BigNumber>;
 
     view_uint256(overrides?: CallOverrides): Promise<BigNumber>;
 
-    "view_uint256()"(overrides?: CallOverrides): Promise<BigNumber>;
-
     view_uint8(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "view_uint8()"(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
     view_address(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    "view_address()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     view_bool(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    "view_bool()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     view_bytes(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    "view_bytes()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     view_bytes1(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    "view_bytes1()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     view_enum(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    "view_enum()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     view_int256(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    "view_int256()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     view_int8(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    "view_int8()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     view_named(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    "view_named()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     view_stat_array(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    "view_stat_array()"(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     view_string(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    "view_string()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     view_struct(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    "view_struct()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     view_tuple(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    "view_tuple()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     view_uint256(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    "view_uint256()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     view_uint8(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    "view_uint8()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }

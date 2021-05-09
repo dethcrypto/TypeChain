@@ -1,20 +1,25 @@
 import { join, resolve, basename } from 'path'
-import { uniqBy } from 'lodash'
+import { uniqBy, compact } from 'lodash'
 import { Dictionary } from 'ts-essentials'
-import { TContext, TFileDesc, TsGeneratorPlugin } from 'ts-generator'
 import {
   BytecodeWithLinkReferences,
+  Config,
   Contract,
   extractAbi,
   extractBytecode,
   extractDocumentation,
+  FileDescription,
   getFileExtension,
   getFilename,
   parse,
+  TypeChainTarget,
+  normalizeName,
+  CodegenConfig,
 } from 'typechain'
 
 import { codegenAbstractContractFactory, codegenContractFactory, codegenContractTypings } from './codegen'
 import { FACTORY_POSTFIX } from './common'
+import { generateHardhatHelper } from './codegen/hardhat'
 
 export interface IEthersCfg {
   outDir?: string
@@ -22,10 +27,10 @@ export interface IEthersCfg {
 
 const DEFAULT_OUT_PATH = './types/ethers-contracts/'
 
-export default class Ethers extends TsGeneratorPlugin {
+export default class Ethers extends TypeChainTarget {
   name = 'Ethers'
-  allContracts: string[] = []
 
+  private readonly allContracts: string[]
   private readonly outDirAbs: string
   private readonly contractCache: Dictionary<{
     abi: any
@@ -33,15 +38,17 @@ export default class Ethers extends TsGeneratorPlugin {
   }> = {}
   private readonly bytecodeCache: Dictionary<BytecodeWithLinkReferences> = {}
 
-  constructor(ctx: TContext<IEthersCfg>) {
-    super(ctx)
+  constructor(config: Config) {
+    super(config)
 
-    const { cwd, rawConfig } = ctx
+    const { cwd, outDir, allFiles } = config
 
-    this.outDirAbs = resolve(cwd, rawConfig.outDir || DEFAULT_OUT_PATH)
+    this.outDirAbs = resolve(cwd, outDir || DEFAULT_OUT_PATH)
+
+    this.allContracts = allFiles.map((fp) => normalizeName(getFilename(fp)))
   }
 
-  transformFile(file: TFileDesc): TFileDesc[] | void {
+  transformFile(file: FileDescription): FileDescription[] | void {
     const fileExt = getFileExtension(file.path)
 
     // For json files with both ABI and bytecode, both the contract typing and factory can be
@@ -55,7 +62,7 @@ export default class Ethers extends TsGeneratorPlugin {
     return this.transformAbiOrFullJsonFile(file)
   }
 
-  transformBinFile(file: TFileDesc): TFileDesc[] | void {
+  transformBinFile(file: FileDescription): FileDescription[] | void {
     const name = getFilename(file.path)
     const bytecode = extractBytecode(file.contents)
 
@@ -72,7 +79,7 @@ export default class Ethers extends TsGeneratorPlugin {
     }
   }
 
-  transformAbiOrFullJsonFile(file: TFileDesc): TFileDesc[] | void {
+  transformAbiOrFullJsonFile(file: FileDescription): FileDescription[] | void {
     const name = getFilename(file.path)
     const abi = extractAbi(file.contents)
 
@@ -86,19 +93,20 @@ export default class Ethers extends TsGeneratorPlugin {
     const bytecode = extractBytecode(file.contents) || this.bytecodeCache[name]
 
     if (bytecode) {
-      return [this.genContractTypingsFile(contract), this.genContractFactoryFile(contract, abi, bytecode)]
+      return [
+        this.genContractTypingsFile(contract, this.cfg.flags),
+        this.genContractFactoryFile(contract, abi, bytecode),
+      ]
     } else {
       this.contractCache[name] = { abi, contract }
-      return [this.genContractTypingsFile(contract)]
+      return [this.genContractTypingsFile(contract, this.cfg.flags)]
     }
   }
 
-  genContractTypingsFile(contract: Contract): TFileDesc {
-    this.allContracts.push(contract.name)
-
+  genContractTypingsFile(contract: Contract, codegenConfig: CodegenConfig): FileDescription {
     return {
       path: join(this.outDirAbs, `${contract.name}.d.ts`),
-      contents: codegenContractTypings(contract),
+      contents: codegenContractTypings(contract, codegenConfig),
     }
   }
 
@@ -109,7 +117,7 @@ export default class Ethers extends TsGeneratorPlugin {
     }
   }
 
-  afterRun(): TFileDesc[] {
+  afterRun(): FileDescription[] {
     // For each contract that doesn't have bytecode (it's either abstract, or only ABI was provided)
     // generate a simplified factory, that allows to interact with deployed contract instances.
     const abstractFactoryFiles = Object.keys(this.contractCache).map((contractName) => {
@@ -120,7 +128,12 @@ export default class Ethers extends TsGeneratorPlugin {
       }
     })
 
-    const allFiles = [
+    const hardhatHelper =
+      this.cfg.flags.environment === 'hardhat'
+        ? { path: join(this.outDirAbs, 'hardhat.d.ts'), contents: generateHardhatHelper(this.allContracts) }
+        : undefined
+
+    const allFiles = compact([
       ...abstractFactoryFiles,
       {
         path: join(this.outDirAbs, 'commons.ts'),
@@ -130,22 +143,31 @@ export default class Ethers extends TsGeneratorPlugin {
         path: join(this.outDirAbs, 'index.ts'),
         contents: this.genReExports(),
       },
-    ]
+      hardhatHelper,
+    ])
     return allFiles
   }
 
   private genCommons(): string {
     return `
-    import { EventFilter, Event } from 'ethers'
-    import { Result } from '@ethersproject/abi'
+import { EventFilter, Event } from 'ethers'
+import { Result } from '@ethersproject/abi'
 
-    export interface TypedEventFilter<_EventArgsArray, _EventArgsObject> extends EventFilter {}
+export interface TypedEventFilter<_EventArgsArray, _EventArgsObject> extends EventFilter {}
 
-    export interface TypedEvent<EventArgs extends Result> extends Event {
-      args: EventArgs;
-    }
-    
-    export type TypedListener<EventArgsArray extends Array<any>, EventArgsObject> = (...listenerArg: [...EventArgsArray, TypedEvent<EventArgsArray & EventArgsObject>]) => void;`
+export interface TypedEvent<EventArgs extends Result> extends Event {
+  args: EventArgs;
+}
+
+export type TypedListener<EventArgsArray extends Array<any>, EventArgsObject> = (...listenerArg: [...EventArgsArray, TypedEvent<EventArgsArray & EventArgsObject>]) => void;
+
+export type MinEthersFactory<C, ARGS> = {
+  deploy(...a: ARGS[]): Promise<C>
+}
+export type GetContractTypeFromFactory<F> = F extends MinEthersFactory<infer C, any> ? C : never
+export type GetARGsTypeFromFactory<F> = F extends MinEthersFactory<any, any> ? Parameters<F['deploy']> : never
+
+    `
   }
 
   private genReExports(): string {

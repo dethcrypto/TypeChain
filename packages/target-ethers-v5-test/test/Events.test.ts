@@ -32,6 +32,19 @@ describe('Events', () => {
     })
   })
 
+  it('queryFilter without params', async () => {
+    await contract.emit_event1()
+
+    const filter = contract.filters.Event1()
+    const results = await contract.queryFilter(filter)
+    results.map((r) => {
+      typedAssert(r.args.value1, BigNumber.from(1))
+      typedAssert(r.args.value2, BigNumber.from(2))
+      typedAssert(r.args[0], BigNumber.from(1))
+      typedAssert(r.args[1], BigNumber.from(2))
+    })
+  })
+
   it('contract.on', async () => {
     const filter = contract.filters.Event1(null, null)
     const results = await contract.queryFilter(filter)
