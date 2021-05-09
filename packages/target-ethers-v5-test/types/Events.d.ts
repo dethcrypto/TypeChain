@@ -202,29 +202,31 @@ export class Events extends BaseContract {
 
   filters: {
     AnonEvent1(
-      value1: BigNumberish | null
+      value1?: BigNumberish | null
     ): TypedEventFilter<[BigNumber], { value1: BigNumber }>;
 
     Event1(
-      value1: BigNumberish | null,
-      value2: null
+      value1?: BigNumberish | null,
+      value2?: null
     ): TypedEventFilter<
       [BigNumber, BigNumber],
       { value1: BigNumber; value2: BigNumber }
     >;
 
-    Event2(undefined: null): TypedEventFilter<[BigNumber], { arg0: BigNumber }>;
+    Event2(
+      undefined?: null
+    ): TypedEventFilter<[BigNumber], { arg0: BigNumber }>;
 
     Event3(
-      value1: boolean | null,
-      value2: null
+      value1?: boolean | null,
+      value2?: null
     ): TypedEventFilter<
       [boolean, BigNumber],
       { value1: boolean; value2: BigNumber }
     >;
 
     Event4(
-      data: null
+      data?: null
     ): TypedEventFilter<
       [[BigNumber, string] & { index: BigNumber; name: string }],
       { data: [BigNumber, string] & { index: BigNumber; name: string } }

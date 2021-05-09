@@ -324,7 +324,7 @@ function generateEventTypes(eventArgs: EventArgDeclaration[]) {
   return (
     eventArgs
       .map((arg) => {
-        return `${arg.name}: ${generateEventArgType(arg)}`
+        return `${arg.name}?: ${generateEventArgType(arg)}`
       })
       .join(', ') + ', '
   )
