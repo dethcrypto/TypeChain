@@ -8,7 +8,7 @@
     "TypeChain",
     "TypeScript"
   ],
-  "version": "4.0.0",
+  "version": "5.0.0",
   "license": "MIT",
   "repository": "https://github.com/ethereum-ts/Typechain",
   "main": "./dist/index.js",
@@ -32,7 +32,7 @@
     "test:fix": "yarn lint:fix && yarn format:fix && yarn test && yarn typecheck"
   },
   "peerDependencies": {
-    "typechain": "^4.0.0",
+    "typechain": "^5.0.0",
     "ethers": "^4.0.0"
   },
   "devDependencies": {
