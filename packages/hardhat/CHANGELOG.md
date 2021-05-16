@@ -1,5 +1,12 @@
 # @typechain/hardhat
 
+## 2.0.1
+
+### Patch Changes
+
+- b705685: Fix bug which caused targets not supporting incremental generation to misbehave when editing files
+- 30c4565: Add ability to run custom targets with hardhat
+
 ## 2.0.0
 
 ### Minor Changes
