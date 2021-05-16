@@ -12,14 +12,6 @@ const taskArgsStore: { noTypechain: boolean; fullRebuild: boolean } = { noTypech
 
 extendConfig((config) => {
   config.typechain = getDefaultTypechainConfig(config)
-
-  const typechainTargets = ['ethers-v5', 'web3-v1', 'truffle-v5']
-  if (!typechainTargets.includes(config.typechain.target)) {
-    throw new HardhatPluginError(
-      'Typechain',
-      'Invalid Typechain target, please provide via hardhat.config.js (typechain.target)',
-    )
-  }
 })
 
 task(TASK_COMPILE, 'Compiles the entire project, building all artifacts')
@@ -51,6 +43,9 @@ subtask(TASK_COMPILE_SOLIDITY_COMPILE_JOBS, 'Compiles the entire project, buildi
 
     // RUN TYPECHAIN TASK
     const typechainCfg = config.typechain
+    // incremental generation is only supported in 'ethers-v5'
+    // @todo: probably targets should specify somehow if then support incremental generation this won't work with custom targets
+    const needsFullRebuild = taskArgsStore.fullRebuild || typechainCfg.target !== 'ethers-v5'
     console.log(
       `Generating typings for: ${artifactPaths.length} artifacts in dir: ${typechainCfg.outDir} for target: ${typechainCfg.target}`,
     )
@@ -59,7 +54,7 @@ subtask(TASK_COMPILE_SOLIDITY_COMPILE_JOBS, 'Compiles the entire project, buildi
     const allFiles = glob(cwd, [`${config.paths.artifacts}/!(build-info)/**/+([a-zA-Z0-9_]).json`])
     const result = await runTypeChain({
       cwd,
-      filesToProcess: taskArgsStore.fullRebuild ? allFiles : glob(cwd, artifactPaths), // only process changed files if not forceRebuild
+      filesToProcess: needsFullRebuild ? allFiles : glob(cwd, artifactPaths), // only process changed files if not doing full rebuild
       allFiles,
       outDir: typechainCfg.outDir,
       target: typechainCfg.target,
