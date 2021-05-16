@@ -12,14 +12,6 @@ const taskArgsStore: { noTypechain: boolean; fullRebuild: boolean } = { noTypech
 
 extendConfig((config) => {
   config.typechain = getDefaultTypechainConfig(config)
-
-  const typechainTargets = ['ethers-v5', 'web3-v1', 'truffle-v5']
-  if (!typechainTargets.includes(config.typechain.target)) {
-    throw new HardhatPluginError(
-      'Typechain',
-      'Invalid Typechain target, please provide via hardhat.config.js (typechain.target)',
-    )
-  }
 })
 
 task(TASK_COMPILE, 'Compiles the entire project, building all artifacts')
