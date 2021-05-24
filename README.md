@@ -56,12 +56,12 @@ _Note: If you use hardhat just use
 [hardhat plugin](https://github.com/ethereum-ts/TypeChain/tree/master/packages/hardhat)._
 
 ```
-typechain --target=(ethers-v4|truffle-v4|truffle-v5|web3-v1|path-to-custom-target) [glob]
+typechain --target=(ethers-v4|ethers-v5|truffle-v4|truffle-v5|web3-v1|path-to-custom-target) [glob]
 ```
 
 - `glob` - pattern that will be used to find ABIs, remember about adding quotes: `typechain "**/*.json"`, examples:
   `./abis/**/*.abi`, `./abis/?(Oasis.abi|OasisHelper.abi)`.
-- `--target` - ethers-v4, truffle-v4, truffle-v5, web3-v1 or path to your custom target. Typechain will try to load
+- `--target` - ethers-v4, ethers-v5, truffle-v4, truffle-v5, web3-v1 or path to your custom target. Typechain will try to load
   package named: `@typechain/${target}`, so make sure that desired package is installed.
 - `--out-dir` (optional) - put all generated files to a specific dir.
 - `--always-generate-overloads` (optional) - some targets won't generate unnecessary types for overloaded functions by
@@ -72,7 +72,7 @@ TypeChain always will rewrite existing files. You should not commit them. Read m
 Example:
 
 ```
-typechain --target ethers-v4 --out-dir app/contracts './node_modules/neufund-contracts/build/contracts/*.json'
+typechain --target ethers-v5 --out-dir app/contracts './node_modules/neufund-contracts/build/contracts/*.json'
 ```
 
 ## Videos
@@ -107,7 +107,7 @@ That's it! Now, you can simply import typings, check out our examples for more d
 
 ### Ethers.js v4 / v5
 
-Use `ethers-v4` target to generate wrappers for [ethers.js](https://github.com/ethers-io/ethers.js/) lib. To make it
+Use `ethers-v5` target to generate wrappers for [ethers.js](https://github.com/ethers-io/ethers.js/) lib. To make it
 work great with Hardhat, use [Hardhat plugin](https://github.com/ethereum-ts/TypeChain/tree/master/packages/hardhat).
 
 ### Truffle v4 / v5
