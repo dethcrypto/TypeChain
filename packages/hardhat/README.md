@@ -29,7 +29,7 @@ If you're a Truffle user you need:
 npm install --save-dev typechain @typechain/hardhat @typechain/truffle-v5
 ```
 
-And add the following statement to your hardhat.config.js:
+And add the following statement to your `hardhat.config.js`:
 
 ```javascript
 require('@typechain/hardhat')
@@ -37,7 +37,7 @@ require('@nomiclabs/hardhat-ethers')
 require('@nomiclabs/hardhat-waffle')
 ```
 
-Or, if you are using TypeScript, add this to your hardhat.config.ts:
+Or, if you use TypeScript, add this to your `hardhat.config.ts`:
 
 ```typescript
 import '@typechain/hardhat'
@@ -45,24 +45,22 @@ import '@nomiclabs/hardhat-ethers'
 import '@nomiclabs/hardhat-waffle'
 ```
 
-Add the following statement to your tsconfig.json:
+Here's a sample `tsconfig.json`:
 
 ```json
 {
   "compilerOptions": {
-      "target": "es2018",
-      "module": "commonjs",
-      "strict": true,
-      "esModuleInterop": true,
-      "outDir": "dist",
-      "resolveJsonModule": true
-
-    },
-    "include": ["./scripts", "./test"],
-    "files": ["./hardhat.config.ts"]
+    "target": "es2018",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "outDir": "dist",
+    "resolveJsonModule": true
+  },
+  "include": ["./scripts", "./test"],
+  "files": ["./hardhat.config.ts"]
 }
 ```
-
 
 ## Features
 
@@ -108,55 +106,54 @@ module.exports = {
 uses typedefs for contracts:
 
 ```ts
-import { ethers, waffle } from "hardhat"
-import chai from "chai"
+import { ethers, waffle } from 'hardhat'
+import chai from 'chai'
 
-import CounterArtifact from "../artifacts/contracts/Counter.sol/Counter.json";
-import { Counter } from "../src/types/Counter";
+import CounterArtifact from '../artifacts/contracts/Counter.sol/Counter.json'
+import { Counter } from '../src/types/Counter'
 
 const { deployContract } = waffle
 const { expect } = chai
 
-describe("Counter", function () {
-    let counter: Counter;
+describe('Counter', () => {
+  let counter: Counter
 
-    beforeEach(async () => {
-        // 1
-        const signers = await ethers.getSigners();
+  beforeEach(async () => {
+    // 1
+    const signers = await ethers.getSigners()
 
-        // 2
-        counter = (await deployContract(signers[0], CounterArtifact)) as Counter
+    // 2
+    counter = (await deployContract(signers[0], CounterArtifact)) as Counter
 
-        // 3
-        const initialCount = await counter.getCount()
-        expect(initialCount).to.eq(0)
+    // 3
+    const initialCount = await counter.getCount()
+    expect(initialCount).to.eq(0)
+  })
+
+  // 4
+  describe('count up', async () => {
+    it('should count up', async () => {
+      await counter.countUp()
+      let count = await counter.getCount()
+      expect(count).to.eq(1)
+    })
+  })
+
+  describe('count down', async () => {
+    // 5 - this throw a error with solidity ^0.8.0
+    it('should fail', async () => {
+      await counter.countDown()
     })
 
-    // 4
-    describe('count up', async () => {
-        it('should count up', async () => {
-            await counter.countUp()
-            let count = await counter.getCount()
-            expect(count).to.eq(1)
-        })
+    it('should count down', async () => {
+      await counter.countUp()
+
+      await counter.countDown()
+      const count = await counter.getCount()
+      expect(count).to.eq(0)
     })
-
-    describe('count down', async () => {
-        // 5 - this throw a error with solidity ^0.8.0
-        it('should fail', async () => {
-             await counter.countDown()
-        })
-
-        it('should count down', async () => {
-            await counter.countUp()
-
-            await counter.countDown()
-            const count = await counter.getCount()
-            expect(count).to.eq(0)
-        })
-    })
-
-});
+  })
+})
 ```
 
 ## Examples
