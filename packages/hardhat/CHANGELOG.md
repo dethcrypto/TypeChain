@@ -1,5 +1,11 @@
 # @typechain/hardhat
 
+## 2.0.2
+
+### Patch Changes
+
+- e552df9: Add missing dependency on `fs-extra`
+
 ## 2.0.1
 
 ### Patch Changes

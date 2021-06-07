@@ -1,5 +1,11 @@
 # @typechain/ethers-v5
 
+## 7.0.1
+
+### Patch Changes
+
+- 46dcd66: Support nameless arguments in constructors
+
 ## 7.0.0
 
 ### Minor Changes
