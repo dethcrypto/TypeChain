@@ -44,7 +44,6 @@
   },
   "peerDependencies": {
     "hardhat": "^2.0.10",
-    "ts-generator": "^0.1.1",
     "typechain": "^5.0.0"
   }
 }

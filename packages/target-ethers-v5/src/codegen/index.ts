@@ -296,7 +296,7 @@ function generateDecodeFunctionResultOverload(fn: FunctionDeclaration): string {
 }
 
 function generateParamNames(params: Array<AbiParameter | EventArgDeclaration>): string {
-  return params.map((param) => param.name).join(', ')
+  return params.map((param, index) => param.name || `arg${index}`).join(', ')
 }
 
 function generateEvents(event: EventDeclaration) {
