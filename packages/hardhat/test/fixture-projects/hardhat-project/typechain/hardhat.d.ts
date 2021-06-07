@@ -13,6 +13,10 @@ import * as Contracts from ".";
 declare module "hardhat/types/runtime" {
   interface HardhatEthersHelpers extends HardhatEthersHelpersBase {
     getContractFactory(
+      name: "EdgeCases",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.EdgeCases__factory>;
+    getContractFactory(
       name: "SafeMath",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SafeMath__factory>;

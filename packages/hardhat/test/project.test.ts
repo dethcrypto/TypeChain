@@ -53,7 +53,7 @@ describe('Typechain x Hardhat', function () {
       expect(exists).toEqual(false)
 
       await this.hre.run('compile')
-      expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 9 typings!'])
+      expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 11 typings!'])
 
       // copy one more file and recompile project
       copyFileSync(TestContract2OriginPath, TestContract2DestinationPath)
@@ -69,7 +69,7 @@ describe('Typechain x Hardhat', function () {
       expect(exists).toEqual(false)
 
       await this.hre.run('compile')
-      expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 9 typings!'])
+      expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 11 typings!'])
 
       await this.hre.run('compile')
 
@@ -82,12 +82,12 @@ describe('Typechain x Hardhat', function () {
       expect(exists).toEqual(false)
 
       await this.hre.run('compile')
-      expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 9 typings!'])
+      expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 11 typings!'])
 
       await this.hre.run('typechain')
 
       expect(existsSync(this.hre.config.typechain.outDir)).toEqual(true)
-      expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 9 typings!'])
+      expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 11 typings!'])
     })
   })
 })
