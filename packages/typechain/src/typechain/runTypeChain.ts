@@ -38,7 +38,9 @@ export async function runTypeChain(publicConfig: PublicConfig): Promise<Result> 
 
   debug('Executing beforeRun()')
   for (const fd of fileDescriptions) {
-    debug(`Processing ${relative(config.cwd, fd.path)}`)
+    const relativePath = relative(config.cwd, fd.path) 
+    debug(`Processing ${relativePath}`)
+    config.sourceFile = relativePath
 
     filesGenerated += processOutput(services, config, await target.transformFile(fd))
   }

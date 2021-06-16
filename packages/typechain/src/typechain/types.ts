@@ -8,6 +8,7 @@ export interface Config {
   target: string
   outDir?: string
   prettier?: object
+  sourceFile?: string // the solidity abi file that maps to the target .d.ts file
   filesToProcess: string[] // filesToProcess is a subset of allFiles, used during incremental generating
   allFiles: string[]
   flags: CodegenConfig
