@@ -97,7 +97,10 @@ describe('Typechain x Hardhat', function () {
       this.hre.config.typechain.externalArtifacts = ['externalArtifacts/*.json']
 
       await this.hre.run('compile')
-      expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 11 typings!'])
+      expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 5 typings for external artifacts!'])
+
+      await this.hre.run('compile')
+      expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 5 typings for external artifacts!'])
     })
   })
 })

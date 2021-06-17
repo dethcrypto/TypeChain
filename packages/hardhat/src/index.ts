@@ -37,13 +37,13 @@ subtask(TASK_COMPILE_SOLIDITY_COMPILE_JOBS, 'Compiles the entire project, buildi
       return compileSolOutput
     }
 
-    if (artifactPaths.length === 0 && !taskArgsStore.fullRebuild) {
+    // RUN TYPECHAIN TASK
+    const typechainCfg = config.typechain
+    if (artifactPaths.length === 0 && !taskArgsStore.fullRebuild && !typechainCfg.externalArtifacts) {
       console.log('No need to generate any newer typings.')
       return compileSolOutput
     }
 
-    // RUN TYPECHAIN TASK
-    const typechainCfg = config.typechain
     // incremental generation is only supported in 'ethers-v5'
     // @todo: probably targets should specify somehow if then support incremental generation this won't work with custom targets
     const needsFullRebuild = taskArgsStore.fullRebuild || typechainCfg.target !== 'ethers-v5'
@@ -66,9 +66,10 @@ subtask(TASK_COMPILE_SOLIDITY_COMPILE_JOBS, 'Compiles the entire project, buildi
         environment: 'hardhat',
       },
     })
+    console.log(`Successfully generated ${result.filesGenerated} typings!`)
     // if this is not full rebuilding, always re-generate types for external artifacts
     if (!needsFullRebuild && typechainCfg.externalArtifacts) {
-      await runTypeChain({
+      const result = await runTypeChain({
         cwd,
         filesToProcess: glob(cwd, typechainCfg.externalArtifacts!, false), // only process files with external artifacts
         allFiles,
@@ -79,8 +80,8 @@ subtask(TASK_COMPILE_SOLIDITY_COMPILE_JOBS, 'Compiles the entire project, buildi
           environment: 'hardhat',
         },
       })
+      console.log(`Successfully generated ${result.filesGenerated} typings for external artifacts!`)
     }
-    console.log(`Successfully generated ${result.filesGenerated} typings!`)
 
     return compileSolOutput
   },
