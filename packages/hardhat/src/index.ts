@@ -44,19 +44,17 @@ subtask(TASK_COMPILE_SOLIDITY_COMPILE_JOBS, 'Compiles the entire project, buildi
 
     // RUN TYPECHAIN TASK
     const typechainCfg = config.typechain
-    // incremental generation is only supported in 'ethers-v5' and external artifacts
+    // incremental generation is only supported in 'ethers-v5'
     // @todo: probably targets should specify somehow if then support incremental generation this won't work with custom targets
-    const needsFullRebuild =
-      taskArgsStore.fullRebuild || typechainCfg.target !== 'ethers-v5' || typechainCfg.externalArtifacts
+    const needsFullRebuild = taskArgsStore.fullRebuild || typechainCfg.target !== 'ethers-v5'
     console.log(
       `Generating typings for: ${artifactPaths.length} artifacts in dir: ${typechainCfg.outDir} for target: ${typechainCfg.target}`,
     )
     const cwd = process.cwd()
-    const artifactsPaths = [`${config.paths.artifacts}/!(build-info)/**/+([a-zA-Z0-9_]).json`]
+    const allFiles = glob(cwd, [`${config.paths.artifacts}/!(build-info)/**/+([a-zA-Z0-9_]).json`])
     if (typechainCfg.externalArtifacts) {
-      artifactsPaths.push(...typechainCfg.externalArtifacts)
+      allFiles.push(...glob(cwd, typechainCfg.externalArtifacts, false))
     }
-    const allFiles = glob(cwd, artifactsPaths, false)
     const result = await runTypeChain({
       cwd,
       filesToProcess: needsFullRebuild ? allFiles : glob(cwd, artifactPaths), // only process changed files if not doing full rebuild
@@ -68,6 +66,20 @@ subtask(TASK_COMPILE_SOLIDITY_COMPILE_JOBS, 'Compiles the entire project, buildi
         environment: 'hardhat',
       },
     })
+    // if this is not full rebuilding, always re-generate types for external artifacts
+    if (!needsFullRebuild && typechainCfg.externalArtifacts) {
+      await runTypeChain({
+        cwd,
+        filesToProcess: glob(cwd, typechainCfg.externalArtifacts!, false), // only process files with external artifacts
+        allFiles,
+        outDir: typechainCfg.outDir,
+        target: typechainCfg.target,
+        flags: {
+          alwaysGenerateOverloads: config.typechain.alwaysGenerateOverloads,
+          environment: 'hardhat',
+        },
+      })
+    }
     console.log(`Successfully generated ${result.filesGenerated} typings!`)
 
     return compileSolOutput
