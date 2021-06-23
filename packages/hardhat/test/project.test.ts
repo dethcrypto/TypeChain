@@ -89,6 +89,19 @@ describe('Typechain x Hardhat', function () {
       expect(existsSync(this.hre.config.typechain.outDir)).toEqual(true)
       expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 11 typings!'])
     })
+
+    it('generates typing for external artifacts', async function () {
+      const exists = existsSync(this.hre.config.typechain.outDir)
+      expect(exists).toEqual(false)
+
+      this.hre.config.typechain.externalArtifacts = ['externalArtifacts/*.json']
+
+      await this.hre.run('compile')
+      expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 5 typings for external artifacts!'])
+
+      await this.hre.run('compile')
+      expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 5 typings for external artifacts!'])
+    })
   })
 })
 

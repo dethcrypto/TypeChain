@@ -4,6 +4,7 @@ import { TASK_CLEAN, TASK_COMPILE, TASK_COMPILE_SOLIDITY_COMPILE_JOBS } from 'ha
 import { extendConfig, task, subtask } from 'hardhat/config'
 import { HardhatPluginError } from 'hardhat/plugins'
 import { getFullyQualifiedName } from 'hardhat/utils/contract-names'
+import { runTypeChain, glob } from 'typechain'
 
 import { getDefaultTypechainConfig } from './config'
 import './type-extensions'
@@ -36,13 +37,13 @@ subtask(TASK_COMPILE_SOLIDITY_COMPILE_JOBS, 'Compiles the entire project, buildi
       return compileSolOutput
     }
 
-    if (artifactPaths.length === 0 && !taskArgsStore.fullRebuild) {
+    // RUN TYPECHAIN TASK
+    const typechainCfg = config.typechain
+    if (artifactPaths.length === 0 && !taskArgsStore.fullRebuild && !typechainCfg.externalArtifacts) {
       console.log('No need to generate any newer typings.')
       return compileSolOutput
     }
 
-    // RUN TYPECHAIN TASK
-    const typechainCfg = config.typechain
     // incremental generation is only supported in 'ethers-v5'
     // @todo: probably targets should specify somehow if then support incremental generation this won't work with custom targets
     const needsFullRebuild = taskArgsStore.fullRebuild || typechainCfg.target !== 'ethers-v5'
@@ -50,8 +51,10 @@ subtask(TASK_COMPILE_SOLIDITY_COMPILE_JOBS, 'Compiles the entire project, buildi
       `Generating typings for: ${artifactPaths.length} artifacts in dir: ${typechainCfg.outDir} for target: ${typechainCfg.target}`,
     )
     const cwd = process.cwd()
-    const { runTypeChain, glob } = await import('typechain')
     const allFiles = glob(cwd, [`${config.paths.artifacts}/!(build-info)/**/+([a-zA-Z0-9_]).json`])
+    if (typechainCfg.externalArtifacts) {
+      allFiles.push(...glob(cwd, typechainCfg.externalArtifacts, false))
+    }
     const result = await runTypeChain({
       cwd,
       filesToProcess: needsFullRebuild ? allFiles : glob(cwd, artifactPaths), // only process changed files if not doing full rebuild
@@ -64,6 +67,21 @@ subtask(TASK_COMPILE_SOLIDITY_COMPILE_JOBS, 'Compiles the entire project, buildi
       },
     })
     console.log(`Successfully generated ${result.filesGenerated} typings!`)
+    // if this is not full rebuilding, always re-generate types for external artifacts
+    if (!needsFullRebuild && typechainCfg.externalArtifacts) {
+      const result = await runTypeChain({
+        cwd,
+        filesToProcess: glob(cwd, typechainCfg.externalArtifacts!, false), // only process files with external artifacts
+        allFiles,
+        outDir: typechainCfg.outDir,
+        target: typechainCfg.target,
+        flags: {
+          alwaysGenerateOverloads: config.typechain.alwaysGenerateOverloads,
+          environment: 'hardhat',
+        },
+      })
+      console.log(`Successfully generated ${result.filesGenerated} typings for external artifacts!`)
+    }
 
     return compileSolOutput
   },
