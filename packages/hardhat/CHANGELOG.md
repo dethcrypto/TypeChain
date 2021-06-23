@@ -1,5 +1,11 @@
 # @typechain/hardhat
 
+## 2.1.0
+
+### Minor Changes
+
+- 22134ac: Support compilation of external artifacts (from node_modules)
+
 ## 2.0.2
 
 ### Patch Changes
