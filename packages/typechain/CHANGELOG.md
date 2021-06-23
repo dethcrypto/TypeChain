@@ -1,5 +1,11 @@
 # typechain
 
+## 5.1.0
+
+### Minor Changes
+
+- 22134ac: Support optional `ignoreNodeModules`(default=true) flag for glob helper
+
 ## 5.0.0
 
 ### Major Changes
