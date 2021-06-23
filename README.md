@@ -17,6 +17,7 @@
     <br/>
     <a href="https://github.com/ethereum-optimism/optimism/blob/master/packages/contracts/hardhat.config.ts#L14"><img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/master/docs/images/optimism-logo.png" height="90" alt="Optimism" /></a>
     <a href="https://github.com/matter-labs/zksync/blob/9687049af1efbd14d8e47d97ebea643e1516da9d/contracts/hardhat.config.ts#L4"><img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/master/docs/images/zksync-logo.png" height="100" alt="zkSync" /></a>
+    <a href="https://github.com/KyberNetwork/dao_sc/blob/master/hardhat.config.ts#L8"><img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/master/docs/images/kyber-logo.png" height="100" alt="Kyber" /></a>
   </p>
 </p>
 
