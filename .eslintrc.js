@@ -1,15 +1,17 @@
-{
+module.exports = {
   "env": {
     "es6": true
   },
   "extends": ["typestrict"],
-  "plugins": ["no-only-tests"],
+  "plugins": ["no-only-tests", "import"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": "./tsconfig.json",
     "sourceType": "module"
   },
   "rules": {
+    //: "this gets inlined into a package eslint, so it means: use current package's package.info or the one at the project root"
+    // "import/no-extraneous-dependencies": ["error", { "packageDir": ["./", "../../"] }],
     "@typescript-eslint/no-unused-vars": ["off"],
     "@typescript-eslint/no-use-before-define": "off",
     "@typescript-eslint/no-useless-constructor": "error",
