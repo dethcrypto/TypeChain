@@ -1,5 +1,11 @@
 # typechain
 
+## 5.1.1
+
+### Patch Changes
+
+- b4fac2d: Add missing runtime dep
+
 ## 5.1.0
 
 ### Minor Changes
