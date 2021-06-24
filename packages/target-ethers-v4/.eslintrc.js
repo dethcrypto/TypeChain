@@ -1,4 +1,4 @@
-const baseConfig = require('../../.eslintrc.json')
+const baseConfig = require('../../.eslintrc.js')
 
 module.exports = {
   ...baseConfig,
