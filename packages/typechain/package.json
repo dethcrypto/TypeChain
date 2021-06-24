@@ -38,6 +38,7 @@
     "glob": "^7.1.6",
     "js-sha3": "^0.8.0",
     "lodash": "^4.17.15",
+    "mkdirp": "^1.0.4",
     "prettier": "^2.1.2",
     "ts-essentials": "^7.0.1"
   },

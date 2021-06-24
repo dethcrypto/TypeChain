@@ -38,6 +38,11 @@
     "ganache-cli": "^6.9.1",
     "web3": "^1.2.6",
     "typechain": "*",
-    "test-utils": "1.0.0"
+    "test-utils": "1.0.0",
+    "@types/lodash": "^4.14.139"
+  },
+  "dependencies": {
+    "lodash": "^4.17.15",
+    "ts-essentials": "^7.0.1"
   }
 }
