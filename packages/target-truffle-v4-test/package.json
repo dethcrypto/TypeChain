@@ -17,8 +17,8 @@
   },
   "devDependencies": {
     "ganache-cli": "^6.9.1",
+    "test-utils": "1.0.0",
     "truffle": "v4",
-    "typechain": "*",
-    "test-utils": "1.0.0"
+    "typechain": "*"
   }
 }

@@ -36,6 +36,10 @@
   "devDependencies": {
     "ganache-cli": "^6.9.1",
     "web3": "^1.2.6",
-    "typechain": "*"
+    "typechain": "*",
+    "@types/lodash": "^4.14.139"
+  },
+  "dependencies": {
+    "lodash": "^4.17.15"
   }
 }
