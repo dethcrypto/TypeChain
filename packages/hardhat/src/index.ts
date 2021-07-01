@@ -3,6 +3,7 @@ import { TASK_CLEAN, TASK_COMPILE, TASK_COMPILE_SOLIDITY_COMPILE_JOBS } from 'ha
 import { extendConfig, task, subtask } from 'hardhat/config'
 import { HardhatPluginError } from 'hardhat/plugins'
 import { getFullyQualifiedName } from 'hardhat/utils/contract-names'
+import _, { uniq } from 'lodash'
 import { runTypeChain, glob } from 'typechain'
 
 import { getDefaultTypechainConfig } from './config'
