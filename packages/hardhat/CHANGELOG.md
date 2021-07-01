@@ -1,5 +1,11 @@
 # @typechain/hardhat
 
+## 2.1.1
+
+### Patch Changes
+
+- 5980201: Expose `TASK_TYPECHAIN` constant
+
 ## 2.1.0
 
 ### Minor Changes
