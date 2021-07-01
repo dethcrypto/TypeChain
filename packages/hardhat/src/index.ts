@@ -1,13 +1,13 @@
 import fsExtra from 'fs-extra'
-import _, { flatten, uniq } from 'lodash'
 import { TASK_CLEAN, TASK_COMPILE, TASK_COMPILE_SOLIDITY_COMPILE_JOBS } from 'hardhat/builtin-tasks/task-names'
 import { extendConfig, task, subtask } from 'hardhat/config'
 import { HardhatPluginError } from 'hardhat/plugins'
 import { getFullyQualifiedName } from 'hardhat/utils/contract-names'
+import _, { uniq } from 'lodash'
 import { runTypeChain, glob } from 'typechain'
 
 import { getDefaultTypechainConfig } from './config'
-import './type-extensions'
+import { TASK_TYPECHAIN } from './constants'
 
 const taskArgsStore: { noTypechain: boolean; fullRebuild: boolean } = { noTypechain: false, fullRebuild: false }
 
@@ -87,7 +87,7 @@ subtask(TASK_COMPILE_SOLIDITY_COMPILE_JOBS, 'Compiles the entire project, buildi
   },
 )
 
-task('typechain', 'Generate Typechain typings for compiled contracts').setAction(async (_, { run }) => {
+task(TASK_TYPECHAIN, 'Generate Typechain typings for compiled contracts').setAction(async (_, { run }) => {
   taskArgsStore.fullRebuild = true
   await run(TASK_COMPILE, { quiet: true })
 })
