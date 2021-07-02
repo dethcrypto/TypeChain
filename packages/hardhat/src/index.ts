@@ -7,7 +7,7 @@ import { runTypeChain, glob } from 'typechain'
 
 import { getDefaultTypechainConfig } from './config'
 import { TASK_TYPECHAIN } from './constants'
-import './type-extensions';
+import './type-extensions'
 
 const taskArgsStore: { noTypechain: boolean; fullRebuild: boolean } = { noTypechain: false, fullRebuild: false }
 
