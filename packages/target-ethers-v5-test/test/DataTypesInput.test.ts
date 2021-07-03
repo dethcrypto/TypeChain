@@ -1,10 +1,10 @@
-import { typedAssert, q18, AssertTrue, IsExact } from 'test-utils'
-import { ethers, BigNumber } from 'ethers'
-
-import { createNewBlockchain, deployContract } from './common'
-import { DataTypesInput } from '../types/DataTypesInput'
-import { Awaited } from 'earljs/dist/mocks/types'
 import { expect } from 'earljs'
+import { Awaited } from 'earljs/dist/mocks/types'
+import { BigNumber, ethers } from 'ethers'
+import { AssertTrue, IsExact, q18, typedAssert } from 'test-utils'
+
+import { DataTypesInput } from '../types/DataTypesInput'
+import { createNewBlockchain, deployContract } from './common'
 
 describe('DataTypesInput', () => {
   let contract!: DataTypesInput
@@ -80,12 +80,14 @@ describe('DataTypesInput', () => {
   // NOTE: typesAssert is too simple to tests type compatibility here so we can't use it
   it('generates correct types for tuples', () => {
     type ViewTupleType = Awaited<ReturnType<typeof contract.input_tuple>>
-    type t1 = AssertTrue<IsExact<ViewTupleType, [BigNumber, BigNumber]>>
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    type _t1 = AssertTrue<IsExact<ViewTupleType, [BigNumber, BigNumber]>>
   })
 
   it('generates correct types for structs', () => {
     type ViewStructType = Awaited<ReturnType<typeof contract.input_struct>>
-    type t1 = AssertTrue<
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    type _t1 = AssertTrue<
       IsExact<ViewStructType, [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }>
     >
   })

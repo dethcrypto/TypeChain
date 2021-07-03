@@ -3,16 +3,18 @@ module.exports = {
     es6: true,
   },
   extends: ['typestrict'],
-  plugins: ['no-only-tests', 'import'],
+  plugins: ['no-only-tests', 'simple-import-sort', 'unused-imports', 'import'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: './tsconfig.json',
     sourceType: 'module',
   },
   rules: {
-    //: "this gets inlined into a package eslint, so it means: use current package's package.info or the one at the project root"
+    // this gets inlined into a package eslint, so it means: use current package's package.info or the one at the project root
     'import/no-extraneous-dependencies': ['error', { packageDir: ['./', '../../'] }],
-    '@typescript-eslint/no-unused-vars': ['off'],
+    'unused-imports/no-unused-imports-ts': 'error',
+    'simple-import-sort/imports': 'error',
+    'simple-import-sort/exports': 'error',
     '@typescript-eslint/no-use-before-define': 'off',
     '@typescript-eslint/no-useless-constructor': 'error',
     'accessor-pairs': 'error',
@@ -53,7 +55,6 @@ module.exports = {
     'no-extra-bind': 'error',
     'no-extra-boolean-cast': 'error',
     'no-extra-parens': ['error', 'functions'],
-    'no-fallthrough': 'error',
     'no-floating-decimal': 'error',
     'no-func-assign': 'error',
     'no-global-assign': 'error',
@@ -71,25 +72,7 @@ module.exports = {
     ],
     'no-lone-blocks': 'error',
     'no-misleading-character-class': 'error',
-    'no-mixed-operators': [
-      'error',
-      {
-        allowSamePrecedence: true,
-        groups: [
-          ['==', '!=', '===', '!==', '>', '>=', '<', '<='],
-          ['&&', '||'],
-          ['in', 'instanceof'],
-        ],
-      },
-    ],
     'no-multi-str': 'error',
-    'no-multiple-empty-lines': [
-      'error',
-      {
-        max: 1,
-        maxEOF: 0,
-      },
-    ],
     'no-negated-in-lhs': 'error',
     'no-new': 'error',
     'no-new-func': 'error',
@@ -102,7 +85,6 @@ module.exports = {
     'no-octal-escape': 'error',
     'no-path-concat': 'error',
     'no-proto': 'error',
-    'no-prototype-builtins': 'error',
     'no-redeclare': [
       'error',
       {
@@ -139,35 +121,10 @@ module.exports = {
     'no-useless-rename': 'error',
     'no-useless-return': 'error',
     'no-with': 'error',
-    'object-curly-spacing': ['error', 'always'],
-    'object-property-newline': [
-      'error',
-      {
-        allowMultiplePropertiesPerLine: true,
-      },
-    ],
     'one-var': [
       'error',
       {
         initialized: 'never',
-      },
-    ],
-    'operator-linebreak': [
-      'error',
-      'after',
-      {
-        overrides: {
-          ':': 'before',
-          '?': 'before',
-        },
-      },
-    ],
-    'padded-blocks': [
-      'error',
-      {
-        blocks: 'never',
-        classes: 'never',
-        switches: 'never',
       },
     ],
     'prefer-const': [
@@ -178,7 +135,6 @@ module.exports = {
     ],
     'prefer-promise-reject-errors': 'error',
     'symbol-description': 'error',
-    'unicode-bom': ['error', 'never'],
     'use-isnan': 'error',
     'valid-typeof': [
       'error',
@@ -186,22 +142,7 @@ module.exports = {
         requireStringLiterals: true,
       },
     ],
-    'wrap-iife': [
-      'error',
-      'any',
-      {
-        functionPrototypeMethods: true,
-      },
-    ],
     yoda: ['error', 'never'],
     'no-only-tests/no-only-tests': 'error',
   },
-  overrides: [
-    {
-      files: ['test/**/*.{js,ts,tsx}'],
-      rules: {
-        '@typescript-eslint/no-non-null-assertion': 'off',
-      },
-    },
-  ],
 }

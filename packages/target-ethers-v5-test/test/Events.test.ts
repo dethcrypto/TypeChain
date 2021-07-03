@@ -1,8 +1,8 @@
+import { BigNumber, ethers } from 'ethers'
 import { typedAssert } from 'test-utils'
-import { ethers, BigNumber } from 'ethers'
 
-import { createNewBlockchain, deployContract } from './common'
 import { Events } from '../types/Events'
+import { createNewBlockchain, deployContract } from './common'
 
 describe('Events', () => {
   let contract!: Events
@@ -47,7 +47,7 @@ describe('Events', () => {
 
   it('contract.on', async () => {
     const filter = contract.filters.Event1(null, null)
-    const results = await contract.queryFilter(filter)
+    await contract.queryFilter(filter)
 
     contract.on(filter, (a, b, c) => {
       typedAssert(a, BigNumber.from(1))
@@ -67,7 +67,7 @@ describe('Events', () => {
 
   it('contract.once', async () => {
     const filter = contract.filters.Event1(null, null)
-    const results = await contract.queryFilter(filter)
+    await contract.queryFilter(filter)
 
     contract.once(filter, (a, b, c) => {
       typedAssert(a, BigNumber.from(1))

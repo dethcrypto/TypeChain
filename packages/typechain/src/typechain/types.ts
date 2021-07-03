@@ -1,6 +1,6 @@
 import * as fs from 'fs'
-import * as prettier from 'prettier'
 import { sync as mkdirp } from 'mkdirp'
+import * as prettier from 'prettier'
 import { MarkOptional } from 'ts-essentials'
 
 export interface Config {

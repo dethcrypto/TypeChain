@@ -1,10 +1,11 @@
 #!/usr/bin/env node
-import { parseArgs } from './parseArgs'
+import * as prettier from 'prettier'
+
 import { runTypeChain } from '../typechain/runTypeChain'
-import { logger } from '../utils/logger'
 import { Config } from '../typechain/types'
 import { glob } from '../utils/glob'
-import * as prettier from 'prettier'
+import { logger } from '../utils/logger'
+import { parseArgs } from './parseArgs'
 
 async function main() {
   ;(global as any).IS_CLI = true

@@ -1,9 +1,9 @@
 import { expect } from 'earljs'
+import { BigNumber } from 'ethers'
 import { typedAssert } from 'test-utils'
 
-import { createNewBlockchain, deployContract } from './common'
 import { Overloads } from '../types/Overloads'
-import { BigNumber } from 'ethers'
+import { createNewBlockchain, deployContract } from './common'
 
 describe('Overloads', () => {
   let contract: Overloads

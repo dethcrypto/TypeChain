@@ -1,7 +1,8 @@
 import _, { compact } from 'lodash'
+
+import { debug } from '../utils/debug'
 import { ensureAbsPath } from '../utils/files'
 import { tryRequire } from '../utils/modules'
-import { debug } from '../utils/debug'
 import { Config, TypeChainTarget } from './types'
 
 export function findTarget(config: Config): TypeChainTarget {

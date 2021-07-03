@@ -1,5 +1,6 @@
 import { expect } from 'earljs'
-import { parseEvmType, UnsignedIntegerType, IntegerType, ArrayType, BytesType } from '../../src/parser/parseEvmType'
+
+import { ArrayType, BytesType, IntegerType, parseEvmType, UnsignedIntegerType } from '../../src/parser/parseEvmType'
 
 describe('parseEvmType function', () => {
   it('parses unsigned integer', () => {

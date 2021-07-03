@@ -1,4 +1,5 @@
 import { expect } from 'earljs'
+
 import { parseArgs } from '../../src/cli/parseArgs'
 
 describe('cli > parseArgs', () => {

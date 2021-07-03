@@ -1,9 +1,9 @@
-import Web3 from 'web3'
-import { typedAssert, q18 } from 'test-utils'
-
-import { createNewBlockchain, deployContract } from './common'
-import { DataTypesInput } from '../types/DataTypesInput'
 import BN from 'bn.js'
+import { q18, typedAssert } from 'test-utils'
+import Web3 from 'web3'
+
+import { DataTypesInput } from '../types/DataTypesInput'
+import { createNewBlockchain, deployContract } from './common'
 
 describe('DataTypesInput', () => {
   let contract!: DataTypesInput

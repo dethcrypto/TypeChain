@@ -4,8 +4,8 @@ import { Dictionary } from 'ts-essentials'
 
 import { debug } from '../utils/debug'
 import { MalformedAbiError } from '../utils/errors'
-import { EvmOutputType, EvmType, parseEvmType } from './parseEvmType'
 import { normalizeName } from './normalizeName'
+import { EvmOutputType, EvmType, parseEvmType } from './parseEvmType'
 
 export interface AbiParameter {
   name: string // @todo name should be normalized to undefined if empty string
@@ -96,7 +96,7 @@ export interface EventArgDeclaration {
 
 export interface RawEventAbiDefinition {
   type: 'event'
-  anonymous: boolean
+  anonymous?: boolean
   name: string
   inputs: RawEventArgAbiDefinition[]
 }
@@ -179,7 +179,7 @@ export function parse(abi: RawAbiDefinition[], rawName: string, documentation?: 
   }
 }
 
-function parseOutputs(outputs: Array<RawAbiParameter>): AbiOutputParameter[] {
+function parseOutputs(outputs?: Array<RawAbiParameter>): AbiOutputParameter[] {
   if (!outputs || outputs.length === 0) {
     return [{ name: '', type: { type: 'void' } }]
   } else {

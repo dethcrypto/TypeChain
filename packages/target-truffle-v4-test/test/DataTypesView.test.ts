@@ -1,6 +1,7 @@
-import { typedAssert, q18 } from 'test-utils'
-import { DataTypesViewInstance } from '../types/truffle-contracts/DataTypesView'
 import BigNumber from 'bignumber.js'
+import { q18, typedAssert } from 'test-utils'
+
+import { DataTypesViewInstance } from '../types/truffle-contracts/DataTypesView'
 
 const DataTypesView = artifacts.require('DataTypesView')
 

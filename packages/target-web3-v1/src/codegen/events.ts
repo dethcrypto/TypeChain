@@ -1,9 +1,9 @@
 import { values } from 'lodash'
 import { Dictionary } from 'ts-essentials'
 import {
+  EventArgDeclaration,
   EventDeclaration,
   getFullSignatureAsSymbolForEvent,
-  EventArgDeclaration,
   getFullSignatureForEvent,
 } from 'typechain'
 

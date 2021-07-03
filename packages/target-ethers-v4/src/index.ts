@@ -1,5 +1,5 @@
-import { join, resolve } from 'path'
 import { readFileSync } from 'fs'
+import { join, resolve } from 'path'
 import { Dictionary } from 'ts-essentials'
 import {
   BytecodeWithLinkReferences,
@@ -28,11 +28,14 @@ export default class Ethers extends TypeChainTarget {
   name = 'Ethers'
 
   private readonly outDirAbs: string
-  private readonly contractCache: Dictionary<{
-    abi: any
-    contract: Contract
-  }> = {}
-  private readonly bytecodeCache: Dictionary<BytecodeWithLinkReferences> = {}
+  private readonly contractCache: Dictionary<
+    | {
+        abi: any
+        contract: Contract
+      }
+    | undefined
+  > = {}
+  private readonly bytecodeCache: Dictionary<BytecodeWithLinkReferences | undefined> = {}
 
   constructor(config: Config) {
     super(config)
@@ -68,7 +71,7 @@ export default class Ethers extends TypeChainTarget {
     }
 
     if (this.contractCache[name]) {
-      const { contract, abi } = this.contractCache[name]
+      const { contract, abi } = this.contractCache[name]!
       delete this.contractCache[name]
       return [this.genContractFactoryFile(contract, abi, bytecode)]
     } else {
@@ -114,7 +117,7 @@ export default class Ethers extends TypeChainTarget {
     // For each contract that doesn't have bytecode (it's either abstract, or only ABI was provided)
     // generate a simplified factory, that allows to interact with deployed contract instances.
     const abstractFactoryFiles = Object.keys(this.contractCache).map((contractName) => {
-      const { contract, abi } = this.contractCache[contractName]
+      const { contract, abi } = this.contractCache[contractName]!
       return {
         path: join(this.outDirAbs, 'factories', `${contract.name}${FACTORY_POSTFIX}.ts`),
         contents: codegenAbstractContractFactory(contract, abi),

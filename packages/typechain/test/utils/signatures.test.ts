@@ -1,13 +1,14 @@
+import { expect } from 'earljs'
+
 import {
-  getFullSignatureAsSymbolForEvent,
   EventDeclaration,
+  EvmSymbol,
+  FunctionDeclaration,
+  getFullSignatureAsSymbolForEvent,
   getFullSignatureForEvent,
   getIndexedSignatureForEvent,
   getSignatureForFn,
-  FunctionDeclaration,
-  EvmSymbol,
 } from '../../src'
-import { expect } from 'earljs'
 
 const event1: EventDeclaration = {
   name: 'Deposit',
