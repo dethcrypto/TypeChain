@@ -1,5 +1,11 @@
 # @typechain/hardhat
 
+## 2.1.2
+
+### Patch Changes
+
+- 5ed62e4: Ensure that `type-extensions.ts` is always imported
+
 ## 2.1.1
 
 ### Patch Changes
