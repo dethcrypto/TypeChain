@@ -1,14 +1,12 @@
-import _ = require('lodash')
-import { debug } from '../utils/debug'
+import * as fs from 'fs'
+import { sync as mkdirp } from 'mkdirp'
 import { relative } from 'path'
-import { Config, PublicConfig, Services } from './types'
+import * as prettier from 'prettier'
+
+import { debug } from '../utils/debug'
 import { findTarget } from './findTarget'
 import { loadFileDescriptions, processOutput, skipEmptyAbis } from './io'
-
-import * as fs from 'fs'
-import * as prettier from 'prettier'
-import { sync as mkdirp } from 'mkdirp'
-import { config } from 'bluebird'
+import { Config, PublicConfig, Services } from './types'
 
 interface Result {
   filesGenerated: number

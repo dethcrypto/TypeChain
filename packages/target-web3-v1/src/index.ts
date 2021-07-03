@@ -1,14 +1,13 @@
-import { join, resolve } from 'path'
 import { readFileSync } from 'fs'
-
+import { join, resolve } from 'path'
 import {
+  Config,
   extractAbi,
   extractDocumentation,
-  parse,
-  getFilename,
-  Config,
-  TypeChainTarget,
   FileDescription,
+  getFilename,
+  parse,
+  TypeChainTarget,
 } from 'typechain'
 
 import { codegen } from './codegen'

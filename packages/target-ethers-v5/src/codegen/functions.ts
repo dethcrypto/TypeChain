@@ -1,11 +1,12 @@
 import {
+  CodegenConfig,
   FunctionDeclaration,
-  isConstant,
-  isConstantFn,
   FunctionDocumentation,
   getSignatureForFn,
-  CodegenConfig,
+  isConstant,
+  isConstantFn,
 } from 'typechain'
+
 import { generateInputTypes, generateOutputTypes } from './types'
 
 interface GenerateFunctionOptions {

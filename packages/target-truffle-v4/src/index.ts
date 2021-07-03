@@ -1,15 +1,15 @@
-import {
-  Contract,
-  extractDocumentation,
-  getFilename,
-  extractAbi,
-  parse,
-  Config,
-  TypeChainTarget,
-  FileDescription,
-} from 'typechain'
-import { join, resolve } from 'path'
 import { readFileSync } from 'fs'
+import { join, resolve } from 'path'
+import {
+  Config,
+  Contract,
+  extractAbi,
+  extractDocumentation,
+  FileDescription,
+  getFilename,
+  parse,
+  TypeChainTarget,
+} from 'typechain'
 
 import { codegenArtifactHeaders } from './codegen'
 import { codegenContract } from './codegen/contracts'

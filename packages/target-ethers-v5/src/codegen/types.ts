@@ -1,5 +1,5 @@
-import { EvmType, EvmOutputType, TupleType, AbiParameter, AbiOutputParameter } from 'typechain'
 import { compact } from 'lodash'
+import { AbiOutputParameter, AbiParameter, EvmOutputType, EvmType, TupleType } from 'typechain'
 
 export function generateInputTypes(input: Array<AbiParameter>): string {
   if (input.length === 0) {

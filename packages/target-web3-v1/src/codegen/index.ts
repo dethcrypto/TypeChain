@@ -1,5 +1,6 @@
 import { Contract } from 'typechain'
-import { codegenForEventsDeclarations, codegenForEvents, codegenForEventsOnceFns } from './events'
+
+import { codegenForEvents, codegenForEventsDeclarations, codegenForEventsOnceFns } from './events'
 import { codegenForFunctions } from './functions'
 
 export function codegen(contract: Contract) {

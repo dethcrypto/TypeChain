@@ -1,10 +1,10 @@
 /* eslint-disable no-invalid-this */
 import { expect, Mock, mockFn } from 'earljs'
+import { copyFileSync, existsSync, promises as fsPromises, readFileSync } from 'fs'
 import { join } from 'path'
-import { existsSync, promises as fsPromises, copyFileSync, readFileSync } from 'fs'
+import rimraf from 'rimraf'
 
 import { useEnvironment } from './helpers'
-import rimraf from 'rimraf'
 
 describe('Typechain x Hardhat', function () {
   this.timeout(120_000)

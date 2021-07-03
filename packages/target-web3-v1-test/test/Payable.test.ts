@@ -1,8 +1,8 @@
+import { typeCase, typedAssert } from 'test-utils'
 import Web3 from 'web3'
-import { typedAssert, typeCase } from 'test-utils'
 
-import { createNewBlockchain, deployContract } from './common'
 import { Payable } from '../types/Payable'
+import { createNewBlockchain, deployContract } from './common'
 
 describe('Payable', () => {
   let contract: Payable

@@ -1,6 +1,5 @@
-import Web3 from 'web3'
-
 import { loadContract } from 'test-utils'
+import Web3 from 'web3'
 
 const ganache = require('ganache-cli')
 

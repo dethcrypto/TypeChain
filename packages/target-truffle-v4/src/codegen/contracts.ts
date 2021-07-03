@@ -1,7 +1,8 @@
-import { Contract, FunctionDeclaration, FunctionDocumentation, isConstant, isConstantFn } from 'typechain'
 import { values } from 'lodash'
+import { Contract, FunctionDeclaration, FunctionDocumentation, isConstant, isConstantFn } from 'typechain'
+
+import { codegenAllPossibleEvents, codegenEventsDeclarations } from './events'
 import { codegenInputTypes, codegenOutputTypes } from './types'
-import { codegenEventsDeclarations, codegenAllPossibleEvents } from './events'
 
 export function codegenContract(contract: Contract) {
   return `
@@ -20,7 +21,7 @@ function codegenContractInterface(c: Contract): string {
   return `
 export interface ${c.name}Contract extends Truffle.Contract<${c.name}Instance> {
   ${
-    c.constructor && c.constructor[0]
+    c.constructor[0]
       ? `"new"(${codegenInputTypes(c.constructor[0].inputs)} meta?: Truffle.TransactionDetails): Promise<${
           c.name
         }Instance>;`

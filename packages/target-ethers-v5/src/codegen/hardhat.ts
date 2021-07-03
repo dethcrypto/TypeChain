@@ -1,4 +1,3 @@
-import { basename } from 'path'
 import { FACTORY_POSTFIX } from '../common'
 
 export function generateHardhatHelper(contracts: string[]): string {

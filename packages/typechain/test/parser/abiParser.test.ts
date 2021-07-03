@@ -1,7 +1,6 @@
 import { expect } from 'earljs'
 import { merge } from 'lodash'
 
-import { MalformedAbiError } from '../../src/utils/errors'
 import {
   BytecodeLinkReference,
   ensure0xPrefix,
@@ -16,6 +15,7 @@ import {
   RawAbiDefinition,
   RawEventAbiDefinition,
 } from '../../src/parser/abiParser'
+import { MalformedAbiError } from '../../src/utils/errors'
 
 describe('extractAbi', () => {
   it('should throw error on not JSON ABI', () => {

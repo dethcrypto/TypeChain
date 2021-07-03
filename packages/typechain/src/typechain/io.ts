@@ -1,10 +1,11 @@
-import { Config, FileDescription, Output, Services } from './types'
-import { debug } from '../utils/debug'
+import { readFileSync } from 'fs'
 import { isArray } from 'lodash'
 import { dirname, relative } from 'path'
-import { outputTransformers } from '../codegen/outputTransformers'
-import { readFileSync } from 'fs'
+
 import { extractAbi } from '..'
+import { outputTransformers } from '../codegen/outputTransformers'
+import { debug } from '../utils/debug'
+import { Config, FileDescription, Output, Services } from './types'
 
 export function processOutput(services: Services, cfg: Config, output: Output): number {
   const { fs, mkdirp } = services

@@ -1,5 +1,5 @@
-import { join } from 'path'
 import { readFileSync } from 'fs'
+import { join } from 'path'
 
 const abiDirPath = join(__dirname, '../../../contracts/compiled')
 

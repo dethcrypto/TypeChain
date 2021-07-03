@@ -1,4 +1,5 @@
 import { FunctionDeclaration, FunctionDocumentation, getSignatureForFn } from 'typechain'
+
 import { generateInputTypes, generateOutputTypes } from './types'
 
 interface GenerateFunctionOptions {

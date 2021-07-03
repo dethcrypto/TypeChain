@@ -1,13 +1,14 @@
+import './type-extensions'
+
 import fsExtra from 'fs-extra'
 import { TASK_CLEAN, TASK_COMPILE, TASK_COMPILE_SOLIDITY_COMPILE_JOBS } from 'hardhat/builtin-tasks/task-names'
-import { extendConfig, task, subtask } from 'hardhat/config'
+import { extendConfig, subtask, task } from 'hardhat/config'
 import { getFullyQualifiedName } from 'hardhat/utils/contract-names'
 import _, { uniq } from 'lodash'
-import { runTypeChain, glob } from 'typechain'
+import { glob, runTypeChain } from 'typechain'
 
 import { getDefaultTypechainConfig } from './config'
 import { TASK_TYPECHAIN } from './constants'
-import './type-extensions'
 
 const taskArgsStore: { noTypechain: boolean; fullRebuild: boolean } = { noTypechain: false, fullRebuild: false }
 
@@ -17,7 +18,7 @@ extendConfig((config) => {
 
 task(TASK_COMPILE, 'Compiles the entire project, building all artifacts')
   .addFlag('noTypechain', 'Skip Typechain compilation')
-  .setAction(async ({ noTypechain }: { global: boolean; noTypechain: boolean }, { config }, runSuper) => {
+  .setAction(async ({ noTypechain }: { global: boolean; noTypechain: boolean }, _, runSuper) => {
     // just save task arguments for later b/c there is no easier way to access them in subtask
     taskArgsStore.noTypechain = noTypechain!!
 

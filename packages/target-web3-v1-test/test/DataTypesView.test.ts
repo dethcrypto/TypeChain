@@ -1,7 +1,7 @@
-import { typedAssert, q18 } from 'test-utils'
+import { q18, typedAssert } from 'test-utils'
 
-import { createNewBlockchain, deployContract } from './common'
 import { DataTypesView } from '../types/DataTypesView'
+import { createNewBlockchain, deployContract } from './common'
 
 describe('DataTypesView', () => {
   let contract!: DataTypesView

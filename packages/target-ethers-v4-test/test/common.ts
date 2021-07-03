@@ -1,5 +1,5 @@
-import { JsonRpcProvider } from 'ethers/providers'
 import { ethers } from 'ethers'
+import { JsonRpcProvider } from 'ethers/providers'
 import { loadContract } from 'test-utils'
 
 const ganache = require('ganache-cli')

@@ -1,6 +1,6 @@
 import { expect } from 'earljs'
-import { Dictionary } from 'ts-essentials'
 import { isString, mapValues, omitBy } from 'lodash'
+import { Dictionary } from 'ts-essentials'
 
 /**
  * Asserts values AND types equality.

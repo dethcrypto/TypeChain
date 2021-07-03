@@ -1,7 +1,8 @@
-import { typedAssert, q18, IsExact, AssertTrue } from 'test-utils'
-import { DataTypesViewInstance } from '../types/truffle-contracts/DataTypesView'
 import BigNumber from 'bn.js'
+import { AssertTrue, IsExact, q18, typedAssert } from 'test-utils'
 import { Awaited } from 'ts-essentials'
+
+import { DataTypesViewInstance } from '../types/truffle-contracts/DataTypesView'
 
 const DataTypesView = artifacts.require('DataTypesView')
 
@@ -46,6 +47,7 @@ contract('DataTypesView', ([deployer]) => {
   // NOTE: typesAssert is too simple to tests type compatibility here so we can't use it
   it('generates correct types for tuples', () => {
     type ViewTupleType = Awaited<ReturnType<typeof c.view_tuple>>
-    type t1 = AssertTrue<IsExact<ViewTupleType, { 0: BigNumber; 1: BigNumber }>>
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    type _t1 = AssertTrue<IsExact<ViewTupleType, { 0: BigNumber; 1: BigNumber }>>
   })
 })
