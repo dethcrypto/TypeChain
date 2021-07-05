@@ -333,26 +333,20 @@ export function extractBytecode(rawContents: string): BytecodeWithLinkReferences
   if (!json) return undefined
 
   // `json.evm.bytecode` often has more information than `json.bytecode`, needs to be checked first
-  if (json.evm && json.evm.bytecode && json.evm.bytecode.object && json.evm.bytecode.object.match(bytecodeRegex)) {
+  if (json.evm?.bytecode?.object?.match(bytecodeRegex)) {
     return extractLinkReferences(json.evm.bytecode.object, json.evm.bytecode.linkReferences)
   }
 
   // handle json schema of @0x/sol-compiler
-  if (
-    json.compilerOutput &&
-    json.compilerOutput.evm &&
-    json.compilerOutput.evm.bytecode &&
-    json.compilerOutput.evm.bytecode.object &&
-    json.compilerOutput.evm.bytecode.object.match(bytecodeRegex)
-  ) {
+  if (json.compilerOutput?.evm?.bytecode?.object?.match(bytecodeRegex)) {
     return extractLinkReferences(
       json.compilerOutput.evm.bytecode.object,
       json.compilerOutput.evm.bytecode.linkReferences,
     )
   }
 
-  if (json.bytecode && json.bytecode.match(bytecodeRegex)) {
-    return extractLinkReferences(json.bytecode)
+  if (json.bytecode?.match(bytecodeRegex)) {
+    return extractLinkReferences(json.bytecode, json.linkReferences)
   }
 
   return undefined
