@@ -1,5 +1,11 @@
 # typechain
 
+## 5.1.2
+
+### Patch Changes
+
+- a3feb27: Support extracting library references in hardhat style artifacts
+
 ## 5.1.1
 
 ### Patch Changes
