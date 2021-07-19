@@ -1,5 +1,12 @@
 # @typechain/hardhat
 
+## 2.2.0
+
+### Minor Changes
+
+- 21a5062: Always use hardhat project root as cwd while generating types. All paths in the config are now always
+  relative to the project root as well.
+
 ## 2.1.2
 
 ### Patch Changes
