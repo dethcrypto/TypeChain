@@ -221,7 +221,6 @@ describe('extractDocumentation', () => {
 })
 
 describe('extractBytecode with link references', () => {
-  // tslint:disable:max-line-length
   const linkRef1: BytecodeLinkReference = { reference: '__./ContractWithLibrary.sol:TestLibrar__' }
   const bytecodeStr1 = `565b005b60005481565b73${linkRef1.reference}63b7203ec673${linkRef1.reference}63b7203ec6846040518263ffffffff167c010000`
   const linkRef2: BytecodeLinkReference = { reference: '__TestLibrary___________________________' }
@@ -255,11 +254,22 @@ describe('extractBytecode with link references', () => {
       },
     },
   }
+
   const bytecodeObj5 = {
     compilerOutput: bytecodeObj4,
   }
 
-  // tslint:enable
+  const bytecodeObj6 = {
+    bytecode: bytecodeObj3.evm.bytecode.object,
+    linkReferences: {
+      'ContractWithLibrary.sol': {
+        TestLibrary: [
+          { length: 20, start: 151 },
+          { length: 20, start: 177 },
+        ],
+      },
+    },
+  }
 
   it('should extract solc 0.4 link references', () => {
     expect(extractBytecode(bytecodeStr1)).toEqual({
@@ -302,6 +312,13 @@ describe('extractBytecode with link references', () => {
       bytecode: bytecodeObj4.evm.bytecode.object,
     }
     expect(extractBytecode(JSON.stringify(bytecodeObj4a))).toEqual({
+      bytecode: bytecodeObj4.evm.bytecode.object,
+      linkReferences: [linkRef4],
+    })
+  })
+
+  it('should extract hardhat style link references', () => {
+    expect(extractBytecode(JSON.stringify(bytecodeObj6))).toEqual({
       bytecode: bytecodeObj4.evm.bytecode.object,
       linkReferences: [linkRef4],
     })
