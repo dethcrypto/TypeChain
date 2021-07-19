@@ -9,15 +9,35 @@ import { useEnvironment } from './helpers'
 describe('Typechain x Hardhat', function () {
   this.timeout(120_000)
   useEnvironment('hardhat-project')
+  let originalCwd: typeof process.cwd
 
   beforeEach(async function () {
+    originalCwd = process.cwd
     await await this.hre.run('clean')
     rimraf.sync(TestContract2DestinationPath)
+  })
+
+  this.afterEach(() => {
+    process.cwd = originalCwd
   })
 
   it('compiles and generates typings', async function () {
     const exists = existsSync(this.hre.config.typechain.outDir)
     expect(exists).toEqual(false)
+
+    await this.hre.run('compile')
+
+    const dir = await fsPromises.readdir(this.hre.config.typechain.outDir)
+    expect(dir.length).not.toEqual(0)
+  })
+
+  it('compiles and generates typings when not in root directory', async function () {
+    const exists = existsSync(this.hre.config.typechain.outDir)
+    expect(exists).toEqual(false)
+    const oldCwd = process.cwd()
+    // force change cwd to not-existing dir
+    // cwd should not be used to determine output dir path
+    process.cwd = () => join(oldCwd, 'src')
 
     await this.hre.run('compile')
 

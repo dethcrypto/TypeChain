@@ -51,7 +51,8 @@ subtask(TASK_COMPILE_SOLIDITY_COMPILE_JOBS, 'Compiles the entire project, buildi
     console.log(
       `Generating typings for: ${artifactPaths.length} artifacts in dir: ${typechainCfg.outDir} for target: ${typechainCfg.target}`,
     )
-    const cwd = process.cwd()
+    const cwd = config.paths.root
+
     const allFiles = glob(cwd, [`${config.paths.artifacts}/!(build-info)/**/+([a-zA-Z0-9_]).json`])
     if (typechainCfg.externalArtifacts) {
       allFiles.push(...glob(cwd, typechainCfg.externalArtifacts, false))
