@@ -26,7 +26,7 @@ task(TASK_COMPILE, 'Compiles the entire project, building all artifacts')
   })
 
 subtask(TASK_COMPILE_SOLIDITY_COMPILE_JOBS, 'Compiles the entire project, building all artifacts').setAction(
-  async (taskArgs, { config, artifacts, run }, runSuper) => {
+  async (taskArgs, { run }, runSuper) => {
     const compileSolOutput = await runSuper(taskArgs)
     await run(TASK_TYPECHAIN_GENERATE_TYPES, { compileSolOutput })
     return compileSolOutput
