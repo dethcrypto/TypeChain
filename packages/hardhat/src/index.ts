@@ -8,7 +8,7 @@ import _, { uniq } from 'lodash'
 import { glob, runTypeChain } from 'typechain'
 
 import { getDefaultTypechainConfig } from './config'
-import { TASK_TYPECHAIN, TASK_TYPECHAIN_INTERNAL } from './constants'
+import { TASK_TYPECHAIN, TASK_TYPECHAIN_GENERATE_TYPES } from './constants'
 
 const taskArgsStore: { noTypechain: boolean; fullRebuild: boolean } = { noTypechain: false, fullRebuild: false }
 
@@ -28,12 +28,12 @@ task(TASK_COMPILE, 'Compiles the entire project, building all artifacts')
 subtask(TASK_COMPILE_SOLIDITY_COMPILE_JOBS, 'Compiles the entire project, building all artifacts').setAction(
   async (taskArgs, { config, artifacts, run }, runSuper) => {
     const compileSolOutput = await runSuper(taskArgs)
-    await run(TASK_TYPECHAIN_INTERNAL, { compileSolOutput })
+    await run(TASK_TYPECHAIN_GENERATE_TYPES, { compileSolOutput })
     return compileSolOutput
   },
 )
 
-subtask(TASK_TYPECHAIN_INTERNAL)
+subtask(TASK_TYPECHAIN_GENERATE_TYPES)
   .addParam('compileSolOutput', 'Solidity compilation output', {}, types.any)
   .setAction(async ({ compileSolOutput }, { config, artifacts }) => {
     const artifactFQNs: string[] = getFQNamesFromCompilationOutput(compileSolOutput)
