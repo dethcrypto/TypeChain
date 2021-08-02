@@ -13,7 +13,7 @@ describe('Typechain x Hardhat', function () {
 
   beforeEach(async function () {
     originalCwd = process.cwd
-    await await this.hre.run('clean')
+    await this.hre.run('clean')
     rimraf.sync(TestContract2DestinationPath)
   })
 
