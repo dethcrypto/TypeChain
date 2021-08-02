@@ -91,8 +91,7 @@ subtask(TASK_TYPECHAIN_GENERATE_TYPES)
       })
       console.log(`Successfully generated ${result.filesGenerated} typings for external artifacts!`)
     }
-  }
-)
+  })
 
 task(TASK_TYPECHAIN, 'Generate Typechain typings for compiled contracts').setAction(async (_, { run }) => {
   taskArgsStore.fullRebuild = true
