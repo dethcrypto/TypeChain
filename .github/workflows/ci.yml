@@ -10,7 +10,7 @@ jobs:
   lint:
     strategy:
       matrix:
-        node: ['10.x']
+        node: ['14.x']
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
 
@@ -38,7 +38,7 @@ jobs:
   test:
     strategy:
       matrix:
-        node: ['10.x']
+        node: ['14.x']
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
 
@@ -68,7 +68,7 @@ jobs:
   test-examples:
     strategy:
       matrix:
-        node: ['10.x']
+        node: ['14.x']
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
 

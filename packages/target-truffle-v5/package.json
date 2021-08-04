@@ -34,7 +34,7 @@
     "truffle": "^5.0.0"
   },
   "devDependencies": {
-    "ganache-cli": "^6.9.1",
+    "ganache-cli": "^6.12.2",
     "typechain": "*",
     "web3": "^1.2.6",
     "web3-core": "^1.3.1",
