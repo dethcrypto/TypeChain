@@ -1,5 +1,11 @@
 # @typechain/hardhat
 
+## 2.3.0
+
+### Minor Changes
+
+- 99ce3e3: Move type generation to Hardhat subtask for easier third-party integration
+
 ## 2.2.0
 
 ### Minor Changes
