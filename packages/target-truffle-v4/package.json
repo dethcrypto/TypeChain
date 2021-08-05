@@ -34,7 +34,7 @@
     "truffle": "^4.0.0"
   },
   "devDependencies": {
-    "ganache-cli": "^6.9.1",
+    "ganache-cli": "^6.12.2",
     "web3": "^1.2.6",
     "typechain": "*",
     "@types/lodash": "^4.14.139"

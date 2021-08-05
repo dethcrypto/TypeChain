@@ -40,7 +40,7 @@
     "@ethersproject/abi": "^5.0.0"
   },
   "devDependencies": {
-    "ganache-cli": "^6.9.1",
+    "ganache-cli": "^6.12.2",
     "test-utils": "1.0.0",
     "typechain": "*",
     "@types/lodash": "^4.14.139"

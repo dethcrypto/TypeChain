@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "conditional-type-checks": "^1.0.5",
-    "ganache-cli": "^6.9.1",
+    "ganache-cli": "^6.12.2",
     "web3": "^1.2.6"
   }
 }

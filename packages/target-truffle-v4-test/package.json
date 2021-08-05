@@ -16,9 +16,9 @@
     "test:fix": "yarn lint:fix && yarn format:fix && yarn test && yarn typecheck"
   },
   "devDependencies": {
-    "ganache-cli": "^6.9.1",
+    "ganache-cli": "^6.12.2",
     "test-utils": "1.0.0",
-    "truffle": "v4",
+    "truffle": "4.1.17",
     "typechain": "*"
   }
 }
