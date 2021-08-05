@@ -2,13 +2,13 @@ import './type-extensions'
 
 import fsExtra from 'fs-extra'
 import { TASK_CLEAN, TASK_COMPILE, TASK_COMPILE_SOLIDITY_COMPILE_JOBS } from 'hardhat/builtin-tasks/task-names'
-import { extendConfig, subtask, task } from 'hardhat/config'
+import { extendConfig, subtask, task, types } from 'hardhat/config'
 import { getFullyQualifiedName } from 'hardhat/utils/contract-names'
 import _, { uniq } from 'lodash'
 import { glob, runTypeChain } from 'typechain'
 
 import { getDefaultTypechainConfig } from './config'
-import { TASK_TYPECHAIN } from './constants'
+import { TASK_TYPECHAIN, TASK_TYPECHAIN_GENERATE_TYPES } from './constants'
 
 const taskArgsStore: { noTypechain: boolean; fullRebuild: boolean } = { noTypechain: false, fullRebuild: false }
 
@@ -26,9 +26,16 @@ task(TASK_COMPILE, 'Compiles the entire project, building all artifacts')
   })
 
 subtask(TASK_COMPILE_SOLIDITY_COMPILE_JOBS, 'Compiles the entire project, building all artifacts').setAction(
-  async (taskArgs, { config, artifacts }, runSuper) => {
+  async (taskArgs, { run }, runSuper) => {
     const compileSolOutput = await runSuper(taskArgs)
+    await run(TASK_TYPECHAIN_GENERATE_TYPES, { compileSolOutput })
+    return compileSolOutput
+  },
+)
 
+subtask(TASK_TYPECHAIN_GENERATE_TYPES)
+  .addParam('compileSolOutput', 'Solidity compilation output', {}, types.any)
+  .setAction(async ({ compileSolOutput }, { config, artifacts }) => {
     const artifactFQNs: string[] = getFQNamesFromCompilationOutput(compileSolOutput)
     const artifactPaths = uniq(
       artifactFQNs.map((fqn) => (artifacts as any)._getArtifactPathFromFullyQualifiedName(fqn)),
@@ -84,10 +91,7 @@ subtask(TASK_COMPILE_SOLIDITY_COMPILE_JOBS, 'Compiles the entire project, buildi
       })
       console.log(`Successfully generated ${result.filesGenerated} typings for external artifacts!`)
     }
-
-    return compileSolOutput
-  },
-)
+  })
 
 task(TASK_TYPECHAIN, 'Generate Typechain typings for compiled contracts').setAction(async (_, { run }) => {
   taskArgsStore.fullRebuild = true
