@@ -10,6 +10,8 @@ import {
 export interface TransactionOverrides {
   gasLimit?: BigNumberish | Promise<BigNumberish>;
   gasPrice?: BigNumberish | Promise<BigNumberish>;
+  maxPriorityFeePerGas?: BigNumberish | Promise<BigNumberish>;
+  maxFeePerGas?: BigNumberish | Promise<BigNumberish>;
   nonce?: BigNumberish | Promise<BigNumberish>;
   value?: BigNumberish | Promise<BigNumberish>;
   from?: string | Promise<string>;

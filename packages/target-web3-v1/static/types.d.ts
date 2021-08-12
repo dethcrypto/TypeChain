@@ -33,6 +33,8 @@ export interface NonPayableTx {
   data?: string
   gas?: string | number | BN
   gasPrice?: string | number | BN
+  maxPriorityFeePerGas?: string | number | BN
+  maxFeePerGas?: string | number | BN
 }
 
 export interface PayableTx extends NonPayableTx {
