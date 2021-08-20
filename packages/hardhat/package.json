@@ -45,7 +45,7 @@
   },
   "peerDependencies": {
     "hardhat": "^2.0.10",
-    "typechain": "^5.0.0",
+    "typechain": "^5.1.2",
     "lodash": "^4.17.15"
   }
 }
