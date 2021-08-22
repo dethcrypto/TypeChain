@@ -99,11 +99,11 @@ describe('Events', () => {
 
   describe('EIP1559 overrides', () => {
     it('works', async () => {
-       await contract.methods.emit_event1().send({
+      await contract.methods.emit_event1().send({
         from: accounts[0],
         gas: GAS_LIMIT_STANDARD,
         maxFeePerGas: new BigNumber('1'),
-        maxPriorityFeePerGas: new BigNumber('1')
+        maxPriorityFeePerGas: new BigNumber('1'),
       })
       // doesn't throw error
     })

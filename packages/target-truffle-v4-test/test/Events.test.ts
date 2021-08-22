@@ -41,7 +41,7 @@ contract('Events', ([deployer]) => {
     it('works', async () => {
       await c.emit_event1({
         maxFeePerGas: new BigNumber('1'),
-        maxPriorityFeePerGas: new BigNumber('1')
+        maxPriorityFeePerGas: new BigNumber('1'),
       })
       // doesn't throw error
     })
