@@ -1,3 +1,4 @@
+import BigNumber from 'bn.js'
 import { asyncWithDoneCase, typedAssert } from 'test-utils'
 
 import { Events } from '../types/Events'
@@ -94,5 +95,17 @@ describe('Events', () => {
         await contract.methods.emit_event3_overloaded().send({ from: accounts[0], gas: GAS_LIMIT_STANDARD })
       }),
     )
+  })
+
+  describe('EIP1559 overrides', () => {
+    it('works', async () => {
+       await contract.methods.emit_event1().send({
+        from: accounts[0],
+        gas: GAS_LIMIT_STANDARD,
+        maxFeePerGas: new BigNumber('1'),
+        maxPriorityFeePerGas: new BigNumber('1')
+      })
+      // doesn't throw error
+    })
   })
 })
