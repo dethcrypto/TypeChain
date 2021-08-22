@@ -21,7 +21,7 @@ export function codegenForOverloadedFunctions(options: GenerateFunctionOptions, 
 function generateFunction(options: GenerateFunctionOptions, fn: FunctionDeclaration, overloadedName?: string): string {
   return `
   ${generateFunctionDocumentation(fn.documentation)}
-  ${overloadedName ?? fn.name}(${generateInputTypes(fn.inputs)} overrides?: TransactionOverrides): ${
+  ${overloadedName ?? fn.name}(${generateInputTypes(fn.inputs)} overrides?: UnsignedTransaction): ${
     options.overrideOutput
       ? options.overrideOutput
       : `Promise<${
