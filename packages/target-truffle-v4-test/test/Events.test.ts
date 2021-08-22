@@ -36,4 +36,14 @@ contract('Events', ([deployer]) => {
       typedAssert(response.logs[0].args, { value1: new BigNumber(1) })
     })
   })
+
+  describe('EIP1559 overrides', () => {
+    it('works', async () => {
+      await c.emit_event1({
+        maxFeePerGas: new BigNumber('1'),
+        maxPriorityFeePerGas: new BigNumber('1')
+      })
+      // doesn't throw error
+    })
+  })
 })
