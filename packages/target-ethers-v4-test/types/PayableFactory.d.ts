@@ -5,11 +5,8 @@
 import { Contract, ContractTransaction, EventFilter, Signer } from "ethers";
 import { Listener, Provider } from "ethers/providers";
 import { Arrayish, BigNumber, BigNumberish, Interface } from "ethers/utils";
-import {
-  TransactionOverrides,
-  TypedEventDescription,
-  TypedFunctionDescription,
-} from ".";
+import { UnsignedTransaction } from "ethers/utils/transaction";
+import { TypedEventDescription, TypedFunctionDescription } from ".";
 
 interface PayableFactoryInterface extends Interface {
   functions: {
@@ -36,24 +33,22 @@ export class PayableFactory extends Contract {
   interface: PayableFactoryInterface;
 
   functions: {
-    newPayable(overrides?: TransactionOverrides): Promise<ContractTransaction>;
+    newPayable(overrides?: UnsignedTransaction): Promise<ContractTransaction>;
 
     "newPayable()"(
-      overrides?: TransactionOverrides
+      overrides?: UnsignedTransaction
     ): Promise<ContractTransaction>;
   };
 
-  newPayable(overrides?: TransactionOverrides): Promise<ContractTransaction>;
+  newPayable(overrides?: UnsignedTransaction): Promise<ContractTransaction>;
 
-  "newPayable()"(
-    overrides?: TransactionOverrides
-  ): Promise<ContractTransaction>;
+  "newPayable()"(overrides?: UnsignedTransaction): Promise<ContractTransaction>;
 
   filters: {};
 
   estimate: {
-    newPayable(overrides?: TransactionOverrides): Promise<BigNumber>;
+    newPayable(overrides?: UnsignedTransaction): Promise<BigNumber>;
 
-    "newPayable()"(overrides?: TransactionOverrides): Promise<BigNumber>;
+    "newPayable()"(overrides?: UnsignedTransaction): Promise<BigNumber>;
   };
 }

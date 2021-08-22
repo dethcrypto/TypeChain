@@ -5,11 +5,8 @@
 import { Contract, ContractTransaction, EventFilter, Signer } from "ethers";
 import { Listener, Provider } from "ethers/providers";
 import { Arrayish, BigNumber, BigNumberish, Interface } from "ethers/utils";
-import {
-  TransactionOverrides,
-  TypedEventDescription,
-  TypedFunctionDescription,
-} from ".";
+import { UnsignedTransaction } from "ethers/utils/transaction";
+import { TypedEventDescription, TypedFunctionDescription } from ".";
 
 interface EventsInterface extends Interface {
   functions: {
@@ -63,81 +60,79 @@ export class Events extends Contract {
   interface: EventsInterface;
 
   functions: {
-    emit_anon1(overrides?: TransactionOverrides): Promise<ContractTransaction>;
+    emit_anon1(overrides?: UnsignedTransaction): Promise<ContractTransaction>;
 
     "emit_anon1()"(
-      overrides?: TransactionOverrides
+      overrides?: UnsignedTransaction
     ): Promise<ContractTransaction>;
 
-    emit_event1(overrides?: TransactionOverrides): Promise<ContractTransaction>;
+    emit_event1(overrides?: UnsignedTransaction): Promise<ContractTransaction>;
 
     "emit_event1()"(
-      overrides?: TransactionOverrides
+      overrides?: UnsignedTransaction
     ): Promise<ContractTransaction>;
 
-    emit_event2(overrides?: TransactionOverrides): Promise<ContractTransaction>;
+    emit_event2(overrides?: UnsignedTransaction): Promise<ContractTransaction>;
 
     "emit_event2()"(
-      overrides?: TransactionOverrides
+      overrides?: UnsignedTransaction
     ): Promise<ContractTransaction>;
 
-    emit_event3(overrides?: TransactionOverrides): Promise<ContractTransaction>;
+    emit_event3(overrides?: UnsignedTransaction): Promise<ContractTransaction>;
 
     "emit_event3()"(
-      overrides?: TransactionOverrides
+      overrides?: UnsignedTransaction
     ): Promise<ContractTransaction>;
 
     emit_event3_overloaded(
-      overrides?: TransactionOverrides
+      overrides?: UnsignedTransaction
     ): Promise<ContractTransaction>;
 
     "emit_event3_overloaded()"(
-      overrides?: TransactionOverrides
+      overrides?: UnsignedTransaction
     ): Promise<ContractTransaction>;
 
-    emit_event4(overrides?: TransactionOverrides): Promise<ContractTransaction>;
+    emit_event4(overrides?: UnsignedTransaction): Promise<ContractTransaction>;
 
     "emit_event4()"(
-      overrides?: TransactionOverrides
+      overrides?: UnsignedTransaction
     ): Promise<ContractTransaction>;
   };
 
-  emit_anon1(overrides?: TransactionOverrides): Promise<ContractTransaction>;
+  emit_anon1(overrides?: UnsignedTransaction): Promise<ContractTransaction>;
 
-  "emit_anon1()"(
-    overrides?: TransactionOverrides
-  ): Promise<ContractTransaction>;
+  "emit_anon1()"(overrides?: UnsignedTransaction): Promise<ContractTransaction>;
 
-  emit_event1(overrides?: TransactionOverrides): Promise<ContractTransaction>;
+  emit_event1(overrides?: UnsignedTransaction): Promise<ContractTransaction>;
 
   "emit_event1()"(
-    overrides?: TransactionOverrides
+    overrides?: UnsignedTransaction
   ): Promise<ContractTransaction>;
 
-  emit_event2(overrides?: TransactionOverrides): Promise<ContractTransaction>;
+  emit_event2(overrides?: UnsignedTransaction): Promise<ContractTransaction>;
 
   "emit_event2()"(
-    overrides?: TransactionOverrides
+    overrides?: UnsignedTransaction
   ): Promise<ContractTransaction>;
 
-  emit_event3(overrides?: TransactionOverrides): Promise<ContractTransaction>;
+  emit_event3(overrides?: UnsignedTransaction): Promise<ContractTransaction>;
 
   "emit_event3()"(
-    overrides?: TransactionOverrides
+    overrides?: UnsignedTransaction
   ): Promise<ContractTransaction>;
 
   emit_event3_overloaded(
-    overrides?: TransactionOverrides
+    overrides?: UnsignedTransaction
   ): Promise<ContractTransaction>;
 
   "emit_event3_overloaded()"(
-    overrides?: TransactionOverrides
+    overrides?: UnsignedTransaction
   ): Promise<ContractTransaction>;
 
-  emit_event4(overrides?: TransactionOverrides): Promise<ContractTransaction>;
+  emit_event4(overrides?: UnsignedTransaction): Promise<ContractTransaction>;
 
   "emit_event4()"(
-    overrides?: TransactionOverrides
+    overrides?: UnsignedTransaction
   ): Promise<ContractTransaction>;
 
   filters: {
@@ -155,32 +150,30 @@ export class Events extends Contract {
   };
 
   estimate: {
-    emit_anon1(overrides?: TransactionOverrides): Promise<BigNumber>;
+    emit_anon1(overrides?: UnsignedTransaction): Promise<BigNumber>;
 
-    "emit_anon1()"(overrides?: TransactionOverrides): Promise<BigNumber>;
+    "emit_anon1()"(overrides?: UnsignedTransaction): Promise<BigNumber>;
 
-    emit_event1(overrides?: TransactionOverrides): Promise<BigNumber>;
+    emit_event1(overrides?: UnsignedTransaction): Promise<BigNumber>;
 
-    "emit_event1()"(overrides?: TransactionOverrides): Promise<BigNumber>;
+    "emit_event1()"(overrides?: UnsignedTransaction): Promise<BigNumber>;
 
-    emit_event2(overrides?: TransactionOverrides): Promise<BigNumber>;
+    emit_event2(overrides?: UnsignedTransaction): Promise<BigNumber>;
 
-    "emit_event2()"(overrides?: TransactionOverrides): Promise<BigNumber>;
+    "emit_event2()"(overrides?: UnsignedTransaction): Promise<BigNumber>;
 
-    emit_event3(overrides?: TransactionOverrides): Promise<BigNumber>;
+    emit_event3(overrides?: UnsignedTransaction): Promise<BigNumber>;
 
-    "emit_event3()"(overrides?: TransactionOverrides): Promise<BigNumber>;
+    "emit_event3()"(overrides?: UnsignedTransaction): Promise<BigNumber>;
 
-    emit_event3_overloaded(
-      overrides?: TransactionOverrides
-    ): Promise<BigNumber>;
+    emit_event3_overloaded(overrides?: UnsignedTransaction): Promise<BigNumber>;
 
     "emit_event3_overloaded()"(
-      overrides?: TransactionOverrides
+      overrides?: UnsignedTransaction
     ): Promise<BigNumber>;
 
-    emit_event4(overrides?: TransactionOverrides): Promise<BigNumber>;
+    emit_event4(overrides?: UnsignedTransaction): Promise<BigNumber>;
 
-    "emit_event4()"(overrides?: TransactionOverrides): Promise<BigNumber>;
+    "emit_event4()"(overrides?: UnsignedTransaction): Promise<BigNumber>;
   };
 }
