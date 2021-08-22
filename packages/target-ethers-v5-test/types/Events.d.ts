@@ -93,6 +93,26 @@ interface EventsInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "NoArgsEvent"): EventFragment;
 }
 
+export type AnonEvent1Event = TypedEvent<[BigNumber] & { value1: BigNumber }>;
+
+export type Event1Event = TypedEvent<
+  [BigNumber, BigNumber] & { value1: BigNumber; value2: BigNumber }
+>;
+
+export type Event2Event = TypedEvent<[BigNumber] & { arg0: BigNumber }>;
+
+export type Event3Event = TypedEvent<
+  [boolean, BigNumber] & { value1: boolean; value2: BigNumber }
+>;
+
+export type Event4Event = TypedEvent<
+  [[BigNumber, string] & { index: BigNumber; name: string }] & {
+    data: [BigNumber, string] & { index: BigNumber; name: string };
+  }
+>;
+
+export type NoArgsEventEvent = TypedEvent<[] & {}>;
+
 export class Events extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
