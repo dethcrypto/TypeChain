@@ -5,11 +5,8 @@
 import { Contract, ContractTransaction, EventFilter, Signer } from "ethers";
 import { Listener, Provider } from "ethers/providers";
 import { Arrayish, BigNumber, BigNumberish, Interface } from "ethers/utils";
-import {
-  TransactionOverrides,
-  TypedEventDescription,
-  TypedFunctionDescription,
-} from ".";
+import { UnsignedTransaction } from "ethers/utils/transaction";
+import { TypedEventDescription, TypedFunctionDescription } from ".";
 
 interface NameManglingInterface extends Interface {
   functions: {
@@ -38,28 +35,28 @@ export class NameMangling extends Contract {
   interface: NameManglingInterface;
 
   functions: {
-    provider(overrides?: TransactionOverrides): Promise<boolean>;
+    provider(overrides?: UnsignedTransaction): Promise<boolean>;
 
-    "provider()"(overrides?: TransactionOverrides): Promise<boolean>;
+    "provider()"(overrides?: UnsignedTransaction): Promise<boolean>;
 
-    works(overrides?: TransactionOverrides): Promise<boolean>;
+    works(overrides?: UnsignedTransaction): Promise<boolean>;
 
-    "works()"(overrides?: TransactionOverrides): Promise<boolean>;
+    "works()"(overrides?: UnsignedTransaction): Promise<boolean>;
   };
 
-  works(overrides?: TransactionOverrides): Promise<boolean>;
+  works(overrides?: UnsignedTransaction): Promise<boolean>;
 
-  "works()"(overrides?: TransactionOverrides): Promise<boolean>;
+  "works()"(overrides?: UnsignedTransaction): Promise<boolean>;
 
   filters: {};
 
   estimate: {
-    provider(overrides?: TransactionOverrides): Promise<BigNumber>;
+    provider(overrides?: UnsignedTransaction): Promise<BigNumber>;
 
-    "provider()"(overrides?: TransactionOverrides): Promise<BigNumber>;
+    "provider()"(overrides?: UnsignedTransaction): Promise<BigNumber>;
 
-    works(overrides?: TransactionOverrides): Promise<BigNumber>;
+    works(overrides?: UnsignedTransaction): Promise<BigNumber>;
 
-    "works()"(overrides?: TransactionOverrides): Promise<BigNumber>;
+    "works()"(overrides?: UnsignedTransaction): Promise<BigNumber>;
   };
 }

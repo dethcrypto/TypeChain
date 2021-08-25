@@ -5,11 +5,8 @@
 import { Contract, ContractTransaction, EventFilter, Signer } from "ethers";
 import { Listener, Provider } from "ethers/providers";
 import { Arrayish, BigNumber, BigNumberish, Interface } from "ethers/utils";
-import {
-  TransactionOverrides,
-  TypedEventDescription,
-  TypedFunctionDescription,
-} from ".";
+import { UnsignedTransaction } from "ethers/utils/transaction";
+import { TypedEventDescription, TypedFunctionDescription } from ".";
 
 interface LibraryConsumerInterface extends Interface {
   functions: {
@@ -40,20 +37,20 @@ export class LibraryConsumer extends Contract {
   functions: {
     someOther(
       b: BigNumberish,
-      overrides?: TransactionOverrides
+      overrides?: UnsignedTransaction
     ): Promise<number>;
 
     "someOther(uint8)"(
       b: BigNumberish,
-      overrides?: TransactionOverrides
+      overrides?: UnsignedTransaction
     ): Promise<number>;
   };
 
-  someOther(b: BigNumberish, overrides?: TransactionOverrides): Promise<number>;
+  someOther(b: BigNumberish, overrides?: UnsignedTransaction): Promise<number>;
 
   "someOther(uint8)"(
     b: BigNumberish,
-    overrides?: TransactionOverrides
+    overrides?: UnsignedTransaction
   ): Promise<number>;
 
   filters: {};
@@ -61,12 +58,12 @@ export class LibraryConsumer extends Contract {
   estimate: {
     someOther(
       b: BigNumberish,
-      overrides?: TransactionOverrides
+      overrides?: UnsignedTransaction
     ): Promise<BigNumber>;
 
     "someOther(uint8)"(
       b: BigNumberish,
-      overrides?: TransactionOverrides
+      overrides?: UnsignedTransaction
     ): Promise<BigNumber>;
   };
 }

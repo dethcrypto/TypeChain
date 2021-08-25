@@ -5,11 +5,8 @@
 import { Contract, ContractTransaction, EventFilter, Signer } from "ethers";
 import { Listener, Provider } from "ethers/providers";
 import { Arrayish, BigNumber, BigNumberish, Interface } from "ethers/utils";
-import {
-  TransactionOverrides,
-  TypedEventDescription,
-  TypedFunctionDescription,
-} from ".";
+import { UnsignedTransaction } from "ethers/utils/transaction";
+import { TypedEventDescription, TypedFunctionDescription } from ".";
 
 interface OverloadsInterface extends Interface {
   functions: {
@@ -37,35 +34,35 @@ export class Overloads extends Contract {
   functions: {
     overload1(
       input1: BigNumberish,
-      overrides?: TransactionOverrides
+      overrides?: UnsignedTransaction
     ): Promise<BigNumber>;
 
     "overload1(int256)"(
       input1: BigNumberish,
-      overrides?: TransactionOverrides
+      overrides?: UnsignedTransaction
     ): Promise<BigNumber>;
 
     "overload1(uint256,uint256)"(
       input1: BigNumberish,
       input2: BigNumberish,
-      overrides?: TransactionOverrides
+      overrides?: UnsignedTransaction
     ): Promise<BigNumber>;
   };
 
   overload1(
     input1: BigNumberish,
-    overrides?: TransactionOverrides
+    overrides?: UnsignedTransaction
   ): Promise<BigNumber>;
 
   "overload1(int256)"(
     input1: BigNumberish,
-    overrides?: TransactionOverrides
+    overrides?: UnsignedTransaction
   ): Promise<BigNumber>;
 
   "overload1(uint256,uint256)"(
     input1: BigNumberish,
     input2: BigNumberish,
-    overrides?: TransactionOverrides
+    overrides?: UnsignedTransaction
   ): Promise<BigNumber>;
 
   filters: {};
@@ -73,18 +70,18 @@ export class Overloads extends Contract {
   estimate: {
     overload1(
       input1: BigNumberish,
-      overrides?: TransactionOverrides
+      overrides?: UnsignedTransaction
     ): Promise<BigNumber>;
 
     "overload1(int256)"(
       input1: BigNumberish,
-      overrides?: TransactionOverrides
+      overrides?: UnsignedTransaction
     ): Promise<BigNumber>;
 
     "overload1(uint256,uint256)"(
       input1: BigNumberish,
       input2: BigNumberish,
-      overrides?: TransactionOverrides
+      overrides?: UnsignedTransaction
     ): Promise<BigNumber>;
   };
 }

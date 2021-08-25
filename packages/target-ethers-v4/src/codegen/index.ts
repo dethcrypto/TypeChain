@@ -18,7 +18,8 @@ export function codegenContractTypings(contract: Contract) {
   import { Contract, ContractTransaction, EventFilter, Signer } from "ethers";
   import { Listener, Provider } from 'ethers/providers';
   import { Arrayish, BigNumber, BigNumberish, Interface } from "ethers/utils";
-  import { TransactionOverrides, TypedEventDescription, TypedFunctionDescription } from ".";
+  import { UnsignedTransaction } from "ethers/utils/transaction";
+  import { TypedEventDescription, TypedFunctionDescription } from ".";
 
   interface ${contract.name}Interface extends Interface {
     functions: {
@@ -78,7 +79,7 @@ export function codegenContractTypings(contract: Contract) {
 export function codegenContractFactory(contract: Contract, abi: any, bytecode?: BytecodeWithLinkReferences): string {
   const constructorArgs =
     (contract.constructor[0] ? generateInputTypes(contract.constructor[0].inputs) : '') +
-    'overrides?: TransactionOverrides'
+    'overrides?: UnsignedTransaction'
   const constructorArgNamesWithoutOverrides = contract.constructor[0]
     ? generateParamNames(contract.constructor[0].inputs)
     : ''
@@ -100,7 +101,6 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
   import { UnsignedTransaction } from "ethers/utils/transaction";
   ${ethersUtilsImportLine}
 
-  import { TransactionOverrides } from "..";
   import { ${contract.name} } from "../${contract.name}";
 
   export class ${contract.name}${FACTORY_POSTFIX} extends ContractFactory {

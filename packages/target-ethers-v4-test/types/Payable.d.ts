@@ -5,11 +5,8 @@
 import { Contract, ContractTransaction, EventFilter, Signer } from "ethers";
 import { Listener, Provider } from "ethers/providers";
 import { Arrayish, BigNumber, BigNumberish, Interface } from "ethers/utils";
-import {
-  TransactionOverrides,
-  TypedEventDescription,
-  TypedFunctionDescription,
-} from ".";
+import { UnsignedTransaction } from "ethers/utils/transaction";
+import { TypedEventDescription, TypedFunctionDescription } from ".";
 
 interface PayableInterface extends Interface {
   functions: {
@@ -36,45 +33,43 @@ export class Payable extends Contract {
 
   functions: {
     non_payable_func(
-      overrides?: TransactionOverrides
+      overrides?: UnsignedTransaction
     ): Promise<ContractTransaction>;
 
     "non_payable_func()"(
-      overrides?: TransactionOverrides
+      overrides?: UnsignedTransaction
     ): Promise<ContractTransaction>;
 
-    payable_func(
-      overrides?: TransactionOverrides
-    ): Promise<ContractTransaction>;
+    payable_func(overrides?: UnsignedTransaction): Promise<ContractTransaction>;
 
     "payable_func()"(
-      overrides?: TransactionOverrides
+      overrides?: UnsignedTransaction
     ): Promise<ContractTransaction>;
   };
 
   non_payable_func(
-    overrides?: TransactionOverrides
+    overrides?: UnsignedTransaction
   ): Promise<ContractTransaction>;
 
   "non_payable_func()"(
-    overrides?: TransactionOverrides
+    overrides?: UnsignedTransaction
   ): Promise<ContractTransaction>;
 
-  payable_func(overrides?: TransactionOverrides): Promise<ContractTransaction>;
+  payable_func(overrides?: UnsignedTransaction): Promise<ContractTransaction>;
 
   "payable_func()"(
-    overrides?: TransactionOverrides
+    overrides?: UnsignedTransaction
   ): Promise<ContractTransaction>;
 
   filters: {};
 
   estimate: {
-    non_payable_func(overrides?: TransactionOverrides): Promise<BigNumber>;
+    non_payable_func(overrides?: UnsignedTransaction): Promise<BigNumber>;
 
-    "non_payable_func()"(overrides?: TransactionOverrides): Promise<BigNumber>;
+    "non_payable_func()"(overrides?: UnsignedTransaction): Promise<BigNumber>;
 
-    payable_func(overrides?: TransactionOverrides): Promise<BigNumber>;
+    payable_func(overrides?: UnsignedTransaction): Promise<BigNumber>;
 
-    "payable_func()"(overrides?: TransactionOverrides): Promise<BigNumber>;
+    "payable_func()"(overrides?: UnsignedTransaction): Promise<BigNumber>;
   };
 }
