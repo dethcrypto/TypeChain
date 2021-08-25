@@ -1,5 +1,11 @@
 # @typechain/truffle-v5
 
+## 5.1.0
+
+### Minor Changes
+
+- b3c94a1: Adds overrides introduced by EIP-1559.
+
 ## 5.0.0
 
 ### Patch Changes
