@@ -95,4 +95,17 @@ describe('Events', () => {
       typedAssert(r.args[1], BigNumber.from(2))
     })
   })
+
+  it('queryFilter overloaded event', async () => {
+    await contract.emit_event3_overloaded()
+
+    const filter = contract.filters.Event3()
+    const results = await contract.queryFilter(filter)
+    results.map((r) => {
+      typedAssert(r.args.value1, true)
+      typedAssert(r.args.value2, BigNumber.from(2))
+      typedAssert(r.args[0], true)
+      typedAssert(r.args[1], BigNumber.from(2))
+    })
+  })
 })
