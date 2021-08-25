@@ -62,6 +62,8 @@ declare namespace Truffle {
     from?: string;
     gas?: BN | number | string;
     gasPrice?: BN | number | string;
+    maxPriorityFeePerGas?: BN | number | string;
+    maxFeePerGas?: BN | number | string;
     value?: BN | string;
   }
 
