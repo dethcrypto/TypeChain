@@ -1,5 +1,11 @@
 # @typechain/web3-v1
 
+## 3.1.0
+
+### Minor Changes
+
+- b3c94a1: Adds overrides introduced by EIP-1559.
+
 ## 3.0.0
 
 ### Patch Changes
