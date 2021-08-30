@@ -221,9 +221,21 @@ export class Events extends BaseContract {
   };
 
   filters: {
+    "AnonEvent1(uint256)"(
+      value1?: BigNumberish | null
+    ): TypedEventFilter<[BigNumber], { value1: BigNumber }>;
+
     AnonEvent1(
       value1?: BigNumberish | null
     ): TypedEventFilter<[BigNumber], { value1: BigNumber }>;
+
+    "Event1(uint256,uint256)"(
+      value1?: BigNumberish | null,
+      value2?: null
+    ): TypedEventFilter<
+      [BigNumber, BigNumber],
+      { value1: BigNumber; value2: BigNumber }
+    >;
 
     Event1(
       value1?: BigNumberish | null,
@@ -233,16 +245,31 @@ export class Events extends BaseContract {
       { value1: BigNumber; value2: BigNumber }
     >;
 
+    "Event2(uint256)"(
+      undefined?: null
+    ): TypedEventFilter<[BigNumber], { arg0: BigNumber }>;
+
     Event2(
       undefined?: null
     ): TypedEventFilter<[BigNumber], { arg0: BigNumber }>;
 
-    Event3(
+    "Event3(bool,uint256)"(
       value1?: boolean | null,
       value2?: null
     ): TypedEventFilter<
       [boolean, BigNumber],
       { value1: boolean; value2: BigNumber }
+    >;
+
+    "Event3(uint256)"(
+      value1?: BigNumberish | null
+    ): TypedEventFilter<[BigNumber], { value1: BigNumber }>;
+
+    "Event4(tuple)"(
+      data?: null
+    ): TypedEventFilter<
+      [[BigNumber, string] & { index: BigNumber; name: string }],
+      { data: [BigNumber, string] & { index: BigNumber; name: string } }
     >;
 
     Event4(
@@ -251,6 +278,8 @@ export class Events extends BaseContract {
       [[BigNumber, string] & { index: BigNumber; name: string }],
       { data: [BigNumber, string] & { index: BigNumber; name: string } }
     >;
+
+    "NoArgsEvent()"(): TypedEventFilter<[], {}>;
 
     NoArgsEvent(): TypedEventFilter<[], {}>;
   };
