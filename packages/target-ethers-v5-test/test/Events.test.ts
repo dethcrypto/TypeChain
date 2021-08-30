@@ -1,7 +1,7 @@
 import { BigNumber, ethers } from 'ethers'
 import { typedAssert } from 'test-utils'
 
-import { Event1Event, Events } from '../types/Events'
+import { Event1_TypedEvent, Events } from '../types/Events'
 import { createNewBlockchain, deployContract } from './common'
 
 describe('Events', () => {
@@ -88,7 +88,7 @@ describe('Events', () => {
   it('typed event import', async () => {
     const filter = contract.filters.Event1(null, null)
     const results = (await contract.queryFilter(filter)) as any
-    ;(results as Event1Event[]).map((r) => {
+    ;(results as Event1_TypedEvent[]).map((r) => {
       typedAssert(r.args.value1, BigNumber.from(1))
       typedAssert(r.args.value2, BigNumber.from(2))
       typedAssert(r.args[0], BigNumber.from(1))

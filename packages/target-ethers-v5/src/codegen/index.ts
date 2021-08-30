@@ -72,10 +72,7 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
       .join('\n')}
   }
 
-  ${values(contract.events)
-    .map((v) => v[0])
-    .map(generateEventTypeExport)
-    .join('\n')}
+  ${values(contract.events).map(generateEventTypeExports).join('\n')}
 
   export class ${contract.name} extends BaseContract {
     connect(signerOrProvider: Signer | Provider | string): this;
@@ -304,7 +301,7 @@ function generateParamNames(params: Array<AbiParameter | EventArgDeclaration>): 
 }
 
 function generateEventFilters(events: EventDeclaration[]) {
-  if (events.length == 1) {
+  if (events.length === 1) {
     return generateEventFilter(events[0], true)
   } else {
     return events.map((e) => generateEventFilter(e, false)).join('\n')
@@ -330,13 +327,22 @@ function generateEventFilter(event: EventDeclaration, includeNameFilter: boolean
   return filter
 }
 
-function generateEventTypeExport(event: EventDeclaration) {
+function generateEventTypeExports(events: EventDeclaration[]) {
+  if (events.length === 1) {
+    return generateEventTypeExport(events[0], false)
+  } else {
+    return events.map((e) => generateEventTypeExport(e, true)).join('\n')
+  }
+}
+function generateEventTypeExport(event: EventDeclaration, includeArgTypes: boolean) {
   const components = event.inputs.map((input, i) => ({ name: input.name ?? `arg${i.toString()}`, type: input.type }))
   const arrayOutput = generateOutputComplexTypeAsArray(components)
   const objectOutput = generateOutputComplexTypesAsObject(components) || '{}'
 
   return `
-export type ${event.name}Event = TypedEvent<${arrayOutput} & ${objectOutput}>;
+export type ${event.name}${
+    includeArgTypes ? event.inputs.map((input) => '_' + input.type.originalType).join('') : ''
+  }_TypedEvent = TypedEvent<${arrayOutput} & ${objectOutput}>;
 `
 }
 
