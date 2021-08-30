@@ -122,10 +122,7 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
     };
 
     filters: {
-      ${values(contract.events)
-        .map((v) => v[0])
-        .map(generateEventFilter)
-        .join('\n')}
+      ${values(contract.events).map(generateEventFilters).join('\n')}
     };
 
     estimateGas: {
@@ -306,14 +303,31 @@ function generateParamNames(params: Array<AbiParameter | EventArgDeclaration>): 
   return params.map((param, index) => param.name || `arg${index}`).join(', ')
 }
 
-function generateEventFilter(event: EventDeclaration) {
+function generateEventFilters(events: EventDeclaration[]) {
+  if (events.length == 1) {
+    return generateEventFilter(events[0], true)
+  } else {
+    return events.map((e) => generateEventFilter(e, false)).join('\n')
+  }
+}
+
+function generateEventFilter(event: EventDeclaration, includeNameFilter: boolean) {
   const components = event.inputs.map((input, i) => ({ name: input.name ?? `arg${i.toString()}`, type: input.type }))
   const arrayOutput = generateOutputComplexTypeAsArray(components)
   const objectOutput = generateOutputComplexTypesAsObject(components) || '{}'
 
-  return `
-  ${event.name}(${generateEventTypes(event.inputs)}): TypedEventFilter<${arrayOutput}, ${objectOutput}>;
-`
+  let filter = `
+  '${generateEventSignature(event)}'(${generateEventTypes(
+    event.inputs,
+  )}): TypedEventFilter<${arrayOutput}, ${objectOutput}>;
+  `
+
+  if (includeNameFilter) {
+    filter += `
+    ${event.name}(${generateEventTypes(event.inputs)}): TypedEventFilter<${arrayOutput}, ${objectOutput}>;
+    `
+  }
+  return filter
 }
 
 function generateEventTypeExport(event: EventDeclaration) {

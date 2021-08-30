@@ -99,13 +99,23 @@ describe('Events', () => {
   it('queryFilter overloaded event', async () => {
     await contract.emit_event3_overloaded()
 
-    const filter = contract.filters.Event3()
-    const results = await contract.queryFilter(filter)
-    results.map((r) => {
-      typedAssert(r.args.value1, true)
-      typedAssert(r.args.value2, BigNumber.from(2))
-      typedAssert(r.args[0], true)
-      typedAssert(r.args[1], BigNumber.from(2))
-    })
+    {
+      const filterA = contract.filters['Event3(bool,uint256)']()
+      const results = await contract.queryFilter(filterA)
+      results.map((r) => {
+        typedAssert(r.args.value1, true)
+        typedAssert(r.args.value2, BigNumber.from(2))
+        typedAssert(r.args[0], true)
+        typedAssert(r.args[1], BigNumber.from(2))
+      })
+    }
+    {
+      const filterB = contract.filters['Event3(uint256)']()
+      const results = await contract.queryFilter(filterB)
+      results.map((r) => {
+        typedAssert(r.args.value1, BigNumber.from(1))
+        typedAssert(r.args[0], BigNumber.from(1))
+      })
+    }
   })
 })
