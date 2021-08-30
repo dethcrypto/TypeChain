@@ -100,7 +100,7 @@ interface ERC20Interface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
 
-export type ApprovalEvent = TypedEvent<
+export type Approval_TypedEvent = TypedEvent<
   [string, string, BigNumber] & {
     owner: string;
     spender: string;
@@ -108,7 +108,7 @@ export type ApprovalEvent = TypedEvent<
   }
 >;
 
-export type TransferEvent = TypedEvent<
+export type Transfer_TypedEvent = TypedEvent<
   [string, string, BigNumber] & { from: string; to: string; value: BigNumber }
 >;
 
