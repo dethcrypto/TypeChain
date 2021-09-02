@@ -341,8 +341,8 @@ function generateEventTypeExport(event: EventDeclaration, includeArgTypes: boole
 
   return `
 export type ${event.name}${
-    includeArgTypes ? event.inputs.map((input) => '_' + input.type.originalType).join('') : ''
-  }_TypedEvent = TypedEvent<${arrayOutput} & ${objectOutput}>;
+    includeArgTypes ? event.inputs.map((input) => '_' + input.type.originalType).join('') + '_Event' : 'Event'
+  } = TypedEvent<${arrayOutput} & ${objectOutput}>;
 `
 }
 
