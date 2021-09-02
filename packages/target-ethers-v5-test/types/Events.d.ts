@@ -93,6 +93,30 @@ interface EventsInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "NoArgsEvent"): EventFragment;
 }
 
+export type AnonEvent1Event = TypedEvent<[BigNumber] & { value1: BigNumber }>;
+
+export type Event1Event = TypedEvent<
+  [BigNumber, BigNumber] & { value1: BigNumber; value2: BigNumber }
+>;
+
+export type Event2Event = TypedEvent<[BigNumber] & { arg0: BigNumber }>;
+
+export type Event3_bool_uint256_Event = TypedEvent<
+  [boolean, BigNumber] & { value1: boolean; value2: BigNumber }
+>;
+
+export type Event3_uint256_Event = TypedEvent<
+  [BigNumber] & { value1: BigNumber }
+>;
+
+export type Event4Event = TypedEvent<
+  [[BigNumber, string] & { index: BigNumber; name: string }] & {
+    data: [BigNumber, string] & { index: BigNumber; name: string };
+  }
+>;
+
+export type NoArgsEventEvent = TypedEvent<[] & {}>;
+
 export class Events extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
@@ -201,9 +225,21 @@ export class Events extends BaseContract {
   };
 
   filters: {
+    "AnonEvent1(uint256)"(
+      value1?: BigNumberish | null
+    ): TypedEventFilter<[BigNumber], { value1: BigNumber }>;
+
     AnonEvent1(
       value1?: BigNumberish | null
     ): TypedEventFilter<[BigNumber], { value1: BigNumber }>;
+
+    "Event1(uint256,uint256)"(
+      value1?: BigNumberish | null,
+      value2?: null
+    ): TypedEventFilter<
+      [BigNumber, BigNumber],
+      { value1: BigNumber; value2: BigNumber }
+    >;
 
     Event1(
       value1?: BigNumberish | null,
@@ -213,16 +249,31 @@ export class Events extends BaseContract {
       { value1: BigNumber; value2: BigNumber }
     >;
 
+    "Event2(uint256)"(
+      undefined?: null
+    ): TypedEventFilter<[BigNumber], { arg0: BigNumber }>;
+
     Event2(
       undefined?: null
     ): TypedEventFilter<[BigNumber], { arg0: BigNumber }>;
 
-    Event3(
+    "Event3(bool,uint256)"(
       value1?: boolean | null,
       value2?: null
     ): TypedEventFilter<
       [boolean, BigNumber],
       { value1: boolean; value2: BigNumber }
+    >;
+
+    "Event3(uint256)"(
+      value1?: BigNumberish | null
+    ): TypedEventFilter<[BigNumber], { value1: BigNumber }>;
+
+    "Event4(tuple)"(
+      data?: null
+    ): TypedEventFilter<
+      [[BigNumber, string] & { index: BigNumber; name: string }],
+      { data: [BigNumber, string] & { index: BigNumber; name: string } }
     >;
 
     Event4(
@@ -231,6 +282,8 @@ export class Events extends BaseContract {
       [[BigNumber, string] & { index: BigNumber; name: string }],
       { data: [BigNumber, string] & { index: BigNumber; name: string } }
     >;
+
+    "NoArgsEvent()"(): TypedEventFilter<[], {}>;
 
     NoArgsEvent(): TypedEventFilter<[], {}>;
   };

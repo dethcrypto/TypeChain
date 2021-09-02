@@ -1,7 +1,7 @@
 import { BigNumber, ethers } from 'ethers'
 import { typedAssert } from 'test-utils'
 
-import { Events } from '../types/Events'
+import { Event1Event, Events } from '../types/Events'
 import { createNewBlockchain, deployContract } from './common'
 
 describe('Events', () => {
@@ -83,5 +83,41 @@ describe('Events', () => {
 
     await contract.emit_event1()
     await new Promise((r) => setTimeout(r, 1000))
+  })
+
+  it('typed event import', async () => {
+    const filter = contract.filters.Event1(null, null)
+    const results = (await contract.queryFilter(filter)) as any
+
+    const results2 = results as Event1Event[]
+    results2.map((r) => {
+      typedAssert(r.args.value1, BigNumber.from(1))
+      typedAssert(r.args.value2, BigNumber.from(2))
+      typedAssert(r.args[0], BigNumber.from(1))
+      typedAssert(r.args[1], BigNumber.from(2))
+    })
+  })
+
+  it('queryFilter overloaded event', async () => {
+    await contract.emit_event3_overloaded()
+
+    {
+      const filterA = contract.filters['Event3(bool,uint256)']()
+      const results = await contract.queryFilter(filterA)
+      results.map((r) => {
+        typedAssert(r.args.value1, true)
+        typedAssert(r.args.value2, BigNumber.from(2))
+        typedAssert(r.args[0], true)
+        typedAssert(r.args[1], BigNumber.from(2))
+      })
+    }
+    {
+      const filterB = contract.filters['Event3(uint256)']()
+      const results = await contract.queryFilter(filterB)
+      results.map((r) => {
+        typedAssert(r.args.value1, BigNumber.from(1))
+        typedAssert(r.args[0], BigNumber.from(1))
+      })
+    }
   })
 })
