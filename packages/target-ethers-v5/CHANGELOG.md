@@ -1,5 +1,11 @@
 # @typechain/ethers-v5
 
+## 7.1.0
+
+### Minor Changes
+
+- e4edd2c: Export typed events
+
 ## 7.0.1
 
 ### Patch Changes
