@@ -33,6 +33,32 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC20__factory>;
 
+    getContractAt(
+      name: "EdgeCases",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.EdgeCases__factory>;
+    getContractAt(
+      name: "SafeMath",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SafeMath__factory>;
+    getContractAt(
+      name: "TestContract",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.TestContract__factory>;
+    getContractAt(
+      name: "TestContract1",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.TestContract1__factory>;
+    getContractAt(
+      name: "ERC20",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20__factory>;
+
     // default types
     getContractFactory(
       name: string,
@@ -43,5 +69,10 @@ declare module "hardhat/types/runtime" {
       bytecode: ethers.utils.BytesLike,
       signer?: ethers.Signer
     ): Promise<ethers.ContractFactory>;
+    getContractAt: (
+      nameOrAbi: string | any[],
+      address: string,
+      signer?: ethers.Signer
+    ) => Promise<ethers.Contract>;
   }
 }
