@@ -5,19 +5,19 @@ import {
   CodegenConfig,
   Contract,
   EventArgDeclaration,
-  EventDeclaration,
   FunctionDeclaration,
 } from 'typechain'
 
 import { FACTORY_POSTFIX } from '../common'
+import {
+  generateEventFilters,
+  generateEventTypeExports,
+  generateGetEventOverload,
+  generateInterfaceEventDescription,
+} from './events'
 import { codegenFunctions } from './functions'
 import { reservedKeywords } from './reserved-keywords'
-import {
-  generateInputType,
-  generateInputTypes,
-  generateOutputComplexTypeAsArray,
-  generateOutputComplexTypesAsObject,
-} from './types'
+import { generateInputType, generateInputTypes } from './types'
 
 export function codegenContractTypings(contract: Contract, codegenConfig: CodegenConfig) {
   const contractImports: string[] = ['BaseContract', 'ContractTransaction']
@@ -298,81 +298,6 @@ function generateDecodeFunctionResultOverload(fn: FunctionDeclaration): string {
 
 function generateParamNames(params: Array<AbiParameter | EventArgDeclaration>): string {
   return params.map((param, index) => param.name || `arg${index}`).join(', ')
-}
-
-function generateEventFilters(events: EventDeclaration[]) {
-  if (events.length === 1) {
-    return generateEventFilter(events[0], true)
-  } else {
-    return events.map((e) => generateEventFilter(e, false)).join('\n')
-  }
-}
-
-function generateEventFilter(event: EventDeclaration, includeNameFilter: boolean) {
-  const components = event.inputs.map((input, i) => ({ name: input.name ?? `arg${i.toString()}`, type: input.type }))
-  const arrayOutput = generateOutputComplexTypeAsArray(components)
-  const objectOutput = generateOutputComplexTypesAsObject(components) || '{}'
-
-  let filter = `
-  '${generateEventSignature(event)}'(${generateEventTypes(
-    event.inputs,
-  )}): TypedEventFilter<${arrayOutput}, ${objectOutput}>;
-  `
-
-  if (includeNameFilter) {
-    filter += `
-    ${event.name}(${generateEventTypes(event.inputs)}): TypedEventFilter<${arrayOutput}, ${objectOutput}>;
-    `
-  }
-  return filter
-}
-
-function generateEventTypeExports(events: EventDeclaration[]) {
-  if (events.length === 1) {
-    return generateEventTypeExport(events[0], false)
-  } else {
-    return events.map((e) => generateEventTypeExport(e, true)).join('\n')
-  }
-}
-function generateEventTypeExport(event: EventDeclaration, includeArgTypes: boolean) {
-  const components = event.inputs.map((input, i) => ({ name: input.name ?? `arg${i.toString()}`, type: input.type }))
-  const arrayOutput = generateOutputComplexTypeAsArray(components)
-  const objectOutput = generateOutputComplexTypesAsObject(components) || '{}'
-
-  return `
-export type ${event.name}${
-    includeArgTypes ? event.inputs.map((input) => '_' + input.type.originalType).join('') + '_Event' : 'Event'
-  } = TypedEvent<${arrayOutput} & ${objectOutput}>;
-`
-}
-
-function generateInterfaceEventDescription(event: EventDeclaration): string {
-  return `'${generateEventSignature(event)}': EventFragment;`
-}
-
-function generateEventSignature(event: EventDeclaration): string {
-  return `${event.name}(${event.inputs.map((input: any) => input.type.originalType).join(',')})`
-}
-
-function generateEventTypes(eventArgs: EventArgDeclaration[]) {
-  if (eventArgs.length === 0) {
-    return ''
-  }
-  return (
-    eventArgs
-      .map((arg) => {
-        return `${arg.name}?: ${generateEventArgType(arg)}`
-      })
-      .join(', ') + ', '
-  )
-}
-
-function generateEventArgType(eventArg: EventArgDeclaration): string {
-  return eventArg.isIndexed ? `${generateInputType(eventArg.type)} | null` : 'null'
-}
-
-function generateGetEventOverload(event: EventDeclaration): string {
-  return `getEvent(nameOrSignatureOrTopic: '${event.name}'): EventFragment;`
 }
 
 function pushImportIfUsed(importName: string, generatedCode: string, importArray: string[]): void {
