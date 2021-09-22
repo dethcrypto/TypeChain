@@ -39,7 +39,7 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
   import { BytesLike } from '@ethersproject/bytes';
   import { Listener, Provider } from '@ethersproject/providers';
   import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
-  import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
+  import type { TypedEventFilter, TypedEvent, TypedListener } from './common';
 
   interface ${contract.name}Interface extends ethers.utils.Interface {
     functions: {
