@@ -1,5 +1,7 @@
 import {
+  AbiParameter,
   CodegenConfig,
+  EventArgDeclaration,
   FunctionDeclaration,
   FunctionDocumentation,
   getSignatureForFn,
@@ -7,7 +9,7 @@ import {
   isConstantFn,
 } from 'typechain'
 
-import { generateInputTypes, generateOutputTypes } from './types'
+import { generateInputType, generateInputTypes, generateOutputTypes } from './types'
 
 interface GenerateFunctionOptions {
   returnResultObject?: boolean
@@ -77,4 +79,32 @@ function generateFunctionDocumentation(doc?: FunctionDocumentation): string {
   docString += '\n */'
 
   return docString
+}
+
+export function generateInterfaceFunctionDescription(fn: FunctionDeclaration): string {
+  return `'${generateFunctionSignature(fn)}': FunctionFragment;`
+}
+
+export function generateFunctionSignature(fn: FunctionDeclaration): string {
+  return `${fn.name}(${fn.inputs.map((input: any) => input.type.originalType).join(',')})`
+}
+
+export function generateEncodeFunctionDataOverload(fn: FunctionDeclaration): string {
+  const methodInputs = [`functionFragment: '${fn.name}'`]
+
+  if (fn.inputs.length) {
+    methodInputs.push(`values: [${fn.inputs.map((input) => generateInputType(input.type)).join(', ')}]`)
+  } else {
+    methodInputs.push('values?: undefined')
+  }
+
+  return `encodeFunctionData(${methodInputs.join(', ')}): string;`
+}
+
+export function generateDecodeFunctionResultOverload(fn: FunctionDeclaration): string {
+  return `decodeFunctionResult(functionFragment: '${fn.name}', data: BytesLike): Result;`
+}
+
+export function generateParamNames(params: Array<AbiParameter | EventArgDeclaration>): string {
+  return params.map((param, index) => param.name || `arg${index}`).join(', ')
 }

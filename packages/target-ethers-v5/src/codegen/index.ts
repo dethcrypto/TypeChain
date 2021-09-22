@@ -1,12 +1,5 @@
 import { values } from 'lodash'
-import {
-  AbiParameter,
-  BytecodeWithLinkReferences,
-  CodegenConfig,
-  Contract,
-  EventArgDeclaration,
-  FunctionDeclaration,
-} from 'typechain'
+import { BytecodeWithLinkReferences, CodegenConfig, Contract } from 'typechain'
 
 import { FACTORY_POSTFIX } from '../common'
 import {
@@ -15,9 +8,15 @@ import {
   generateGetEventOverload,
   generateInterfaceEventDescription,
 } from './events'
-import { codegenFunctions } from './functions'
+import {
+  codegenFunctions,
+  generateDecodeFunctionResultOverload,
+  generateEncodeFunctionDataOverload,
+  generateInterfaceFunctionDescription,
+  generateParamNames,
+} from './functions'
 import { reservedKeywords } from './reserved-keywords'
-import { generateInputType, generateInputTypes } from './types'
+import { generateInputTypes } from './types'
 
 export function codegenContractTypings(contract: Contract, codegenConfig: CodegenConfig) {
   const contractImports: string[] = ['BaseContract', 'ContractTransaction']
@@ -270,34 +269,6 @@ function generateLibraryAddressesInterface(contract: Contract, bytecode: Bytecod
   export interface ${contract.name}LibraryAddresses {
     ${linkLibrariesKeys.join('\n')}
   };`
-}
-
-function generateInterfaceFunctionDescription(fn: FunctionDeclaration): string {
-  return `'${generateFunctionSignature(fn)}': FunctionFragment;`
-}
-
-function generateFunctionSignature(fn: FunctionDeclaration): string {
-  return `${fn.name}(${fn.inputs.map((input: any) => input.type.originalType).join(',')})`
-}
-
-function generateEncodeFunctionDataOverload(fn: FunctionDeclaration): string {
-  const methodInputs = [`functionFragment: '${fn.name}'`]
-
-  if (fn.inputs.length) {
-    methodInputs.push(`values: [${fn.inputs.map((input) => generateInputType(input.type)).join(', ')}]`)
-  } else {
-    methodInputs.push('values?: undefined')
-  }
-
-  return `encodeFunctionData(${methodInputs.join(', ')}): string;`
-}
-
-function generateDecodeFunctionResultOverload(fn: FunctionDeclaration): string {
-  return `decodeFunctionResult(functionFragment: '${fn.name}', data: BytesLike): Result;`
-}
-
-function generateParamNames(params: Array<AbiParameter | EventArgDeclaration>): string {
-  return params.map((param, index) => param.name || `arg${index}`).join(', ')
 }
 
 function pushImportIfUsed(importName: string, generatedCode: string, importArray: string[]): void {
