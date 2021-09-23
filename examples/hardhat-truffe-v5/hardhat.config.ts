@@ -8,7 +8,7 @@ const config: HardhatUserConfig = {
     compilers: [{ version: '0.6.8', settings: {} }],
   },
   typechain: {
-    target: "truffle-v5",
+    target: 'truffle-v5',
   },
 }
 

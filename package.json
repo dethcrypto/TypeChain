@@ -12,8 +12,8 @@
   },
   "scripts": {
     "postinstall": "yarn build",
-    "format": "wsrun -c format",
-    "format:fix": "wsrun -c format:fix",
+    "format": "prettier --check \"./**/*.ts\" README.md",
+    "format:fix": "prettier --write \"./**/*.ts\" README.md",
     "lint": "wsrun -c lint",
     "lint:fix": "wsrun -c lint:fix",
     "typecheck": "wsrun -c typecheck",
