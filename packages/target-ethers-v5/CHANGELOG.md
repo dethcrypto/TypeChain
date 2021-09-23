@@ -1,5 +1,11 @@
 # @typechain/ethers-v5
 
+## 7.1.1
+
+### Patch Changes
+
+- 7f57ff8: Support typings for `getContractAt` when using Hardhat
+
 ## 7.1.0
 
 ### Minor Changes
