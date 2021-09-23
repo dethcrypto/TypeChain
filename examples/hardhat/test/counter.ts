@@ -16,10 +16,10 @@ describe("Counter", () => {
     const signers = await ethers.getSigners();
 
     // 2
-    const counterFactory = (await ethers.getContractFactory(
+    const counterFactory = await ethers.getContractFactory(
       "Counter",
       signers[0]
-    )) as Counter__factory;
+    );
     counter = await counterFactory.deploy();
     await counter.deployed();
     const initialCount = await counter.getCount();

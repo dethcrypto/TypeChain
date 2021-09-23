@@ -591,6 +591,14 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
+"@typechain/ethers-v5@7.1.1":
+  version "7.1.1"
+  resolved "https://registry.yarnpkg.com/@typechain/ethers-v5/-/ethers-v5-7.1.1.tgz#705cc6c51a4bffe3d671274dfe1bc626ad17bc46"
+  integrity sha512-C9AD1lPh1h0YxAueYBOkWw9y+mpJnPoEnty7SpMBleWoQgT+6pUED/scKQ554NCJtneER/ZKS5SiMkPpGBLoVA==
+  dependencies:
+    lodash "^4.17.15"
+    ts-essentials "^7.0.1"
+
 "@typechain/ethers-v5@^2.0.0":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@typechain/ethers-v5/-/ethers-v5-2.0.0.tgz#cd3ca1590240d587ca301f4c029b67bfccd08810"
@@ -598,15 +606,12 @@
   dependencies:
     ethers "^5.0.2"
 
-"@typechain/ethers-v5@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@typechain/ethers-v5/-/ethers-v5-5.0.0.tgz#6c91766b76c19886cf2c4833ded09611e117f92c"
-  integrity sha512-SnLnq6BCq2NBgm5xsQP8kRIawJ7gppLux8EOMb2ceoB5EuoW87AOyi6r1J5LTYe65/J59HjOVtaGCqsO+38Xrw==
-
-"@typechain/hardhat@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@typechain/hardhat/-/hardhat-0.0.1.tgz#cbd3564638c3b0abef5eeb492279e0ad7d1690fd"
-  integrity sha512-2prtQ8PCFzC1oOaUtEKSvk2ToU9a7bO9HltujlkJpak+MS9yidwvACOMbdGGtKUqCyKVZsjS62f7NlVgSBybCA==
+"@typechain/hardhat@2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@typechain/hardhat/-/hardhat-2.3.0.tgz#dc7f29281637b38b77c7c046ae82700703395d0f"
+  integrity sha512-zERrtNol86L4DX60ktnXxP7Cq8rSZHPaQvsChyiQQVuvVs2FTLm24Yi+MYnfsIdbUBIXZG7SxDWhtCF5I0tJNQ==
+  dependencies:
+    fs-extra "^9.1.0"
 
 "@types/bn.js@*", "@types/bn.js@^5.1.0":
   version "5.1.0"
@@ -978,6 +983,11 @@ asynckit@^0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
   integrity sha1-x57Zf380y48robyXkLzDZkdLS3k=
+
+at-least-node@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/at-least-node/-/at-least-node-1.0.0.tgz#602cd4b46e844ad4effc92a8011a3c46e0238dc2"
+  integrity sha512-+q/t7Ekv1EDY2l6Gda6LLiX14rU9TV20Wa3ofeQmwPFZbOMo9DXrLbOjFaaclkXKWidIaopwAObQDqwWtGUjqg==
 
 atob@^2.1.2:
   version "2.1.2"
@@ -3390,6 +3400,16 @@ fs-extra@^7.0.0, fs-extra@^7.0.1:
     jsonfile "^4.0.0"
     universalify "^0.1.0"
 
+fs-extra@^9.1.0:
+  version "9.1.0"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-9.1.0.tgz#5954460c764a8da2094ba3554bf839e6b9a7c86d"
+  integrity sha512-hcg3ZmepS30/7BSFqRvoo3DOMQu7IjqxO5nCDt+zM9XWjb33Wg7ziNT+Qvqbuc3+gWpzO02JubVyk2G4Zvo1OQ==
+  dependencies:
+    at-least-node "^1.0.0"
+    graceful-fs "^4.2.0"
+    jsonfile "^6.0.1"
+    universalify "^2.0.0"
+
 fs-minipass@^1.2.5:
   version "1.2.7"
   resolved "https://registry.yarnpkg.com/fs-minipass/-/fs-minipass-1.2.7.tgz#ccff8570841e7fe4265693da88936c55aed7f7c7"
@@ -3599,6 +3619,11 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.1.9:
   version "4.2.6"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.6.tgz#ff040b2b0853b23c3d31027523706f1885d76bee"
   integrity sha512-nTnJ528pbqxYanhpDYsi4Rd8MAeaBA67+RZ10CM1m3bTAVFEDcd5AuA4a6W5YkGZ1iNXHzZz8T6TBKLeBuNriQ==
+
+graceful-fs@^4.2.0:
+  version "4.2.8"
+  resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.8.tgz#e412b8d33f5e006593cbd3cee6df9f2cebbe802a"
+  integrity sha512-qkIilPUYcNhJpd33n0GBXTB1MMPp14TxEsEs0pTrsSVucApsYzW5V+Q8Qxhik6KU3evy+qkAAowTByymK0avdg==
 
 growl@1.10.5:
   version "1.10.5"
@@ -4355,6 +4380,15 @@ jsonfile@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/jsonfile/-/jsonfile-4.0.0.tgz#8771aae0799b64076b76640fca058f9c10e33ecb"
   integrity sha1-h3Gq4HmbZAdrdmQPygWPnBDjPss=
+  optionalDependencies:
+    graceful-fs "^4.1.6"
+
+jsonfile@^6.0.1:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/jsonfile/-/jsonfile-6.1.0.tgz#bc55b2634793c679ec6403094eb13698a6ec0aae"
+  integrity sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==
+  dependencies:
+    universalify "^2.0.0"
   optionalDependencies:
     graceful-fs "^4.1.6"
 
@@ -6854,6 +6888,11 @@ universalify@^0.1.0:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/universalify/-/universalify-0.1.2.tgz#b646f69be3942dabcecc9d6639c80dc105efaa66"
   integrity sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==
+
+universalify@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/universalify/-/universalify-2.0.0.tgz#75a4984efedc4b08975c5aeb73f530d02df25717"
+  integrity sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ==
 
 unorm@^1.3.3:
   version "1.6.0"
