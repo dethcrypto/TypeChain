@@ -1,3 +1,4 @@
+import { readFileSync } from 'fs'
 import { compact, uniqBy } from 'lodash'
 import { basename, join, resolve } from 'path'
 import { Dictionary } from 'ts-essentials'
@@ -139,8 +140,8 @@ export default class Ethers extends TypeChainTarget {
     const allFiles = compact([
       ...abstractFactoryFiles,
       {
-        path: join(this.outDirAbs, 'commons.ts'),
-        contents: this.genCommons(),
+        path: join(this.outDirAbs, 'common.d.ts'),
+        contents: readFileSync(join(__dirname, '../static/common.d.ts'), 'utf-8'),
       },
       {
         path: join(this.outDirAbs, 'index.ts'),
@@ -149,28 +150,6 @@ export default class Ethers extends TypeChainTarget {
       hardhatHelper,
     ])
     return allFiles
-  }
-
-  private genCommons(): string {
-    return `
-import { EventFilter, Event } from 'ethers'
-import { Result } from '@ethersproject/abi'
-
-export interface TypedEventFilter<_EventArgsArray, _EventArgsObject> extends EventFilter {}
-
-export interface TypedEvent<EventArgs extends Result> extends Event {
-  args: EventArgs;
-}
-
-export type TypedListener<EventArgsArray extends Array<any>, EventArgsObject> = (...listenerArg: [...EventArgsArray, TypedEvent<EventArgsArray & EventArgsObject>]) => void;
-
-export type MinEthersFactory<C, ARGS> = {
-  deploy(...a: ARGS[]): Promise<C>
-}
-export type GetContractTypeFromFactory<F> = F extends MinEthersFactory<infer C, any> ? C : never
-export type GetARGsTypeFromFactory<F> = F extends MinEthersFactory<any, any> ? Parameters<F['deploy']> : never
-
-    `
   }
 
   private genReExports(): string {
