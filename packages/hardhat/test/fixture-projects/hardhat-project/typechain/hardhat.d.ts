@@ -69,10 +69,10 @@ declare module "hardhat/types/runtime" {
       bytecode: ethers.utils.BytesLike,
       signer?: ethers.Signer
     ): Promise<ethers.ContractFactory>;
-    getContractAt: (
+    getContractAt(
       nameOrAbi: string | any[],
       address: string,
       signer?: ethers.Signer
-    ) => Promise<ethers.Contract>;
+    ): Promise<ethers.Contract>;
   }
 }
