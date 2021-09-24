@@ -20,12 +20,7 @@ declare module "hardhat/types/runtime" {
     .join('\n')}
 
   ${contracts
-    .map(
-      (n) =>
-        `getContractAt(name: '${n}', address: string, signer?: ethers.Signer): Promise<Contracts.${
-          n + FACTORY_POSTFIX
-        }>`,
-    )
+    .map((n) => `getContractAt(name: '${n}', address: string, signer?: ethers.Signer): Promise<Contracts.${n}>`)
     .join('\n')}
 
     // default types
