@@ -20,12 +20,7 @@ declare module "hardhat/types/runtime" {
     .join('\n')}
 
   ${contracts
-    .map(
-      (n) =>
-        `getContractAt(name: '${n}', address: string, signer?: ethers.Signer): Promise<Contracts.${
-          n + FACTORY_POSTFIX
-        }>`,
-    )
+    .map((n) => `getContractAt(name: '${n}', address: string, signer?: ethers.Signer): Promise<Contracts.${n}>`)
     .join('\n')}
 
     // default types
@@ -38,11 +33,11 @@ declare module "hardhat/types/runtime" {
       bytecode: ethers.utils.BytesLike,
       signer?: ethers.Signer
     ): Promise<ethers.ContractFactory>;
-    getContractAt: (
+    getContractAt(
       nameOrAbi: string | any[],
       address: string,
       signer?: ethers.Signer
-    ) => Promise<ethers.Contract>;
+    ): Promise<ethers.Contract>;
   }
 }
   `

@@ -37,27 +37,27 @@ declare module "hardhat/types/runtime" {
       name: "EdgeCases",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.EdgeCases__factory>;
+    ): Promise<Contracts.EdgeCases>;
     getContractAt(
       name: "SafeMath",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.SafeMath__factory>;
+    ): Promise<Contracts.SafeMath>;
     getContractAt(
       name: "TestContract",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.TestContract__factory>;
+    ): Promise<Contracts.TestContract>;
     getContractAt(
       name: "TestContract1",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.TestContract1__factory>;
+    ): Promise<Contracts.TestContract1>;
     getContractAt(
       name: "ERC20",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.ERC20__factory>;
+    ): Promise<Contracts.ERC20>;
 
     // default types
     getContractFactory(
@@ -69,10 +69,10 @@ declare module "hardhat/types/runtime" {
       bytecode: ethers.utils.BytesLike,
       signer?: ethers.Signer
     ): Promise<ethers.ContractFactory>;
-    getContractAt: (
+    getContractAt(
       nameOrAbi: string | any[],
       address: string,
       signer?: ethers.Signer
-    ) => Promise<ethers.Contract>;
+    ): Promise<ethers.Contract>;
   }
 }
