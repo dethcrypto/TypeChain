@@ -23,3 +23,5 @@ examples/hardhat-truffe-v5/artifacts
 examples/hardhat-truffe-v5/cache
 examples/hardhat-truffe-v5/typechain
 packages/hardhat/test/fixture-projects/hardhat-project/contracts/TestContract2.sol
+packages/hardhat-test/cache
+packages/hardhat-test/artifacts
