@@ -21,7 +21,7 @@ declare module "hardhat/types/runtime" {
       name: "Counter",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.Counter__factory>;
+    ): Promise<Contracts.Counter>;
 
     // default types
     getContractFactory(
@@ -33,10 +33,10 @@ declare module "hardhat/types/runtime" {
       bytecode: ethers.utils.BytesLike,
       signer?: ethers.Signer
     ): Promise<ethers.ContractFactory>;
-    getContractAt: (
+    getContractAt(
       nameOrAbi: string | any[],
       address: string,
       signer?: ethers.Signer
-    ) => Promise<ethers.Contract>;
+    ): Promise<ethers.Contract>;
   }
 }
