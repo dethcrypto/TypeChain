@@ -18,7 +18,7 @@ async function main() {
   dai.interface.events.Transfer
 }
 
-main().catch(e => {
+main().catch((e) => {
   console.error(e)
   process.exit(1)
 })

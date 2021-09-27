@@ -10,11 +10,10 @@
     "typecheck": "yarn compile && yarn test && yarn tsc --noEmit"
   },
   "devDependencies": {
-    "@nomiclabs/hardhat-ethers": "^2.0.1",
-    "@nomiclabs/hardhat-etherscan": "^2.1.1",
+    "@nomiclabs/hardhat-ethers": "^2.0.2",
     "@nomiclabs/hardhat-waffle": "^2.0.1",
-    "@typechain/ethers-v5": "^5.0.0",
-    "@typechain/hardhat": "^0.0.1",
+    "@typechain/ethers-v5": "=7.1.2",
+    "@typechain/hardhat": "2.3.0",
     "@types/chai": "^4.2.15",
     "@types/chai-as-promised": "^7.1.3",
     "@types/mocha": "^8.2.0",
@@ -23,12 +22,17 @@
     "chai-as-promised": "^7.1.1",
     "dotenv": "^8.2.0",
     "ethereum-waffle": "^3.2.2",
-    "ethers": "^5.0.31",
+    "ethers": "5.4.0",
     "hardhat": "^2.0.10",
-    "ts-generator": "^0.1.1",
     "ts-node": "^9.1.1",
-    "typechain": "^4.0.1",
+    "typechain": "5.1.2",
     "typescript": "^4.1.5"
+  },
+  "resolutions": {
+    "ethers": "5.4.0",
+    "@ethersproject/providers": "5.4.0",
+    "@ethersproject/contracts": "5.4.0",
+    "@ethersproject/abi": "5.4.0"
   },
   "dependencies": {}
 }

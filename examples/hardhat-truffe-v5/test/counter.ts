@@ -24,7 +24,7 @@ contract('Counter', (accounts: string[]) => {
     expect(initialCount.eq(new BN(0)))
 
     // 1 with given address
-    counter = await Counter.at(counter.address);
+    counter = await Counter.at(counter.address)
   })
 
   // 4
