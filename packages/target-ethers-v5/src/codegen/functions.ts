@@ -82,7 +82,7 @@ function generateFunctionDocumentation(doc?: FunctionDocumentation): string {
 }
 
 export function generateInterfaceFunctionDescription(fn: FunctionDeclaration): string {
-  return `'${generateFunctionSignature(fn)}': FunctionFragment;`
+  return `'${getSignatureForFn(fn)}': FunctionFragment;`
 }
 
 export function generateFunctionSignature(fn: FunctionDeclaration): string {
