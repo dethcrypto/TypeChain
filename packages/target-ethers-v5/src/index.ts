@@ -109,7 +109,7 @@ export default class Ethers extends TypeChainTarget {
 
   genContractTypingsFile(contract: Contract, codegenConfig: CodegenConfig): FileDescription {
     return {
-      path: join(this.outDirAbs, `${contract.name}.d.ts`),
+      path: join(this.outDirAbs, `${contract.name}.ts`),
       contents: codegenContractTypings(contract, codegenConfig),
     }
   }
