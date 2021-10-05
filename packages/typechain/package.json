@@ -57,5 +57,8 @@
     "bluebird": "^3.5.1",
     "coveralls": "^3.0.2",
     "glob": "^7.1.2"
+  },
+  "peerDependencies": {
+    "typescript": ">=4.1.0"
   }
 }
