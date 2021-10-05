@@ -11,8 +11,7 @@ jobs:
     strategy:
       matrix:
         node: ['12.x']
-        os: [ubuntu-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v1
@@ -37,9 +36,11 @@ jobs:
 
   test:
     strategy:
+      # When set to true, GitHub cancels all in-progress jobs if any matrix job fails.
+      fail-fast: false
       matrix:
         node: ['12.x']
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -67,9 +68,11 @@ jobs:
 
   test-examples:
     strategy:
+      # When set to true, GitHub cancels all in-progress jobs if any matrix job fails.
+      fail-fast: false
       matrix:
         node: ['12.x']
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
 
     steps:
