@@ -25,11 +25,9 @@ import type {
   OnEvent,
 } from "./common";
 
-export type KingOfTheHillBid__struct =
-  | [string, BigNumber]
-  | { bidder: string; value: BigNumber };
+export type BidStruct = { bidder: string; value: BigNumberish };
 
-type KingOfTheHillBid__struct_output = [string, BigNumber] & {
+export type BidStructOutput = [string, BigNumber] & {
   bidder: string;
   value: BigNumber;
 };
@@ -60,8 +58,8 @@ export interface KingOfTheHillInterface extends ethers.utils.Interface {
 }
 
 export type HighestBidIncreasedEvent = TypedEvent<
-  [KingOfTheHillBid__struct_output],
-  { bid: KingOfTheHillBid__struct_output }
+  [BidStructOutput],
+  { bid: BidStructOutput }
 >;
 
 export interface KingOfTheHill extends BaseContract {

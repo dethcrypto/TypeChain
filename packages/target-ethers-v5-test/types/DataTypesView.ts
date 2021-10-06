@@ -23,12 +23,12 @@ import type {
   OnEvent,
 } from "./common";
 
-export type DataTypesViewStruct1__struct = {
+export type Struct1Struct = {
   uint256_0: BigNumberish;
   uint256_1: BigNumberish;
 };
 
-export type DataTypesViewStruct1__struct_output = [BigNumber, BigNumber] & {
+export type Struct1StructOutput = [BigNumber, BigNumber] & {
   uint256_0: BigNumber;
   uint256_1: BigNumber;
 };
@@ -191,9 +191,7 @@ export interface DataTypesView extends BaseContract {
 
     view_string(overrides?: CallOverrides): Promise<[string]>;
 
-    view_struct(
-      overrides?: CallOverrides
-    ): Promise<[DataTypesViewStruct1__struct_output]>;
+    view_struct(overrides?: CallOverrides): Promise<[Struct1StructOutput]>;
 
     view_tuple(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
@@ -226,9 +224,7 @@ export interface DataTypesView extends BaseContract {
 
   view_string(overrides?: CallOverrides): Promise<string>;
 
-  view_struct(
-    overrides?: CallOverrides
-  ): Promise<DataTypesViewStruct1__struct_output>;
+  view_struct(overrides?: CallOverrides): Promise<Struct1StructOutput>;
 
   view_tuple(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
@@ -263,9 +259,7 @@ export interface DataTypesView extends BaseContract {
 
     view_string(overrides?: CallOverrides): Promise<string>;
 
-    view_struct(
-      overrides?: CallOverrides
-    ): Promise<DataTypesViewStruct1__struct_output>;
+    view_struct(overrides?: CallOverrides): Promise<Struct1StructOutput>;
 
     view_tuple(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 

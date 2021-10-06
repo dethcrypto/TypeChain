@@ -99,7 +99,7 @@ describe('parseEvmType function', () => {
         { name: 'callData', type: { type: 'dynamic-bytes', originalType: 'bytes' } },
       ],
       originalType: 'tuple',
-      structName: 'MulticallCall',
+      structName: 'Call',
     })
   })
 
@@ -123,7 +123,7 @@ describe('parseEvmType function', () => {
         originalType: 'tuple',
       },
       originalType: 'tuple[]',
-      structName: 'MulticallCall',
+      structName: 'Call',
     })
   })
 

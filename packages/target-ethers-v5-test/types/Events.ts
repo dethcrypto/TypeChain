@@ -24,9 +24,9 @@ import type {
   OnEvent,
 } from "./common";
 
-export type EventsEventData__struct = { index: BigNumberish; name: string };
+export type EventDataStruct = { index: BigNumberish; name: string };
 
-export type EventsEventData__struct_output = [BigNumber, string] & {
+export type EventDataStructOutput = [BigNumber, string] & {
   index: BigNumber;
   name: string;
 };
@@ -125,8 +125,8 @@ export type Event3_uint256_Event = TypedEvent<
 >;
 
 export type Event4Event = TypedEvent<
-  [EventsEventData__struct_output],
-  { data: EventsEventData__struct_output }
+  [EventDataStructOutput],
+  { data: EventDataStructOutput }
 >;
 
 export type NoArgsEventEvent = TypedEvent<[], {}>;

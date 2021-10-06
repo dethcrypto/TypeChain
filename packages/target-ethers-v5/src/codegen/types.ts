@@ -1,7 +1,7 @@
 import { compact } from 'lodash'
 import { AbiOutputParameter, AbiParameter, EvmOutputType, EvmType, TupleType } from 'typechain'
 
-import { getStructNameForInput, getStructNameForOutput } from './structs'
+import { STRUCT_INPUT_POSTFIX, STRUCT_OUTPUT_POSTFIX } from '../common'
 
 interface GenerateTypeOptions {
   returnResultObject?: boolean
@@ -46,9 +46,8 @@ export function generateInputType(options: GenerateTypeOptions, evmType: EvmType
           .join(', ')}]`
       } else {
         if (options.useStructs) {
-          const structName = getStructNameForInput(evmType.structName)
-          if (structName) {
-            return structName + '[]'
+          if (evmType.structName) {
+            return evmType.structName + STRUCT_INPUT_POSTFIX + '[]'
           }
         }
         return `(${generateInputType({ ...options, useStructs: true }, evmType.itemType)})[]`
@@ -59,9 +58,8 @@ export function generateInputType(options: GenerateTypeOptions, evmType: EvmType
       return 'string'
     case 'tuple':
       if (options.useStructs) {
-        const structName = getStructNameForInput(evmType.structName)
-        if (structName) {
-          return structName
+        if (evmType.structName) {
+          return evmType.structName + STRUCT_INPUT_POSTFIX
         }
       }
       return generateTupleType(evmType, generateInputType.bind(null, { ...options, useStructs: true }))
@@ -89,9 +87,8 @@ export function generateOutputType(options: GenerateTypeOptions, evmType: EvmOut
           .join(', ')}]`
       } else {
         if (options.useStructs) {
-          const structName = getStructNameForOutput(evmType.structName)
-          if (structName) {
-            return structName + '[]'
+          if (evmType.structName) {
+            return evmType.structName + STRUCT_OUTPUT_POSTFIX + '[]'
           }
         }
         return `(${generateOutputType({ ...options, useStructs: true }, evmType.itemType)})[]`
@@ -102,9 +99,8 @@ export function generateOutputType(options: GenerateTypeOptions, evmType: EvmOut
       return 'string'
     case 'tuple':
       if (options.useStructs) {
-        const structName = getStructNameForOutput(evmType.structName)
-        if (structName) {
-          return structName
+        if (evmType.structName) {
+          return evmType.structName + STRUCT_OUTPUT_POSTFIX
         }
       }
       return generateOutputComplexType(evmType.components, { ...options, useStructs: true })

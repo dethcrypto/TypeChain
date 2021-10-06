@@ -6,12 +6,11 @@ import { AssertTrue, IsExact, q18, typedAssert } from 'test-utils'
 
 import {
   DataTypesInput,
-  DataTypesInputStruct1__struct,
-  DataTypesInputStruct1__struct_output,
-  DataTypesInputStruct2__struct,
-  DataTypesInputStruct2__struct_output,
+  Struct1Struct,
+  Struct1StructOutput,
+  Struct2Struct,
+  Struct2StructOutput,
 } from '../types/DataTypesInput'
-import { DataTypesPureStruct1__struct } from '../types/DataTypesPure'
 import { createNewBlockchain, deployContract } from './common'
 
 describe('DataTypesInput', () => {
@@ -104,14 +103,14 @@ describe('DataTypesInput', () => {
 
   it('generates correct types for input structs', () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    type _t1 = AssertTrue<IsExact<DataTypesInputStruct1__struct, { uint256_0: BigNumberish; uint256_1: BigNumberish }>>
+    type _t1 = AssertTrue<IsExact<Struct1Struct, { uint256_0: BigNumberish; uint256_1: BigNumberish }>>
   })
 
   it('generates correct types for output structs', () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     type _t1 = AssertTrue<
       IsExact<
-        DataTypesInputStruct1__struct_output,
+        Struct1StructOutput,
         [BigNumber, BigNumber] & {
           uint256_0: BigNumber
           uint256_1: BigNumber
@@ -123,10 +122,7 @@ describe('DataTypesInput', () => {
   it('generates correct types for input complex structs', () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     type _t1 = AssertTrue<
-      IsExact<
-        DataTypesInputStruct2__struct,
-        { input1: BigNumberish; input2: { uint256_0: BigNumberish; uint256_1: BigNumberish } }
-      >
+      IsExact<Struct2Struct, { input1: BigNumberish; input2: { uint256_0: BigNumberish; uint256_1: BigNumberish } }>
     >
   })
 
@@ -134,7 +130,7 @@ describe('DataTypesInput', () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     type _t1 = AssertTrue<
       IsExact<
-        DataTypesInputStruct2__struct_output,
+        Struct2StructOutput,
         [
           BigNumber,
           [BigNumber, BigNumber] & {
@@ -160,47 +156,47 @@ describe('DataTypesInput', () => {
     type ViewStructType = Parameters<typeof contract.input_struct>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     type _t1 = AssertTrue<
-      IsExact<ViewStructType, [input1: DataTypesInputStruct1__struct, overrides?: ethers.CallOverrides | undefined]>
+      IsExact<ViewStructType, [input1: Struct1Struct, overrides?: ethers.CallOverrides | undefined]>
     >
   })
 
   it('generates correct return types for function structs', () => {
     type ViewStructType = Awaited<ReturnType<typeof contract.input_struct>>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    type _t1 = AssertTrue<IsExact<ViewStructType, DataTypesInputStruct1__struct_output>>
+    type _t1 = AssertTrue<IsExact<ViewStructType, Struct1StructOutput>>
   })
 
   it('generates correct parameter types for complex function structs', () => {
     type ViewStructType = Parameters<typeof contract.input_struct2>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     type _t1 = AssertTrue<
-      IsExact<ViewStructType, [input1: DataTypesInputStruct2__struct, overrides?: ethers.CallOverrides | undefined]>
+      IsExact<ViewStructType, [input1: Struct2Struct, overrides?: ethers.CallOverrides | undefined]>
     >
   })
 
   it('generates correct return types for complex function structs', () => {
     type ViewStructType = Awaited<ReturnType<typeof contract.input_struct2>>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    type _t1 = AssertTrue<IsExact<ViewStructType, DataTypesInputStruct2__struct_output>>
+    type _t1 = AssertTrue<IsExact<ViewStructType, Struct2StructOutput>>
   })
 
   it('generates correct parameter types for complex struct array', () => {
     type ViewStructType = Parameters<typeof contract.input_struct2_array>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     type _t1 = AssertTrue<
-      IsExact<ViewStructType, [input1: DataTypesInputStruct2__struct[], overrides?: ethers.CallOverrides | undefined]>
+      IsExact<ViewStructType, [input1: Struct2Struct[], overrides?: ethers.CallOverrides | undefined]>
     >
   })
 
   it('generates correct return types for complex struct array', () => {
     type ViewStructType = Awaited<ReturnType<typeof contract.input_struct2_array>>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    type _t1 = AssertTrue<IsExact<ViewStructType, DataTypesInputStruct2__struct_output[]>>
+    type _t1 = AssertTrue<IsExact<ViewStructType, Struct2StructOutput[]>>
   })
 
   it('output structs are compatible with input structs', async () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const _result: DataTypesPureStruct1__struct = await contract.input_struct({
+    const _result: Struct1Struct = await contract.input_struct({
       uint256_0: 1,
       uint256_1: 2,
     })
