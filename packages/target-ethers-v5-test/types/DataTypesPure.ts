@@ -23,6 +23,15 @@ import type {
   OnEvent,
 } from "./common";
 
+export type DataTypesPureStruct1__struct =
+  | [BigNumber, BigNumber]
+  | { uint256_0: BigNumber; uint256_1: BigNumber };
+
+type DataTypesPureStruct1__struct_output = [BigNumber, BigNumber] & {
+  uint256_0: BigNumber;
+  uint256_1: BigNumber;
+};
+
 export interface DataTypesPureInterface extends ethers.utils.Interface {
   functions: {
     "pure_address()": FunctionFragment;
@@ -183,9 +192,7 @@ export interface DataTypesPure extends BaseContract {
 
     pure_struct(
       overrides?: CallOverrides
-    ): Promise<
-      [[BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }]
-    >;
+    ): Promise<[DataTypesPureStruct1__struct_output]>;
 
     pure_tuple(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
@@ -220,9 +227,7 @@ export interface DataTypesPure extends BaseContract {
 
   pure_struct(
     overrides?: CallOverrides
-  ): Promise<
-    [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
-  >;
+  ): Promise<DataTypesPureStruct1__struct_output>;
 
   pure_tuple(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
@@ -259,9 +264,7 @@ export interface DataTypesPure extends BaseContract {
 
     pure_struct(
       overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
-    >;
+    ): Promise<DataTypesPureStruct1__struct_output>;
 
     pure_tuple(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 

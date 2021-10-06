@@ -24,6 +24,15 @@ import type {
   OnEvent,
 } from "./common";
 
+export type EventsEventData__struct =
+  | [BigNumber, string]
+  | { index: BigNumber; name: string };
+
+type EventsEventData__struct_output = [BigNumber, string] & {
+  index: BigNumber;
+  name: string;
+};
+
 export interface EventsInterface extends ethers.utils.Interface {
   functions: {
     "emit_anon1()": FunctionFragment;
@@ -118,8 +127,8 @@ export type Event3_uint256_Event = TypedEvent<
 >;
 
 export type Event4Event = TypedEvent<
-  [[BigNumber, string] & { index: BigNumber; name: string }],
-  { data: [BigNumber, string] & { index: BigNumber; name: string } }
+  [EventsEventData__struct_output],
+  { data: EventsEventData__struct_output }
 >;
 
 export type NoArgsEventEvent = TypedEvent<[], {}>;

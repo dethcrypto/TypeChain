@@ -23,6 +23,15 @@ import type {
   OnEvent,
 } from "./common";
 
+export type DataTypesInputStruct1__struct =
+  | [BigNumber, BigNumber]
+  | { uint256_0: BigNumber; uint256_1: BigNumber };
+
+type DataTypesInputStruct1__struct_output = [BigNumber, BigNumber] & {
+  uint256_0: BigNumber;
+  uint256_1: BigNumber;
+};
+
 export interface DataTypesInputInterface extends ethers.utils.Interface {
   functions: {
     "input_address(address)": FunctionFragment;
@@ -75,7 +84,7 @@ export interface DataTypesInputInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "input_struct",
-    values: [{ uint256_0: BigNumberish; uint256_1: BigNumberish }]
+    values: [DataTypesInputStruct1__struct]
   ): string;
   encodeFunctionData(
     functionFragment: "input_tuple",
@@ -201,11 +210,9 @@ export interface DataTypesInput extends BaseContract {
     input_string(input1: string, overrides?: CallOverrides): Promise<[string]>;
 
     input_struct(
-      input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
+      input1: DataTypesInputStruct1__struct,
       overrides?: CallOverrides
-    ): Promise<
-      [[BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }]
-    >;
+    ): Promise<[DataTypesInputStruct1__struct_output]>;
 
     input_tuple(
       input1: BigNumberish,
@@ -249,11 +256,9 @@ export interface DataTypesInput extends BaseContract {
   input_string(input1: string, overrides?: CallOverrides): Promise<string>;
 
   input_struct(
-    input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
+    input1: DataTypesInputStruct1__struct,
     overrides?: CallOverrides
-  ): Promise<
-    [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
-  >;
+  ): Promise<DataTypesInputStruct1__struct_output>;
 
   input_tuple(
     input1: BigNumberish,
@@ -300,11 +305,9 @@ export interface DataTypesInput extends BaseContract {
     input_string(input1: string, overrides?: CallOverrides): Promise<string>;
 
     input_struct(
-      input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
+      input1: DataTypesInputStruct1__struct,
       overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
-    >;
+    ): Promise<DataTypesInputStruct1__struct_output>;
 
     input_tuple(
       input1: BigNumberish,
@@ -366,7 +369,7 @@ export interface DataTypesInput extends BaseContract {
     input_string(input1: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     input_struct(
-      input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
+      input1: DataTypesInputStruct1__struct,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -434,7 +437,7 @@ export interface DataTypesInput extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     input_struct(
-      input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
+      input1: DataTypesInputStruct1__struct,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

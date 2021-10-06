@@ -23,6 +23,15 @@ import type {
   OnEvent,
 } from "./common";
 
+export type DataTypesViewStruct1__struct =
+  | [BigNumber, BigNumber]
+  | { uint256_0: BigNumber; uint256_1: BigNumber };
+
+type DataTypesViewStruct1__struct_output = [BigNumber, BigNumber] & {
+  uint256_0: BigNumber;
+  uint256_1: BigNumber;
+};
+
 export interface DataTypesViewInterface extends ethers.utils.Interface {
   functions: {
     "view_address()": FunctionFragment;
@@ -183,9 +192,7 @@ export interface DataTypesView extends BaseContract {
 
     view_struct(
       overrides?: CallOverrides
-    ): Promise<
-      [[BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }]
-    >;
+    ): Promise<[DataTypesViewStruct1__struct_output]>;
 
     view_tuple(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
@@ -220,9 +227,7 @@ export interface DataTypesView extends BaseContract {
 
   view_struct(
     overrides?: CallOverrides
-  ): Promise<
-    [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
-  >;
+  ): Promise<DataTypesViewStruct1__struct_output>;
 
   view_tuple(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
@@ -259,9 +264,7 @@ export interface DataTypesView extends BaseContract {
 
     view_struct(
       overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
-    >;
+    ): Promise<DataTypesViewStruct1__struct_output>;
 
     view_tuple(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
