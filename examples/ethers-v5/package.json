@@ -11,13 +11,13 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@typechain/ethers-v5": "^6.0.1",
+    "@typechain/ethers-v5": "file:../../packages/target-ethers-v5",
     "@types/bn.js": "^5.1.0",
     "ts-node": "^9.1.1",
-    "typechain": "^4.0.2",
+    "typechain": "file:../../packages/typechain",
     "typescript": "4.2.2"
   },
   "dependencies": {
-    "ethers": "^5.0.31"
+    "ethers": "^5.1.3"
   }
 }

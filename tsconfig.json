@@ -10,6 +10,6 @@
     "composite": true,
     "incremental": true
   },
-  "include": ["packages/**/*.ts", "packages/**/*.js", "**/.*.js"],
+  "include": ["**/*.ts", "**/*.js", "**/.*.js"],
   "exclude": ["**/node_modules"]
 }
