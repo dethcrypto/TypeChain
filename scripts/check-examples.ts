@@ -1,4 +1,3 @@
-
 import { spawnSync } from 'child_process'
 import { readdirSync } from 'fs'
 import * as path from 'path'
