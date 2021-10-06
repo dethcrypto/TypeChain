@@ -18,6 +18,7 @@ import {
   generateParamNames,
 } from './functions'
 import { reservedKeywords } from './reserved-keywords'
+import { generateStruct } from './structs'
 import { generateInputTypes } from './types'
 
 export function codegenContractTypings(contract: Contract, codegenConfig: CodegenConfig) {
@@ -41,6 +42,10 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
   import { Listener, Provider } from '@ethersproject/providers';
   import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
   import type { ${EVENT_IMPORTS.join(', ')} } from './common';
+
+  ${values(contract.structs)
+    .map((v) => generateStruct(v[0]))
+    .join('\n')}
 
   export interface ${contract.name}Interface extends ethers.utils.Interface {
     functions: {
@@ -123,7 +128,7 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
 
 export function codegenContractFactory(contract: Contract, abi: any, bytecode?: BytecodeWithLinkReferences): string {
   const constructorArgs =
-    (contract.constructor[0] ? generateInputTypes(contract.constructor[0].inputs) : '') +
+    (contract.constructor[0] ? generateInputTypes(contract.constructor[0].inputs, { useStructs: true }) : '') +
     `overrides?: ${
       contract.constructor[0]?.stateMutability === 'payable'
         ? 'PayableOverrides & { from?: string | Promise<string> }'

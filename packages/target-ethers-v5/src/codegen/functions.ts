@@ -42,7 +42,7 @@ function isPayable(fn: FunctionDeclaration): boolean {
 function generateFunction(options: GenerateFunctionOptions, fn: FunctionDeclaration, overloadedName?: string): string {
   return `
   ${generateFunctionDocumentation(fn.documentation)}
-  ${overloadedName ?? fn.name}(${generateInputTypes(fn.inputs)}${
+  ${overloadedName ?? fn.name}(${generateInputTypes(fn.inputs, { useStructs: true })}${
     !options.isStaticCall && !isConstant(fn) && !isConstantFn(fn)
       ? `overrides?: ${
           isPayable(fn)
@@ -54,7 +54,7 @@ function generateFunction(options: GenerateFunctionOptions, fn: FunctionDeclarat
     options.overrideOutput ??
     `Promise<${
       options.isStaticCall || fn.stateMutability === 'pure' || fn.stateMutability === 'view'
-        ? generateOutputTypes(!!options.returnResultObject, fn.outputs)
+        ? generateOutputTypes({ returnResultObject: !!options.returnResultObject, useStructs: true }, fn.outputs)
         : 'ContractTransaction'
     }>`
   };
@@ -90,7 +90,9 @@ export function generateEncodeFunctionDataOverload(fn: FunctionDeclaration): str
   const methodInputs = [`functionFragment: '${fn.name}'`]
 
   if (fn.inputs.length) {
-    methodInputs.push(`values: [${fn.inputs.map((input) => generateInputType(input.type)).join(', ')}]`)
+    methodInputs.push(
+      `values: [${fn.inputs.map((input) => generateInputType({ useStructs: true }, input.type)).join(', ')}]`,
+    )
   } else {
     methodInputs.push('values?: undefined')
   }

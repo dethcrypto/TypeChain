@@ -1,25 +1,35 @@
 import { compact } from 'lodash'
 import { AbiOutputParameter, AbiParameter, EvmOutputType, EvmType, TupleType } from 'typechain'
 
-export function generateInputTypes(input: Array<AbiParameter>): string {
+import { getStructNameForInput, getStructNameForOutput } from './structs'
+
+interface GenerateTypeOptions {
+  returnResultObject?: boolean
+  useStructs?: boolean // uses struct type for first depth, if false then generates first depth tuple types
+  complexJoinOperator?: '&' | '|'
+}
+
+export function generateInputTypes(input: Array<AbiParameter>, options: GenerateTypeOptions): string {
   if (input.length === 0) {
     return ''
   }
   return (
-    input.map((input, index) => `${input.name || `arg${index}`}: ${generateInputType(input.type)}`).join(', ') + ', '
+    input
+      .map((input, index) => `${input.name || `arg${index}`}: ${generateInputType(options, input.type)}`)
+      .join(', ') + ', '
   )
 }
 
-export function generateOutputTypes(returnResultObject: boolean, outputs: Array<AbiOutputParameter>): string {
-  if (!returnResultObject && outputs.length === 1) {
-    return generateOutputType(outputs[0].type)
+export function generateOutputTypes(options: GenerateTypeOptions, outputs: Array<AbiOutputParameter>): string {
+  if (!options.returnResultObject && outputs.length === 1) {
+    return generateOutputType(outputs[0].type, options)
   } else {
-    return generateOutputComplexType(outputs)
+    return generateOutputComplexType(outputs, options)
   }
 }
 
 // https://docs.ethers.io/ethers.js/html/api-contract.html#types
-export function generateInputType(evmType: EvmType): string {
+export function generateInputType(options: GenerateTypeOptions, evmType: EvmType): string {
   switch (evmType.type) {
     case 'integer':
       return 'BigNumberish'
@@ -32,22 +42,36 @@ export function generateInputType(evmType: EvmType): string {
       return 'BytesLike'
     case 'array':
       if (evmType.size !== undefined) {
-        return `[${Array(evmType.size).fill(generateInputType(evmType.itemType)).join(', ')}]`
+        return `[${Array(evmType.size)
+          .fill(generateInputType({ ...options, useStructs: true }, evmType.itemType))
+          .join(', ')}]`
       } else {
-        return `(${generateInputType(evmType.itemType)})[]`
+        if (options.useStructs) {
+          const structName = getStructNameForInput(evmType.structName)
+          if (structName) {
+            return structName + '[]'
+          }
+        }
+        return `(${generateInputType({ ...options, useStructs: true }, evmType.itemType)})[]`
       }
     case 'boolean':
       return 'boolean'
     case 'string':
       return 'string'
     case 'tuple':
-      return generateTupleType(evmType, generateInputType)
+      if (options.useStructs) {
+        const structName = getStructNameForInput(evmType.structName)
+        if (structName) {
+          return structName
+        }
+      }
+      return generateTupleType(evmType, generateInputType.bind(null, { ...options, useStructs: true }))
     case 'unknown':
       return 'any'
   }
 }
 
-export function generateOutputType(evmType: EvmOutputType): string {
+export function generateOutputType(evmType: EvmOutputType, options: GenerateTypeOptions): string {
   switch (evmType.type) {
     case 'integer':
     case 'uinteger':
@@ -61,16 +85,30 @@ export function generateOutputType(evmType: EvmOutputType): string {
       return 'string'
     case 'array':
       if (evmType.size !== undefined) {
-        return `[${Array(evmType.size).fill(generateOutputType(evmType.itemType)).join(', ')}]`
+        return `[${Array(evmType.size)
+          .fill(generateOutputType(evmType.itemType, { ...options, useStructs: true }))
+          .join(', ')}]`
       } else {
-        return `(${generateOutputType(evmType.itemType)})[]`
+        if (options.useStructs) {
+          const structName = getStructNameForOutput(evmType.structName)
+          if (structName) {
+            return structName + '[]'
+          }
+        }
+        return `(${generateOutputType(evmType.itemType, { ...options, useStructs: true })})[]`
       }
     case 'boolean':
       return 'boolean'
     case 'string':
       return 'string'
     case 'tuple':
-      return generateOutputComplexType(evmType.components)
+      if (options.useStructs) {
+        const structName = getStructNameForOutput(evmType.structName)
+        if (structName) {
+          return structName
+        }
+      }
+      return generateOutputComplexType(evmType.components, { ...options, useStructs: true })
     case 'unknown':
       return 'any'
   }
@@ -84,23 +122,30 @@ export function generateTupleType(tuple: TupleType, generator: (evmType: EvmType
  * Always return an array type; if there are named outputs, merge them to that type
  * this generates slightly better typings fixing: https://github.com/ethereum-ts/TypeChain/issues/232
  **/
-export function generateOutputComplexType(components: AbiOutputParameter[]) {
+export function generateOutputComplexType(components: AbiOutputParameter[], options: GenerateTypeOptions) {
   const existingOutputComponents = compact([
-    generateOutputComplexTypeAsArray(components),
-    generateOutputComplexTypesAsObject(components),
+    generateOutputComplexTypeAsArray(components, options),
+    generateOutputComplexTypesAsObject(components, options),
   ])
-  return existingOutputComponents.join(' & ')
+  return existingOutputComponents.join(' ' + (options.complexJoinOperator ?? '&') + ' ')
 }
 
-export function generateOutputComplexTypeAsArray(components: AbiOutputParameter[]): string {
-  return `[${components.map((t) => generateOutputType(t.type)).join(', ')}]`
+export function generateOutputComplexTypeAsArray(
+  components: AbiOutputParameter[],
+  options: GenerateTypeOptions,
+): string {
+  return `[${components.map((t) => generateOutputType(t.type, options)).join(', ')}]`
 }
 
-export function generateOutputComplexTypesAsObject(components: AbiOutputParameter[]): string | undefined {
+export function generateOutputComplexTypesAsObject(
+  components: AbiOutputParameter[],
+  options: GenerateTypeOptions,
+): string | undefined {
   let namedElementsCode
   const namedElements = components.filter((e) => !!e.name)
   if (namedElements.length > 0) {
-    namedElementsCode = '{' + namedElements.map((t) => `${t.name}: ${generateOutputType(t.type)}`).join(',') + ' }'
+    namedElementsCode =
+      '{' + namedElements.map((t) => `${t.name}: ${generateOutputType(t.type, options)}`).join(',') + ' }'
   }
 
   return namedElementsCode
