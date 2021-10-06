@@ -71,7 +71,7 @@ describe('DataTypesInput', () => {
 
     typedAssert(await contract.input_enum('1'), 1)
     typedAssert(await contract.input_enum(1), 1)
-  })
+  }).timeout(10000)
 
   // tests: https://github.com/ethereum-ts/TypeChain/issues/232
   // NOTE: typesAssert is too simple to tests type compatibility here so we can't use it
