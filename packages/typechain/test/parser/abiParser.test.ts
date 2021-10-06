@@ -346,7 +346,7 @@ describe('parseEvent', () => {
       name: 'Deposit',
       type: 'event',
     }
-    const parsedEvent = parseEvent(expectedEvent)
+    const parsedEvent = parseEvent(expectedEvent, () => {})
 
     expect(parsedEvent).toEqual({
       name: 'Deposit',
@@ -452,6 +452,7 @@ describe('parse', () => {
         fallback: undefined,
         documentation: undefined,
         functions: {},
+        structs: {},
         name: 'Sc1',
         rawName: 'sc1',
       })
