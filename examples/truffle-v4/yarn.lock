@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@typechain/truffle-v4@2.0.3":
+"@typechain/truffle-v4@^2.0.3":
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/@typechain/truffle-v4/-/truffle-v4-2.0.3.tgz#095da3bc5cf1c3bf2f50bc0a6a52fcdab3cfaefd"
   integrity sha512-MzIWXdsK8AoW18LGLYGut6RqZ2k658yYEnztjTSXwuN90TgXzYoRK37IbmSmq9AQplMvZf2IJD/lRUspET6Z8A==

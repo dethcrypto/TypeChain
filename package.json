@@ -24,7 +24,7 @@
     "test": "yarn compile-contracts && wsrun -mse -c test",
     "test:fix": "yarn lint:fix && yarn test && yarn format:fix && yarn typecheck",
     "no-git-changes": "./scripts/no-git-changes.sh",
-    "check-examples": "./scripts/check-examples.sh",
+    "check-examples": "yarn ts-node ./scripts/check-examples.ts",
     "prerelease": "yarn lint && yarn format && yarn test && yarn typecheck",
     "release": "yarn build && yarn changeset publish"
   },
@@ -47,5 +47,8 @@
     "ts-node": "^8.5.4",
     "typescript": "4.1.5",
     "wsrun": "^5.2.4"
+  },
+  "volta": {
+    "node": "16.10.0"
   }
 }

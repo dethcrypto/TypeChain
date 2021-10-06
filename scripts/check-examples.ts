@@ -1,0 +1,55 @@
+import { spawnSync } from 'child_process'
+import { readdirSync } from 'fs'
+import * as path from 'path'
+
+const VERBOSE = process.env.VERBOSE === 'true'
+
+const examplesDir = path.resolve(__dirname, '../examples')
+
+const failures: string[] = []
+
+for (const dir of readdirSync(examplesDir)) {
+  console.log(`Checking example: ${dir}`)
+
+  const childProcess = spawnSync('yarn', ['--non-interactive'], {
+    cwd: path.resolve(examplesDir, dir),
+    encoding: 'utf-8',
+    env: {
+      ...process.env,
+      FORCE_COLOR: 'true',
+    },
+  })
+
+  if (childProcess.status === 0) {
+    console.log(bold('✅ Success'))
+    if (VERBOSE) {
+      console.log(formatOutput(childProcess.output))
+    }
+  } else {
+    failures.push(dir)
+    console.error(bold(`❌ Failed with status ${childProcess.status} and output:` + '\n'))
+    console.error(formatOutput(childProcess.output))
+  }
+}
+
+if (failures.length > 0) {
+  console.error(
+    '\n',
+    bold(failures.length) + ` example${failures.length > 1 ? 's' : ''} failed:`,
+    red(failures.join(', ')),
+    '\n',
+  )
+  process.exit(1)
+}
+
+function formatOutput(output: string[]) {
+  return output.filter(Boolean).join('\n')
+}
+
+function bold(text: string | number) {
+  return '\u001b[1m' + String(text) + '\u001b[0m'
+}
+
+function red(text: string | number) {
+  return '\u001b[31;4m' + String(text) + '\u001b[0m'
+}
