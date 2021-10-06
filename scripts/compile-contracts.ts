@@ -24,17 +24,20 @@ const contracts = readdirSync(contractsDir, { withFileTypes: true }).filter(
 
 function main() {
   removeOutDir()
-
-  console.log('Generating ABIs')
-  execSync(`yarn solcjs --abi ./contracts/* --bin -o ./contracts/compiled/`, { cwd: rootDir })
-
+  generateABIs()
   renameUglyNames()
-
   copyTruffleV4()
   copyTruffleV5()
 }
 
 main()
+
+function generateABIs() {
+  console.log('Generating ABIs')
+
+  const contractPaths = contracts.map((f) => `./contracts/${f.name}`).join(' ')
+  execSync(`yarn solcjs --abi ${contractPaths} --bin -o ./contracts/compiled/`, { cwd: rootDir })
+}
 
 function removeOutDir() {
   console.log('Cleaning up contracts/abis')
