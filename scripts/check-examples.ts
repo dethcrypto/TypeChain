@@ -1,4 +1,3 @@
-// @ts-check
 
 import { spawnSync } from 'child_process'
 import { readdirSync } from 'fs'
@@ -41,6 +40,7 @@ if (failures.length > 0) {
     red(failures.join(', ')),
     '\n',
   )
+  process.exit(1)
 }
 
 function formatOutput(output: string[]) {
