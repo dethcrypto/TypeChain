@@ -1,19 +1,13 @@
 import { StructType } from 'typechain'
 
 import { STRUCT_POSTFIX } from '../common'
-import { generateOutputType } from './types'
+import { generateInputType, generateOutputType } from './types'
 
 export function generateStruct(struct: StructType): string {
   return `
-    export type ${getStructNameForInput(struct.structName)} = ${generateOutputType(struct, {
-    useStructs: false,
-    complexJoinOperator: '|',
-  })}
+    export type ${getStructNameForInput(struct.structName)} = ${generateInputType({ useStructs: false }, struct)}
     
-    type ${getStructNameForOutput(struct.structName)} = ${generateOutputType(struct, {
-    useStructs: false,
-    complexJoinOperator: '&',
-  })}
+    export type ${getStructNameForOutput(struct.structName)} = ${generateOutputType({ useStructs: false }, struct)}
     `
 }
 

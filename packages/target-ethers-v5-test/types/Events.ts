@@ -24,11 +24,9 @@ import type {
   OnEvent,
 } from "./common";
 
-export type EventsEventData__struct =
-  | [BigNumber, string]
-  | { index: BigNumber; name: string };
+export type EventsEventData__struct = { index: BigNumberish; name: string };
 
-type EventsEventData__struct_output = [BigNumber, string] & {
+export type EventsEventData__struct_output = [BigNumber, string] & {
   index: BigNumber;
   name: string;
 };

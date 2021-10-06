@@ -6,7 +6,6 @@ import { getStructNameForInput, getStructNameForOutput } from './structs'
 interface GenerateTypeOptions {
   returnResultObject?: boolean
   useStructs?: boolean // uses struct type for first depth, if false then generates first depth tuple types
-  complexJoinOperator?: '&' | '|'
 }
 
 export function generateInputTypes(input: Array<AbiParameter>, options: GenerateTypeOptions): string {
@@ -22,7 +21,7 @@ export function generateInputTypes(input: Array<AbiParameter>, options: Generate
 
 export function generateOutputTypes(options: GenerateTypeOptions, outputs: Array<AbiOutputParameter>): string {
   if (!options.returnResultObject && outputs.length === 1) {
-    return generateOutputType(outputs[0].type, options)
+    return generateOutputType(options, outputs[0].type)
   } else {
     return generateOutputComplexType(outputs, options)
   }
@@ -71,7 +70,7 @@ export function generateInputType(options: GenerateTypeOptions, evmType: EvmType
   }
 }
 
-export function generateOutputType(evmType: EvmOutputType, options: GenerateTypeOptions): string {
+export function generateOutputType(options: GenerateTypeOptions, evmType: EvmOutputType): string {
   switch (evmType.type) {
     case 'integer':
     case 'uinteger':
@@ -86,7 +85,7 @@ export function generateOutputType(evmType: EvmOutputType, options: GenerateType
     case 'array':
       if (evmType.size !== undefined) {
         return `[${Array(evmType.size)
-          .fill(generateOutputType(evmType.itemType, { ...options, useStructs: true }))
+          .fill(generateOutputType({ ...options, useStructs: true }, evmType.itemType))
           .join(', ')}]`
       } else {
         if (options.useStructs) {
@@ -95,7 +94,7 @@ export function generateOutputType(evmType: EvmOutputType, options: GenerateType
             return structName + '[]'
           }
         }
-        return `(${generateOutputType(evmType.itemType, { ...options, useStructs: true })})[]`
+        return `(${generateOutputType({ ...options, useStructs: true }, evmType.itemType)})[]`
       }
     case 'boolean':
       return 'boolean'
@@ -127,14 +126,14 @@ export function generateOutputComplexType(components: AbiOutputParameter[], opti
     generateOutputComplexTypeAsArray(components, options),
     generateOutputComplexTypesAsObject(components, options),
   ])
-  return existingOutputComponents.join(' ' + (options.complexJoinOperator ?? '&') + ' ')
+  return existingOutputComponents.join(' & ')
 }
 
 export function generateOutputComplexTypeAsArray(
   components: AbiOutputParameter[],
   options: GenerateTypeOptions,
 ): string {
-  return `[${components.map((t) => generateOutputType(t.type, options)).join(', ')}]`
+  return `[${components.map((t) => generateOutputType(options, t.type)).join(', ')}]`
 }
 
 export function generateOutputComplexTypesAsObject(
@@ -145,7 +144,7 @@ export function generateOutputComplexTypesAsObject(
   const namedElements = components.filter((e) => !!e.name)
   if (namedElements.length > 0) {
     namedElementsCode =
-      '{' + namedElements.map((t) => `${t.name}: ${generateOutputType(t.type, options)}`).join(',') + ' }'
+      '{' + namedElements.map((t) => `${t.name}: ${generateOutputType(options, t.type)}`).join(',') + ' }'
   }
 
   return namedElementsCode

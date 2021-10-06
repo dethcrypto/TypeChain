@@ -23,20 +23,22 @@ import type {
   OnEvent,
 } from "./common";
 
-export type DataTypesInputStruct1__struct =
-  | [BigNumber, BigNumber]
-  | { uint256_0: BigNumber; uint256_1: BigNumber };
+export type DataTypesInputStruct1__struct = {
+  uint256_0: BigNumberish;
+  uint256_1: BigNumberish;
+};
 
-type DataTypesInputStruct1__struct_output = [BigNumber, BigNumber] & {
+export type DataTypesInputStruct1__struct_output = [BigNumber, BigNumber] & {
   uint256_0: BigNumber;
   uint256_1: BigNumber;
 };
 
-export type DataTypesInputStruct2__struct =
-  | [BigNumber, DataTypesInputStruct1__struct_output]
-  | { input1: BigNumber; input2: DataTypesInputStruct1__struct_output };
+export type DataTypesInputStruct2__struct = {
+  input1: BigNumberish;
+  input2: DataTypesInputStruct1__struct;
+};
 
-type DataTypesInputStruct2__struct_output = [
+export type DataTypesInputStruct2__struct_output = [
   BigNumber,
   DataTypesInputStruct1__struct_output
 ] & { input1: BigNumber; input2: DataTypesInputStruct1__struct_output };
