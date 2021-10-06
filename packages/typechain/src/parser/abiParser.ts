@@ -5,7 +5,7 @@ import { Dictionary } from 'ts-essentials'
 import { debug } from '../utils/debug'
 import { MalformedAbiError } from '../utils/errors'
 import { normalizeName } from './normalizeName'
-import { EvmOutputType, EvmType, parseEvmType } from './parseEvmType'
+import { EvmOutputType, EvmType, parseEvmType, StructType } from './parseEvmType'
 
 export interface AbiParameter {
   name: string // @todo name should be normalized to undefined if empty string
@@ -58,6 +58,7 @@ export interface Contract {
   constructor: FunctionWithoutOutputDeclaration[]
   functions: Dictionary<FunctionDeclaration[]>
   events: Dictionary<EventDeclaration[]>
+  structs: Dictionary<StructType[]>
   documentation?: {
     author?: string
     details?: string
@@ -135,6 +136,13 @@ export function parse(abi: RawAbiDefinition[], rawName: string, documentation?: 
   const functions: FunctionDeclaration[] = []
   const events: EventDeclaration[] = []
 
+  const structs: StructType[] = []
+  function insertStruct(newStruct: StructType) {
+    if (structs.findIndex((s) => s.structName === newStruct.structName) === -1) {
+      structs.push(newStruct)
+    }
+  }
+
   abi.forEach((abiPiece) => {
     if (abiPiece.type === 'fallback') {
       if (fallback) {
@@ -144,24 +152,24 @@ export function parse(abi: RawAbiDefinition[], rawName: string, documentation?: 
           )} Previously defined: ${JSON.stringify(fallback)}`,
         )
       }
-      fallback = parseFallback(abiPiece)
+      fallback = parseFallback(abiPiece, insertStruct)
       return
     }
 
     if (abiPiece.type === 'constructor') {
-      constructors.push(parseConstructor(abiPiece))
+      constructors.push(parseConstructor(abiPiece, insertStruct))
       return
     }
 
     if (abiPiece.type === 'function') {
-      functions.push(parseFunctionDeclaration(abiPiece, documentation))
+      functions.push(parseFunctionDeclaration(abiPiece, insertStruct, documentation))
       return
     }
 
     if (abiPiece.type === 'event') {
       const eventAbi = (abiPiece as any) as RawEventAbiDefinition
 
-      events.push(parseEvent(eventAbi))
+      events.push(parseEvent(eventAbi, insertStruct))
       return
     }
 
@@ -175,33 +183,43 @@ export function parse(abi: RawAbiDefinition[], rawName: string, documentation?: 
     constructor: constructors,
     functions: groupBy(functions, (f) => f.name),
     events: groupBy(events, (e) => e.name),
+    structs: groupBy(structs, (e) => e.structName),
     documentation: documentation ? omit(documentation, ['methods']) : undefined,
   }
 }
 
-function parseOutputs(outputs?: Array<RawAbiParameter>): AbiOutputParameter[] {
+function parseOutputs(
+  insertStruct: (struct: StructType) => void,
+  outputs?: Array<RawAbiParameter>,
+): AbiOutputParameter[] {
   if (!outputs || outputs.length === 0) {
     return [{ name: '', type: { type: 'void' } }]
   } else {
-    return outputs.map(parseRawAbiParameter)
+    return outputs.map(parseRawAbiParameter.bind(null, insertStruct))
   }
 }
 
-export function parseEvent(abiPiece: RawEventAbiDefinition): EventDeclaration {
+export function parseEvent(
+  abiPiece: RawEventAbiDefinition,
+  insertStruct: (struct: StructType) => void,
+): EventDeclaration {
   debug(`Parsing event "${abiPiece.name}"`)
 
   return {
     name: abiPiece.name,
     isAnonymous: abiPiece.anonymous ?? false,
-    inputs: abiPiece.inputs.map(parseRawEventArg),
+    inputs: abiPiece.inputs.map(parseRawEventArg.bind(null, insertStruct)),
   }
 }
 
-function parseRawEventArg(eventArg: RawEventArgAbiDefinition): EventArgDeclaration {
+function parseRawEventArg(
+  insertStruct: (struct: StructType) => void,
+  eventArg: RawEventArgAbiDefinition,
+): EventArgDeclaration {
   return {
     name: parseEmptyAsUndefined(eventArg.name),
     isIndexed: eventArg.indexed,
-    type: parseRawAbiParameterType(eventArg),
+    type: parseRawAbiParameterType(eventArg, insertStruct),
   }
 }
 
@@ -232,56 +250,73 @@ export function getFunctionDocumentation(
   return documentation && documentation.methods && documentation.methods[docKey]
 }
 
-function parseConstructor(abiPiece: RawAbiDefinition): FunctionWithoutOutputDeclaration {
+function parseConstructor(
+  abiPiece: RawAbiDefinition,
+  insertStruct: (struct: StructType) => void,
+): FunctionWithoutOutputDeclaration {
   debug(`Parsing constructor declaration`)
   return {
     name: 'constructor',
-    inputs: abiPiece.inputs.map(parseRawAbiParameter),
+    inputs: abiPiece.inputs.map(parseRawAbiParameter.bind(null, insertStruct)),
     outputs: [],
     stateMutability: findStateMutability(abiPiece),
   }
 }
 
-function parseFallback(abiPiece: RawAbiDefinition): FunctionWithoutInputDeclaration {
+function parseFallback(
+  abiPiece: RawAbiDefinition,
+  insertStruct: (struct: StructType) => void,
+): FunctionWithoutInputDeclaration {
   debug(`Parsing fallback declaration`)
 
   return {
     name: 'fallback',
     inputs: [],
-    outputs: parseOutputs(abiPiece.outputs),
+    outputs: parseOutputs(insertStruct, abiPiece.outputs),
     stateMutability: findStateMutability(abiPiece),
   }
 }
 
 function parseFunctionDeclaration(
   abiPiece: RawAbiDefinition,
+  insertStruct: (struct: StructType) => void,
   documentation?: DocumentationResult,
 ): FunctionDeclaration {
   debug(`Parsing function declaration "${abiPiece.name}"`)
   return {
     name: abiPiece.name,
-    inputs: abiPiece.inputs.map(parseRawAbiParameter),
-    outputs: parseOutputs(abiPiece.outputs),
+    inputs: abiPiece.inputs.map(parseRawAbiParameter.bind(null, insertStruct)),
+    outputs: parseOutputs(insertStruct, abiPiece.outputs),
     stateMutability: findStateMutability(abiPiece),
     documentation: getFunctionDocumentation(abiPiece, documentation),
   }
 }
 
-function parseRawAbiParameter(rawAbiParameter: RawAbiParameter): AbiParameter {
+function parseRawAbiParameter(
+  insertStruct: (struct: StructType) => void,
+  rawAbiParameter: RawAbiParameter,
+): AbiParameter {
   return {
     name: rawAbiParameter.name,
-    type: parseRawAbiParameterType(rawAbiParameter),
+    type: parseRawAbiParameterType(rawAbiParameter, insertStruct),
   }
 }
 
-function parseRawAbiParameterType(rawAbiParameter: RawAbiParameter): EvmType {
+function parseRawAbiParameterType(
+  rawAbiParameter: RawAbiParameter,
+  insertStruct: (struct: StructType) => void,
+): EvmType {
   const components =
     rawAbiParameter.components &&
     rawAbiParameter.components.map((component) => ({
       name: component.name,
-      type: parseRawAbiParameterType(component),
+      type: parseRawAbiParameterType(component, insertStruct),
     }))
-  return parseEvmType(rawAbiParameter.type, components, rawAbiParameter.internalType)
+  const parsed = parseEvmType(rawAbiParameter.type, components, rawAbiParameter.internalType)
+  if (['tuple', 'array'].includes(parsed.type) && (parsed as StructType).structName !== undefined) {
+    insertStruct(parsed as StructType)
+  }
+  return parsed
 }
 
 export function extractAbi(rawJson: string): RawAbiDefinition[] {
