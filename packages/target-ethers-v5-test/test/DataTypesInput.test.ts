@@ -1,3 +1,4 @@
+import { FunctionFragment } from '@ethersproject/abi'
 import { expect } from 'earljs'
 import { Awaited } from 'earljs/dist/mocks/types'
 import { BigNumber, ethers } from 'ethers'
@@ -90,6 +91,12 @@ describe('DataTypesInput', () => {
     type _t1 = AssertTrue<
       IsExact<ViewStructType, [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }>
     >
+  })
+
+  it('generates correct signature for tuples', () => {
+    const fragment: FunctionFragment = contract.interface.functions['input_struct((uint256,uint256))']
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    expect(fragment !== undefined).toEqual(true)
   })
 
   // we skip this test as ts only about types

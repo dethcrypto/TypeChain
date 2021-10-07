@@ -82,11 +82,7 @@ function generateFunctionDocumentation(doc?: FunctionDocumentation): string {
 }
 
 export function generateInterfaceFunctionDescription(fn: FunctionDeclaration): string {
-  return `'${generateFunctionSignature(fn)}': FunctionFragment;`
-}
-
-export function generateFunctionSignature(fn: FunctionDeclaration): string {
-  return `${fn.name}(${fn.inputs.map((input: any) => input.type.originalType).join(',')})`
+  return `'${getSignatureForFn(fn)}': FunctionFragment;`
 }
 
 export function generateEncodeFunctionDataOverload(fn: FunctionDeclaration): string {

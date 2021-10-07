@@ -29,7 +29,7 @@ interface DataTypesInputInterface extends ethers.utils.Interface {
     "input_int8(int8)": FunctionFragment;
     "input_stat_array(uint8[3])": FunctionFragment;
     "input_string(string)": FunctionFragment;
-    "input_struct(tuple)": FunctionFragment;
+    "input_struct((uint256,uint256))": FunctionFragment;
     "input_tuple(uint256,uint256)": FunctionFragment;
     "input_uint256(uint256)": FunctionFragment;
     "input_uint8(uint8)": FunctionFragment;
