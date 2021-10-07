@@ -85,10 +85,6 @@ export function generateInterfaceFunctionDescription(fn: FunctionDeclaration): s
   return `'${getSignatureForFn(fn)}': FunctionFragment;`
 }
 
-export function generateFunctionSignature(fn: FunctionDeclaration): string {
-  return `${fn.name}(${fn.inputs.map((input: any) => input.type.originalType).join(',')})`
-}
-
 export function generateEncodeFunctionDataOverload(fn: FunctionDeclaration): string {
   const methodInputs = [`functionFragment: '${fn.name}'`]
 
