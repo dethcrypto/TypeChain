@@ -63,6 +63,9 @@ jobs:
       - run: yarn build
       - run: yarn test
       - run: yarn format # do it at the very end because "yarn test" can generate types (which should be formatted)
+        if: matrix.os == "ubuntu-latest"
+      - run: yarn format:fix
+        if: matrix.os == "windows-latest"
       - run: yarn typecheck # this has to happen after yarn test b/c test does type generation
       - run: yarn no-git-changes # ensure that committed types are up to date
 
