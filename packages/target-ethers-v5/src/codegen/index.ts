@@ -171,6 +171,8 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
 
   const _bytecode = "${bytecode.bytecode}";
 
+  ${generateFactoryConstructorParamsAlias(contract, bytecode)}
+
   export class ${contract.name}${FACTORY_POSTFIX} extends ContractFactory {
     ${generateFactoryConstructor(contract, bytecode)}
     deploy(${constructorArgs}): Promise<${contract.name}> {
@@ -227,8 +229,14 @@ function codegenCommonContractFactory(contract: Contract, abi: any): { header: s
 function generateFactoryConstructor(contract: Contract, bytecode: BytecodeWithLinkReferences): string {
   if (!bytecode.linkReferences) {
     return `
-    constructor(signer?: Signer) {
-      super(_abi, _bytecode, signer);
+    constructor(
+      ...args: [signer: Signer] | ConstructorParameters<typeof ContractFactory>
+    ) {
+      if (args.length === 1) {
+        super(_abi, _bytecode, args[0]);
+      } else {
+        super(...args);
+      }
     }
     `
   }
@@ -245,18 +253,52 @@ function generateFactoryConstructor(contract: Contract, bytecode: BytecodeWithLi
       );`
   })
 
+  const className = `${contract.name}${FACTORY_POSTFIX}`
+  const libAddressesName = `${contract.name}LibraryAddresses`
+
   return `
-    constructor(linkLibraryAddresses: ${contract.name}LibraryAddresses, signer?: Signer) {
-      super(_abi, ${contract.name}${FACTORY_POSTFIX}.linkBytecode(linkLibraryAddresses), signer);
+    constructor(
+      ...args: ${contract.name}ConstructorParams
+    ) {
+      if (isSuperArgs(args)) {
+        super (...args)
+      } else {
+        const [linkLibraryAddresses, signer] = args;
+        super(
+          _abi,
+          ${className}.linkBytecode(linkLibraryAddresses),
+          signer
+        )
+      }
     }
 
-    static linkBytecode(linkLibraryAddresses: ${contract.name}LibraryAddresses): string {
+    static linkBytecode(linkLibraryAddresses: ${libAddressesName}): string {
       let linkedBytecode = _bytecode;
       ${linkRefReplacements.join('\n')}
 
       return linkedBytecode;
     }
   `
+}
+
+function generateFactoryConstructorParamsAlias(contract: Contract, bytecode: BytecodeWithLinkReferences): string {
+  if (bytecode.linkReferences) {
+    const name = `${contract.name}ConstructorParams`
+    return `\
+      type ${name} =
+        | [linkLibraryAddresses: ${contract.name}LibraryAddresses, signer?: Signer]
+        | ConstructorParameters<typeof ContractFactory>
+
+      const isSuperArgs = (
+        xs: ${name}
+      ): xs is ConstructorParameters<typeof ContractFactory> => {
+        return typeof xs[0] === 'string'
+          || (Array.isArray as (arg: any) => arg is readonly any[])(xs[0])
+          || '_isInterface' in xs[0]
+      }`
+  }
+
+  return ''
 }
 
 function generateLibraryAddressesInterface(contract: Contract, bytecode: BytecodeWithLinkReferences): string {
