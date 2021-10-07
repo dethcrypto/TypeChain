@@ -28,10 +28,6 @@ declare module "hardhat/types/runtime" {
       name: "TestContract1",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.TestContract1__factory>;
-    getContractFactory(
-      name: "ERC20",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ERC20__factory>;
 
     getContractAt(
       name: "EdgeCases",
@@ -53,11 +49,6 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.TestContract1>;
-    getContractAt(
-      name: "ERC20",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.ERC20>;
 
     // default types
     getContractFactory(

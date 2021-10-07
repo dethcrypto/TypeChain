@@ -34,12 +34,16 @@ describe('Typechain x Hardhat', function () {
   it('compiles and generates typings when not in root directory', async function () {
     const exists = existsSync(this.hre.config.typechain.outDir)
     expect(exists).toEqual(false)
+
     const oldCwd = process.cwd()
     // force change cwd to not-existing dir
     // cwd should not be used to determine output dir path
     process.cwd = () => join(oldCwd, 'src')
 
     await this.hre.run('compile')
+
+    // fsPromises.readdir uses process.cwd on Windows
+    process.cwd = originalCwd
 
     const dir = await fsPromises.readdir(this.hre.config.typechain.outDir)
     expect(dir.length).not.toEqual(0)
