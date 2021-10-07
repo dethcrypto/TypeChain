@@ -60,7 +60,7 @@ function renameUglyNames() {
 function copyTruffleV5() {
   console.log('Copy truffle-v5 contracts')
 
-  const truffleV5ContractsDir = resolve(__dirname, '../../packages/target-truffle-v5-test/contracts')
+  const truffleV5ContractsDir = resolve(rootDir, 'packages/target-truffle-v5-test/contracts')
   mkdirSync(truffleV5ContractsDir, { recursive: true })
 
   for (const { name } of contracts) {
