@@ -14,7 +14,7 @@ async function main() {
 
   const files = getFilesToProcess(cwd, cliConfig.files)
   if (files.length === 0) {
-    throw new Error('No files passed')
+    throw new Error('No files passed.' + '\n' + `\`${cliConfig.files}\` didn't match any input files in ${cwd}`)
   }
 
   const config: Config = {

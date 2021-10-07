@@ -1,18 +1,8 @@
 // #!/usr/bin/env node
 
-import { resolve } from 'path'
-import {
-  unlinkSync,
-  readdirSync,
-  renameSync,
-  existsSync,
-  mkdirSync,
-  readFileSync,
-  writeFileSync,
-  copyFileSync,
-  rmdirSync,
-} from 'fs'
 import { execSync } from 'child_process'
+import { copyFileSync, mkdirSync, readdirSync, renameSync, rmdirSync } from 'fs'
+import { resolve } from 'path'
 
 const rootDir = resolve(__dirname, '..')
 const contractsDir = resolve(rootDir, 'contracts')
@@ -26,7 +16,6 @@ function main() {
   removeOutDir()
   generateABIs()
   renameUglyNames()
-  copyTruffleV4()
   copyTruffleV5()
 }
 
@@ -44,7 +33,7 @@ function removeOutDir() {
 
   try {
     rmdirSync(outDir, { recursive: true })
-  } catch (e) {
+  } catch (e: any) {
     if (e.code !== 'ENOENT') {
       throw e
     }
@@ -65,36 +54,6 @@ function renameUglyNames() {
 
     console.log(file, ' => ', renamed)
     renameSync(resolve(outDir, file), resolve(outDir, renamed))
-  }
-}
-
-/**
- * Copy contracts from ./contract to:
- *  - packages/target-truffle-v4-test
- *
- * and change compiler version
- */
-function copyTruffleV4() {
-  console.log('Copying truffle-v4 contracts')
-
-  const truffleV4ContractsDir = resolve(__dirname, '../packages/target-truffle-v4-test/contracts')
-
-  const files = contracts
-    // do not copy Library.sol and LibraryConsumer.sol as enums in libraries are not properly supported in Truffle v4 ABIs
-    .filter((f) => !f.name.endsWith('Library.sol') && !f.name.endsWith('LibraryConsumer.sol'))
-    .map((f) => f.name)
-
-  if (!existsSync(truffleV4ContractsDir)) {
-    console.log(`Creating ${truffleV4ContractsDir}`)
-    mkdirSync(truffleV4ContractsDir, { recursive: true })
-  }
-
-  for (const file of files) {
-    console.log('Processing: ', file)
-
-    const contents = readFileSync(resolve(contractsDir, file), 'utf8')
-    const newContents = contents.replace('0.6.4', '0.4.24')
-    writeFileSync(resolve(truffleV4ContractsDir, file), newContents)
   }
 }
 
