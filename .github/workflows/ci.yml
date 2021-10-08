@@ -11,8 +11,7 @@ jobs:
     strategy:
       matrix:
         node: ['12.x']
-        os: [ubuntu-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v1
@@ -37,9 +36,11 @@ jobs:
 
   test:
     strategy:
+      # When set to true, GitHub cancels all in-progress jobs if any matrix job fails.
+      fail-fast: false
       matrix:
         node: ['12.x']
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -62,14 +63,19 @@ jobs:
       - run: yarn build
       - run: yarn test
       - run: yarn format # do it at the very end because "yarn test" can generate types (which should be formatted)
+        if: runner.os == 'Linux'
+      - run: yarn format:fix
+        if: runner.os == 'Windows'
       - run: yarn typecheck # this has to happen after yarn test b/c test does type generation
       - run: yarn no-git-changes # ensure that committed types are up to date
 
   test-examples:
     strategy:
+      # When set to true, GitHub cancels all in-progress jobs if any matrix job fails.
+      fail-fast: false
       matrix:
         node: ['12.x']
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
 
     steps:

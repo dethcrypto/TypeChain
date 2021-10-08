@@ -6,8 +6,8 @@
   "scripts": {
     "format": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --check \"./**/*.ts\"",
     "format:fix": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --write \"./**/*.ts\"",
-    "lint": "true",
-    "lint:fix": "true",
+    "lint": "echo ok",
+    "lint:fix": "echo ok",
     "typecheck": "tsc --noEmit --incremental false --composite false && tsc --noEmit --incremental false --composite false -p tsconfig.types.json",
     "clean": "hardhat clean && rm -f tsconfig.build.tsbuildinfo && rm -rf build",
     "generate-types": "hardhat clean && hardhat compile",

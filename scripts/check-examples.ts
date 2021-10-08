@@ -11,7 +11,8 @@ const failures: string[] = []
 for (const dir of readdirSync(examplesDir)) {
   console.log(`Checking example: ${dir}`)
 
-  const childProcess = spawnSync('yarn', ['--non-interactive'], {
+  const yarn = process.platform === 'win32' ? 'yarn.cmd' : 'yarn'
+  const childProcess = spawnSync(yarn, ['--non-interactive'], {
     cwd: path.resolve(examplesDir, dir),
     encoding: 'utf-8',
     env: {
@@ -19,6 +20,8 @@ for (const dir of readdirSync(examplesDir)) {
       FORCE_COLOR: 'true',
     },
   })
+
+  if (childProcess.error) throw childProcess.error
 
   if (childProcess.status === 0) {
     console.log(bold('✅ Success'))

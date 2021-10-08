@@ -12,12 +12,17 @@ async function main() {
   const cliConfig = parseArgs()
   const cwd = process.cwd()
 
+  const files = getFilesToProcess(cwd, cliConfig.files)
+  if (files.length === 0) {
+    throw new Error('No files passed.' + '\n' + `\`${cliConfig.files}\` didn't match any input files in ${cwd}`)
+  }
+
   const config: Config = {
     cwd,
     target: cliConfig.target,
     outDir: cliConfig.outDir,
-    allFiles: glob(cwd, cliConfig.files),
-    filesToProcess: glob(cwd, cliConfig.files),
+    allFiles: files,
+    filesToProcess: files,
     prettier,
     flags: {
       ...cliConfig.flags,
@@ -40,3 +45,15 @@ main().catch((e) => {
   }
   process.exit(1)
 })
+
+function getFilesToProcess(cwd: string, filesOrPattern: string[]) {
+  let res = glob(cwd, filesOrPattern)
+
+  if (res.length === 0) {
+    // If there are no files found, but first parameter is surrounded with single quotes, we try again without quotes
+    const match = filesOrPattern[0].match(/'([\s\S]*)'/)?.[1]
+    if (match) res = glob(cwd, [match])
+  }
+
+  return res
+}
