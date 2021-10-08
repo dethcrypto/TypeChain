@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "lib": ["ES2018"],
+    "lib": ["ES2018", "ES2019.Array"],
     "module": "CommonJS",
     "moduleResolution": "node",
     "strict": true,
@@ -10,6 +10,6 @@
     "composite": true,
     "incremental": true
   },
-  "include": ["**/*.ts", "**/*.js", "**/.*.js"],
+  "include": ["**/*.ts", "**/*.js", "**/.*.js", "scripts/.common.ts"],
   "exclude": ["**/node_modules"]
 }
