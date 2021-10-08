@@ -17,4 +17,14 @@ describe('Ethers generation edge cases', () => {
       expect.stringMatching(/export class TestContract__factory \{/),
     )
   })
+
+  it('should work when bytecode has linkReferences', () => {
+    const source = codegenContractFactory(emptyContract, 'abi', {
+      bytecode: '{{BYTECODE}}',
+      linkReferences: [{ reference: '{{REFERENCE}}' }],
+    })
+
+    expect(source).toEqual(expect.stringMatching(/export class TestContract__factory extends ContractFactory \{/))
+    expect(source).toEqual(expect.stringMatching(/static linkBytecode\(/))
+  })
 })
