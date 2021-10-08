@@ -240,7 +240,7 @@ function generateEventInputs(eventArgs: EventArgDeclaration[]) {
   return (
     eventArgs
       .map((arg) => {
-        return `${createPositionalIdentifier(arg.name!)}: ${generateEventArgType(arg)}`
+        return `${arg.name && createPositionalIdentifier(arg.name)}: ${generateEventArgType(arg)}`
       })
       .join(', ') + ', '
   )

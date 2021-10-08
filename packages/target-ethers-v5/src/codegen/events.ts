@@ -1,4 +1,4 @@
-import { EventArgDeclaration, EventDeclaration } from 'typechain'
+import { createPositionalIdentifier, EventArgDeclaration, EventDeclaration } from 'typechain'
 
 import { generateInputType, generateOutputComplexTypeAsArray, generateOutputComplexTypesAsObject } from './types'
 
@@ -64,7 +64,7 @@ export function generateEventInputs(eventArgs: EventArgDeclaration[]) {
   return (
     eventArgs
       .map((arg) => {
-        return `${arg.name}?: ${generateEventArgType(arg)}`
+        return `${arg.name && createPositionalIdentifier(arg.name)}?: ${generateEventArgType(arg)}`
       })
       .join(', ') + ', '
   )

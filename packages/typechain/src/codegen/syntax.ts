@@ -19,12 +19,14 @@ const RESERVED_WORDS = new Set([
   'with',     'yield'
 ])
 
-/*
+/**
  * Creates an identifier prefixing reserved words with `_`.
  * We can only use this for function parameters and tuple element names.
  * Using it for method names would clas with runtime codegen.
+ *
+ * @internal
  */
-export function createPositionalIdentifier(identifierName: string) {
+export function createPositionalIdentifier(identifierName: string): string {
   if (RESERVED_WORDS.has(identifierName)) {
     return `_${identifierName}`
   }
