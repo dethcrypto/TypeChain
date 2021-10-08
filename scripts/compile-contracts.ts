@@ -66,7 +66,7 @@ function generateABIs({ rootDir, contracts }: Files) {
     console.log(bold(`Compiling ${fileNames.length} contracts with \`npx solc@${semver}\``))
     execSync(`npx solc@${semver} --abi ${contractPaths} --bin -o ./contracts/compiled/${dirName}`, {
       cwd: rootDir,
-      stdio: 'inherit',
+      stdio: ['ignore', 'ignore', 'inherit'],
     })
   }
 }

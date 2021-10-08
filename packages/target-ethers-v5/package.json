@@ -42,7 +42,6 @@
   "devDependencies": {
     "ganache-cli": "^6.12.2",
     "test-utils": "1.0.0",
-    "typechain": "*",
     "@types/lodash": "^4.14.139"
   },
   "dependencies": {
