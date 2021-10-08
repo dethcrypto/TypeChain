@@ -55,8 +55,7 @@
     "@types/prettier": "^1.13.2",
     "bignumber.js": "^5.0.0",
     "bluebird": "^3.5.1",
-    "coveralls": "^3.0.2",
-    "glob": "^7.1.2"
+    "coveralls": "^3.0.2"
   },
   "peerDependencies": {
     "typescript": ">=4.1.0"
