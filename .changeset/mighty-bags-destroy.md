@@ -1,6 +1,5 @@
 ---
 '@typechain/hardhat': patch
-'@typechain/hardhat-test': patch
 '@typechain/ethers-v5': patch
 ---
 
