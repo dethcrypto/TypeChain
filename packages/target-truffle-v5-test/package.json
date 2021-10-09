@@ -29,7 +29,7 @@
     "sinon": "^8.0.1",
     "sinon-chai": "^3.3.0",
     "test-utils": "1.0.0",
-    "truffle": "^5.1.21",
+    "truffle": "^5.1.57",
     "typechain": "^5.0.0"
   }
 }
