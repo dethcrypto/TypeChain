@@ -29,7 +29,7 @@ If you're a Truffle user you need:
 npm install --save-dev typechain @typechain/hardhat @typechain/truffle-v5
 ```
 
-And add the following statement to your `hardhat.config.js`:
+And add the following statements to your `hardhat.config.js`:
 
 ```javascript
 require('@typechain/hardhat')
@@ -61,6 +61,13 @@ Here's a sample `tsconfig.json`:
   "files": ["./hardhat.config.ts"]
 }
 ```
+
+Now typings should be automatically generated each time contract recompilation happens.
+
+**Warning**: before running it for the first time you need to do `hardhat clean`, otherwise TypeChain will think that
+there is no need to generate any typings. This is because this plugin will attempt to do incremental generation and
+generate typings only for changed contracts. You should also do `hardhat clean` if you change any TypeChain related
+config option.
 
 ## Features
 
