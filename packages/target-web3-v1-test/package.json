@@ -17,6 +17,7 @@
   "devDependencies": {
     "ganache-cli": "^6.12.2",
     "test-utils": "1.0.0",
-    "typechain": "*"
+    "typechain": "*",
+    "web3": "^1.6.0"
   }
 }

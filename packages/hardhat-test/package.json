@@ -15,6 +15,7 @@
     "test:fix": "yarn lint:fix && yarn format:fix && yarn test && yarn typecheck"
   },
   "devDependencies": {
+    "@ethersproject/bignumber": "=5.4.2",
     "@nomiclabs/hardhat-ethers": "^2.0.2",
     "@typechain/ethers-v5": "*",
     "@typechain/hardhat": "*",
