@@ -1,4 +1,4 @@
-import { EventArgDeclaration, EventDeclaration } from 'typechain'
+import { createPositionalIdentifier, EventArgDeclaration, EventDeclaration } from 'typechain'
 
 import { generateInputType, generateOutputComplexTypeAsArray, generateOutputComplexTypesAsObject } from './types'
 
@@ -16,14 +16,14 @@ export function generateEventFilter(event: EventDeclaration, includeNameFilter: 
   const objectOutput = generateOutputComplexTypesAsObject(components) || '{}'
 
   let filter = `
-    '${generateEventSignature(event)}'(${generateEventTypes(
+    '${generateEventSignature(event)}'(${generateEventInputs(
     event.inputs,
   )}): TypedEventFilter<${arrayOutput}, ${objectOutput}>;
     `
 
   if (includeNameFilter) {
     filter += `
-      ${event.name}(${generateEventTypes(event.inputs)}): TypedEventFilter<${arrayOutput}, ${objectOutput}>;
+      ${event.name}(${generateEventInputs(event.inputs)}): TypedEventFilter<${arrayOutput}, ${objectOutput}>;
       `
   }
   return filter
@@ -57,14 +57,14 @@ export function generateEventSignature(event: EventDeclaration): string {
   return `${event.name}(${event.inputs.map((input: any) => input.type.originalType).join(',')})`
 }
 
-export function generateEventTypes(eventArgs: EventArgDeclaration[]) {
+export function generateEventInputs(eventArgs: EventArgDeclaration[]) {
   if (eventArgs.length === 0) {
     return ''
   }
   return (
     eventArgs
       .map((arg) => {
-        return `${arg.name}?: ${generateEventArgType(arg)}`
+        return `${arg.name && createPositionalIdentifier(arg.name)}?: ${generateEventArgType(arg)}`
       })
       .join(', ') + ', '
   )

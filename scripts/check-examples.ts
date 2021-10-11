@@ -2,6 +2,8 @@ import { spawnSync } from 'child_process'
 import { readdirSync } from 'fs'
 import * as path from 'path'
 
+import { bold, red } from './_common'
+
 const VERBOSE = process.env.VERBOSE === 'true'
 
 const examplesDir = path.resolve(__dirname, '../examples')
@@ -47,12 +49,4 @@ if (failures.length > 0) {
 
 function formatOutput(output: string[]) {
   return output.filter(Boolean).join('\n')
-}
-
-function bold(text: string | number) {
-  return '\u001b[1m' + String(text) + '\u001b[0m'
-}
-
-function red(text: string | number) {
-  return '\u001b[31;4m' + String(text) + '\u001b[0m'
 }

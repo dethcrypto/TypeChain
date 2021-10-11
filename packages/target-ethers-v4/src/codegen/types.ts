@@ -1,11 +1,23 @@
-import { AbiOutputParameter, AbiParameter, EvmOutputType, EvmType, TupleType } from 'typechain'
+import {
+  AbiOutputParameter,
+  AbiParameter,
+  createPositionalIdentifier,
+  EvmOutputType,
+  EvmType,
+  TupleType,
+} from 'typechain'
 
 export function generateInputTypes(input: Array<AbiParameter>): string {
   if (input.length === 0) {
     return ''
   }
   return (
-    input.map((input, index) => `${input.name || `arg${index}`}: ${generateInputType(input.type)}`).join(', ') + ', '
+    input
+      .map(
+        (input, index) =>
+          `${createPositionalIdentifier(input.name) || `arg${index}`}: ${generateInputType(input.type)}`,
+      )
+      .join(', ') + ', '
   )
 }
 

@@ -3,6 +3,7 @@ import {
   AbiParameter,
   BytecodeWithLinkReferences,
   Contract,
+  createPositionalIdentifier,
   EventArgDeclaration,
   EventDeclaration,
   FunctionDeclaration,
@@ -207,7 +208,7 @@ function generateParamArrayTypes(params: Array<AbiParameter>): string {
 }
 
 function generateParamNames(params: Array<AbiParameter | EventArgDeclaration>): string {
-  return params.map((param) => param.name).join(', ')
+  return params.map((param) => param.name && createPositionalIdentifier(param.name)).join(', ')
 }
 
 function generateParamArrayNames(params: Array<AbiParameter | EventArgDeclaration>): string {
@@ -216,7 +217,7 @@ function generateParamArrayNames(params: Array<AbiParameter | EventArgDeclaratio
 
 function generateEvents(event: EventDeclaration) {
   return `
-  ${event.name}(${generateEventTypes(event.inputs)}): EventFilter;
+  ${event.name}(${generateEventInputs(event.inputs)}): EventFilter;
 `
 }
 
@@ -232,14 +233,14 @@ function generateEventTopicTypes(eventArgs: Array<EventArgDeclaration>): string 
   return `[${eventArgs.map(generateEventArgType).join(', ')}]`
 }
 
-function generateEventTypes(eventArgs: EventArgDeclaration[]) {
+function generateEventInputs(eventArgs: EventArgDeclaration[]) {
   if (eventArgs.length === 0) {
     return ''
   }
   return (
     eventArgs
       .map((arg) => {
-        return `${arg.name}: ${generateEventArgType(arg)}`
+        return `${arg.name && createPositionalIdentifier(arg.name)}: ${generateEventArgType(arg)}`
       })
       .join(', ') + ', '
   )

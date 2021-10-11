@@ -1,6 +1,7 @@
 import {
   AbiParameter,
   CodegenConfig,
+  createPositionalIdentifier,
   EventArgDeclaration,
   FunctionDeclaration,
   FunctionDocumentation,
@@ -102,5 +103,5 @@ export function generateDecodeFunctionResultOverload(fn: FunctionDeclaration): s
 }
 
 export function generateParamNames(params: Array<AbiParameter | EventArgDeclaration>): string {
-  return params.map((param, index) => param.name || `arg${index}`).join(', ')
+  return params.map((param, index) => (param.name ? createPositionalIdentifier(param.name) : `arg${index}`)).join(', ')
 }

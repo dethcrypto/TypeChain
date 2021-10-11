@@ -10,7 +10,7 @@
     "lint:fix": "yarn lint --fix",
     "typecheck": "tsc --noEmit --incremental false --composite false && tsc --noEmit --incremental false --composite false -p tsconfig.types.json",
     "clean": "rm -rf dist contracts/* && rm -f tsconfig.build.tsbuildinfo && rm -rf build",
-    "compile-contracts": "truffle compile",
+    "compile-contracts": "truffle compile --quiet",
     "generate-types": "node ../typechain/dist/cli/cli.js --target=../target-truffle-v5/dist/index.js './build/**/*.json'",
     "test": "yarn generate-types && truffle test",
     "test:fix": "yarn lint:fix && yarn format:fix && yarn test && yarn typecheck"
