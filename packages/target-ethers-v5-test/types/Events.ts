@@ -19,7 +19,7 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
-interface EventsInterface extends ethers.utils.Interface {
+export interface EventsInterface extends ethers.utils.Interface {
   functions: {
     "emit_anon1()": FunctionFragment;
     "emit_event1()": FunctionFragment;
@@ -117,7 +117,7 @@ export type Event4Event = TypedEvent<
 
 export type NoArgsEventEvent = TypedEvent<[] & {}>;
 
-export class Events extends BaseContract {
+export interface Events extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

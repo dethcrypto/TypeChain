@@ -18,7 +18,7 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
-interface DataTypesViewInterface extends ethers.utils.Interface {
+export interface DataTypesViewInterface extends ethers.utils.Interface {
   functions: {
     "view_address()": FunctionFragment;
     "view_bool()": FunctionFragment;
@@ -123,7 +123,7 @@ interface DataTypesViewInterface extends ethers.utils.Interface {
   events: {};
 }
 
-export class DataTypesView extends BaseContract {
+export interface DataTypesView extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

@@ -20,7 +20,7 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
-interface PayableInterface extends ethers.utils.Interface {
+export interface PayableInterface extends ethers.utils.Interface {
   functions: {
     "non_payable_func()": FunctionFragment;
     "payable_func()": FunctionFragment;
@@ -47,7 +47,7 @@ interface PayableInterface extends ethers.utils.Interface {
   events: {};
 }
 
-export class Payable extends BaseContract {
+export interface Payable extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

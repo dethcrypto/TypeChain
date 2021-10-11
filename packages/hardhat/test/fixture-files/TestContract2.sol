@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 pragma solidity 0.7.3;
 
 
@@ -6,7 +7,7 @@ contract TestContract2 {
 
     string message = "placeholder";
 
-    constructor(uint256 _amount) public {
+    constructor(uint256 _amount) {
         amount = _amount;
     }
 }

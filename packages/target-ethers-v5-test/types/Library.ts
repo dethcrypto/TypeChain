@@ -11,19 +11,26 @@ import {
   PopulatedTransaction,
   BaseContract,
   ContractTransaction,
+  CallOverrides,
 } from "ethers";
 import { BytesLike } from "@ethersproject/bytes";
 import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
-interface TestContract1Interface extends ethers.utils.Interface {
-  functions: {};
+export interface LibraryInterface extends ethers.utils.Interface {
+  functions: {
+    "other(uint8)": FunctionFragment;
+  };
+
+  encodeFunctionData(functionFragment: "other", values: [BigNumberish]): string;
+
+  decodeFunctionResult(functionFragment: "other", data: BytesLike): Result;
 
   events: {};
 }
 
-export class TestContract1 extends BaseContract {
+export interface Library extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -64,15 +71,28 @@ export class TestContract1 extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: TestContract1Interface;
+  interface: LibraryInterface;
 
-  functions: {};
+  functions: {
+    other(b: BigNumberish, overrides?: CallOverrides): Promise<[number]>;
+  };
 
-  callStatic: {};
+  other(b: BigNumberish, overrides?: CallOverrides): Promise<number>;
+
+  callStatic: {
+    other(b: BigNumberish, overrides?: CallOverrides): Promise<number>;
+  };
 
   filters: {};
 
-  estimateGas: {};
+  estimateGas: {
+    other(b: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+  };
 
-  populateTransaction: {};
+  populateTransaction: {
+    other(
+      b: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+  };
 }

@@ -18,7 +18,7 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
-interface SafeMathInterface extends ethers.utils.Interface {
+export interface SafeMathInterface extends ethers.utils.Interface {
   functions: {
     "add(uint256,uint256)": FunctionFragment;
     "div(uint256,uint256)": FunctionFragment;
@@ -51,7 +51,7 @@ interface SafeMathInterface extends ethers.utils.Interface {
   events: {};
 }
 
-export class SafeMath extends BaseContract {
+export interface SafeMath extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

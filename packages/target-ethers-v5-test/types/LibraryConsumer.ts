@@ -18,19 +18,22 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
-interface LibraryInterface extends ethers.utils.Interface {
+export interface LibraryConsumerInterface extends ethers.utils.Interface {
   functions: {
-    "other(uint8)": FunctionFragment;
+    "someOther(uint8)": FunctionFragment;
   };
 
-  encodeFunctionData(functionFragment: "other", values: [BigNumberish]): string;
+  encodeFunctionData(
+    functionFragment: "someOther",
+    values: [BigNumberish]
+  ): string;
 
-  decodeFunctionResult(functionFragment: "other", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "someOther", data: BytesLike): Result;
 
   events: {};
 }
 
-export class Library extends BaseContract {
+export interface LibraryConsumer extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -71,26 +74,26 @@ export class Library extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: LibraryInterface;
+  interface: LibraryConsumerInterface;
 
   functions: {
-    other(b: BigNumberish, overrides?: CallOverrides): Promise<[number]>;
+    someOther(b: BigNumberish, overrides?: CallOverrides): Promise<[number]>;
   };
 
-  other(b: BigNumberish, overrides?: CallOverrides): Promise<number>;
+  someOther(b: BigNumberish, overrides?: CallOverrides): Promise<number>;
 
   callStatic: {
-    other(b: BigNumberish, overrides?: CallOverrides): Promise<number>;
+    someOther(b: BigNumberish, overrides?: CallOverrides): Promise<number>;
   };
 
   filters: {};
 
   estimateGas: {
-    other(b: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+    someOther(b: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    other(
+    someOther(
       b: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;

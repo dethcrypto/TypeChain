@@ -18,22 +18,22 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
-interface LibraryConsumerInterface extends ethers.utils.Interface {
+export interface NameManglingInterface extends ethers.utils.Interface {
   functions: {
-    "someOther(uint8)": FunctionFragment;
+    "provider()": FunctionFragment;
+    "works()": FunctionFragment;
   };
 
-  encodeFunctionData(
-    functionFragment: "someOther",
-    values: [BigNumberish]
-  ): string;
+  encodeFunctionData(functionFragment: "provider", values?: undefined): string;
+  encodeFunctionData(functionFragment: "works", values?: undefined): string;
 
-  decodeFunctionResult(functionFragment: "someOther", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "provider", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "works", data: BytesLike): Result;
 
   events: {};
 }
 
-export class LibraryConsumer extends BaseContract {
+export interface NameMangling extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -74,28 +74,33 @@ export class LibraryConsumer extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: LibraryConsumerInterface;
+  interface: NameManglingInterface;
 
   functions: {
-    someOther(b: BigNumberish, overrides?: CallOverrides): Promise<[number]>;
+    provider(overrides?: CallOverrides): Promise<[boolean]>;
+
+    works(overrides?: CallOverrides): Promise<[boolean]>;
   };
 
-  someOther(b: BigNumberish, overrides?: CallOverrides): Promise<number>;
+  works(overrides?: CallOverrides): Promise<boolean>;
 
   callStatic: {
-    someOther(b: BigNumberish, overrides?: CallOverrides): Promise<number>;
+    provider(overrides?: CallOverrides): Promise<boolean>;
+
+    works(overrides?: CallOverrides): Promise<boolean>;
   };
 
   filters: {};
 
   estimateGas: {
-    someOther(b: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+    provider(overrides?: CallOverrides): Promise<BigNumber>;
+
+    works(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    someOther(
-      b: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    provider(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    works(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }

@@ -19,31 +19,22 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
-interface CounterInterface extends ethers.utils.Interface {
+export interface PayableFactoryInterface extends ethers.utils.Interface {
   functions: {
-    "countDown()": FunctionFragment;
-    "countUp()": FunctionFragment;
-    "getCount()": FunctionFragment;
+    "newPayable()": FunctionFragment;
   };
 
-  encodeFunctionData(functionFragment: "countDown", values?: undefined): string;
-  encodeFunctionData(functionFragment: "countUp", values?: undefined): string;
-  encodeFunctionData(functionFragment: "getCount", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "newPayable",
+    values?: undefined
+  ): string;
 
-  decodeFunctionResult(functionFragment: "countDown", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "countUp", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "getCount", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "newPayable", data: BytesLike): Result;
 
-  events: {
-    "CountedTo(uint256)": EventFragment;
-  };
-
-  getEvent(nameOrSignatureOrTopic: "CountedTo"): EventFragment;
+  events: {};
 }
 
-export type CountedToEvent = TypedEvent<[BigNumber] & { number: BigNumber }>;
-
-export class Counter extends BaseContract {
+export interface PayableFactory extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -84,69 +75,33 @@ export class Counter extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: CounterInterface;
+  interface: PayableFactoryInterface;
 
   functions: {
-    countDown(
+    newPayable(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
-
-    countUp(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    getCount(overrides?: CallOverrides): Promise<[BigNumber]>;
   };
 
-  countDown(
+  newPayable(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
-
-  countUp(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  getCount(overrides?: CallOverrides): Promise<BigNumber>;
 
   callStatic: {
-    countDown(overrides?: CallOverrides): Promise<BigNumber>;
-
-    countUp(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getCount(overrides?: CallOverrides): Promise<BigNumber>;
+    newPayable(overrides?: CallOverrides): Promise<string>;
   };
 
-  filters: {
-    "CountedTo(uint256)"(
-      number?: null
-    ): TypedEventFilter<[BigNumber], { number: BigNumber }>;
-
-    CountedTo(
-      number?: null
-    ): TypedEventFilter<[BigNumber], { number: BigNumber }>;
-  };
+  filters: {};
 
   estimateGas: {
-    countDown(
+    newPayable(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
-
-    countUp(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    getCount(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    countDown(
+    newPayable(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
-
-    countUp(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    getCount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }

@@ -18,7 +18,7 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
-interface DataTypesPureInterface extends ethers.utils.Interface {
+export interface DataTypesPureInterface extends ethers.utils.Interface {
   functions: {
     "pure_address()": FunctionFragment;
     "pure_bool()": FunctionFragment;
@@ -123,7 +123,7 @@ interface DataTypesPureInterface extends ethers.utils.Interface {
   events: {};
 }
 
-export class DataTypesPure extends BaseContract {
+export interface DataTypesPure extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

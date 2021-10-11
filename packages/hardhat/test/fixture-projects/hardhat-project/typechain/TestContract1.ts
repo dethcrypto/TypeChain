@@ -11,29 +11,19 @@ import {
   PopulatedTransaction,
   BaseContract,
   ContractTransaction,
-  CallOverrides,
 } from "ethers";
 import { BytesLike } from "@ethersproject/bytes";
 import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
-interface NameManglingInterface extends ethers.utils.Interface {
-  functions: {
-    "provider()": FunctionFragment;
-    "works()": FunctionFragment;
-  };
-
-  encodeFunctionData(functionFragment: "provider", values?: undefined): string;
-  encodeFunctionData(functionFragment: "works", values?: undefined): string;
-
-  decodeFunctionResult(functionFragment: "provider", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "works", data: BytesLike): Result;
+export interface TestContract1Interface extends ethers.utils.Interface {
+  functions: {};
 
   events: {};
 }
 
-export class NameMangling extends BaseContract {
+export interface TestContract1 extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -74,33 +64,15 @@ export class NameMangling extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: NameManglingInterface;
+  interface: TestContract1Interface;
 
-  functions: {
-    provider(overrides?: CallOverrides): Promise<[boolean]>;
+  functions: {};
 
-    works(overrides?: CallOverrides): Promise<[boolean]>;
-  };
-
-  works(overrides?: CallOverrides): Promise<boolean>;
-
-  callStatic: {
-    provider(overrides?: CallOverrides): Promise<boolean>;
-
-    works(overrides?: CallOverrides): Promise<boolean>;
-  };
+  callStatic: {};
 
   filters: {};
 
-  estimateGas: {
-    provider(overrides?: CallOverrides): Promise<BigNumber>;
+  estimateGas: {};
 
-    works(overrides?: CallOverrides): Promise<BigNumber>;
-  };
-
-  populateTransaction: {
-    provider(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    works(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-  };
+  populateTransaction: {};
 }

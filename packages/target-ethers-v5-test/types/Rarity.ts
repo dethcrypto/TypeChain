@@ -19,7 +19,7 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
-interface RarityInterface extends ethers.utils.Interface {
+export interface RarityInterface extends ethers.utils.Interface {
   functions: {
     "adventure(uint256)": FunctionFragment;
     "adventurers_log(uint256)": FunctionFragment;
@@ -241,7 +241,7 @@ export type summonedEvent = TypedEvent<
   }
 >;
 
-export class Rarity extends BaseContract {
+export interface Rarity extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
