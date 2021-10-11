@@ -699,6 +699,11 @@
   dependencies:
     fs-extra "^9.1.0"
 
+"@typechain/test-utils@file:../../packages/test-utils":
+  version "1.0.0"
+  dependencies:
+    ts-essentials "^7.0.1"
+
 "@types/abstract-leveldown@*":
   version "5.0.2"
   resolved "https://registry.yarnpkg.com/@types/abstract-leveldown/-/abstract-leveldown-5.0.2.tgz#ee81917fe38f770e29eec8139b6f16ee4a8b0a5f"

@@ -3,7 +3,8 @@ import chaiAsPromised from 'chai-as-promised'
 import { solidity } from 'ethereum-waffle'
 import { ethers } from 'hardhat'
 
-import type { Counter } from '../typechain'
+import type { Counter, Counter__factory } from '../typechain'
+import type { AssertTrue, IsExact } from '@typechain/test-utils'
 
 chai.use(solidity)
 chai.use(chaiAsPromised)
@@ -18,6 +19,8 @@ describe('Counter', () => {
 
     // 2
     const counterFactory = await ethers.getContractFactory('Counter', signers[0])
+    type _inferredExactFactory = AssertTrue<IsExact<typeof counterFactory, Counter__factory>>
+
     counter = await counterFactory.deploy()
     await counter.deployed()
     const initialCount = await counter.getCount()

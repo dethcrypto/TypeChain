@@ -26,6 +26,7 @@
     "hardhat": "^2.0.10",
     "ts-node": "^9.1.1",
     "typechain": "file:../../packages/typechain",
+    "@typechain/test-utils": "file:../../packages/test-utils",
     "typescript": "^4.1.5"
   },
   "resolutions": {
