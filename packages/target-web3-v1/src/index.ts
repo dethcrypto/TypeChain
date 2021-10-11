@@ -44,7 +44,7 @@ export default class Web3V1 extends TypeChainTarget {
     const contract = parse(abi, name, documentation)
 
     return {
-      path: join(this.outDirAbs, `${name}.d.ts`),
+      path: join(this.outDirAbs, `${name}.ts`),
       contents: codegen(contract),
     }
   }
@@ -52,8 +52,8 @@ export default class Web3V1 extends TypeChainTarget {
   afterRun(): FileDescription[] {
     return [
       {
-        path: join(this.outDirAbs, 'types.d.ts'),
-        contents: readFileSync(join(__dirname, '../static/types.d.ts'), 'utf-8'),
+        path: join(this.outDirAbs, 'types.ts'),
+        contents: readFileSync(join(__dirname, '../static/types.ts'), 'utf-8'),
       },
     ]
   }

@@ -15,21 +15,23 @@ import {
   BaseContract,
 } from "./types";
 
-interface EventOptions {
+export interface EventOptions {
   filter?: object;
   fromBlock?: BlockType;
   topics?: string[];
 }
 
-export interface Library extends BaseContract {
+export interface NameMangling extends BaseContract {
   constructor(
     jsonInterface: any[],
     address?: string,
     options?: ContractOptions
-  ): Library;
-  clone(): Library;
+  ): NameMangling;
+  clone(): NameMangling;
   methods: {
-    other(b: number | string | BN): NonPayableTransactionObject<string>;
+    provider(): NonPayableTransactionObject<boolean>;
+
+    works(): NonPayableTransactionObject<boolean>;
   };
   events: {
     allEvents(options?: EventOptions, cb?: Callback<EventLog>): EventEmitter;

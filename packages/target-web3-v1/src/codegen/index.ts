@@ -11,7 +11,7 @@ export function codegen(contract: Contract) {
   import { EventEmitter } from "events";
   import { Callback, PayableTransactionObject, NonPayableTransactionObject, BlockType, ContractEventLog, BaseContract } from "./types";
 
-  interface EventOptions {
+  export interface EventOptions {
     filter?: object;
     fromBlock?: BlockType;
     topics?: string[];

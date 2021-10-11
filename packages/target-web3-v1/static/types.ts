@@ -1,15 +1,15 @@
 import BN from 'bn.js'
-import { Contract } from 'web3-eth-contract'
-import { EventLog, PromiEvent, TransactionReceipt } from 'web3-core/types'
 import { EventEmitter } from 'events'
+import { EventLog, PromiEvent, TransactionReceipt } from 'web3-core/types'
+import { Contract } from 'web3-eth-contract'
 
-interface EstimateGasOptions {
+export interface EstimateGasOptions {
   from?: string
   gas?: number
   value?: number | string | BN
 }
 
-interface EventOptions {
+export interface EventOptions {
   filter?: object
   fromBlock?: BlockType
   topics?: string[]

@@ -15,23 +15,26 @@ import {
   BaseContract,
 } from "./types";
 
-interface EventOptions {
+export interface EventOptions {
   filter?: object;
   fromBlock?: BlockType;
   topics?: string[];
 }
 
-export interface Payable extends BaseContract {
+export interface IERC721Receiver extends BaseContract {
   constructor(
     jsonInterface: any[],
     address?: string,
     options?: ContractOptions
-  ): Payable;
-  clone(): Payable;
+  ): IERC721Receiver;
+  clone(): IERC721Receiver;
   methods: {
-    non_payable_func(): NonPayableTransactionObject<void>;
-
-    payable_func(): PayableTransactionObject<void>;
+    onERC721Received(
+      operator: string,
+      from: string,
+      tokenId: number | string | BN,
+      data: string | number[]
+    ): NonPayableTransactionObject<string>;
   };
   events: {
     allEvents(options?: EventOptions, cb?: Callback<EventLog>): EventEmitter;

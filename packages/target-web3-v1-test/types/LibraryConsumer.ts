@@ -15,28 +15,21 @@ import {
   BaseContract,
 } from "./types";
 
-interface EventOptions {
+export interface EventOptions {
   filter?: object;
   fromBlock?: BlockType;
   topics?: string[];
 }
 
-export interface Overloads extends BaseContract {
+export interface LibraryConsumer extends BaseContract {
   constructor(
     jsonInterface: any[],
     address?: string,
     options?: ContractOptions
-  ): Overloads;
-  clone(): Overloads;
+  ): LibraryConsumer;
+  clone(): LibraryConsumer;
   methods: {
-    "overload1(int256)"(
-      input1: number | string | BN
-    ): NonPayableTransactionObject<string>;
-
-    "overload1(uint256,uint256)"(
-      input1: number | string | BN,
-      input2: number | string | BN
-    ): NonPayableTransactionObject<string>;
+    someOther(b: number | string | BN): NonPayableTransactionObject<string>;
   };
   events: {
     allEvents(options?: EventOptions, cb?: Callback<EventLog>): EventEmitter;

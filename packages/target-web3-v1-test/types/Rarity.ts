@@ -15,7 +15,7 @@ import {
   BaseContract,
 } from "./types";
 
-interface EventOptions {
+export interface EventOptions {
   filter?: object;
   fromBlock?: BlockType;
   topics?: string[];
@@ -45,21 +45,49 @@ export type Transfer = ContractEventLog<{
   1: string;
   2: string;
 }>;
+export type leveled = ContractEventLog<{
+  owner: string;
+  level: string;
+  summoner: string;
+  0: string;
+  1: string;
+  2: string;
+}>;
+export type summoned = ContractEventLog<{
+  owner: string;
+  class: string;
+  summoner: string;
+  0: string;
+  1: string;
+  2: string;
+}>;
 
-export interface IERC721 extends BaseContract {
+export interface Rarity extends BaseContract {
   constructor(
     jsonInterface: any[],
     address?: string,
     options?: ContractOptions
-  ): IERC721;
-  clone(): IERC721;
+  ): Rarity;
+  clone(): Rarity;
   methods: {
+    adventure(
+      _summoner: number | string | BN
+    ): NonPayableTransactionObject<void>;
+
+    adventurers_log(
+      arg0: number | string | BN
+    ): NonPayableTransactionObject<string>;
+
     approve(
       to: string,
       tokenId: number | string | BN
     ): NonPayableTransactionObject<void>;
 
     balanceOf(owner: string): NonPayableTransactionObject<string>;
+
+    class(arg0: number | string | BN): NonPayableTransactionObject<string>;
+
+    classes(id: number | string | BN): NonPayableTransactionObject<string>;
 
     getApproved(
       tokenId: number | string | BN
@@ -69,6 +97,14 @@ export interface IERC721 extends BaseContract {
       owner: string,
       operator: string
     ): NonPayableTransactionObject<boolean>;
+
+    level(arg0: number | string | BN): NonPayableTransactionObject<string>;
+
+    level_up(
+      _summoner: number | string | BN
+    ): NonPayableTransactionObject<void>;
+
+    next_summoner(): NonPayableTransactionObject<string>;
 
     ownerOf(tokenId: number | string | BN): NonPayableTransactionObject<string>;
 
@@ -82,19 +118,60 @@ export interface IERC721 extends BaseContract {
       from: string,
       to: string,
       tokenId: number | string | BN,
-      data: string | number[]
+      _data: string | number[]
     ): NonPayableTransactionObject<void>;
 
     setApprovalForAll(
       operator: string,
-      _approved: boolean
+      approved: boolean
     ): NonPayableTransactionObject<void>;
+
+    spend_xp(
+      _summoner: number | string | BN,
+      _xp: number | string | BN
+    ): NonPayableTransactionObject<void>;
+
+    summon(_class: number | string | BN): NonPayableTransactionObject<void>;
+
+    summoner(
+      _summoner: number | string | BN
+    ): NonPayableTransactionObject<{
+      _xp: string;
+      _log: string;
+      _class: string;
+      _level: string;
+      0: string;
+      1: string;
+      2: string;
+      3: string;
+    }>;
+
+    tokenByIndex(
+      index: number | string | BN
+    ): NonPayableTransactionObject<string>;
+
+    tokenOfOwnerByIndex(
+      owner: string,
+      index: number | string | BN
+    ): NonPayableTransactionObject<string>;
+
+    tokenURI(
+      _summoner: number | string | BN
+    ): NonPayableTransactionObject<string>;
+
+    totalSupply(): NonPayableTransactionObject<string>;
 
     transferFrom(
       from: string,
       to: string,
       tokenId: number | string | BN
     ): NonPayableTransactionObject<void>;
+
+    xp(arg0: number | string | BN): NonPayableTransactionObject<string>;
+
+    xp_required(
+      curent_level: number | string | BN
+    ): NonPayableTransactionObject<string>;
   };
   events: {
     Approval(cb?: Callback<Approval>): EventEmitter;
@@ -108,6 +185,12 @@ export interface IERC721 extends BaseContract {
 
     Transfer(cb?: Callback<Transfer>): EventEmitter;
     Transfer(options?: EventOptions, cb?: Callback<Transfer>): EventEmitter;
+
+    leveled(cb?: Callback<leveled>): EventEmitter;
+    leveled(options?: EventOptions, cb?: Callback<leveled>): EventEmitter;
+
+    summoned(cb?: Callback<summoned>): EventEmitter;
+    summoned(options?: EventOptions, cb?: Callback<summoned>): EventEmitter;
 
     allEvents(options?: EventOptions, cb?: Callback<EventLog>): EventEmitter;
   };
@@ -124,4 +207,10 @@ export interface IERC721 extends BaseContract {
 
   once(event: "Transfer", cb: Callback<Transfer>): void;
   once(event: "Transfer", options: EventOptions, cb: Callback<Transfer>): void;
+
+  once(event: "leveled", cb: Callback<leveled>): void;
+  once(event: "leveled", options: EventOptions, cb: Callback<leveled>): void;
+
+  once(event: "summoned", cb: Callback<summoned>): void;
+  once(event: "summoned", options: EventOptions, cb: Callback<summoned>): void;
 }
