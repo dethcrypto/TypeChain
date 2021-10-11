@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 pragma solidity 0.7.3;
 pragma experimental ABIEncoderV2;
 
@@ -6,7 +7,7 @@ contract EdgeCases {
   constructor (
     uint256 test,
     bytes memory
-  ) public {
+  ) {
 
   }
 }
