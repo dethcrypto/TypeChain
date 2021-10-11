@@ -14,7 +14,22 @@ for (const dir of readdirSync(examplesDir)) {
   console.log(`Checking example: ${dir}`)
 
   const yarn = process.platform === 'win32' ? 'yarn.cmd' : 'yarn'
-  const childProcess = spawnSync(yarn, ['--non-interactive'], {
+  runProcess([yarn, '--non-interactive'], dir)
+  runProcess([yarn, 'typecheck'], dir)
+}
+
+if (failures.length > 0) {
+  console.error(
+    '\n',
+    bold(failures.length) + ` example${failures.length > 1 ? 's' : ''} failed:`,
+    red(failures.join(', ')),
+    '\n',
+  )
+  process.exit(1)
+}
+
+function runProcess([program, ...args]: string[], dir: string) {
+  const childProcess = spawnSync(program, args, {
     cwd: path.resolve(examplesDir, dir),
     encoding: 'utf-8',
     env: {
@@ -35,16 +50,6 @@ for (const dir of readdirSync(examplesDir)) {
     console.error(bold(`❌ Failed with status ${childProcess.status} and output:` + '\n'))
     console.error(formatOutput(childProcess.output))
   }
-}
-
-if (failures.length > 0) {
-  console.error(
-    '\n',
-    bold(failures.length) + ` example${failures.length > 1 ? 's' : ''} failed:`,
-    red(failures.join(', ')),
-    '\n',
-  )
-  process.exit(1)
 }
 
 function formatOutput(output: string[]) {
