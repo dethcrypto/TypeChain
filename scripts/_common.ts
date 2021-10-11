@@ -2,4 +2,4 @@ const colored = (escapeCode: string) => (text: string | number) => `\x1b[${escap
 
 export const red = colored('31;4')
 export const bold = colored('1')
-export const brightItalic = colored('3m;90')
+export const brightItalic = colored('3;90')
