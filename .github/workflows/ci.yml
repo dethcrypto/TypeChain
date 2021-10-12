@@ -64,10 +64,9 @@ jobs:
       - run: yarn test
       - run: yarn format # do it at the very end because "yarn test" can generate types (which should be formatted)
         if: runner.os == 'Linux'
-      - run: yarn format:fix
-        if: runner.os == 'Windows'
       - run: yarn typecheck # this has to happen after yarn test b/c test does type generation
       - run: yarn no-git-changes # ensure that committed types are up to date
+        if: runner.os == 'Linux'
 
   test-examples:
     strategy:
@@ -97,7 +96,7 @@ jobs:
 
       - run: yarn check-examples
       - run: yarn no-git-changes # ensure that committed types are up to date
-
+        if: runner.os == 'Linux'
 # Few tips github actions
 # - name: Setup SSH debug session
 #   uses: mxschmitt/action-tmate@v2
