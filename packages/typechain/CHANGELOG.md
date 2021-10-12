@@ -1,5 +1,11 @@
 # typechain
 
+## 5.2.0
+
+### Minor Changes
+
+- c7c2913: Escaped reserved words in argument names
+
 ## 5.1.2
 
 ### Patch Changes
