@@ -51,7 +51,6 @@
     "@types/lodash": "^4.14.139",
     "@types/mkdirp": "^1.0.1",
     "@types/node": "^8.0.25",
-    "@types/prettier": "^1.13.2",
     "bluebird": "^3.5.1",
     "coveralls": "^3.0.2"
   },
