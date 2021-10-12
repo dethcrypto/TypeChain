@@ -1,4 +1,4 @@
-# TypeChain x Ethers-v4 example
+# TypeChain x Hardhat example
 
 Note: examples in this dir require building monorepo first
 
@@ -15,5 +15,5 @@ yarn # it will automatically run TypeChain types generation
 
 # yarn generate-types to manually regenerate them
 
-yarn start
+yarn test
 ```

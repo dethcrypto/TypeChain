@@ -1,5 +1,13 @@
 # TypeChain x Truffle v5 example
 
+Note: examples in this dir require building monorepo first
+
+```sh
+# in the root of monorepo
+yarn
+yarn build
+```
+
 ## Running
 
 ```sh
@@ -13,7 +21,6 @@ truffle test
 # migrations are kinda tricky (look at known limitation section) - we need to transpile ts to js file (this is not a case for tests)
 yarn migrate
 ```
-
 
 ## Known limitations
 

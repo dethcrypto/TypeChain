@@ -1,5 +1,13 @@
 # TypeChain x Ethers-v5 example
 
+Note: examples in this dir require building monorepo first
+
+```sh
+# in the root of monorepo
+yarn
+yarn build
+```
+
 ## Running
 
 ```sh
