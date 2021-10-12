@@ -43,7 +43,6 @@
     "ts-essentials": "^7.0.1"
   },
   "devDependencies": {
-    "@types/bignumber.js": "^5.0.0",
     "@types/bluebird": "^3.5.18",
     "@types/command-line-args": "^4.0.2",
     "@types/debug": "^4.1.5",
@@ -53,7 +52,6 @@
     "@types/mkdirp": "^1.0.1",
     "@types/node": "^8.0.25",
     "@types/prettier": "^1.13.2",
-    "bignumber.js": "^5.0.0",
     "bluebird": "^3.5.1",
     "coveralls": "^3.0.2"
   },

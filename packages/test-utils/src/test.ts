@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js'
 import { expect } from 'earljs'
 import { isString, mapValues, omitBy } from 'lodash'
 import { Dictionary } from 'ts-essentials'
@@ -60,8 +61,7 @@ export function isBigNumberObject(val: any): val is Dictionary<any> {
 }
 
 export function q18(n: number): string {
-  const BigNumber = require('bignumber.js')
-  return new BigNumber(n).mul(new BigNumber(10).pow(new BigNumber(18))).toString()
+  return new BigNumber(n).multipliedBy(new BigNumber(10).pow(new BigNumber(18))).toString()
 }
 
 // async mocha test case both with done and promise

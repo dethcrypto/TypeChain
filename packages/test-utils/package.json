@@ -22,6 +22,7 @@
   "devDependencies": {
     "conditional-type-checks": "^1.0.5",
     "ganache-cli": "^6.12.2",
-    "web3": "^1.2.6"
+    "web3": "^1.6.0",
+    "bignumber.js":"9.0.1"
   }
 }
