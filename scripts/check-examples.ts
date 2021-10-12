@@ -2,7 +2,7 @@ import { spawnSync } from 'child_process'
 import { readdirSync } from 'fs'
 import * as path from 'path'
 
-import { bold, red } from './_common'
+import { bold, brightItalic, red } from './_common'
 
 const VERBOSE = process.env.VERBOSE === 'true'
 
@@ -11,10 +11,28 @@ const examplesDir = path.resolve(__dirname, '../examples')
 const failures: string[] = []
 
 for (const dir of readdirSync(examplesDir)) {
-  console.log(`Checking example: ${dir}`)
+  console.log(`Checking example: ${bold(dir)}`)
 
   const yarn = process.platform === 'win32' ? 'yarn.cmd' : 'yarn'
-  const childProcess = spawnSync(yarn, ['--non-interactive'], {
+  runProcess([yarn, '--non-interactive', '--frozen-lockfile'], dir)
+  runProcess([yarn, 'typecheck'], dir)
+}
+
+if (failures.length > 0) {
+  console.error(
+    '\n',
+    bold(failures.length) + ` example${failures.length > 1 ? 's' : ''} failed:`,
+    red(failures.join(', ')),
+    '\n',
+  )
+  process.exit(1)
+}
+
+function runProcess(command: string[], dir: string) {
+  console.log(brightItalic(command.join(' ')))
+
+  const [program, ...args] = command
+  const childProcess = spawnSync(program, args, {
     cwd: path.resolve(examplesDir, dir),
     encoding: 'utf-8',
     env: {
@@ -35,16 +53,6 @@ for (const dir of readdirSync(examplesDir)) {
     console.error(bold(`❌ Failed with status ${childProcess.status} and output:` + '\n'))
     console.error(formatOutput(childProcess.output))
   }
-}
-
-if (failures.length > 0) {
-  console.error(
-    '\n',
-    bold(failures.length) + ` example${failures.length > 1 ? 's' : ''} failed:`,
-    red(failures.join(', ')),
-    '\n',
-  )
-  process.exit(1)
 }
 
 function formatOutput(output: string[]) {
