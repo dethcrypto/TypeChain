@@ -1,5 +1,18 @@
 # @typechain/ethers-v5
 
+## 7.2.0
+
+### Minor Changes
+
+- ed871ca: Fix contract interface functions name for tuples
+
+### Patch Changes
+
+- c93a1e7: Fixed generated contract factory constructors to accept 3 parameters when called from ContractFactory methods
+  (`this.constructor(interface, bytecode, signer)`).
+
+  Fixes https://github.com/dethcrypto/TypeChain/issues/487
+
 ## 7.1.2
 
 ### Patch Changes

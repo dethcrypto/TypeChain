@@ -1,5 +1,14 @@
 # @typechain/hardhat
 
+## 2.3.1
+
+### Patch Changes
+
+- c93a1e7: Fixed generated contract factory constructors to accept 3 parameters when called from ContractFactory methods
+  (`this.constructor(interface, bytecode, signer)`).
+
+  Fixes https://github.com/dethcrypto/TypeChain/issues/487
+
 ## 2.3.0
 
 ### Minor Changes
