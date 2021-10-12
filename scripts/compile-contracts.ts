@@ -64,6 +64,8 @@ function generateABIs({ rootDir, contracts }: Files) {
     const contractPaths = fileNames.map((fileName) => `./contracts/${dirName}/${fileName}`).join(' ')
 
     console.log(bold(`Compiling ${fileNames.length} contracts with \`npx solc@${semver}\``))
+
+    // BEWARE: This may be broken on NPM 7 — https://github.com/npm/cli/issues/3210
     execSync(`npx solc@${semver} --abi ${contractPaths} --bin -o ./contracts/compiled/${dirName}`, {
       cwd: rootDir,
       stdio: ['ignore', 'ignore', 'inherit'],

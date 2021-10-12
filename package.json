@@ -9,7 +9,10 @@
     "packages": [
       "packages/*"
     ],
-    "nohoist": ["**/truffle", "**/ethers"]
+    "nohoist": [
+      "**/truffle",
+      "**/ethers"
+    ]
   },
   "scripts": {
     "postinstall": "yarn build",
