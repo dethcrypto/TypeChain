@@ -9,7 +9,12 @@ export function tryRequire(name: string): { module: any; name: string; path: str
     }
     debug('Load successfully: ', name)
     return module
-  } catch (e) {
+  } catch (err) {
+    if (err instanceof Error && err.message.startsWith(`Cannot find module '${name}'`)) {
+      // this error is expected
+    } else {
+      throw err
+    }
     debug("Couldn't load: ", name)
   }
 }
