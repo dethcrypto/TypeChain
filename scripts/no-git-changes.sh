@@ -5,7 +5,7 @@ cd "$(dirname "$0")"
 if [[ `git status --porcelain` ]]; then
   echo "GIT changes detected! Run yarn test:fix and commit and changes (especially in test fixtures)."
 
-  git --no-pager diff
+  git status --verbose --verbose
 
   exit 1
 fi
