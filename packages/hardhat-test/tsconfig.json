@@ -1,6 +1,6 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["./typechain"],
+  "include": ["./typechain", "./test", "./hardhat.config.ts"],
   "compilerOptions": {
     "esModuleInterop": true,
     "skipLibCheck": true
