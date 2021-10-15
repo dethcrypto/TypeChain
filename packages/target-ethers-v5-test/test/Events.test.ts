@@ -1,7 +1,8 @@
 import { BigNumber, ethers } from 'ethers'
-import { typedAssert } from 'test-utils'
+import { AssertTrue, IsExact, typedAssert } from 'test-utils'
 
-import { Event1Event, Events } from '../types/Events'
+import { TypedEventFilter } from '../types/common'
+import { Event1Event, Event3_bool_uint256_Event, Events } from '../types/Events'
 import { createNewBlockchain, deployContract } from './common'
 
 describe('Events', () => {
@@ -36,6 +37,7 @@ describe('Events', () => {
     await contract.emit_event1()
 
     const filter = contract.filters.Event1()
+
     const results = await contract.queryFilter(filter)
     results.map((r) => {
       typedAssert(r.args.value1, BigNumber.from(1))
@@ -48,6 +50,8 @@ describe('Events', () => {
   it('contract.on', async () => {
     const filter = contract.filters.Event1(null, null)
     await contract.queryFilter(filter)
+
+    type _ = AssertTrue<IsExact<GetEventFromFilter<typeof filter>, Event1Event>>
 
     contract.on(filter, (a, b, c) => {
       typedAssert(a, BigNumber.from(1))
@@ -100,9 +104,11 @@ describe('Events', () => {
 
   it('queryFilter overloaded event', async () => {
     await contract.emit_event3_overloaded()
-
     {
       const filterA = contract.filters['Event3(bool,uint256)']()
+
+      type _ = AssertTrue<IsExact<GetEventFromFilter<typeof filterA>, Event3_bool_uint256_Event>>
+
       const results = await contract.queryFilter(filterA)
       results.map((r) => {
         typedAssert(r.args.value1, true)
@@ -121,3 +127,5 @@ describe('Events', () => {
     }
   })
 })
+
+type GetEventFromFilter<TFilter extends TypedEventFilter<any>> = TFilter extends TypedEventFilter<infer E> ? E : never

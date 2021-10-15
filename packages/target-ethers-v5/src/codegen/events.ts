@@ -4,29 +4,22 @@ import { generateInputType, generateOutputComplexTypeAsArray, generateOutputComp
 
 export function generateEventFilters(events: EventDeclaration[]) {
   if (events.length === 1) {
-    return generateEventFilter(events[0], true)
-  } else {
-    return events.map((e) => generateEventFilter(e, false)).join('\n')
-  }
-}
+    const event = events[0]
+    const typedEventFilter = `TypedEventFilter<${generateEventIdentifier(event, { includeArgTypes: false })}>`
 
-export function generateEventFilter(event: EventDeclaration, includeNameFilter: boolean) {
-  const components = event.inputs.map((input, i) => ({ name: input.name ?? `arg${i.toString()}`, type: input.type }))
-  const arrayOutput = generateOutputComplexTypeAsArray(components)
-  const objectOutput = generateOutputComplexTypesAsObject(components) || '{}'
-
-  let filter = `
-    '${generateEventSignature(event)}'(${generateEventInputs(
-    event.inputs,
-  )}): TypedEventFilter<${arrayOutput}, ${objectOutput}>;
+    return `
+      '${generateEventSignature(event)}'(${generateEventInputs(event.inputs)}): ${typedEventFilter};
+      ${event.name}(${generateEventInputs(event.inputs)}): ${typedEventFilter};
     `
+  } else {
+    return events
+      .map((event) => {
+        const typedEventFilter = `TypedEventFilter<${generateEventIdentifier(event, { includeArgTypes: true })}>`
 
-  if (includeNameFilter) {
-    filter += `
-      ${event.name}(${generateEventInputs(event.inputs)}): TypedEventFilter<${arrayOutput}, ${objectOutput}>;
-      `
+        return `'${generateEventSignature(event)}'(${generateEventInputs(event.inputs)}): ${typedEventFilter};`
+      })
+      .join('\n')
   }
-  return filter
 }
 
 export function generateEventTypeExports(events: EventDeclaration[]) {
@@ -42,10 +35,10 @@ export function generateEventTypeExport(event: EventDeclaration, includeArgTypes
   const arrayOutput = generateOutputComplexTypeAsArray(components)
   const objectOutput = generateOutputComplexTypesAsObject(components) || '{}'
 
+  const identifier = generateEventIdentifier(event, { includeArgTypes })
+
   return `
-  export type ${event.name}${
-    includeArgTypes ? event.inputs.map((input) => '_' + input.type.originalType).join('') + '_Event' : 'Event'
-  } = TypedEvent<${arrayOutput} & ${objectOutput}>;
+    export type ${identifier} = TypedEvent<${arrayOutput}, ${objectOutput}>;
   `
 }
 
@@ -77,3 +70,28 @@ export function generateEventArgType(eventArg: EventArgDeclaration): string {
 export function generateGetEventOverload(event: EventDeclaration): string {
   return `getEvent(nameOrSignatureOrTopic: '${event.name}'): EventFragment;`
 }
+
+function generateEventIdentifier(event: EventDeclaration, { includeArgTypes }: { includeArgTypes?: boolean } = {}) {
+  return `${event.name}${
+    includeArgTypes ? event.inputs.map((input) => '_' + input.type.originalType).join('') + '_Event' : 'Event'
+  }`
+}
+
+export const EVENT_METHOD_OVERRIDES = `
+  queryFilter<TEvent extends TypedEvent>(
+    event: TypedEventFilter<TEvent>,
+    fromBlockOrBlockhash?: string | number | undefined,
+    toBlock?: string | number | undefined,
+  ): Promise<Array<TEvent>>
+
+  listeners<TEvent extends TypedEvent>(eventFilter?: TypedEventFilter<TEvent>): Array<TypedListener<TEvent>>
+  listeners(eventName?: string): Array<Listener>
+  removeAllListeners<TEvent extends TypedEvent>(eventFilter: TypedEventFilter<TEvent>): this
+  removeAllListeners(eventName?: string): this
+  off: OnEvent<this>
+  on: OnEvent<this>
+  once: OnEvent<this>
+  removeListener: OnEvent<this>
+`
+
+export const EVENT_IMPORTS = ['TypedEventFilter', 'TypedEvent', 'TypedListener', 'OnEvent']

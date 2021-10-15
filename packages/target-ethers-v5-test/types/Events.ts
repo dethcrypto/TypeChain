@@ -17,7 +17,12 @@ import {
 import { BytesLike } from "@ethersproject/bytes";
 import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
-import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
+import type {
+  TypedEventFilter,
+  TypedEvent,
+  TypedListener,
+  OnEvent,
+} from "./common";
 
 export interface EventsInterface extends ethers.utils.Interface {
   functions: {
@@ -93,72 +98,57 @@ export interface EventsInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "NoArgsEvent"): EventFragment;
 }
 
-export type AnonEvent1Event = TypedEvent<[BigNumber] & { value1: BigNumber }>;
+export type AnonEvent1Event = TypedEvent<[BigNumber], { value1: BigNumber }>;
 
 export type Event1Event = TypedEvent<
-  [BigNumber, BigNumber] & { value1: BigNumber; value2: BigNumber }
+  [BigNumber, BigNumber],
+  { value1: BigNumber; value2: BigNumber }
 >;
 
-export type Event2Event = TypedEvent<[BigNumber] & { arg0: BigNumber }>;
+export type Event2Event = TypedEvent<[BigNumber], { arg0: BigNumber }>;
 
 export type Event3_bool_uint256_Event = TypedEvent<
-  [boolean, BigNumber] & { value1: boolean; value2: BigNumber }
+  [boolean, BigNumber],
+  { value1: boolean; value2: BigNumber }
 >;
 
 export type Event3_uint256_Event = TypedEvent<
-  [BigNumber] & { value1: BigNumber }
+  [BigNumber],
+  { value1: BigNumber }
 >;
 
 export type Event4Event = TypedEvent<
-  [[BigNumber, string] & { index: BigNumber; name: string }] & {
-    data: [BigNumber, string] & { index: BigNumber; name: string };
-  }
+  [[BigNumber, string] & { index: BigNumber; name: string }],
+  { data: [BigNumber, string] & { index: BigNumber; name: string } }
 >;
 
-export type NoArgsEventEvent = TypedEvent<[] & {}>;
+export type NoArgsEventEvent = TypedEvent<[], {}>;
 
 export interface Events extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  listeners<EventArgsArray extends Array<any>, EventArgsObject>(
-    eventFilter?: TypedEventFilter<EventArgsArray, EventArgsObject>
-  ): Array<TypedListener<EventArgsArray, EventArgsObject>>;
-  off<EventArgsArray extends Array<any>, EventArgsObject>(
-    eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>,
-    listener: TypedListener<EventArgsArray, EventArgsObject>
-  ): this;
-  on<EventArgsArray extends Array<any>, EventArgsObject>(
-    eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>,
-    listener: TypedListener<EventArgsArray, EventArgsObject>
-  ): this;
-  once<EventArgsArray extends Array<any>, EventArgsObject>(
-    eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>,
-    listener: TypedListener<EventArgsArray, EventArgsObject>
-  ): this;
-  removeListener<EventArgsArray extends Array<any>, EventArgsObject>(
-    eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>,
-    listener: TypedListener<EventArgsArray, EventArgsObject>
-  ): this;
-  removeAllListeners<EventArgsArray extends Array<any>, EventArgsObject>(
-    eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>
-  ): this;
+  interface: EventsInterface;
 
-  listeners(eventName?: string): Array<Listener>;
-  off(eventName: string, listener: Listener): this;
-  on(eventName: string, listener: Listener): this;
-  once(eventName: string, listener: Listener): this;
-  removeListener(eventName: string, listener: Listener): this;
-  removeAllListeners(eventName?: string): this;
-
-  queryFilter<EventArgsArray extends Array<any>, EventArgsObject>(
-    event: TypedEventFilter<EventArgsArray, EventArgsObject>,
+  queryFilter<TEvent extends TypedEvent>(
+    event: TypedEventFilter<TEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
+  ): Promise<Array<TEvent>>;
 
-  interface: EventsInterface;
+  listeners<TEvent extends TypedEvent>(
+    eventFilter?: TypedEventFilter<TEvent>
+  ): Array<TypedListener<TEvent>>;
+  listeners(eventName?: string): Array<Listener>;
+  removeAllListeners<TEvent extends TypedEvent>(
+    eventFilter: TypedEventFilter<TEvent>
+  ): this;
+  removeAllListeners(eventName?: string): this;
+  off: OnEvent<this>;
+  on: OnEvent<this>;
+  once: OnEvent<this>;
+  removeListener: OnEvent<this>;
 
   functions: {
     emit_anon1(
@@ -227,65 +217,34 @@ export interface Events extends BaseContract {
   filters: {
     "AnonEvent1(uint256)"(
       value1?: BigNumberish | null
-    ): TypedEventFilter<[BigNumber], { value1: BigNumber }>;
-
-    AnonEvent1(
-      value1?: BigNumberish | null
-    ): TypedEventFilter<[BigNumber], { value1: BigNumber }>;
+    ): TypedEventFilter<AnonEvent1Event>;
+    AnonEvent1(value1?: BigNumberish | null): TypedEventFilter<AnonEvent1Event>;
 
     "Event1(uint256,uint256)"(
       value1?: BigNumberish | null,
       value2?: null
-    ): TypedEventFilter<
-      [BigNumber, BigNumber],
-      { value1: BigNumber; value2: BigNumber }
-    >;
-
+    ): TypedEventFilter<Event1Event>;
     Event1(
       value1?: BigNumberish | null,
       value2?: null
-    ): TypedEventFilter<
-      [BigNumber, BigNumber],
-      { value1: BigNumber; value2: BigNumber }
-    >;
+    ): TypedEventFilter<Event1Event>;
 
-    "Event2(uint256)"(
-      undefined?: null
-    ): TypedEventFilter<[BigNumber], { arg0: BigNumber }>;
-
-    Event2(
-      undefined?: null
-    ): TypedEventFilter<[BigNumber], { arg0: BigNumber }>;
+    "Event2(uint256)"(undefined?: null): TypedEventFilter<Event2Event>;
+    Event2(undefined?: null): TypedEventFilter<Event2Event>;
 
     "Event3(bool,uint256)"(
       value1?: boolean | null,
       value2?: null
-    ): TypedEventFilter<
-      [boolean, BigNumber],
-      { value1: boolean; value2: BigNumber }
-    >;
-
+    ): TypedEventFilter<Event3_bool_uint256_Event>;
     "Event3(uint256)"(
       value1?: BigNumberish | null
-    ): TypedEventFilter<[BigNumber], { value1: BigNumber }>;
+    ): TypedEventFilter<Event3_uint256_Event>;
 
-    "Event4(tuple)"(
-      data?: null
-    ): TypedEventFilter<
-      [[BigNumber, string] & { index: BigNumber; name: string }],
-      { data: [BigNumber, string] & { index: BigNumber; name: string } }
-    >;
+    "Event4(tuple)"(data?: null): TypedEventFilter<Event4Event>;
+    Event4(data?: null): TypedEventFilter<Event4Event>;
 
-    Event4(
-      data?: null
-    ): TypedEventFilter<
-      [[BigNumber, string] & { index: BigNumber; name: string }],
-      { data: [BigNumber, string] & { index: BigNumber; name: string } }
-    >;
-
-    "NoArgsEvent()"(): TypedEventFilter<[], {}>;
-
-    NoArgsEvent(): TypedEventFilter<[], {}>;
+    "NoArgsEvent()"(): TypedEventFilter<NoArgsEventEvent>;
+    NoArgsEvent(): TypedEventFilter<NoArgsEventEvent>;
   };
 
   estimateGas: {

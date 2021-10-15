@@ -18,7 +18,12 @@ import {
 import { BytesLike } from "@ethersproject/bytes";
 import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
-import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
+import type {
+  TypedEventFilter,
+  TypedEvent,
+  TypedListener,
+  OnEvent,
+} from "./common";
 
 export interface KingOfTheHillInterface extends ethers.utils.Interface {
   functions: {
@@ -46,9 +51,8 @@ export interface KingOfTheHillInterface extends ethers.utils.Interface {
 }
 
 export type HighestBidIncreasedEvent = TypedEvent<
-  [[string, BigNumber] & { bidder: string; value: BigNumber }] & {
-    bid: [string, BigNumber] & { bidder: string; value: BigNumber };
-  }
+  [[string, BigNumber] & { bidder: string; value: BigNumber }],
+  { bid: [string, BigNumber] & { bidder: string; value: BigNumber } }
 >;
 
 export interface KingOfTheHill extends BaseContract {
@@ -56,43 +60,26 @@ export interface KingOfTheHill extends BaseContract {
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  listeners<EventArgsArray extends Array<any>, EventArgsObject>(
-    eventFilter?: TypedEventFilter<EventArgsArray, EventArgsObject>
-  ): Array<TypedListener<EventArgsArray, EventArgsObject>>;
-  off<EventArgsArray extends Array<any>, EventArgsObject>(
-    eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>,
-    listener: TypedListener<EventArgsArray, EventArgsObject>
-  ): this;
-  on<EventArgsArray extends Array<any>, EventArgsObject>(
-    eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>,
-    listener: TypedListener<EventArgsArray, EventArgsObject>
-  ): this;
-  once<EventArgsArray extends Array<any>, EventArgsObject>(
-    eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>,
-    listener: TypedListener<EventArgsArray, EventArgsObject>
-  ): this;
-  removeListener<EventArgsArray extends Array<any>, EventArgsObject>(
-    eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>,
-    listener: TypedListener<EventArgsArray, EventArgsObject>
-  ): this;
-  removeAllListeners<EventArgsArray extends Array<any>, EventArgsObject>(
-    eventFilter: TypedEventFilter<EventArgsArray, EventArgsObject>
-  ): this;
+  interface: KingOfTheHillInterface;
 
-  listeners(eventName?: string): Array<Listener>;
-  off(eventName: string, listener: Listener): this;
-  on(eventName: string, listener: Listener): this;
-  once(eventName: string, listener: Listener): this;
-  removeListener(eventName: string, listener: Listener): this;
-  removeAllListeners(eventName?: string): this;
-
-  queryFilter<EventArgsArray extends Array<any>, EventArgsObject>(
-    event: TypedEventFilter<EventArgsArray, EventArgsObject>,
+  queryFilter<TEvent extends TypedEvent>(
+    event: TypedEventFilter<TEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
+  ): Promise<Array<TEvent>>;
 
-  interface: KingOfTheHillInterface;
+  listeners<TEvent extends TypedEvent>(
+    eventFilter?: TypedEventFilter<TEvent>
+  ): Array<TypedListener<TEvent>>;
+  listeners(eventName?: string): Array<Listener>;
+  removeAllListeners<TEvent extends TypedEvent>(
+    eventFilter: TypedEventFilter<TEvent>
+  ): this;
+  removeAllListeners(eventName?: string): this;
+  off: OnEvent<this>;
+  on: OnEvent<this>;
+  once: OnEvent<this>;
+  removeListener: OnEvent<this>;
 
   functions: {
     bid(
@@ -133,17 +120,8 @@ export interface KingOfTheHill extends BaseContract {
   filters: {
     "HighestBidIncreased(tuple)"(
       bid?: null
-    ): TypedEventFilter<
-      [[string, BigNumber] & { bidder: string; value: BigNumber }],
-      { bid: [string, BigNumber] & { bidder: string; value: BigNumber } }
-    >;
-
-    HighestBidIncreased(
-      bid?: null
-    ): TypedEventFilter<
-      [[string, BigNumber] & { bidder: string; value: BigNumber }],
-      { bid: [string, BigNumber] & { bidder: string; value: BigNumber } }
-    >;
+    ): TypedEventFilter<HighestBidIncreasedEvent>;
+    HighestBidIncreased(bid?: null): TypedEventFilter<HighestBidIncreasedEvent>;
   };
 
   estimateGas: {
