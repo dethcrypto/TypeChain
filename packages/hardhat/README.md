@@ -72,7 +72,7 @@ config option.
 ## Features
 
 - **Zero Config Usage** - Run the _compile_ task as normal, and Typechain artifacts will automatically be generated in a
-  root directory called `typechain`.
+  root directory called `typechain-types`.
 - **Incremental generation** - Only recompiled files will have their types regenerated
 - **Frictionless** - return type of `ethers.getContractFactory` will be typed properly - no need for casts
 

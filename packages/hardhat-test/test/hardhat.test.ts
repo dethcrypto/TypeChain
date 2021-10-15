@@ -1,7 +1,7 @@
 import { ethers } from 'hardhat'
 import { AssertTrue, IsExact } from 'test-utils'
 
-import { Counter__factory } from '../typechain'
+import { Counter__factory } from '../typechain-types'
 
 describe('TypeChain x Hardhat', () => {
   it.skip('should infer correct contract factory type', async () => {

@@ -8,7 +8,7 @@ import BN from 'bn.js'
 chai.use(chaiAsPromised).should()
 const { expect } = chai
 
-import { CounterContract, CounterInstance } from '../typechain'
+import { CounterContract, CounterInstance } from '../typechain-types'
 const Counter: CounterContract = artifacts.require('Counter')
 
 contract('Counter', (accounts: string[]) => {
