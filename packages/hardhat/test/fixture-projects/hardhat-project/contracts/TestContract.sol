@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 pragma solidity 0.7.3;
 
 import "./lib/SafeMath.sol";
@@ -13,7 +14,7 @@ contract TestContract {
 
     string message = "placeholder";
 
-    constructor(uint256 _amount) public {
+    constructor(uint256 _amount) {
         amount = _amount.add(20);
     }
 }

@@ -109,7 +109,7 @@ export default class Ethers extends TypeChainTarget {
 
   genContractTypingsFile(contract: Contract, codegenConfig: CodegenConfig): FileDescription {
     return {
-      path: join(this.outDirAbs, `${contract.name}.d.ts`),
+      path: join(this.outDirAbs, `${contract.name}.ts`),
       contents: codegenContractTypings(contract, codegenConfig),
     }
   }
@@ -140,8 +140,8 @@ export default class Ethers extends TypeChainTarget {
     const allFiles = compact([
       ...abstractFactoryFiles,
       {
-        path: join(this.outDirAbs, 'common.d.ts'),
-        contents: readFileSync(join(__dirname, '../static/common.d.ts'), 'utf-8'),
+        path: join(this.outDirAbs, 'common.ts'),
+        contents: readFileSync(join(__dirname, '../static/common.ts'), 'utf-8'),
       },
       {
         path: join(this.outDirAbs, 'index.ts'),
