@@ -14,7 +14,15 @@ for (const dir of readdirSync(examplesDir)) {
   console.log(`Checking example: ${bold(dir)}`)
 
   const yarn = process.platform === 'win32' ? 'yarn.cmd' : 'yarn'
-  runProcess([yarn, '--non-interactive', '--frozen-lockfile'], dir)
+  runProcess(
+    [
+      yarn,
+      '--non-interactive',
+      // temporarily removed: this seems to cause issues on the CI
+      // '--frozen-lockfile',
+    ],
+    dir,
+  )
   runProcess([yarn, 'typecheck'], dir)
 }
 
