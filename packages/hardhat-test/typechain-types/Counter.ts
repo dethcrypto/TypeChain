@@ -48,6 +48,8 @@ export interface CounterInterface extends ethers.utils.Interface {
 
 export type CountedToEvent = TypedEvent<[BigNumber], { number: BigNumber }>;
 
+export type CountedToEventFilter = TypedEventFilter<CountedToEvent>;
+
 export interface Counter extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
@@ -105,8 +107,8 @@ export interface Counter extends BaseContract {
   };
 
   filters: {
-    "CountedTo(uint256)"(number?: null): TypedEventFilter<CountedToEvent>;
-    CountedTo(number?: null): TypedEventFilter<CountedToEvent>;
+    "CountedTo(uint256)"(number?: null): CountedToEventFilter;
+    CountedTo(number?: null): CountedToEventFilter;
   };
 
   estimateGas: {

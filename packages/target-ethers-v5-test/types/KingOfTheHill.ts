@@ -55,6 +55,10 @@ export type HighestBidIncreasedEvent = TypedEvent<
   { bid: [string, BigNumber] & { bidder: string; value: BigNumber } }
 >;
 
+export type HighestBidIncreasedEventFilter = TypedEventFilter<
+  HighestBidIncreasedEvent
+>;
+
 export interface KingOfTheHill extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
@@ -118,10 +122,8 @@ export interface KingOfTheHill extends BaseContract {
   };
 
   filters: {
-    "HighestBidIncreased(tuple)"(
-      bid?: null
-    ): TypedEventFilter<HighestBidIncreasedEvent>;
-    HighestBidIncreased(bid?: null): TypedEventFilter<HighestBidIncreasedEvent>;
+    "HighestBidIncreased(tuple)"(bid?: null): HighestBidIncreasedEventFilter;
+    HighestBidIncreased(bid?: null): HighestBidIncreasedEventFilter;
   };
 
   estimateGas: {

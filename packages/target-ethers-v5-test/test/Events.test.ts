@@ -2,7 +2,7 @@ import { BigNumber, ethers } from 'ethers'
 import { AssertTrue, IsExact, typedAssert } from 'test-utils'
 
 import { TypedEventFilter } from '../types/common'
-import { Event1Event, Event3_bool_uint256_Event, Events } from '../types/Events'
+import { Event1Event, Event1EventFilter, Event3_bool_uint256_Event, Events } from '../types/Events'
 import { createNewBlockchain, deployContract } from './common'
 
 describe('Events', () => {
@@ -52,6 +52,7 @@ describe('Events', () => {
     await contract.queryFilter(filter)
 
     type _ = AssertTrue<IsExact<GetEventFromFilter<typeof filter>, Event1Event>>
+    type __ = AssertTrue<IsExact<typeof filter, Event1EventFilter>>
 
     contract.on(filter, (a, b, c) => {
       typedAssert(a, BigNumber.from(1))
