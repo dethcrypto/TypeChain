@@ -133,4 +133,4 @@ const contractDir = join(__dirname, 'fixture-projects/hardhat-project/contracts'
 const fixtureFilesDir = join(__dirname, 'fixture-files')
 const TestContract2OriginPath = join(fixtureFilesDir, 'TestContract2.sol')
 const TestContract2DestinationPath = join(contractDir, 'TestContract2.sol')
-const typechainIndexFilePath = join(__dirname, 'fixture-projects/hardhat-project/typechain/index.ts')
+const typechainIndexFilePath = join(__dirname, 'fixture-projects/hardhat-project/typechain-types/index.ts')

@@ -18,11 +18,12 @@ examples/ethers-v4/types
 examples/ethers-v5/types
 examples/hardhat/artifacts
 examples/hardhat/cache
-examples/hardhat/typechain
+examples/hardhat/typechain-types
 examples/hardhat-truffe-v5/artifacts
 examples/hardhat-truffe-v5/cache
-examples/hardhat-truffe-v5/typechain
+examples/hardhat-truffe-v5/typechain-types
 packages/hardhat/test/fixture-projects/hardhat-project/contracts/TestContract2.sol
 packages/hardhat-test/cache
 packages/hardhat-test/artifacts
+examples/*/yarn.lock
 yarn-error.log

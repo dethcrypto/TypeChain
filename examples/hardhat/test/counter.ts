@@ -3,7 +3,7 @@ import chaiAsPromised from 'chai-as-promised'
 import { solidity } from 'ethereum-waffle'
 import { ethers } from 'hardhat'
 
-import type { Counter } from '../typechain'
+import type { Counter } from '../typechain-types'
 
 chai.use(solidity)
 chai.use(chaiAsPromised)
