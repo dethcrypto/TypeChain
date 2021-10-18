@@ -110,10 +110,14 @@ export type ApprovalEvent = TypedEvent<
   { owner: string; spender: string; value: BigNumber }
 >;
 
+export type ApprovalEventFilter = TypedEventFilter<ApprovalEvent>;
+
 export type TransferEvent = TypedEvent<
   [string, string, BigNumber],
   { from: string; to: string; value: BigNumber }
 >;
+
+export type TransferEventFilter = TypedEventFilter<TransferEvent>;
 
 export interface ERC20 extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -291,23 +295,23 @@ export interface ERC20 extends BaseContract {
       owner?: string | null,
       spender?: string | null,
       value?: null
-    ): TypedEventFilter<ApprovalEvent>;
+    ): ApprovalEventFilter;
     Approval(
       owner?: string | null,
       spender?: string | null,
       value?: null
-    ): TypedEventFilter<ApprovalEvent>;
+    ): ApprovalEventFilter;
 
     "Transfer(address,address,uint256)"(
       from?: string | null,
       to?: string | null,
       value?: null
-    ): TypedEventFilter<TransferEvent>;
+    ): TransferEventFilter;
     Transfer(
       from?: string | null,
       to?: string | null,
       value?: null
-    ): TypedEventFilter<TransferEvent>;
+    ): TransferEventFilter;
   };
 
   estimateGas: {

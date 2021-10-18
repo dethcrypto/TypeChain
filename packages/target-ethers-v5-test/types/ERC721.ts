@@ -106,15 +106,21 @@ export type ApprovalEvent = TypedEvent<
   { owner: string; approved: string; tokenId: BigNumber }
 >;
 
+export type ApprovalEventFilter = TypedEventFilter<ApprovalEvent>;
+
 export type ApprovalForAllEvent = TypedEvent<
   [string, string, boolean],
   { owner: string; operator: string; approved: boolean }
 >;
 
+export type ApprovalForAllEventFilter = TypedEventFilter<ApprovalForAllEvent>;
+
 export type TransferEvent = TypedEvent<
   [string, string, BigNumber],
   { from: string; to: string; tokenId: BigNumber }
 >;
+
+export type TransferEventFilter = TypedEventFilter<TransferEvent>;
 
 export interface ERC721 extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -301,34 +307,34 @@ export interface ERC721 extends BaseContract {
       owner?: string | null,
       approved?: string | null,
       tokenId?: BigNumberish | null
-    ): TypedEventFilter<ApprovalEvent>;
+    ): ApprovalEventFilter;
     Approval(
       owner?: string | null,
       approved?: string | null,
       tokenId?: BigNumberish | null
-    ): TypedEventFilter<ApprovalEvent>;
+    ): ApprovalEventFilter;
 
     "ApprovalForAll(address,address,bool)"(
       owner?: string | null,
       operator?: string | null,
       approved?: null
-    ): TypedEventFilter<ApprovalForAllEvent>;
+    ): ApprovalForAllEventFilter;
     ApprovalForAll(
       owner?: string | null,
       operator?: string | null,
       approved?: null
-    ): TypedEventFilter<ApprovalForAllEvent>;
+    ): ApprovalForAllEventFilter;
 
     "Transfer(address,address,uint256)"(
       from?: string | null,
       to?: string | null,
       tokenId?: BigNumberish | null
-    ): TypedEventFilter<TransferEvent>;
+    ): TransferEventFilter;
     Transfer(
       from?: string | null,
       to?: string | null,
       tokenId?: BigNumberish | null
-    ): TypedEventFilter<TransferEvent>;
+    ): TransferEventFilter;
   };
 
   estimateGas: {

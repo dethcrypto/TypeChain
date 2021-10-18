@@ -215,25 +215,35 @@ export type ApprovalEvent = TypedEvent<
   { owner: string; approved: string; tokenId: BigNumber }
 >;
 
+export type ApprovalEventFilter = TypedEventFilter<ApprovalEvent>;
+
 export type ApprovalForAllEvent = TypedEvent<
   [string, string, boolean],
   { owner: string; operator: string; approved: boolean }
 >;
+
+export type ApprovalForAllEventFilter = TypedEventFilter<ApprovalForAllEvent>;
 
 export type TransferEvent = TypedEvent<
   [string, string, BigNumber],
   { from: string; to: string; tokenId: BigNumber }
 >;
 
+export type TransferEventFilter = TypedEventFilter<TransferEvent>;
+
 export type leveledEvent = TypedEvent<
   [string, BigNumber, BigNumber],
   { owner: string; level: BigNumber; summoner: BigNumber }
 >;
 
+export type leveledEventFilter = TypedEventFilter<leveledEvent>;
+
 export type summonedEvent = TypedEvent<
   [string, BigNumber, BigNumber],
   { owner: string; class: BigNumber; summoner: BigNumber }
 >;
+
+export type summonedEventFilter = TypedEventFilter<summonedEvent>;
 
 export interface Rarity extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -627,56 +637,56 @@ export interface Rarity extends BaseContract {
       owner?: string | null,
       approved?: string | null,
       tokenId?: BigNumberish | null
-    ): TypedEventFilter<ApprovalEvent>;
+    ): ApprovalEventFilter;
     Approval(
       owner?: string | null,
       approved?: string | null,
       tokenId?: BigNumberish | null
-    ): TypedEventFilter<ApprovalEvent>;
+    ): ApprovalEventFilter;
 
     "ApprovalForAll(address,address,bool)"(
       owner?: string | null,
       operator?: string | null,
       approved?: null
-    ): TypedEventFilter<ApprovalForAllEvent>;
+    ): ApprovalForAllEventFilter;
     ApprovalForAll(
       owner?: string | null,
       operator?: string | null,
       approved?: null
-    ): TypedEventFilter<ApprovalForAllEvent>;
+    ): ApprovalForAllEventFilter;
 
     "Transfer(address,address,uint256)"(
       from?: string | null,
       to?: string | null,
       tokenId?: BigNumberish | null
-    ): TypedEventFilter<TransferEvent>;
+    ): TransferEventFilter;
     Transfer(
       from?: string | null,
       to?: string | null,
       tokenId?: BigNumberish | null
-    ): TypedEventFilter<TransferEvent>;
+    ): TransferEventFilter;
 
     "leveled(address,uint256,uint256)"(
       owner?: string | null,
       level?: null,
       summoner?: null
-    ): TypedEventFilter<leveledEvent>;
+    ): leveledEventFilter;
     leveled(
       owner?: string | null,
       level?: null,
       summoner?: null
-    ): TypedEventFilter<leveledEvent>;
+    ): leveledEventFilter;
 
     "summoned(address,uint256,uint256)"(
       owner?: string | null,
       _class?: null,
       summoner?: null
-    ): TypedEventFilter<summonedEvent>;
+    ): summonedEventFilter;
     summoned(
       owner?: string | null,
       _class?: null,
       summoner?: null
-    ): TypedEventFilter<summonedEvent>;
+    ): summonedEventFilter;
   };
 
   estimateGas: {

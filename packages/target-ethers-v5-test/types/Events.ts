@@ -100,16 +100,26 @@ export interface EventsInterface extends ethers.utils.Interface {
 
 export type AnonEvent1Event = TypedEvent<[BigNumber], { value1: BigNumber }>;
 
+export type AnonEvent1EventFilter = TypedEventFilter<AnonEvent1Event>;
+
 export type Event1Event = TypedEvent<
   [BigNumber, BigNumber],
   { value1: BigNumber; value2: BigNumber }
 >;
 
+export type Event1EventFilter = TypedEventFilter<Event1Event>;
+
 export type Event2Event = TypedEvent<[BigNumber], { arg0: BigNumber }>;
+
+export type Event2EventFilter = TypedEventFilter<Event2Event>;
 
 export type Event3_bool_uint256_Event = TypedEvent<
   [boolean, BigNumber],
   { value1: boolean; value2: BigNumber }
+>;
+
+export type Event3_bool_uint256_EventFilter = TypedEventFilter<
+  Event3_bool_uint256_Event
 >;
 
 export type Event3_uint256_Event = TypedEvent<
@@ -117,12 +127,18 @@ export type Event3_uint256_Event = TypedEvent<
   { value1: BigNumber }
 >;
 
+export type Event3_uint256_EventFilter = TypedEventFilter<Event3_uint256_Event>;
+
 export type Event4Event = TypedEvent<
   [[BigNumber, string] & { index: BigNumber; name: string }],
   { data: [BigNumber, string] & { index: BigNumber; name: string } }
 >;
 
+export type Event4EventFilter = TypedEventFilter<Event4Event>;
+
 export type NoArgsEventEvent = TypedEvent<[], {}>;
+
+export type NoArgsEventEventFilter = TypedEventFilter<NoArgsEventEvent>;
 
 export interface Events extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -215,36 +231,29 @@ export interface Events extends BaseContract {
   };
 
   filters: {
-    "AnonEvent1(uint256)"(
-      value1?: BigNumberish | null
-    ): TypedEventFilter<AnonEvent1Event>;
-    AnonEvent1(value1?: BigNumberish | null): TypedEventFilter<AnonEvent1Event>;
+    "AnonEvent1(uint256)"(value1?: BigNumberish | null): AnonEvent1EventFilter;
+    AnonEvent1(value1?: BigNumberish | null): AnonEvent1EventFilter;
 
     "Event1(uint256,uint256)"(
       value1?: BigNumberish | null,
       value2?: null
-    ): TypedEventFilter<Event1Event>;
-    Event1(
-      value1?: BigNumberish | null,
-      value2?: null
-    ): TypedEventFilter<Event1Event>;
+    ): Event1EventFilter;
+    Event1(value1?: BigNumberish | null, value2?: null): Event1EventFilter;
 
-    "Event2(uint256)"(undefined?: null): TypedEventFilter<Event2Event>;
-    Event2(undefined?: null): TypedEventFilter<Event2Event>;
+    "Event2(uint256)"(undefined?: null): Event2EventFilter;
+    Event2(undefined?: null): Event2EventFilter;
 
     "Event3(bool,uint256)"(
       value1?: boolean | null,
       value2?: null
-    ): TypedEventFilter<Event3_bool_uint256_Event>;
-    "Event3(uint256)"(
-      value1?: BigNumberish | null
-    ): TypedEventFilter<Event3_uint256_Event>;
+    ): Event3_bool_uint256_EventFilter;
+    "Event3(uint256)"(value1?: BigNumberish | null): Event3_uint256_EventFilter;
 
-    "Event4(tuple)"(data?: null): TypedEventFilter<Event4Event>;
-    Event4(data?: null): TypedEventFilter<Event4Event>;
+    "Event4(tuple)"(data?: null): Event4EventFilter;
+    Event4(data?: null): Event4EventFilter;
 
-    "NoArgsEvent()"(): TypedEventFilter<NoArgsEventEvent>;
-    NoArgsEvent(): TypedEventFilter<NoArgsEventEvent>;
+    "NoArgsEvent()"(): NoArgsEventEventFilter;
+    NoArgsEvent(): NoArgsEventEventFilter;
   };
 
   estimateGas: {
