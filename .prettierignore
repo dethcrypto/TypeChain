@@ -3,6 +3,6 @@ package.json
 **/types/**
 **/build/**  # truffle artifacts
 CHANGELOG.md
-packages/hardhat/test/fixture-projects/hardhat-project/typechain/**
-packages/hardhat-test/typechain
+packages/hardhat/test/fixture-projects/hardhat-project/typechain-types/**
+packages/hardhat-test/typechain-types
 **/*.sol
