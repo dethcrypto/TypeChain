@@ -5,7 +5,7 @@ import { generateInputType, generateOutputComplexTypeAsArray, generateOutputComp
 export function generateEventFilters(events: EventDeclaration[]) {
   if (events.length === 1) {
     const event = events[0]
-    const typedEventFilter = `TypedEventFilter<${generateEventIdentifier(event, { includeArgTypes: false })}>`
+    const typedEventFilter = `${generateEventIdentifier(event, { includeArgTypes: false })}Filter`
 
     return `
       '${generateEventSignature(event)}'(${generateEventInputs(event.inputs)}): ${typedEventFilter};
@@ -14,7 +14,7 @@ export function generateEventFilters(events: EventDeclaration[]) {
   } else {
     return events
       .map((event) => {
-        const typedEventFilter = `TypedEventFilter<${generateEventIdentifier(event, { includeArgTypes: true })}>`
+        const typedEventFilter = `${generateEventIdentifier(event, { includeArgTypes: true })}Filter`
 
         return `'${generateEventSignature(event)}'(${generateEventInputs(event.inputs)}): ${typedEventFilter};`
       })
@@ -39,6 +39,8 @@ export function generateEventTypeExport(event: EventDeclaration, includeArgTypes
 
   return `
     export type ${identifier} = TypedEvent<${arrayOutput}, ${objectOutput}>;
+
+    export type ${identifier}Filter = TypedEventFilter<${identifier}>;
   `
 }
 
