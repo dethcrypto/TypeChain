@@ -82,6 +82,28 @@ export interface DataTypesInputInstance extends Truffle.ContractInstance {
     txDetails?: Truffle.TransactionDetails
   ): Promise<BN>;
 
+  input_struct2(
+    input1: {
+      input1: number | BN | string;
+      input2: {
+        uint256_0: number | BN | string;
+        uint256_1: number | BN | string;
+      };
+    },
+    txDetails?: Truffle.TransactionDetails
+  ): Promise<{ input1: BN; input2: { uint256_0: BN; uint256_1: BN } }>;
+
+  input_struct2_array(
+    input1: {
+      input1: number | BN | string;
+      input2: {
+        uint256_0: number | BN | string;
+        uint256_1: number | BN | string;
+      };
+    }[],
+    txDetails?: Truffle.TransactionDetails
+  ): Promise<{ input1: BN; input2: { uint256_0: BN; uint256_1: BN } }[]>;
+
   methods: {
     input_uint8(
       input1: number | BN | string,
@@ -151,6 +173,28 @@ export interface DataTypesInputInstance extends Truffle.ContractInstance {
       input1: number | BN | string,
       txDetails?: Truffle.TransactionDetails
     ): Promise<BN>;
+
+    input_struct2(
+      input1: {
+        input1: number | BN | string;
+        input2: {
+          uint256_0: number | BN | string;
+          uint256_1: number | BN | string;
+        };
+      },
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<{ input1: BN; input2: { uint256_0: BN; uint256_1: BN } }>;
+
+    input_struct2_array(
+      input1: {
+        input1: number | BN | string;
+        input2: {
+          uint256_0: number | BN | string;
+          uint256_1: number | BN | string;
+        };
+      }[],
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<{ input1: BN; input2: { uint256_0: BN; uint256_1: BN } }[]>;
   };
 
   getPastEvents(event: string): Promise<EventData[]>;

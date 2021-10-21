@@ -48,4 +48,14 @@ contract DataTypesInput {
   function input_enum(Enum1 input1) public pure returns (Enum1) {
     return input1;
   }
+  struct Struct2 {
+    uint input1;
+    Struct1 input2;
+  }
+  function input_struct2(Struct2 memory input1) public pure returns (Struct2 memory) {
+    return input1;
+  }
+  function input_struct2_array(Struct2[] memory input1) public pure returns (Struct2[] memory) {
+    return input1;
+  }
 }

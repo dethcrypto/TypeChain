@@ -52,6 +52,24 @@ interface DataTypesInputInterface extends Interface {
       ]): string;
     }>;
 
+    input_struct2: TypedFunctionDescription<{
+      encode([input1]: [
+        {
+          input1: BigNumberish;
+          input2: { uint256_0: BigNumberish; uint256_1: BigNumberish };
+        }
+      ]): string;
+    }>;
+
+    input_struct2_array: TypedFunctionDescription<{
+      encode([input1]: [
+        {
+          input1: BigNumberish;
+          input2: { uint256_0: BigNumberish; uint256_1: BigNumberish };
+        }[]
+      ]): string;
+    }>;
+
     input_tuple: TypedFunctionDescription<{
       encode([input1, input2]: [BigNumberish, BigNumberish]): string;
     }>;
@@ -187,6 +205,82 @@ export class DataTypesInput extends Contract {
       overrides?: UnsignedTransaction
     ): Promise<
       [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
+    >;
+
+    input_struct2(
+      input1: {
+        input1: BigNumberish;
+        input2: { uint256_0: BigNumberish; uint256_1: BigNumberish };
+      },
+      overrides?: UnsignedTransaction
+    ): Promise<
+      [
+        BigNumber,
+        [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
+      ] & {
+        input1: BigNumber;
+        input2: [BigNumber, BigNumber] & {
+          uint256_0: BigNumber;
+          uint256_1: BigNumber;
+        };
+      }
+    >;
+
+    "input_struct2((uint256,(uint256,uint256)))"(
+      input1: {
+        input1: BigNumberish;
+        input2: { uint256_0: BigNumberish; uint256_1: BigNumberish };
+      },
+      overrides?: UnsignedTransaction
+    ): Promise<
+      [
+        BigNumber,
+        [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
+      ] & {
+        input1: BigNumber;
+        input2: [BigNumber, BigNumber] & {
+          uint256_0: BigNumber;
+          uint256_1: BigNumber;
+        };
+      }
+    >;
+
+    input_struct2_array(
+      input1: {
+        input1: BigNumberish;
+        input2: { uint256_0: BigNumberish; uint256_1: BigNumberish };
+      }[],
+      overrides?: UnsignedTransaction
+    ): Promise<
+      ([
+        BigNumber,
+        [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
+      ] & {
+        input1: BigNumber;
+        input2: [BigNumber, BigNumber] & {
+          uint256_0: BigNumber;
+          uint256_1: BigNumber;
+        };
+      })[]
+    >;
+
+    "input_struct2_array(tuple[])"(
+      input1: {
+        input1: BigNumberish;
+        input2: { uint256_0: BigNumberish; uint256_1: BigNumberish };
+      }[],
+      overrides?: UnsignedTransaction
+    ): Promise<
+      ([
+        BigNumber,
+        [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
+      ] & {
+        input1: BigNumber;
+        input2: [BigNumber, BigNumber] & {
+          uint256_0: BigNumber;
+          uint256_1: BigNumber;
+        };
+      })[]
     >;
 
     input_tuple(
@@ -326,6 +420,82 @@ export class DataTypesInput extends Contract {
     [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
   >;
 
+  input_struct2(
+    input1: {
+      input1: BigNumberish;
+      input2: { uint256_0: BigNumberish; uint256_1: BigNumberish };
+    },
+    overrides?: UnsignedTransaction
+  ): Promise<
+    [
+      BigNumber,
+      [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
+    ] & {
+      input1: BigNumber;
+      input2: [BigNumber, BigNumber] & {
+        uint256_0: BigNumber;
+        uint256_1: BigNumber;
+      };
+    }
+  >;
+
+  "input_struct2((uint256,(uint256,uint256)))"(
+    input1: {
+      input1: BigNumberish;
+      input2: { uint256_0: BigNumberish; uint256_1: BigNumberish };
+    },
+    overrides?: UnsignedTransaction
+  ): Promise<
+    [
+      BigNumber,
+      [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
+    ] & {
+      input1: BigNumber;
+      input2: [BigNumber, BigNumber] & {
+        uint256_0: BigNumber;
+        uint256_1: BigNumber;
+      };
+    }
+  >;
+
+  input_struct2_array(
+    input1: {
+      input1: BigNumberish;
+      input2: { uint256_0: BigNumberish; uint256_1: BigNumberish };
+    }[],
+    overrides?: UnsignedTransaction
+  ): Promise<
+    ([
+      BigNumber,
+      [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
+    ] & {
+      input1: BigNumber;
+      input2: [BigNumber, BigNumber] & {
+        uint256_0: BigNumber;
+        uint256_1: BigNumber;
+      };
+    })[]
+  >;
+
+  "input_struct2_array(tuple[])"(
+    input1: {
+      input1: BigNumberish;
+      input2: { uint256_0: BigNumberish; uint256_1: BigNumberish };
+    }[],
+    overrides?: UnsignedTransaction
+  ): Promise<
+    ([
+      BigNumber,
+      [BigNumber, BigNumber] & { uint256_0: BigNumber; uint256_1: BigNumber }
+    ] & {
+      input1: BigNumber;
+      input2: [BigNumber, BigNumber] & {
+        uint256_0: BigNumber;
+        uint256_1: BigNumber;
+      };
+    })[]
+  >;
+
   input_tuple(
     input1: BigNumberish,
     input2: BigNumberish,
@@ -458,6 +628,38 @@ export class DataTypesInput extends Contract {
 
     "input_struct((uint256,uint256))"(
       input1: { uint256_0: BigNumberish; uint256_1: BigNumberish },
+      overrides?: UnsignedTransaction
+    ): Promise<BigNumber>;
+
+    input_struct2(
+      input1: {
+        input1: BigNumberish;
+        input2: { uint256_0: BigNumberish; uint256_1: BigNumberish };
+      },
+      overrides?: UnsignedTransaction
+    ): Promise<BigNumber>;
+
+    "input_struct2((uint256,(uint256,uint256)))"(
+      input1: {
+        input1: BigNumberish;
+        input2: { uint256_0: BigNumberish; uint256_1: BigNumberish };
+      },
+      overrides?: UnsignedTransaction
+    ): Promise<BigNumber>;
+
+    input_struct2_array(
+      input1: {
+        input1: BigNumberish;
+        input2: { uint256_0: BigNumberish; uint256_1: BigNumberish };
+      }[],
+      overrides?: UnsignedTransaction
+    ): Promise<BigNumber>;
+
+    "input_struct2_array(tuple[])"(
+      input1: {
+        input1: BigNumberish;
+        input2: { uint256_0: BigNumberish; uint256_1: BigNumberish };
+      }[],
       overrides?: UnsignedTransaction
     ): Promise<BigNumber>;
 

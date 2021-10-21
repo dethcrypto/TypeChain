@@ -25,6 +25,13 @@ import type {
   OnEvent,
 } from "./common";
 
+export type BidStruct = { bidder: string; value: BigNumberish };
+
+export type BidStructOutput = [string, BigNumber] & {
+  bidder: string;
+  value: BigNumber;
+};
+
 export interface KingOfTheHillInterface extends ethers.utils.Interface {
   functions: {
     "bid()": FunctionFragment;
@@ -51,8 +58,8 @@ export interface KingOfTheHillInterface extends ethers.utils.Interface {
 }
 
 export type HighestBidIncreasedEvent = TypedEvent<
-  [[string, BigNumber] & { bidder: string; value: BigNumber }],
-  { bid: [string, BigNumber] & { bidder: string; value: BigNumber } }
+  [BidStructOutput],
+  { bid: BidStructOutput }
 >;
 
 export type HighestBidIncreasedEventFilter = TypedEventFilter<

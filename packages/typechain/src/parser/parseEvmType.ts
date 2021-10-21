@@ -1,4 +1,5 @@
 import { logger } from '../utils/logger'
+import { normalizeName } from './normalizeName'
 
 // represent all possible EvmTypes using TypeScript's discriminating union
 export type EvmType =
@@ -18,6 +19,8 @@ export type EvmType =
  */
 export type EvmOutputType = EvmType | VoidType
 
+export type StructType = ArrayType | TupleType
+
 export type BooleanType = { type: 'boolean'; originalType: string }
 export type IntegerType = { type: 'integer'; bits: number; originalType: string }
 export type UnsignedIntegerType = { type: 'uinteger'; bits: number; originalType: string }
@@ -25,8 +28,8 @@ export type StringType = { type: 'string'; originalType: string }
 export type BytesType = { type: 'bytes'; size: number; originalType: string }
 export type DynamicBytesType = { type: 'dynamic-bytes'; originalType: string }
 export type AddressType = { type: 'address'; originalType: string }
-export type ArrayType = { type: 'array'; itemType: EvmType; size?: number; originalType: string }
-export type TupleType = { type: 'tuple'; components: EvmSymbol[]; originalType: string }
+export type ArrayType = { type: 'array'; itemType: EvmType; size?: number; originalType: string; structName?: string }
+export type TupleType = { type: 'tuple'; components: EvmSymbol[]; originalType: string; structName?: string }
 
 // used only for output types
 export type VoidType = { type: 'void' }
@@ -58,7 +61,16 @@ export function parseEvmType(rawType: string, components?: EvmSymbol[], internal
 
     const restOfTheType = rawType.slice(0, finishArrayTypeIndex)
 
-    return { type: 'array', itemType: parseEvmType(restOfTheType, components), size: arraySize, originalType: rawType }
+    const result: ArrayType = {
+      type: 'array',
+      itemType: parseEvmType(restOfTheType, components),
+      originalType: rawType,
+    }
+    if (arraySize) result.size = arraySize
+    const structName = extractStructNameIfAvailable(internalType)
+    if (structName) result.structName = structName
+
+    return result
   }
 
   // otherwise this has to be primitive type
@@ -77,7 +89,10 @@ export function parseEvmType(rawType: string, components?: EvmSymbol[], internal
       return { type: 'dynamic-bytes', originalType: rawType }
     case 'tuple':
       if (!components) throw new Error('Tuple specified without components!')
-      return { type: 'tuple', components, originalType: rawType }
+      const result: TupleType = { type: 'tuple', components, originalType: rawType }
+      const structName = extractStructNameIfAvailable(internalType)
+      if (structName) result.structName = structName
+      return result
   }
 
   if (isUIntTypeRegex.test(rawType)) {
@@ -109,4 +124,18 @@ export function parseEvmType(rawType: string, components?: EvmSymbol[], internal
   )
 
   return { type: 'unknown', originalType: rawType }
+}
+
+function extractStructNameIfAvailable(internalType: string | undefined): string | undefined {
+  if (internalType?.startsWith('struct ')) {
+    // get rid of "struct " in the beginning
+    let nameStr = internalType.slice(7)
+    // get rid of the array sign at the end
+    if (nameStr.endsWith('[]')) {
+      nameStr = nameStr.slice(0, nameStr.length - 2)
+    }
+    // get rid of contract name
+    nameStr = nameStr.split('.')[1]
+    return normalizeName(nameStr)
+  }
 }

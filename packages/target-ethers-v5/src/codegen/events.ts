@@ -32,8 +32,8 @@ export function generateEventTypeExports(events: EventDeclaration[]) {
 
 export function generateEventTypeExport(event: EventDeclaration, includeArgTypes: boolean) {
   const components = event.inputs.map((input, i) => ({ name: input.name ?? `arg${i.toString()}`, type: input.type }))
-  const arrayOutput = generateOutputComplexTypeAsArray(components)
-  const objectOutput = generateOutputComplexTypesAsObject(components) || '{}'
+  const arrayOutput = generateOutputComplexTypeAsArray(components, { useStructs: true })
+  const objectOutput = generateOutputComplexTypesAsObject(components, { useStructs: true }) || '{}'
 
   const identifier = generateEventIdentifier(event, { includeArgTypes })
 
@@ -66,7 +66,7 @@ export function generateEventInputs(eventArgs: EventArgDeclaration[]) {
 }
 
 export function generateEventArgType(eventArg: EventArgDeclaration): string {
-  return eventArg.isIndexed ? `${generateInputType(eventArg.type)} | null` : 'null'
+  return eventArg.isIndexed ? `${generateInputType({ useStructs: true }, eventArg.type)} | null` : 'null'
 }
 
 export function generateGetEventOverload(event: EventDeclaration): string {

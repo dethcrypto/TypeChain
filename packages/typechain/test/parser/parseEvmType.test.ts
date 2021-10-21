@@ -83,6 +83,50 @@ describe('parseEvmType function', () => {
     })
   })
 
+  it('parses struct tuples', () => {
+    const parsedType = parseEvmType(
+      'tuple',
+      [
+        { name: 'target', type: { type: 'address', originalType: 'address' } },
+        { name: 'callData', type: { type: 'dynamic-bytes', originalType: 'bytes' } },
+      ],
+      'struct Multicall.Call',
+    )
+    expect(parsedType).toEqual({
+      type: 'tuple',
+      components: [
+        { name: 'target', type: { type: 'address', originalType: 'address' } },
+        { name: 'callData', type: { type: 'dynamic-bytes', originalType: 'bytes' } },
+      ],
+      originalType: 'tuple',
+      structName: 'Call',
+    })
+  })
+
+  it('parses struct array', () => {
+    const parsedType = parseEvmType(
+      'tuple[]',
+      [
+        { name: 'target', type: { type: 'address', originalType: 'address' } },
+        { name: 'callData', type: { type: 'dynamic-bytes', originalType: 'bytes' } },
+      ],
+      'struct Multicall.Call[]',
+    )
+    expect(parsedType).toEqual({
+      type: 'array',
+      itemType: {
+        type: 'tuple',
+        components: [
+          { name: 'target', type: { type: 'address', originalType: 'address' } },
+          { name: 'callData', type: { type: 'dynamic-bytes', originalType: 'bytes' } },
+        ],
+        originalType: 'tuple',
+      },
+      originalType: 'tuple[]',
+      structName: 'Call',
+    })
+  })
+
   // Turns out that USUALLY solidity won't leave enums in abis but for some reason they are part of libraries abis
   // This is a test for workaround that forces it to parse as uint8
   // Related issue: https://github.com/ethereum-ts/TypeChain/issues/216
