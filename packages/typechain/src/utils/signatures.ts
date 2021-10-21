@@ -1,5 +1,5 @@
 import { AbiParameter, EventDeclaration, FunctionDeclaration } from '../parser/abiParser'
-import { TupleType } from '../parser/parseEvmType'
+import { ArrayType, TupleType } from '../parser/parseEvmType'
 
 export function getFullSignatureAsSymbolForEvent(event: EventDeclaration): string {
   return `${event.name}_${event.inputs.map((e) => e.type.originalType).join('_')}`
@@ -15,8 +15,13 @@ export function getIndexedSignatureForEvent(event: EventDeclaration): string {
 }
 
 export function getArgumentForSignature(argument: AbiParameter): string {
-  if (argument.type.originalType !== 'tuple') return argument.type.originalType
-  return `(${(argument.type as TupleType).components.map((i) => getArgumentForSignature(i)).join(',')})`
+  if (argument.type.originalType === 'tuple') {
+    return `(${(argument.type as TupleType).components.map((i) => getArgumentForSignature(i)).join(',')})`
+  } else if (argument.type.originalType === 'tuple[]') {
+    return getArgumentForSignature({ name: '', type: (argument.type as ArrayType).itemType }) + '[]'
+  } else {
+    return argument.type.originalType
+  }
 }
 
 export function getSignatureForFn(fn: FunctionDeclaration): string {
