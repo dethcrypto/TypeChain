@@ -110,11 +110,15 @@ const _bytecode =
 
 export class SafeMath__factory extends ContractFactory {
   constructor(
-    ...args: [signer: Signer] | ConstructorParameters<typeof ContractFactory>
+    ...args:
+      | []
+      | [signer: Signer]
+      | ConstructorParameters<typeof ContractFactory>
   ) {
     if (args.length === 1) {
       super(_abi, _bytecode, args[0]);
     } else {
+      // @ts-ignore-error
       super(...args);
     }
   }
