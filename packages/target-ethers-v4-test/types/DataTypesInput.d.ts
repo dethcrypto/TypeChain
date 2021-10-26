@@ -264,7 +264,7 @@ export class DataTypesInput extends Contract {
       })[]
     >;
 
-    "input_struct2_array(tuple[])"(
+    "input_struct2_array((uint256,(uint256,uint256))[])"(
       input1: {
         input1: BigNumberish;
         input2: { uint256_0: BigNumberish; uint256_1: BigNumberish };
@@ -477,7 +477,7 @@ export class DataTypesInput extends Contract {
     })[]
   >;
 
-  "input_struct2_array(tuple[])"(
+  "input_struct2_array((uint256,(uint256,uint256))[])"(
     input1: {
       input1: BigNumberish;
       input2: { uint256_0: BigNumberish; uint256_1: BigNumberish };
@@ -655,7 +655,7 @@ export class DataTypesInput extends Contract {
       overrides?: UnsignedTransaction
     ): Promise<BigNumber>;
 
-    "input_struct2_array(tuple[])"(
+    "input_struct2_array((uint256,(uint256,uint256))[])"(
       input1: {
         input1: BigNumberish;
         input2: { uint256_0: BigNumberish; uint256_1: BigNumberish };
