@@ -1,5 +1,32 @@
 # typechain
 
+## 6.0.0
+
+### Major Changes
+
+- 33ee803: Fix tuple array signature
+
+### Minor Changes
+
+- 95517e9: Add support for Solidity structs
+
+  ```ts
+  // before
+  function deposit(amount: { token: string; value: BigNumberish }): Promise<ContractTransaction>
+
+  // after
+  export type AmountStruct = { token: string; value: BigNumberish }
+
+  function deposit(amount: AmountStruct): Promise<ContractTransaction>
+  ```
+
+### Patch Changes
+
+- 0ac4921: Propagate module resolution errors from inside of target.
+
+  Previously, when the version of `@typechain/ethers-v5` you were depending on was in some way broken, `typechain` would
+  just say that it could not find a target. Now, an error message will explain _why_.
+
 ## 5.2.0
 
 ### Minor Changes

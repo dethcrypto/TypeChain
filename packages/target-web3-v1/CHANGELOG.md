@@ -1,5 +1,18 @@
 # @typechain/web3-v1
 
+## 4.0.0
+
+### Major Changes
+
+- 0e555af: Generate types to `.ts` files instead of `.d.ts` in Ethers v5 and Web3.js targets
+
+### Patch Changes
+
+- Updated dependencies [0ac4921]
+- Updated dependencies [95517e9]
+- Updated dependencies [33ee803]
+  - typechain@6.0.0
+
 ## 3.1.0
 
 ### Minor Changes

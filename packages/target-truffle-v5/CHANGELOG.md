@@ -1,5 +1,14 @@
 # @typechain/truffle-v5
 
+## 6.0.0
+
+### Patch Changes
+
+- Updated dependencies [0ac4921]
+- Updated dependencies [95517e9]
+- Updated dependencies [33ee803]
+  - typechain@6.0.0
+
 ## 5.1.0
 
 ### Minor Changes
