@@ -218,15 +218,13 @@ function codegenCommonContractFactory(contract: Contract, abi: any): { header: s
 function generateFactoryConstructor(contract: Contract, bytecode: BytecodeWithLinkReferences): string {
   if (!bytecode.linkReferences) {
     return `
-    constructor(
-      ...args: [signer: Signer] | ConstructorParameters<typeof ContractFactory>
-    ) {
-      if (args.length === 1) {
-        super(_abi, _bytecode, args[0]);
-      } else {
-        super(...args);
+      constructor(...args: ${contract.name}ConstructorParams) {
+        if (isSuperArgs(args)) {
+          super(...args);
+        } else {
+          super(_abi, _bytecode, args[0]);
+        }
       }
-    }
     `
   }
 
@@ -271,12 +269,13 @@ function generateFactoryConstructor(contract: Contract, bytecode: BytecodeWithLi
 }
 
 function generateFactoryConstructorParamsAlias(contract: Contract, bytecode: BytecodeWithLinkReferences): string {
+  const name = `${contract.name}ConstructorParams`
+
   if (bytecode.linkReferences) {
-    const name = `${contract.name}ConstructorParams`
-    return `\
+    return `
       type ${name} =
         | [linkLibraryAddresses: ${contract.name}LibraryAddresses, signer?: Signer]
-        | ConstructorParameters<typeof ContractFactory>
+        | ConstructorParameters<typeof ContractFactory>;
 
       const isSuperArgs = (
         xs: ${name}
@@ -285,9 +284,14 @@ function generateFactoryConstructorParamsAlias(contract: Contract, bytecode: Byt
           || (Array.isArray as (arg: any) => arg is readonly any[])(xs[0])
           || '_isInterface' in xs[0]
       }`
-  }
+  } else {
+    return `
+      type ${name} = [signer?: Signer] | ConstructorParameters<typeof ContractFactory>;
 
-  return ''
+      const isSuperArgs = (xs: ${name}): xs is ConstructorParameters<typeof ContractFactory> =>
+        xs.length > 1
+    `
+  }
 }
 
 function generateLibraryAddressesInterface(contract: Contract, bytecode: BytecodeWithLinkReferences): string {
