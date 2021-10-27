@@ -11,7 +11,7 @@
     "smartcontract",
     "blockchain"
   ],
-  "version": "2.3.1",
+  "version": "3.0.0",
   "license": "MIT",
   "repository": "https://github.com/ethereum-ts/Typechain",
   "main": "./dist/index.js",
@@ -45,7 +45,7 @@
   },
   "peerDependencies": {
     "hardhat": "^2.0.10",
-    "typechain": "^5.1.2",
+    "typechain": "^6.0.0",
     "lodash": "^4.17.15"
   }
 }

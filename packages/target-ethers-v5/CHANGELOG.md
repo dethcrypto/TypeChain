@@ -1,5 +1,35 @@
 # @typechain/ethers-v5
 
+## 8.0.0
+
+### Major Changes
+
+- 5c217a6: Changed emitted event types — named events are now used in Contract methods.
+- 0e555af: Generate types to `.ts` files instead of `.d.ts` in Ethers v5 and Web3.js targets
+
+### Minor Changes
+
+- 95517e9: Add support for Solidity structs
+
+  ```ts
+  // before
+  function deposit(amount: { token: string; value: BigNumberish }): Promise<ContractTransaction>
+
+  // after
+  export type AmountStruct = { token: string; value: BigNumberish }
+
+  function deposit(amount: AmountStruct): Promise<ContractTransaction>
+  ```
+
+### Patch Changes
+
+- a0b3c4b: Custom generated factories do not require signers now
+- aacdcb0: Export EventFilter type along with Event type
+- Updated dependencies [0ac4921]
+- Updated dependencies [95517e9]
+- Updated dependencies [33ee803]
+  - typechain@6.0.0
+
 ## 7.2.0
 
 ### Minor Changes

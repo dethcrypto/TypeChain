@@ -1,5 +1,20 @@
 # @typechain/hardhat
 
+## 3.0.0
+
+### Major Changes
+
+- 99fafbe: Change default output directory to "typechain-types"
+- 0e555af: Generate types to `.ts` files instead of `.d.ts` in Ethers v5 and Web3.js targets
+
+### Patch Changes
+
+- aacdcb0: Export EventFilter type along with Event type
+- Updated dependencies [0ac4921]
+- Updated dependencies [95517e9]
+- Updated dependencies [33ee803]
+  - typechain@6.0.0
+
 ## 2.3.1
 
 ### Patch Changes
