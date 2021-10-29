@@ -1,5 +1,11 @@
 # typechain
 
+## 6.0.1
+
+### Patch Changes
+
+- 44a04c0: Fix bug in parsing names of free floating structs
+
 ## 6.0.0
 
 ### Major Changes
