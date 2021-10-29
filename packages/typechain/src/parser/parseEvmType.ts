@@ -126,7 +126,9 @@ export function parseEvmType(rawType: string, components?: EvmSymbol[], internal
   return { type: 'unknown', originalType: rawType }
 }
 
-function extractStructNameIfAvailable(internalType: string | undefined): string | undefined {
+/** @internal */
+export function extractStructNameIfAvailable(internalType: string | undefined): string | undefined {
+  console.log('internalType', internalType)
   if (internalType?.startsWith('struct ')) {
     // get rid of "struct " in the beginning
     let nameStr = internalType.slice(7)
@@ -134,8 +136,10 @@ function extractStructNameIfAvailable(internalType: string | undefined): string 
     if (nameStr.endsWith('[]')) {
       nameStr = nameStr.slice(0, nameStr.length - 2)
     }
-    // get rid of contract name
-    nameStr = nameStr.split('.')[1]
+    // get rid of contract name if exists
+    if (nameStr.indexOf('.') !== -1) {
+      nameStr = nameStr.split('.')[1]
+    }
     return normalizeName(nameStr)
   }
 }

@@ -1,6 +1,13 @@
 import { expect } from 'earljs'
 
-import { ArrayType, BytesType, IntegerType, parseEvmType, UnsignedIntegerType } from '../../src/parser/parseEvmType'
+import {
+  ArrayType,
+  BytesType,
+  extractStructNameIfAvailable,
+  IntegerType,
+  parseEvmType,
+  UnsignedIntegerType,
+} from '../../src/parser/parseEvmType'
 
 describe('parseEvmType function', () => {
   it('parses unsigned integer', () => {
@@ -147,5 +154,15 @@ describe('parseEvmType function', () => {
     const parsedType = parseEvmType('DummyUnparsable', undefined, 'Something random unparsable')
 
     expect(parsedType.type).toEqual('unknown')
+  })
+})
+
+describe('extractStructNameIfAvailable', () => {
+  it('works with namespaced structs', () => {
+    expect(extractStructNameIfAvailable('struct KingOfTheHill.Bid')).toEqual('Bid')
+  })
+
+  it('works with free floating structs', () => {
+    expect(extractStructNameIfAvailable('struct aa')).toEqual('Aa')
   })
 })
