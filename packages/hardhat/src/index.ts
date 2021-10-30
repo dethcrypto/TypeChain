@@ -48,6 +48,7 @@ subtask(TASK_TYPECHAIN_GENERATE_TYPES)
     // RUN TYPECHAIN TASK
     const typechainCfg = config.typechain
     if (artifactPaths.length === 0 && !taskArgsStore.fullRebuild && !typechainCfg.externalArtifacts) {
+      // eslint-disable-next-line no-console
       console.log('No need to generate any newer typings.')
       return compileSolOutput
     }
@@ -55,6 +56,7 @@ subtask(TASK_TYPECHAIN_GENERATE_TYPES)
     // incremental generation is only supported in 'ethers-v5'
     // @todo: probably targets should specify somehow if then support incremental generation this won't work with custom targets
     const needsFullRebuild = taskArgsStore.fullRebuild || typechainCfg.target !== 'ethers-v5'
+    // eslint-disable-next-line no-console
     console.log(
       `Generating typings for: ${artifactPaths.length} artifacts in dir: ${typechainCfg.outDir} for target: ${typechainCfg.target}`,
     )
@@ -75,6 +77,7 @@ subtask(TASK_TYPECHAIN_GENERATE_TYPES)
         environment: 'hardhat',
       },
     })
+    // eslint-disable-next-line no-console
     console.log(`Successfully generated ${result.filesGenerated} typings!`)
     // if this is not full rebuilding, always re-generate types for external artifacts
     if (!needsFullRebuild && typechainCfg.externalArtifacts) {
@@ -89,6 +92,7 @@ subtask(TASK_TYPECHAIN_GENERATE_TYPES)
           environment: 'hardhat',
         },
       })
+      // eslint-disable-next-line no-console
       console.log(`Successfully generated ${result.filesGenerated} typings for external artifacts!`)
     }
   })

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-invalid-this */
 import { expect, Mock, mockFn } from 'earljs'
 import { copyFileSync, existsSync, promises as fsPromises, readFileSync } from 'fs'
