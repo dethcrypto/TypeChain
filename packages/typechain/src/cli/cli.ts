@@ -31,6 +31,7 @@ async function main() {
   }
 
   const result = await runTypeChain(config)
+  // eslint-disable-next-line no-console
   console.log(`Successfully generated ${result.filesGenerated} typings!`)
 }
 

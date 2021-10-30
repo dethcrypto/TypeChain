@@ -4,13 +4,14 @@ export class Logger {
       return
     }
 
+    // eslint-disable-next-line no-console
     console.log(...args)
   }
   warn(...args: any[]) {
     if (!(global as any).IS_CLI) {
       return
     }
-
+    // eslint-disable-next-line no-console
     console.warn(...args)
   }
 
@@ -18,7 +19,7 @@ export class Logger {
     if (!(global as any).IS_CLI) {
       return
     }
-
+    // eslint-disable-next-line no-console
     console.error(...args)
   }
 }

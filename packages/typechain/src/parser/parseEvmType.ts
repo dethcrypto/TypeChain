@@ -128,7 +128,6 @@ export function parseEvmType(rawType: string, components?: EvmSymbol[], internal
 
 /** @internal */
 export function extractStructNameIfAvailable(internalType: string | undefined): string | undefined {
-  console.log('internalType', internalType)
   if (internalType?.startsWith('struct ')) {
     // get rid of "struct " in the beginning
     let nameStr = internalType.slice(7)
