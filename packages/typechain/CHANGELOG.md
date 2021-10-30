@@ -1,5 +1,11 @@
 # typechain
 
+## 6.0.2
+
+### Patch Changes
+
+- c6b6e5f: Remove unnecessary console.log about structs internals
+
 ## 6.0.1
 
 ### Patch Changes
