@@ -45,22 +45,23 @@ export function generateInputType(options: GenerateTypeOptions, evmType: EvmType
           .fill(generateInputType({ ...options, useStructs: true }, evmType.itemType))
           .join(', ')}]`
       } else {
-        if (options.useStructs) {
-          if (evmType.structName) {
+        if (evmType.structName) {
+          if (options.useStructs) {
             return evmType.structName + STRUCT_INPUT_POSTFIX + '[]'
+          } else {
+            return `(${generateInputType({ ...options, useStructs: true }, evmType.itemType)})`
           }
+        } else {
+          return `(${generateInputType({ ...options, useStructs: true }, evmType.itemType)})[]`
         }
-        return `(${generateInputType({ ...options, useStructs: true }, evmType.itemType)})[]`
       }
     case 'boolean':
       return 'boolean'
     case 'string':
       return 'string'
     case 'tuple':
-      if (options.useStructs) {
-        if (evmType.structName) {
-          return evmType.structName + STRUCT_INPUT_POSTFIX
-        }
+      if (evmType.structName && options.useStructs) {
+        return evmType.structName + STRUCT_INPUT_POSTFIX
       }
       return generateTupleType(evmType, generateInputType.bind(null, { ...options, useStructs: true }))
     case 'unknown':
@@ -86,22 +87,23 @@ export function generateOutputType(options: GenerateTypeOptions, evmType: EvmOut
           .fill(generateOutputType({ ...options, useStructs: true }, evmType.itemType))
           .join(', ')}]`
       } else {
-        if (options.useStructs) {
-          if (evmType.structName) {
+        if (evmType.structName) {
+          if (options.useStructs) {
             return evmType.structName + STRUCT_OUTPUT_POSTFIX + '[]'
+          } else {
+            return `(${generateOutputType({ ...options, useStructs: true }, evmType.itemType)})`
           }
+        } else {
+          return `(${generateOutputType({ ...options, useStructs: true }, evmType.itemType)})[]`
         }
-        return `(${generateOutputType({ ...options, useStructs: true }, evmType.itemType)})[]`
       }
     case 'boolean':
       return 'boolean'
     case 'string':
       return 'string'
     case 'tuple':
-      if (options.useStructs) {
-        if (evmType.structName) {
-          return evmType.structName + STRUCT_OUTPUT_POSTFIX
-        }
+      if (evmType.structName && options.useStructs) {
+        return evmType.structName + STRUCT_OUTPUT_POSTFIX
       }
       return generateOutputComplexType(evmType.components, { ...options, useStructs: true })
     case 'unknown':

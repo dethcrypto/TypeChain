@@ -40,9 +40,9 @@ export type Struct2StructOutput = [BigNumber, Struct1StructOutput] & {
   input2: Struct1StructOutput;
 };
 
-export type Struct3Struct = { input1: BigNumberish[] }[];
+export type Struct3Struct = { input1: BigNumberish[] };
 
-export type Struct3StructOutput = ([BigNumber[]] & { input1: BigNumber[] })[];
+export type Struct3StructOutput = [BigNumber[]] & { input1: BigNumber[] };
 
 export interface DataTypesInputInterface extends ethers.utils.Interface {
   functions: {
