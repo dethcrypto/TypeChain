@@ -58,4 +58,13 @@ contract DataTypesInput {
   function input_struct2_array(Struct2[] memory input1) public pure returns (Struct2[] memory) {
     return input1;
   }
+  struct Struct3 {
+    uint[] input1;
+  }
+  function input_struct3_array(Struct3[] memory input1) public pure returns (Struct3[] memory) {
+    return input1;
+  }
+  function input_uint_array(uint[] memory input1) public pure returns (uint[] memory) {
+    return input1;
+  }
 }

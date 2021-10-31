@@ -75,6 +75,10 @@ export interface DataTypesInput extends BaseContract {
       ][]
     ): NonPayableTransactionObject<[string, [string, string]][]>;
 
+    input_struct3_array(
+      input1: [(number | string | BN)[]][]
+    ): NonPayableTransactionObject<[string[]][]>;
+
     input_tuple(
       input1: number | string | BN,
       input2: number | string | BN
@@ -90,6 +94,10 @@ export interface DataTypesInput extends BaseContract {
     input_uint8(
       input1: number | string | BN
     ): NonPayableTransactionObject<string>;
+
+    input_uint_array(
+      input1: (number | string | BN)[]
+    ): NonPayableTransactionObject<string[]>;
   };
   events: {
     allEvents(options?: EventOptions, cb?: Callback<EventLog>): EventEmitter;

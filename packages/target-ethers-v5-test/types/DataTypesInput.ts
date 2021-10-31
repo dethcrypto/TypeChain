@@ -40,6 +40,10 @@ export type Struct2StructOutput = [BigNumber, Struct1StructOutput] & {
   input2: Struct1StructOutput;
 };
 
+export type Struct3Struct = { input1: BigNumberish[] };
+
+export type Struct3StructOutput = [BigNumber[]] & { input1: BigNumber[] };
+
 export interface DataTypesInputInterface extends ethers.utils.Interface {
   functions: {
     "input_address(address)": FunctionFragment;
@@ -54,9 +58,11 @@ export interface DataTypesInputInterface extends ethers.utils.Interface {
     "input_struct((uint256,uint256))": FunctionFragment;
     "input_struct2((uint256,(uint256,uint256)))": FunctionFragment;
     "input_struct2_array((uint256,(uint256,uint256))[])": FunctionFragment;
+    "input_struct3_array((uint256[])[])": FunctionFragment;
     "input_tuple(uint256,uint256)": FunctionFragment;
     "input_uint256(uint256)": FunctionFragment;
     "input_uint8(uint8)": FunctionFragment;
+    "input_uint_array(uint256[])": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -105,6 +111,10 @@ export interface DataTypesInputInterface extends ethers.utils.Interface {
     values: [Struct2Struct[]]
   ): string;
   encodeFunctionData(
+    functionFragment: "input_struct3_array",
+    values: [Struct3Struct[]]
+  ): string;
+  encodeFunctionData(
     functionFragment: "input_tuple",
     values: [BigNumberish, BigNumberish]
   ): string;
@@ -115,6 +125,10 @@ export interface DataTypesInputInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "input_uint8",
     values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "input_uint_array",
+    values: [BigNumberish[]]
   ): string;
 
   decodeFunctionResult(
@@ -157,6 +171,10 @@ export interface DataTypesInputInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "input_struct3_array",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "input_tuple",
     data: BytesLike
   ): Result;
@@ -166,6 +184,10 @@ export interface DataTypesInputInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "input_uint8",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "input_uint_array",
     data: BytesLike
   ): Result;
 
@@ -250,6 +272,11 @@ export interface DataTypesInput extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[Struct2StructOutput[]]>;
 
+    input_struct3_array(
+      input1: Struct3Struct[],
+      overrides?: CallOverrides
+    ): Promise<[Struct3StructOutput[]]>;
+
     input_tuple(
       input1: BigNumberish,
       input2: BigNumberish,
@@ -265,6 +292,11 @@ export interface DataTypesInput extends BaseContract {
       input1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[number]>;
+
+    input_uint_array(
+      input1: BigNumberish[],
+      overrides?: CallOverrides
+    ): Promise<[BigNumber[]]>;
   };
 
   input_address(input1: string, overrides?: CallOverrides): Promise<string>;
@@ -306,6 +338,11 @@ export interface DataTypesInput extends BaseContract {
     overrides?: CallOverrides
   ): Promise<Struct2StructOutput[]>;
 
+  input_struct3_array(
+    input1: Struct3Struct[],
+    overrides?: CallOverrides
+  ): Promise<Struct3StructOutput[]>;
+
   input_tuple(
     input1: BigNumberish,
     input2: BigNumberish,
@@ -318,6 +355,11 @@ export interface DataTypesInput extends BaseContract {
   ): Promise<BigNumber>;
 
   input_uint8(input1: BigNumberish, overrides?: CallOverrides): Promise<number>;
+
+  input_uint_array(
+    input1: BigNumberish[],
+    overrides?: CallOverrides
+  ): Promise<BigNumber[]>;
 
   callStatic: {
     input_address(input1: string, overrides?: CallOverrides): Promise<string>;
@@ -365,6 +407,11 @@ export interface DataTypesInput extends BaseContract {
       overrides?: CallOverrides
     ): Promise<Struct2StructOutput[]>;
 
+    input_struct3_array(
+      input1: Struct3Struct[],
+      overrides?: CallOverrides
+    ): Promise<Struct3StructOutput[]>;
+
     input_tuple(
       input1: BigNumberish,
       input2: BigNumberish,
@@ -380,6 +427,11 @@ export interface DataTypesInput extends BaseContract {
       input1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<number>;
+
+    input_uint_array(
+      input1: BigNumberish[],
+      overrides?: CallOverrides
+    ): Promise<BigNumber[]>;
   };
 
   filters: {};
@@ -439,6 +491,11 @@ export interface DataTypesInput extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    input_struct3_array(
+      input1: Struct3Struct[],
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     input_tuple(
       input1: BigNumberish,
       input2: BigNumberish,
@@ -452,6 +509,11 @@ export interface DataTypesInput extends BaseContract {
 
     input_uint8(
       input1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    input_uint_array(
+      input1: BigNumberish[],
       overrides?: CallOverrides
     ): Promise<BigNumber>;
   };
@@ -517,6 +579,11 @@ export interface DataTypesInput extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    input_struct3_array(
+      input1: Struct3Struct[],
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     input_tuple(
       input1: BigNumberish,
       input2: BigNumberish,
@@ -530,6 +597,11 @@ export interface DataTypesInput extends BaseContract {
 
     input_uint8(
       input1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    input_uint_array(
+      input1: BigNumberish[],
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };

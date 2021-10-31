@@ -10,6 +10,8 @@ import {
   Struct1StructOutput,
   Struct2Struct,
   Struct2StructOutput,
+  Struct3Struct,
+  Struct3StructOutput,
 } from '../types/DataTypesInput'
 import { createNewBlockchain, deployContract } from './common'
 
@@ -97,6 +99,18 @@ describe('DataTypesInput', () => {
     type _t1 = AssertTrue<IsExact<ViewTupleType, [BigNumber, BigNumber]>>
   })
 
+  it('generates correct input types for array', () => {
+    type InputType = Parameters<typeof contract.input_uint_array>
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    type _t1 = AssertTrue<IsExact<InputType, [input1: BigNumberish[], overrides?: ethers.CallOverrides | undefined]>>
+  })
+
+  it('generates correct output types for array', () => {
+    type OutputType = Awaited<ReturnType<typeof contract.input_uint_array>>
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    type _t1 = AssertTrue<IsExact<OutputType, BigNumber[]>>
+  })
+
   /**
    * For structs
    */
@@ -114,6 +128,23 @@ describe('DataTypesInput', () => {
         [BigNumber, BigNumber] & {
           uint256_0: BigNumber
           uint256_1: BigNumber
+        }
+      >
+    >
+  })
+
+  it('generates correct input types for structs with are only used as array in some function input/output', () => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    type _t1 = AssertTrue<IsExact<Struct3Struct, { input1: BigNumberish[] }>>
+  })
+
+  it('generates correct output types for structs with are only used as array in some function input/output', () => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    type _t1 = AssertTrue<
+      IsExact<
+        Struct3StructOutput,
+        [BigNumber[]] & {
+          input1: BigNumber[]
         }
       >
     >
@@ -164,6 +195,20 @@ describe('DataTypesInput', () => {
     type ViewStructType = Awaited<ReturnType<typeof contract.input_struct>>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     type _t1 = AssertTrue<IsExact<ViewStructType, Struct1StructOutput>>
+  })
+
+  it('generates correct parameter types for function structs only used as array in some function input/output', () => {
+    type ViewStructType = Parameters<typeof contract.input_struct3_array>
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    type _t1 = AssertTrue<
+      IsExact<ViewStructType, [input1: Struct3Struct[], overrides?: ethers.CallOverrides | undefined]>
+    >
+  })
+
+  it('generates correct return types for function structs only used as array in some function input/output', () => {
+    type ViewStructType = Awaited<ReturnType<typeof contract.input_struct3_array>>
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    type _t1 = AssertTrue<IsExact<ViewStructType, Struct3StructOutput[]>>
   })
 
   it('generates correct parameter types for complex function structs', () => {
