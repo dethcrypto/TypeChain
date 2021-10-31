@@ -1,5 +1,11 @@
 # @typechain/ethers-v5
 
+## 8.0.1
+
+### Patch Changes
+
+- b989dff: Fix structs generated as arrays
+
 ## 8.0.0
 
 ### Major Changes
