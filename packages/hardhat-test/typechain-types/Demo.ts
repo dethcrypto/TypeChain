@@ -22,9 +22,16 @@ import type {
   OnEvent,
 } from "./common";
 
-export type ConstructorArgsStruct = { a: BigNumberish; b: BigNumberish };
+export type Struct1Struct = { a: BigNumberish; b: BigNumberish };
 
-export type ConstructorArgsStructOutput = [BigNumber, BigNumber] & {
+export type Struct1StructOutput = [BigNumber, BigNumber] & {
+  a: BigNumber;
+  b: BigNumber;
+};
+
+export type Struct2Struct = { a: BigNumberish; b: BigNumberish };
+
+export type Struct2StructOutput = [BigNumber, BigNumber] & {
   a: BigNumber;
   b: BigNumber;
 };

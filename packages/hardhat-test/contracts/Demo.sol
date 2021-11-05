@@ -3,12 +3,13 @@ pragma solidity ^0.6.8;
 pragma experimental ABIEncoderV2;
 
 contract Demo {
-    struct ConstructorArgs {
+    struct Struct1 {
         uint a;
         uint b;
     }
-    ConstructorArgs _ca;
-    constructor(ConstructorArgs memory ca) public {
-        _ca = ca;
+    struct Struct2 {
+        uint a;
+        uint b;
     }
+    constructor(Struct1 memory input1, Struct2[] memory input2) public {}
 }
