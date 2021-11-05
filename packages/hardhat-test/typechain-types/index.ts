@@ -2,5 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { Counter } from "./Counter";
+export type { Demo } from "./Demo";
 
 export { Counter__factory } from "./factories/Counter__factory";
+export { Demo__factory } from "./factories/Demo__factory";
