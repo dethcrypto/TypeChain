@@ -4,7 +4,12 @@
 
 import { Signer, utils, Contract, ContractFactory, Overrides } from "ethers";
 import { Provider, TransactionRequest } from "@ethersproject/providers";
-import type { Demo, DemoInterface } from "../Demo";
+import type {
+  Demo,
+  DemoInterface,
+  Struct1Struct,
+  Struct2Struct,
+} from "../Demo";
 
 const _abi = [
   {

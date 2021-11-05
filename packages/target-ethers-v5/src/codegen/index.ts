@@ -1,7 +1,7 @@
 import { values } from 'lodash'
-import { BytecodeWithLinkReferences, CodegenConfig, Contract } from 'typechain'
+import { BytecodeWithLinkReferences, CodegenConfig, Contract, StructType } from 'typechain'
 
-import { FACTORY_POSTFIX } from '../common'
+import { FACTORY_POSTFIX, STRUCT_INPUT_POSTFIX } from '../common'
 import {
   EVENT_IMPORTS,
   EVENT_METHOD_OVERRIDES,
@@ -198,8 +198,17 @@ export function codegenAbstractContractFactory(contract: Contract, abi: any): st
 }
 
 function codegenCommonContractFactory(contract: Contract, abi: any): { header: string; body: string } {
+  const constructorStructs: string[] = []
+  contract.constructor[0]?.inputs.forEach(({ type }) => {
+    const { structName } = type as StructType
+    if (structName) {
+      constructorStructs.push(structName + STRUCT_INPUT_POSTFIX)
+    }
+  })
   const header = `
-  import type { ${contract.name}, ${contract.name}Interface } from "../${contract.name}";
+  import type { ${[contract.name, contract.name + 'Interface', ...constructorStructs].join(', ')} } from "../${
+    contract.name
+  }";
 
   const _abi = ${JSON.stringify(abi, null, 2)};
   `.trim()
