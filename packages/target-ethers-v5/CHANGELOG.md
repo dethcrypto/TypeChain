@@ -1,5 +1,11 @@
 # @typechain/ethers-v5
 
+## 8.0.2
+
+### Patch Changes
+
+- ba4c18a: Fix support for constructors with structs
+
 ## 8.0.1
 
 ### Patch Changes
