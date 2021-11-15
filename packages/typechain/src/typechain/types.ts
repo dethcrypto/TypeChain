@@ -6,8 +6,8 @@ import { MarkOptional } from 'ts-essentials'
 export interface Config {
   cwd: string
   target: string
-  outDir?: string
-  prettier?: object
+  outDir?: string | undefined
+  prettier?: object | undefined
   filesToProcess: string[] // filesToProcess is a subset of allFiles, used during incremental generating
   allFiles: string[]
   flags: CodegenConfig

@@ -1,5 +1,12 @@
 import { values } from 'lodash'
-import { BytecodeWithLinkReferences, CodegenConfig, Contract, StructType } from 'typechain'
+import {
+  BytecodeWithLinkReferences,
+  CodegenConfig,
+  Contract,
+  createImportsForUsedIdentifiers,
+  createImportTypeDeclaration,
+  StructType,
+} from 'typechain'
 
 import { FACTORY_POSTFIX, STRUCT_INPUT_POSTFIX } from '../common'
 import {
@@ -22,68 +29,12 @@ import { generateStruct } from './structs'
 import { generateInputTypes } from './types'
 
 export function codegenContractTypings(contract: Contract, codegenConfig: CodegenConfig) {
-  const ethersImports: string[] = ['BaseContract']
-  const allFunctions = values(contract.functions)
-    .map(
-      (fn) =>
-        codegenFunctions({ returnResultObject: true, codegenConfig }, fn) +
-        codegenFunctions({ isStaticCall: true, codegenConfig }, fn),
-    )
-    .join('')
-
-  const optionalEthersImports = [
-    'Overrides',
-    'PayableOverrides',
-    'CallOverrides',
-    'ContractTransaction',
-    'BigNumber',
-    'BigNumberish',
-    'BytesLike',
-  ]
-  optionalEthersImports.forEach((importName) => pushImportIfUsed(importName, allFunctions, ethersImports))
-  if (values(contract.functions).length > 0) {
-    // Include BytesLike for generateDecodeFunctionResultOverload return type
-    if (!ethersImports.includes('BytesLike')) {
-      ethersImports.push('BytesLike')
-    }
-    // Include BigNumber for estimateGas return type override
-    if (!ethersImports.includes('BigNumber')) {
-      ethersImports.push('BigNumber')
-    }
-    // Include PopulatedTransaction for populateTransaction return type override
-    if (!ethersImports.includes('PopulatedTransaction')) {
-      ethersImports.push('PopulatedTransaction')
-    }
-  }
-
-  const possibleAbiImports = ['FunctionFragment', 'Result']
-  const abiImports: string[] = []
-  possibleAbiImports.forEach((importName) => pushImportIfUsed(importName, allFunctions, abiImports))
-  if (values(contract.functions).length > 0) {
-    // generateInterfaceFunctionDescription and generateDecodeFunctionResultOverload will use
-    // FunctionFragment and Result, respectively, if there are any functions
-    abiImports.push('FunctionFragment')
-    abiImports.push('Result')
-  }
-  if (values(contract.events).length > 0) {
-    // generateInterfaceEventDescription will use type EventFragment when the contract defines events
-    abiImports.push('EventFragment')
-  }
-
-  const imports = [
-    `import { ethers, Signer, ${ethersImports.join(', ')} } from 'ethers';`,
-    `import { Listener, Provider } from '@ethersproject/providers';`,
-    ...(abiImports.length > 0 ? [`import { ${abiImports.join(', ')} } from '@ethersproject/abi';`] : []),
-    `import type { ${EVENT_IMPORTS.join(', ')} } from './common';`,
-  ].join('\n')
-
-  const template = `${imports}
-
+  const source = `
   ${values(contract.structs)
     .map((v) => generateStruct(v[0]))
     .join('\n')}
 
-  export interface ${contract.name}Interface extends ethers.utils.Interface {
+  export interface ${contract.name}Interface extends utils.Interface {
     functions: {
       ${values(contract.functions)
         .map((v) => v[0])
@@ -159,7 +110,31 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
     };
   }`
 
-  return template
+  const imports =
+    createImportsForUsedIdentifiers(
+      {
+        ethers: [
+          'BaseContract',
+          'BigNumber',
+          'BigNumberish',
+          'BytesLike',
+          'CallOverrides',
+          'ContractTransaction',
+          'Overrides',
+          'PayableOverrides',
+          'PopulatedTransaction',
+          'Signer',
+          'utils',
+        ],
+        '@ethersproject/abi': ['FunctionFragment', 'Result', 'EventFragment'],
+        '@ethersproject/providers': ['Listener', 'Provider'],
+      },
+      source,
+    ) +
+    '\n' +
+    createImportTypeDeclaration(EVENT_IMPORTS, './common')
+
+  return imports + source
 }
 
 export function codegenContractFactory(contract: Contract, abi: any, bytecode?: BytecodeWithLinkReferences): string {
@@ -179,19 +154,10 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
   if (!bytecode) return codegenAbstractContractFactory(contract, abi)
 
   // tsc with noUnusedLocals would complain about unused imports
-  const ethersImports: string[] = ['Signer', 'utils']
-  const optionalEthersImports = ['BytesLike', 'BigNumberish']
-  optionalEthersImports.forEach((importName) => pushImportIfUsed(importName, constructorArgs, ethersImports))
-
-  const ethersContractImports: string[] = ['Contract', 'ContractFactory']
-  const optionalContractImports = ['PayableOverrides', 'Overrides']
-  optionalContractImports.forEach((importName) => pushImportIfUsed(importName, constructorArgs, ethersContractImports))
 
   const { body, header } = codegenCommonContractFactory(contract, abi)
 
-  return `
-  import { ${[...ethersImports, ...ethersContractImports].join(', ')} } from "ethers";
-  import { Provider, TransactionRequest } from '@ethersproject/providers';
+  const source = `
   ${header}
 
   const _bytecode = "${bytecode.bytecode}";
@@ -218,6 +184,25 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
 
   ${generateLibraryAddressesInterface(contract, bytecode)}
   `
+
+  const imports = createImportsForUsedIdentifiers(
+    {
+      ethers: [
+        'Signer',
+        'utils',
+        'Contract',
+        'ContractFactory',
+        'PayableOverrides',
+        'Overrides',
+        'BytesLike',
+        'BigNumberish',
+      ],
+      '@ethersproject/providers': ['Provider', 'TransactionRequest'],
+    },
+    source,
+  )
+
+  return imports + source
 }
 
 export function codegenAbstractContractFactory(contract: Contract, abi: any): string {
@@ -349,8 +334,4 @@ function generateLibraryAddressesInterface(contract: Contract, bytecode: Bytecod
   export interface ${contract.name}LibraryAddresses {
     ${linkLibrariesKeys.join('\n')}
   };`
-}
-
-function pushImportIfUsed(importName: string, generatedCode: string, importArray: string[]): void {
-  if (new RegExp(`\\W${importName}(\\W|$)`).test(generatedCode)) importArray.push(importName)
 }

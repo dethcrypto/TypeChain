@@ -5,7 +5,7 @@ const DEFAULT_GLOB_PATTERN = '**/*.abi'
 export interface IOptions {
   files: string[]
   target: string
-  outDir?: string
+  outDir?: string | undefined
   flags: {
     alwaysGenerateOverloads: boolean
   }

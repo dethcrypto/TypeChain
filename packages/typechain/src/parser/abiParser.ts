@@ -39,7 +39,7 @@ export interface FunctionDeclaration {
   stateMutability: StateMutability
   inputs: AbiParameter[]
   outputs: AbiOutputParameter[]
-  documentation?: FunctionDocumentation
+  documentation?: FunctionDocumentation | undefined
 }
 
 export interface FunctionWithoutOutputDeclaration extends FunctionDeclaration {
@@ -54,16 +54,18 @@ export interface Contract {
   name: string
   rawName: string
 
-  fallback?: FunctionWithoutInputDeclaration
+  fallback?: FunctionWithoutInputDeclaration | undefined
   constructor: FunctionWithoutOutputDeclaration[]
   functions: Dictionary<FunctionDeclaration[]>
   events: Dictionary<EventDeclaration[]>
   structs: Dictionary<StructType[]>
-  documentation?: {
-    author?: string
-    details?: string
-    notice?: string
-  }
+  documentation?:
+    | {
+        author?: string
+        details?: string
+        notice?: string
+      }
+    | undefined
 }
 
 export interface RawAbiParameter {
@@ -91,7 +93,7 @@ export interface EventDeclaration {
 
 export interface EventArgDeclaration {
   isIndexed: boolean
-  name?: string // undefined if original name was empty
+  name?: string | undefined // undefined if original name was empty
   type: EvmType
 }
 
