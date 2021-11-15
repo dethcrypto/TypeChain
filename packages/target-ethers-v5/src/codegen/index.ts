@@ -22,7 +22,7 @@ import { generateStruct } from './structs'
 import { generateInputTypes } from './types'
 
 export function codegenContractTypings(contract: Contract, codegenConfig: CodegenConfig) {
-  const contractImports: string[] = ['BaseContract', 'ContractTransaction']
+  const ethersImports: string[] = ['BaseContract']
   const allFunctions = values(contract.functions)
     .map(
       (fn) =>
@@ -31,17 +31,53 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
     )
     .join('')
 
-  const optionalContractImports = ['Overrides', 'PayableOverrides', 'CallOverrides']
-  optionalContractImports.forEach((importName) => pushImportIfUsed(importName, allFunctions, contractImports))
+  const optionalEthersImports = [
+    'Overrides',
+    'PayableOverrides',
+    'CallOverrides',
+    'ContractTransaction',
+    'BigNumber',
+    'BigNumberish',
+    'BytesLike',
+  ]
+  optionalEthersImports.forEach((importName) => pushImportIfUsed(importName, allFunctions, ethersImports))
+  if (values(contract.functions).length > 0) {
+    // Include BytesLike for generateDecodeFunctionResultOverload return type
+    if (!ethersImports.includes('BytesLike')) {
+      ethersImports.push('BytesLike')
+    }
+    // Include BigNumber for estimateGas return type override
+    if (!ethersImports.includes('BigNumber')) {
+      ethersImports.push('BigNumber')
+    }
+    // Include PopulatedTransaction for populateTransaction return type override
+    if (!ethersImports.includes('PopulatedTransaction')) {
+      ethersImports.push('PopulatedTransaction')
+    }
+  }
 
-  const template = `
-  import { ethers, EventFilter, Signer, BigNumber, BigNumberish, PopulatedTransaction, ${contractImports.join(
-    ', ',
-  )} } from 'ethers';
-  import { BytesLike } from '@ethersproject/bytes';
-  import { Listener, Provider } from '@ethersproject/providers';
-  import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
-  import type { ${EVENT_IMPORTS.join(', ')} } from './common';
+  const possibleAbiImports = ['FunctionFragment', 'Result']
+  const abiImports: string[] = []
+  possibleAbiImports.forEach((importName) => pushImportIfUsed(importName, allFunctions, abiImports))
+  if (values(contract.functions).length > 0) {
+    // generateInterfaceFunctionDescription and generateDecodeFunctionResultOverload will use
+    // FunctionFragment and Result, respectively, if there are any functions
+    abiImports.push('FunctionFragment')
+    abiImports.push('Result')
+  }
+  if (values(contract.events).length > 0) {
+    // generateInterfaceEventDescription will use type EventFragment when the contract defines events
+    abiImports.push('EventFragment')
+  }
+
+  const imports = [
+    `import { ethers, Signer, ${ethersImports.join(', ')} } from 'ethers';`,
+    `import { Listener, Provider } from '@ethersproject/providers';`,
+    ...(abiImports.length > 0 ? [`import { ${abiImports.join(', ')} } from '@ethersproject/abi';`] : []),
+    `import type { ${EVENT_IMPORTS.join(', ')} } from './common';`,
+  ].join('\n')
+
+  const template = `${imports}
 
   ${values(contract.structs)
     .map((v) => generateStruct(v[0]))
