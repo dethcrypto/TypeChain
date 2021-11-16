@@ -32,3 +32,44 @@ export function createPositionalIdentifier(identifierName: string): string {
   }
   return identifierName
 }
+
+/**
+ * @internal
+ */
+export function getUsedIdentifiers(identifiers: string[], sourceFile: string): string[] {
+  const usedIdentifiers: Set<string> = new Set()
+  identifiers.forEach((identifier) => {
+    if (new RegExp(`\\W${identifier}(\\W|$)`).test(sourceFile)) usedIdentifiers.add(identifier)
+  })
+  return Array.from(usedIdentifiers)
+}
+
+/**
+ * @internal
+ */
+function createImportDeclaration(identifiers: string[], moduleSpecifier: string) {
+  return identifiers.length > 0 ? `import { ${identifiers.join(', ')} } from "${moduleSpecifier}"` : ''
+}
+
+/**
+ * @internal
+ */
+export function createImportTypeDeclaration(identifiers: string[], moduleSpecifier: string) {
+  return identifiers.length > 0 ? `import { ${identifiers.join(', ')} } from "${moduleSpecifier}"` : ''
+}
+
+type ModuleSpecifier = string
+type Identifier = string
+/**
+ * @internal
+ */
+export function createImportsForUsedIdentifiers(
+  possibleImports: Record<ModuleSpecifier, Identifier[]>,
+  sourceFile: string,
+) {
+  return Object.entries(possibleImports)
+    .map(([moduleSpecifier, identifiers]) =>
+      createImportDeclaration(getUsedIdentifiers(identifiers, sourceFile), moduleSpecifier),
+    )
+    .join('\n')
+}

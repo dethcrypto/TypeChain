@@ -8,7 +8,8 @@
     "target": "ES2018",
     "sourceMap": true,
     "composite": true,
-    "incremental": true
+    "incremental": true,
+    "exactOptionalPropertyTypes": true
   },
   "include": ["**/*.ts", "**/*.js", "**/.*.js", "scripts/.common.ts"],
   "exclude": ["**/node_modules"]
