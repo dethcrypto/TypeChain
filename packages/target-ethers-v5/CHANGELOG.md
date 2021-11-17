@@ -1,5 +1,13 @@
 # @typechain/ethers-v5
 
+## 8.0.3
+
+### Patch Changes
+
+- a0fba00: Ethers V5 target doesn't emit unused imports anymore.
+- Updated dependencies [a0fba00]
+  - typechain@6.0.3
+
 ## 8.0.2
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # typechain
 
+## 6.0.3
+
+### Patch Changes
+
+- a0fba00: Ethers V5 target doesn't emit unused imports anymore.
+
 ## 6.0.2
 
 ### Patch Changes
