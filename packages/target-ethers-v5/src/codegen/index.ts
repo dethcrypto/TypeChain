@@ -222,9 +222,12 @@ function codegenCommonContractFactory(contract: Contract, abi: any): { header: s
   const constructorStructs: string[] = []
   contract.constructor[0]?.inputs.forEach(({ type }) => {
     const { structName } = type as StructType
-    // @todo make sure we properly handle struct arrays here
     if (structName) {
-      constructorStructs.push(structName + STRUCT_INPUT_POSTFIX)
+      constructorStructs.push(
+        structName
+          // we grab the item name from const size struct arrays like `Item[4]`
+          .replace(/\[\d+\]$/, '') + STRUCT_INPUT_POSTFIX,
+      )
     }
   })
   const header = `

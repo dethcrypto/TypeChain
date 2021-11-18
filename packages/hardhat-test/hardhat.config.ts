@@ -5,7 +5,7 @@ import '@nomiclabs/hardhat-ethers'
 import { HardhatUserConfig } from 'hardhat/types'
 
 const config: HardhatUserConfig = {
-  solidity: '0.6.8',
+  solidity: '0.8.7',
   defaultNetwork: 'hardhat',
 }
 
