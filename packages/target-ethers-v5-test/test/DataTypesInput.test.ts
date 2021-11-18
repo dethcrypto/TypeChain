@@ -239,6 +239,16 @@ describe('DataTypesInput', () => {
     type _t1 = AssertTrue<IsExact<ViewStructType, Struct2StructOutput[]>>
   })
 
+  it('generates correct argument types for constant size struct array', () => {
+    type ViewStructType = Parameters<typeof contract.input_struct2_tuple>[0]
+    type _ = AssertTrue<IsExact<ViewStructType, [Struct2Struct, Struct2Struct, Struct2Struct]>>
+  })
+
+  it('generates correct return types for constant size struct array', () => {
+    type ViewStructType = Awaited<ReturnType<typeof contract.input_struct2_tuple>>
+    type _ = AssertTrue<IsExact<ViewStructType, [Struct2StructOutput, Struct2StructOutput, Struct2StructOutput]>>
+  })
+
   it('output structs are compatible with input structs', async () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const _result: Struct1Struct = await contract.input_struct({

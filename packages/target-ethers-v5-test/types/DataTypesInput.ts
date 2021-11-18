@@ -50,6 +50,7 @@ export interface DataTypesInputInterface extends utils.Interface {
     "input_struct((uint256,uint256))": FunctionFragment;
     "input_struct2((uint256,(uint256,uint256)))": FunctionFragment;
     "input_struct2_array((uint256,(uint256,uint256))[])": FunctionFragment;
+    "input_struct2_tuple(tuple[3])": FunctionFragment;
     "input_struct3_array((uint256[])[])": FunctionFragment;
     "input_tuple(uint256,uint256)": FunctionFragment;
     "input_uint256(uint256)": FunctionFragment;
@@ -101,6 +102,10 @@ export interface DataTypesInputInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "input_struct2_array",
     values: [Struct2Struct[]]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "input_struct2_tuple",
+    values: [[Struct2Struct, Struct2Struct, Struct2Struct]]
   ): string;
   encodeFunctionData(
     functionFragment: "input_struct3_array",
@@ -160,6 +165,10 @@ export interface DataTypesInputInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "input_struct2_array",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "input_struct2_tuple",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -264,6 +273,13 @@ export interface DataTypesInput extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[Struct2StructOutput[]]>;
 
+    input_struct2_tuple(
+      input: [Struct2Struct, Struct2Struct, Struct2Struct],
+      overrides?: CallOverrides
+    ): Promise<
+      [[Struct2StructOutput, Struct2StructOutput, Struct2StructOutput]]
+    >;
+
     input_struct3_array(
       input1: Struct3Struct[],
       overrides?: CallOverrides
@@ -329,6 +345,11 @@ export interface DataTypesInput extends BaseContract {
     input1: Struct2Struct[],
     overrides?: CallOverrides
   ): Promise<Struct2StructOutput[]>;
+
+  input_struct2_tuple(
+    input: [Struct2Struct, Struct2Struct, Struct2Struct],
+    overrides?: CallOverrides
+  ): Promise<[Struct2StructOutput, Struct2StructOutput, Struct2StructOutput]>;
 
   input_struct3_array(
     input1: Struct3Struct[],
@@ -398,6 +419,11 @@ export interface DataTypesInput extends BaseContract {
       input1: Struct2Struct[],
       overrides?: CallOverrides
     ): Promise<Struct2StructOutput[]>;
+
+    input_struct2_tuple(
+      input: [Struct2Struct, Struct2Struct, Struct2Struct],
+      overrides?: CallOverrides
+    ): Promise<[Struct2StructOutput, Struct2StructOutput, Struct2StructOutput]>;
 
     input_struct3_array(
       input1: Struct3Struct[],
@@ -480,6 +506,11 @@ export interface DataTypesInput extends BaseContract {
 
     input_struct2_array(
       input1: Struct2Struct[],
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    input_struct2_tuple(
+      input: [Struct2Struct, Struct2Struct, Struct2Struct],
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -568,6 +599,11 @@ export interface DataTypesInput extends BaseContract {
 
     input_struct2_array(
       input1: Struct2Struct[],
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    input_struct2_tuple(
+      input: [Struct2Struct, Struct2Struct, Struct2Struct],
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

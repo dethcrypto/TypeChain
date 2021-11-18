@@ -304,6 +304,8 @@ function parseRawAbiParameter(
   }
 }
 
+const isStructType = (evmType: EvmType): evmType is StructType => evmType.type === 'array' || evmType.type === 'tuple'
+
 function parseRawAbiParameterType(
   rawAbiParameter: RawAbiParameter,
   registerStruct: (struct: StructType) => void,
@@ -314,9 +316,18 @@ function parseRawAbiParameterType(
       name: component.name,
       type: parseRawAbiParameterType(component, registerStruct),
     }))
+
   const parsed = parseEvmType(rawAbiParameter.type, components, rawAbiParameter.internalType)
-  if (['tuple', 'array'].includes(parsed.type) && (parsed as StructType).structName !== undefined) {
-    registerStruct(parsed as StructType)
+  if (isStructType(parsed)) {
+    if ('size' in parsed && parsed.size > 1 && isStructType(parsed.itemType) && parsed.structName) {
+      // We unwrap constant size struct arrays like `Item[4]` into `Item`.
+      registerStruct({
+        ...parsed.itemType,
+        structName: parsed.structName.replace(new RegExp(`\\[${parsed.size}\\]$`), ''),
+      })
+    } else {
+      registerStruct(parsed)
+    }
   }
   return parsed
 }
