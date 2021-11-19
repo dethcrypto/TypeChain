@@ -41,7 +41,7 @@ export function generateInputType(options: GenerateTypeOptions, evmType: EvmType
       return 'BytesLike'
     case 'array':
       if (options.useStructs && isConstantSizeStructArray(evmType)) {
-        return `[${Array(evmType.size).fill(getStructArrayItemName(evmType) + STRUCT_INPUT_POSTFIX)}]`
+        return `[${Array(evmType.size).fill(evmType.structName + STRUCT_INPUT_POSTFIX)}]`
       } else if (evmType.size !== undefined) {
         return `[${Array(evmType.size)
           .fill(generateInputType({ ...options, useStructs: true }, evmType.itemType))
@@ -85,7 +85,7 @@ export function generateOutputType(options: GenerateTypeOptions, evmType: EvmOut
       return 'string'
     case 'array':
       if (options.useStructs && isConstantSizeStructArray(evmType)) {
-        return `[${Array(evmType.size).fill(getStructArrayItemName(evmType) + STRUCT_OUTPUT_POSTFIX)}]`
+        return `[${Array(evmType.size).fill(evmType.structName + STRUCT_OUTPUT_POSTFIX)}]`
       } else if (evmType.size !== undefined) {
         return `[${Array(evmType.size)
           .fill(generateOutputType({ ...options, useStructs: true }, evmType.itemType))
@@ -159,8 +159,4 @@ interface ConstantSizeStructArrayType extends ArrayType {
 
 function isConstantSizeStructArray(evmType: ArrayType): evmType is ConstantSizeStructArrayType {
   return evmType.size !== undefined && evmType.structName !== undefined
-}
-
-function getStructArrayItemName(evmType: ConstantSizeStructArrayType) {
-  return evmType.structName.replace(new RegExp(`\\[${evmType.size}\\]$`), '')
 }
