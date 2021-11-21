@@ -51,6 +51,13 @@ You will also need to install a desired target for example `@typechain/ethers-v4
 | [`@typechain/hardhat`](/packages/hardhat)                                                                                                   | [![npm](https://img.shields.io/npm/v/@typechain/hardhat.svg)](https://www.npmjs.com/package/@typechain/hardhat)       | Hardhat plugin                               | [example-ethers](./examples/hardhat) [example-truffle](./examples/hardhat-truffle)                                   |
 | [`@typechain/truffle-v4`](https://github.com/dethcrypto/TypeChain/tree/fb96e1cf06c8c4c17cd79a1743362bd3d34eab76/packages/target-truffle-v4) | [![npm](https://img.shields.io/npm/v/@typechain/truffle-v4.svg)](https://www.npmjs.com/package/@typechain/truffle-v4) | Truffle ver 4 support (deprecated)           | [example](https://github.com/dethcrypto/TypeChain/tree/fb96e1cf06c8c4c17cd79a1743362bd3d34eab76/examples/truffle-v4) |
 
+### eth-sdk
+
+TypeChain generates only TypeScript typings (`d.ts`) files, if you're looking for "opionated", "batteries included"
+solution check out our new project: [eth-sdk](https://github.com/dethcrypto/eth-sdk). It generates typesafe, ready to
+use ethers.js wrappers and uses etherscan/sourcify to automatically get ABIs based only on smart contract addresses.
+Under the hood, `eth-sdk` relies on `TypeChain`.
+
 ## Usage
 
 ### CLI
