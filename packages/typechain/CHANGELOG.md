@@ -1,5 +1,11 @@
 # typechain
 
+## 6.0.4
+
+### Patch Changes
+
+- a26ea50: Constant size struct arrays are now properly supported and don't cause malformed TS emit anymore.
+
 ## 6.0.3
 
 ### Patch Changes
