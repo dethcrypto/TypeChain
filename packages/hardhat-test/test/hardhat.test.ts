@@ -2,13 +2,17 @@ import { Interface } from '@ethersproject/abi'
 import { ethers } from 'hardhat'
 import { AssertTrue, IsExact } from 'test-utils'
 
-import { Counter__factory } from '../typechain-types'
+import { Counter__factory, StructsInConstructor__factory } from '../typechain-types'
+import type { Vector2Struct } from '../typechain-types/StructsInConstructor'
 
 describe('TypeChain x Hardhat', () => {
   it.skip('should infer correct contract factory type', async () => {
     const counterFactory = await ethers.getContractFactory('Counter')
 
-    type _ = AssertTrue<IsExact<typeof counterFactory, Counter__factory>>
+    type _1 = AssertTrue<IsExact<typeof counterFactory, Counter__factory>>
+
+    type DeployArgs = Parameters<StructsInConstructor__factory['deploy']>
+    type _2 = AssertTrue<IsExact<DeployArgs[0], [Vector2Struct, Vector2Struct]>>
   })
 
   it('should construct factories in different ways', async () => {

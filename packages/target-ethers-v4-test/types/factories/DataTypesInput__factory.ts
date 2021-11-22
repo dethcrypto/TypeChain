@@ -370,6 +370,73 @@ const _abi = [
       {
         components: [
           {
+            internalType: "uint256",
+            name: "input1",
+            type: "uint256",
+          },
+          {
+            components: [
+              {
+                internalType: "uint256",
+                name: "uint256_0",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "uint256_1",
+                type: "uint256",
+              },
+            ],
+            internalType: "struct DataTypesInput.Struct1",
+            name: "input2",
+            type: "tuple",
+          },
+        ],
+        internalType: "struct DataTypesInput.Struct2[3]",
+        name: "input",
+        type: "tuple[3]",
+      },
+    ],
+    name: "input_struct2_tuple",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "input1",
+            type: "uint256",
+          },
+          {
+            components: [
+              {
+                internalType: "uint256",
+                name: "uint256_0",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "uint256_1",
+                type: "uint256",
+              },
+            ],
+            internalType: "struct DataTypesInput.Struct1",
+            name: "input2",
+            type: "tuple",
+          },
+        ],
+        internalType: "struct DataTypesInput.Struct2[3]",
+        name: "",
+        type: "tuple[3]",
+      },
+    ],
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        components: [
+          {
             internalType: "uint256[]",
             name: "input1",
             type: "uint256[]",

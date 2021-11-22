@@ -1,5 +1,5 @@
 import { compact } from 'lodash'
-import { AbiOutputParameter, AbiParameter, EvmOutputType, EvmType, TupleType } from 'typechain'
+import { AbiOutputParameter, AbiParameter, ArrayType, EvmOutputType, EvmType, TupleType } from 'typechain'
 
 import { STRUCT_INPUT_POSTFIX, STRUCT_OUTPUT_POSTFIX } from '../common'
 
@@ -40,7 +40,9 @@ export function generateInputType(options: GenerateTypeOptions, evmType: EvmType
     case 'dynamic-bytes':
       return 'BytesLike'
     case 'array':
-      if (evmType.size !== undefined) {
+      if (options.useStructs && isConstantSizeStructArray(evmType)) {
+        return `[${Array(evmType.size).fill(evmType.structName + STRUCT_INPUT_POSTFIX)}]`
+      } else if (evmType.size !== undefined) {
         return `[${Array(evmType.size)
           .fill(generateInputType({ ...options, useStructs: true }, evmType.itemType))
           .join(', ')}]`
@@ -82,7 +84,9 @@ export function generateOutputType(options: GenerateTypeOptions, evmType: EvmOut
     case 'dynamic-bytes':
       return 'string'
     case 'array':
-      if (evmType.size !== undefined) {
+      if (options.useStructs && isConstantSizeStructArray(evmType)) {
+        return `[${Array(evmType.size).fill(evmType.structName + STRUCT_OUTPUT_POSTFIX)}]`
+      } else if (evmType.size !== undefined) {
         return `[${Array(evmType.size)
           .fill(generateOutputType({ ...options, useStructs: true }, evmType.itemType))
           .join(', ')}]`
@@ -146,4 +150,13 @@ export function generateOutputComplexTypesAsObject(
   }
 
   return namedElementsCode
+}
+
+interface ConstantSizeStructArrayType extends ArrayType {
+  structName: string
+  size: number
+}
+
+function isConstantSizeStructArray(evmType: ArrayType): evmType is ConstantSizeStructArrayType {
+  return evmType.size !== undefined && evmType.structName !== undefined
 }

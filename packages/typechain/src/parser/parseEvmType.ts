@@ -132,8 +132,9 @@ export function extractStructNameIfAvailable(internalType: string | undefined): 
     // get rid of "struct " in the beginning
     let nameStr = internalType.slice(7)
     // get rid of the array sign at the end
-    if (nameStr.endsWith('[]')) {
-      nameStr = nameStr.slice(0, nameStr.length - 2)
+    const arrayMarker = nameStr.match(/(\[\d*\])$/)?.[1]
+    if (arrayMarker) {
+      nameStr = nameStr.slice(0, nameStr.length - arrayMarker.length)
     }
     // get rid of contract name if exists
     if (nameStr.indexOf('.') !== -1) {

@@ -134,6 +134,31 @@ describe('parseEvmType function', () => {
     })
   })
 
+  it('parses constant size struct arrays', () => {
+    const actual = parseEvmType(
+      'tuple[2]',
+      [
+        { name: 'x', type: { originalType: 'uint256', type: 'uinteger', bits: 256 } },
+        { name: 'y', type: { originalType: 'uint256', type: 'uinteger', bits: 256 } },
+      ],
+      'struct Vector2[2]',
+    )
+    expect(actual).toEqual({
+      structName: 'Vector2',
+      type: 'array',
+      originalType: 'tuple[2]',
+      size: 2,
+      itemType: {
+        type: 'tuple',
+        originalType: 'tuple',
+        components: [
+          { name: 'x', type: { originalType: 'uint256', type: 'uinteger', bits: 256 } },
+          { name: 'y', type: { originalType: 'uint256', type: 'uinteger', bits: 256 } },
+        ],
+      },
+    })
+  })
+
   // Turns out that USUALLY solidity won't leave enums in abis but for some reason they are part of libraries abis
   // This is a test for workaround that forces it to parse as uint8
   // Related issue: https://github.com/ethereum-ts/TypeChain/issues/216

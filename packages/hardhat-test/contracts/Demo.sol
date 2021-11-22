@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.6.8;
+pragma solidity ^0.8.7;
 pragma experimental ABIEncoderV2;
 
 contract Demo {
@@ -11,5 +11,5 @@ contract Demo {
         uint a;
         uint b;
     }
-    constructor(Struct1 memory input1, Struct2[] memory input2) public {}
+    constructor(Struct1 memory input1, Struct2[] memory input2) {}
 }

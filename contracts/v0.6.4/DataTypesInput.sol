@@ -67,4 +67,7 @@ contract DataTypesInput {
   function input_uint_array(uint[] memory input1) public pure returns (uint[] memory) {
     return input1;
   }
+  function input_struct2_tuple(Struct2[3] memory input) public pure returns (Struct2[3] memory) {
+    return input;
+  }
 }
