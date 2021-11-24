@@ -16,6 +16,7 @@ export type { ERC721Enumerable } from "./ERC721Enumerable";
 export type { IERC721 } from "./IERC721";
 export type { IERC721Enumerable } from "./IERC721Enumerable";
 export type { IERC721Receiver } from "./IERC721Receiver";
+export type { Issue552Reproduction } from "./Issue552Reproduction";
 export type { KingOfTheHill } from "./KingOfTheHill";
 export type { Rarity } from "./Rarity";
 export type { Withdrawable } from "./Withdrawable";
@@ -35,6 +36,7 @@ export { ERC721Enumerable__factory } from "./factories/ERC721Enumerable__factory
 export { IERC721__factory } from "./factories/IERC721__factory";
 export { IERC721Enumerable__factory } from "./factories/IERC721Enumerable__factory";
 export { IERC721Receiver__factory } from "./factories/IERC721Receiver__factory";
+export { Issue552Reproduction__factory } from "./factories/Issue552Reproduction__factory";
 export { KingOfTheHill__factory } from "./factories/KingOfTheHill__factory";
 export { Rarity__factory } from "./factories/Rarity__factory";
 export { Withdrawable__factory } from "./factories/Withdrawable__factory";

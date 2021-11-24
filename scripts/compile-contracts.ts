@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { execSync } from 'child_process'
 import { copyFileSync, mkdirSync, readdirSync, renameSync, rmdirSync } from 'fs'
 import { resolve } from 'path'
@@ -105,7 +106,7 @@ function renameUglyNames({ outDir, contracts }: Files) {
     const newNames: string[] = []
     for (const file of outputs) {
       const [, fileName, contractName, extension] = file.match(
-        new RegExp(`^_?_?contracts_${version}_([A-Za-z0-9-]+)_sol_([A-Za-z0-9-]*)\\.([a-z]+)$`),
+        new RegExp(`^_?_?contracts_${version}_([A-Za-z0-9-_]+)_sol_([A-Za-z0-9-_]*)\\.([a-z]+)$`),
       )!
 
       let newName: string
