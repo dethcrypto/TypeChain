@@ -1,5 +1,5 @@
 import { compact } from 'lodash'
-import { AbiOutputParameter, AbiParameter, ArrayType, EvmOutputType, EvmType, TupleType } from 'typechain'
+import { AbiOutputParameter, AbiParameter, EvmOutputType, EvmType, TupleType } from 'typechain'
 
 import { STRUCT_INPUT_POSTFIX, STRUCT_OUTPUT_POSTFIX } from '../common'
 
@@ -40,22 +40,17 @@ export function generateInputType(options: GenerateTypeOptions, evmType: EvmType
     case 'dynamic-bytes':
       return 'BytesLike'
     case 'array':
-      if (options.useStructs && isConstantSizeStructArray(evmType)) {
-        return `[${Array(evmType.size).fill(evmType.structName + STRUCT_INPUT_POSTFIX)}]`
-      } else if (evmType.size !== undefined) {
-        return `[${Array(evmType.size)
-          .fill(generateInputType({ ...options, useStructs: true }, evmType.itemType))
-          .join(', ')}]`
+      if (evmType.structName && !options.useStructs) {
+        // This emits right-hand side of struct type declaration.
+        // Example: `export type Struct3Struct = { input1: BigNumberish[] };`
+        return `(${generateInputType({ ...options, useStructs: true }, evmType.itemType)})`
       } else {
-        if (evmType.structName) {
-          if (options.useStructs) {
-            return evmType.structName + STRUCT_INPUT_POSTFIX + '[]'
-          } else {
-            return `(${generateInputType({ ...options, useStructs: true }, evmType.itemType)})`
-          }
-        } else {
-          return `(${generateInputType({ ...options, useStructs: true }, evmType.itemType)})[]`
-        }
+        return generateArrayOrTupleType(
+          evmType.structName
+            ? evmType.structName + STRUCT_INPUT_POSTFIX
+            : generateInputType({ ...options, useStructs: true }, evmType.itemType),
+          evmType.size,
+        )
       }
     case 'boolean':
       return 'boolean'
@@ -65,7 +60,7 @@ export function generateInputType(options: GenerateTypeOptions, evmType: EvmType
       if (evmType.structName && options.useStructs) {
         return evmType.structName + STRUCT_INPUT_POSTFIX
       }
-      return generateTupleType(evmType, generateInputType.bind(null, { ...options, useStructs: true }))
+      return generateObjectTypeLiteral(evmType, generateInputType.bind(null, { ...options, useStructs: true }))
     case 'unknown':
       return 'any'
   }
@@ -84,23 +79,17 @@ export function generateOutputType(options: GenerateTypeOptions, evmType: EvmOut
     case 'dynamic-bytes':
       return 'string'
     case 'array':
-      if (options.useStructs && isConstantSizeStructArray(evmType)) {
-        return `[${Array(evmType.size).fill(evmType.structName + STRUCT_OUTPUT_POSTFIX)}]`
-      } else if (evmType.size !== undefined) {
-        return `[${Array(evmType.size)
-          .fill(generateOutputType({ ...options, useStructs: true }, evmType.itemType))
-          .join(', ')}]`
-      } else {
-        if (evmType.structName) {
-          if (options.useStructs) {
-            return evmType.structName + STRUCT_OUTPUT_POSTFIX + '[]'
-          } else {
-            return `(${generateOutputType({ ...options, useStructs: true }, evmType.itemType)})`
-          }
-        } else {
-          return `(${generateOutputType({ ...options, useStructs: true }, evmType.itemType)})[]`
-        }
+      if (evmType.structName && !options.useStructs) {
+        // This emits right-hand side of struct type declaration.
+        // Example: `export type Struct3StructOutput = [BigNumber[]] & { input1: BigNumber[] };`
+        return `(${generateOutputType({ ...options, useStructs: true }, evmType.itemType)})`
       }
+      return generateArrayOrTupleType(
+        evmType.structName
+          ? evmType.structName + STRUCT_OUTPUT_POSTFIX
+          : generateOutputType({ ...options, useStructs: true }, evmType.itemType),
+        evmType.size,
+      )
     case 'boolean':
       return 'boolean'
     case 'string':
@@ -115,7 +104,7 @@ export function generateOutputType(options: GenerateTypeOptions, evmType: EvmOut
   }
 }
 
-export function generateTupleType(tuple: TupleType, generator: (evmType: EvmType) => string) {
+export function generateObjectTypeLiteral(tuple: TupleType, generator: (evmType: EvmType) => string) {
   return '{' + tuple.components.map((component) => `${component.name}: ${generator(component.type)}`).join(',') + '}'
 }
 
@@ -152,11 +141,10 @@ export function generateOutputComplexTypesAsObject(
   return namedElementsCode
 }
 
-interface ConstantSizeStructArrayType extends ArrayType {
-  structName: string
-  size: number
-}
-
-function isConstantSizeStructArray(evmType: ArrayType): evmType is ConstantSizeStructArrayType {
-  return evmType.size !== undefined && evmType.structName !== undefined
+function generateArrayOrTupleType(item: string, length?: number) {
+  if (length !== undefined && length < 6) {
+    return `[${Array(length).fill(item).join(', ')}]`
+  } else {
+    return `(${item})[]`
+  }
 }
