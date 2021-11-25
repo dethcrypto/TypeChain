@@ -1,5 +1,11 @@
 # @typechain/ethers-v5
 
+## 8.0.5
+
+### Patch Changes
+
+- 8f7144c: Constant size with length greater than 4 no longer emit as TypeScript tuples.
+
 ## 8.0.4
 
 ### Patch Changes
