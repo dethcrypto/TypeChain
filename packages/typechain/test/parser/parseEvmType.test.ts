@@ -134,6 +134,34 @@ describe('parseEvmType function', () => {
     })
   })
 
+  it('parses struct nested array', () => {
+    const parsedType = parseEvmType(
+      'tuple[][]',
+      [
+        { name: 'target', type: { type: 'address', originalType: 'address' } },
+        { name: 'callData', type: { type: 'dynamic-bytes', originalType: 'bytes' } },
+      ],
+      'struct Multicall.Call[][]',
+    )
+    expect(parsedType).toEqual({
+      type: 'array',
+      itemType: {
+        type: 'array',
+        itemType: {
+          type: 'tuple',
+          components: [
+            { name: 'target', type: { type: 'address', originalType: 'address' } },
+            { name: 'callData', type: { type: 'dynamic-bytes', originalType: 'bytes' } },
+          ],
+          originalType: 'tuple',
+        },
+        originalType: 'tuple[]',
+      },
+      originalType: 'tuple[][]',
+      structName: 'Call',
+    })
+  })
+
   it('parses constant size struct arrays', () => {
     const actual = parseEvmType(
       'tuple[2]',
