@@ -1,5 +1,11 @@
 # typechain
 
+## 6.0.5
+
+### Patch Changes
+
+- 135f6ce: Fix `structName` for nested array of struct
+
 ## 6.0.4
 
 ### Patch Changes
