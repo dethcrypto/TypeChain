@@ -131,8 +131,8 @@ export function extractStructNameIfAvailable(internalType: string | undefined): 
   if (internalType?.startsWith('struct ')) {
     // get rid of "struct " in the beginning
     let nameStr = internalType.slice(7)
-    // get rid of the array sign at the end
-    const arrayMarker = nameStr.match(/(\[\d*\])$/)?.[1]
+    // get rid of all array signs at the end
+    const arrayMarker = nameStr.match(/((?:\[\d*\])+)$/)?.[1]
     if (arrayMarker) {
       nameStr = nameStr.slice(0, nameStr.length - arrayMarker.length)
     }
