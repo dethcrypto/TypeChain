@@ -53,24 +53,24 @@ export class EdgeCases__factory extends ContractFactory {
     this.contractName = "EdgeCases";
   }
 
-  deploy(
+  override deploy(
     test: BigNumberish,
     arg1: BytesLike,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<EdgeCases> {
     return super.deploy(test, arg1, overrides || {}) as Promise<EdgeCases>;
   }
-  getDeployTransaction(
+  override getDeployTransaction(
     test: BigNumberish,
     arg1: BytesLike,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): TransactionRequest {
     return super.getDeployTransaction(test, arg1, overrides || {});
   }
-  attach(address: string): EdgeCases {
+  override attach(address: string): EdgeCases {
     return super.attach(address) as EdgeCases;
   }
-  connect(signer: Signer): EdgeCases__factory {
+  override connect(signer: Signer): EdgeCases__factory {
     return super.connect(signer) as EdgeCases__factory;
   }
   static readonly contractName: "EdgeCases";

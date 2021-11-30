@@ -125,20 +125,20 @@ export class SafeMath__factory extends ContractFactory {
     this.contractName = "SafeMath";
   }
 
-  deploy(
+  override deploy(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<SafeMath> {
     return super.deploy(overrides || {}) as Promise<SafeMath>;
   }
-  getDeployTransaction(
+  override getDeployTransaction(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): TransactionRequest {
     return super.getDeployTransaction(overrides || {});
   }
-  attach(address: string): SafeMath {
+  override attach(address: string): SafeMath {
     return super.attach(address) as SafeMath;
   }
-  connect(signer: Signer): SafeMath__factory {
+  override connect(signer: Signer): SafeMath__factory {
     return super.connect(signer) as SafeMath__factory;
   }
   static readonly contractName: "SafeMath";

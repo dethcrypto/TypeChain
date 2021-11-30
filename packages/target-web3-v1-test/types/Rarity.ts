@@ -133,9 +133,7 @@ export interface Rarity extends BaseContract {
 
     summon(_class: number | string | BN): NonPayableTransactionObject<void>;
 
-    summoner(
-      _summoner: number | string | BN
-    ): NonPayableTransactionObject<{
+    summoner(_summoner: number | string | BN): NonPayableTransactionObject<{
       _xp: string;
       _log: string;
       _class: string;

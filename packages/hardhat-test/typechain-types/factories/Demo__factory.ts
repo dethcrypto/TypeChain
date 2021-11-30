@@ -69,24 +69,24 @@ export class Demo__factory extends ContractFactory {
     this.contractName = "Demo";
   }
 
-  deploy(
+  override deploy(
     input1: Demo.Struct1Struct,
     input2: Demo.Struct2Struct[],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<Demo> {
     return super.deploy(input1, input2, overrides || {}) as Promise<Demo>;
   }
-  getDeployTransaction(
+  override getDeployTransaction(
     input1: Demo.Struct1Struct,
     input2: Demo.Struct2Struct[],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): TransactionRequest {
     return super.getDeployTransaction(input1, input2, overrides || {});
   }
-  attach(address: string): Demo {
+  override attach(address: string): Demo {
     return super.attach(address) as Demo;
   }
-  connect(signer: Signer): Demo__factory {
+  override connect(signer: Signer): Demo__factory {
     return super.connect(signer) as Demo__factory;
   }
   static readonly contractName: "Demo";

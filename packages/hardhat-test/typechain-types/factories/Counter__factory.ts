@@ -81,20 +81,20 @@ export class Counter__factory extends ContractFactory {
     this.contractName = "Counter";
   }
 
-  deploy(
+  override deploy(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<Counter> {
     return super.deploy(overrides || {}) as Promise<Counter>;
   }
-  getDeployTransaction(
+  override getDeployTransaction(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): TransactionRequest {
     return super.getDeployTransaction(overrides || {});
   }
-  attach(address: string): Counter {
+  override attach(address: string): Counter {
     return super.attach(address) as Counter;
   }
-  connect(signer: Signer): Counter__factory {
+  override connect(signer: Signer): Counter__factory {
     return super.connect(signer) as Counter__factory;
   }
   static readonly contractName: "Counter";

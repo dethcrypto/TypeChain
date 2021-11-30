@@ -47,22 +47,22 @@ export class TestContract1__factory extends ContractFactory {
     this.contractName = "TestContract1";
   }
 
-  deploy(
+  override deploy(
     _amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<TestContract1> {
     return super.deploy(_amount, overrides || {}) as Promise<TestContract1>;
   }
-  getDeployTransaction(
+  override getDeployTransaction(
     _amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): TransactionRequest {
     return super.getDeployTransaction(_amount, overrides || {});
   }
-  attach(address: string): TestContract1 {
+  override attach(address: string): TestContract1 {
     return super.attach(address) as TestContract1;
   }
-  connect(signer: Signer): TestContract1__factory {
+  override connect(signer: Signer): TestContract1__factory {
     return super.connect(signer) as TestContract1__factory;
   }
   static readonly contractName: "TestContract1";
