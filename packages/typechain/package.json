@@ -40,6 +40,7 @@
     "lodash": "^4.17.15",
     "mkdirp": "^1.0.4",
     "prettier": "^2.1.2",
+    "ts-command-line-args": "^2.2.0",
     "ts-essentials": "^7.0.1"
   },
   "devDependencies": {
