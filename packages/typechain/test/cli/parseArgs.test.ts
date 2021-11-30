@@ -1,4 +1,4 @@
-import { expect } from 'earljs'
+import { expect, mockFn } from 'earljs'
 
 import { parseArgs } from '../../src/cli/parseArgs'
 
@@ -61,5 +61,37 @@ describe('cli > parseArgs', () => {
       outDir: undefined,
       flags: { alwaysGenerateOverloads: true },
     })
+  })
+
+  it('shows usage guide given --help flag', () => {
+    process.argv = ['', '', '--help']
+
+    const processExit = process.exit
+    // eslint-disable-next-line no-console
+    const consoleLog = console.log
+
+    const exitMock = mockFn<typeof process.exit>(() => {
+      throw new Error('process.exit called')
+    })
+    process.exit = exitMock
+    const logMock = mockFn<typeof console.log>(() => {})
+    // eslint-disable-next-line no-console
+    console.log = logMock
+
+    try {
+      parseArgs()
+    } catch (err) {
+      expect((err as Error).message).toEqual('process.exit called')
+    }
+
+    expect(exitMock).toHaveBeenCalledWith([0])
+    const logged = logMock.calls[0].args[0] as string
+    expect(logged.includes('Options')).toEqual(true)
+    expect(logged.includes('--out-dir')).toEqual(true)
+    expect(logged.includes('Example Usage')).toEqual(true)
+
+    process.exit = processExit
+    // eslint-disable-next-line no-console
+    console.log = consoleLog
   })
 })
