@@ -1,4 +1,4 @@
-import commandLineArgs from 'command-line-args'
+import { parse as commandLineArgs } from 'ts-command-line-args'
 
 const DEFAULT_GLOB_PATTERN = '**/*.abi'
 
@@ -12,22 +12,68 @@ export interface IOptions {
 }
 
 export function parseArgs(): IOptions {
-  const optionDefinitions = [
-    { name: 'glob', type: String, defaultOption: true, multiple: true },
-    { name: 'target', type: String },
-    { name: 'out-dir', type: String },
-    { name: 'show-stack-traces', type: Boolean },
-    { name: 'always-generate-overloads', type: Boolean },
-  ]
+  const rawOptions = commandLineArgs<CommandLineArgs>(
+    {
+      glob: {
+        type: String,
+        defaultOption: true,
+        multiple: true,
+        defaultValue: [DEFAULT_GLOB_PATTERN],
+        description:
+          'Pattern that will be used to find ABIs. Remember about adding quotes: typechain "**/*.json", examples: ./abis/**/*.abi, ./abis/?(Oasis.abi|OasisHelper.abi).',
+      },
+      target: {
+        type: String,
+        description:
+          'One of ethers-v4, ethers-v5, truffle-v4, truffle-v5, web3-v1 or path to your custom target. Typechain will try to load package named: @typechain/<target>, so make sure that desired package is installed.',
+      },
+      'out-dir': { type: String, optional: true, description: 'Output directory for generated files.' },
+      'always-generate-overloads': {
+        type: Boolean,
+        defaultValue: false,
+        description: `Some targets won't generate unnecessary types for overloaded functions by default, this option forces to always generate them.`,
+      },
+      /** This is read directly from process.argv in cli.ts */
+      'show-stack-traces': { type: Boolean, defaultValue: false },
+      help: { type: Boolean, defaultValue: false, alias: 'h', description: 'Prints this message.' },
+    },
+    {
+      helpArg: 'help',
+      headerContentSections: [
+        {
+          content: `\
+          TypeChain generates TypeScript types for Ethereum contract ABIs.
+          Thank you for using it!`,
+        },
+      ],
+      footerContentSections: [
+        {
+          header: 'Example Usage',
+          content: `\
+          typechain --target ethers-v5 --out-dir app/contracts './contracts/*.json'
 
-  const rawOptions = commandLineArgs(optionDefinitions)
+
+          You can read more about TypeChain at {underline https://github.com/dethcrypto/TypeChain}.`,
+        },
+      ],
+    },
+  )
 
   return {
-    files: rawOptions.glob || [DEFAULT_GLOB_PATTERN],
+    files: rawOptions.glob,
     outDir: rawOptions['out-dir'],
     target: rawOptions.target,
     flags: {
       alwaysGenerateOverloads: rawOptions['always-generate-overloads'] || false,
     },
   }
+}
+
+interface CommandLineArgs {
+  glob: string[]
+  target: string
+  'out-dir'?: string
+  'show-stack-traces': boolean
+  'always-generate-overloads': boolean
+  help: boolean
 }
