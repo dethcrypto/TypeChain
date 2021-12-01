@@ -78,17 +78,14 @@ describe('cli > parseArgs', () => {
     // eslint-disable-next-line no-console
     console.log = logMock
 
-    try {
-      parseArgs()
-    } catch (err) {
-      expect((err as Error).message).toEqual('process.exit called')
-    }
+    expect(parseArgs).toThrow('process.exit called')
 
     expect(exitMock).toHaveBeenCalledWith([0])
     const logged = logMock.calls[0].args[0] as string
-    expect(logged.includes('Options')).toEqual(true)
-    expect(logged.includes('--out-dir')).toEqual(true)
-    expect(logged.includes('Example Usage')).toEqual(true)
+
+    for (const substring of ['Options', '--out-dir', '--target', 'Example Usage']) {
+      expect(logged).toEqual(expect.stringMatching(substring))
+    }
 
     process.exit = processExit
     // eslint-disable-next-line no-console
