@@ -20,7 +20,7 @@ describe('cli > parseArgs', () => {
       files: ['**/*.abi'],
       target: 'sample-target',
       outDir: undefined,
-      flags: { alwaysGenerateOverloads: false },
+      flags: { alwaysGenerateOverloads: false, tsNocheck: false },
     })
   })
 
@@ -33,7 +33,7 @@ describe('cli > parseArgs', () => {
       files: ['*.abi'],
       target: 'sample-target',
       outDir: undefined,
-      flags: { alwaysGenerateOverloads: false },
+      flags: { alwaysGenerateOverloads: false, tsNocheck: false },
     })
   })
 
@@ -46,7 +46,7 @@ describe('cli > parseArgs', () => {
       files: ['*.json', '**/*.json'],
       target: 'sample-target',
       outDir: undefined,
-      flags: { alwaysGenerateOverloads: false },
+      flags: { alwaysGenerateOverloads: false, tsNocheck: false },
     })
   })
 
@@ -59,7 +59,7 @@ describe('cli > parseArgs', () => {
       files: ['**/*.abi'],
       target: 'sample-target',
       outDir: undefined,
-      flags: { alwaysGenerateOverloads: true },
+      flags: { alwaysGenerateOverloads: true, tsNocheck: false },
     })
   })
 
@@ -90,5 +90,19 @@ describe('cli > parseArgs', () => {
     process.exit = processExit
     // eslint-disable-next-line no-console
     console.log = consoleLog
+  })
+
+  it('parses --ts-nocheck flag', () => {
+    process.argv = ['', '', '--target', 'sample-target', '--ts-nocheck']
+
+    let res = parseArgs()
+
+    expect(res.flags.tsNocheck).toEqual(true)
+
+    process.argv = ['', '', '--target', 'sample-target']
+
+    res = parseArgs()
+
+    expect(res.flags.tsNocheck).toEqual(false)
   })
 })

@@ -15,6 +15,7 @@ export interface Config {
 
 export interface CodegenConfig {
   alwaysGenerateOverloads: boolean
+  tsNocheck?: boolean
   environment: 'hardhat' | undefined
 }
 

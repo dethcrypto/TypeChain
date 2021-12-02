@@ -1,0 +1,7 @@
+[
+  {
+    "inputs": [{ "internalType": "uint256", "name": "x", "type": "uint256" }],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  }
+]
