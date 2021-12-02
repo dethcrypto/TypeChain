@@ -21,6 +21,9 @@
     <a href="https://github.com/KyberNetwork/dao_sc/blob/master/hardhat.config.ts#L8"><img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/master/docs/images/kyber-logo.png" height="100" alt="Kyber" /></a>
     <a href="https://github.com/OffchainLabs/arbitrum/blob/133ac08dbf423ce7ca79343260869e46bf02a543/packages/arb-bridge-eth/package.json#L39"><img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/master/docs/images/arbitrum-logo.png" height="100" alt="Arbitrum" /></a>
   </p>
+  <p align="center">
+    <strong>Enjoying using TypeChain? Consider donating via <a href="https://gitcoin.co/grants/4038/deth-typechain">GitCoin</a></strong>
+  </p>
 </p>
 
 ## Features ⚡
