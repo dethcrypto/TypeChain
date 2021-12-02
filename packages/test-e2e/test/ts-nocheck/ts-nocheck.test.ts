@@ -1,5 +1,5 @@
 import { expect } from 'earljs'
-import { readFile } from 'fs-extra'
+import { readFile, remove } from 'fs-extra'
 import * as path from 'path'
 
 import { runTypeChain } from '../../../typechain'
@@ -20,6 +20,8 @@ describe('ts-nocheck', () => {
       expect(output).not.toEqual(expect.stringMatching('// @ts-nocheck'))
     }
   })
+
+  after(() => remove(path.resolve(__dirname, './out')))
 })
 
 async function codegen({ tsNocheck }: { tsNocheck: boolean }) {
