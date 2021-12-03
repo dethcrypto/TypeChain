@@ -9,6 +9,10 @@
     <a href="/package.json"><img alt="Software License" src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"></a>
     <a href="https://discord.gg/wQDkeDgzgv"><img alt="Join our discord!" src="https://img.shields.io/discord/895381864922091630.svg?color=7289da&label=deth&logo=discord&style=flat-square"></a>
   </p>
+  
+  <p align="center">
+    <strong>💸 Enjoy using TypeChain? Consider funding development via <a href="https://gitcoin.co/grants/4038/deth-typechain">GitCoin</a> 💸</strong>
+  </p>
 
   <p align="center">
     <i>Used by the best:</i> <br/>
@@ -20,9 +24,6 @@
     <a href="https://github.com/matter-labs/zksync/blob/9687049af1efbd14d8e47d97ebea643e1516da9d/contracts/hardhat.config.ts#L4"><img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/master/docs/images/zksync-logo.png" height="100" alt="zkSync" /></a>
     <a href="https://github.com/KyberNetwork/dao_sc/blob/master/hardhat.config.ts#L8"><img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/master/docs/images/kyber-logo.png" height="100" alt="Kyber" /></a>
     <a href="https://github.com/OffchainLabs/arbitrum/blob/133ac08dbf423ce7ca79343260869e46bf02a543/packages/arb-bridge-eth/package.json#L39"><img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/master/docs/images/arbitrum-logo.png" height="100" alt="Arbitrum" /></a>
-  </p>
-  <p align="center">
-    <strong>Enjoying using TypeChain? Consider donating via <a href="https://gitcoin.co/grants/4038/deth-typechain">GitCoin</a></strong>
   </p>
 </p>
 
