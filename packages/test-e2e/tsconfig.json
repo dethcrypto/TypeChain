@@ -1,0 +1,9 @@
+{
+  "extends": "../../tsconfig.json",
+  "include": ["src", "test"],
+  "compilerOptions": {
+    "noImplicitOverride": true,
+    // workaround for @types/superagent/index.d.ts(31,29): error TS2304: Cannot find name 'Blob'.
+    "skipLibCheck": true
+  }
+}

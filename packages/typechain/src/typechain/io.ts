@@ -2,8 +2,8 @@ import { readFileSync } from 'fs'
 import { isArray } from 'lodash'
 import { dirname, relative } from 'path'
 
-import { extractAbi } from '..'
 import { outputTransformers } from '../codegen/outputTransformers'
+import { extractAbi } from '../parser/abiParser'
 import { debug } from '../utils/debug'
 import { Config, FileDescription, Output, Services } from './types'
 

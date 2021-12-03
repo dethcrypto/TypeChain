@@ -5,7 +5,7 @@ import { TASK_CLEAN, TASK_COMPILE, TASK_COMPILE_SOLIDITY_COMPILE_JOBS } from 'ha
 import { extendConfig, subtask, task, types } from 'hardhat/config'
 import { getFullyQualifiedName } from 'hardhat/utils/contract-names'
 import _, { uniq } from 'lodash'
-import { glob, runTypeChain } from 'typechain'
+import { glob, PublicConfig as RunTypeChainConfig, runTypeChain } from 'typechain'
 
 import { getDefaultTypechainConfig } from './config'
 import { TASK_TYPECHAIN, TASK_TYPECHAIN_GENERATE_TYPES } from './constants'
@@ -66,31 +66,30 @@ subtask(TASK_TYPECHAIN_GENERATE_TYPES)
     if (typechainCfg.externalArtifacts) {
       allFiles.push(...glob(cwd, typechainCfg.externalArtifacts, false))
     }
-    const result = await runTypeChain({
+
+    const typechainOptions: Omit<RunTypeChainConfig, 'filesToProcess'> = {
       cwd,
-      filesToProcess: needsFullRebuild ? allFiles : glob(cwd, artifactPaths), // only process changed files if not doing full rebuild
       allFiles,
       outDir: typechainCfg.outDir,
       target: typechainCfg.target,
       flags: {
-        alwaysGenerateOverloads: config.typechain.alwaysGenerateOverloads,
+        alwaysGenerateOverloads: typechainCfg.alwaysGenerateOverloads,
+        tsNocheck: typechainCfg.tsNocheck,
         environment: 'hardhat',
       },
+    }
+
+    const result = await runTypeChain({
+      ...typechainOptions,
+      filesToProcess: needsFullRebuild ? allFiles : glob(cwd, artifactPaths), // only process changed files if not doing full rebuild
     })
     // eslint-disable-next-line no-console
     console.log(`Successfully generated ${result.filesGenerated} typings!`)
     // if this is not full rebuilding, always re-generate types for external artifacts
     if (!needsFullRebuild && typechainCfg.externalArtifacts) {
       const result = await runTypeChain({
-        cwd,
+        ...typechainOptions,
         filesToProcess: glob(cwd, typechainCfg.externalArtifacts!, false), // only process files with external artifacts
-        allFiles,
-        outDir: typechainCfg.outDir,
-        target: typechainCfg.target,
-        flags: {
-          alwaysGenerateOverloads: config.typechain.alwaysGenerateOverloads,
-          environment: 'hardhat',
-        },
       })
       // eslint-disable-next-line no-console
       console.log(`Successfully generated ${result.filesGenerated} typings for external artifacts!`)

@@ -5,4 +5,5 @@ package.json
 CHANGELOG.md
 packages/hardhat/test/fixture-projects/hardhat-project/typechain-types/**
 packages/hardhat-test/typechain-types
+packages/test-e2e/test/*/out
 **/*.sol

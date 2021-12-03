@@ -2,16 +2,17 @@ import { parse as commandLineArgs } from 'ts-command-line-args'
 
 const DEFAULT_GLOB_PATTERN = '**/*.abi'
 
-export interface IOptions {
+export interface ParsedArgs {
   files: string[]
   target: string
   outDir?: string | undefined
   flags: {
     alwaysGenerateOverloads: boolean
+    tsNocheck: boolean
   }
 }
 
-export function parseArgs(): IOptions {
+export function parseArgs(): ParsedArgs {
   const rawOptions = commandLineArgs<CommandLineArgs>(
     {
       glob: {
@@ -35,6 +36,12 @@ export function parseArgs(): IOptions {
       },
       /** This is read directly from process.argv in cli.ts */
       'show-stack-traces': { type: Boolean, defaultValue: false },
+      'ts-nocheck': {
+        type: Boolean,
+        defaultValue: false,
+        description:
+          'Prepend "@ts-nocheck" comment to generated files to opt-out of typechecking them in your project.',
+      },
       help: { type: Boolean, defaultValue: false, alias: 'h', description: 'Prints this message.' },
     },
     {
@@ -64,7 +71,8 @@ export function parseArgs(): IOptions {
     outDir: rawOptions['out-dir'],
     target: rawOptions.target,
     flags: {
-      alwaysGenerateOverloads: rawOptions['always-generate-overloads'] || false,
+      alwaysGenerateOverloads: rawOptions['always-generate-overloads'],
+      tsNocheck: rawOptions['ts-nocheck'],
     },
   }
 }
@@ -75,5 +83,6 @@ interface CommandLineArgs {
   'out-dir'?: string
   'show-stack-traces': boolean
   'always-generate-overloads': boolean
+  'ts-nocheck': boolean
   help: boolean
 }
