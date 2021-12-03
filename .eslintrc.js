@@ -1,3 +1,5 @@
+const inTextEditor = process.env.VSCODE_PID !== undefined
+
 /** @type {import("eslint").Linter.Config} */
 module.exports = {
   env: {
@@ -16,7 +18,7 @@ module.exports = {
     'no-invalid-this': 'off',
     // this gets inlined into a package eslint, so it means: use current package's package.info or the one at the project root
     'import/no-extraneous-dependencies': ['error', { packageDir: ['./', __dirname] }],
-    'unused-imports/no-unused-imports-ts': 'error',
+    'unused-imports/no-unused-imports-ts': inTextEditor ? 'off' : 'error',
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
     '@typescript-eslint/no-use-before-define': 'off',
