@@ -257,6 +257,28 @@ describe('DataTypesInput', () => {
     })
   })
 
+  it('structs with same name in different contract/library: input test', async () => {
+    type ViewFunctionInputType = Parameters<typeof contract.input_multiple_structs_with_same_name>
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    type _t1 = AssertTrue<
+      IsExact<
+        ViewFunctionInputType,
+        [info1: { a: BigNumberish; b: BigNumberish }, overrides?: ethers.CallOverrides | undefined]
+      >
+    >
+
+    type ViewFunctionOutputType = Awaited<ReturnType<typeof contract.input_multiple_structs_with_same_name>>
+    type _t2 = AssertTrue<
+      IsExact<
+        ViewFunctionOutputType,
+        [string, string] & {
+          a: string
+          b: string
+        }
+      >
+    >
+  })
+
   // we skip this test as ts only about types
   it.skip('prevents from using not existing methods', () => {
     // @ts-expect-error

@@ -70,4 +70,23 @@ contract DataTypesInput {
   function input_struct2_tuple(Struct2[3] memory input) public pure returns (Struct2[3] memory) {
     return input;
   }
+
+  function input_multiple_structs_with_same_name(StructsLib1.Info memory info1) public pure returns (StructsLib2.Info memory info2) {
+    info2.a = address(info1.a);
+    info2.b = address(info1.b);
+  }
+}
+
+library StructsLib1 {
+  struct Info {
+    uint160 a;
+    uint160 b;
+  }
+}
+
+library StructsLib2 {
+  struct Info {
+    address a;
+    address b;
+  }
 }

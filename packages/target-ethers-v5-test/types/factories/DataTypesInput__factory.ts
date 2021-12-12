@@ -146,6 +146,49 @@ const _abi = [
   {
     inputs: [
       {
+        components: [
+          {
+            internalType: "uint160",
+            name: "a",
+            type: "uint160",
+          },
+          {
+            internalType: "uint160",
+            name: "b",
+            type: "uint160",
+          },
+        ],
+        internalType: "struct StructsLib1.Info",
+        name: "info1",
+        type: "tuple",
+      },
+    ],
+    name: "input_multiple_structs_with_same_name",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "address",
+            name: "a",
+            type: "address",
+          },
+          {
+            internalType: "address",
+            name: "b",
+            type: "address",
+          },
+        ],
+        internalType: "struct StructsLib2.Info",
+        name: "info2",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "uint8[3]",
         name: "input1",
         type: "uint8[3]",

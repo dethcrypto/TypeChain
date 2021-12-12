@@ -38,6 +38,10 @@ interface DataTypesInputInterface extends Interface {
       encode([input1]: [BigNumberish]): string;
     }>;
 
+    input_multiple_structs_with_same_name: TypedFunctionDescription<{
+      encode([info1]: [{ a: BigNumberish; b: BigNumberish }]): string;
+    }>;
+
     input_stat_array: TypedFunctionDescription<{
       encode([input1]: [BigNumberish[]]): string;
     }>;
@@ -189,6 +193,16 @@ export class DataTypesInput extends Contract {
       input1: BigNumberish,
       overrides?: UnsignedTransaction
     ): Promise<number>;
+
+    input_multiple_structs_with_same_name(
+      info1: { a: BigNumberish; b: BigNumberish },
+      overrides?: UnsignedTransaction
+    ): Promise<[string, string] & { a: string; b: string }>;
+
+    "input_multiple_structs_with_same_name((uint160,uint160))"(
+      info1: { a: BigNumberish; b: BigNumberish },
+      overrides?: UnsignedTransaction
+    ): Promise<[string, string] & { a: string; b: string }>;
 
     input_stat_array(
       input1: BigNumberish[],
@@ -461,6 +475,16 @@ export class DataTypesInput extends Contract {
     overrides?: UnsignedTransaction
   ): Promise<number>;
 
+  input_multiple_structs_with_same_name(
+    info1: { a: BigNumberish; b: BigNumberish },
+    overrides?: UnsignedTransaction
+  ): Promise<[string, string] & { a: string; b: string }>;
+
+  "input_multiple_structs_with_same_name((uint160,uint160))"(
+    info1: { a: BigNumberish; b: BigNumberish },
+    overrides?: UnsignedTransaction
+  ): Promise<[string, string] & { a: string; b: string }>;
+
   input_stat_array(
     input1: BigNumberish[],
     overrides?: UnsignedTransaction
@@ -731,6 +755,16 @@ export class DataTypesInput extends Contract {
 
     "input_int8(int8)"(
       input1: BigNumberish,
+      overrides?: UnsignedTransaction
+    ): Promise<BigNumber>;
+
+    input_multiple_structs_with_same_name(
+      info1: { a: BigNumberish; b: BigNumberish },
+      overrides?: UnsignedTransaction
+    ): Promise<BigNumber>;
+
+    "input_multiple_structs_with_same_name((uint160,uint160))"(
+      info1: { a: BigNumberish; b: BigNumberish },
       overrides?: UnsignedTransaction
     ): Promise<BigNumber>;
 

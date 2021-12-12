@@ -15,6 +15,13 @@ import { FunctionFragment, Result } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
+export type InfoStruct = { a: BigNumberish; b: BigNumberish };
+
+export type InfoStructOutput = [BigNumber, BigNumber] & {
+  a: BigNumber;
+  b: BigNumber;
+};
+
 export type Struct1Struct = {
   uint256_0: BigNumberish;
   uint256_1: BigNumberish;
@@ -46,6 +53,7 @@ export interface DataTypesInputInterface extends utils.Interface {
     "input_enum(uint8)": FunctionFragment;
     "input_int256(int256)": FunctionFragment;
     "input_int8(int8)": FunctionFragment;
+    "input_multiple_structs_with_same_name((uint160,uint160))": FunctionFragment;
     "input_stat_array(uint8[3])": FunctionFragment;
     "input_string(string)": FunctionFragment;
     "input_struct((uint256,uint256))": FunctionFragment;
@@ -83,6 +91,10 @@ export interface DataTypesInputInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "input_int8",
     values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "input_multiple_structs_with_same_name",
+    values: [InfoStruct]
   ): string;
   encodeFunctionData(
     functionFragment: "input_stat_array",
@@ -148,6 +160,10 @@ export interface DataTypesInputInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "input_int8", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "input_multiple_structs_with_same_name",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "input_stat_array",
     data: BytesLike
@@ -253,6 +269,11 @@ export interface DataTypesInput extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[number]>;
 
+    input_multiple_structs_with_same_name(
+      info1: InfoStruct,
+      overrides?: CallOverrides
+    ): Promise<[InfoStructOutput] & { info2: InfoStructOutput }>;
+
     input_stat_array(
       input1: [BigNumberish, BigNumberish, BigNumberish],
       overrides?: CallOverrides
@@ -325,6 +346,11 @@ export interface DataTypesInput extends BaseContract {
   ): Promise<BigNumber>;
 
   input_int8(input1: BigNumberish, overrides?: CallOverrides): Promise<number>;
+
+  input_multiple_structs_with_same_name(
+    info1: InfoStruct,
+    overrides?: CallOverrides
+  ): Promise<InfoStructOutput>;
 
   input_stat_array(
     input1: [BigNumberish, BigNumberish, BigNumberish],
@@ -399,6 +425,11 @@ export interface DataTypesInput extends BaseContract {
       input1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<number>;
+
+    input_multiple_structs_with_same_name(
+      info1: InfoStruct,
+      overrides?: CallOverrides
+    ): Promise<InfoStructOutput>;
 
     input_stat_array(
       input1: [BigNumberish, BigNumberish, BigNumberish],
@@ -489,6 +520,11 @@ export interface DataTypesInput extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    input_multiple_structs_with_same_name(
+      info1: InfoStruct,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     input_stat_array(
       input1: [BigNumberish, BigNumberish, BigNumberish],
       overrides?: CallOverrides
@@ -576,6 +612,11 @@ export interface DataTypesInput extends BaseContract {
 
     input_int8(
       input1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    input_multiple_structs_with_same_name(
+      info1: InfoStruct,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

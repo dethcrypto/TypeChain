@@ -51,6 +51,10 @@ export interface DataTypesInput extends BaseContract {
       input1: number | string | BN
     ): NonPayableTransactionObject<string>;
 
+    input_multiple_structs_with_same_name(
+      info1: [number | string | BN, number | string | BN]
+    ): NonPayableTransactionObject<[string, string]>;
+
     input_stat_array(
       input1: (number | string | BN)[]
     ): NonPayableTransactionObject<string[]>;
