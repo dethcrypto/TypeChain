@@ -35,7 +35,7 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
     .join('\n')}
 
   export interface ${contract.name}Interface extends utils.Interface {
-    contractName:${contract.name};
+    contractName: ${contract.name};
     functions: {
       ${values(contract.functions)
         .map((v) => v[0])
