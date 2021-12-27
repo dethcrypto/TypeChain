@@ -36,6 +36,24 @@ describe('utils > signatures > getFullSignatureAsSymbolForEvent', () => {
 
     expect(signature).toEqual('Deposit_address_address_uint256')
   })
+
+  it('address[]', () => {
+    const struct: EventDeclaration = {
+      name: 'Allow',
+      isAnonymous: false,
+      inputs: [
+        {
+          name: 'whitelist',
+          isIndexed: false,
+          type: { type: 'array', itemType: { type: 'address', originalType: 'address' }, originalType: 'address[]' },
+        },
+      ],
+    }
+
+    const signature = getFullSignatureAsSymbolForEvent(struct)
+
+    expect(signature).toEqual('Allow_address_array')
+  })
 })
 
 describe('utils > signatures > getFullSignatureForEvent', () => {

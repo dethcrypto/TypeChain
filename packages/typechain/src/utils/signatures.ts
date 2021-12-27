@@ -2,7 +2,15 @@ import { AbiParameter, EventDeclaration, FunctionDeclaration } from '../parser/a
 import { ArrayType, TupleType } from '../parser/parseEvmType'
 
 export function getFullSignatureAsSymbolForEvent(event: EventDeclaration): string {
-  return `${event.name}_${event.inputs.map((e) => e.type.originalType).join('_')}`
+  return `${event.name}_${event.inputs
+    .map((e) => {
+      if (e.type.type === 'array') {
+        return e.type.itemType.originalType + '_array'
+      } else {
+        return e.type.originalType
+      }
+    })
+    .join('_')}`
 }
 
 export function getFullSignatureForEvent(event: EventDeclaration): string {
