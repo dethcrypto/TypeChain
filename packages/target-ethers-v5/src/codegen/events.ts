@@ -58,8 +58,8 @@ export function generateEventInputs(eventArgs: EventArgDeclaration[]) {
   }
   return (
     eventArgs
-      .map((arg) => {
-        return `${arg.name && createPositionalIdentifier(arg.name)}?: ${generateEventArgType(arg)}`
+      .map((arg, index) => {
+        return `${arg.name ? createPositionalIdentifier(arg.name) : `arg${index}`}?: ${generateEventArgType(arg)}`
       })
       .join(', ') + ', '
   )

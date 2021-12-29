@@ -116,6 +116,25 @@ const _abi = [
     type: "event",
   },
   {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address[]",
+        name: "",
+        type: "address[]",
+      },
+      {
+        indexed: false,
+        internalType: "uint256[]",
+        name: "",
+        type: "uint256[]",
+      },
+    ],
+    name: "UpdateFrequencySet",
+    type: "event",
+  },
+  {
     inputs: [],
     name: "emit_anon1",
     outputs: [],
