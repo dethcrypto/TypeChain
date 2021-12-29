@@ -2,6 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
+import { AContract } from "./A";
+import { BContract } from "./B";
 import { DataTypesInputContract } from "./DataTypesInput";
 import { DataTypesPureContract } from "./DataTypesPure";
 import { DataTypesViewContract } from "./DataTypesView";
@@ -16,6 +18,8 @@ import { PayableFactoryContract } from "./PayableFactory";
 declare global {
   namespace Truffle {
     interface Artifacts {
+      require(name: "A"): AContract;
+      require(name: "B"): BContract;
       require(name: "DataTypesInput"): DataTypesInputContract;
       require(name: "DataTypesPure"): DataTypesPureContract;
       require(name: "DataTypesView"): DataTypesViewContract;
@@ -30,6 +34,8 @@ declare global {
   }
 }
 
+export { AContract, AInstance } from "./A";
+export { BContract, BInstance } from "./B";
 export {
   DataTypesInputContract,
   DataTypesInputInstance,

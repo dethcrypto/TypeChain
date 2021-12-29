@@ -1,4 +1,9 @@
-import { createPositionalIdentifier, EventArgDeclaration, EventDeclaration } from 'typechain'
+import {
+  createPositionalIdentifier,
+  EventArgDeclaration,
+  EventDeclaration,
+  getFullSignatureAsSymbolForEvent,
+} from 'typechain'
 
 import { generateInputType, generateOutputComplexTypeAsArray, generateOutputComplexTypesAsObject } from './types'
 
@@ -74,9 +79,11 @@ export function generateGetEventOverload(event: EventDeclaration): string {
 }
 
 function generateEventIdentifier(event: EventDeclaration, { includeArgTypes }: { includeArgTypes?: boolean } = {}) {
-  return `${event.name}${
-    includeArgTypes ? event.inputs.map((input) => '_' + input.type.originalType).join('') + '_Event' : 'Event'
-  }`
+  if (includeArgTypes) {
+    return getFullSignatureAsSymbolForEvent(event) + '_Event'
+  } else {
+    return event.name + 'Event'
+  }
 }
 
 export const EVENT_METHOD_OVERRIDES = `
