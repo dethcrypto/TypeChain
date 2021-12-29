@@ -6579,10 +6579,10 @@ duplexify@^3.2.0:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
-earljs@^0.1.10:
-  version "0.1.10"
-  resolved "https://registry.yarnpkg.com/earljs/-/earljs-0.1.10.tgz#4d587885c8e13cbd3a298ea40796ea580daece69"
-  integrity sha512-3/tIKsL5ryPWgjHFue99ljXeHCMVEvJZTkhnmaMM4kRb8F94dxxatZgXRrwmf5ohQruJU330JvYVYwnw96bzrw==
+earljs@^0.1.12:
+  version "0.1.12"
+  resolved "https://registry.yarnpkg.com/earljs/-/earljs-0.1.12.tgz#92437d349dfc580e49adc24c76ecdad0b222d7b0"
+  integrity sha512-qTuYVJgbGdb1syLeQ/mD/SIm914TGI9kxzVrXQ3a03lzFQsKP202tqsdBFqU9d+J8k7fM41eglmLvzKGt0FJhw==
   dependencies:
     debug "^4.1.1"
     jest-snapshot "^26.6.2"
