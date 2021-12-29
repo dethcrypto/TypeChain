@@ -25,14 +25,12 @@ import {
   generateParamNames,
 } from './functions'
 import { reservedKeywords } from './reserved-keywords'
-import { generateStruct } from './structs'
+import { generateStructTypes } from './structs'
 import { generateInputTypes } from './types'
 
 export function codegenContractTypings(contract: Contract, codegenConfig: CodegenConfig) {
   const source = `
-  ${values(contract.structs)
-    .map((v) => generateStruct(v[0]))
-    .join('\n')}
+  ${generateStructTypes(values(contract.structs).map((v) => v[0]))}
 
   export interface ${contract.name}Interface extends utils.Interface {
     contractName: '${contract.name}';
@@ -223,17 +221,16 @@ export function codegenAbstractContractFactory(contract: Contract, abi: any): st
 }
 
 function codegenCommonContractFactory(contract: Contract, abi: any): { header: string; body: string } {
-  const constructorStructs: string[] = []
+  const imports: Set<string> = new Set([contract.name, contract.name + 'Interface'])
+
   contract.constructor[0]?.inputs.forEach(({ type }) => {
     const { structName } = type as StructType
     if (structName) {
-      constructorStructs.push(structName + STRUCT_INPUT_POSTFIX)
+      imports.add(structName.namespace || structName.identifier + STRUCT_INPUT_POSTFIX)
     }
   })
   const header = `
-  import type { ${[contract.name, contract.name + 'Interface', ...constructorStructs].join(', ')} } from "../${
-    contract.name
-  }";
+  import type { ${[...imports.values()].join(', ')} } from "../${contract.name}";
 
   const _abi = ${JSON.stringify(abi, null, 2)};
   `.trim()

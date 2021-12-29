@@ -18,12 +18,14 @@ import { FunctionFragment, Result, EventFragment } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
-export type BidStruct = { bidder: string; value: BigNumberish };
+export declare namespace KingOfTheHill {
+  export type BidStruct = { bidder: string; value: BigNumberish };
 
-export type BidStructOutput = [string, BigNumber] & {
-  bidder: string;
-  value: BigNumber;
-};
+  export type BidStructOutput = [string, BigNumber] & {
+    bidder: string;
+    value: BigNumber;
+  };
+}
 
 export interface KingOfTheHillInterface extends utils.Interface {
   contractName: "KingOfTheHill";
@@ -52,8 +54,8 @@ export interface KingOfTheHillInterface extends utils.Interface {
 }
 
 export type HighestBidIncreasedEvent = TypedEvent<
-  [BidStructOutput],
-  { bid: BidStructOutput }
+  [KingOfTheHill.BidStructOutput],
+  { bid: KingOfTheHill.BidStructOutput }
 >;
 
 export type HighestBidIncreasedEventFilter = TypedEventFilter<

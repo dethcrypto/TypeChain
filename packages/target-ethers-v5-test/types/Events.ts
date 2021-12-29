@@ -17,12 +17,14 @@ import { FunctionFragment, Result, EventFragment } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
-export type EventDataStruct = { index: BigNumberish; name: string };
+export declare namespace Events {
+  export type EventDataStruct = { index: BigNumberish; name: string };
 
-export type EventDataStructOutput = [BigNumber, string] & {
-  index: BigNumber;
-  name: string;
-};
+  export type EventDataStructOutput = [BigNumber, string] & {
+    index: BigNumber;
+    name: string;
+  };
+}
 
 export interface EventsInterface extends utils.Interface {
   contractName: "Events";
@@ -133,8 +135,8 @@ export type Event3_uint256_Event = TypedEvent<
 export type Event3_uint256_EventFilter = TypedEventFilter<Event3_uint256_Event>;
 
 export type Event4Event = TypedEvent<
-  [EventDataStructOutput],
-  { data: EventDataStructOutput }
+  [Events.EventDataStructOutput],
+  { data: Events.EventDataStructOutput }
 >;
 
 export type Event4EventFilter = TypedEventFilter<Event4Event>;
