@@ -28,4 +28,3 @@ packages/hardhat-test/artifacts
 examples/*/yarn.lock
 yarn-error.log
 packages/test-e2e/test/*/out
-.DS_Store
