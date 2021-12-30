@@ -66,7 +66,7 @@ describe(generateEventFilters.name, () => {
     expect(actual).toEqual(expect.stringMatching('arg1?: null'))
   })
 
-  it('generates event filters', () => {
+  it('generates argument names from event field names in the ABI', () => {
     const abi = ([
       {
         anonymous: false,
@@ -78,74 +78,13 @@ describe(generateEventFilters.name, () => {
         name: 'Approval',
         type: 'event',
       },
-      {
-        anonymous: false,
-        inputs: [
-          { indexed: true, internalType: 'address', name: 'owner', type: 'address' },
-          { indexed: true, internalType: 'address', name: 'operator', type: 'address' },
-          { indexed: false, internalType: 'bool', name: 'approved', type: 'bool' },
-        ],
-        name: 'ApprovalForAll',
-        type: 'event',
-      },
-      {
-        anonymous: false,
-        inputs: [
-          { indexed: true, internalType: 'address', name: 'from', type: 'address' },
-          { indexed: true, internalType: 'address', name: 'to', type: 'address' },
-          { indexed: true, internalType: 'uint256', name: 'tokenId', type: 'uint256' },
-        ],
-        name: 'Transfer',
-        type: 'event',
-      },
-      {
-        anonymous: false,
-        inputs: [
-          { indexed: true, internalType: 'address', name: 'owner', type: 'address' },
-          { indexed: false, internalType: 'uint256', name: 'level', type: 'uint256' },
-          { indexed: false, internalType: 'uint256', name: 'summoner', type: 'uint256' },
-        ],
-        name: 'leveled',
-        type: 'event',
-      },
-      {
-        anonymous: false,
-        inputs: [
-          { indexed: true, internalType: 'address', name: 'owner', type: 'address' },
-          { indexed: false, internalType: 'uint256', name: 'class', type: 'uint256' },
-          { indexed: false, internalType: 'uint256', name: 'summoner', type: 'uint256' },
-        ],
-        name: 'summoned',
-        type: 'event',
-      },
     ] as any) as RawAbiDefinition[]
 
     const contract = parse(abi, 'Rarity')
-    const actual = Object.values(contract.events).map(generateEventFilters)
+    const [actual] = Object.values(contract.events).map(generateEventFilters)
 
-    const expected = [
-      `
-      'Approval(address,address,uint256)'(owner?: string | null, approved?: string | null, tokenId?: BigNumberish | null, ): ApprovalEventFilter;
-      Approval(owner?: string | null, approved?: string | null, tokenId?: BigNumberish | null, ): ApprovalEventFilter;
-    `,
-      `
-      'ApprovalForAll(address,address,bool)'(owner?: string | null, operator?: string | null, approved?: null, ): ApprovalForAllEventFilter;
-      ApprovalForAll(owner?: string | null, operator?: string | null, approved?: null, ): ApprovalForAllEventFilter;
-    `,
-      `
-      'Transfer(address,address,uint256)'(from?: string | null, to?: string | null, tokenId?: BigNumberish | null, ): TransferEventFilter;
-      Transfer(from?: string | null, to?: string | null, tokenId?: BigNumberish | null, ): TransferEventFilter;
-    `,
-      `
-      'leveled(address,uint256,uint256)'(owner?: string | null, level?: null, summoner?: null, ): leveledEventFilter;
-      leveled(owner?: string | null, level?: null, summoner?: null, ): leveledEventFilter;
-    `,
-      `
-      'summoned(address,uint256,uint256)'(owner?: string | null, _class?: null, summoner?: null, ): summonedEventFilter;
-      summoned(owner?: string | null, _class?: null, summoner?: null, ): summonedEventFilter;
-    `,
-    ]
-
-    expect(actual).toEqual(expected)
+    expect(actual).toEqual(expect.stringMatching('owner?: string'))
+    expect(actual).toEqual(expect.stringMatching('approved?: string'))
+    expect(actual).toEqual(expect.stringMatching('tokenId?: BigNumberish'))
   })
 })
