@@ -67,7 +67,21 @@ export interface NoArgsEvent {
   args: {};
 }
 
-type AllEvents = Event1 | Event2 | Event3 | Event4 | NoArgsEvent;
+export interface UpdateFrequencySet {
+  name: "UpdateFrequencySet";
+  args: {
+    0: string[];
+    1: BN[];
+  };
+}
+
+type AllEvents =
+  | Event1
+  | Event2
+  | Event3
+  | Event4
+  | NoArgsEvent
+  | UpdateFrequencySet;
 
 export interface EventsInstance extends Truffle.ContractInstance {
   emit_event1: {

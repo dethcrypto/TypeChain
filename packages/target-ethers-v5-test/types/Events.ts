@@ -88,6 +88,7 @@ export interface EventsInterface extends utils.Interface {
     "Event3(bool,uint256)": EventFragment;
     "Event4(tuple)": EventFragment;
     "NoArgsEvent()": EventFragment;
+    "UpdateFrequencySet(address[],uint256[])": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "AnonEvent1"): EventFragment;
@@ -96,6 +97,7 @@ export interface EventsInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "Event3"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Event4"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "NoArgsEvent"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "UpdateFrequencySet"): EventFragment;
 }
 
 export type AnonEvent1Event = TypedEvent<[BigNumber], { value1: BigNumber }>;
@@ -139,6 +141,15 @@ export type Event4EventFilter = TypedEventFilter<Event4Event>;
 export type NoArgsEventEvent = TypedEvent<[], {}>;
 
 export type NoArgsEventEventFilter = TypedEventFilter<NoArgsEventEvent>;
+
+export type UpdateFrequencySetEvent = TypedEvent<
+  [string[], BigNumber[]],
+  { arg0: string[]; arg1: BigNumber[] }
+>;
+
+export type UpdateFrequencySetEventFilter = TypedEventFilter<
+  UpdateFrequencySetEvent
+>;
 
 export interface Events extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -240,8 +251,8 @@ export interface Events extends BaseContract {
     ): Event1EventFilter;
     Event1(value1?: BigNumberish | null, value2?: null): Event1EventFilter;
 
-    "Event2(uint256)"(undefined?: null): Event2EventFilter;
-    Event2(undefined?: null): Event2EventFilter;
+    "Event2(uint256)"(arg0?: null): Event2EventFilter;
+    Event2(arg0?: null): Event2EventFilter;
 
     "Event3(bool,uint256)"(
       value1?: boolean | null,
@@ -254,6 +265,12 @@ export interface Events extends BaseContract {
 
     "NoArgsEvent()"(): NoArgsEventEventFilter;
     NoArgsEvent(): NoArgsEventEventFilter;
+
+    "UpdateFrequencySet(address[],uint256[])"(
+      arg0?: null,
+      arg1?: null
+    ): UpdateFrequencySetEventFilter;
+    UpdateFrequencySet(arg0?: null, arg1?: null): UpdateFrequencySetEventFilter;
   };
 
   estimateGas: {

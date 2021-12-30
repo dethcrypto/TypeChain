@@ -11,6 +11,9 @@ contract Events {
   // note: no names for args
   event Event2(uint256);
 
+  // note: issue #575 reproduction
+  event UpdateFrequencySet(address[], uint256[]);
+
   function emit_event2() public {
     emit Event2(1);
   }

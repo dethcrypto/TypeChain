@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 pragma experimental ABIEncoderV2;
 
@@ -31,7 +32,7 @@ contract Issue552_Reproduction {
     ObservationParams fooObservations;
   }
 
-  mapping(uint => Bar) public bars; 
+  mapping(uint => Bar) public bars;
 
   function makeObservation(uint barId, uint newVal) external {}
 
