@@ -43,6 +43,10 @@ interface EventsInterface extends Interface {
     Event4: TypedEventDescription<{ encodeTopics([data]: [null]): string[] }>;
 
     NoArgsEvent: TypedEventDescription<{ encodeTopics([]: []): string[] }>;
+
+    UpdateFrequencySet: TypedEventDescription<{
+      encodeTopics([,]: [null, null]): string[];
+    }>;
   };
 }
 
@@ -140,13 +144,15 @@ export class Events extends Contract {
 
     Event1(value1: BigNumberish | null, value2: null): EventFilter;
 
-    Event2(undefined: null): EventFilter;
+    Event2(arg0: null): EventFilter;
 
     Event3(value1: boolean | null, value2: null): EventFilter;
 
     Event4(data: null): EventFilter;
 
     NoArgsEvent(): EventFilter;
+
+    UpdateFrequencySet(arg0: null, arg1: null): EventFilter;
   };
 
   estimate: {

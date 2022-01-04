@@ -49,6 +49,10 @@ export type Event4 = ContractEventLog<{
   0: [string, string];
 }>;
 export type NoArgsEvent = ContractEventLog<{}>;
+export type UpdateFrequencySet = ContractEventLog<{
+  0: string[];
+  1: string[];
+}>;
 
 export interface Events extends BaseContract {
   constructor(
@@ -98,6 +102,12 @@ export interface Events extends BaseContract {
       cb?: Callback<NoArgsEvent>
     ): EventEmitter;
 
+    UpdateFrequencySet(cb?: Callback<UpdateFrequencySet>): EventEmitter;
+    UpdateFrequencySet(
+      options?: EventOptions,
+      cb?: Callback<UpdateFrequencySet>
+    ): EventEmitter;
+
     allEvents(options?: EventOptions, cb?: Callback<EventLog>): EventEmitter;
   };
 
@@ -115,5 +125,12 @@ export interface Events extends BaseContract {
     event: "NoArgsEvent",
     options: EventOptions,
     cb: Callback<NoArgsEvent>
+  ): void;
+
+  once(event: "UpdateFrequencySet", cb: Callback<UpdateFrequencySet>): void;
+  once(
+    event: "UpdateFrequencySet",
+    options: EventOptions,
+    cb: Callback<UpdateFrequencySet>
   ): void;
 }
