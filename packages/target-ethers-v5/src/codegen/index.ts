@@ -258,7 +258,7 @@ function generateFactoryConstructor(contract: Contract, bytecode: BytecodeWithLi
         } else {
           super(_abi, _bytecode, args[0]);
         }
-        contractName: '${contract.name}';
+        this.contractName = '${contract.name}';
       }
     `
   }
@@ -292,6 +292,7 @@ function generateFactoryConstructor(contract: Contract, bytecode: BytecodeWithLi
           signer
         )
       }
+      this.contractName = '${contract.name}';
     }
 
     static linkBytecode(linkLibraryAddresses: ${libAddressesName}): string {
