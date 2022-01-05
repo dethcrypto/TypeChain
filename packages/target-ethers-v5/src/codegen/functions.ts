@@ -40,6 +40,7 @@ function isPayable(fn: FunctionDeclaration): boolean {
 }
 
 function generateFunction(options: GenerateFunctionOptions, fn: FunctionDeclaration, overloadedName?: string): string {
+  console.log(fn, overloadedName)
   return `
   ${generateFunctionDocumentation(fn.documentation)}
   ${overloadedName ?? fn.name}(${generateInputTypes(fn.inputs, { useStructs: true })}${

@@ -20,6 +20,7 @@ export function generateInputTypes(input: Array<AbiParameter>, options: Generate
 }
 
 export function generateOutputTypes(options: GenerateTypeOptions, outputs: Array<AbiOutputParameter>): string {
+  console.log('testtesttest', options, outputs)
   if (!options.returnResultObject && outputs.length === 1) {
     return generateOutputType(options, outputs[0].type)
   } else {
