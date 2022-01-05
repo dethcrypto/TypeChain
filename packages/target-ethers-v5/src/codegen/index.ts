@@ -35,7 +35,7 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
     .join('\n')}
 
   export interface ${contract.name}Interface extends utils.Interface {
-    contractName: ${contract.name};
+    contractName: '${contract.name}';
     functions: {
       ${values(contract.functions)
         .map((v) => v[0])
@@ -69,7 +69,7 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
   ${values(contract.events).map(generateEventTypeExports).join('\n')}
 
   export interface ${contract.name} extends BaseContract {
-    contractName: ${contract.name};
+    contractName: '${contract.name}';
     connect(signerOrProvider: Signer | Provider | string): this;
     attach(addressOrName: string): this;
     deployed(): Promise<this>;
@@ -180,8 +180,8 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
     connect(signer: Signer): ${contract.name}${FACTORY_POSTFIX} {
       return super.connect(signer) as ${contract.name}${FACTORY_POSTFIX};
     }
-    static readonly contractName: ${contract.name};
-    public readonly contractName: ${contract.name} = ${contract.name};';
+    static readonly contractName: '${contract.name}';
+    public readonly contractName: '${contract.name}';
     static readonly bytecode = _bytecode;
     ${body}
   }
@@ -258,6 +258,7 @@ function generateFactoryConstructor(contract: Contract, bytecode: BytecodeWithLi
         } else {
           super(_abi, _bytecode, args[0]);
         }
+        contractName: '${contract.name}';
       }
     `
   }

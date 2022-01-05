@@ -16,6 +16,7 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
 export interface OverloadsInterface extends utils.Interface {
+  contractName: "Overloads";
   functions: {
     "overload1(int256)": FunctionFragment;
   };
@@ -31,6 +32,7 @@ export interface OverloadsInterface extends utils.Interface {
 }
 
 export interface Overloads extends BaseContract {
+  contractName: "Overloads";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
