@@ -44,7 +44,7 @@ export class TestContract1__factory extends ContractFactory {
     } else {
       super(_abi, _bytecode, args[0]);
     }
-    contractName: "TestContract1";
+    this.contractName = "TestContract1";
   }
 
   deploy(

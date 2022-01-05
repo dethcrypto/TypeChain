@@ -312,7 +312,7 @@ export class ERC20__factory extends ContractFactory {
     } else {
       super(_abi, _bytecode, args[0]);
     }
-    contractName: "ERC20";
+    this.contractName = "ERC20";
   }
 
   deploy(

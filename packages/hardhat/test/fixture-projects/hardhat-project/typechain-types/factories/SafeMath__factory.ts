@@ -122,7 +122,7 @@ export class SafeMath__factory extends ContractFactory {
     } else {
       super(_abi, _bytecode, args[0]);
     }
-    contractName: "SafeMath";
+    this.contractName = "SafeMath";
   }
 
   deploy(

@@ -53,7 +53,7 @@ export class StructsInConstructor__factory extends ContractFactory {
     } else {
       super(_abi, _bytecode, args[0]);
     }
-    contractName: "StructsInConstructor";
+    this.contractName = "StructsInConstructor";
   }
 
   deploy(

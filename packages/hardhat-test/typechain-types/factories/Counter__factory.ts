@@ -78,7 +78,7 @@ export class Counter__factory extends ContractFactory {
     } else {
       super(_abi, _bytecode, args[0]);
     }
-    contractName: "Counter";
+    this.contractName = "Counter";
   }
 
   deploy(

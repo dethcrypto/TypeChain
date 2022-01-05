@@ -55,6 +55,7 @@ export class TestContract__factory extends ContractFactory {
         signer
       );
     }
+    this.contractName = "TestContract";
   }
 
   static linkBytecode(
