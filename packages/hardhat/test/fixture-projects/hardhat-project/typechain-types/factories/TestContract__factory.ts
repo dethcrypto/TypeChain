@@ -55,6 +55,7 @@ export class TestContract__factory extends ContractFactory {
         signer
       );
     }
+    this.contractName = "TestContract";
   }
 
   static linkBytecode(
@@ -90,6 +91,8 @@ export class TestContract__factory extends ContractFactory {
   connect(signer: Signer): TestContract__factory {
     return super.connect(signer) as TestContract__factory;
   }
+  static readonly contractName: "TestContract";
+  public readonly contractName: "TestContract";
   static readonly bytecode = _bytecode;
   static readonly abi = _abi;
   static createInterface(): TestContractInterface {

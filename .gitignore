@@ -27,4 +27,3 @@ packages/hardhat-test/cache
 packages/hardhat-test/artifacts
 examples/*/yarn.lock
 yarn-error.log
-packages/test-e2e/test/*/out

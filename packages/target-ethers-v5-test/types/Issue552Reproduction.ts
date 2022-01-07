@@ -38,6 +38,7 @@ export type ObservationParamsStructOutput = [
 ] & { observations: ObservationStructOutput[]; index: number };
 
 export interface Issue552ReproductionInterface extends utils.Interface {
+  contractName: "Issue552Reproduction";
   functions: {
     "bars(uint256)": FunctionFragment;
     "input(uint256[10])": FunctionFragment;
@@ -65,6 +66,7 @@ export interface Issue552ReproductionInterface extends utils.Interface {
 }
 
 export interface Issue552Reproduction extends BaseContract {
+  contractName: "Issue552Reproduction";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

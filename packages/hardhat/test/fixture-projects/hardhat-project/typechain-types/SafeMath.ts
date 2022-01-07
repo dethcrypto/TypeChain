@@ -16,6 +16,7 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
 export interface SafeMathInterface extends utils.Interface {
+  contractName: "SafeMath";
   functions: {
     "add(uint256,uint256)": FunctionFragment;
     "div(uint256,uint256)": FunctionFragment;
@@ -49,6 +50,7 @@ export interface SafeMathInterface extends utils.Interface {
 }
 
 export interface SafeMath extends BaseContract {
+  contractName: "SafeMath";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

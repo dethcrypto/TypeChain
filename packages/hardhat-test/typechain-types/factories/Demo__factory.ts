@@ -71,6 +71,7 @@ export class Demo__factory extends ContractFactory {
     } else {
       super(_abi, _bytecode, args[0]);
     }
+    this.contractName = "Demo";
   }
 
   deploy(
@@ -93,6 +94,8 @@ export class Demo__factory extends ContractFactory {
   connect(signer: Signer): Demo__factory {
     return super.connect(signer) as Demo__factory;
   }
+  static readonly contractName: "Demo";
+  public readonly contractName: "Demo";
   static readonly bytecode = _bytecode;
   static readonly abi = _abi;
   static createInterface(): DemoInterface {

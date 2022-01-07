@@ -7,12 +7,14 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
 export interface EdgeCasesInterface extends utils.Interface {
+  contractName: "EdgeCases";
   functions: {};
 
   events: {};
 }
 
 export interface EdgeCases extends BaseContract {
+  contractName: "EdgeCases";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

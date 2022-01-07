@@ -18,6 +18,7 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
 export interface PayableInterface extends utils.Interface {
+  contractName: "Payable";
   functions: {
     "non_payable_func()": FunctionFragment;
     "payable_func()": FunctionFragment;
@@ -45,6 +46,7 @@ export interface PayableInterface extends utils.Interface {
 }
 
 export interface Payable extends BaseContract {
+  contractName: "Payable";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
