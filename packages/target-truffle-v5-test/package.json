@@ -30,6 +30,6 @@
     "sinon-chai": "^3.3.0",
     "test-utils": "1.0.0",
     "truffle": "^5.1.21",
-    "typechain": "^6.0.0"
+    "typechain": "*"
   }
 }
