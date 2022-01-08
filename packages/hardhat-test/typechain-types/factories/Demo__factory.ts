@@ -3,12 +3,7 @@
 /* eslint-disable */
 import { Signer, utils, Contract, ContractFactory, Overrides } from "ethers";
 import { Provider, TransactionRequest } from "@ethersproject/providers";
-import type {
-  Demo,
-  DemoInterface,
-  Struct1Struct,
-  Struct2Struct,
-} from "../Demo";
+import type { Demo, DemoInterface } from "../Demo";
 
 const _abi = [
   {
@@ -75,15 +70,15 @@ export class Demo__factory extends ContractFactory {
   }
 
   deploy(
-    input1: Struct1Struct,
-    input2: Struct2Struct[],
+    input1: Demo.Struct1Struct,
+    input2: Demo.Struct2Struct[],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<Demo> {
     return super.deploy(input1, input2, overrides || {}) as Promise<Demo>;
   }
   getDeployTransaction(
-    input1: Struct1Struct,
-    input2: Struct2Struct[],
+    input1: Demo.Struct1Struct,
+    input2: Demo.Struct2Struct[],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): TransactionRequest {
     return super.getDeployTransaction(input1, input2, overrides || {});

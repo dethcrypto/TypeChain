@@ -17,25 +17,32 @@ import { FunctionFragment, Result } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
-export type ObservationStruct = {
-  val: BigNumberish;
-  blockTimestamp: BigNumberish;
-};
+export declare namespace Issue552Observer {
+  export type ObservationStruct = {
+    val: BigNumberish;
+    blockTimestamp: BigNumberish;
+  };
 
-export type ObservationStructOutput = [BigNumber, BigNumber] & {
-  val: BigNumber;
-  blockTimestamp: BigNumber;
-};
+  export type ObservationStructOutput = [BigNumber, BigNumber] & {
+    val: BigNumber;
+    blockTimestamp: BigNumber;
+  };
+}
 
-export type ObservationParamsStruct = {
-  observations: ObservationStruct[];
-  index: BigNumberish;
-};
+export declare namespace Issue552Reproduction {
+  export type ObservationParamsStruct = {
+    observations: Issue552Observer.ObservationStruct[];
+    index: BigNumberish;
+  };
 
-export type ObservationParamsStructOutput = [
-  ObservationStructOutput[],
-  number
-] & { observations: ObservationStructOutput[]; index: number };
+  export type ObservationParamsStructOutput = [
+    Issue552Observer.ObservationStructOutput[],
+    number
+  ] & {
+    observations: Issue552Observer.ObservationStructOutput[];
+    index: number;
+  };
+}
 
 export interface Issue552ReproductionInterface extends utils.Interface {
   contractName: "Issue552Reproduction";
@@ -97,8 +104,8 @@ export interface Issue552Reproduction extends BaseContract {
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<
-      [ObservationParamsStructOutput] & {
-        fooObservations: ObservationParamsStructOutput;
+      [Issue552Reproduction.ObservationParamsStructOutput] & {
+        fooObservations: Issue552Reproduction.ObservationParamsStructOutput;
       }
     >;
 
@@ -114,7 +121,7 @@ export interface Issue552Reproduction extends BaseContract {
   bars(
     arg0: BigNumberish,
     overrides?: CallOverrides
-  ): Promise<ObservationParamsStructOutput>;
+  ): Promise<Issue552Reproduction.ObservationParamsStructOutput>;
 
   input(values: BigNumberish[], overrides?: CallOverrides): Promise<void>;
 
@@ -128,7 +135,7 @@ export interface Issue552Reproduction extends BaseContract {
     bars(
       arg0: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<ObservationParamsStructOutput>;
+    ): Promise<Issue552Reproduction.ObservationParamsStructOutput>;
 
     input(values: BigNumberish[], overrides?: CallOverrides): Promise<void>;
 

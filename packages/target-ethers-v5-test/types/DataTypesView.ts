@@ -15,15 +15,17 @@ import { FunctionFragment, Result } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
-export type Struct1Struct = {
-  uint256_0: BigNumberish;
-  uint256_1: BigNumberish;
-};
+export declare namespace DataTypesView {
+  export type Struct1Struct = {
+    uint256_0: BigNumberish;
+    uint256_1: BigNumberish;
+  };
 
-export type Struct1StructOutput = [BigNumber, BigNumber] & {
-  uint256_0: BigNumber;
-  uint256_1: BigNumber;
-};
+  export type Struct1StructOutput = [BigNumber, BigNumber] & {
+    uint256_0: BigNumber;
+    uint256_1: BigNumber;
+  };
+}
 
 export interface DataTypesViewInterface extends utils.Interface {
   contractName: "DataTypesView";
@@ -185,7 +187,9 @@ export interface DataTypesView extends BaseContract {
 
     view_string(overrides?: CallOverrides): Promise<[string]>;
 
-    view_struct(overrides?: CallOverrides): Promise<[Struct1StructOutput]>;
+    view_struct(
+      overrides?: CallOverrides
+    ): Promise<[DataTypesView.Struct1StructOutput]>;
 
     view_tuple(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
@@ -218,7 +222,9 @@ export interface DataTypesView extends BaseContract {
 
   view_string(overrides?: CallOverrides): Promise<string>;
 
-  view_struct(overrides?: CallOverrides): Promise<Struct1StructOutput>;
+  view_struct(
+    overrides?: CallOverrides
+  ): Promise<DataTypesView.Struct1StructOutput>;
 
   view_tuple(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
@@ -253,7 +259,9 @@ export interface DataTypesView extends BaseContract {
 
     view_string(overrides?: CallOverrides): Promise<string>;
 
-    view_struct(overrides?: CallOverrides): Promise<Struct1StructOutput>;
+    view_struct(
+      overrides?: CallOverrides
+    ): Promise<DataTypesView.Struct1StructOutput>;
 
     view_tuple(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 

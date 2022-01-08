@@ -28,14 +28,41 @@ export type StringType = { type: 'string'; originalType: string }
 export type BytesType = { type: 'bytes'; size: number; originalType: string }
 export type DynamicBytesType = { type: 'dynamic-bytes'; originalType: string }
 export type AddressType = { type: 'address'; originalType: string }
-export type ArrayType = { type: 'array'; itemType: EvmType; size?: number; originalType: string; structName?: string }
-export type TupleType = { type: 'tuple'; components: EvmSymbol[]; originalType: string; structName?: string }
+export type ArrayType = {
+  type: 'array'
+  itemType: EvmType
+  size?: number
+  originalType: string
+  structName?: StructName
+}
+export type TupleType = { type: 'tuple'; components: EvmSymbol[]; originalType: string; structName?: StructName }
 
 // used only for output types
 export type VoidType = { type: 'void' }
 
 // used when type cannot be detected
 export type UnknownType = { type: 'unknown'; originalType: string }
+
+export class StructName {
+  public readonly identifier: string
+  public readonly namespace?: string
+
+  constructor(_identifier: string, _namespace?: string) {
+    this.identifier = normalizeName(_identifier)
+    if (_namespace) this.namespace = normalizeName(_namespace)
+  }
+
+  toString() {
+    if (this.namespace) {
+      return `${this.namespace}.${this.identifier}`
+    }
+    return this.identifier
+  }
+
+  merge(other: Partial<StructName>) {
+    return new StructName(other.identifier || this.identifier, other.namespace || this.namespace)
+  }
+}
 
 export type EvmSymbol = {
   type: EvmType
@@ -127,19 +154,22 @@ export function parseEvmType(rawType: string, components?: EvmSymbol[], internal
 }
 
 /** @internal */
-export function extractStructNameIfAvailable(internalType: string | undefined): string | undefined {
+export function extractStructNameIfAvailable(internalType: string | undefined): StructName | undefined {
   if (internalType?.startsWith('struct ')) {
     // get rid of "struct " in the beginning
     let nameStr = internalType.slice(7)
+
     // get rid of all array signs at the end
     const arrayMarker = nameStr.match(/((?:\[\d*\])+)$/)?.[1]
     if (arrayMarker) {
       nameStr = nameStr.slice(0, nameStr.length - arrayMarker.length)
     }
-    // get rid of contract name if exists
+
     if (nameStr.indexOf('.') !== -1) {
-      nameStr = nameStr.split('.')[1]
+      const [namespace, identifier] = nameStr.split('.')
+      return new StructName(identifier, namespace)
     }
-    return normalizeName(nameStr)
+
+    return new StructName(nameStr)
   }
 }

@@ -15,15 +15,17 @@ import { FunctionFragment, Result } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
-export type Struct1Struct = {
-  uint256_0: BigNumberish;
-  uint256_1: BigNumberish;
-};
+export declare namespace DataTypesPure {
+  export type Struct1Struct = {
+    uint256_0: BigNumberish;
+    uint256_1: BigNumberish;
+  };
 
-export type Struct1StructOutput = [BigNumber, BigNumber] & {
-  uint256_0: BigNumber;
-  uint256_1: BigNumber;
-};
+  export type Struct1StructOutput = [BigNumber, BigNumber] & {
+    uint256_0: BigNumber;
+    uint256_1: BigNumber;
+  };
+}
 
 export interface DataTypesPureInterface extends utils.Interface {
   contractName: "DataTypesPure";
@@ -185,7 +187,9 @@ export interface DataTypesPure extends BaseContract {
 
     pure_string(overrides?: CallOverrides): Promise<[string]>;
 
-    pure_struct(overrides?: CallOverrides): Promise<[Struct1StructOutput]>;
+    pure_struct(
+      overrides?: CallOverrides
+    ): Promise<[DataTypesPure.Struct1StructOutput]>;
 
     pure_tuple(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
@@ -218,7 +222,9 @@ export interface DataTypesPure extends BaseContract {
 
   pure_string(overrides?: CallOverrides): Promise<string>;
 
-  pure_struct(overrides?: CallOverrides): Promise<Struct1StructOutput>;
+  pure_struct(
+    overrides?: CallOverrides
+  ): Promise<DataTypesPure.Struct1StructOutput>;
 
   pure_tuple(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 
@@ -253,7 +259,9 @@ export interface DataTypesPure extends BaseContract {
 
     pure_string(overrides?: CallOverrides): Promise<string>;
 
-    pure_struct(overrides?: CallOverrides): Promise<Struct1StructOutput>;
+    pure_struct(
+      overrides?: CallOverrides
+    ): Promise<DataTypesPure.Struct1StructOutput>;
 
     pure_tuple(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
 

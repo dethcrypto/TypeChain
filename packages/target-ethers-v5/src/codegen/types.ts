@@ -47,7 +47,7 @@ export function generateInputType(options: GenerateTypeOptions, evmType: EvmType
       } else {
         return generateArrayOrTupleType(
           evmType.structName
-            ? evmType.structName + STRUCT_INPUT_POSTFIX
+            ? evmType.structName.toString() + STRUCT_INPUT_POSTFIX
             : generateInputType({ ...options, useStructs: true }, evmType.itemType),
           evmType.size,
         )
@@ -58,7 +58,7 @@ export function generateInputType(options: GenerateTypeOptions, evmType: EvmType
       return 'string'
     case 'tuple':
       if (evmType.structName && options.useStructs) {
-        return evmType.structName + STRUCT_INPUT_POSTFIX
+        return evmType.structName.toString() + STRUCT_INPUT_POSTFIX
       }
       return generateObjectTypeLiteral(evmType, generateInputType.bind(null, { ...options, useStructs: true }))
     case 'unknown':
@@ -86,7 +86,7 @@ export function generateOutputType(options: GenerateTypeOptions, evmType: EvmOut
       }
       return generateArrayOrTupleType(
         evmType.structName
-          ? evmType.structName + STRUCT_OUTPUT_POSTFIX
+          ? evmType.structName.toString() + STRUCT_OUTPUT_POSTFIX
           : generateOutputType({ ...options, useStructs: true }, evmType.itemType),
         evmType.size,
       )
@@ -96,7 +96,7 @@ export function generateOutputType(options: GenerateTypeOptions, evmType: EvmOut
       return 'string'
     case 'tuple':
       if (evmType.structName && options.useStructs) {
-        return evmType.structName + STRUCT_OUTPUT_POSTFIX
+        return evmType.structName.toString() + STRUCT_OUTPUT_POSTFIX
       }
       return generateOutputComplexType(evmType.components, { ...options, useStructs: true })
     case 'unknown':
@@ -105,7 +105,7 @@ export function generateOutputType(options: GenerateTypeOptions, evmType: EvmOut
 }
 
 export function generateObjectTypeLiteral(tuple: TupleType, generator: (evmType: EvmType) => string) {
-  return '{' + tuple.components.map((component) => `${component.name}: ${generator(component.type)}`).join(',') + '}'
+  return '{' + tuple.components.map((component) => `${component.name}: ${generator(component.type)}`).join(', ') + '}'
 }
 
 /**
@@ -135,7 +135,7 @@ export function generateOutputComplexTypesAsObject(
   const namedElements = components.filter((e) => !!e.name)
   if (namedElements.length > 0) {
     namedElementsCode =
-      '{' + namedElements.map((t) => `${t.name}: ${generateOutputType(options, t.type)}`).join(',') + ' }'
+      '{' + namedElements.map((t) => `${t.name}: ${generateOutputType(options, t.type)}`).join(', ') + ' }'
   }
 
   return namedElementsCode

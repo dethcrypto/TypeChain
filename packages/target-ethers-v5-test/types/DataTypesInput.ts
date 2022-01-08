@@ -15,26 +15,46 @@ import { FunctionFragment, Result } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
-export type Struct1Struct = {
-  uint256_0: BigNumberish;
-  uint256_1: BigNumberish;
-};
+export declare namespace StructsLib1 {
+  export type InfoStruct = { a: BigNumberish; b: BigNumberish };
 
-export type Struct1StructOutput = [BigNumber, BigNumber] & {
-  uint256_0: BigNumber;
-  uint256_1: BigNumber;
-};
+  export type InfoStructOutput = [BigNumber, BigNumber] & {
+    a: BigNumber;
+    b: BigNumber;
+  };
+}
 
-export type Struct2Struct = { input1: BigNumberish; input2: Struct1Struct };
+export declare namespace StructsLib2 {
+  export type InfoStruct = { a: string; b: string };
 
-export type Struct2StructOutput = [BigNumber, Struct1StructOutput] & {
-  input1: BigNumber;
-  input2: Struct1StructOutput;
-};
+  export type InfoStructOutput = [string, string] & { a: string; b: string };
+}
 
-export type Struct3Struct = { input1: BigNumberish[] };
+export declare namespace DataTypesInput {
+  export type Struct1Struct = {
+    uint256_0: BigNumberish;
+    uint256_1: BigNumberish;
+  };
 
-export type Struct3StructOutput = [BigNumber[]] & { input1: BigNumber[] };
+  export type Struct1StructOutput = [BigNumber, BigNumber] & {
+    uint256_0: BigNumber;
+    uint256_1: BigNumber;
+  };
+
+  export type Struct2Struct = {
+    input1: BigNumberish;
+    input2: DataTypesInput.Struct1Struct;
+  };
+
+  export type Struct2StructOutput = [
+    BigNumber,
+    DataTypesInput.Struct1StructOutput
+  ] & { input1: BigNumber; input2: DataTypesInput.Struct1StructOutput };
+
+  export type Struct3Struct = { input1: BigNumberish[] };
+
+  export type Struct3StructOutput = [BigNumber[]] & { input1: BigNumber[] };
+}
 
 export interface DataTypesInputInterface extends utils.Interface {
   contractName: "DataTypesInput";
@@ -46,6 +66,7 @@ export interface DataTypesInputInterface extends utils.Interface {
     "input_enum(uint8)": FunctionFragment;
     "input_int256(int256)": FunctionFragment;
     "input_int8(int8)": FunctionFragment;
+    "input_multiple_structs_with_same_name((uint160,uint160))": FunctionFragment;
     "input_stat_array(uint8[3])": FunctionFragment;
     "input_string(string)": FunctionFragment;
     "input_struct((uint256,uint256))": FunctionFragment;
@@ -85,6 +106,10 @@ export interface DataTypesInputInterface extends utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "input_multiple_structs_with_same_name",
+    values: [StructsLib1.InfoStruct]
+  ): string;
+  encodeFunctionData(
     functionFragment: "input_stat_array",
     values: [[BigNumberish, BigNumberish, BigNumberish]]
   ): string;
@@ -94,23 +119,29 @@ export interface DataTypesInputInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "input_struct",
-    values: [Struct1Struct]
+    values: [DataTypesInput.Struct1Struct]
   ): string;
   encodeFunctionData(
     functionFragment: "input_struct2",
-    values: [Struct2Struct]
+    values: [DataTypesInput.Struct2Struct]
   ): string;
   encodeFunctionData(
     functionFragment: "input_struct2_array",
-    values: [Struct2Struct[]]
+    values: [DataTypesInput.Struct2Struct[]]
   ): string;
   encodeFunctionData(
     functionFragment: "input_struct2_tuple",
-    values: [[Struct2Struct, Struct2Struct, Struct2Struct]]
+    values: [
+      [
+        DataTypesInput.Struct2Struct,
+        DataTypesInput.Struct2Struct,
+        DataTypesInput.Struct2Struct
+      ]
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "input_struct3_array",
-    values: [Struct3Struct[]]
+    values: [DataTypesInput.Struct3Struct[]]
   ): string;
   encodeFunctionData(
     functionFragment: "input_tuple",
@@ -148,6 +179,10 @@ export interface DataTypesInputInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "input_int8", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "input_multiple_structs_with_same_name",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "input_stat_array",
     data: BytesLike
@@ -253,6 +288,13 @@ export interface DataTypesInput extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[number]>;
 
+    input_multiple_structs_with_same_name(
+      info1: StructsLib1.InfoStruct,
+      overrides?: CallOverrides
+    ): Promise<
+      [StructsLib2.InfoStructOutput] & { info2: StructsLib2.InfoStructOutput }
+    >;
+
     input_stat_array(
       input1: [BigNumberish, BigNumberish, BigNumberish],
       overrides?: CallOverrides
@@ -261,31 +303,41 @@ export interface DataTypesInput extends BaseContract {
     input_string(input1: string, overrides?: CallOverrides): Promise<[string]>;
 
     input_struct(
-      input1: Struct1Struct,
+      input1: DataTypesInput.Struct1Struct,
       overrides?: CallOverrides
-    ): Promise<[Struct1StructOutput]>;
+    ): Promise<[DataTypesInput.Struct1StructOutput]>;
 
     input_struct2(
-      input1: Struct2Struct,
+      input1: DataTypesInput.Struct2Struct,
       overrides?: CallOverrides
-    ): Promise<[Struct2StructOutput]>;
+    ): Promise<[DataTypesInput.Struct2StructOutput]>;
 
     input_struct2_array(
-      input1: Struct2Struct[],
+      input1: DataTypesInput.Struct2Struct[],
       overrides?: CallOverrides
-    ): Promise<[Struct2StructOutput[]]>;
+    ): Promise<[DataTypesInput.Struct2StructOutput[]]>;
 
     input_struct2_tuple(
-      input: [Struct2Struct, Struct2Struct, Struct2Struct],
+      input: [
+        DataTypesInput.Struct2Struct,
+        DataTypesInput.Struct2Struct,
+        DataTypesInput.Struct2Struct
+      ],
       overrides?: CallOverrides
     ): Promise<
-      [[Struct2StructOutput, Struct2StructOutput, Struct2StructOutput]]
+      [
+        [
+          DataTypesInput.Struct2StructOutput,
+          DataTypesInput.Struct2StructOutput,
+          DataTypesInput.Struct2StructOutput
+        ]
+      ]
     >;
 
     input_struct3_array(
-      input1: Struct3Struct[],
+      input1: DataTypesInput.Struct3Struct[],
       overrides?: CallOverrides
-    ): Promise<[Struct3StructOutput[]]>;
+    ): Promise<[DataTypesInput.Struct3StructOutput[]]>;
 
     input_tuple(
       input1: BigNumberish,
@@ -326,6 +378,11 @@ export interface DataTypesInput extends BaseContract {
 
   input_int8(input1: BigNumberish, overrides?: CallOverrides): Promise<number>;
 
+  input_multiple_structs_with_same_name(
+    info1: StructsLib1.InfoStruct,
+    overrides?: CallOverrides
+  ): Promise<StructsLib2.InfoStructOutput>;
+
   input_stat_array(
     input1: [BigNumberish, BigNumberish, BigNumberish],
     overrides?: CallOverrides
@@ -334,29 +391,39 @@ export interface DataTypesInput extends BaseContract {
   input_string(input1: string, overrides?: CallOverrides): Promise<string>;
 
   input_struct(
-    input1: Struct1Struct,
+    input1: DataTypesInput.Struct1Struct,
     overrides?: CallOverrides
-  ): Promise<Struct1StructOutput>;
+  ): Promise<DataTypesInput.Struct1StructOutput>;
 
   input_struct2(
-    input1: Struct2Struct,
+    input1: DataTypesInput.Struct2Struct,
     overrides?: CallOverrides
-  ): Promise<Struct2StructOutput>;
+  ): Promise<DataTypesInput.Struct2StructOutput>;
 
   input_struct2_array(
-    input1: Struct2Struct[],
+    input1: DataTypesInput.Struct2Struct[],
     overrides?: CallOverrides
-  ): Promise<Struct2StructOutput[]>;
+  ): Promise<DataTypesInput.Struct2StructOutput[]>;
 
   input_struct2_tuple(
-    input: [Struct2Struct, Struct2Struct, Struct2Struct],
+    input: [
+      DataTypesInput.Struct2Struct,
+      DataTypesInput.Struct2Struct,
+      DataTypesInput.Struct2Struct
+    ],
     overrides?: CallOverrides
-  ): Promise<[Struct2StructOutput, Struct2StructOutput, Struct2StructOutput]>;
+  ): Promise<
+    [
+      DataTypesInput.Struct2StructOutput,
+      DataTypesInput.Struct2StructOutput,
+      DataTypesInput.Struct2StructOutput
+    ]
+  >;
 
   input_struct3_array(
-    input1: Struct3Struct[],
+    input1: DataTypesInput.Struct3Struct[],
     overrides?: CallOverrides
-  ): Promise<Struct3StructOutput[]>;
+  ): Promise<DataTypesInput.Struct3StructOutput[]>;
 
   input_tuple(
     input1: BigNumberish,
@@ -400,6 +467,11 @@ export interface DataTypesInput extends BaseContract {
       overrides?: CallOverrides
     ): Promise<number>;
 
+    input_multiple_structs_with_same_name(
+      info1: StructsLib1.InfoStruct,
+      overrides?: CallOverrides
+    ): Promise<StructsLib2.InfoStructOutput>;
+
     input_stat_array(
       input1: [BigNumberish, BigNumberish, BigNumberish],
       overrides?: CallOverrides
@@ -408,29 +480,39 @@ export interface DataTypesInput extends BaseContract {
     input_string(input1: string, overrides?: CallOverrides): Promise<string>;
 
     input_struct(
-      input1: Struct1Struct,
+      input1: DataTypesInput.Struct1Struct,
       overrides?: CallOverrides
-    ): Promise<Struct1StructOutput>;
+    ): Promise<DataTypesInput.Struct1StructOutput>;
 
     input_struct2(
-      input1: Struct2Struct,
+      input1: DataTypesInput.Struct2Struct,
       overrides?: CallOverrides
-    ): Promise<Struct2StructOutput>;
+    ): Promise<DataTypesInput.Struct2StructOutput>;
 
     input_struct2_array(
-      input1: Struct2Struct[],
+      input1: DataTypesInput.Struct2Struct[],
       overrides?: CallOverrides
-    ): Promise<Struct2StructOutput[]>;
+    ): Promise<DataTypesInput.Struct2StructOutput[]>;
 
     input_struct2_tuple(
-      input: [Struct2Struct, Struct2Struct, Struct2Struct],
+      input: [
+        DataTypesInput.Struct2Struct,
+        DataTypesInput.Struct2Struct,
+        DataTypesInput.Struct2Struct
+      ],
       overrides?: CallOverrides
-    ): Promise<[Struct2StructOutput, Struct2StructOutput, Struct2StructOutput]>;
+    ): Promise<
+      [
+        DataTypesInput.Struct2StructOutput,
+        DataTypesInput.Struct2StructOutput,
+        DataTypesInput.Struct2StructOutput
+      ]
+    >;
 
     input_struct3_array(
-      input1: Struct3Struct[],
+      input1: DataTypesInput.Struct3Struct[],
       overrides?: CallOverrides
-    ): Promise<Struct3StructOutput[]>;
+    ): Promise<DataTypesInput.Struct3StructOutput[]>;
 
     input_tuple(
       input1: BigNumberish,
@@ -489,6 +571,11 @@ export interface DataTypesInput extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    input_multiple_structs_with_same_name(
+      info1: StructsLib1.InfoStruct,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     input_stat_array(
       input1: [BigNumberish, BigNumberish, BigNumberish],
       overrides?: CallOverrides
@@ -497,27 +584,31 @@ export interface DataTypesInput extends BaseContract {
     input_string(input1: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     input_struct(
-      input1: Struct1Struct,
+      input1: DataTypesInput.Struct1Struct,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     input_struct2(
-      input1: Struct2Struct,
+      input1: DataTypesInput.Struct2Struct,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     input_struct2_array(
-      input1: Struct2Struct[],
+      input1: DataTypesInput.Struct2Struct[],
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     input_struct2_tuple(
-      input: [Struct2Struct, Struct2Struct, Struct2Struct],
+      input: [
+        DataTypesInput.Struct2Struct,
+        DataTypesInput.Struct2Struct,
+        DataTypesInput.Struct2Struct
+      ],
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     input_struct3_array(
-      input1: Struct3Struct[],
+      input1: DataTypesInput.Struct3Struct[],
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -579,6 +670,11 @@ export interface DataTypesInput extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    input_multiple_structs_with_same_name(
+      info1: StructsLib1.InfoStruct,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     input_stat_array(
       input1: [BigNumberish, BigNumberish, BigNumberish],
       overrides?: CallOverrides
@@ -590,27 +686,31 @@ export interface DataTypesInput extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     input_struct(
-      input1: Struct1Struct,
+      input1: DataTypesInput.Struct1Struct,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     input_struct2(
-      input1: Struct2Struct,
+      input1: DataTypesInput.Struct2Struct,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     input_struct2_array(
-      input1: Struct2Struct[],
+      input1: DataTypesInput.Struct2Struct[],
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     input_struct2_tuple(
-      input: [Struct2Struct, Struct2Struct, Struct2Struct],
+      input: [
+        DataTypesInput.Struct2Struct,
+        DataTypesInput.Struct2Struct,
+        DataTypesInput.Struct2Struct
+      ],
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     input_struct3_array(
-      input1: Struct3Struct[],
+      input1: DataTypesInput.Struct3Struct[],
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

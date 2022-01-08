@@ -125,6 +125,11 @@ export interface DataTypesInputInstance extends Truffle.ContractInstance {
     txDetails?: Truffle.TransactionDetails
   ): Promise<{ input1: BN; input2: { uint256_0: BN; uint256_1: BN } }[]>;
 
+  input_multiple_structs_with_same_name(
+    info1: { a: number | BN | string; b: number | BN | string },
+    txDetails?: Truffle.TransactionDetails
+  ): Promise<{ a: string; b: string }>;
+
   methods: {
     input_uint8(
       input1: number | BN | string,
@@ -237,6 +242,11 @@ export interface DataTypesInputInstance extends Truffle.ContractInstance {
       }[],
       txDetails?: Truffle.TransactionDetails
     ): Promise<{ input1: BN; input2: { uint256_0: BN; uint256_1: BN } }[]>;
+
+    input_multiple_structs_with_same_name(
+      info1: { a: number | BN | string; b: number | BN | string },
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<{ a: string; b: string }>;
   };
 
   getPastEvents(event: string): Promise<EventData[]>;

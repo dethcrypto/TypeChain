@@ -6,6 +6,7 @@ import {
   extractStructNameIfAvailable,
   IntegerType,
   parseEvmType,
+  StructName,
   UnsignedIntegerType,
 } from '../../src/parser/parseEvmType'
 
@@ -99,14 +100,14 @@ describe('parseEvmType function', () => {
       ],
       'struct Multicall.Call',
     )
-    expect(parsedType).toEqual({
+    expect(parsedType).toLooseEqual({
       type: 'tuple',
       components: [
         { name: 'target', type: { type: 'address', originalType: 'address' } },
         { name: 'callData', type: { type: 'dynamic-bytes', originalType: 'bytes' } },
       ],
       originalType: 'tuple',
-      structName: 'Call',
+      structName: { identifier: 'Call', namespace: 'Multicall' },
     })
   })
 
@@ -119,7 +120,7 @@ describe('parseEvmType function', () => {
       ],
       'struct Multicall.Call[]',
     )
-    expect(parsedType).toEqual({
+    expect(parsedType).toLooseEqual({
       type: 'array',
       itemType: {
         type: 'tuple',
@@ -130,7 +131,7 @@ describe('parseEvmType function', () => {
         originalType: 'tuple',
       },
       originalType: 'tuple[]',
-      structName: 'Call',
+      structName: { identifier: 'Call', namespace: 'Multicall' },
     })
   })
 
@@ -143,7 +144,7 @@ describe('parseEvmType function', () => {
       ],
       'struct Multicall.Call[][]',
     )
-    expect(parsedType).toEqual({
+    expect(parsedType).toLooseEqual({
       type: 'array',
       itemType: {
         type: 'array',
@@ -158,7 +159,7 @@ describe('parseEvmType function', () => {
         originalType: 'tuple[]',
       },
       originalType: 'tuple[][]',
-      structName: 'Call',
+      structName: { identifier: 'Call', namespace: 'Multicall' },
     })
   })
 
@@ -171,8 +172,8 @@ describe('parseEvmType function', () => {
       ],
       'struct Vector2[2]',
     )
-    expect(actual).toEqual({
-      structName: 'Vector2',
+    expect(actual).toLooseEqual({
+      structName: { identifier: 'Vector2' },
       type: 'array',
       originalType: 'tuple[2]',
       size: 2,
@@ -208,14 +209,32 @@ describe('parseEvmType function', () => {
 
     expect(parsedType.type).toEqual('unknown')
   })
+
+  it('preserves namespace name', () => {
+    const abi = {
+      components: [],
+      internalType: 'struct KingOfTheHill.Bid',
+      type: 'tuple',
+    }
+
+    const actual = parseEvmType(abi.type, abi.components, abi.internalType)
+
+    expect(actual).toLooseEqual(expect.objectWith({ structName: new StructName('Bid', 'KingOfTheHill') }))
+  })
 })
 
 describe('extractStructNameIfAvailable', () => {
   it('works with namespaced structs', () => {
-    expect(extractStructNameIfAvailable('struct KingOfTheHill.Bid')).toEqual('Bid')
+    const actual = extractStructNameIfAvailable('struct KingOfTheHill.Bid')
+    expect(actual).toLooseEqual({ namespace: 'KingOfTheHill', identifier: 'Bid' })
+    expect(actual?.toString()).toEqual('KingOfTheHill.Bid')
   })
 
   it('works with free floating structs', () => {
-    expect(extractStructNameIfAvailable('struct aa')).toEqual('Aa')
+    expect(extractStructNameIfAvailable('struct aa')).toLooseEqual({ identifier: 'Aa' })
+  })
+
+  it('returns undefined when string does not start with "struct "', () => {
+    expect(extractStructNameIfAvailable('not a struct')).toEqual(undefined)
   })
 })

@@ -4,16 +4,15 @@ import { Awaited } from 'earljs/dist/mocks/types'
 import { BigNumber, BigNumberish, ethers } from 'ethers'
 import { AssertTrue, IsExact, q18, typedAssert } from 'test-utils'
 
-import {
-  DataTypesInput,
-  Struct1Struct,
-  Struct1StructOutput,
-  Struct2Struct,
-  Struct2StructOutput,
-  Struct3Struct,
-  Struct3StructOutput,
-} from '../types/DataTypesInput'
+import { DataTypesInput } from '../types/DataTypesInput'
 import { createNewBlockchain, deployContract } from './common'
+
+type Struct1Struct = DataTypesInput.Struct1Struct
+type Struct1StructOutput = DataTypesInput.Struct1StructOutput
+type Struct2Struct = DataTypesInput.Struct2Struct
+type Struct2StructOutput = DataTypesInput.Struct2StructOutput
+type Struct3Struct = DataTypesInput.Struct3Struct
+type Struct3StructOutput = DataTypesInput.Struct3StructOutput
 
 describe('DataTypesInput', () => {
   let contract!: DataTypesInput
@@ -255,6 +254,28 @@ describe('DataTypesInput', () => {
       uint256_0: 1,
       uint256_1: 2,
     })
+  })
+
+  it('structs with same name in different contract/library: input test', async () => {
+    type ViewFunctionInputType = Parameters<typeof contract.input_multiple_structs_with_same_name>
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    type _t1 = AssertTrue<
+      IsExact<
+        ViewFunctionInputType,
+        [info1: { a: BigNumberish; b: BigNumberish }, overrides?: ethers.CallOverrides | undefined]
+      >
+    >
+
+    type ViewFunctionOutputType = Awaited<ReturnType<typeof contract.input_multiple_structs_with_same_name>>
+    type _t2 = AssertTrue<
+      IsExact<
+        ViewFunctionOutputType,
+        [string, string] & {
+          a: string
+          b: string
+        }
+      >
+    >
   })
 
   // we skip this test as ts only about types

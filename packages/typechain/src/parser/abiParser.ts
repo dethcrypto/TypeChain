@@ -140,7 +140,8 @@ export function parse(abi: RawAbiDefinition[], rawName: string, documentation?: 
 
   const structs: StructType[] = []
   function registerStruct(newStruct: StructType) {
-    if (structs.findIndex((s) => s.structName === newStruct.structName) === -1) {
+    const newStructName = newStruct.structName?.toString()
+    if (!structs.find((s) => s.structName?.toString() === newStructName)) {
       structs.push(newStruct)
     }
   }
@@ -185,7 +186,7 @@ export function parse(abi: RawAbiDefinition[], rawName: string, documentation?: 
     constructor: constructors,
     functions: groupBy(functions, (f) => f.name),
     events: groupBy(events, (e) => e.name),
-    structs: groupBy(structs, (e) => e.structName),
+    structs: groupBy(structs, (e) => e.structName && e.structName.toString()),
     documentation: documentation ? omit(documentation, ['methods']) : undefined,
   }
 }
@@ -323,7 +324,9 @@ function parseRawAbiParameterType(
       // We unwrap constant size struct arrays like `Item[4]` into `Item`.
       registerStruct({
         ...parsed.itemType,
-        structName: parsed.structName.replace(new RegExp(`\\[${parsed.size}\\]$`), ''),
+        structName: parsed.structName.merge({
+          identifier: parsed.structName.identifier.replace(new RegExp(`\\[${parsed.size}\\]$`), ''),
+        }),
       })
     } else {
       registerStruct(parsed)
