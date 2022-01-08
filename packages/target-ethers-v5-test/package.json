@@ -16,7 +16,8 @@
   },
   "devDependencies": {
     "ganache-cli": "^6.12.2",
-    "test-utils": "1.0.0"
+    "test-utils": "1.0.0",
+    "typechain": "*"
   },
   "dependencies": {
     "ethers": "^5.1.3"

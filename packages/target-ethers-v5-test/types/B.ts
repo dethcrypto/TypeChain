@@ -7,6 +7,7 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
 export interface BInterface extends utils.Interface {
+  contractName: "B";
   functions: {};
 
   events: {
@@ -35,6 +36,7 @@ export type Committed_address_array_EventFilter = TypedEventFilter<
 >;
 
 export interface B extends BaseContract {
+  contractName: "B";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
