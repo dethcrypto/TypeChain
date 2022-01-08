@@ -1,5 +1,17 @@
 # @typechain/ethers-v4
 
+## 7.0.0
+
+### Patch Changes
+
+- f22f962: Events with multiple positional parameters no longer get "undefined" as argument in `contract.filters`.
+
+  https://github.com/dethcrypto/TypeChain/issues/575
+
+- Updated dependencies [92939ea]
+- Updated dependencies [d244e41]
+  - typechain@7.0.0
+
 ## 6.0.0
 
 ### Patch Changes

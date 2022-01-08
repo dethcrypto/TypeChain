@@ -1,5 +1,15 @@
 # typechain
 
+## 7.0.0
+
+### Major Changes
+
+- 92939ea: Structs will be namespaced using contract name when available
+
+### Patch Changes
+
+- d244e41: Fix event name generation for events with arrays
+
 ## 6.1.0
 
 ### Minor Changes
