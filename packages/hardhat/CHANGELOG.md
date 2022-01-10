@@ -1,5 +1,13 @@
 # @typechain/hardhat
 
+## 4.0.0
+
+### Patch Changes
+
+- Updated dependencies [92939ea]
+- Updated dependencies [d244e41]
+  - typechain@7.0.0
+
 ## 3.1.0
 
 ### Minor Changes
