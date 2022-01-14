@@ -1,6 +1,8 @@
 import { JsonRpcProvider } from '@ethersproject/providers'
 import { ethers } from 'ethers'
-import { loadContract } from 'test-utils'
+import { loadContract } from 'test-utils/dist'
+
+import { IERC20Metadata } from '../types'
 
 const ganache = require('ganache-cli')
 
@@ -14,9 +16,12 @@ export async function createNewBlockchain() {
   return { ganache: server, signer }
 }
 
-export function deployContract<T>(signer: ethers.Signer, name: string): Promise<T> {
+export async function deployContract<T>(signer: ethers.Signer, name: string, ...args: any[]): Promise<T> {
   const { abi, code } = loadContract(name)
-
   const factory = new ethers.ContractFactory(abi, code, signer)
-  return (factory.deploy() as any) as Promise<T>
+  return <T>(<unknown>await factory.deploy(...args))
+}
+
+export async function getTokenName<T extends IERC20Metadata>(token: T) {
+  return await token.name()
 }

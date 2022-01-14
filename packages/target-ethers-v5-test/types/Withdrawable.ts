@@ -17,7 +17,7 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
 export interface WithdrawableInterface extends utils.Interface {
-  contractName: "Withdrawable";
+  contractName: string | "Withdrawable";
   functions: {
     "withdraw()": FunctionFragment;
   };
@@ -30,7 +30,7 @@ export interface WithdrawableInterface extends utils.Interface {
 }
 
 export interface Withdrawable extends BaseContract {
-  contractName: "Withdrawable";
+  contractName: string | "Withdrawable";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

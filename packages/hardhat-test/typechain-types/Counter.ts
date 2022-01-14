@@ -17,7 +17,7 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
 export interface CounterInterface extends utils.Interface {
-  contractName: "Counter";
+  contractName: string | "Counter";
   functions: {
     "countDown()": FunctionFragment;
     "countUp()": FunctionFragment;
@@ -44,7 +44,7 @@ export type CountedToEvent = TypedEvent<[BigNumber], { number: BigNumber }>;
 export type CountedToEventFilter = TypedEventFilter<CountedToEvent>;
 
 export interface Counter extends BaseContract {
-  contractName: "Counter";
+  contractName: string | "Counter";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

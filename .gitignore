@@ -27,3 +27,6 @@ packages/hardhat-test/cache
 packages/hardhat-test/artifacts
 examples/*/yarn.lock
 yarn-error.log
+
+# ignore JetBrains based IDE files
+.idea

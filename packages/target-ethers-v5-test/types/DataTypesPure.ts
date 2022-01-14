@@ -28,7 +28,7 @@ export declare namespace DataTypesPure {
 }
 
 export interface DataTypesPureInterface extends utils.Interface {
-  contractName: "DataTypesPure";
+  contractName: string | "DataTypesPure";
   functions: {
     "pure_address()": FunctionFragment;
     "pure_bool()": FunctionFragment;
@@ -134,7 +134,7 @@ export interface DataTypesPureInterface extends utils.Interface {
 }
 
 export interface DataTypesPure extends BaseContract {
-  contractName: "DataTypesPure";
+  contractName: string | "DataTypesPure";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

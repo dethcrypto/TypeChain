@@ -33,7 +33,7 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
   ${generateStructTypes(values(contract.structs).map((v) => v[0]))}
 
   export interface ${contract.name}Interface extends utils.Interface {
-    contractName: '${contract.name}';
+    contractName: string | '${contract.name}';
     functions: {
       ${values(contract.functions)
         .map((v) => v[0])
@@ -67,7 +67,7 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
   ${values(contract.events).map(generateEventTypeExports).join('\n')}
 
   export interface ${contract.name} extends BaseContract {
-    contractName: '${contract.name}';
+    contractName: string | '${contract.name}';
     connect(signerOrProvider: Signer | Provider | string): this;
     attach(addressOrName: string): this;
     deployed(): Promise<this>;

@@ -18,7 +18,7 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
 export interface IERC721EnumerableInterface extends utils.Interface {
-  contractName: "IERC721Enumerable";
+  contractName: string | "IERC721Enumerable";
   functions: {
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
@@ -144,7 +144,7 @@ export type TransferEvent = TypedEvent<
 export type TransferEventFilter = TypedEventFilter<TransferEvent>;
 
 export interface IERC721Enumerable extends BaseContract {
-  contractName: "IERC721Enumerable";
+  contractName: string | "IERC721Enumerable";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

@@ -7,7 +7,7 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
 export interface Issue428ReproductionInterface extends utils.Interface {
-  contractName: "Issue428Reproduction";
+  contractName: string | "Issue428Reproduction";
   functions: {};
 
   events: {
@@ -22,7 +22,7 @@ export type CommittedEvent = TypedEvent<[string[]], { whitelist: string[] }>;
 export type CommittedEventFilter = TypedEventFilter<CommittedEvent>;
 
 export interface Issue428Reproduction extends BaseContract {
-  contractName: "Issue428Reproduction";
+  contractName: string | "Issue428Reproduction";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

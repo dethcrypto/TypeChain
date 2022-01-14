@@ -16,7 +16,7 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
 export interface LibraryInterface extends utils.Interface {
-  contractName: "Library";
+  contractName: string | "Library";
   functions: {
     "other(uint8)": FunctionFragment;
   };
@@ -29,7 +29,7 @@ export interface LibraryInterface extends utils.Interface {
 }
 
 export interface Library extends BaseContract {
-  contractName: "Library";
+  contractName: string | "Library";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

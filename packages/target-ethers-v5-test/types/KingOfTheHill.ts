@@ -28,7 +28,7 @@ export declare namespace KingOfTheHill {
 }
 
 export interface KingOfTheHillInterface extends utils.Interface {
-  contractName: "KingOfTheHill";
+  contractName: string | "KingOfTheHill";
   functions: {
     "bid()": FunctionFragment;
     "highestBid()": FunctionFragment;
@@ -63,7 +63,7 @@ export type HighestBidIncreasedEventFilter = TypedEventFilter<
 >;
 
 export interface KingOfTheHill extends BaseContract {
-  contractName: "KingOfTheHill";
+  contractName: string | "KingOfTheHill";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
