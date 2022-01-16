@@ -82,10 +82,10 @@ This plugin overrides the _compile_ task and automatically generates new Typecha
 
 There is an optional flag `--no-typechain` which can be passed in to skip Typechain compilation.
 
-This plugin adds the _typechain_ task to hardhat:
+This plugin also adds the `typechain` task to hardhat:
 
 ```
-Generate Typechain typings for compiled contracts
+hardhat typechain # always regenerates typings to all files
 ```
 
 ## Configuration
