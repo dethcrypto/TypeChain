@@ -113,7 +113,7 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
   const imports =
     createImportsForUsedIdentifiers(
       {
-        "type ethers": [
+        'type ethers': [
           'BaseContract',
           'BigNumber',
           'BigNumberish',
@@ -189,15 +189,7 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
 
   const imports = createImportsForUsedIdentifiers(
     {
-      ethers: [
-        'Signer',
-        'utils',
-        'Contract',
-        'ContractFactory',
-        'PayableOverrides',
-        'BytesLike',
-        'BigNumberish',
-      ],
+      ethers: ['Signer', 'utils', 'Contract', 'ContractFactory', 'PayableOverrides', 'BytesLike', 'BigNumberish'],
       'type ethers': ['Overrides'],
       'type @ethersproject/providers': ['Provider', 'TransactionRequest'],
     },

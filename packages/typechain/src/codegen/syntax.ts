@@ -67,12 +67,15 @@ export function createImportsForUsedIdentifiers(
   possibleImports: Record<ModuleSpecifier, Identifier[]>,
   sourceFile: string,
 ) {
-  const typePrefix = "type "
+  const typePrefix = 'type '
   return Object.entries(possibleImports)
     .map(([moduleSpecifier, identifiers]) =>
-      moduleSpecifier.startsWith(typePrefix) ?
-        createImportTypeDeclaration(getUsedIdentifiers(identifiers, sourceFile), moduleSpecifier.substring(typePrefix.length)) :
-        createImportDeclaration(getUsedIdentifiers(identifiers, sourceFile), moduleSpecifier),
+      moduleSpecifier.startsWith(typePrefix)
+        ? createImportTypeDeclaration(
+            getUsedIdentifiers(identifiers, sourceFile),
+            moduleSpecifier.substring(typePrefix.length),
+          )
+        : createImportDeclaration(getUsedIdentifiers(identifiers, sourceFile), moduleSpecifier),
     )
     .join('\n')
 }
