@@ -3,9 +3,9 @@
 /* eslint-disable */
 
 import { Contract, Signer } from "ethers";
-import { Provider } from "ethers/providers";
+import type { Provider } from "ethers/providers";
 
-import { ERC721 } from "../ERC721";
+import type { ERC721 } from "../ERC721";
 
 export class ERC721__factory {
   static connect(address: string, signerOrProvider: Signer | Provider): ERC721 {

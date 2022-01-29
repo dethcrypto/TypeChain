@@ -3,9 +3,9 @@
 /* eslint-disable */
 
 import { Contract, Signer } from "ethers";
-import { Provider } from "ethers/providers";
+import type { Provider } from "ethers/providers";
 
-import { Payable } from "../Payable";
+import type { Payable } from "../Payable";
 
 export class Payable__factory {
   static connect(

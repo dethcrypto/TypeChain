@@ -3,9 +3,9 @@
 /* eslint-disable */
 
 import { Contract, Signer } from "ethers";
-import { Provider } from "ethers/providers";
+import type { Provider } from "ethers/providers";
 
-import { ERC721Enumerable } from "../ERC721Enumerable";
+import type { ERC721Enumerable } from "../ERC721Enumerable";
 
 export class ERC721Enumerable__factory {
   static connect(

@@ -5,11 +5,11 @@ import { codegenForFunctions } from './functions'
 
 export function codegen(contract: Contract) {
   const template = `
-  import BN from "bn.js";
-  import { ContractOptions } from "web3-eth-contract";
-  import { EventLog } from "web3-core";
-  import { EventEmitter } from "events";
-  import { Callback, PayableTransactionObject, NonPayableTransactionObject, BlockType, ContractEventLog, BaseContract } from "./types";
+  import type BN from "bn.js";
+  import type { ContractOptions } from "web3-eth-contract";
+  import type { EventLog } from "web3-core";
+  import type { EventEmitter } from "events";
+  import type { Callback, PayableTransactionObject, NonPayableTransactionObject, BlockType, ContractEventLog, BaseContract } from "./types";
 
   export interface EventOptions {
     filter?: object;

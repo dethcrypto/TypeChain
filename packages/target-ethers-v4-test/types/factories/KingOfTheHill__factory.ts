@@ -3,9 +3,9 @@
 /* eslint-disable */
 
 import { Contract, Signer } from "ethers";
-import { Provider } from "ethers/providers";
+import type { Provider } from "ethers/providers";
 
-import { KingOfTheHill } from "../KingOfTheHill";
+import type { KingOfTheHill } from "../KingOfTheHill";
 
 export class KingOfTheHill__factory {
   static connect(

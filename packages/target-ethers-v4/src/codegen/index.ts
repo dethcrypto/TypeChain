@@ -98,7 +98,7 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
 
   return `
   import { Contract, ContractFactory, Signer } from "ethers";
-  import { Provider } from "ethers/providers";
+  import type { Provider } from "ethers/providers";
   import { UnsignedTransaction } from "ethers/utils/transaction";
   ${ethersUtilsImportLine}
 
@@ -134,9 +134,9 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
 export function codegenAbstractContractFactory(contract: Contract, abi: any): string {
   return `
   import { Contract, Signer } from "ethers";
-  import { Provider } from "ethers/providers";
+  import type { Provider } from "ethers/providers";
 
-  import { ${contract.name} } from "../${contract.name}";
+  import type { ${contract.name} } from "../${contract.name}";
 
   export class ${contract.name}${FACTORY_POSTFIX} {
     static connect(address: string, signerOrProvider: Signer | Provider): ${contract.name} {
