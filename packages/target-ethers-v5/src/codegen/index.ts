@@ -203,7 +203,7 @@ export function codegenAbstractContractFactory(contract: Contract, abi: any): st
   const { body, header } = codegenCommonContractFactory(contract, abi)
   return `
   import { Contract, Signer, utils } from "ethers";
-  import { Provider } from "@ethersproject/providers";
+  import type { Provider } from "@ethersproject/providers";
   ${header}
 
   export class ${contract.name}${FACTORY_POSTFIX} {
