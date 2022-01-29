@@ -1,6 +1,6 @@
-import { Interface } from '@ethersproject/abi'
+import type { Interface } from '@ethersproject/abi'
 import { ethers } from 'hardhat'
-import { AssertTrue, IsExact } from 'test-utils'
+import type { AssertTrue, IsExact } from 'test-utils'
 
 import { Counter__factory, StructsInConstructor__factory } from '../typechain-types'
 import type { Vector2Struct } from '../typechain-types/StructsInConstructor'
@@ -20,8 +20,12 @@ describe('TypeChain x Hardhat', () => {
     const artifact = require('../artifacts/contracts/Counter.sol/Counter.json') as { abi: Interface; bytecode: string }
 
     const counterFactory1 = new Counter__factory()
+    counterFactory1
     const counterFactory2 = new Counter__factory(deployer)
+    counterFactory2
     const counterFactory3 = new Counter__factory(artifact.abi, artifact.bytecode)
+    counterFactory3
     const counterFactory4 = new Counter__factory(artifact.abi, artifact.bytecode, deployer)
+    counterFactory4
   })
 })

@@ -1,4 +1,4 @@
-import { AbiOutputParameter, AbiParameter, EvmOutputType, EvmType, TupleType } from 'typechain'
+import type { AbiOutputParameter, AbiParameter, EvmOutputType, EvmType, TupleType } from 'typechain'
 
 export function codegenInputTypes(input: AbiParameter[]): string {
   if (input.length === 0) {

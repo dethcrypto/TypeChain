@@ -1,8 +1,8 @@
 import BigNumber from 'bn.js'
 import { AssertTrue, IsExact, q18, typedAssert } from 'test-utils'
-import { Awaited } from 'ts-essentials'
+import type { Awaited } from 'ts-essentials'
 
-import { DataTypesViewInstance } from '../types/truffle-contracts/DataTypesView'
+import type { DataTypesViewInstance } from '../types/truffle-contracts/DataTypesView'
 
 const DataTypesView = artifacts.require('DataTypesView')
 

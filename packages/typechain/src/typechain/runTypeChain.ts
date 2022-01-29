@@ -6,7 +6,7 @@ import * as prettier from 'prettier'
 import { debug } from '../utils/debug'
 import { findTarget } from './findTarget'
 import { loadFileDescriptions, processOutput, skipEmptyAbis } from './io'
-import { Config, PublicConfig, Services } from './types'
+import type { Config, PublicConfig, Services } from './types'
 
 interface Result {
   filesGenerated: number

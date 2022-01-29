@@ -1,6 +1,6 @@
 import { keccak_256 } from 'js-sha3'
 import { groupBy, omit } from 'lodash'
-import { Dictionary } from 'ts-essentials'
+import type { Dictionary } from 'ts-essentials'
 
 import { debug } from '../utils/debug'
 import { MalformedAbiError } from '../utils/errors'

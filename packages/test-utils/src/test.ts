@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { expect } from 'earljs'
 import { isString, mapValues, omitBy } from 'lodash'
-import { Dictionary } from 'ts-essentials'
+import type { Dictionary } from 'ts-essentials'
 
 /**
  * Asserts values AND types equality.

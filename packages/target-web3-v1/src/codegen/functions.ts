@@ -1,5 +1,5 @@
 import { values } from 'lodash'
-import { Dictionary } from 'ts-essentials'
+import type { Dictionary } from 'ts-essentials'
 import { FunctionDeclaration, FunctionDocumentation, getSignatureForFn } from 'typechain'
 
 import { codegenInputTypes, codegenOutputTypes } from './types'

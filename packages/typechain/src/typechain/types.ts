@@ -1,7 +1,7 @@
-import * as fs from 'fs'
-import { sync as mkdirp } from 'mkdirp'
-import * as prettier from 'prettier'
-import { MarkOptional } from 'ts-essentials'
+import type * as fs from 'fs'
+import type { sync as mkdirp } from 'mkdirp'
+import type * as prettier from 'prettier'
+import type { MarkOptional } from 'ts-essentials'
 
 export interface Config {
   cwd: string

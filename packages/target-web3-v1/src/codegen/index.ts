@@ -1,4 +1,4 @@
-import { Contract } from 'typechain'
+import type { Contract } from 'typechain'
 
 import { codegenForEvents, codegenForEventsDeclarations, codegenForEventsOnceFns } from './events'
 import { codegenForFunctions } from './functions'

@@ -1,7 +1,7 @@
 import { BigNumber } from 'ethers/utils'
 import { typedAssert } from 'test-utils'
 
-import { Overloads } from '../types/Overloads'
+import type { Overloads } from '../types/Overloads'
 import { createNewBlockchain, deployContract } from './common'
 
 describe('Overloads', () => {

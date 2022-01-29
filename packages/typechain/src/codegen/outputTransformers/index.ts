@@ -1,4 +1,4 @@
-import { Config, Services } from '../../typechain/types'
+import type { Config, Services } from '../../typechain/types'
 import { addPreambleOutputTransformer } from './preamble'
 import { prettierOutputTransformer } from './prettier'
 
