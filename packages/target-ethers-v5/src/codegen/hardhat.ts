@@ -4,7 +4,7 @@ export function generateHardhatHelper(contracts: string[]): string {
   return `
 
 import { ethers } from 'ethers'
-import { FactoryOptions, HardhatEthersHelpers as  HardhatEthersHelpersBase} from "@nomiclabs/hardhat-ethers/types";
+import { FactoryOptions, HardhatEthersHelpers as HardhatEthersHelpersBase} from "@nomiclabs/hardhat-ethers/types";
 
 import * as Contracts from "."
 

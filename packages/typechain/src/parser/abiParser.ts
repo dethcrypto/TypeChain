@@ -5,6 +5,7 @@ import { Dictionary } from 'ts-essentials'
 
 import { debug } from '../utils/debug'
 import { MalformedAbiError } from '../utils/errors'
+import { normalizeSlashes } from '../utils/files'
 import { normalizeName } from './normalizeName'
 import { EvmOutputType, EvmType, parseEvmType, StructType } from './parseEvmType'
 
@@ -135,7 +136,7 @@ export interface DocumentationResult {
 }
 
 export function parse(abi: RawAbiDefinition[], path: string, documentation?: DocumentationResult): Contract {
-  const parsedPath = parsePath(posix.normalize(path))
+  const parsedPath = parsePath(normalizeSlashes(path))
 
   const constructors: FunctionWithoutOutputDeclaration[] = []
   let fallback: FunctionWithoutInputDeclaration | undefined

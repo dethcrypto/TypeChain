@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs'
-import { compact, uniqBy } from 'lodash'
-import { basename, join, resolve } from 'path'
+import { compact } from 'lodash'
+import { join, relative, resolve } from 'path'
 import { Dictionary } from 'ts-essentials'
 import {
   BytecodeWithLinkReferences,
@@ -14,6 +14,7 @@ import {
   getFileExtension,
   getFilename,
   normalizeName,
+  normalizeSlashes,
   parse,
   TypeChainTarget,
 } from 'typechain'
@@ -21,6 +22,7 @@ import {
 import { codegenAbstractContractFactory, codegenContractFactory, codegenContractTypings } from './codegen'
 import { generateHardhatHelper } from './codegen/hardhat'
 import { FACTORY_POSTFIX } from './common'
+import { generateBarrelFiles, lowestCommonPath } from './path-utils'
 
 export interface IEthersCfg {
   outDir?: string
@@ -31,15 +33,10 @@ const DEFAULT_OUT_PATH = './types/ethers-contracts/'
 export default class Ethers extends TypeChainTarget {
   name = 'Ethers'
 
-  private readonly allContracts: string[]
+  private readonly inputsRoot: string
+  private readonly allFiles: string[]
   private readonly outDirAbs: string
-  private readonly contractCache: Dictionary<
-    | {
-        abi: any
-        contract: Contract
-      }
-    | undefined
-  > = {}
+  private readonly contractCache: Dictionary<{ abi: any; contract: Contract } | undefined> = {}
   private readonly bytecodeCache: Dictionary<BytecodeWithLinkReferences | undefined> = {}
 
   constructor(config: Config) {
@@ -47,9 +44,9 @@ export default class Ethers extends TypeChainTarget {
 
     const { cwd, outDir, allFiles } = config
 
+    this.inputsRoot = lowestCommonPath(allFiles)
+    this.allFiles = allFiles.map((x) => normalizeSlashes(relative(this.inputsRoot, x)))
     this.outDirAbs = resolve(cwd, outDir || DEFAULT_OUT_PATH)
-
-    this.allContracts = allFiles.map((fp) => normalizeName(getFilename(fp)))
   }
 
   transformFile(file: FileDescription): FileDescription[] | void {
@@ -67,24 +64,22 @@ export default class Ethers extends TypeChainTarget {
   }
 
   transformBinFile(file: FileDescription): FileDescription[] | void {
-    const name = getFilename(file.path)
     const bytecode = extractBytecode(file.contents)
 
     if (!bytecode) {
       return
     }
 
-    if (this.contractCache[name]) {
-      const { contract, abi } = this.contractCache[name]!
-      delete this.contractCache[name]
+    if (this.contractCache[file.path]) {
+      const { contract, abi } = this.contractCache[file.path]!
+      delete this.contractCache[file.path]
       return [this.genContractFactoryFile(contract, abi, bytecode)]
     } else {
-      this.bytecodeCache[name] = bytecode
+      this.bytecodeCache[file.path] = bytecode
     }
   }
 
   transformAbiOrFullJsonFile(file: FileDescription): FileDescription[] | void {
-    const name = getFilename(file.path)
     const abi = extractAbi(file.contents)
 
     if (abi.length === 0) {
@@ -93,8 +88,8 @@ export default class Ethers extends TypeChainTarget {
 
     const documentation = extractDocumentation(file.contents)
 
-    const contract = parse(abi, name, documentation)
-    const bytecode = extractBytecode(file.contents) || this.bytecodeCache[name]
+    const contract = parse(abi, relative(this.inputsRoot, file.path), documentation)
+    const bytecode = extractBytecode(file.contents) || this.bytecodeCache[file.path]
 
     if (bytecode) {
       return [
@@ -102,21 +97,21 @@ export default class Ethers extends TypeChainTarget {
         this.genContractFactoryFile(contract, abi, bytecode),
       ]
     } else {
-      this.contractCache[name] = { abi, contract }
+      this.contractCache[file.path] = { abi, contract }
       return [this.genContractTypingsFile(contract, this.cfg.flags)]
     }
   }
 
   genContractTypingsFile(contract: Contract, codegenConfig: CodegenConfig): FileDescription {
     return {
-      path: join(this.outDirAbs, `${contract.name}.ts`),
+      path: join(this.outDirAbs, ...contract.path, `${contract.name}.ts`),
       contents: codegenContractTypings(contract, codegenConfig),
     }
   }
 
   genContractFactoryFile(contract: Contract, abi: any, bytecode?: BytecodeWithLinkReferences) {
     return {
-      path: join(this.outDirAbs, 'factories', `${contract.name}${FACTORY_POSTFIX}.ts`),
+      path: join(this.outDirAbs, 'factories', ...contract.path, `${contract.name}${FACTORY_POSTFIX}.ts`),
       contents: codegenContractFactory(contract, abi, bytecode),
     }
   }
@@ -127,14 +122,15 @@ export default class Ethers extends TypeChainTarget {
     const abstractFactoryFiles = Object.keys(this.contractCache).map((contractName) => {
       const { contract, abi } = this.contractCache[contractName]!
       return {
-        path: join(this.outDirAbs, 'factories', `${contract.name}${FACTORY_POSTFIX}.ts`),
+        path: join(this.outDirAbs, 'factories', ...contract.path, `${contract.name}${FACTORY_POSTFIX}.ts`),
         contents: codegenAbstractContractFactory(contract, abi),
       }
     })
 
+    const allContracts = this.allFiles.map((x) => normalizeName(getFilename(x)))
     const hardhatHelper =
       this.cfg.flags.environment === 'hardhat'
-        ? { path: join(this.outDirAbs, 'hardhat.d.ts'), contents: generateHardhatHelper(this.allContracts) }
+        ? { path: join(this.outDirAbs, 'hardhat.d.ts'), contents: generateHardhatHelper(allContracts) }
         : undefined
 
     const allFiles = compact([
@@ -143,35 +139,14 @@ export default class Ethers extends TypeChainTarget {
         path: join(this.outDirAbs, 'common.ts'),
         contents: readFileSync(join(__dirname, '../static/common.ts'), 'utf-8'),
       },
-      {
-        path: join(this.outDirAbs, 'index.ts'),
-        contents: this.genReExports(),
-      },
+      ...generateBarrelFiles(this.allFiles, { typeOnly: false }).map((fd) => ({
+        path: join(this.outDirAbs, fd.path),
+        contents: fd.contents,
+      })),
+      // @todo barrel files for factories.
       hardhatHelper,
     ])
+
     return allFiles
-  }
-
-  private genReExports(): string {
-    const codegen: string[] = []
-
-    const allContractsNoDuplicates = uniqBy(this.allContracts, (c) => basename(c))
-
-    for (const fileName of allContractsNoDuplicates) {
-      const desiredSymbol = fileName
-
-      codegen.push(`export type { ${desiredSymbol} } from './${desiredSymbol}'`)
-    }
-
-    codegen.push('\n')
-
-    // then generate reexports for TypeChain generated factories
-    for (const fileName of allContractsNoDuplicates) {
-      const desiredSymbol = fileName + '__factory'
-
-      codegen.push(`export { ${desiredSymbol} } from './factories/${desiredSymbol}'`)
-    }
-
-    return codegen.join('\n')
   }
 }

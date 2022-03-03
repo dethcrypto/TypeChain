@@ -14,3 +14,7 @@ export function ensureAbsPath(path: string): string {
   }
   return join(process.cwd(), path)
 }
+
+export function normalizeSlashes(path: string) {
+  return process.platform === 'win32' ? path.replace(/\\/g, '/') : path
+}
