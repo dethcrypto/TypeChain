@@ -1,6 +1,7 @@
 import { expect } from 'earljs'
 import { FileDescription } from 'typechain'
 
+import { FACTORY_POSTFIX } from '../src/common'
 import { generateBarrelFiles, lowestCommonPath } from '../src/path-utils'
 
 describe('path utils', () => {
@@ -18,6 +19,20 @@ describe('path utils', () => {
 
       const actual = lowestCommonPath(paths)
       expect(actual).toEqual('/TypeChain/contracts/compiled')
+    })
+
+    it('works for Windows paths', () => {
+      const paths = [
+        'D:/workspace/TypeChain/packages/hardhat/test/fixture-projects/hardhat-project/artifacts/contracts/EdgeCases.sol/EdgeCases.json',
+        'D:/workspace/TypeChain/packages/hardhat/test/fixture-projects/hardhat-project/artifacts/contracts/lib/SafeMath.sol/SafeMath.json',
+        'D:/workspace/TypeChain/packages/hardhat/test/fixture-projects/hardhat-project/artifacts/contracts/TestContract.sol/TestContract.json',
+        'D:/workspace/TypeChain/packages/hardhat/test/fixture-projects/hardhat-project/artifacts/contracts/TestContract1.sol/TestContract1.json',
+      ]
+
+      const actual = lowestCommonPath(paths)
+      expect(actual).toEqual(
+        'D:/workspace/TypeChain/packages/hardhat/test/fixture-projects/hardhat-project/artifacts/contracts',
+      )
     })
   })
 
@@ -68,6 +83,28 @@ describe('path utils', () => {
       for (const key of actualPaths) {
         expect(actualDict[key]).toEqual(expectedDict[key])
       }
+    })
+
+    it('appends filenamePostfix', () => {
+      const paths = ['EdgeCases.json', 'lib/SafeMath.json', 'TestContract.json', 'TestContract1.json']
+
+      const actual = generateBarrelFiles(paths, { typeOnly: true, filenamePostfix: FACTORY_POSTFIX })
+
+      expect(actual).toEqual([
+        {
+          path: 'index.ts',
+          contents: [
+            "export type * as lib from './lib';",
+            "export type { EdgeCases } from './EdgeCases__factory';",
+            "export type { TestContract } from './TestContract__factory';",
+            "export type { TestContract1 } from './TestContract1__factory';",
+          ].join('\n'),
+        },
+        {
+          path: 'lib/index.ts',
+          contents: "export type { SafeMath } from './SafeMath__factory';",
+        },
+      ])
     })
 
     it('works for a single path', () => {

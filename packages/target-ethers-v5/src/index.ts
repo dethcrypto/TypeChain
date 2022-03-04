@@ -1,5 +1,5 @@
 import { readFileSync } from 'fs'
-import { compact } from 'lodash'
+import { compact, partition } from 'lodash'
 import { dirname, join, relative, resolve } from 'path'
 import { Dictionary } from 'ts-essentials'
 import {
@@ -22,7 +22,7 @@ import {
 import { codegenAbstractContractFactory, codegenContractFactory, codegenContractTypings } from './codegen'
 import { generateHardhatHelper } from './codegen/hardhat'
 import { FACTORY_POSTFIX } from './common'
-import { generateBarrelFiles, lowestCommonPath } from './path-utils'
+import { generateBarrelFiles, lowestCommonPath, shortenFullJsonFilePath } from './path-utils'
 
 export interface IEthersCfg {
   outDir?: string
@@ -44,8 +44,11 @@ export default class Ethers extends TypeChainTarget {
 
     const { cwd, outDir, allFiles } = config
 
-    this.inputsRoot = dirname(lowestCommonPath(allFiles))
-    this.allFiles = allFiles.map((x) => normalizeSlashes(relative(this.inputsRoot, x)))
+    this.inputsRoot = allFiles.length === 1 ? dirname(allFiles[0]) : lowestCommonPath(allFiles)
+    this.allFiles = allFiles
+      .map(shortenFullJsonFilePath)
+      .map((x) => relative(this.inputsRoot, x))
+      .map(normalizeSlashes)
     this.outDirAbs = resolve(cwd, outDir || DEFAULT_OUT_PATH)
   }
 
@@ -88,7 +91,8 @@ export default class Ethers extends TypeChainTarget {
 
     const documentation = extractDocumentation(file.contents)
 
-    const contract = parse(abi, relative(this.inputsRoot, file.path), documentation)
+    const path = relative(this.inputsRoot, shortenFullJsonFilePath(file.path))
+    const contract = parse(abi, path, documentation)
     const bytecode = extractBytecode(file.contents) || this.bytecodeCache[file.path]
 
     if (bytecode) {
@@ -127,24 +131,40 @@ export default class Ethers extends TypeChainTarget {
       }
     })
 
+    const common = {
+      path: join(this.outDirAbs, 'common.ts'),
+      contents: readFileSync(join(__dirname, '../static/common.ts'), 'utf-8'),
+    }
+
     const allContracts = this.allFiles.map((x) => normalizeName(getFilename(x)))
     const hardhatHelper =
       this.cfg.flags.environment === 'hardhat'
         ? { path: join(this.outDirAbs, 'hardhat.d.ts'), contents: generateHardhatHelper(allContracts) }
         : undefined
 
+    const typesBarrels = generateBarrelFiles(this.allFiles, { typeOnly: true })
+    const factoriesBarrels = generateBarrelFiles(
+      this.allFiles.map((s) => `factories/${s}`),
+      { typeOnly: false, filenamePostfix: FACTORY_POSTFIX },
+    )
+
+    const allBarrels = typesBarrels.concat(factoriesBarrels)
+    const [rootIndexes, otherBarrels] = partition(allBarrels, (fd) => fd.path === 'index.ts')
+
+    const rootIndex = {
+      path: join(this.outDirAbs, 'index.ts'),
+      contents: [...new Set((rootIndexes[0].contents + '\n' + rootIndexes[1].contents).split('\n'))].join('\n'),
+    }
+
     const allFiles = compact([
+      common,
+      hardhatHelper,
+      rootIndex,
       ...abstractFactoryFiles,
-      {
-        path: join(this.outDirAbs, 'common.ts'),
-        contents: readFileSync(join(__dirname, '../static/common.ts'), 'utf-8'),
-      },
-      ...generateBarrelFiles(this.allFiles, { typeOnly: false }).map((fd) => ({
+      ...otherBarrels.map((fd) => ({
         path: join(this.outDirAbs, fd.path),
         contents: fd.contents,
       })),
-      // @todo barrel files for factories.
-      hardhatHelper,
     ])
 
     return allFiles

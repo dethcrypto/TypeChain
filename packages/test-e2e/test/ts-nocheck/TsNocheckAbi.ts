@@ -6,20 +6,20 @@ import { BaseContract, Signer, utils } from "ethers";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
-export interface EdgeCasesInterface extends utils.Interface {
-  contractName: "EdgeCases";
+export interface TsNocheckAbiInterface extends utils.Interface {
+  contractName: "TsNocheckAbi";
   functions: {};
 
   events: {};
 }
 
-export interface EdgeCases extends BaseContract {
-  contractName: "EdgeCases";
+export interface TsNocheckAbi extends BaseContract {
+  contractName: "TsNocheckAbi";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: EdgeCasesInterface;
+  interface: TsNocheckAbiInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,

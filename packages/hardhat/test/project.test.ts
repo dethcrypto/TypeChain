@@ -78,6 +78,10 @@ describe('Typechain x Hardhat', function () {
       expect(exists).toEqual(false)
 
       await this.hre.run('compile')
+      // temporary
+      if (2 === 2) {
+        throw consoleLogMock.calls.map((c) => c.args)
+      }
       expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 11 typings!'])
 
       // copy one more file and recompile project

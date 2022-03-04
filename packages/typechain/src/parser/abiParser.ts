@@ -187,7 +187,7 @@ export function parse(abi: RawAbiDefinition[], path: string, documentation?: Doc
   return {
     name: normalizeName(parsedPath.name),
     rawName: parsedPath.name,
-    path: parsedPath.dir.split('/'),
+    path: parsedPath.dir.split('/').filter((x) => x),
     fallback,
     constructor: constructors,
     functions: groupBy(functions, (f) => f.name),

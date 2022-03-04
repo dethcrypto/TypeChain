@@ -26,13 +26,13 @@ export type Committed = ContractEventLog<{
   0: string[];
 }>;
 
-export interface Issue428Reproduction extends BaseContract {
+export interface Issue428_Reproduction extends BaseContract {
   constructor(
     jsonInterface: any[],
     address?: string,
     options?: ContractOptions
-  ): Issue428Reproduction;
-  clone(): Issue428Reproduction;
+  ): Issue428_Reproduction;
+  clone(): Issue428_Reproduction;
   methods: {};
   events: {
     Committed(cb?: Callback<Committed>): EventEmitter;

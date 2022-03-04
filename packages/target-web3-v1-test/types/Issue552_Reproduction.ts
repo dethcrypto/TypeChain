@@ -21,13 +21,13 @@ export interface EventOptions {
   topics?: string[];
 }
 
-export interface Issue552Reproduction extends BaseContract {
+export interface Issue552_Reproduction extends BaseContract {
   constructor(
     jsonInterface: any[],
     address?: string,
     options?: ContractOptions
-  ): Issue552Reproduction;
-  clone(): Issue552Reproduction;
+  ): Issue552_Reproduction;
+  clone(): Issue552_Reproduction;
   methods: {
     bars(
       arg0: number | string | BN

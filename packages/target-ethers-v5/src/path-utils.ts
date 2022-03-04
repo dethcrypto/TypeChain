@@ -8,14 +8,17 @@ export function lowestCommonPath(paths: string[]) {
   return commonParts.join('/')
 }
 
-export function generateBarrelFiles(paths: string[], { typeOnly }: { typeOnly: boolean }): FileDescription[] {
+export function generateBarrelFiles(
+  paths: string[],
+  { typeOnly, filenamePostfix = '' }: { typeOnly: boolean; filenamePostfix?: string },
+): FileDescription[] {
   const fileReexports: Record<string, string[] | undefined> = filenamesByDir(paths)
 
   const directoryReexports: Record<string, string[] | undefined> = filenamesByDir(
     Object.keys(fileReexports).filter((path) => path.includes('/')),
   )
 
-  let barrelPaths = uniq(Object.keys(directoryReexports).concat(Object.keys(fileReexports)))
+  const barrelPaths = new Set(Object.keys(directoryReexports).concat(Object.keys(fileReexports)))
   const newPaths: string[] = []
 
   for (const directory of barrelPaths) {
@@ -37,17 +40,20 @@ export function generateBarrelFiles(paths: string[], { typeOnly }: { typeOnly: b
     }
   }
 
-  barrelPaths = barrelPaths.concat(newPaths)
-
-  return barrelPaths.map((path) => {
+  return uniq([...barrelPaths, ...newPaths]).map((path) => {
     const nestedDirs = (directoryReexports[path] || []).sort()
 
     const namespacesExports = nestedDirs
       .map((p) => {
-        const exportKeyword = typeOnly ? 'export type' : 'export'
         const namespaceIdentifier = camelCase(p)
 
-        return `${exportKeyword} * as ${namespaceIdentifier} from './${p}';`
+        if (typeOnly)
+          return [
+            `import type * as ${namespaceIdentifier} from './${p}';`,
+            `export type { ${namespaceIdentifier} };`,
+          ].join('\n')
+
+        return `export * as ${namespaceIdentifier} from './${p}';`
       })
       .join('\n')
 
@@ -56,7 +62,7 @@ export function generateBarrelFiles(paths: string[], { typeOnly }: { typeOnly: b
       .map((p) => {
         const exportKeyword = typeOnly ? 'export type' : 'export'
 
-        return `${exportKeyword} { ${normalizeName(p)} } from './${p}';`
+        return `${exportKeyword} { ${normalizeName(p)} } from './${p}${filenamePostfix}';`
       })
       .join('\n')
 
@@ -72,4 +78,18 @@ function filenamesByDir(paths: string[]): Record<string, string[] | undefined> {
     groupBy(paths.map(posix.parse), (p) => p.dir),
     (ps) => ps.map((p) => p.name),
   )
+}
+
+/**
+ * Transforms all paths matching `ContractName.sol/ContractName.json`
+ */
+export function shortenFullJsonFilePath(path: string) {
+  const parsed = posix.parse(path)
+
+  const sourceFileName = `${parsed.name}.sol`
+  if (parsed.dir.endsWith(sourceFileName)) {
+    return parsed.dir.slice(0, -sourceFileName.length) + `${parsed.name}.json`
+  }
+
+  return path
 }

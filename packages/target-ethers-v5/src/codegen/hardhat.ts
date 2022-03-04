@@ -1,5 +1,6 @@
 import { FACTORY_POSTFIX } from '../common'
 
+// @todo hardhat helper needs to import _all_ generated contract files except of duplicates
 export function generateHardhatHelper(contracts: string[]): string {
   return `
 
