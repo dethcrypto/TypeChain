@@ -69,5 +69,18 @@ describe('path utils', () => {
         expect(actualDict[key]).toEqual(expectedDict[key])
       }
     })
+
+    it('works for a single path', () => {
+      const paths = ['ts-nocheck.abi.json']
+
+      const actual = generateBarrelFiles(paths, { typeOnly: false })
+
+      expect(actual).toEqual([
+        {
+          path: 'index.ts',
+          contents: "export { TsNocheckAbi } from './ts-nocheck.abi';",
+        },
+      ])
+    })
   })
 })

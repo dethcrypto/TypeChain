@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs'
 import { compact } from 'lodash'
-import { join, relative, resolve } from 'path'
+import { dirname, join, relative, resolve } from 'path'
 import { Dictionary } from 'ts-essentials'
 import {
   BytecodeWithLinkReferences,
@@ -44,7 +44,7 @@ export default class Ethers extends TypeChainTarget {
 
     const { cwd, outDir, allFiles } = config
 
-    this.inputsRoot = lowestCommonPath(allFiles)
+    this.inputsRoot = dirname(lowestCommonPath(allFiles))
     this.allFiles = allFiles.map((x) => normalizeSlashes(relative(this.inputsRoot, x)))
     this.outDirAbs = resolve(cwd, outDir || DEFAULT_OUT_PATH)
   }

@@ -19,6 +19,8 @@ export function generateBarrelFiles(paths: string[], { typeOnly }: { typeOnly: b
   const newPaths: string[] = []
 
   for (const directory of barrelPaths) {
+    if (!directory) continue
+
     const path = directory.split('/')
     while (path.length) {
       const dir = path.slice(0, -1).join('/')
@@ -42,16 +44,20 @@ export function generateBarrelFiles(paths: string[], { typeOnly }: { typeOnly: b
 
     const namespacesExports = nestedDirs
       .map((p) => {
-        const typeModifier = typeOnly ? 'type' : ''
+        const exportKeyword = typeOnly ? 'export type' : 'export'
         const namespaceIdentifier = camelCase(p)
 
-        return `export ${typeModifier} * as ${namespaceIdentifier} from './${p}';`
+        return `${exportKeyword} * as ${namespaceIdentifier} from './${p}';`
       })
       .join('\n')
 
     const contracts = (fileReexports[path] || []).sort()
     const namedExports = contracts
-      .map((p) => `export ${typeOnly ? 'type' : ''} { ${normalizeName(p)} } from './${p}';`)
+      .map((p) => {
+        const exportKeyword = typeOnly ? 'export type' : 'export'
+
+        return `${exportKeyword} { ${normalizeName(p)} } from './${p}';`
+      })
       .join('\n')
 
     return {
