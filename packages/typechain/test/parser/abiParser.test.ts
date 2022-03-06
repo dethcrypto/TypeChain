@@ -140,6 +140,10 @@ describe('extractBytecode', () => {
     ).toEqual(resultBytecode)
   })
 
+  it('should return bytecode from nested abi (@foundry/forge style)', () => {
+    expect(extractBytecode(`{ "bytecode": { "object": "${sampleBytecode}" } }`)).toEqual(resultBytecode)
+  })
+
   it('should return undefined when nested abi bytecode is malformed', () => {
     expect(extractBytecode(`{ "bytecode": "surely-not-bytecode" }`)).toEqual(undefined)
   })
