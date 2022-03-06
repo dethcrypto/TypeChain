@@ -49,7 +49,6 @@ You will also need to install a desired target for example `@typechain/ethers-v5
 | ------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
 | [`typechain`](/packages/typechain)                                                                                                          | [![npm](https://img.shields.io/npm/v/typechain.svg)](https://www.npmjs.com/package/typechain)                         | Core package                                 | -                                                                                                                    |
 | [`@typechain/ethers-v5`](/packages/target-ethers-v5)                                                                                        | [![npm](https://img.shields.io/npm/v/@typechain/ethers-v5.svg)](https://www.npmjs.com/package/@typechain/ethers-v5)   | Ethers ver 5 support (⚠️ requires TS 4.0 >=) | [example](./examples/ethers-v5)                                                                                      |
-| [`@typechain/ethers-v4`](/packages/target-ethers-v4)                                                                                        | [![npm](https://img.shields.io/npm/v/@typechain/ethers-v4.svg)](https://www.npmjs.com/package/@typechain/ethers-v4)   | Ethers ver 4 support                         | [example](./examples/ethers-v4)                                                                                      |
 | [`@typechain/truffle-v5`](/packages/target-truffle-v5)                                                                                      | [![npm](https://img.shields.io/npm/v/@typechain/truffle-v5.svg)](https://www.npmjs.com/package/@typechain/truffle-v5) | Truffle ver 5 support                        | [example](./examples/truffle-v5)                                                                                     |
 | [`@typechain/web3-v1`](/packages/target-web3-v1)                                                                                            | [![npm](https://img.shields.io/npm/v/@typechain/web3-v1.svg)](https://www.npmjs.com/package/@typechain/web3-v1)       | Web3 ver 1 support                           | [example](./examples/web3-v1)                                                                                        |
 | [`@typechain/hardhat`](/packages/hardhat)                                                                                                   | [![npm](https://img.shields.io/npm/v/@typechain/hardhat.svg)](https://www.npmjs.com/package/@typechain/hardhat)       | Hardhat plugin                               | [example-ethers](./examples/hardhat) [example-truffle](./examples/hardhat-truffle)                                   |
@@ -119,10 +118,14 @@ That's it! Now, you can simply import typings, check out our examples for more d
 
 ## Targets 🎯
 
-### Ethers.js v4 / v5
+### Ethers.js v5
 
 Use `ethers-v5` target to generate wrappers for [ethers.js](https://github.com/ethers-io/ethers.js/) lib. To make it
 work great with Hardhat, use [Hardhat plugin](https://github.com/ethereum-ts/TypeChain/tree/master/packages/hardhat).
+
+If you're using Ethers.js v4, you can find legacy `@typechain/ethers-v4` target on
+[npm](https://www.npmjs.com/package/@typechain/ethers-v4) and commit
+[`db551b5`](https://github.com/dethcrypto/TypeChain/tree/db551b5c5f70e86f3ca342551e9e0369d099cfa2).
 
 ### Truffle v4 / v5
 
