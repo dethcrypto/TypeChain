@@ -69,13 +69,13 @@ _Note: If you use hardhat just use
 [hardhat plugin](https://github.com/ethereum-ts/TypeChain/tree/master/packages/hardhat)._
 
 ```
-typechain --target=(ethers-v4|ethers-v5|truffle-v4|truffle-v5|web3-v1|path-to-custom-target) [glob]
+typechain --target=(ethers-v5|truffle-v4|truffle-v5|web3-v1|path-to-custom-target) [glob]
 ```
 
 - `glob` - pattern that will be used to find ABIs, remember about adding quotes: `typechain "**/*.json"`, examples:
   `./abis/**/*.abi`, `./abis/?(Oasis.abi|OasisHelper.abi)`.
-- `--target` - ethers-v4, ethers-v5, truffle-v4, truffle-v5, web3-v1 or path to your custom target. Typechain will try
-  to load package named: `@typechain/${target}`, so make sure that desired package is installed.
+- `--target` - ethers-v5, truffle-v4, truffle-v5, web3-v1 or path to your custom target. Typechain will try to load
+  package named: `@typechain/${target}`, so make sure that desired package is installed.
 - `--out-dir` (optional) - put all generated files to a specific dir.
 - `--always-generate-overloads` (optional) - some targets won't generate unnecessary types for overloaded functions by
   default, this option forces to always generate them
