@@ -9,7 +9,7 @@
     <a href="/package.json"><img alt="Software License" src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"></a>
     <a href="https://discord.gg/wQDkeDgzgv"><img alt="Join our discord!" src="https://img.shields.io/discord/895381864922091630.svg?color=7289da&label=deth&logo=discord&style=flat-square"></a>
   </p>
-  
+
   <p align="center">
     <strong>💸 Enjoy using TypeChain? Consider funding development via <a href="https://gitcoin.co/grants/4038/deth-typechain">GitCoin</a> 💸</strong>
   </p>
@@ -41,7 +41,7 @@
 npm install --save-dev typechain
 ```
 
-You will also need to install a desired target for example `@typechain/ethers-v4`. [Learn more about targets](#targets-)
+You will also need to install a desired target for example `@typechain/ethers-v5`. [Learn more about targets](#targets-)
 
 ## Packages 📦
 
