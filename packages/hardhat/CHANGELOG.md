@@ -1,5 +1,11 @@
 # @typechain/hardhat
 
+## 5.0.0
+
+### Major Changes
+
+- fd3a524: Update internal task name to match hardhat convention
+
 ## 4.0.0
 
 ### Patch Changes
