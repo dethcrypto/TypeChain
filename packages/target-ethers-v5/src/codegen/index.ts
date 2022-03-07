@@ -189,8 +189,16 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
 
   const imports = createImportsForUsedIdentifiers(
     {
-      ethers: ['Signer', 'utils', 'Contract', 'ContractFactory', 'PayableOverrides', 'BytesLike', 'BigNumberish'],
-      'type ethers': ['Overrides'],
+      ethers: [
+        'Signer',
+        'utils',
+        'Contract',
+        'ContractFactory',
+        'PayableOverrides',
+        'BytesLike',
+        'BigNumberish',
+        'Overrides',
+      ],
       'type @ethersproject/providers': ['Provider', 'TransactionRequest'],
     },
     source,

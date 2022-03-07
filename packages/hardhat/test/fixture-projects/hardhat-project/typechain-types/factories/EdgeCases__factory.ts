@@ -8,8 +8,8 @@ import {
   ContractFactory,
   BytesLike,
   BigNumberish,
+  Overrides,
 } from "ethers";
-import type { Overrides } from "ethers";
 import type { Provider, TransactionRequest } from "@ethersproject/providers";
 import type { EdgeCases, EdgeCasesInterface } from "../EdgeCases";
 
