@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs'
 import { join, resolve } from 'path'
-import type { Dictionary } from 'ts-essentials'
+import { Dictionary } from 'ts-essentials'
 import {
   BytecodeWithLinkReferences,
   Config,

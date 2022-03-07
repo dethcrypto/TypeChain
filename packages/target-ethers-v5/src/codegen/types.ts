@@ -1,5 +1,5 @@
 import { compact } from 'lodash'
-import type { AbiOutputParameter, AbiParameter, EvmOutputType, EvmType, TupleType } from 'typechain'
+import { AbiOutputParameter, AbiParameter, EvmOutputType, EvmType, TupleType } from 'typechain'
 
 import { STRUCT_INPUT_POSTFIX, STRUCT_OUTPUT_POSTFIX } from '../common'
 

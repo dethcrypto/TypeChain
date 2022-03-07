@@ -1,6 +1,6 @@
-import type { HardhatUserConfig } from 'hardhat/types'
+import { HardhatUserConfig } from 'hardhat/types'
 
-import type { TypechainConfig } from './types'
+import { TypechainConfig } from './types'
 
 export function getDefaultTypechainConfig(config: HardhatUserConfig): TypechainConfig {
   const defaultConfig: TypechainConfig = {

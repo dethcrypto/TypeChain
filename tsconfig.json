@@ -9,8 +9,7 @@
     "sourceMap": true,
     "composite": true,
     "incremental": true,
-    "exactOptionalPropertyTypes": true,
-    "importsNotUsedAsValues": "error"
+    "exactOptionalPropertyTypes": true
   },
   "include": ["**/*.ts", "**/*.js", "**/.*.js", "scripts/.common.ts"],
   "exclude": ["**/node_modules"]

@@ -3,6 +3,7 @@
   "include": ["./typechain-types", "./test", "./hardhat.config.ts"],
   "compilerOptions": {
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "importsNotUsedAsValues": "error"
   }
 }

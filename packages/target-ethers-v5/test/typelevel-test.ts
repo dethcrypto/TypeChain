@@ -1,6 +1,6 @@
-import type { AssertTrue, IsExact } from 'test-utils'
+import { AssertTrue, IsExact } from 'test-utils'
 
-import type { OnEvent, TypedEvent, TypedEventFilter } from '../static/common'
+import { OnEvent, TypedEvent, TypedEventFilter } from '../static/common'
 
 export type TransferEvent = TypedEvent<[string, string, number], { from: string; to: string; tokenId: number }>
 

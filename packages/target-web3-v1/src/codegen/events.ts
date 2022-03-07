@@ -1,5 +1,5 @@
 import { values } from 'lodash'
-import type { Dictionary } from 'ts-essentials'
+import { Dictionary } from 'ts-essentials'
 import {
   EventArgDeclaration,
   EventDeclaration,

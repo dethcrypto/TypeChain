@@ -1,5 +1,5 @@
 import { expect } from 'earljs'
-import type { Contract } from 'typechain'
+import { Contract } from 'typechain'
 
 import { codegenContractFactory } from '../src/codegen'
 

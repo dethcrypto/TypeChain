@@ -1,4 +1,4 @@
-import type { Contract } from 'typechain'
+import { Contract } from 'typechain'
 
 export function codegenArtifactHeaders(contracts: Contract[]): string {
   return `

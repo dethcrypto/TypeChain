@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs'
 import { compact, uniqBy } from 'lodash'
 import { basename, join, resolve } from 'path'
-import type { Dictionary } from 'ts-essentials'
+import { Dictionary } from 'ts-essentials'
 import {
   BytecodeWithLinkReferences,
   CodegenConfig,
