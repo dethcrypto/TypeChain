@@ -3,9 +3,9 @@
 /* eslint-disable */
 
 import { Contract, Signer } from "ethers";
-import type { Provider } from "ethers/providers";
+import { Provider } from "ethers/providers";
 
-import type { IERC721 } from "../IERC721";
+import { IERC721 } from "../IERC721";
 
 export class IERC721__factory {
   static connect(

@@ -3,9 +3,9 @@
 /* eslint-disable */
 
 import { Contract, Signer } from "ethers";
-import type { Provider } from "ethers/providers";
+import { Provider } from "ethers/providers";
 
-import type { B } from "../B";
+import { B } from "../B";
 
 export class B__factory {
   static connect(address: string, signerOrProvider: Signer | Provider): B {

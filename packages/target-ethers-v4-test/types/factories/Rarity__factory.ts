@@ -3,9 +3,9 @@
 /* eslint-disable */
 
 import { Contract, Signer } from "ethers";
-import type { Provider } from "ethers/providers";
+import { Provider } from "ethers/providers";
 
-import type { Rarity } from "../Rarity";
+import { Rarity } from "../Rarity";
 
 export class Rarity__factory {
   static connect(address: string, signerOrProvider: Signer | Provider): Rarity {

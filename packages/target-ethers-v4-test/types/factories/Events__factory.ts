@@ -3,9 +3,9 @@
 /* eslint-disable */
 
 import { Contract, Signer } from "ethers";
-import type { Provider } from "ethers/providers";
+import { Provider } from "ethers/providers";
 
-import type { Events } from "../Events";
+import { Events } from "../Events";
 
 export class Events__factory {
   static connect(address: string, signerOrProvider: Signer | Provider): Events {

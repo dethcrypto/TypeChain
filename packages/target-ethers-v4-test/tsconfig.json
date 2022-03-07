@@ -3,7 +3,6 @@
   "include": ["src", "test", "types"],
   "compilerOptions": {
     "esModuleInterop": true,
-    "skipLibCheck": true, // problems in @types/superagent
-    "importsNotUsedAsValues": "error"
+    "skipLibCheck": true // problems in @types/superagent
   }
 }

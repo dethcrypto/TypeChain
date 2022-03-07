@@ -1,9 +1,9 @@
 import { expect } from 'earljs'
 import { BigNumber, formatBytes32String } from 'ethers/utils'
 import { AssertTrue, IsExact, q18, typedAssert } from 'test-utils'
-import type { Awaited } from 'ts-essentials'
+import { Awaited } from 'ts-essentials'
 
-import type { DataTypesInput } from '../types/DataTypesInput'
+import { DataTypesInput } from '../types/DataTypesInput'
 import { createNewBlockchain, deployContract } from './common'
 
 describe('DataTypesInput', () => {

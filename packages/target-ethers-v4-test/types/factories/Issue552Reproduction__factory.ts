@@ -3,9 +3,9 @@
 /* eslint-disable */
 
 import { Contract, Signer } from "ethers";
-import type { Provider } from "ethers/providers";
+import { Provider } from "ethers/providers";
 
-import type { Issue552Reproduction } from "../Issue552Reproduction";
+import { Issue552Reproduction } from "../Issue552Reproduction";
 
 export class Issue552Reproduction__factory {
   static connect(

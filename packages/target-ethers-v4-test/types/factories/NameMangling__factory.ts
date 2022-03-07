@@ -3,9 +3,9 @@
 /* eslint-disable */
 
 import { Contract, Signer } from "ethers";
-import type { Provider } from "ethers/providers";
+import { Provider } from "ethers/providers";
 
-import type { NameMangling } from "../NameMangling";
+import { NameMangling } from "../NameMangling";
 
 export class NameMangling__factory {
   static connect(
