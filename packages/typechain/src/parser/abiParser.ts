@@ -402,6 +402,11 @@ export function extractBytecode(rawContents: string): BytecodeWithLinkReferences
     )
   }
 
+  // handle json schema of @foundry/forge
+  if (json.bytecode?.object?.match(bytecodeRegex)) {
+    return extractLinkReferences(json.bytecode.object, json.bytecode.linkReferences)
+  }
+
   if (json.bytecode?.match(bytecodeRegex)) {
     return extractLinkReferences(json.bytecode, json.linkReferences)
   }
