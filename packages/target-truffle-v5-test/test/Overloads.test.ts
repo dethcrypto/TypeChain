@@ -1,7 +1,7 @@
 import BigNumber from 'bn.js'
 import { typedAssert } from 'test-utils'
 
-import { OverloadsInstance } from '../types/truffle-contracts/Overloads'
+import type { OverloadsInstance } from '../types/truffle-contracts/Overloads'
 
 const Overloads = artifacts.require('Overloads')
 

@@ -1,6 +1,6 @@
 import { q18, typedAssert } from 'test-utils'
 
-import { DataTypesPure } from '../types/DataTypesPure'
+import type { DataTypesPure } from '../types/DataTypesPure'
 import { createNewBlockchain, deployContract } from './common'
 
 describe('DataTypesPure', () => {

@@ -1,10 +1,12 @@
-import { FunctionFragment } from '@ethersproject/abi'
+import type { FunctionFragment } from '@ethersproject/abi'
 import { expect } from 'earljs'
-import { Awaited } from 'earljs/dist/mocks/types'
-import { BigNumber, BigNumberish, ethers } from 'ethers'
-import { AssertTrue, IsExact, q18, typedAssert } from 'test-utils'
+import type { Awaited } from 'earljs/dist/mocks/types'
+import type { BigNumberish } from 'ethers'
+import { BigNumber, ethers } from 'ethers'
+import type { AssertTrue, IsExact } from 'test-utils'
+import { q18, typedAssert } from 'test-utils'
 
-import { DataTypesInput } from '../types/DataTypesInput'
+import type { DataTypesInput } from '../types/DataTypesInput'
 import { createNewBlockchain, deployContract } from './common'
 
 type Struct1Struct = DataTypesInput.Struct1Struct

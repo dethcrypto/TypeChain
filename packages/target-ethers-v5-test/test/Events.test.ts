@@ -1,8 +1,8 @@
 import { BigNumber, ethers } from 'ethers'
 import { AssertTrue, IsExact, typedAssert } from 'test-utils'
 
-import { TypedEventFilter } from '../types/common'
-import { Event1Event, Event1EventFilter, Event3_bool_uint256_Event, Events } from '../types/Events'
+import type { TypedEventFilter } from '../types/common'
+import type { Event1Event, Event1EventFilter, Event3_bool_uint256_Event, Events } from '../types/Events'
 import { createNewBlockchain, deployContract } from './common'
 
 describe('Events', () => {

@@ -113,7 +113,7 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
   const imports =
     createImportsForUsedIdentifiers(
       {
-        ethers: [
+        'type ethers': [
           'BaseContract',
           'BigNumber',
           'BigNumberish',
@@ -126,8 +126,8 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
           'Signer',
           'utils',
         ],
-        '@ethersproject/abi': ['FunctionFragment', 'Result', 'EventFragment'],
-        '@ethersproject/providers': ['Listener', 'Provider'],
+        'type @ethersproject/abi': ['FunctionFragment', 'Result', 'EventFragment'],
+        'type @ethersproject/providers': ['Listener', 'Provider'],
       },
       source,
     ) +
@@ -195,11 +195,11 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
         'Contract',
         'ContractFactory',
         'PayableOverrides',
-        'Overrides',
         'BytesLike',
         'BigNumberish',
+        'Overrides',
       ],
-      '@ethersproject/providers': ['Provider', 'TransactionRequest'],
+      'type @ethersproject/providers': ['Provider', 'TransactionRequest'],
     },
     source,
   )
@@ -211,7 +211,7 @@ export function codegenAbstractContractFactory(contract: Contract, abi: any): st
   const { body, header } = codegenCommonContractFactory(contract, abi)
   return `
   import { Contract, Signer, utils } from "ethers";
-  import { Provider } from "@ethersproject/providers";
+  import type { Provider } from "@ethersproject/providers";
   ${header}
 
   export class ${contract.name}${FACTORY_POSTFIX} {
