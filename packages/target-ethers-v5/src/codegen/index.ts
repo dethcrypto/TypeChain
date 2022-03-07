@@ -1,5 +1,4 @@
 import { values } from 'lodash'
-import { posix } from 'path'
 import {
   BytecodeWithLinkReferences,
   CodegenConfig,
