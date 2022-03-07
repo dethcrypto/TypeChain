@@ -4,7 +4,10 @@
 
 import { Contract, Signer, utils } from "ethers";
 import { Provider } from "@ethersproject/providers";
-import type { DataTypesInput, DataTypesInputInterface } from "../../v0.6.4";
+import type {
+  DataTypesInput,
+  DataTypesInputInterface,
+} from "../../v0.6.4/DataTypesInput";
 
 const _abi = [
   {

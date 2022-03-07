@@ -4,7 +4,7 @@
 
 import { Contract, Signer, utils } from "ethers";
 import { Provider } from "@ethersproject/providers";
-import type { Library, LibraryInterface } from "../../v0.6.4";
+import type { Library, LibraryInterface } from "../../v0.6.4/Library";
 
 const _abi = [
   {

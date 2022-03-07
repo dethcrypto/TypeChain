@@ -16,6 +16,7 @@ import {
   normalizeName,
   normalizeSlashes,
   parse,
+  parseContractPath,
   TypeChainTarget,
 } from 'typechain'
 
@@ -36,9 +37,8 @@ export default class Ethers extends TypeChainTarget {
   private readonly inputsRoot: string
   private readonly allFiles: string[]
   private readonly outDirAbs: string
-  private readonly contractWithoutBytecode: Dictionary<{ abi: any; contract: Contract } | undefined> = {}
+  private readonly contractsWithoutBytecode: Dictionary<{ abi: any; contract: Contract } | undefined> = {}
   private readonly bytecodeCache: Dictionary<BytecodeWithLinkReferences | undefined> = {}
-  private readonly parsedContracts: Dictionary<Contract> = {}
 
   constructor(config: Config) {
     super(config)
@@ -74,9 +74,9 @@ export default class Ethers extends TypeChainTarget {
       return
     }
 
-    if (this.contractWithoutBytecode[file.path]) {
-      const { contract, abi } = this.contractWithoutBytecode[file.path]!
-      delete this.contractWithoutBytecode[file.path]
+    if (this.contractsWithoutBytecode[file.path]) {
+      const { contract, abi } = this.contractsWithoutBytecode[file.path]!
+      delete this.contractsWithoutBytecode[file.path]
       return [this.genContractFactoryFile(contract, abi, bytecode)]
     } else {
       this.bytecodeCache[file.path] = bytecode
@@ -95,7 +95,6 @@ export default class Ethers extends TypeChainTarget {
     const path = relative(this.inputsRoot, shortenFullJsonFilePath(file.path))
 
     const contract = parse(abi, path, documentation)
-    this.parsedContracts[file.path] = contract
 
     const bytecode = extractBytecode(file.contents) || this.bytecodeCache[file.path]
 
@@ -105,7 +104,7 @@ export default class Ethers extends TypeChainTarget {
         this.genContractFactoryFile(contract, abi, bytecode),
       ]
     } else {
-      this.contractWithoutBytecode[file.path] = { abi, contract }
+      this.contractsWithoutBytecode[file.path] = { abi, contract }
       return [this.genContractTypingsFile(contract, this.cfg.flags)]
     }
   }
@@ -127,8 +126,8 @@ export default class Ethers extends TypeChainTarget {
   afterRun(): FileDescription[] {
     // For each contract that doesn't have bytecode (it's either abstract, or only ABI was provided)
     // generate a simplified factory, that allows to interact with deployed contract instances.
-    const abstractFactoryFiles = Object.keys(this.contractWithoutBytecode).map((contractName) => {
-      const { contract, abi } = this.contractWithoutBytecode[contractName]!
+    const abstractFactoryFiles = Object.keys(this.contractsWithoutBytecode).map((contractName) => {
+      const { contract, abi } = this.contractsWithoutBytecode[contractName]!
       return {
         path: join(this.outDirAbs, 'factories', ...contract.path, `${contract.name}${FACTORY_POSTFIX}.ts`),
         contents: codegenAbstractContractFactory(contract, abi),
@@ -157,7 +156,7 @@ export default class Ethers extends TypeChainTarget {
 
     const rootIndex = {
       path: join(this.outDirAbs, 'index.ts'),
-      contents: createRootIndexContent(rootIndexes, this.parsedContracts),
+      contents: createRootIndexContent(rootIndexes, this.allFiles),
     }
 
     const allFiles = compact([
@@ -175,12 +174,15 @@ export default class Ethers extends TypeChainTarget {
   }
 }
 
-function createRootIndexContent(rootIndexes: FileDescription[], contracts: Dictionary<Contract>) {
-  // root index.ts reexports also from deeper paths
-  const rootReexports = uniqBy(Object.values(contracts), (c) => c.name).map((c) => {
-    let path = c.path.join('/') + `/${c.name}`
-    if (!path.match(/^\.\.?\//)) path = `./${path}`
-    return `export type { ${c.name} } from '${path}';`
+// root index.ts reexports also from deeper paths
+function createRootIndexContent(rootIndexes: FileDescription[], paths: string[]) {
+  const contracts: { path: string[]; name: string }[] = paths.map(parseContractPath)
+  const rootReexports = uniqBy(Object.values(contracts), (c) => c.name).flatMap((c) => {
+    const path = c.path.length === 0 ? c.name : `${c.path.join('/')}/${c.name}`
+    return [
+      `export type { ${c.name} } from './${path}';`,
+      `export { ${c.name}${FACTORY_POSTFIX} } from './factories/${path}${FACTORY_POSTFIX}';`,
+    ]
   })
 
   const rootIndexContent = new Set([

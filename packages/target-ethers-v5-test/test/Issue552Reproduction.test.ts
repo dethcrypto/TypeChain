@@ -1,6 +1,6 @@
 import { AssertTrue, IsExact } from 'test-utils'
 
-import { Issue552_Observer, Issue552_Reproduction } from '../types'
+import { Issue552_Observer, Issue552_Reproduction } from '../types/v0.8.9/Issue552_Reproduction'
 import { createNewBlockchain, deployContract } from './common'
 
 describe('Issue552Reproduction', () => {
@@ -22,7 +22,7 @@ describe('Issue552Reproduction', () => {
     const { signer, ganache } = await createNewBlockchain()
 
     try {
-      const contract = await deployContract<Issue552Reproduction>(signer, 'Issue552_Reproduction')
+      const contract = await deployContract<Issue552_Reproduction>(signer, 'Issue552_Reproduction')
 
       await contract.input([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
     } finally {

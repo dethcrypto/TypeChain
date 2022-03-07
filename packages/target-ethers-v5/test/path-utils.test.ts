@@ -130,7 +130,7 @@ describe('path utils', () => {
       expect(actual).toEqual([
         {
           path: 'index.ts',
-          contents: "export { TsNocheckAbi } from './ts-nocheck.abi';",
+          contents: "export { TsNocheckAbi } from './TsNocheckAbi';",
         },
       ])
     })

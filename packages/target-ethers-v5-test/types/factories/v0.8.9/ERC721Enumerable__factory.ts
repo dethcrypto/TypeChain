@@ -4,7 +4,10 @@
 
 import { Contract, Signer, utils } from "ethers";
 import { Provider } from "@ethersproject/providers";
-import type { ERC721Enumerable, ERC721EnumerableInterface } from "../../v0.8.9";
+import type {
+  ERC721Enumerable,
+  ERC721EnumerableInterface,
+} from "../../v0.8.9/ERC721Enumerable";
 
 const _abi = [
   {

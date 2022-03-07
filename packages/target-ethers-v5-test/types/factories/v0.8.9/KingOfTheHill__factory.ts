@@ -4,7 +4,10 @@
 
 import { Contract, Signer, utils } from "ethers";
 import { Provider } from "@ethersproject/providers";
-import type { KingOfTheHill, KingOfTheHillInterface } from "../../v0.8.9";
+import type {
+  KingOfTheHill,
+  KingOfTheHillInterface,
+} from "../../v0.8.9/KingOfTheHill";
 
 const _abi = [
   {

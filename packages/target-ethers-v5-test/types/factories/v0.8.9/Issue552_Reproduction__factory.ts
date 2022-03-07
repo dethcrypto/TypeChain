@@ -7,7 +7,7 @@ import { Provider } from "@ethersproject/providers";
 import type {
   Issue552_Reproduction,
   Issue552_ReproductionInterface,
-} from "../../v0.8.9";
+} from "../../v0.8.9/Issue552_Reproduction";
 
 const _abi = [
   {

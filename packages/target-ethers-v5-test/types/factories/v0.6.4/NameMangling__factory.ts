@@ -4,7 +4,10 @@
 
 import { Contract, Signer, utils } from "ethers";
 import { Provider } from "@ethersproject/providers";
-import type { NameMangling, NameManglingInterface } from "../../v0.6.4";
+import type {
+  NameMangling,
+  NameManglingInterface,
+} from "../../v0.6.4/NameMangling";
 
 const _abi = [
   {

@@ -4,7 +4,10 @@
 
 import { Contract, Signer, utils } from "ethers";
 import { Provider } from "@ethersproject/providers";
-import type { PayableFactory, PayableFactoryInterface } from "../../v0.6.4";
+import type {
+  PayableFactory,
+  PayableFactoryInterface,
+} from "../../v0.6.4/PayableFactory";
 
 const _abi = [
   {

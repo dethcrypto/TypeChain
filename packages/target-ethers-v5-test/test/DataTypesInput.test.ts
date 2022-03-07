@@ -4,7 +4,7 @@ import { Awaited } from 'earljs/dist/mocks/types'
 import { BigNumber, BigNumberish, ethers } from 'ethers'
 import { AssertTrue, IsExact, q18, typedAssert } from 'test-utils'
 
-import { DataTypesInput } from '../types/DataTypesInput'
+import { DataTypesInput } from '../types/v0.6.4/DataTypesInput'
 import { createNewBlockchain, deployContract } from './common'
 
 type Struct1Struct = DataTypesInput.Struct1Struct

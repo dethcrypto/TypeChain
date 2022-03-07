@@ -135,9 +135,17 @@ export interface DocumentationResult {
   }
 }
 
-export function parse(abi: RawAbiDefinition[], path: string, documentation?: DocumentationResult): Contract {
+export function parseContractPath(path: string) {
   const parsedPath = parsePath(normalizeSlashes(path))
 
+  return {
+    name: normalizeName(parsedPath.name),
+    rawName: parsedPath.name,
+    path: parsedPath.dir.split('/').filter((x) => x),
+  }
+}
+
+export function parse(abi: RawAbiDefinition[], path: string, documentation?: DocumentationResult): Contract {
   const constructors: FunctionWithoutOutputDeclaration[] = []
   let fallback: FunctionWithoutInputDeclaration | undefined
   const functions: FunctionDeclaration[] = []
@@ -185,9 +193,7 @@ export function parse(abi: RawAbiDefinition[], path: string, documentation?: Doc
   })
 
   return {
-    name: normalizeName(parsedPath.name),
-    rawName: parsedPath.name,
-    path: parsedPath.dir.split('/').filter((x) => x),
+    ...parseContractPath(path),
     fallback,
     constructor: constructors,
     functions: groupBy(functions, (f) => f.name),

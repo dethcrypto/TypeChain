@@ -4,7 +4,10 @@
 
 import { Contract, Signer, utils } from "ethers";
 import { Provider } from "@ethersproject/providers";
-import type { DataTypesPure, DataTypesPureInterface } from "../../v0.6.4";
+import type {
+  DataTypesPure,
+  DataTypesPureInterface,
+} from "../../v0.6.4/DataTypesPure";
 
 const _abi = [
   {

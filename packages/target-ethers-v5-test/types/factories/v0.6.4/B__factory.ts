@@ -4,7 +4,7 @@
 
 import { Contract, Signer, utils } from "ethers";
 import { Provider } from "@ethersproject/providers";
-import type { B, BInterface } from "../../v0.6.4";
+import type { B, BInterface } from "../../v0.6.4/B";
 
 const _abi = [
   {

@@ -7,7 +7,7 @@ import { Provider } from "@ethersproject/providers";
 import type {
   IERC721Enumerable,
   IERC721EnumerableInterface,
-} from "../../v0.8.9";
+} from "../../v0.8.9/IERC721Enumerable";
 
 const _abi = [
   {

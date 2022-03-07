@@ -1,4 +1,5 @@
 import { values } from 'lodash'
+import { posix } from 'path'
 import {
   BytecodeWithLinkReferences,
   CodegenConfig,
@@ -8,7 +9,7 @@ import {
   StructType,
 } from 'typechain'
 
-import { FACTORY_POSTFIX, pathFromRoot, STRUCT_INPUT_POSTFIX } from '../common'
+import { FACTORY_POSTFIX, STRUCT_INPUT_POSTFIX } from '../common'
 import {
   EVENT_IMPORTS,
   EVENT_METHOD_OVERRIDES,
@@ -110,6 +111,10 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
     };
   }`
 
+  const commonPath = contract.path.length
+    ? `${new Array(contract.path.length).fill('..').join('/')}/common`
+    : './common'
+
   const imports =
     createImportsForUsedIdentifiers(
       {
@@ -132,7 +137,7 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
       source,
     ) +
     '\n' +
-    createImportTypeDeclaration(EVENT_IMPORTS, pathFromRoot(contract, 'common'))
+    createImportTypeDeclaration(EVENT_IMPORTS, commonPath)
 
   return imports + source
 }
@@ -230,7 +235,9 @@ function codegenCommonContractFactory(contract: Contract, abi: any): { header: s
     }
   })
 
-  const contractTypesImportPath = [...Array(contract.path.length + 1).fill('..'), ...contract.path].join('/')
+  const contractTypesImportPath = [...Array(contract.path.length + 1).fill('..'), ...contract.path, contract.name].join(
+    '/',
+  )
 
   const header = `
   import type { ${[...imports.values()].join(', ')} } from "${contractTypesImportPath}";

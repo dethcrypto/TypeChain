@@ -4,7 +4,10 @@
 
 import { Contract, Signer, utils } from "ethers";
 import { Provider } from "@ethersproject/providers";
-import type { Withdrawable, WithdrawableInterface } from "../../v0.8.9";
+import type {
+  Withdrawable,
+  WithdrawableInterface,
+} from "../../v0.8.9/Withdrawable";
 
 const _abi = [
   {

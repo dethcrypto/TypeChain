@@ -4,7 +4,7 @@
 
 import { Contract, Signer, utils } from "ethers";
 import { Provider } from "@ethersproject/providers";
-import type { Rarity, RarityInterface } from "../../v0.8.9";
+import type { Rarity, RarityInterface } from "../../v0.8.9/Rarity";
 
 const _abi = [
   {

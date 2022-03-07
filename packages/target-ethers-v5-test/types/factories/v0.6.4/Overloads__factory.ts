@@ -4,7 +4,7 @@
 
 import { Contract, Signer, utils } from "ethers";
 import { Provider } from "@ethersproject/providers";
-import type { Overloads, OverloadsInterface } from "../../v0.6.4";
+import type { Overloads, OverloadsInterface } from "../../v0.6.4/Overloads";
 
 const _abi = [
   {
