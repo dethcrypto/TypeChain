@@ -1,6 +1,6 @@
 import { keccak_256 } from 'js-sha3'
 import { groupBy, omit } from 'lodash'
-import { parse as parsePath, posix } from 'path'
+import { parse as parsePath } from 'path'
 import { Dictionary } from 'ts-essentials'
 
 import { debug } from '../utils/debug'

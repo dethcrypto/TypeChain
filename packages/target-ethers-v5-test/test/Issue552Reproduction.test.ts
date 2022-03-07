@@ -1,18 +1,18 @@
 import { AssertTrue, IsExact } from 'test-utils'
 
-import { Issue552Observer, Issue552Reproduction } from '../types/Issue552Reproduction'
+import { Issue552_Observer, Issue552_Reproduction } from '../types'
 import { createNewBlockchain, deployContract } from './common'
 
 describe('Issue552Reproduction', () => {
   it('does not emit overly long tuples', () => {
     type _ = [
       AssertTrue<
-        IsExact<Issue552Reproduction.ObservationParamsStruct['observations'], Issue552Observer.ObservationStruct[]>
+        IsExact<Issue552_Reproduction.ObservationParamsStruct['observations'], Issue552_Observer.ObservationStruct[]>
       >,
       AssertTrue<
         IsExact<
-          Issue552Reproduction.ObservationParamsStructOutput['observations'],
-          Issue552Observer.ObservationStructOutput[]
+          Issue552_Reproduction.ObservationParamsStructOutput['observations'],
+          Issue552_Observer.ObservationStructOutput[]
         >
       >,
     ]

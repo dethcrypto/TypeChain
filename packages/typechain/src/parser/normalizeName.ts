@@ -7,7 +7,6 @@ export function normalizeName(rawName: string): string {
   const transformations: ((s: string) => string)[] = [
     (s) => s.replace(/\s+/g, '-'), // spaces to - so later we can automatically convert them
     (s) => s.replace(/\./g, '-'), // replace "."
-    (s) => s.replace(/_/g, '-'), // replace "_"
     (s) => s.replace(/-[a-z]/g, (match) => match.substr(-1).toUpperCase()), // delete '-' and capitalize the letter after them
     (s) => s.replace(/-/g, ''), // delete any '-' left
     (s) => s.replace(/^\d+/, ''), // removes leading digits

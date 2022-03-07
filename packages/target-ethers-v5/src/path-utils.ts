@@ -10,7 +10,7 @@ export function lowestCommonPath(paths: string[]) {
 
 export function generateBarrelFiles(
   paths: string[],
-  { typeOnly, filenamePostfix = '' }: { typeOnly: boolean; filenamePostfix?: string },
+  { typeOnly, postfix = '' }: { typeOnly: boolean; postfix?: string },
 ): FileDescription[] {
   const fileReexports: Record<string, string[] | undefined> = filenamesByDir(paths)
 
@@ -61,8 +61,10 @@ export function generateBarrelFiles(
     const namedExports = contracts
       .map((p) => {
         const exportKeyword = typeOnly ? 'export type' : 'export'
-
-        return `${exportKeyword} { ${normalizeName(p)} } from './${p}${filenamePostfix}';`
+        const name = `${normalizeName(p)}${postfix}`
+        // We can't always `export *` because of possible name conflicts.
+        // @todo possibly a config option for user to decide?
+        return `${exportKeyword} { ${name} } from './${name}';`
       })
       .join('\n')
 

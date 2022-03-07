@@ -1,5 +1,5 @@
 import { readFileSync } from 'fs'
-import { compact, partition } from 'lodash'
+import { compact, partition, uniqBy } from 'lodash'
 import { dirname, join, relative, resolve } from 'path'
 import { Dictionary } from 'ts-essentials'
 import {
@@ -36,8 +36,9 @@ export default class Ethers extends TypeChainTarget {
   private readonly inputsRoot: string
   private readonly allFiles: string[]
   private readonly outDirAbs: string
-  private readonly contractCache: Dictionary<{ abi: any; contract: Contract } | undefined> = {}
+  private readonly contractWithoutBytecode: Dictionary<{ abi: any; contract: Contract } | undefined> = {}
   private readonly bytecodeCache: Dictionary<BytecodeWithLinkReferences | undefined> = {}
+  private readonly parsedContracts: Dictionary<Contract> = {}
 
   constructor(config: Config) {
     super(config)
@@ -73,9 +74,9 @@ export default class Ethers extends TypeChainTarget {
       return
     }
 
-    if (this.contractCache[file.path]) {
-      const { contract, abi } = this.contractCache[file.path]!
-      delete this.contractCache[file.path]
+    if (this.contractWithoutBytecode[file.path]) {
+      const { contract, abi } = this.contractWithoutBytecode[file.path]!
+      delete this.contractWithoutBytecode[file.path]
       return [this.genContractFactoryFile(contract, abi, bytecode)]
     } else {
       this.bytecodeCache[file.path] = bytecode
@@ -92,7 +93,10 @@ export default class Ethers extends TypeChainTarget {
     const documentation = extractDocumentation(file.contents)
 
     const path = relative(this.inputsRoot, shortenFullJsonFilePath(file.path))
+
     const contract = parse(abi, path, documentation)
+    this.parsedContracts[file.path] = contract
+
     const bytecode = extractBytecode(file.contents) || this.bytecodeCache[file.path]
 
     if (bytecode) {
@@ -101,7 +105,7 @@ export default class Ethers extends TypeChainTarget {
         this.genContractFactoryFile(contract, abi, bytecode),
       ]
     } else {
-      this.contractCache[file.path] = { abi, contract }
+      this.contractWithoutBytecode[file.path] = { abi, contract }
       return [this.genContractTypingsFile(contract, this.cfg.flags)]
     }
   }
@@ -123,8 +127,8 @@ export default class Ethers extends TypeChainTarget {
   afterRun(): FileDescription[] {
     // For each contract that doesn't have bytecode (it's either abstract, or only ABI was provided)
     // generate a simplified factory, that allows to interact with deployed contract instances.
-    const abstractFactoryFiles = Object.keys(this.contractCache).map((contractName) => {
-      const { contract, abi } = this.contractCache[contractName]!
+    const abstractFactoryFiles = Object.keys(this.contractWithoutBytecode).map((contractName) => {
+      const { contract, abi } = this.contractWithoutBytecode[contractName]!
       return {
         path: join(this.outDirAbs, 'factories', ...contract.path, `${contract.name}${FACTORY_POSTFIX}.ts`),
         contents: codegenAbstractContractFactory(contract, abi),
@@ -136,7 +140,7 @@ export default class Ethers extends TypeChainTarget {
       contents: readFileSync(join(__dirname, '../static/common.ts'), 'utf-8'),
     }
 
-    const allContracts = this.allFiles.map((x) => normalizeName(getFilename(x)))
+    const allContracts = this.allFiles.map((path) => normalizeName(getFilename(path)))
     const hardhatHelper =
       this.cfg.flags.environment === 'hardhat'
         ? { path: join(this.outDirAbs, 'hardhat.d.ts'), contents: generateHardhatHelper(allContracts) }
@@ -145,7 +149,7 @@ export default class Ethers extends TypeChainTarget {
     const typesBarrels = generateBarrelFiles(this.allFiles, { typeOnly: true })
     const factoriesBarrels = generateBarrelFiles(
       this.allFiles.map((s) => `factories/${s}`),
-      { typeOnly: false, filenamePostfix: FACTORY_POSTFIX },
+      { typeOnly: false, postfix: FACTORY_POSTFIX },
     )
 
     const allBarrels = typesBarrels.concat(factoriesBarrels)
@@ -153,7 +157,7 @@ export default class Ethers extends TypeChainTarget {
 
     const rootIndex = {
       path: join(this.outDirAbs, 'index.ts'),
-      contents: [...new Set((rootIndexes[0].contents + '\n' + rootIndexes[1].contents).split('\n'))].join('\n'),
+      contents: createRootIndexContent(rootIndexes, this.parsedContracts),
     }
 
     const allFiles = compact([
@@ -169,4 +173,21 @@ export default class Ethers extends TypeChainTarget {
 
     return allFiles
   }
+}
+
+function createRootIndexContent(rootIndexes: FileDescription[], contracts: Dictionary<Contract>) {
+  // root index.ts reexports also from deeper paths
+  const rootReexports = uniqBy(Object.values(contracts), (c) => c.name).map((c) => {
+    let path = c.path.join('/') + `/${c.name}`
+    if (!path.match(/^\.\.?\//)) path = `./${path}`
+    return `export type { ${c.name} } from '${path}';`
+  })
+
+  const rootIndexContent = new Set([
+    ...rootIndexes[0].contents.split('\n'),
+    ...rootIndexes[1].contents.split('\n'),
+    ...rootReexports,
+  ])
+
+  return [...rootIndexContent].join('\n')
 }

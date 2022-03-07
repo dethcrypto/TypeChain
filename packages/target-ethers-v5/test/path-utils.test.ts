@@ -48,16 +48,30 @@ describe('path utils', () => {
       const expected: FileDescription[] = [
         {
           path: 'index.ts',
-          contents: [`export type * as v064 from './v0.6.4';`, `export type * as v089 from './v0.8.9';`].join('\n'),
+          contents: [
+            `import type * as v064 from './v0.6.4';`,
+            `export type { v064 };`,
+            `import type * as v089 from './v0.8.9';`,
+            `export type { v089 };`,
+          ].join('\n'),
         },
         { path: 'v0.6.4/index.ts', contents: "export type { PayableFactory } from './PayableFactory';" },
         {
           path: 'v0.8.9/index.ts',
-          contents: [`export type * as nested from './nested';`, `export type { ERC721 } from './ERC721';`].join('\n'),
+          contents: [
+            `import type * as nested from './nested';`,
+            `export type { nested };`,
+            `export type { ERC721 } from './ERC721';`,
+          ].join('\n'),
         },
         {
           path: 'v0.8.9/nested/index.ts',
-          contents: [`export type * as a from './a';`, `export type * as b from './b';`].join('\n'),
+          contents: [
+            `import type * as a from './a';`,
+            `export type { a };`,
+            `import type * as b from './b';`,
+            `export type { b };`,
+          ].join('\n'),
         },
         {
           path: 'v0.8.9/nested/a/index.ts',
@@ -88,21 +102,22 @@ describe('path utils', () => {
     it('appends filenamePostfix', () => {
       const paths = ['EdgeCases.json', 'lib/SafeMath.json', 'TestContract.json', 'TestContract1.json']
 
-      const actual = generateBarrelFiles(paths, { typeOnly: true, filenamePostfix: FACTORY_POSTFIX })
+      const actual = generateBarrelFiles(paths, { typeOnly: true, postfix: FACTORY_POSTFIX })
 
       expect(actual).toEqual([
         {
           path: 'index.ts',
           contents: [
-            "export type * as lib from './lib';",
-            "export type { EdgeCases } from './EdgeCases__factory';",
-            "export type { TestContract } from './TestContract__factory';",
-            "export type { TestContract1 } from './TestContract1__factory';",
+            "import type * as lib from './lib';",
+            'export type { lib };',
+            "export type { EdgeCases__factory } from './EdgeCases__factory';",
+            "export type { TestContract__factory } from './TestContract__factory';",
+            "export type { TestContract1__factory } from './TestContract1__factory';",
           ].join('\n'),
         },
         {
           path: 'lib/index.ts',
-          contents: "export type { SafeMath } from './SafeMath__factory';",
+          contents: "export type { SafeMath__factory } from './SafeMath__factory';",
         },
       ])
     })
