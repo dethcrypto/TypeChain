@@ -1,5 +1,5 @@
-import type { AbiParameter, EventDeclaration, FunctionDeclaration } from '../parser/abiParser'
-import type { ArrayType, TupleType } from '../parser/parseEvmType'
+import { AbiParameter, EventDeclaration, FunctionDeclaration } from '../parser/abiParser'
+import { ArrayType, TupleType } from '../parser/parseEvmType'
 
 export function getFullSignatureAsSymbolForEvent(event: EventDeclaration): string {
   return `${event.name}_${event.inputs

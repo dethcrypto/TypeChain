@@ -2,7 +2,7 @@
 import * as prettier from 'prettier'
 
 import { runTypeChain } from '../typechain/runTypeChain'
-import type { Config } from '../typechain/types'
+import { Config } from '../typechain/types'
 import { glob } from '../utils/glob'
 import { logger } from '../utils/logger'
 import { parseArgs } from './parseArgs'

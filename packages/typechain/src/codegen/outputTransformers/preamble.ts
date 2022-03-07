@@ -1,4 +1,4 @@
-import type { OutputTransformer } from '.'
+import { OutputTransformer } from '.'
 
 export const addPreambleOutputTransformer: OutputTransformer = (output, _services, cfg) => {
   return [

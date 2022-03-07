@@ -5,7 +5,7 @@ import { dirname, relative } from 'path'
 import { outputTransformers } from '../codegen/outputTransformers'
 import { extractAbi } from '../parser/abiParser'
 import { debug } from '../utils/debug'
-import type { Config, FileDescription, Output, Services } from './types'
+import { Config, FileDescription, Output, Services } from './types'
 
 export function processOutput(services: Services, cfg: Config, output: Output): number {
   const { fs, mkdirp } = services

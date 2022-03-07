@@ -3,7 +3,7 @@ import _, { compact } from 'lodash'
 import { debug } from '../utils/debug'
 import { ensureAbsPath } from '../utils/files'
 import { tryRequire } from '../utils/modules'
-import type { Config, TypeChainTarget } from './types'
+import { Config, TypeChainTarget } from './types'
 
 export function findTarget(config: Config): TypeChainTarget {
   const target = config.target
