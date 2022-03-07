@@ -14,7 +14,6 @@ examples/truffle-v4/types
 examples/truffle-v4/migrations
 examples/truffle-v5/types
 examples/truffle-v5/migrations
-examples/ethers-v4/types
 examples/ethers-v5/types
 examples/hardhat/artifacts
 examples/hardhat/cache
