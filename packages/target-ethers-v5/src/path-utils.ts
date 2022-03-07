@@ -12,10 +12,15 @@ export function generateBarrelFiles(
   paths: string[],
   { typeOnly, postfix = '' }: { typeOnly: boolean; postfix?: string },
 ): FileDescription[] {
-  const fileReexports: Record<string, string[] | undefined> = filenamesByDir(paths)
+  const fileReexports: Record<string, string[] | undefined> = mapValues(
+    groupBy(paths.map(posix.parse), (p) => p.dir),
+    (ps) => ps.map((p) => p.name),
+  )
 
-  const directoryReexports: Record<string, string[] | undefined> = filenamesByDir(
-    Object.keys(fileReexports).filter((path) => path.includes('/')),
+  const directoryPaths = Object.keys(fileReexports).filter((path) => path.includes('/'))
+  const directoryReexports: Record<string, string[] | undefined> = mapValues(
+    groupBy(directoryPaths.map(posix.parse), (p) => p.dir),
+    (ps) => ps.map((p) => p.base),
   )
 
   const barrelPaths = new Set(Object.keys(directoryReexports).concat(Object.keys(fileReexports)))
@@ -73,13 +78,6 @@ export function generateBarrelFiles(
       contents: (namespacesExports + '\n' + namedExports).trim(),
     }
   })
-}
-
-function filenamesByDir(paths: string[]): Record<string, string[] | undefined> {
-  return mapValues(
-    groupBy(paths.map(posix.parse), (p) => p.dir),
-    (ps) => ps.map((p) => p.name),
-  )
 }
 
 /**
