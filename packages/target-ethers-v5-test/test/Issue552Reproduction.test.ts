@@ -1,6 +1,6 @@
-import { AssertTrue, IsExact } from 'test-utils'
+import type { AssertTrue, IsExact } from 'test-utils'
 
-import { Issue552_Observer, Issue552_Reproduction } from '../types/v0.8.9/Issue552_Reproduction'
+import type { Issue552_Observer, Issue552_Reproduction } from '../types/v0.8.9/Issue552_Reproduction'
 import { createNewBlockchain, deployContract } from './common'
 
 describe('Issue552Reproduction', () => {

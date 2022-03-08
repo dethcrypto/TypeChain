@@ -55,7 +55,7 @@ function createImportDeclaration(identifiers: string[], moduleSpecifier: string)
  * @internal
  */
 export function createImportTypeDeclaration(identifiers: string[], moduleSpecifier: string) {
-  return identifiers.length > 0 ? `import { ${identifiers.join(', ')} } from "${moduleSpecifier}"` : ''
+  return identifiers.length > 0 ? `import type { ${identifiers.join(', ')} } from "${moduleSpecifier}"` : ''
 }
 
 type ModuleSpecifier = string
@@ -67,9 +67,15 @@ export function createImportsForUsedIdentifiers(
   possibleImports: Record<ModuleSpecifier, Identifier[]>,
   sourceFile: string,
 ) {
+  const typePrefix = 'type '
   return Object.entries(possibleImports)
     .map(([moduleSpecifier, identifiers]) =>
-      createImportDeclaration(getUsedIdentifiers(identifiers, sourceFile), moduleSpecifier),
+      moduleSpecifier.startsWith(typePrefix)
+        ? createImportTypeDeclaration(
+            getUsedIdentifiers(identifiers, sourceFile),
+            moduleSpecifier.substring(typePrefix.length),
+          )
+        : createImportDeclaration(getUsedIdentifiers(identifiers, sourceFile), moduleSpecifier),
     )
     .join('\n')
 }

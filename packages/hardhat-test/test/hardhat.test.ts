@@ -1,6 +1,6 @@
-import { Interface } from '@ethersproject/abi'
+import type { Interface } from '@ethersproject/abi'
 import { ethers } from 'hardhat'
-import { AssertTrue, IsExact } from 'test-utils'
+import type { AssertTrue, IsExact } from 'test-utils'
 
 import { Counter__factory, StructsInConstructor__factory } from '../typechain-types'
 import type { Vector2Struct } from '../typechain-types/StructsInConstructor'

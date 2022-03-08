@@ -1,7 +1,7 @@
 import BigNumber from 'bn.js'
 import { asyncWithDoneCase, typedAssert } from 'test-utils'
 
-import { Event3_bool_uint256, EventsInstance } from '../types/truffle-contracts/Events'
+import type { Event3_bool_uint256, EventsInstance } from '../types/truffle-contracts/Events'
 
 const Events = artifacts.require('Events')
 

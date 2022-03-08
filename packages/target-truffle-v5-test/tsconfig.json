@@ -5,6 +5,7 @@
     "typeRoots": ["./node_modules/@types", "./types"],
     "types": ["node", "truffle-contracts"],
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "importsNotUsedAsValues": "error"
   }
 }

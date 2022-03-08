@@ -1,7 +1,7 @@
-import BN from 'bn.js'
-import { EventEmitter } from 'events'
-import { EventLog, PromiEvent, TransactionReceipt } from 'web3-core/types'
-import { Contract } from 'web3-eth-contract'
+import type BN from 'bn.js'
+import type { EventEmitter } from 'events'
+import type { EventLog, PromiEvent, TransactionReceipt } from 'web3-core/types'
+import type { Contract } from 'web3-eth-contract'
 
 export interface EstimateGasOptions {
   from?: string

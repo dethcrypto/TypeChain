@@ -1,7 +1,7 @@
 import { typedAssert } from 'test-utils'
-import Web3 from 'web3'
+import type Web3 from 'web3'
 
-import { Overloads } from '../types/Overloads'
+import type { Overloads } from '../types/Overloads'
 import { createNewBlockchain, deployContract } from './common'
 
 describe('Overloads', () => {
