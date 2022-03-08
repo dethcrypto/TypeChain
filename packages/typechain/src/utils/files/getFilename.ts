@@ -1,6 +1,5 @@
-import { parse } from 'path';
-
+import { parse } from 'path'
 
 export function getFilename(path: string) {
-  return parse(path).name;
+  return parse(path).name
 }

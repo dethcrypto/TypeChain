@@ -1,6 +1,5 @@
-import { parse } from 'path';
-
+import { parse } from 'path'
 
 export function getFileExtension(path: string) {
-  return parse(path).ext;
+  return parse(path).ext
 }
