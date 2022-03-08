@@ -13,7 +13,7 @@ import type {
   BlockType,
   ContractEventLog,
   BaseContract,
-} from "./types";
+} from "../types";
 
 export interface EventOptions {
   filter?: object;
@@ -21,15 +21,22 @@ export interface EventOptions {
   topics?: string[];
 }
 
-export interface PayableFactory extends BaseContract {
+export interface Overloads extends BaseContract {
   constructor(
     jsonInterface: any[],
     address?: string,
     options?: ContractOptions
-  ): PayableFactory;
-  clone(): PayableFactory;
+  ): Overloads;
+  clone(): Overloads;
   methods: {
-    newPayable(): NonPayableTransactionObject<string>;
+    "overload1(int256)"(
+      input1: number | string | BN
+    ): NonPayableTransactionObject<string>;
+
+    "overload1(uint256,uint256)"(
+      input1: number | string | BN,
+      input2: number | string | BN
+    ): NonPayableTransactionObject<string>;
   };
   events: {
     allEvents(options?: EventOptions, cb?: Callback<EventLog>): EventEmitter;

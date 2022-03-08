@@ -13,7 +13,7 @@ import type {
   BlockType,
   ContractEventLog,
   BaseContract,
-} from "./types";
+} from "../../../types";
 
 export interface EventOptions {
   filter?: object;
@@ -21,15 +21,15 @@ export interface EventOptions {
   topics?: string[];
 }
 
-export interface Library extends BaseContract {
+export interface NestedLibrary extends BaseContract {
   constructor(
     jsonInterface: any[],
     address?: string,
     options?: ContractOptions
-  ): Library;
-  clone(): Library;
+  ): NestedLibrary;
+  clone(): NestedLibrary;
   methods: {
-    other(b: number | string | BN): NonPayableTransactionObject<string>;
+    getValue(): NonPayableTransactionObject<string>;
   };
   events: {
     allEvents(options?: EventOptions, cb?: Callback<EventLog>): EventEmitter;

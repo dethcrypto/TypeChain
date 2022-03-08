@@ -13,7 +13,7 @@ import type {
   BlockType,
   ContractEventLog,
   BaseContract,
-} from "./types";
+} from "../types";
 
 export interface EventOptions {
   filter?: object;
@@ -21,30 +21,38 @@ export interface EventOptions {
   topics?: string[];
 }
 
-export type Committed = ContractEventLog<{
+export type Committed_uint256 = ContractEventLog<{
+  timelock: string;
+  0: string;
+}>;
+export type Committed_address_array = ContractEventLog<{
   whitelist: string[];
   0: string[];
 }>;
 
-export interface Issue428_Reproduction extends BaseContract {
+export interface B extends BaseContract {
   constructor(
     jsonInterface: any[],
     address?: string,
     options?: ContractOptions
-  ): Issue428_Reproduction;
-  clone(): Issue428_Reproduction;
+  ): B;
+  clone(): B;
   methods: {};
   events: {
-    Committed(cb?: Callback<Committed>): EventEmitter;
-    Committed(options?: EventOptions, cb?: Callback<Committed>): EventEmitter;
+    "Committed(uint256)"(cb?: Callback<Committed_uint256>): EventEmitter;
+    "Committed(uint256)"(
+      options?: EventOptions,
+      cb?: Callback<Committed_uint256>
+    ): EventEmitter;
+
+    "Committed(address[])"(
+      cb?: Callback<Committed_address_array>
+    ): EventEmitter;
+    "Committed(address[])"(
+      options?: EventOptions,
+      cb?: Callback<Committed_address_array>
+    ): EventEmitter;
 
     allEvents(options?: EventOptions, cb?: Callback<EventLog>): EventEmitter;
   };
-
-  once(event: "Committed", cb: Callback<Committed>): void;
-  once(
-    event: "Committed",
-    options: EventOptions,
-    cb: Callback<Committed>
-  ): void;
 }

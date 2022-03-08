@@ -8,6 +8,7 @@ import {
   Config,
   Contract,
   createBarrelFiles,
+  detectInputsRoot,
   extractAbi,
   extractBytecode,
   extractDocumentation,
@@ -47,7 +48,7 @@ export default class Ethers extends TypeChainTarget {
 
     const { cwd, outDir, allFiles } = config
 
-    this.inputsRoot = allFiles.length === 1 ? dirname(shortenFullJsonFilePath(allFiles[0])) : lowestCommonPath(allFiles)
+    this.inputsRoot = detectInputsRoot(allFiles)
     this.allFiles = allFiles
       .map(shortenFullJsonFilePath)
       .map((x) => relative(this.inputsRoot, x))

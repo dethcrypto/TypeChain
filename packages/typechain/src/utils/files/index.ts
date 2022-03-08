@@ -1,3 +1,4 @@
+export * from './detectInputsRoot'
 export * from './ensureAbsPath'
 export * from './getFileExtension'
 export * from './getFilename'

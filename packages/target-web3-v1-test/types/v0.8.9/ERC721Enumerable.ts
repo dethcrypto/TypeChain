@@ -13,7 +13,7 @@ import type {
   BlockType,
   ContractEventLog,
   BaseContract,
-} from "./types";
+} from "../types";
 
 export interface EventOptions {
   filter?: object;
@@ -45,49 +45,21 @@ export type Transfer = ContractEventLog<{
   1: string;
   2: string;
 }>;
-export type leveled = ContractEventLog<{
-  owner: string;
-  level: string;
-  summoner: string;
-  0: string;
-  1: string;
-  2: string;
-}>;
-export type summoned = ContractEventLog<{
-  owner: string;
-  class: string;
-  summoner: string;
-  0: string;
-  1: string;
-  2: string;
-}>;
 
-export interface Rarity extends BaseContract {
+export interface ERC721Enumerable extends BaseContract {
   constructor(
     jsonInterface: any[],
     address?: string,
     options?: ContractOptions
-  ): Rarity;
-  clone(): Rarity;
+  ): ERC721Enumerable;
+  clone(): ERC721Enumerable;
   methods: {
-    adventure(
-      _summoner: number | string | BN
-    ): NonPayableTransactionObject<void>;
-
-    adventurers_log(
-      arg0: number | string | BN
-    ): NonPayableTransactionObject<string>;
-
     approve(
       to: string,
       tokenId: number | string | BN
     ): NonPayableTransactionObject<void>;
 
     balanceOf(owner: string): NonPayableTransactionObject<string>;
-
-    class(arg0: number | string | BN): NonPayableTransactionObject<string>;
-
-    classes(id: number | string | BN): NonPayableTransactionObject<string>;
 
     getApproved(
       tokenId: number | string | BN
@@ -97,14 +69,6 @@ export interface Rarity extends BaseContract {
       owner: string,
       operator: string
     ): NonPayableTransactionObject<boolean>;
-
-    level(arg0: number | string | BN): NonPayableTransactionObject<string>;
-
-    level_up(
-      _summoner: number | string | BN
-    ): NonPayableTransactionObject<void>;
-
-    next_summoner(): NonPayableTransactionObject<string>;
 
     ownerOf(tokenId: number | string | BN): NonPayableTransactionObject<string>;
 
@@ -126,26 +90,6 @@ export interface Rarity extends BaseContract {
       approved: boolean
     ): NonPayableTransactionObject<void>;
 
-    spend_xp(
-      _summoner: number | string | BN,
-      _xp: number | string | BN
-    ): NonPayableTransactionObject<void>;
-
-    summon(_class: number | string | BN): NonPayableTransactionObject<void>;
-
-    summoner(
-      _summoner: number | string | BN
-    ): NonPayableTransactionObject<{
-      _xp: string;
-      _log: string;
-      _class: string;
-      _level: string;
-      0: string;
-      1: string;
-      2: string;
-      3: string;
-    }>;
-
     tokenByIndex(
       index: number | string | BN
     ): NonPayableTransactionObject<string>;
@@ -155,10 +99,6 @@ export interface Rarity extends BaseContract {
       index: number | string | BN
     ): NonPayableTransactionObject<string>;
 
-    tokenURI(
-      _summoner: number | string | BN
-    ): NonPayableTransactionObject<string>;
-
     totalSupply(): NonPayableTransactionObject<string>;
 
     transferFrom(
@@ -166,12 +106,6 @@ export interface Rarity extends BaseContract {
       to: string,
       tokenId: number | string | BN
     ): NonPayableTransactionObject<void>;
-
-    xp(arg0: number | string | BN): NonPayableTransactionObject<string>;
-
-    xp_required(
-      curent_level: number | string | BN
-    ): NonPayableTransactionObject<string>;
   };
   events: {
     Approval(cb?: Callback<Approval>): EventEmitter;
@@ -185,12 +119,6 @@ export interface Rarity extends BaseContract {
 
     Transfer(cb?: Callback<Transfer>): EventEmitter;
     Transfer(options?: EventOptions, cb?: Callback<Transfer>): EventEmitter;
-
-    leveled(cb?: Callback<leveled>): EventEmitter;
-    leveled(options?: EventOptions, cb?: Callback<leveled>): EventEmitter;
-
-    summoned(cb?: Callback<summoned>): EventEmitter;
-    summoned(options?: EventOptions, cb?: Callback<summoned>): EventEmitter;
 
     allEvents(options?: EventOptions, cb?: Callback<EventLog>): EventEmitter;
   };
@@ -207,10 +135,4 @@ export interface Rarity extends BaseContract {
 
   once(event: "Transfer", cb: Callback<Transfer>): void;
   once(event: "Transfer", options: EventOptions, cb: Callback<Transfer>): void;
-
-  once(event: "leveled", cb: Callback<leveled>): void;
-  once(event: "leveled", options: EventOptions, cb: Callback<leveled>): void;
-
-  once(event: "summoned", cb: Callback<summoned>): void;
-  once(event: "summoned", options: EventOptions, cb: Callback<summoned>): void;
 }
