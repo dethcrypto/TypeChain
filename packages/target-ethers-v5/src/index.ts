@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs'
 import { compact, partition, uniqBy } from 'lodash'
-import { dirname, join, relative, resolve } from 'path'
+import { join, relative, resolve } from 'path'
 import { Dictionary } from 'ts-essentials'
 import {
   BytecodeWithLinkReferences,
