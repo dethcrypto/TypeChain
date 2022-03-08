@@ -1,7 +1,7 @@
 import _, { compact } from 'lodash'
 
 import { debug } from '../utils/debug'
-import { ensureAbsPath } from '../utils/files'
+import { ensureAbsPath } from '../utils/files/ensureAbsPath'
 import { tryRequire } from '../utils/modules'
 import { Config, TypeChainTarget } from './types'
 

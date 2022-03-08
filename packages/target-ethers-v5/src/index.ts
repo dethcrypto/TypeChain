@@ -7,23 +7,25 @@ import {
   CodegenConfig,
   Config,
   Contract,
+  createBarrelFiles,
   extractAbi,
   extractBytecode,
   extractDocumentation,
   FileDescription,
   getFileExtension,
   getFilename,
+  lowestCommonPath,
   normalizeName,
   normalizeSlashes,
   parse,
   parseContractPath,
+  shortenFullJsonFilePath,
   TypeChainTarget,
 } from 'typechain'
 
 import { codegenAbstractContractFactory, codegenContractFactory, codegenContractTypings } from './codegen'
 import { generateHardhatHelper } from './codegen/hardhat'
 import { FACTORY_POSTFIX } from './common'
-import { generateBarrelFiles, lowestCommonPath, shortenFullJsonFilePath } from './path-utils'
 
 export interface IEthersCfg {
   outDir?: string
@@ -145,8 +147,8 @@ export default class Ethers extends TypeChainTarget {
         ? { path: join(this.outDirAbs, 'hardhat.d.ts'), contents: generateHardhatHelper(allContracts) }
         : undefined
 
-    const typesBarrels = generateBarrelFiles(this.allFiles, { typeOnly: true })
-    const factoriesBarrels = generateBarrelFiles(
+    const typesBarrels = createBarrelFiles(this.allFiles, { typeOnly: true })
+    const factoriesBarrels = createBarrelFiles(
       this.allFiles.map((s) => `factories/${s}`),
       { typeOnly: false, postfix: FACTORY_POSTFIX },
     )

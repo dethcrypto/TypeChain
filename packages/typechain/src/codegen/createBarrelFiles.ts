@@ -1,14 +1,15 @@
 import { camelCase, groupBy, mapValues, uniq } from 'lodash'
 import { posix } from 'path'
-import { FileDescription, normalizeName } from 'typechain'
 
-export function lowestCommonPath(paths: string[]) {
-  const pathParts = paths.map((path) => path.split(/[\\/]/))
-  const commonParts = pathParts[0].filter((part, index) => pathParts.every((parts) => parts[index] === part))
-  return commonParts.join('/')
-}
+import { normalizeName } from '../parser/normalizeName'
+import { FileDescription } from '../typechain/types'
 
-export function generateBarrelFiles(
+/**
+ * returns barrel files with reexports for all given paths
+ *
+ * @see https://github.com/basarat/typescript-book/blob/master/docs/tips/barrel.md
+ */
+export function createBarrelFiles(
   paths: string[],
   { typeOnly, postfix = '' }: { typeOnly: boolean; postfix?: string },
 ): FileDescription[] {
@@ -78,18 +79,4 @@ export function generateBarrelFiles(
       contents: (namespacesExports + '\n' + namedExports).trim(),
     }
   })
-}
-
-/**
- * Transforms all paths matching `ContractName.sol/ContractName.json`
- */
-export function shortenFullJsonFilePath(path: string) {
-  const parsed = posix.parse(path)
-
-  const sourceFileName = `${parsed.name}.sol`
-  if (parsed.dir.endsWith(sourceFileName)) {
-    return parsed.dir.slice(0, -sourceFileName.length) + `${parsed.name}.json`
-  }
-
-  return path
 }

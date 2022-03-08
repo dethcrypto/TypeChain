@@ -1,3 +1,4 @@
+export * from './codegen/createBarrelFiles'
 export * from './codegen/syntax'
 export * from './parser/abiParser'
 export { normalizeName } from './parser/normalizeName'
