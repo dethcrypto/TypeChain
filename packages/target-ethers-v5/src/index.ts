@@ -15,7 +15,6 @@ import {
   FileDescription,
   getFileExtension,
   getFilename,
-  lowestCommonPath,
   normalizeName,
   normalizeSlashes,
   parse,
