@@ -1,12 +1,12 @@
 import { readFileSync } from 'fs'
-import { join, resolve } from 'path'
+import { join, relative, resolve } from 'path'
 import {
   Config,
   Contract,
+  detectInputsRoot,
   extractAbi,
   extractDocumentation,
   FileDescription,
-  getFilename,
   parse,
   TypeChainTarget,
 } from 'typechain'
@@ -24,13 +24,15 @@ export default class Truffle extends TypeChainTarget {
   name = 'Truffle'
 
   private readonly outDirAbs: string
+  private readonly inputsRoot: string
   private contracts: Contract[] = []
 
   constructor(config: Config) {
     super(config)
 
-    const { cwd, outDir } = config
+    const { cwd, outDir, allFiles } = config
 
+    this.inputsRoot = detectInputsRoot(allFiles)
     this.outDirAbs = resolve(cwd, outDir || DEFAULT_OUT_PATH)
   }
 
@@ -41,15 +43,15 @@ export default class Truffle extends TypeChainTarget {
       return
     }
 
-    const name = getFilename(file.path)
+    const path = relative(this.inputsRoot, file.path)
     const documentation = extractDocumentation(file.contents)
 
-    const contract = parse(abi, name, documentation)
+    const contract = parse(abi, path, documentation)
 
     this.contracts.push(contract)
 
     return {
-      path: join(this.outDirAbs, `${contract.name}.d.ts`),
+      path: join(this.outDirAbs, ...contract.path, `${contract.name}.d.ts`),
       contents: codegenContract(contract),
     }
   }
