@@ -49,8 +49,8 @@ export default class Ethers extends TypeChainTarget {
 
     this.inputsRoot = detectInputsRoot(allFiles)
     this.allFiles = allFiles
-      .map(shortenFullJsonFilePath)
-      .map((x) => relative(this.inputsRoot, x))
+      .map((p) => shortenFullJsonFilePath(p, allFiles))
+      .map((p) => relative(this.inputsRoot, p))
       .map(normalizeSlashes)
     this.outDirAbs = resolve(cwd, outDir || DEFAULT_OUT_PATH)
   }
@@ -94,7 +94,7 @@ export default class Ethers extends TypeChainTarget {
 
     const documentation = extractDocumentation(file.contents)
 
-    const path = relative(this.inputsRoot, shortenFullJsonFilePath(file.path))
+    const path = relative(this.inputsRoot, shortenFullJsonFilePath(file.path, this.cfg.allFiles))
 
     const contract = parse(abi, path, documentation)
 
