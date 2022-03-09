@@ -13,7 +13,7 @@ import type {
   BlockType,
   ContractEventLog,
   BaseContract,
-} from "../types";
+} from "../../types";
 
 export interface EventOptions {
   filter?: object;
@@ -21,20 +21,15 @@ export interface EventOptions {
   topics?: string[];
 }
 
-export interface IERC721Receiver extends BaseContract {
+export interface Lib extends BaseContract {
   constructor(
     jsonInterface: any[],
     address?: string,
     options?: ContractOptions
-  ): IERC721Receiver;
-  clone(): IERC721Receiver;
+  ): Lib;
+  clone(): Lib;
   methods: {
-    onERC721Received(
-      operator: string,
-      from: string,
-      tokenId: number | string | BN,
-      data: string | number[]
-    ): NonPayableTransactionObject<string>;
+    other(b: number | string | BN): NonPayableTransactionObject<string>;
   };
   events: {
     allEvents(options?: EventOptions, cb?: Callback<EventLog>): EventEmitter;

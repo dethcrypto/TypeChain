@@ -13,7 +13,7 @@ import type {
   BlockType,
   ContractEventLog,
   BaseContract,
-} from "../types";
+} from "../../types";
 
 export interface EventOptions {
   filter?: object;
@@ -21,30 +21,17 @@ export interface EventOptions {
   topics?: string[];
 }
 
-export type Committed = ContractEventLog<{
-  whitelist: string[];
-  0: string[];
-}>;
-
-export interface Issue428_Reproduction extends BaseContract {
+export interface Withdrawable extends BaseContract {
   constructor(
     jsonInterface: any[],
     address?: string,
     options?: ContractOptions
-  ): Issue428_Reproduction;
-  clone(): Issue428_Reproduction;
-  methods: {};
+  ): Withdrawable;
+  clone(): Withdrawable;
+  methods: {
+    withdraw(): NonPayableTransactionObject<void>;
+  };
   events: {
-    Committed(cb?: Callback<Committed>): EventEmitter;
-    Committed(options?: EventOptions, cb?: Callback<Committed>): EventEmitter;
-
     allEvents(options?: EventOptions, cb?: Callback<EventLog>): EventEmitter;
   };
-
-  once(event: "Committed", cb: Callback<Committed>): void;
-  once(
-    event: "Committed",
-    options: EventOptions,
-    cb: Callback<Committed>
-  ): void;
 }

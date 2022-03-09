@@ -13,7 +13,7 @@ import type {
   BlockType,
   ContractEventLog,
   BaseContract,
-} from "../types";
+} from "../../types";
 
 export interface EventOptions {
   filter?: object;
@@ -46,13 +46,13 @@ export type Transfer = ContractEventLog<{
   2: string;
 }>;
 
-export interface IERC721 extends BaseContract {
+export interface ERC721Enumerable extends BaseContract {
   constructor(
     jsonInterface: any[],
     address?: string,
     options?: ContractOptions
-  ): IERC721;
-  clone(): IERC721;
+  ): ERC721Enumerable;
+  clone(): ERC721Enumerable;
   methods: {
     approve(
       to: string,
@@ -82,13 +82,24 @@ export interface IERC721 extends BaseContract {
       from: string,
       to: string,
       tokenId: number | string | BN,
-      data: string | number[]
+      _data: string | number[]
     ): NonPayableTransactionObject<void>;
 
     setApprovalForAll(
       operator: string,
-      _approved: boolean
+      approved: boolean
     ): NonPayableTransactionObject<void>;
+
+    tokenByIndex(
+      index: number | string | BN
+    ): NonPayableTransactionObject<string>;
+
+    tokenOfOwnerByIndex(
+      owner: string,
+      index: number | string | BN
+    ): NonPayableTransactionObject<string>;
+
+    totalSupply(): NonPayableTransactionObject<string>;
 
     transferFrom(
       from: string,
