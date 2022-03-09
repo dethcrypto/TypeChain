@@ -1,6 +1,6 @@
 import { readFileSync } from 'fs'
 import { compact, partition, uniqBy } from 'lodash'
-import { dirname, join, relative, resolve } from 'path'
+import { join, relative, resolve } from 'path'
 import { Dictionary } from 'ts-essentials'
 import {
   BytecodeWithLinkReferences,
@@ -8,13 +8,13 @@ import {
   Config,
   Contract,
   createBarrelFiles,
+  detectInputsRoot,
   extractAbi,
   extractBytecode,
   extractDocumentation,
   FileDescription,
   getFileExtension,
   getFilename,
-  lowestCommonPath,
   normalizeName,
   normalizeSlashes,
   parse,
@@ -47,7 +47,7 @@ export default class Ethers extends TypeChainTarget {
 
     const { cwd, outDir, allFiles } = config
 
-    this.inputsRoot = allFiles.length === 1 ? dirname(shortenFullJsonFilePath(allFiles[0])) : lowestCommonPath(allFiles)
+    this.inputsRoot = detectInputsRoot(allFiles)
     this.allFiles = allFiles
       .map(shortenFullJsonFilePath)
       .map((x) => relative(this.inputsRoot, x))

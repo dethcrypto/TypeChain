@@ -4,12 +4,14 @@ import { codegenForEvents, codegenForEventsDeclarations, codegenForEventsOnceFns
 import { codegenForFunctions } from './functions'
 
 export function codegen(contract: Contract) {
+  const typesPath = contract.path.length ? `${new Array(contract.path.length).fill('..').join('/')}/types` : './types'
+
   const template = `
   import type BN from "bn.js";
   import type { ContractOptions } from "web3-eth-contract";
   import type { EventLog } from "web3-core";
   import type { EventEmitter } from "events";
-  import type { Callback, PayableTransactionObject, NonPayableTransactionObject, BlockType, ContractEventLog, BaseContract } from "./types";
+  import type { Callback, PayableTransactionObject, NonPayableTransactionObject, BlockType, ContractEventLog, BaseContract } from "${typesPath}";
 
   export interface EventOptions {
     filter?: object;

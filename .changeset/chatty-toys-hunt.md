@@ -1,6 +1,7 @@
 ---
 '@typechain/hardhat': major
 '@typechain/ethers-v5': major
+'@typechain/web3-v1': major
 'typechain': major
 ---
 

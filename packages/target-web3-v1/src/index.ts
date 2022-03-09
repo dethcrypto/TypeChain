@@ -1,11 +1,11 @@
 import { readFileSync } from 'fs'
-import { join, resolve } from 'path'
+import { join, relative, resolve } from 'path'
 import {
   Config,
+  detectInputsRoot,
   extractAbi,
   extractDocumentation,
   FileDescription,
-  getFilename,
   parse,
   TypeChainTarget,
 } from 'typechain'
@@ -22,12 +22,14 @@ export default class Web3V1 extends TypeChainTarget {
   name = 'Web3-v1'
 
   private readonly outDirAbs: string
+  private readonly inputsRoot: string
 
   constructor(config: Config) {
     super(config)
 
-    const { cwd, outDir } = config
+    const { cwd, outDir, allFiles } = config
 
+    this.inputsRoot = detectInputsRoot(allFiles)
     this.outDirAbs = resolve(cwd, outDir || DEFAULT_OUT_PATH)
   }
 
@@ -38,13 +40,13 @@ export default class Web3V1 extends TypeChainTarget {
       return
     }
 
-    const name = getFilename(file.path)
+    const path = relative(this.inputsRoot, file.path)
     const documentation = extractDocumentation(file.contents)
 
-    const contract = parse(abi, name, documentation)
+    const contract = parse(abi, path, documentation)
 
     return {
-      path: join(this.outDirAbs, `${name}.ts`),
+      path: join(this.outDirAbs, ...contract.path, `${contract.name}.ts`),
       contents: codegen(contract),
     }
   }

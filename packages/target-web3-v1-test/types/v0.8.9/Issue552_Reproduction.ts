@@ -13,7 +13,7 @@ import type {
   BlockType,
   ContractEventLog,
   BaseContract,
-} from "./types";
+} from "../types";
 
 export interface EventOptions {
   filter?: object;
@@ -21,15 +21,24 @@ export interface EventOptions {
   topics?: string[];
 }
 
-export interface LibraryConsumer extends BaseContract {
+export interface Issue552_Reproduction extends BaseContract {
   constructor(
     jsonInterface: any[],
     address?: string,
     options?: ContractOptions
-  ): LibraryConsumer;
-  clone(): LibraryConsumer;
+  ): Issue552_Reproduction;
+  clone(): Issue552_Reproduction;
   methods: {
-    someOther(b: number | string | BN): NonPayableTransactionObject<string>;
+    bars(
+      arg0: number | string | BN
+    ): NonPayableTransactionObject<[[string, string][], string]>;
+
+    input(values: (number | string | BN)[]): NonPayableTransactionObject<void>;
+
+    makeObservation(
+      barId: number | string | BN,
+      newVal: number | string | BN
+    ): NonPayableTransactionObject<void>;
   };
   events: {
     allEvents(options?: EventOptions, cb?: Callback<EventLog>): EventEmitter;
