@@ -20,7 +20,7 @@ import type {
   TypedEvent,
   TypedListener,
   OnEvent,
-} from "../../../common";
+} from "../../common";
 
 export interface PayableInterface extends utils.Interface {
   contractName: "Payable";

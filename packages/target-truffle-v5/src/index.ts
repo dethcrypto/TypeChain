@@ -8,6 +8,7 @@ import {
   extractDocumentation,
   FileDescription,
   parse,
+  shortenFullJsonFilePath,
   TypeChainTarget,
 } from 'typechain'
 
@@ -43,7 +44,7 @@ export default class Truffle extends TypeChainTarget {
       return
     }
 
-    const path = relative(this.inputsRoot, file.path)
+    const path = relative(this.inputsRoot, shortenFullJsonFilePath(file.path, this.cfg.allFiles))
     const documentation = extractDocumentation(file.contents)
 
     const contract = parse(abi, path, documentation)

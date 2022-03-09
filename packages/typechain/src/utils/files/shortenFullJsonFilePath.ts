@@ -6,7 +6,7 @@ import { posix } from 'path'
 export function shortenFullJsonFilePath(path: string, allPaths: string[]) {
   const { name, dir, base } = posix.parse(path)
 
-  if (allPaths.filter((p) => p.startsWith(dir)).length > 1) {
+  if (allPaths.filter((p) => p.startsWith(dir + '/')).length > 1) {
     return path
   }
 

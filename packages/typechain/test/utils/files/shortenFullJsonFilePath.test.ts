@@ -16,4 +16,10 @@ describe(shortenFullJsonFilePath.name, () => {
 
     expect(shortenFullJsonFilePath(paths[0], paths)).toEqual('/A/B/C/X/X.abi')
   })
+
+  it('shortens even when directory has common prefix', () => {
+    const paths = ['/A/X/X.abi', '/A/XY/Y.abi']
+
+    expect(shortenFullJsonFilePath(paths[0], paths)).toEqual('/A/X.abi')
+  })
 })
