@@ -287,4 +287,4 @@ describe('DataTypesInput', () => {
     // @ts-expect-error
     contract.functions.not_existing(1)
   })
-})
+}).timeout(15_000)
