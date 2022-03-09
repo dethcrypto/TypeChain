@@ -169,8 +169,6 @@ function recoverDirectories(cwd: string, path: string) {
       isDirectory = statSync(resolve(cwd, res, segment)).isDirectory()
     } catch {}
 
-    console.log(isDirectory, resolve(cwd, res, segment))
-
     if (isDirectory) res += segment + '/'
     else {
       if (segments.length) segments[0] = segment + '_' + segments[0]
