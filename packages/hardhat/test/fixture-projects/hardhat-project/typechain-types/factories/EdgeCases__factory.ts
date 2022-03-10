@@ -6,11 +6,11 @@ import {
   utils,
   Contract,
   ContractFactory,
+  Overrides,
   BytesLike,
   BigNumberish,
-  Overrides,
 } from "ethers";
-import type { Provider, TransactionRequest } from "@ethersproject/providers";
+import { Provider, TransactionRequest } from "@ethersproject/providers";
 import type { EdgeCases, EdgeCasesInterface } from "../EdgeCases";
 
 const _abi = [

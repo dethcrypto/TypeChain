@@ -3,7 +3,7 @@
 /* eslint-disable */
 
 import { Contract, Signer, utils } from "ethers";
-import type { Provider } from "@ethersproject/providers";
+import { Provider } from "@ethersproject/providers";
 import type { Library, LibraryInterface } from "../Library";
 
 const _abi = [

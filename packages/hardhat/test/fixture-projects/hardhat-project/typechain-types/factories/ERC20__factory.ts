@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import { Signer, utils, Contract, ContractFactory, Overrides } from "ethers";
-import type { Provider, TransactionRequest } from "@ethersproject/providers";
+import { Provider, TransactionRequest } from "@ethersproject/providers";
 import type { ERC20, ERC20Interface } from "../ERC20";
 
 const _abi = [

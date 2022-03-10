@@ -6,10 +6,10 @@ import {
   utils,
   Contract,
   ContractFactory,
-  BigNumberish,
   Overrides,
+  BigNumberish,
 } from "ethers";
-import type { Provider, TransactionRequest } from "@ethersproject/providers";
+import { Provider, TransactionRequest } from "@ethersproject/providers";
 import type { TestContract1, TestContract1Interface } from "../TestContract1";
 
 const _abi = [
