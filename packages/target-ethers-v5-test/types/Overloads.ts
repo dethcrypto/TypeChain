@@ -30,9 +30,8 @@ export interface OverloadsInterface extends utils.Interface {
 
   events: {};
 
-  getFunction(nameOrSignatureOrTopic: "overload1(int256)"): FunctionFragment;
   getFunction(
-    nameOrSignatureOrTopic: "overload1(uint256,uint256)"
+    nameOrSignatureOrTopic: "overload1(int256)" | "overload1(uint256,uint256)"
   ): FunctionFragment;
 
   encodeFunctionData(

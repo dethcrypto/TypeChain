@@ -32,8 +32,9 @@ export interface PayableInterface extends utils.Interface {
 
   events: {};
 
-  getFunction(nameOrSignatureOrTopic: "non_payable_func"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "payable_func"): FunctionFragment;
+  getFunction(
+    nameOrSignatureOrTopic: "non_payable_func" | "payable_func"
+  ): FunctionFragment;
 
   encodeFunctionData(
     functionFragment: "non_payable_func",

@@ -54,20 +54,23 @@ export interface DataTypesViewInterface extends utils.Interface {
 
   events: {};
 
-  getFunction(nameOrSignatureOrTopic: "view_address"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "view_bool"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "view_bytes"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "view_bytes1"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "view_enum"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "view_int256"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "view_int8"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "view_named"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "view_stat_array"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "view_string"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "view_struct"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "view_tuple"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "view_uint256"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "view_uint8"): FunctionFragment;
+  getFunction(
+    nameOrSignatureOrTopic:
+      | "view_address"
+      | "view_bool"
+      | "view_bytes"
+      | "view_bytes1"
+      | "view_enum"
+      | "view_int256"
+      | "view_int8"
+      | "view_named"
+      | "view_stat_array"
+      | "view_string"
+      | "view_struct"
+      | "view_tuple"
+      | "view_uint256"
+      | "view_uint8"
+  ): FunctionFragment;
 
   encodeFunctionData(
     functionFragment: "view_address",

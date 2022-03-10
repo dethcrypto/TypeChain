@@ -88,27 +88,28 @@ export interface DataTypesInputInterface extends utils.Interface {
 
   events: {};
 
-  getFunction(nameOrSignatureOrTopic: "input_address"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "input_bool"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "input_bytes"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "input_bytes1"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "input_enum"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "input_int256"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "input_int8"): FunctionFragment;
   getFunction(
-    nameOrSignatureOrTopic: "input_multiple_structs_with_same_name"
+    nameOrSignatureOrTopic:
+      | "input_address"
+      | "input_bool"
+      | "input_bytes"
+      | "input_bytes1"
+      | "input_enum"
+      | "input_int256"
+      | "input_int8"
+      | "input_multiple_structs_with_same_name"
+      | "input_stat_array"
+      | "input_string"
+      | "input_struct"
+      | "input_struct2"
+      | "input_struct2_array"
+      | "input_struct2_tuple"
+      | "input_struct3_array"
+      | "input_tuple"
+      | "input_uint256"
+      | "input_uint8"
+      | "input_uint_array"
   ): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "input_stat_array"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "input_string"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "input_struct"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "input_struct2"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "input_struct2_array"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "input_struct2_tuple"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "input_struct3_array"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "input_tuple"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "input_uint256"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "input_uint8"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "input_uint_array"): FunctionFragment;
 
   encodeFunctionData(
     functionFragment: "input_address",

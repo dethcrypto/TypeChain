@@ -29,8 +29,7 @@ export interface NameManglingInterface extends utils.Interface {
 
   events: {};
 
-  getFunction(nameOrSignatureOrTopic: "provider"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "works"): FunctionFragment;
+  getFunction(nameOrSignatureOrTopic: "provider" | "works"): FunctionFragment;
 
   encodeFunctionData(functionFragment: "provider", values?: undefined): string;
   encodeFunctionData(functionFragment: "works", values?: undefined): string;

@@ -32,10 +32,9 @@ export interface SafeMathInterface extends utils.Interface {
 
   events: {};
 
-  getFunction(nameOrSignatureOrTopic: "add"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "div"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "mul"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "sub"): FunctionFragment;
+  getFunction(
+    nameOrSignatureOrTopic: "add" | "div" | "mul" | "sub"
+  ): FunctionFragment;
 
   encodeFunctionData(
     functionFragment: "add",

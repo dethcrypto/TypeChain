@@ -60,9 +60,9 @@ export interface Issue552ReproductionInterface extends utils.Interface {
 
   events: {};
 
-  getFunction(nameOrSignatureOrTopic: "bars"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "input"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "makeObservation"): FunctionFragment;
+  getFunction(
+    nameOrSignatureOrTopic: "bars" | "input" | "makeObservation"
+  ): FunctionFragment;
 
   encodeFunctionData(functionFragment: "bars", values: [BigNumberish]): string;
   encodeFunctionData(

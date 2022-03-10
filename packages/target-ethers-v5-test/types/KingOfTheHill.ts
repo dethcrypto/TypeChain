@@ -49,9 +49,9 @@ export interface KingOfTheHillInterface extends utils.Interface {
     "HighestBidIncreased(tuple)": EventFragment;
   };
 
-  getFunction(nameOrSignatureOrTopic: "bid"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "highestBid"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "withdraw"): FunctionFragment;
+  getFunction(
+    nameOrSignatureOrTopic: "bid" | "highestBid" | "withdraw"
+  ): FunctionFragment;
 
   encodeFunctionData(functionFragment: "bid", values?: undefined): string;
   encodeFunctionData(

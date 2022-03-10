@@ -38,9 +38,9 @@ export interface CounterInterface extends utils.Interface {
     "CountedTo(uint256)": EventFragment;
   };
 
-  getFunction(nameOrSignatureOrTopic: "countDown"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "countUp"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "getCount"): FunctionFragment;
+  getFunction(
+    nameOrSignatureOrTopic: "countDown" | "countUp" | "getCount"
+  ): FunctionFragment;
 
   encodeFunctionData(functionFragment: "countDown", values?: undefined): string;
   encodeFunctionData(functionFragment: "countUp", values?: undefined): string;

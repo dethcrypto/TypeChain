@@ -50,22 +50,21 @@ export interface IERC721EnumerableInterface extends utils.Interface {
     "Transfer(address,address,uint256)": EventFragment;
   };
 
-  getFunction(nameOrSignatureOrTopic: "approve"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "balanceOf"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "getApproved"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "isApprovedForAll"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "ownerOf"): FunctionFragment;
   getFunction(
-    nameOrSignatureOrTopic: "safeTransferFrom(address,address,uint256)"
+    nameOrSignatureOrTopic:
+      | "approve"
+      | "balanceOf"
+      | "getApproved"
+      | "isApprovedForAll"
+      | "ownerOf"
+      | "safeTransferFrom(address,address,uint256)"
+      | "safeTransferFrom(address,address,uint256,bytes)"
+      | "setApprovalForAll"
+      | "tokenByIndex"
+      | "tokenOfOwnerByIndex"
+      | "totalSupply"
+      | "transferFrom"
   ): FunctionFragment;
-  getFunction(
-    nameOrSignatureOrTopic: "safeTransferFrom(address,address,uint256,bytes)"
-  ): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "setApprovalForAll"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "tokenByIndex"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "tokenOfOwnerByIndex"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "totalSupply"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "transferFrom"): FunctionFragment;
 
   encodeFunctionData(
     functionFragment: "approve",

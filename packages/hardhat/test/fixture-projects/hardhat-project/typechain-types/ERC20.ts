@@ -48,17 +48,20 @@ export interface ERC20Interface extends utils.Interface {
     "Transfer(address,address,uint256)": EventFragment;
   };
 
-  getFunction(nameOrSignatureOrTopic: "allowance"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "approve"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "balanceOf"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "decimals"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "decreaseAllowance"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "increaseAllowance"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "name"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "symbol"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "totalSupply"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "transfer"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "transferFrom"): FunctionFragment;
+  getFunction(
+    nameOrSignatureOrTopic:
+      | "allowance"
+      | "approve"
+      | "balanceOf"
+      | "decimals"
+      | "decreaseAllowance"
+      | "increaseAllowance"
+      | "name"
+      | "symbol"
+      | "totalSupply"
+      | "transfer"
+      | "transferFrom"
+  ): FunctionFragment;
 
   encodeFunctionData(
     functionFragment: "allowance",
