@@ -15,7 +15,7 @@
     "@types/bn.js": "^5.1.0",
     "ts-node": "^9.1.1",
     "typechain": "file:../../packages/typechain",
-    "typescript": "4.2.2"
+    "typescript": "^4.6"
   },
   "dependencies": {
     "ethers": "^5.1.3"
