@@ -22,9 +22,14 @@ import type {
 
 export interface LibraryConsumerInterface extends utils.Interface {
   contractName: "LibraryConsumer";
+
   functions: {
     "someOther(uint8)": FunctionFragment;
   };
+
+  events: {};
+
+  getFunction(nameOrSignatureOrTopic: "someOther"): FunctionFragment;
 
   encodeFunctionData(
     functionFragment: "someOther",
@@ -32,8 +37,6 @@ export interface LibraryConsumerInterface extends utils.Interface {
   ): string;
 
   decodeFunctionResult(functionFragment: "someOther", data: BytesLike): Result;
-
-  events: {};
 }
 
 export interface LibraryConsumer extends BaseContract {

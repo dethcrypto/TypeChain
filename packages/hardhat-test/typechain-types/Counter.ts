@@ -27,11 +27,20 @@ import type {
 
 export interface CounterInterface extends utils.Interface {
   contractName: "Counter";
+
   functions: {
     "countDown()": FunctionFragment;
     "countUp()": FunctionFragment;
     "getCount()": FunctionFragment;
   };
+
+  events: {
+    "CountedTo(uint256)": EventFragment;
+  };
+
+  getFunction(nameOrSignatureOrTopic: "countDown"): FunctionFragment;
+  getFunction(nameOrSignatureOrTopic: "countUp"): FunctionFragment;
+  getFunction(nameOrSignatureOrTopic: "getCount"): FunctionFragment;
 
   encodeFunctionData(functionFragment: "countDown", values?: undefined): string;
   encodeFunctionData(functionFragment: "countUp", values?: undefined): string;
@@ -40,10 +49,6 @@ export interface CounterInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "countDown", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "countUp", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getCount", data: BytesLike): Result;
-
-  events: {
-    "CountedTo(uint256)": EventFragment;
-  };
 
   getEvent(nameOrSignatureOrTopic: "CountedTo"): EventFragment;
 }

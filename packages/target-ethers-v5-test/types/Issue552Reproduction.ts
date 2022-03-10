@@ -51,11 +51,18 @@ export declare namespace Issue552Reproduction {
 
 export interface Issue552ReproductionInterface extends utils.Interface {
   contractName: "Issue552Reproduction";
+
   functions: {
     "bars(uint256)": FunctionFragment;
     "input(uint256[10])": FunctionFragment;
     "makeObservation(uint256,uint256)": FunctionFragment;
   };
+
+  events: {};
+
+  getFunction(nameOrSignatureOrTopic: "bars"): FunctionFragment;
+  getFunction(nameOrSignatureOrTopic: "input"): FunctionFragment;
+  getFunction(nameOrSignatureOrTopic: "makeObservation"): FunctionFragment;
 
   encodeFunctionData(functionFragment: "bars", values: [BigNumberish]): string;
   encodeFunctionData(
@@ -73,8 +80,6 @@ export interface Issue552ReproductionInterface extends utils.Interface {
     functionFragment: "makeObservation",
     data: BytesLike
   ): Result;
-
-  events: {};
 }
 
 export interface Issue552Reproduction extends BaseContract {

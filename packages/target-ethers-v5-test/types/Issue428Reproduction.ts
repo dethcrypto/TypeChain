@@ -13,6 +13,7 @@ import type {
 
 export interface Issue428ReproductionInterface extends utils.Interface {
   contractName: "Issue428Reproduction";
+
   functions: {};
 
   events: {

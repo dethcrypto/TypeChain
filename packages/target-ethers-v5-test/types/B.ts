@@ -13,13 +13,16 @@ import type {
 
 export interface BInterface extends utils.Interface {
   contractName: "B";
+
   functions: {};
 
   events: {
     "Committed(uint256)": EventFragment;
+    "Committed(address[])": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "Committed"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Committed(uint256)"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Committed(address[])"): EventFragment;
 }
 
 export type Committed_uint256_Event = TypedEvent<

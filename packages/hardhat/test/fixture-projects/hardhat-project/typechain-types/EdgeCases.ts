@@ -13,6 +13,7 @@ import type {
 
 export interface EdgeCasesInterface extends utils.Interface {
   contractName: "EdgeCases";
+
   functions: {};
 
   events: {};

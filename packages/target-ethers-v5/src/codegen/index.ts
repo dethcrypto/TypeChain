@@ -5,6 +5,8 @@ import {
   Contract,
   createImportsForUsedIdentifiers,
   createImportTypeDeclaration,
+  EventDeclaration,
+  FunctionDeclaration,
   StructType,
 } from 'typechain'
 
@@ -14,13 +16,14 @@ import {
   EVENT_METHOD_OVERRIDES,
   generateEventFilters,
   generateEventTypeExports,
-  generateGetEventOverload,
+  generateGetEvent,
   generateInterfaceEventDescription,
 } from './events'
 import {
   codegenFunctions,
   generateDecodeFunctionResultOverload,
   generateEncodeFunctionDataOverload,
+  generateGetFunction,
   generateInterfaceFunctionDescription,
   generateParamNames,
 } from './functions'
@@ -34,33 +37,35 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
 
   export interface ${contract.name}Interface extends utils.Interface {
     contractName: '${contract.name}';
+
     functions: {
       ${values(contract.functions)
-        .map((v) => v[0])
-        .map(generateInterfaceFunctionDescription)
+        .flatMap((v) => v.map(generateInterfaceFunctionDescription))
         .join('\n')}
     };
-
-    ${values(contract.functions)
-      .map((v) => v[0])
-      .map(generateEncodeFunctionDataOverload)
-      .join('\n')}
-
-    ${values(contract.functions)
-      .map((v) => v[0])
-      .map(generateDecodeFunctionResultOverload)
-      .join('\n')}
 
     events: {
       ${values(contract.events)
-        .map((v) => v[0])
-        .map(generateInterfaceEventDescription)
+        .flatMap((v) => v.map(generateInterfaceEventDescription))
         .join('\n')}
     };
 
+    ${values(contract.functions)
+      .flatMap((v) => processDeclaration(v, codegenConfig.alwaysGenerateOverloads, generateGetFunction))
+      .join('\n')}
+
+    ${values(contract.functions)
+      .flatMap((v) => processDeclaration(v, codegenConfig.alwaysGenerateOverloads, generateEncodeFunctionDataOverload))
+      .join('\n')}
+
+    ${values(contract.functions)
+      .flatMap((v) =>
+        processDeclaration(v, codegenConfig.alwaysGenerateOverloads, generateDecodeFunctionResultOverload),
+      )
+      .join('\n')}
+
     ${values(contract.events)
-      .map((v) => v[0])
-      .map(generateGetEventOverload)
+      .flatMap((v) => processDeclaration(v, codegenConfig.alwaysGenerateOverloads, generateGetEvent))
       .join('\n')}
   }
 
@@ -337,4 +342,20 @@ function generateLibraryAddressesInterface(contract: Contract, bytecode: Bytecod
   export interface ${contract.name}LibraryAddresses {
     ${linkLibrariesKeys.join('\n')}
   };`
+}
+
+function processDeclaration<D extends FunctionDeclaration | EventDeclaration>(
+  fns: D[],
+  forceGenerateOverloads: boolean,
+  stringGen: (fn: D, useSignature: boolean) => string,
+) {
+  // Function is overloaded, we need unambiguous signatures
+  if (fns.length > 1) {
+    return fns.map((fn) => stringGen(fn, true))
+  }
+  const result = [stringGen(fns[0], false)]
+  if (forceGenerateOverloads) {
+    result.push(stringGen(fns[0], true))
+  }
+  return result
 }
