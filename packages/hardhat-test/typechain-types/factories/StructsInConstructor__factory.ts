@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import { Signer, utils, Contract, ContractFactory, Overrides } from "ethers";
-import { Provider, TransactionRequest } from "@ethersproject/providers";
+import type { Provider, TransactionRequest } from "@ethersproject/providers";
 import type {
   StructsInConstructor,
   StructsInConstructorInterface,
