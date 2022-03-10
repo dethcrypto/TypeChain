@@ -75,7 +75,9 @@ export function generateEventArgType(eventArg: EventArgDeclaration): string {
 }
 
 export function generateGetEvent(event: EventDeclaration, useSignature: boolean): string {
-  return `getEvent(nameOrSignatureOrTopic: '${useSignature ? generateEventSignature(event) : event.name}'): EventFragment;`
+  return `getEvent(nameOrSignatureOrTopic: '${
+    useSignature ? generateEventSignature(event) : event.name
+  }'): EventFragment;`
 }
 
 function generateEventIdentifier(event: EventDeclaration, { includeArgTypes }: { includeArgTypes?: boolean } = {}) {

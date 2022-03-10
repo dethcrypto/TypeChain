@@ -59,7 +59,9 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
       .join('\n')}
 
     ${values(contract.functions)
-      .flatMap((v) => processDeclaration(v, codegenConfig.alwaysGenerateOverloads, generateDecodeFunctionResultOverload))
+      .flatMap((v) =>
+        processDeclaration(v, codegenConfig.alwaysGenerateOverloads, generateDecodeFunctionResultOverload),
+      )
       .join('\n')}
 
     ${values(contract.events)
@@ -342,7 +344,11 @@ function generateLibraryAddressesInterface(contract: Contract, bytecode: Bytecod
   };`
 }
 
-function processDeclaration<D extends FunctionDeclaration | EventDeclaration>(fns: (D)[], forceGenerateOverloads: boolean, stringGen: (fn: D, useSignature: boolean) => string) {
+function processDeclaration<D extends FunctionDeclaration | EventDeclaration>(
+  fns: D[],
+  forceGenerateOverloads: boolean,
+  stringGen: (fn: D, useSignature: boolean) => string,
+) {
   // Function is overloaded, we need unambiguous signatures
   if (fns.length > 1) {
     return fns.map((fn) => stringGen(fn, true))

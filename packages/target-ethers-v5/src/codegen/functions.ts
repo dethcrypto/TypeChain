@@ -86,7 +86,6 @@ export function generateInterfaceFunctionDescription(fn: FunctionDeclaration): s
   return `'${getSignatureForFn(fn)}': FunctionFragment;`
 }
 
-
 export function generateGetFunction(fn: FunctionDeclaration, useSignature: boolean): string {
   return `getFunction(nameOrSignatureOrTopic: '${useSignature ? getSignatureForFn(fn) : fn.name}'): FunctionFragment;`
 }
@@ -106,7 +105,9 @@ export function generateEncodeFunctionDataOverload(fn: FunctionDeclaration, useS
 }
 
 export function generateDecodeFunctionResultOverload(fn: FunctionDeclaration, useSignature: boolean): string {
-  return `decodeFunctionResult(functionFragment: '${useSignature ? getSignatureForFn(fn) : fn.name}', data: BytesLike): Result;`
+  return `decodeFunctionResult(functionFragment: '${
+    useSignature ? getSignatureForFn(fn) : fn.name
+  }', data: BytesLike): Result;`
 }
 
 export function generateParamNames(params: Array<AbiParameter | EventArgDeclaration>): string {
