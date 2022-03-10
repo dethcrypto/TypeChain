@@ -27,18 +27,16 @@ export type Committed_uint256_Event = TypedEvent<
   { timelock: BigNumber }
 >;
 
-export type Committed_uint256_EventFilter = TypedEventFilter<
-  Committed_uint256_Event
->;
+export type Committed_uint256_EventFilter =
+  TypedEventFilter<Committed_uint256_Event>;
 
 export type Committed_address_array_Event = TypedEvent<
   [string[]],
   { whitelist: string[] }
 >;
 
-export type Committed_address_array_EventFilter = TypedEventFilter<
-  Committed_address_array_Event
->;
+export type Committed_address_array_EventFilter =
+  TypedEventFilter<Committed_address_array_Event>;
 
 export interface B extends BaseContract {
   contractName: "B";

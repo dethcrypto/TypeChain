@@ -67,9 +67,8 @@ export type HighestBidIncreasedEvent = TypedEvent<
   { bid: KingOfTheHill.BidStructOutput }
 >;
 
-export type HighestBidIncreasedEventFilter = TypedEventFilter<
-  HighestBidIncreasedEvent
->;
+export type HighestBidIncreasedEventFilter =
+  TypedEventFilter<HighestBidIncreasedEvent>;
 
 export interface KingOfTheHill extends BaseContract {
   contractName: "KingOfTheHill";

@@ -18,6 +18,6 @@
     "@types/mocha": "^7.0.2",
     "@types/web3": "^1.2.2",
     "truffle": "^5.1.22",
-    "typescript": "4.1.5"
+    "typescript": "^4.6"
   }
 }

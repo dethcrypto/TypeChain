@@ -55,8 +55,8 @@ contract('Events', ([deployer]) => {
     it('works', async () => {
       const response = await c.emit_event3()
       typedAssert(response.logs[0].event, 'Event3')
-      typedAssert(((response.logs[0].args as any) as Event3_bool_uint256['args']).value1, true)
-      typedAssert(((response.logs[0].args as any) as Event3_bool_uint256['args']).value2, new BigNumber(2))
+      typedAssert((response.logs[0].args as any as Event3_bool_uint256['args']).value1, true)
+      typedAssert((response.logs[0].args as any as Event3_bool_uint256['args']).value2, new BigNumber(2))
     })
 
     it('works for overload', async () => {

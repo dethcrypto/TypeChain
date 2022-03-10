@@ -67,7 +67,7 @@ describe(generateEventFilters.name, () => {
   })
 
   it('generates argument names from event field names in the ABI', () => {
-    const abi = ([
+    const abi = [
       {
         anonymous: false,
         inputs: [
@@ -78,7 +78,7 @@ describe(generateEventFilters.name, () => {
         name: 'Approval',
         type: 'event',
       },
-    ] as any) as RawAbiDefinition[]
+    ] as any as RawAbiDefinition[]
 
     const contract = parse(abi, 'Rarity')
     const [actual] = Object.values(contract.events).map(generateEventFilters)

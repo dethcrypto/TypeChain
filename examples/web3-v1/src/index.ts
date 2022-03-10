@@ -10,7 +10,7 @@ async function main() {
   const web3 = new Web3(RPC_HOST)
   const fromWei = web3.utils.fromWei
 
-  const dai = (new web3.eth.Contract(abi, DAI_ADDRESS) as any) as Dai
+  const dai = new web3.eth.Contract(abi, DAI_ADDRESS) as any as Dai
   const balance = await dai.methods.balanceOf('0x70b144972C5Ef6CB941A5379240B74239c418CD4').call()
 
   console.log(`Our DAI balance is: ${fromWei(balance)}`)
