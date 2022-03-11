@@ -26,6 +26,7 @@ export type Vector2StructOutput = [BigNumber, BigNumber] & {
 
 export interface StructsInConstructorInterface extends utils.Interface {
   contractName: "StructsInConstructor";
+
   functions: {};
 
   events: {};

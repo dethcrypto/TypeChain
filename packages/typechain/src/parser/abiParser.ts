@@ -183,7 +183,7 @@ export function parse(abi: RawAbiDefinition[], path: string, documentation?: Doc
     }
 
     if (abiPiece.type === 'event') {
-      const eventAbi = (abiPiece as any) as RawEventAbiDefinition
+      const eventAbi = abiPiece as any as RawEventAbiDefinition
 
       events.push(parseEvent(eventAbi, registerStruct))
       return

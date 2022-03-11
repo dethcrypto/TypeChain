@@ -22,15 +22,18 @@ import type {
 
 export interface LibraryInterface extends utils.Interface {
   contractName: "Library";
+
   functions: {
     "other(uint8)": FunctionFragment;
   };
 
+  events: {};
+
+  getFunction(nameOrSignatureOrTopic: "other"): FunctionFragment;
+
   encodeFunctionData(functionFragment: "other", values: [BigNumberish]): string;
 
   decodeFunctionResult(functionFragment: "other", data: BytesLike): Result;
-
-  events: {};
 }
 
 export interface Library extends BaseContract {

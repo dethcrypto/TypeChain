@@ -22,18 +22,36 @@ import type {
 
 export interface OverloadsInterface extends utils.Interface {
   contractName: "Overloads";
+
   functions: {
     "overload1(int256)": FunctionFragment;
+    "overload1(uint256,uint256)": FunctionFragment;
   };
 
+  events: {};
+
+  getFunction(nameOrSignatureOrTopic: "overload1(int256)"): FunctionFragment;
+  getFunction(
+    nameOrSignatureOrTopic: "overload1(uint256,uint256)"
+  ): FunctionFragment;
+
   encodeFunctionData(
-    functionFragment: "overload1",
+    functionFragment: "overload1(int256)",
     values: [BigNumberish]
   ): string;
+  encodeFunctionData(
+    functionFragment: "overload1(uint256,uint256)",
+    values: [BigNumberish, BigNumberish]
+  ): string;
 
-  decodeFunctionResult(functionFragment: "overload1", data: BytesLike): Result;
-
-  events: {};
+  decodeFunctionResult(
+    functionFragment: "overload1(int256)",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "overload1(uint256,uint256)",
+    data: BytesLike
+  ): Result;
 }
 
 export interface Overloads extends BaseContract {

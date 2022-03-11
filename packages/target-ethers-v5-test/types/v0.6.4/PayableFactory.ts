@@ -23,9 +23,14 @@ import type {
 
 export interface PayableFactoryInterface extends utils.Interface {
   contractName: "PayableFactory";
+
   functions: {
     "newPayable()": FunctionFragment;
   };
+
+  events: {};
+
+  getFunction(nameOrSignatureOrTopic: "newPayable"): FunctionFragment;
 
   encodeFunctionData(
     functionFragment: "newPayable",
@@ -33,8 +38,6 @@ export interface PayableFactoryInterface extends utils.Interface {
   ): string;
 
   decodeFunctionResult(functionFragment: "newPayable", data: BytesLike): Result;
-
-  events: {};
 }
 
 export interface PayableFactory extends BaseContract {

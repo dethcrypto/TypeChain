@@ -28,6 +28,7 @@ import type {
 
 export interface IERC721EnumerableInterface extends utils.Interface {
   contractName: "IERC721Enumerable";
+
   functions: {
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
@@ -35,12 +36,36 @@ export interface IERC721EnumerableInterface extends utils.Interface {
     "isApprovedForAll(address,address)": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
+    "safeTransferFrom(address,address,uint256,bytes)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
     "tokenByIndex(uint256)": FunctionFragment;
     "tokenOfOwnerByIndex(address,uint256)": FunctionFragment;
     "totalSupply()": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
   };
+
+  events: {
+    "Approval(address,address,uint256)": EventFragment;
+    "ApprovalForAll(address,address,bool)": EventFragment;
+    "Transfer(address,address,uint256)": EventFragment;
+  };
+
+  getFunction(nameOrSignatureOrTopic: "approve"): FunctionFragment;
+  getFunction(nameOrSignatureOrTopic: "balanceOf"): FunctionFragment;
+  getFunction(nameOrSignatureOrTopic: "getApproved"): FunctionFragment;
+  getFunction(nameOrSignatureOrTopic: "isApprovedForAll"): FunctionFragment;
+  getFunction(nameOrSignatureOrTopic: "ownerOf"): FunctionFragment;
+  getFunction(
+    nameOrSignatureOrTopic: "safeTransferFrom(address,address,uint256)"
+  ): FunctionFragment;
+  getFunction(
+    nameOrSignatureOrTopic: "safeTransferFrom(address,address,uint256,bytes)"
+  ): FunctionFragment;
+  getFunction(nameOrSignatureOrTopic: "setApprovalForAll"): FunctionFragment;
+  getFunction(nameOrSignatureOrTopic: "tokenByIndex"): FunctionFragment;
+  getFunction(nameOrSignatureOrTopic: "tokenOfOwnerByIndex"): FunctionFragment;
+  getFunction(nameOrSignatureOrTopic: "totalSupply"): FunctionFragment;
+  getFunction(nameOrSignatureOrTopic: "transferFrom"): FunctionFragment;
 
   encodeFunctionData(
     functionFragment: "approve",
@@ -60,8 +85,12 @@ export interface IERC721EnumerableInterface extends utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "safeTransferFrom",
+    functionFragment: "safeTransferFrom(address,address,uint256)",
     values: [string, string, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "safeTransferFrom(address,address,uint256,bytes)",
+    values: [string, string, BigNumberish, BytesLike]
   ): string;
   encodeFunctionData(
     functionFragment: "setApprovalForAll",
@@ -96,7 +125,11 @@ export interface IERC721EnumerableInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "safeTransferFrom",
+    functionFragment: "safeTransferFrom(address,address,uint256)",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "safeTransferFrom(address,address,uint256,bytes)",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -119,12 +152,6 @@ export interface IERC721EnumerableInterface extends utils.Interface {
     functionFragment: "transferFrom",
     data: BytesLike
   ): Result;
-
-  events: {
-    "Approval(address,address,uint256)": EventFragment;
-    "ApprovalForAll(address,address,bool)": EventFragment;
-    "Transfer(address,address,uint256)": EventFragment;
-  };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;

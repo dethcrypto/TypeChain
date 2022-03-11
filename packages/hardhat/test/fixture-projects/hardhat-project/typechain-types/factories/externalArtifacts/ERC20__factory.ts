@@ -315,24 +315,24 @@ export class ERC20__factory extends ContractFactory {
     this.contractName = "ERC20";
   }
 
-  deploy(
+  override deploy(
     name_: string,
     symbol_: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ERC20> {
     return super.deploy(name_, symbol_, overrides || {}) as Promise<ERC20>;
   }
-  getDeployTransaction(
+  override getDeployTransaction(
     name_: string,
     symbol_: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): TransactionRequest {
     return super.getDeployTransaction(name_, symbol_, overrides || {});
   }
-  attach(address: string): ERC20 {
+  override attach(address: string): ERC20 {
     return super.attach(address) as ERC20;
   }
-  connect(signer: Signer): ERC20__factory {
+  override connect(signer: Signer): ERC20__factory {
     return super.connect(signer) as ERC20__factory;
   }
   static readonly contractName: "ERC20";

@@ -21,18 +21,22 @@ import type {
 
 export interface NameManglingInterface extends utils.Interface {
   contractName: "NameMangling";
+
   functions: {
     "provider()": FunctionFragment;
     "works()": FunctionFragment;
   };
+
+  events: {};
+
+  getFunction(nameOrSignatureOrTopic: "provider"): FunctionFragment;
+  getFunction(nameOrSignatureOrTopic: "works"): FunctionFragment;
 
   encodeFunctionData(functionFragment: "provider", values?: undefined): string;
   encodeFunctionData(functionFragment: "works", values?: undefined): string;
 
   decodeFunctionResult(functionFragment: "provider", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "works", data: BytesLike): Result;
-
-  events: {};
 }
 
 export interface NameMangling extends BaseContract {

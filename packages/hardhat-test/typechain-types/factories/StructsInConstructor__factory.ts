@@ -56,24 +56,25 @@ export class StructsInConstructor__factory extends ContractFactory {
     this.contractName = "StructsInConstructor";
   }
 
-  deploy(
+  override deploy(
     segment: [Vector2Struct, Vector2Struct],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<StructsInConstructor> {
-    return super.deploy(segment, overrides || {}) as Promise<
-      StructsInConstructor
-    >;
+    return super.deploy(
+      segment,
+      overrides || {}
+    ) as Promise<StructsInConstructor>;
   }
-  getDeployTransaction(
+  override getDeployTransaction(
     segment: [Vector2Struct, Vector2Struct],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): TransactionRequest {
     return super.getDeployTransaction(segment, overrides || {});
   }
-  attach(address: string): StructsInConstructor {
+  override attach(address: string): StructsInConstructor {
     return super.attach(address) as StructsInConstructor;
   }
-  connect(signer: Signer): StructsInConstructor__factory {
+  override connect(signer: Signer): StructsInConstructor__factory {
     return super.connect(signer) as StructsInConstructor__factory;
   }
   static readonly contractName: "StructsInConstructor";

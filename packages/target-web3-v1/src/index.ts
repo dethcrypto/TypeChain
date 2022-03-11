@@ -51,7 +51,7 @@ export default class Web3V1 extends TypeChainTarget {
     }
   }
 
-  afterRun(): FileDescription[] {
+  override afterRun(): FileDescription[] {
     return [
       {
         path: join(this.outDirAbs, 'types.ts'),

@@ -35,6 +35,7 @@ export declare namespace Demo {
 
 export interface DemoInterface extends utils.Interface {
   contractName: "Demo";
+
   functions: {};
 
   events: {};
