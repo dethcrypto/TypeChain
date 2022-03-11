@@ -185,7 +185,7 @@ export interface DataTypesInputInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "input_struct_array_array",
-    values: [DataTypesInput.Struct1Struct[]]
+    values: [DataTypesInput.Struct1Struct[][]]
   ): string;
   encodeFunctionData(
     functionFragment: "input_tuple",
@@ -395,9 +395,9 @@ export interface DataTypesInput extends BaseContract {
     ): Promise<[DataTypesInput.Struct1StructOutput[]]>;
 
     input_struct_array_array(
-      input1: DataTypesInput.Struct1Struct[],
+      input1: DataTypesInput.Struct1Struct[][],
       overrides?: CallOverrides
-    ): Promise<[DataTypesInput.Struct1StructOutput[]]>;
+    ): Promise<[DataTypesInput.Struct1StructOutput[][]]>;
 
     input_tuple(
       input1: BigNumberish,
@@ -491,9 +491,9 @@ export interface DataTypesInput extends BaseContract {
   ): Promise<DataTypesInput.Struct1StructOutput[]>;
 
   input_struct_array_array(
-    input1: DataTypesInput.Struct1Struct[],
+    input1: DataTypesInput.Struct1Struct[][],
     overrides?: CallOverrides
-  ): Promise<DataTypesInput.Struct1StructOutput[]>;
+  ): Promise<DataTypesInput.Struct1StructOutput[][]>;
 
   input_tuple(
     input1: BigNumberish,
@@ -590,9 +590,9 @@ export interface DataTypesInput extends BaseContract {
     ): Promise<DataTypesInput.Struct1StructOutput[]>;
 
     input_struct_array_array(
-      input1: DataTypesInput.Struct1Struct[],
+      input1: DataTypesInput.Struct1Struct[][],
       overrides?: CallOverrides
-    ): Promise<DataTypesInput.Struct1StructOutput[]>;
+    ): Promise<DataTypesInput.Struct1StructOutput[][]>;
 
     input_tuple(
       input1: BigNumberish,
@@ -698,7 +698,7 @@ export interface DataTypesInput extends BaseContract {
     ): Promise<BigNumber>;
 
     input_struct_array_array(
-      input1: DataTypesInput.Struct1Struct[],
+      input1: DataTypesInput.Struct1Struct[][],
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -810,7 +810,7 @@ export interface DataTypesInput extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     input_struct_array_array(
-      input1: DataTypesInput.Struct1Struct[],
+      input1: DataTypesInput.Struct1Struct[][],
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

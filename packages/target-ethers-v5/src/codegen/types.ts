@@ -49,7 +49,7 @@ export function generateInputType(options: GenerateTypeOptions, evmType: EvmType
           evmType.structName
             ? evmType.structName.toString() + STRUCT_INPUT_POSTFIX
             : generateInputType({ ...options, useStructs: true }, evmType.itemType),
-          evmType.size,
+          evmType.originalType,
         )
       }
     case 'boolean':
@@ -88,7 +88,7 @@ export function generateOutputType(options: GenerateTypeOptions, evmType: EvmOut
         evmType.structName
           ? evmType.structName.toString() + STRUCT_OUTPUT_POSTFIX
           : generateOutputType({ ...options, useStructs: true }, evmType.itemType),
-        evmType.size,
+        evmType.originalType,
       )
     case 'boolean':
       return 'boolean'
@@ -141,10 +141,22 @@ export function generateOutputComplexTypesAsObject(
   return namedElementsCode
 }
 
-function generateArrayOrTupleType(item: string, length?: number) {
-  if (length !== undefined && length < 6) {
-    return `[${Array(length).fill(item).join(', ')}]`
-  } else {
-    return `(${item})[]`
+function generateArrayOrTupleType(item: string, originalType: string): string {
+  // there can be recursive array types, so we need to handle them
+  const split = originalType.split('][')
+  // get rid of the solidity type in the first split element
+  split[0] = split[0].split('[')[1]
+  // process multiple depths of the array
+  for (const depth of split) {
+    // length is optionally mentioned between the brackets, get rid of any brackets
+    const lengthStr = depth.replace(/\]|\[/g, '')
+    if (lengthStr !== '' && !isNaN(Number(lengthStr)) && Number(lengthStr) < 6) {
+      // if length is mentioned and small, then preserve the length by using a tuple
+      item = `[${Array(Number(lengthStr)).fill(item).join(', ')}]`
+    } else {
+      // if length is not mentioned or very huge, then use a dynamic array
+      item = `(${item})[]`
+    }
   }
+  return item
 }
