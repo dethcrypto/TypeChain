@@ -47,13 +47,6 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
         .join('\n')}
     };
 
-    events: {
-      ${values(contract.events)
-        .flatMap((v) => v.map(generateInterfaceEventDescription))
-        .join('\n')}
-    };
-
-
     ${generateGetFunction(
       values(contract.functions).flatMap((v) =>
         processDeclaration(v, alwaysGenerateOverloads, generateFunctionNameOrSignature),
@@ -67,6 +60,12 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
     ${values(contract.functions)
       .flatMap((v) => processDeclaration(v, alwaysGenerateOverloads, generateDecodeFunctionResultOverload))
       .join('\n')}
+
+    events: {
+      ${values(contract.events)
+        .flatMap((v) => v.map(generateInterfaceEventDescription))
+        .join('\n')}
+    };
 
     ${values(contract.events)
       .flatMap((v) => processDeclaration(v, alwaysGenerateOverloads, generateGetEvent))
@@ -175,16 +174,16 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
 
   export class ${contract.name}${FACTORY_POSTFIX} extends ContractFactory {
     ${generateFactoryConstructor(contract, bytecode)}
-    deploy(${constructorArgs}): Promise<${contract.name}> {
+    override deploy(${constructorArgs}): Promise<${contract.name}> {
       return super.deploy(${constructorArgNames}) as Promise<${contract.name}>;
     }
-    getDeployTransaction(${constructorArgs}): TransactionRequest {
+    override getDeployTransaction(${constructorArgs}): TransactionRequest {
       return super.getDeployTransaction(${constructorArgNames});
     };
-    attach(address: string): ${contract.name} {
+    override attach(address: string): ${contract.name} {
       return super.attach(address) as ${contract.name};
     }
-    connect(signer: Signer): ${contract.name}${FACTORY_POSTFIX} {
+    override connect(signer: Signer): ${contract.name}${FACTORY_POSTFIX} {
       return super.connect(signer) as ${contract.name}${FACTORY_POSTFIX};
     }
     static readonly contractName: '${contract.name}';

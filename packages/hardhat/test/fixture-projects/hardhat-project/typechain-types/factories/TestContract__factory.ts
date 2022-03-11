@@ -73,22 +73,22 @@ export class TestContract__factory extends ContractFactory {
     return linkedBytecode;
   }
 
-  deploy(
+  override deploy(
     _amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<TestContract> {
     return super.deploy(_amount, overrides || {}) as Promise<TestContract>;
   }
-  getDeployTransaction(
+  override getDeployTransaction(
     _amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): TransactionRequest {
     return super.getDeployTransaction(_amount, overrides || {});
   }
-  attach(address: string): TestContract {
+  override attach(address: string): TestContract {
     return super.attach(address) as TestContract;
   }
-  connect(signer: Signer): TestContract__factory {
+  override connect(signer: Signer): TestContract__factory {
     return super.connect(signer) as TestContract__factory;
   }
   static readonly contractName: "TestContract";

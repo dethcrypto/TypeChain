@@ -30,8 +30,6 @@ export interface PayableInterface extends utils.Interface {
     "payable_func()": FunctionFragment;
   };
 
-  events: {};
-
   getFunction(
     nameOrSignatureOrTopic: "non_payable_func" | "payable_func"
   ): FunctionFragment;
@@ -53,6 +51,8 @@ export interface PayableInterface extends utils.Interface {
     functionFragment: "payable_func",
     data: BytesLike
   ): Result;
+
+  events: {};
 }
 
 export interface Payable extends BaseContract {

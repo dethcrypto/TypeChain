@@ -57,14 +57,6 @@ export interface RarityInterface extends utils.Interface {
     "xp_required(uint256)": FunctionFragment;
   };
 
-  events: {
-    "Approval(address,address,uint256)": EventFragment;
-    "ApprovalForAll(address,address,bool)": EventFragment;
-    "Transfer(address,address,uint256)": EventFragment;
-    "leveled(address,uint256,uint256)": EventFragment;
-    "summoned(address,uint256,uint256)": EventFragment;
-  };
-
   getFunction(
     nameOrSignatureOrTopic:
       | "adventure"
@@ -244,6 +236,14 @@ export interface RarityInterface extends utils.Interface {
     functionFragment: "xp_required",
     data: BytesLike
   ): Result;
+
+  events: {
+    "Approval(address,address,uint256)": EventFragment;
+    "ApprovalForAll(address,address,bool)": EventFragment;
+    "Transfer(address,address,uint256)": EventFragment;
+    "leveled(address,uint256,uint256)": EventFragment;
+    "summoned(address,uint256,uint256)": EventFragment;
+  };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;

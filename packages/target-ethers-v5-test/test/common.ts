@@ -18,5 +18,5 @@ export function deployContract<T>(signer: ethers.Signer, name: string): Promise<
   const { abi, code } = loadContract(name)
 
   const factory = new ethers.ContractFactory(abi, code, signer)
-  return (factory.deploy() as any) as Promise<T>
+  return factory.deploy() as any as Promise<T>
 }

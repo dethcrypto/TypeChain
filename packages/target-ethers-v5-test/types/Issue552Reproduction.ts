@@ -58,8 +58,6 @@ export interface Issue552ReproductionInterface extends utils.Interface {
     "makeObservation(uint256,uint256)": FunctionFragment;
   };
 
-  events: {};
-
   getFunction(
     nameOrSignatureOrTopic: "bars" | "input" | "makeObservation"
   ): FunctionFragment;
@@ -80,6 +78,8 @@ export interface Issue552ReproductionInterface extends utils.Interface {
     functionFragment: "makeObservation",
     data: BytesLike
   ): Result;
+
+  events: {};
 }
 
 export interface Issue552Reproduction extends BaseContract {

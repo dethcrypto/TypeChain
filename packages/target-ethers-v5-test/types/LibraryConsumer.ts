@@ -27,8 +27,6 @@ export interface LibraryConsumerInterface extends utils.Interface {
     "someOther(uint8)": FunctionFragment;
   };
 
-  events: {};
-
   getFunction(nameOrSignatureOrTopic: "someOther"): FunctionFragment;
 
   encodeFunctionData(
@@ -37,6 +35,8 @@ export interface LibraryConsumerInterface extends utils.Interface {
   ): string;
 
   decodeFunctionResult(functionFragment: "someOther", data: BytesLike): Result;
+
+  events: {};
 }
 
 export interface LibraryConsumer extends BaseContract {

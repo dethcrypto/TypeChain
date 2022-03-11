@@ -52,8 +52,6 @@ export interface DataTypesViewInterface extends utils.Interface {
     "view_uint8()": FunctionFragment;
   };
 
-  events: {};
-
   getFunction(
     nameOrSignatureOrTopic:
       | "view_address"
@@ -155,6 +153,8 @@ export interface DataTypesViewInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "view_uint8", data: BytesLike): Result;
+
+  events: {};
 }
 
 export interface DataTypesView extends BaseContract {

@@ -86,8 +86,6 @@ export interface DataTypesInputInterface extends utils.Interface {
     "input_uint_array(uint256[])": FunctionFragment;
   };
 
-  events: {};
-
   getFunction(
     nameOrSignatureOrTopic:
       | "input_address"
@@ -258,6 +256,8 @@ export interface DataTypesInputInterface extends utils.Interface {
     functionFragment: "input_uint_array",
     data: BytesLike
   ): Result;
+
+  events: {};
 }
 
 export interface DataTypesInput extends BaseContract {

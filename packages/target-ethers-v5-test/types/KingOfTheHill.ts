@@ -45,10 +45,6 @@ export interface KingOfTheHillInterface extends utils.Interface {
     "withdraw()": FunctionFragment;
   };
 
-  events: {
-    "HighestBidIncreased(tuple)": EventFragment;
-  };
-
   getFunction(
     nameOrSignatureOrTopic: "bid" | "highestBid" | "withdraw"
   ): FunctionFragment;
@@ -64,6 +60,10 @@ export interface KingOfTheHillInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "highestBid", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "withdraw", data: BytesLike): Result;
 
+  events: {
+    "HighestBidIncreased(tuple)": EventFragment;
+  };
+
   getEvent(nameOrSignatureOrTopic: "HighestBidIncreased"): EventFragment;
 }
 
@@ -72,9 +72,8 @@ export type HighestBidIncreasedEvent = TypedEvent<
   { bid: KingOfTheHill.BidStructOutput }
 >;
 
-export type HighestBidIncreasedEventFilter = TypedEventFilter<
-  HighestBidIncreasedEvent
->;
+export type HighestBidIncreasedEventFilter =
+  TypedEventFilter<HighestBidIncreasedEvent>;
 
 export interface KingOfTheHill extends BaseContract {
   contractName: "KingOfTheHill";

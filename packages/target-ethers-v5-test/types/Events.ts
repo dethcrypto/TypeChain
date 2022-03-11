@@ -47,17 +47,6 @@ export interface EventsInterface extends utils.Interface {
     "emit_event4()": FunctionFragment;
   };
 
-  events: {
-    "AnonEvent1(uint256)": EventFragment;
-    "Event1(uint256,uint256)": EventFragment;
-    "Event2(uint256)": EventFragment;
-    "Event3(bool,uint256)": EventFragment;
-    "Event3(uint256)": EventFragment;
-    "Event4(tuple)": EventFragment;
-    "NoArgsEvent()": EventFragment;
-    "UpdateFrequencySet(address[],uint256[])": EventFragment;
-  };
-
   getFunction(
     nameOrSignatureOrTopic:
       | "emit_anon1"
@@ -115,6 +104,17 @@ export interface EventsInterface extends utils.Interface {
     data: BytesLike
   ): Result;
 
+  events: {
+    "AnonEvent1(uint256)": EventFragment;
+    "Event1(uint256,uint256)": EventFragment;
+    "Event2(uint256)": EventFragment;
+    "Event3(bool,uint256)": EventFragment;
+    "Event3(uint256)": EventFragment;
+    "Event4(tuple)": EventFragment;
+    "NoArgsEvent()": EventFragment;
+    "UpdateFrequencySet(address[],uint256[])": EventFragment;
+  };
+
   getEvent(nameOrSignatureOrTopic: "AnonEvent1"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Event1"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Event2"): EventFragment;
@@ -145,9 +145,8 @@ export type Event3_bool_uint256_Event = TypedEvent<
   { value1: boolean; value2: BigNumber }
 >;
 
-export type Event3_bool_uint256_EventFilter = TypedEventFilter<
-  Event3_bool_uint256_Event
->;
+export type Event3_bool_uint256_EventFilter =
+  TypedEventFilter<Event3_bool_uint256_Event>;
 
 export type Event3_uint256_Event = TypedEvent<
   [BigNumber],
@@ -172,9 +171,8 @@ export type UpdateFrequencySetEvent = TypedEvent<
   { arg0: string[]; arg1: BigNumber[] }
 >;
 
-export type UpdateFrequencySetEventFilter = TypedEventFilter<
-  UpdateFrequencySetEvent
->;
+export type UpdateFrequencySetEventFilter =
+  TypedEventFilter<UpdateFrequencySetEvent>;
 
 export interface Events extends BaseContract {
   contractName: "Events";

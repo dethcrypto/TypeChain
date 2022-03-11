@@ -52,8 +52,6 @@ export interface DataTypesPureInterface extends utils.Interface {
     "pure_uint8()": FunctionFragment;
   };
 
-  events: {};
-
   getFunction(
     nameOrSignatureOrTopic:
       | "pure_address"
@@ -155,6 +153,8 @@ export interface DataTypesPureInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "pure_uint8", data: BytesLike): Result;
+
+  events: {};
 }
 
 export interface DataTypesPure extends BaseContract {

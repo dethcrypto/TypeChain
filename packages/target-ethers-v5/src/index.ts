@@ -121,7 +121,7 @@ export default class Ethers extends TypeChainTarget {
     }
   }
 
-  afterRun(): FileDescription[] {
+  override afterRun(): FileDescription[] {
     // For each contract that doesn't have bytecode (it's either abstract, or only ABI was provided)
     // generate a simplified factory, that allows to interact with deployed contract instances.
     const abstractFactoryFiles = Object.keys(this.contractCache).map((contractName) => {

@@ -27,8 +27,6 @@ export interface NameManglingInterface extends utils.Interface {
     "works()": FunctionFragment;
   };
 
-  events: {};
-
   getFunction(nameOrSignatureOrTopic: "provider" | "works"): FunctionFragment;
 
   encodeFunctionData(functionFragment: "provider", values?: undefined): string;
@@ -36,6 +34,8 @@ export interface NameManglingInterface extends utils.Interface {
 
   decodeFunctionResult(functionFragment: "provider", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "works", data: BytesLike): Result;
+
+  events: {};
 }
 
 export interface NameMangling extends BaseContract {

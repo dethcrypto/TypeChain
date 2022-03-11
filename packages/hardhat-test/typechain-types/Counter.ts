@@ -34,10 +34,6 @@ export interface CounterInterface extends utils.Interface {
     "getCount()": FunctionFragment;
   };
 
-  events: {
-    "CountedTo(uint256)": EventFragment;
-  };
-
   getFunction(
     nameOrSignatureOrTopic: "countDown" | "countUp" | "getCount"
   ): FunctionFragment;
@@ -49,6 +45,10 @@ export interface CounterInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "countDown", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "countUp", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getCount", data: BytesLike): Result;
+
+  events: {
+    "CountedTo(uint256)": EventFragment;
+  };
 
   getEvent(nameOrSignatureOrTopic: "CountedTo"): EventFragment;
 }
