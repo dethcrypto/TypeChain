@@ -93,6 +93,30 @@ export interface DataTypesInputInstance extends Truffle.ContractInstance {
     txDetails?: Truffle.TransactionDetails
   ): Promise<{ uint256_0: BN; uint256_1: BN }[][]>;
 
+  input_struct_fixedarray_array(
+    input1: {
+      uint256_0: number | BN | string;
+      uint256_1: number | BN | string;
+    }[][],
+    txDetails?: Truffle.TransactionDetails
+  ): Promise<{ uint256_0: BN; uint256_1: BN }[][]>;
+
+  input_struct_array_fixedarray(
+    input1: {
+      uint256_0: number | BN | string;
+      uint256_1: number | BN | string;
+    }[][],
+    txDetails?: Truffle.TransactionDetails
+  ): Promise<{ uint256_0: BN; uint256_1: BN }[][]>;
+
+  input_struct_fixedarray_fixedarray(
+    input1: {
+      uint256_0: number | BN | string;
+      uint256_1: number | BN | string;
+    }[][],
+    txDetails?: Truffle.TransactionDetails
+  ): Promise<{ uint256_0: BN; uint256_1: BN }[][]>;
+
   input_enum(
     input1: number | BN | string,
     txDetails?: Truffle.TransactionDetails
@@ -220,6 +244,30 @@ export interface DataTypesInputInstance extends Truffle.ContractInstance {
     ): Promise<{ uint256_0: BN; uint256_1: BN }[]>;
 
     input_struct_array_array(
+      input1: {
+        uint256_0: number | BN | string;
+        uint256_1: number | BN | string;
+      }[][],
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<{ uint256_0: BN; uint256_1: BN }[][]>;
+
+    input_struct_fixedarray_array(
+      input1: {
+        uint256_0: number | BN | string;
+        uint256_1: number | BN | string;
+      }[][],
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<{ uint256_0: BN; uint256_1: BN }[][]>;
+
+    input_struct_array_fixedarray(
+      input1: {
+        uint256_0: number | BN | string;
+        uint256_1: number | BN | string;
+      }[][],
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<{ uint256_0: BN; uint256_1: BN }[][]>;
+
+    input_struct_fixedarray_fixedarray(
       input1: {
         uint256_0: number | BN | string;
         uint256_1: number | BN | string;

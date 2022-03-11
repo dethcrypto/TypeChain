@@ -590,6 +590,135 @@ const _abi = [
   {
     inputs: [
       {
+        components: [
+          {
+            internalType: "uint256",
+            name: "uint256_0",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "uint256_1",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct DataTypesInput.Struct1[][2]",
+        name: "input1",
+        type: "tuple[][2]",
+      },
+    ],
+    name: "input_struct_array_fixedarray",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "uint256_0",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "uint256_1",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct DataTypesInput.Struct1[][2]",
+        name: "",
+        type: "tuple[][2]",
+      },
+    ],
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "uint256_0",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "uint256_1",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct DataTypesInput.Struct1[2][]",
+        name: "input1",
+        type: "tuple[2][]",
+      },
+    ],
+    name: "input_struct_fixedarray_array",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "uint256_0",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "uint256_1",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct DataTypesInput.Struct1[2][]",
+        name: "",
+        type: "tuple[2][]",
+      },
+    ],
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "uint256_0",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "uint256_1",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct DataTypesInput.Struct1[2][3]",
+        name: "input1",
+        type: "tuple[2][3]",
+      },
+    ],
+    name: "input_struct_fixedarray_fixedarray",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "uint256_0",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "uint256_1",
+            type: "uint256",
+          },
+        ],
+        internalType: "struct DataTypesInput.Struct1[2][3]",
+        name: "",
+        type: "tuple[2][3]",
+      },
+    ],
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "uint256",
         name: "input1",
         type: "uint256",

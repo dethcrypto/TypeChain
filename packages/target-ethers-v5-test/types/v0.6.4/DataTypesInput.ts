@@ -82,6 +82,9 @@ export interface DataTypesInputInterface extends utils.Interface {
     "input_struct3_array((uint256[])[])": FunctionFragment;
     "input_struct_array((uint256,uint256)[])": FunctionFragment;
     "input_struct_array_array(tuple[][])": FunctionFragment;
+    "input_struct_array_fixedarray(tuple[][2])": FunctionFragment;
+    "input_struct_fixedarray_array(tuple[2][])": FunctionFragment;
+    "input_struct_fixedarray_fixedarray(tuple[2][3])": FunctionFragment;
     "input_tuple(uint256,uint256)": FunctionFragment;
     "input_uint256(uint256)": FunctionFragment;
     "input_uint8(uint8)": FunctionFragment;
@@ -110,6 +113,15 @@ export interface DataTypesInputInterface extends utils.Interface {
   getFunction(nameOrSignatureOrTopic: "input_struct_array"): FunctionFragment;
   getFunction(
     nameOrSignatureOrTopic: "input_struct_array_array"
+  ): FunctionFragment;
+  getFunction(
+    nameOrSignatureOrTopic: "input_struct_array_fixedarray"
+  ): FunctionFragment;
+  getFunction(
+    nameOrSignatureOrTopic: "input_struct_fixedarray_array"
+  ): FunctionFragment;
+  getFunction(
+    nameOrSignatureOrTopic: "input_struct_fixedarray_fixedarray"
   ): FunctionFragment;
   getFunction(nameOrSignatureOrTopic: "input_tuple"): FunctionFragment;
   getFunction(nameOrSignatureOrTopic: "input_uint256"): FunctionFragment;
@@ -188,6 +200,24 @@ export interface DataTypesInputInterface extends utils.Interface {
     values: [DataTypesInput.Struct1Struct[][]]
   ): string;
   encodeFunctionData(
+    functionFragment: "input_struct_array_fixedarray",
+    values: [[DataTypesInput.Struct1Struct[], DataTypesInput.Struct1Struct[]]]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "input_struct_fixedarray_array",
+    values: [[DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "input_struct_fixedarray_fixedarray",
+    values: [
+      [
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct]
+      ]
+    ]
+  ): string;
+  encodeFunctionData(
     functionFragment: "input_tuple",
     values: [BigNumberish, BigNumberish]
   ): string;
@@ -261,6 +291,18 @@ export interface DataTypesInputInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "input_struct_array_array",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "input_struct_array_fixedarray",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "input_struct_fixedarray_array",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "input_struct_fixedarray_fixedarray",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -399,6 +441,56 @@ export interface DataTypesInput extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[DataTypesInput.Struct1StructOutput[][]]>;
 
+    input_struct_array_fixedarray(
+      input1: [DataTypesInput.Struct1Struct[], DataTypesInput.Struct1Struct[]],
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        [
+          DataTypesInput.Struct1StructOutput[],
+          DataTypesInput.Struct1StructOutput[]
+        ]
+      ]
+    >;
+
+    input_struct_fixedarray_array(
+      input1: [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        [
+          DataTypesInput.Struct1StructOutput,
+          DataTypesInput.Struct1StructOutput
+        ][]
+      ]
+    >;
+
+    input_struct_fixedarray_fixedarray(
+      input1: [
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct]
+      ],
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        [
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ],
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ],
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ]
+        ]
+      ]
+    >;
+
     input_tuple(
       input1: BigNumberish,
       input2: BigNumberish,
@@ -494,6 +586,35 @@ export interface DataTypesInput extends BaseContract {
     input1: DataTypesInput.Struct1Struct[][],
     overrides?: CallOverrides
   ): Promise<DataTypesInput.Struct1StructOutput[][]>;
+
+  input_struct_array_fixedarray(
+    input1: [DataTypesInput.Struct1Struct[], DataTypesInput.Struct1Struct[]],
+    overrides?: CallOverrides
+  ): Promise<
+    [DataTypesInput.Struct1StructOutput[], DataTypesInput.Struct1StructOutput[]]
+  >;
+
+  input_struct_fixedarray_array(
+    input1: [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+    overrides?: CallOverrides
+  ): Promise<
+    [DataTypesInput.Struct1StructOutput, DataTypesInput.Struct1StructOutput][]
+  >;
+
+  input_struct_fixedarray_fixedarray(
+    input1: [
+      [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
+      [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
+      [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct]
+    ],
+    overrides?: CallOverrides
+  ): Promise<
+    [
+      [DataTypesInput.Struct1StructOutput, DataTypesInput.Struct1StructOutput],
+      [DataTypesInput.Struct1StructOutput, DataTypesInput.Struct1StructOutput],
+      [DataTypesInput.Struct1StructOutput, DataTypesInput.Struct1StructOutput]
+    ]
+  >;
 
   input_tuple(
     input1: BigNumberish,
@@ -593,6 +714,44 @@ export interface DataTypesInput extends BaseContract {
       input1: DataTypesInput.Struct1Struct[][],
       overrides?: CallOverrides
     ): Promise<DataTypesInput.Struct1StructOutput[][]>;
+
+    input_struct_array_fixedarray(
+      input1: [DataTypesInput.Struct1Struct[], DataTypesInput.Struct1Struct[]],
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        DataTypesInput.Struct1StructOutput[],
+        DataTypesInput.Struct1StructOutput[]
+      ]
+    >;
+
+    input_struct_fixedarray_array(
+      input1: [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+      overrides?: CallOverrides
+    ): Promise<
+      [DataTypesInput.Struct1StructOutput, DataTypesInput.Struct1StructOutput][]
+    >;
+
+    input_struct_fixedarray_fixedarray(
+      input1: [
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct]
+      ],
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        [
+          DataTypesInput.Struct1StructOutput,
+          DataTypesInput.Struct1StructOutput
+        ],
+        [
+          DataTypesInput.Struct1StructOutput,
+          DataTypesInput.Struct1StructOutput
+        ],
+        [DataTypesInput.Struct1StructOutput, DataTypesInput.Struct1StructOutput]
+      ]
+    >;
 
     input_tuple(
       input1: BigNumberish,
@@ -699,6 +858,25 @@ export interface DataTypesInput extends BaseContract {
 
     input_struct_array_array(
       input1: DataTypesInput.Struct1Struct[][],
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    input_struct_array_fixedarray(
+      input1: [DataTypesInput.Struct1Struct[], DataTypesInput.Struct1Struct[]],
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    input_struct_fixedarray_array(
+      input1: [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    input_struct_fixedarray_fixedarray(
+      input1: [
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct]
+      ],
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -811,6 +989,25 @@ export interface DataTypesInput extends BaseContract {
 
     input_struct_array_array(
       input1: DataTypesInput.Struct1Struct[][],
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    input_struct_array_fixedarray(
+      input1: [DataTypesInput.Struct1Struct[], DataTypesInput.Struct1Struct[]],
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    input_struct_fixedarray_array(
+      input1: [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    input_struct_fixedarray_fixedarray(
+      input1: [
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct]
+      ],
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
