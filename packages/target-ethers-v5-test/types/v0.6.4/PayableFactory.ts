@@ -22,8 +22,6 @@ import type {
 } from "../common";
 
 export interface PayableFactoryInterface extends utils.Interface {
-  contractName: "PayableFactory";
-
   functions: {
     "newPayable()": FunctionFragment;
   };
@@ -41,7 +39,6 @@ export interface PayableFactoryInterface extends utils.Interface {
 }
 
 export interface PayableFactory extends BaseContract {
-  contractName: "PayableFactory";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

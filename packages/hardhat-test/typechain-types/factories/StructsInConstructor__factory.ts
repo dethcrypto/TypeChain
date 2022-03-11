@@ -53,7 +53,6 @@ export class StructsInConstructor__factory extends ContractFactory {
     } else {
       super(_abi, _bytecode, args[0]);
     }
-    this.contractName = "StructsInConstructor";
   }
 
   override deploy(
@@ -77,8 +76,7 @@ export class StructsInConstructor__factory extends ContractFactory {
   override connect(signer: Signer): StructsInConstructor__factory {
     return super.connect(signer) as StructsInConstructor__factory;
   }
-  static readonly contractName: "StructsInConstructor";
-  public readonly contractName: "StructsInConstructor";
+
   static readonly bytecode = _bytecode;
   static readonly abi = _abi;
   static createInterface(): StructsInConstructorInterface {

@@ -12,8 +12,6 @@ import type {
 } from "../common";
 
 export interface Issue428_ReproductionInterface extends utils.Interface {
-  contractName: "Issue428_Reproduction";
-
   functions: {};
 
   events: {
@@ -28,7 +26,6 @@ export type CommittedEvent = TypedEvent<[string[]], { whitelist: string[] }>;
 export type CommittedEventFilter = TypedEventFilter<CommittedEvent>;
 
 export interface Issue428_Reproduction extends BaseContract {
-  contractName: "Issue428_Reproduction";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

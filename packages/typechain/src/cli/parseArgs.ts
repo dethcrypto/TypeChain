@@ -7,6 +7,7 @@ export interface ParsedArgs {
   target: string
   outDir?: string | undefined
   flags: {
+    discriminateTypes: boolean
     alwaysGenerateOverloads: boolean
     tsNocheck: boolean
   }
@@ -42,6 +43,12 @@ export function parseArgs(): ParsedArgs {
         description:
           'Prepend "@ts-nocheck" comment to generated files to opt-out of typechecking them in your project.',
       },
+      'discriminate-types': {
+        type: Boolean,
+        defaultValue: false,
+        description:
+          'ethers-v5 target will add an artificial field `contractName` that helps discriminate between contracts',
+      },
       help: { type: Boolean, defaultValue: false, alias: 'h', description: 'Prints this message.' },
     },
     {
@@ -72,6 +79,7 @@ export function parseArgs(): ParsedArgs {
     target: rawOptions.target,
     flags: {
       alwaysGenerateOverloads: rawOptions['always-generate-overloads'],
+      discriminateTypes: rawOptions['discriminate-types'],
       tsNocheck: rawOptions['ts-nocheck'],
     },
   }
@@ -83,6 +91,7 @@ interface CommandLineArgs {
   'out-dir'?: string
   'show-stack-traces': boolean
   'always-generate-overloads': boolean
+  'discriminate-types': boolean
   'ts-nocheck': boolean
   help: boolean
 }

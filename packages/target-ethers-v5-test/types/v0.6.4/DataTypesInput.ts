@@ -62,8 +62,6 @@ export declare namespace DataTypesInput {
 }
 
 export interface DataTypesInputInterface extends utils.Interface {
-  contractName: "DataTypesInput";
-
   functions: {
     "input_address(address)": FunctionFragment;
     "input_bool(bool)": FunctionFragment;
@@ -260,7 +258,6 @@ export interface DataTypesInputInterface extends utils.Interface {
 }
 
 export interface DataTypesInput extends BaseContract {
-  contractName: "DataTypesInput";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

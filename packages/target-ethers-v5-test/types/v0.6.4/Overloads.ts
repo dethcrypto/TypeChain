@@ -21,8 +21,6 @@ import type {
 } from "../common";
 
 export interface OverloadsInterface extends utils.Interface {
-  contractName: "Overloads";
-
   functions: {
     "overload1(int256)": FunctionFragment;
     "overload1(uint256,uint256)": FunctionFragment;
@@ -55,7 +53,6 @@ export interface OverloadsInterface extends utils.Interface {
 }
 
 export interface Overloads extends BaseContract {
-  contractName: "Overloads";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

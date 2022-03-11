@@ -34,15 +34,12 @@ export declare namespace Demo {
 }
 
 export interface DemoInterface extends utils.Interface {
-  contractName: "Demo";
-
   functions: {};
 
   events: {};
 }
 
 export interface Demo extends BaseContract {
-  contractName: "Demo";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

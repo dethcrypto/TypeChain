@@ -26,7 +26,11 @@ export function typedAssert<T>(actual: T, expected: T): void {
     return
   }
 
-  expect(actual).toLooseEqual(expected)
+  if (typeof expected === 'object') {
+    expect(actual as any).toBeAnObjectWith(expected as any)
+  } else {
+    expect(actual as any).toEqual(expected as any)
+  }
 }
 
 export function isBigNumber(v: any): boolean {

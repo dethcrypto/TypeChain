@@ -7,6 +7,7 @@ export function getDefaultTypechainConfig(config: HardhatUserConfig): TypechainC
     outDir: 'typechain-types',
     target: 'ethers-v5',
     alwaysGenerateOverloads: false,
+    discriminateTypes: false,
     tsNocheck: false,
   }
 

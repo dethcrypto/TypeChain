@@ -12,15 +12,12 @@ import type {
 } from "../../common";
 
 export interface TestContractInterface extends utils.Interface {
-  contractName: "TestContract";
-
   functions: {};
 
   events: {};
 }
 
 export interface TestContract extends BaseContract {
-  contractName: "TestContract";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

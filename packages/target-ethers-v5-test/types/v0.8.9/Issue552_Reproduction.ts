@@ -50,8 +50,6 @@ export declare namespace Issue552_Reproduction {
 }
 
 export interface Issue552_ReproductionInterface extends utils.Interface {
-  contractName: "Issue552_Reproduction";
-
   functions: {
     "bars(uint256)": FunctionFragment;
     "input(uint256[10])": FunctionFragment;
@@ -83,7 +81,6 @@ export interface Issue552_ReproductionInterface extends utils.Interface {
 }
 
 export interface Issue552_Reproduction extends BaseContract {
-  contractName: "Issue552_Reproduction";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

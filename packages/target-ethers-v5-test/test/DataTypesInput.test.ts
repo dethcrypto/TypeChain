@@ -1,6 +1,5 @@
 import type { FunctionFragment } from '@ethersproject/abi'
 import { expect } from 'earljs'
-import type { Awaited } from 'earljs/dist/mocks/types'
 import type { BigNumberish } from 'ethers'
 import { BigNumber, ethers } from 'ethers'
 import type { AssertTrue, IsExact } from 'test-utils'

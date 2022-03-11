@@ -23,8 +23,6 @@ import type {
 } from "../common";
 
 export interface ISimpleTokenInterface extends utils.Interface {
-  contractName: "ISimpleToken";
-
   functions: {
     "transfer(address,uint256)": FunctionFragment;
   };
@@ -42,7 +40,6 @@ export interface ISimpleTokenInterface extends utils.Interface {
 }
 
 export interface ISimpleToken extends BaseContract {
-  contractName: "ISimpleToken";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

@@ -20,7 +20,7 @@ describe('cli > parseArgs', () => {
       files: ['**/*.abi'],
       target: 'sample-target',
       outDir: undefined,
-      flags: { alwaysGenerateOverloads: false, tsNocheck: false },
+      flags: { alwaysGenerateOverloads: false, tsNocheck: false, discriminateTypes: false },
     })
   })
 
@@ -33,7 +33,7 @@ describe('cli > parseArgs', () => {
       files: ['*.abi'],
       target: 'sample-target',
       outDir: undefined,
-      flags: { alwaysGenerateOverloads: false, tsNocheck: false },
+      flags: { alwaysGenerateOverloads: false, tsNocheck: false, discriminateTypes: false },
     })
   })
 
@@ -46,12 +46,12 @@ describe('cli > parseArgs', () => {
       files: ['*.json', '**/*.json'],
       target: 'sample-target',
       outDir: undefined,
-      flags: { alwaysGenerateOverloads: false, tsNocheck: false },
+      flags: { alwaysGenerateOverloads: false, tsNocheck: false, discriminateTypes: false },
     })
   })
 
-  it('parses --always-generate-overloads flag', () => {
-    process.argv = ['', '', '--target', 'sample-target', '--always-generate-overloads']
+  it('works with different flags', () => {
+    process.argv = ['', '', '--target', 'sample-target', '--always-generate-overloads', '--discriminate-types']
 
     const res = parseArgs()
 
@@ -59,7 +59,7 @@ describe('cli > parseArgs', () => {
       files: ['**/*.abi'],
       target: 'sample-target',
       outDir: undefined,
-      flags: { alwaysGenerateOverloads: true, tsNocheck: false },
+      flags: { alwaysGenerateOverloads: true, tsNocheck: false, discriminateTypes: true },
     })
   })
 

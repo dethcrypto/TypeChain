@@ -74,6 +74,7 @@ subtask(TASK_TYPECHAIN_GENERATE_TYPES)
       target: typechainCfg.target,
       flags: {
         alwaysGenerateOverloads: typechainCfg.alwaysGenerateOverloads,
+        discriminateTypes: typechainCfg.discriminateTypes,
         tsNocheck: typechainCfg.tsNocheck,
         environment: 'hardhat',
       },

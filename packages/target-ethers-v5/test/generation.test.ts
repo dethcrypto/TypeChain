@@ -1,8 +1,15 @@
 import { expect } from 'earljs'
-import { Contract, EventDeclaration, parse, RawAbiDefinition } from 'typechain'
+import { CodegenConfig, Contract, EventDeclaration, parse, RawAbiDefinition } from 'typechain'
 
 import { codegenContractFactory } from '../src/codegen'
 import { generateEventFilters } from '../src/codegen/events'
+
+const DEFAULT_FLAGS: CodegenConfig = {
+  alwaysGenerateOverloads: false,
+  discriminateTypes: false,
+  tsNocheck: false,
+  environment: undefined,
+}
 
 describe('Ethers generation edge cases', () => {
   const emptyContract: Contract = {
@@ -16,13 +23,13 @@ describe('Ethers generation edge cases', () => {
   }
 
   it('should generate simple factory when no bytecode available', () => {
-    expect(codegenContractFactory(emptyContract, 'abi', undefined)).toEqual(
+    expect(codegenContractFactory(DEFAULT_FLAGS, emptyContract, 'abi', undefined)).toEqual(
       expect.stringMatching(/export class TestContract__factory \{/),
     )
   })
 
   it('should work when bytecode has linkReferences', () => {
-    const source = codegenContractFactory(emptyContract, 'abi', {
+    const source = codegenContractFactory(DEFAULT_FLAGS, emptyContract, 'abi', {
       bytecode: '{{BYTECODE}}',
       linkReferences: [{ reference: '{{REFERENCE}}' }],
     })
