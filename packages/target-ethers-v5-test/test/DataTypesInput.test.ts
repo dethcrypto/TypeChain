@@ -292,6 +292,107 @@ describe('DataTypesInput', () => {
     >
   })
 
+  // function input_struct_array_array_array(Struct1[][][] memory input1) public pure returns (Struct1[][][] memory) {
+  it('generates correct parameter types for function struct array array array', () => {
+    type ViewStructType = Parameters<typeof contract.input_struct_array_array_array>
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    type _t1 = AssertTrue<
+      IsExact<ViewStructType, [input1: Struct1Struct[][][], overrides?: ethers.CallOverrides | undefined]>
+    >
+  })
+
+  it('generates correct return types for function struct array array array', () => {
+    type ViewStructType = Awaited<ReturnType<typeof contract.input_struct_array_array_array>>
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    type _t1 = AssertTrue<IsExact<ViewStructType, Struct1StructOutput[][][]>>
+  })
+
+  // function input_struct_fixedarray_array_fixedarray(Struct1[2][][3] memory input1) public pure returns (Struct1[2][][3] memory) {
+  it('generates correct parameter types for function struct fixedarray array fixedarray', () => {
+    type ViewStructType = Parameters<typeof contract.input_struct_fixedarray_array_fixedarray>
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    type _t1 = AssertTrue<
+      IsExact<
+        ViewStructType,
+        [
+          input1: [
+            [Struct1Struct, Struct1Struct][],
+            [Struct1Struct, Struct1Struct][],
+            [Struct1Struct, Struct1Struct][],
+          ],
+          overrides?: ethers.CallOverrides | undefined,
+        ]
+      >
+    >
+  })
+
+  it('generates correct return types for function struct fixedarray array fixedarray', () => {
+    type ViewStructType = Awaited<ReturnType<typeof contract.input_struct_fixedarray_array_fixedarray>>
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    type _t1 = AssertTrue<
+      IsExact<
+        ViewStructType,
+        [
+          [Struct1StructOutput, Struct1StructOutput][],
+          [Struct1StructOutput, Struct1StructOutput][],
+          [Struct1StructOutput, Struct1StructOutput][],
+        ]
+      >
+    >
+  })
+
+  // function input_struct_fixedarray_array_fixedarray_array_fixedarray(Struct1[2][][3][][4] memory input1) public pure returns (Struct1[2][][3][][4] memory)
+  it('generates correct parameter types for function struct fixedarray array fixedarray array fixedarray', () => {
+    type ViewStructType = Parameters<typeof contract.input_struct_fixedarray_array_fixedarray_array_fixedarray>
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    type _t1 = AssertTrue<
+      IsExact<
+        ViewStructType,
+        [
+          input1: [
+            [[Struct1Struct, Struct1Struct][], [Struct1Struct, Struct1Struct][], [Struct1Struct, Struct1Struct][]][],
+            [[Struct1Struct, Struct1Struct][], [Struct1Struct, Struct1Struct][], [Struct1Struct, Struct1Struct][]][],
+            [[Struct1Struct, Struct1Struct][], [Struct1Struct, Struct1Struct][], [Struct1Struct, Struct1Struct][]][],
+            [[Struct1Struct, Struct1Struct][], [Struct1Struct, Struct1Struct][], [Struct1Struct, Struct1Struct][]][],
+          ],
+          overrides?: ethers.CallOverrides | undefined,
+        ]
+      >
+    >
+  })
+
+  it('generates correct return types for function struct fixedarray array fixedarray array fixedarray', () => {
+    type ViewStructType = Awaited<ReturnType<typeof contract.input_struct_fixedarray_array_fixedarray_array_fixedarray>>
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    type _t1 = AssertTrue<
+      IsExact<
+        ViewStructType,
+        [
+          [
+            [Struct1StructOutput, Struct1StructOutput][],
+            [Struct1StructOutput, Struct1StructOutput][],
+            [Struct1StructOutput, Struct1StructOutput][],
+          ][],
+          [
+            [Struct1StructOutput, Struct1StructOutput][],
+            [Struct1StructOutput, Struct1StructOutput][],
+            [Struct1StructOutput, Struct1StructOutput][],
+          ][],
+          [
+            [Struct1StructOutput, Struct1StructOutput][],
+            [Struct1StructOutput, Struct1StructOutput][],
+            [Struct1StructOutput, Struct1StructOutput][],
+          ][],
+          [
+            [Struct1StructOutput, Struct1StructOutput][],
+            [Struct1StructOutput, Struct1StructOutput][],
+            [Struct1StructOutput, Struct1StructOutput][],
+          ][],
+        ]
+      >
+    >
+  })
+
   // function input_struct3_array(Struct3[] memory input1) public pure returns (Struct3[] memory) {
   it('generates correct parameter types for function structs only used as array in some function input/output', () => {
     type ViewStructType = Parameters<typeof contract.input_struct3_array>

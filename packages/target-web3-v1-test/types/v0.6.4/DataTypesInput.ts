@@ -98,6 +98,10 @@ export interface DataTypesInput extends BaseContract {
       input1: [number | string | BN, number | string | BN][][]
     ): NonPayableTransactionObject<[string, string][][]>;
 
+    input_struct_array_array_array(
+      input1: [number | string | BN, number | string | BN][][][]
+    ): NonPayableTransactionObject<[string, string][][][]>;
+
     input_struct_array_fixedarray(
       input1: [number | string | BN, number | string | BN][][]
     ): NonPayableTransactionObject<[string, string][][]>;
@@ -105,6 +109,14 @@ export interface DataTypesInput extends BaseContract {
     input_struct_fixedarray_array(
       input1: [number | string | BN, number | string | BN][][]
     ): NonPayableTransactionObject<[string, string][][]>;
+
+    input_struct_fixedarray_array_fixedarray(
+      input1: [number | string | BN, number | string | BN][][][]
+    ): NonPayableTransactionObject<[string, string][][][]>;
+
+    input_struct_fixedarray_array_fixedarray_array_fixedarray(
+      input1: [number | string | BN, number | string | BN][][][][][]
+    ): NonPayableTransactionObject<[string, string][][][][][]>;
 
     input_struct_fixedarray_fixedarray(
       input1: [number | string | BN, number | string | BN][][]

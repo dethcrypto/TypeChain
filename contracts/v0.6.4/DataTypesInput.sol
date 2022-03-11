@@ -59,6 +59,15 @@ contract DataTypesInput {
   function input_struct_fixedarray_fixedarray(Struct1[2][3] memory input1) public pure returns (Struct1[2][3] memory) {
     return input1;
   }
+  function input_struct_array_array_array(Struct1[][][] memory input1) public pure returns (Struct1[][][] memory) {
+    return input1;
+  }
+  function input_struct_fixedarray_array_fixedarray(Struct1[2][][3] memory input1) public pure returns (Struct1[2][][3] memory) {
+    return input1;
+  }
+  function input_struct_fixedarray_array_fixedarray_array_fixedarray(Struct1[2][][3][][4] memory input1) public pure returns (Struct1[2][][3][][4] memory) {
+    return input1;
+  }
   enum Enum1 { On, Off, Undefined }
   function input_enum(Enum1 input1) public pure returns (Enum1) {
     return input1;
