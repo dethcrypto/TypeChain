@@ -126,14 +126,11 @@ That's it! Now, you can simply import typings, check out our examples for more d
 Use `ethers-v5` target to generate wrappers for [ethers.js](https://github.com/ethers-io/ethers.js/) lib. To make it
 work great with Hardhat, use [Hardhat plugin](https://github.com/ethereum-ts/TypeChain/tree/master/packages/hardhat).
 
-If you're using Ethers.js v4, you can find legacy `@typechain/ethers-v4` target on <<<<<<< HEAD
+If you're using Ethers.js v4, you can find legacy `@typechain/ethers-v4` target on
 [npm](https://www.npmjs.com/package/@typechain/ethers-v4) and commit
-[`db551b5`](https://github.com/dethcrypto/TypeChain/tree/db551b5c5f70e86f3ca342551e9e0369d099cfa2). =======
-[npm](https://www.npmjs.com/package/@typechain/ethers-v4) and commit .
+[`db551b5`](https://github.com/dethcrypto/TypeChain/tree/db551b5c5f70e86f3ca342551e9e0369d099cfa2).
 
-> > > > > > > master
-
-### Truffle v4 / v5
+### Truffle v5
 
 Truffle target is great when you use truffle contracts already. Check out
 [truffle-typechain-example](https://github.com/ethereum-ts/truffle-typechain-example) for more details. It require
