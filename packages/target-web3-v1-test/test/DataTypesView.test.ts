@@ -1,6 +1,6 @@
 import { q18, typedAssert } from 'test-utils'
 
-import type { DataTypesView } from '../types/DataTypesView'
+import type { DataTypesView } from '../types/v0.6.4/DataTypesView'
 import { createNewBlockchain, deployContract } from './common'
 
 describe('DataTypesView', () => {

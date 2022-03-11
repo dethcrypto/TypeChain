@@ -1,9 +1,11 @@
 import { keccak_256 } from 'js-sha3'
 import { groupBy, omit } from 'lodash'
+import { parse as parsePath } from 'path'
 import { Dictionary } from 'ts-essentials'
 
 import { debug } from '../utils/debug'
 import { MalformedAbiError } from '../utils/errors'
+import { normalizeSlashes } from '../utils/files'
 import { normalizeName } from './normalizeName'
 import { EvmOutputType, EvmType, parseEvmType, StructType } from './parseEvmType'
 
@@ -53,6 +55,7 @@ export interface FunctionWithoutInputDeclaration extends FunctionDeclaration {
 export interface Contract {
   name: string
   rawName: string
+  path: string[]
 
   fallback?: FunctionWithoutInputDeclaration | undefined
   constructor: FunctionWithoutOutputDeclaration[]
@@ -132,7 +135,17 @@ export interface DocumentationResult {
   }
 }
 
-export function parse(abi: RawAbiDefinition[], rawName: string, documentation?: DocumentationResult): Contract {
+export function parseContractPath(path: string) {
+  const parsedPath = parsePath(normalizeSlashes(path))
+
+  return {
+    name: normalizeName(parsedPath.name),
+    rawName: parsedPath.name,
+    path: parsedPath.dir.split('/').filter((x) => x),
+  }
+}
+
+export function parse(abi: RawAbiDefinition[], path: string, documentation?: DocumentationResult): Contract {
   const constructors: FunctionWithoutOutputDeclaration[] = []
   let fallback: FunctionWithoutInputDeclaration | undefined
   const functions: FunctionDeclaration[] = []
@@ -180,8 +193,7 @@ export function parse(abi: RawAbiDefinition[], rawName: string, documentation?: 
   })
 
   return {
-    name: normalizeName(rawName),
-    rawName,
+    ...parseContractPath(path),
     fallback,
     constructor: constructors,
     functions: groupBy(functions, (f) => f.name),

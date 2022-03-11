@@ -4,7 +4,7 @@
 export type { Counter } from "./Counter";
 export type { Demo } from "./Demo";
 export type { StructsInConstructor } from "./StructsInConstructor";
-
+export * as factories from "./factories";
 export { Counter__factory } from "./factories/Counter__factory";
 export { Demo__factory } from "./factories/Demo__factory";
 export { StructsInConstructor__factory } from "./factories/StructsInConstructor__factory";

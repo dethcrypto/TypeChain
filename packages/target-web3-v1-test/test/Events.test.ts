@@ -1,7 +1,7 @@
 import BigNumber from 'bn.js'
 import { asyncWithDoneCase, typedAssert } from 'test-utils'
 
-import type { Events } from '../types/Events'
+import type { Events } from '../types/v0.6.4/Events'
 import { createNewBlockchain, deployContract, GAS_LIMIT_STANDARD } from './common'
 
 // Docs: https://web3js.readthedocs.io/en/v1.2.6/web3-eth-contract.html#events

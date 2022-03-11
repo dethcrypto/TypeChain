@@ -78,7 +78,7 @@ describe('Typechain x Hardhat', function () {
       expect(exists).toEqual(false)
 
       await this.hre.run('compile')
-      expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 11 typings!'])
+      expect(consoleLogMock).toHaveBeenCalledWith([expect.stringMatching(/Successfully generated \d\d\d? typings!/)])
 
       // copy one more file and recompile project
       copyFileSync(TestContract2OriginPath, TestContract2DestinationPath)
@@ -86,7 +86,7 @@ describe('Typechain x Hardhat', function () {
 
       expect(existsSync(this.hre.config.typechain.outDir)).toEqual(true)
       expect(readFileSync(typechainIndexFilePath, 'utf-8')).toMatchSnapshot()
-      expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 5 typings!']) // 4 b/c commons.ts, hardhat.d.ts, index.ts, TestContract2 and TestContract2Factory
+      expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 8 typings!'])
     })
 
     it('does nothing when there are no changes to recompile', async function () {
@@ -94,7 +94,7 @@ describe('Typechain x Hardhat', function () {
       expect(exists).toEqual(false)
 
       await this.hre.run('compile')
-      expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 11 typings!'])
+      expect(consoleLogMock).toHaveBeenCalledWith([expect.stringMatching(/Successfully generated \d\d\d? typings!/)])
 
       await this.hre.run('compile')
 
@@ -107,12 +107,12 @@ describe('Typechain x Hardhat', function () {
       expect(exists).toEqual(false)
 
       await this.hre.run('compile')
-      expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 11 typings!'])
+      expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 14 typings!'])
 
       await this.hre.run('typechain')
 
       expect(existsSync(this.hre.config.typechain.outDir)).toEqual(true)
-      expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 11 typings!'])
+      expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 14 typings!'])
     })
 
     it('generates typing for external artifacts', async function () {
@@ -122,10 +122,10 @@ describe('Typechain x Hardhat', function () {
       this.hre.config.typechain.externalArtifacts = ['externalArtifacts/*.json']
 
       await this.hre.run('compile')
-      expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 5 typings for external artifacts!'])
+      expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 14 typings for external artifacts!'])
 
       await this.hre.run('compile')
-      expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 5 typings for external artifacts!'])
+      expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 14 typings for external artifacts!'])
     })
   })
 })

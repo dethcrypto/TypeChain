@@ -6,7 +6,7 @@ import { BigNumber, ethers } from 'ethers'
 import type { AssertTrue, IsExact } from 'test-utils'
 import { q18, typedAssert } from 'test-utils'
 
-import type { DataTypesInput } from '../types/DataTypesInput'
+import type { DataTypesInput } from '../types/v0.6.4/DataTypesInput'
 import { createNewBlockchain, deployContract } from './common'
 
 type Struct1Struct = DataTypesInput.Struct1Struct
@@ -287,4 +287,4 @@ describe('DataTypesInput', () => {
     // @ts-expect-error
     contract.functions.not_existing(1)
   })
-})
+}).timeout(15_000)

@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "lib": ["ES2018", "ES2019.Array"],
+    "lib": ["ES2018", "ES2019.Array", "ES2019.Object"],
     "module": "CommonJS",
     "moduleResolution": "node",
     "strict": true,

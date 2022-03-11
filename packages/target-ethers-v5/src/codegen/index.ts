@@ -115,6 +115,10 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
     };
   }`
 
+  const commonPath = contract.path.length
+    ? `${new Array(contract.path.length).fill('..').join('/')}/common`
+    : './common'
+
   const imports =
     createImportsForUsedIdentifiers(
       {
@@ -137,7 +141,7 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
       source,
     ) +
     '\n' +
-    createImportTypeDeclaration(EVENT_IMPORTS, './common')
+    createImportTypeDeclaration(EVENT_IMPORTS, commonPath)
 
   return imports + source
 }
@@ -234,11 +238,17 @@ function codegenCommonContractFactory(contract: Contract, abi: any): { header: s
       imports.add(structName.namespace || structName.identifier + STRUCT_INPUT_POSTFIX)
     }
   })
+
+  const contractTypesImportPath = [...Array(contract.path.length + 1).fill('..'), ...contract.path, contract.name].join(
+    '/',
+  )
+
   const header = `
-  import type { ${[...imports.values()].join(', ')} } from "../${contract.name}";
+  import type { ${[...imports.values()].join(', ')} } from "${contractTypesImportPath}";
 
   const _abi = ${JSON.stringify(abi, null, 2)};
   `.trim()
+
   const body = `
     static readonly abi = _abi;
     static createInterface(): ${contract.name}Interface {
@@ -248,6 +258,7 @@ function codegenCommonContractFactory(contract: Contract, abi: any): { header: s
       return new Contract(address, _abi, signerOrProvider) as ${contract.name};
     }
   `.trim()
+
   return { header, body }
 }
 

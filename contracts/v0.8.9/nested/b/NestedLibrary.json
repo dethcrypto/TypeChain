@@ -1,0 +1,9 @@
+[
+  {
+    "inputs": [],
+    "name": "getValue",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "pure",
+    "type": "function"
+  }
+]
