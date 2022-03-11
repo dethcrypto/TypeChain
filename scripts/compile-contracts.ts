@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 import { execSync } from 'child_process'
-import { copyFileSync, mkdirSync, readdirSync, renameSync, rmdirSync } from 'fs'
+import { mkdirSync, readdirSync, renameSync, rmdirSync } from 'fs'
+import { copySync } from 'fs-extra'
+import { sync as globSync } from 'glob'
 import { resolve } from 'path'
 import { SemVer } from 'semver'
 
@@ -15,6 +17,7 @@ function main() {
   generateABIs(files)
   renameUglyNames(files)
   copyTruffleV5(files)
+  copyPrebuiltABIs(files)
 }
 
 main()
@@ -54,11 +57,14 @@ function findFiles() {
     }),
   )
 
+  const prebuiltAbis = globSync('**/*.json', { cwd: contractsDir })
+
   return {
     rootDir,
     contractsDir,
     outDir,
     contracts,
+    prebuiltAbis,
   }
 }
 
@@ -147,6 +153,12 @@ function copyTruffleV5({ rootDir, contractsDir, contracts }: Files) {
     contracts.get(version)!.map((file) => `${version}/${file}`),
   )
   for (const path of contractRelativePaths) {
-    copyFileSync(resolve(contractsDir, path), resolve(truffleV5ContractsDir, path))
+    copySync(resolve(contractsDir, path), resolve(truffleV5ContractsDir, path))
+  }
+}
+
+function copyPrebuiltABIs({ prebuiltAbis, outDir, contractsDir }: Files) {
+  for (const filepath of prebuiltAbis) {
+    copySync(resolve(contractsDir, filepath), resolve(outDir, filepath.replace('.json', '.abi')), { recursive: true })
   }
 }

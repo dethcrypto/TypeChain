@@ -12,6 +12,7 @@ describe('Ethers generation edge cases', () => {
     events: {},
     structs: {},
     constructor: [{ name: 'constructor', inputs: [], outputs: [], stateMutability: 'nonpayable' }],
+    path: [],
   }
 
   it('should generate simple factory when no bytecode available', () => {

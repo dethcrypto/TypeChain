@@ -2,7 +2,7 @@ import BN from 'bn.js'
 import { q18, typedAssert } from 'test-utils'
 import type Web3 from 'web3'
 
-import type { DataTypesInput } from '../types/DataTypesInput'
+import type { DataTypesInput } from '../types/v0.6.4/DataTypesInput'
 import { createNewBlockchain, deployContract } from './common'
 
 describe('DataTypesInput', () => {

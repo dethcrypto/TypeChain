@@ -1,5 +1,6 @@
 import Web3 from 'web3'
-import { Dai } from '../types/web3-v1-contracts/dai'
+
+import { Dai } from '../types/web3-v1-contracts/Dai'
 
 const abi = require('../abi/dai.json')
 

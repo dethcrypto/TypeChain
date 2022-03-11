@@ -1,8 +1,7 @@
-import { artifacts, contract } from 'hardhat'
+import BN from 'bn.js'
 import chai from 'chai'
 import chaiAsPromised from 'chai-as-promised'
-
-import BN from 'bn.js'
+import { artifacts, contract } from 'hardhat'
 
 // chai.use(solidity);
 chai.use(chaiAsPromised).should()
@@ -31,7 +30,7 @@ contract('Counter', (accounts: string[]) => {
   describe('count up', async () => {
     it('should count up', async () => {
       await counter.countUp()
-      let count = await counter.getCount()
+      const count = await counter.getCount()
       expect(count.eq(new BN(1)))
     })
   })

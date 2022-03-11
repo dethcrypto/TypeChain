@@ -7,7 +7,7 @@ describe('name normalizer', () => {
     expect(normalizeName('DsToken')).toEqual('DsToken')
     expect(normalizeName('test')).toEqual('Test')
     expect(normalizeName('ds-token')).toEqual('DsToken')
-    expect(normalizeName('ds_token')).toEqual('DsToken')
+    expect(normalizeName('ds_token')).toEqual('Ds_token')
     expect(normalizeName('ds token')).toEqual('DsToken')
     expect(normalizeName('name.abi')).toEqual('NameAbi')
     expect(normalizeName('1234name.abi')).toEqual('NameAbi')

@@ -1,4 +1,5 @@
-import { utils, ethers } from 'ethers'
+import { ethers, utils } from 'ethers'
+
 import { Dai__factory } from '../types/ethers-contracts/factories/Dai__factory'
 
 const RPC_HOST = 'https://mainnet.infura.io/v3/6d6c70e65c77429482df5b64a4d0c943'

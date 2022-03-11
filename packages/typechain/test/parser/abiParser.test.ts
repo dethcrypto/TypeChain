@@ -459,8 +459,16 @@ describe('parse', () => {
         structs: {},
         name: 'Sc1',
         rawName: 'sc1',
+        path: [],
       })
     })
+  })
+
+  it('preserves file paths', () => {
+    const actual = parse([], 'a/b/c/d/e/f/g/contract.sol')
+
+    expect(actual.name).toEqual('Contract')
+    expect(actual.path).toEqual(['a', 'b', 'c', 'd', 'e', 'f', 'g'])
   })
 })
 

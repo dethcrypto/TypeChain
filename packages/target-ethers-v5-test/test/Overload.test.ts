@@ -2,7 +2,7 @@ import { expect } from 'earljs'
 import { BigNumber } from 'ethers'
 import { typedAssert } from 'test-utils'
 
-import type { Overloads } from '../types/Overloads'
+import type { Overloads } from '../types/v0.6.4/Overloads'
 import { createNewBlockchain, deployContract } from './common'
 
 describe('Overloads', () => {
