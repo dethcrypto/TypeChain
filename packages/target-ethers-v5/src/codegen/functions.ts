@@ -5,7 +5,6 @@ import {
   EventArgDeclaration,
   FunctionDeclaration,
   FunctionDocumentation,
-  getArgumentForSignature,
   getSignatureForFn,
   isConstant,
   isConstantFn,

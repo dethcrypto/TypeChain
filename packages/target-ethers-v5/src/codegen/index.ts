@@ -348,6 +348,15 @@ function generateLibraryAddressesInterface(contract: Contract, bytecode: Bytecod
   };`
 }
 
+/**
+ * Instruments code generator based on the number of overloads and config flag.
+ *
+ * @param fns - overloads of the function
+ * @param forceGenerateOverloads - flag to force generation of overloads.
+ *        If set to true, full signatures will be used even if the function is not overloaded.
+ * @param stringGen - function generating source code based on the declaration
+ * @returns generated source code
+ */
 function processDeclaration<D extends FunctionDeclaration | EventDeclaration>(
   fns: D[],
   forceGenerateOverloads: boolean,
