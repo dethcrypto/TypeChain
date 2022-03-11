@@ -44,6 +44,12 @@ contract DataTypesInput {
   function input_struct(Struct1 memory input1) public pure returns (Struct1 memory) {
     return input1;
   }
+  function input_struct_array(Struct1[] memory input1) public pure returns (Struct1[] memory) {
+    return input1;
+  }
+  function input_struct_array_array(Struct1[][] memory input1) public pure returns (Struct1[][] memory) {
+    return input1;
+  }
   enum Enum1 { On, Off, Undefined }
   function input_enum(Enum1 input1) public pure returns (Enum1) {
     return input1;
@@ -70,7 +76,6 @@ contract DataTypesInput {
   function input_struct2_tuple(Struct2[3] memory input) public pure returns (Struct2[3] memory) {
     return input;
   }
-
   function input_multiple_structs_with_same_name(StructsLib1.Info memory info1) public pure returns (StructsLib2.Info memory info2) {
     info2.a = address(info1.a);
     info2.b = address(info1.b);

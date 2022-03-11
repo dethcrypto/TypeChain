@@ -90,6 +90,14 @@ export interface DataTypesInput extends BaseContract {
       input1: [(number | string | BN)[]][]
     ): NonPayableTransactionObject<[string[]][]>;
 
+    input_struct_array(
+      input1: [number | string | BN, number | string | BN][]
+    ): NonPayableTransactionObject<[string, string][]>;
+
+    input_struct_array_array(
+      input1: [number | string | BN, number | string | BN][][]
+    ): NonPayableTransactionObject<[string, string][][]>;
+
     input_tuple(
       input1: number | string | BN,
       input2: number | string | BN

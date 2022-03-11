@@ -184,6 +184,7 @@ describe('DataTypesInput', () => {
    * For functions with struct parameters
    */
 
+  // function input_struct(Struct1 memory input1) public pure returns (Struct1 memory)
   it('generates correct parameter types for function structs', () => {
     type ViewStructType = Parameters<typeof contract.input_struct>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -198,6 +199,37 @@ describe('DataTypesInput', () => {
     type _t1 = AssertTrue<IsExact<ViewStructType, Struct1StructOutput>>
   })
 
+  // function input_struct_array(Struct1[] memory input1) public pure returns (Struct1[] memory)
+  it('generates correct parameter types for function structs', () => {
+    type ViewStructType = Parameters<typeof contract.input_struct_array>
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    type _t1 = AssertTrue<
+      IsExact<ViewStructType, [input1: Struct1Struct[], overrides?: ethers.CallOverrides | undefined]>
+    >
+  })
+
+  it('generates correct return types for function structs', () => {
+    type ViewStructType = Awaited<ReturnType<typeof contract.input_struct_array>>
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    type _t1 = AssertTrue<IsExact<ViewStructType, Struct1StructOutput[]>>
+  })
+
+  // function input_struct_array_array(Struct1[][] memory input1) public pure returns (Struct1[][] memory)
+  it('generates correct parameter types for function structs', () => {
+    type ViewStructType = Parameters<typeof contract.input_struct_array_array>
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    type _t1 = AssertTrue<
+      IsExact<ViewStructType, [input1: Struct1Struct[][], overrides?: ethers.CallOverrides | undefined]>
+    >
+  })
+
+  it('generates correct return types for function structs', () => {
+    type ViewStructType = Awaited<ReturnType<typeof contract.input_struct_array_array>>
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    type _t1 = AssertTrue<IsExact<ViewStructType, Struct1StructOutput[][]>>
+  })
+
+  // function input_struct3_array(Struct3[] memory input1) public pure returns (Struct3[] memory) {
   it('generates correct parameter types for function structs only used as array in some function input/output', () => {
     type ViewStructType = Parameters<typeof contract.input_struct3_array>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -212,6 +244,7 @@ describe('DataTypesInput', () => {
     type _t1 = AssertTrue<IsExact<ViewStructType, Struct3StructOutput[]>>
   })
 
+  // function input_struct2(Struct2 memory input1) public pure returns (Struct2 memory)
   it('generates correct parameter types for complex function structs', () => {
     type ViewStructType = Parameters<typeof contract.input_struct2>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -226,6 +259,7 @@ describe('DataTypesInput', () => {
     type _t1 = AssertTrue<IsExact<ViewStructType, Struct2StructOutput>>
   })
 
+  // function input_struct2_array(Struct2[] memory input1) public pure returns (Struct2[] memory)
   it('generates correct parameter types for complex struct array', () => {
     type ViewStructType = Parameters<typeof contract.input_struct2_array>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -240,6 +274,7 @@ describe('DataTypesInput', () => {
     type _t1 = AssertTrue<IsExact<ViewStructType, Struct2StructOutput[]>>
   })
 
+  // function input_struct2_tuple(Struct2[3] memory input) public pure returns (Struct2[3] memory)
   it('generates correct argument types for constant size struct array', () => {
     type ViewStructType = Parameters<typeof contract.input_struct2_tuple>[0]
     type _ = AssertTrue<IsExact<ViewStructType, [Struct2Struct, Struct2Struct, Struct2Struct]>>
