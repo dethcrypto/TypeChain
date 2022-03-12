@@ -40,18 +40,7 @@ export function generateInputType(options: GenerateTypeOptions, evmType: EvmType
     case 'dynamic-bytes':
       return 'BytesLike'
     case 'array':
-      if (evmType.structName && !options.useStructs) {
-        // This emits right-hand side of struct type declaration.
-        // Example: `export type Struct3Struct = { input1: BigNumberish[] };`
-        return `(${generateInputType({ ...options, useStructs: true }, evmType.itemType)})`
-      } else {
-        return generateArrayOrTupleType(
-          evmType.structName
-            ? evmType.structName.toString() + STRUCT_INPUT_POSTFIX
-            : generateInputType({ ...options, useStructs: true }, evmType.itemType),
-          evmType.originalType,
-        )
-      }
+      return generateArrayOrTupleType(generateInputType(options, evmType.itemType), evmType.size)
     case 'boolean':
       return 'boolean'
     case 'string':
@@ -79,17 +68,7 @@ export function generateOutputType(options: GenerateTypeOptions, evmType: EvmOut
     case 'dynamic-bytes':
       return 'string'
     case 'array':
-      if (evmType.structName && !options.useStructs) {
-        // This emits right-hand side of struct type declaration.
-        // Example: `export type Struct3StructOutput = [BigNumber[]] & { input1: BigNumber[] };`
-        return `(${generateOutputType({ ...options, useStructs: true }, evmType.itemType)})`
-      }
-      return generateArrayOrTupleType(
-        evmType.structName
-          ? evmType.structName.toString() + STRUCT_OUTPUT_POSTFIX
-          : generateOutputType({ ...options, useStructs: true }, evmType.itemType),
-        evmType.originalType,
-      )
+      return generateArrayOrTupleType(generateOutputType(options, evmType.itemType), evmType.size)
     case 'boolean':
       return 'boolean'
     case 'string':
@@ -141,22 +120,10 @@ export function generateOutputComplexTypesAsObject(
   return namedElementsCode
 }
 
-function generateArrayOrTupleType(item: string, originalType: string): string {
-  // there can be recursive array types, so we need to handle them
-  const split = originalType.split('][')
-  // get rid of the solidity type in the first split element
-  split[0] = split[0].split('[')[1]
-  // process multiple depths of the array
-  for (const depth of split) {
-    // length is optionally mentioned between the brackets, get rid of any brackets
-    const lengthStr = depth.replace(/\]|\[/g, '')
-    if (lengthStr !== '' && !isNaN(Number(lengthStr)) && Number(lengthStr) < 6) {
-      // if length is mentioned and small, then preserve the length by using a tuple
-      item = `[${Array(Number(lengthStr)).fill(item).join(', ')}]`
-    } else {
-      // if length is not mentioned or very huge, then use a dynamic array
-      item = `(${item})[]`
-    }
+function generateArrayOrTupleType(item: string, length?: number) {
+  if (length !== undefined && length < 6) {
+    return `[${Array(length).fill(item).join(', ')}]`
+  } else {
+    return `${item}[]`
   }
-  return item
 }
