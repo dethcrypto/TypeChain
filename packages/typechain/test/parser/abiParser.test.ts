@@ -1,7 +1,7 @@
 import { expect } from 'earljs'
 import { merge, values } from 'lodash'
-import { IntegerType, TupleType } from '../../src'
 
+import { IntegerType, TupleType } from '../../src'
 import {
   BytecodeLinkReference,
   ensure0xPrefix,
