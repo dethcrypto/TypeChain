@@ -180,10 +180,40 @@ describe('DataTypesInput', () => {
     >
   })
 
+  // function input_fixedarray_array_fixedarray(uint8[3][][4] memory input1) public pure returns (uint8[3][][4] memory)
+  it('generates correct parameter types for function structs', () => {
+    type ViewStructType = Parameters<typeof contract.input_fixedarray_array_fixedarray>
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    type _t1 = AssertTrue<
+      IsExact<
+        ViewStructType,
+        [
+          input1: [
+            [BigNumberish, BigNumberish, BigNumberish][],
+            [BigNumberish, BigNumberish, BigNumberish][],
+            [BigNumberish, BigNumberish, BigNumberish][],
+            [BigNumberish, BigNumberish, BigNumberish][],
+          ],
+          overrides?: ethers.CallOverrides | undefined,
+        ]
+      >
+    >
+  })
+
+  it('generates correct return types for function structs', () => {
+    type ViewStructType = Awaited<ReturnType<typeof contract.input_fixedarray_array_fixedarray>>
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    type _t1 = AssertTrue<
+      IsExact<
+        ViewStructType,
+        [[number, number, number][], [number, number, number][], [number, number, number][], [number, number, number][]]
+      >
+    >
+  })
+
   /**
    * For functions with struct parameters
    */
-
   // function input_struct(Struct1 memory input1) public pure returns (Struct1 memory)
   it('generates correct parameter types for function structs', () => {
     type ViewStructType = Parameters<typeof contract.input_struct>

@@ -33,6 +33,9 @@ contract DataTypesInput {
   function input_stat_array(uint8[3] memory input1) public pure returns (uint8[3] memory) {
     return input1;
   }
+  function input_fixedarray_array_fixedarray(uint8[3][][4] memory input1) public pure returns (uint8[3][][4] memory) {
+    return input1;
+  }
   function input_tuple(uint256 input1, uint256 input2) public pure returns (uint256, uint256) {
     return (input1, input2);
   }

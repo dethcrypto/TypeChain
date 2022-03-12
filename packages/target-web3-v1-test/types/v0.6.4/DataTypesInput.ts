@@ -43,6 +43,10 @@ export interface DataTypesInput extends BaseContract {
       input1: number | string | BN
     ): NonPayableTransactionObject<string>;
 
+    input_fixedarray_array_fixedarray(
+      input1: (number | string | BN)[][][]
+    ): NonPayableTransactionObject<string[][][]>;
+
     input_int256(
       input1: number | string | BN
     ): NonPayableTransactionObject<string>;

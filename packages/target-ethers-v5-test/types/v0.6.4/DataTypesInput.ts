@@ -70,6 +70,7 @@ export interface DataTypesInputInterface extends utils.Interface {
     "input_bytes(bytes)": FunctionFragment;
     "input_bytes1(bytes1)": FunctionFragment;
     "input_enum(uint8)": FunctionFragment;
+    "input_fixedarray_array_fixedarray(uint8[3][][4])": FunctionFragment;
     "input_int256(int256)": FunctionFragment;
     "input_int8(int8)": FunctionFragment;
     "input_multiple_structs_with_same_name((uint160,uint160))": FunctionFragment;
@@ -101,6 +102,9 @@ export interface DataTypesInputInterface extends utils.Interface {
   getFunction(nameOrSignatureOrTopic: "input_bytes"): FunctionFragment;
   getFunction(nameOrSignatureOrTopic: "input_bytes1"): FunctionFragment;
   getFunction(nameOrSignatureOrTopic: "input_enum"): FunctionFragment;
+  getFunction(
+    nameOrSignatureOrTopic: "input_fixedarray_array_fixedarray"
+  ): FunctionFragment;
   getFunction(nameOrSignatureOrTopic: "input_int256"): FunctionFragment;
   getFunction(nameOrSignatureOrTopic: "input_int8"): FunctionFragment;
   getFunction(
@@ -156,6 +160,17 @@ export interface DataTypesInputInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "input_enum",
     values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "input_fixedarray_array_fixedarray",
+    values: [
+      [
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][]
+      ]
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "input_int256",
@@ -302,6 +317,10 @@ export interface DataTypesInputInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "input_enum", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "input_fixedarray_array_fixedarray",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "input_int256",
     data: BytesLike
   ): Result;
@@ -434,6 +453,25 @@ export interface DataTypesInput extends BaseContract {
       input1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[number]>;
+
+    input_fixedarray_array_fixedarray(
+      input1: [
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][]
+      ],
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        [
+          [number, number, number][],
+          [number, number, number][],
+          [number, number, number][],
+          [number, number, number][]
+        ]
+      ]
+    >;
 
     input_int256(
       input1: BigNumberish,
@@ -706,6 +744,23 @@ export interface DataTypesInput extends BaseContract {
 
   input_enum(input1: BigNumberish, overrides?: CallOverrides): Promise<number>;
 
+  input_fixedarray_array_fixedarray(
+    input1: [
+      [BigNumberish, BigNumberish, BigNumberish][],
+      [BigNumberish, BigNumberish, BigNumberish][],
+      [BigNumberish, BigNumberish, BigNumberish][],
+      [BigNumberish, BigNumberish, BigNumberish][]
+    ],
+    overrides?: CallOverrides
+  ): Promise<
+    [
+      [number, number, number][],
+      [number, number, number][],
+      [number, number, number][],
+      [number, number, number][]
+    ]
+  >;
+
   input_int256(
     input1: BigNumberish,
     overrides?: CallOverrides
@@ -941,6 +996,23 @@ export interface DataTypesInput extends BaseContract {
       input1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<number>;
+
+    input_fixedarray_array_fixedarray(
+      input1: [
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][]
+      ],
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        [number, number, number][],
+        [number, number, number][],
+        [number, number, number][],
+        [number, number, number][]
+      ]
+    >;
 
     input_int256(
       input1: BigNumberish,
@@ -1208,6 +1280,16 @@ export interface DataTypesInput extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    input_fixedarray_array_fixedarray(
+      input1: [
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][]
+      ],
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     input_int256(
       input1: BigNumberish,
       overrides?: CallOverrides
@@ -1373,6 +1455,16 @@ export interface DataTypesInput extends BaseContract {
 
     input_enum(
       input1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    input_fixedarray_array_fixedarray(
+      input1: [
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][]
+      ],
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

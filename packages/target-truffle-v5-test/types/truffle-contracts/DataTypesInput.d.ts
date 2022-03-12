@@ -63,6 +63,11 @@ export interface DataTypesInputInstance extends Truffle.ContractInstance {
     txDetails?: Truffle.TransactionDetails
   ): Promise<BN[]>;
 
+  input_fixedarray_array_fixedarray(
+    input1: (number | BN | string)[][][],
+    txDetails?: Truffle.TransactionDetails
+  ): Promise<BN[][][]>;
+
   input_tuple(
     input1: number | BN | string,
     input2: number | BN | string,
@@ -244,6 +249,11 @@ export interface DataTypesInputInstance extends Truffle.ContractInstance {
       input1: (number | BN | string)[],
       txDetails?: Truffle.TransactionDetails
     ): Promise<BN[]>;
+
+    input_fixedarray_array_fixedarray(
+      input1: (number | BN | string)[][][],
+      txDetails?: Truffle.TransactionDetails
+    ): Promise<BN[][][]>;
 
     input_tuple(
       input1: number | BN | string,

@@ -108,6 +108,25 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "uint8[3][][4]",
+        name: "input1",
+        type: "uint8[3][][4]",
+      },
+    ],
+    name: "input_fixedarray_array_fixedarray",
+    outputs: [
+      {
+        internalType: "uint8[3][][4]",
+        name: "",
+        type: "uint8[3][][4]",
+      },
+    ],
+    stateMutability: "pure",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "int256",
         name: "input1",
         type: "int256",
