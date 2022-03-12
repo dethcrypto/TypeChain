@@ -70,6 +70,20 @@ describe('parseEvmType function', () => {
     expect((((parsedType as ArrayType).itemType as ArrayType).itemType as UnsignedIntegerType).bits).toEqual(16)
   })
 
+  it('parses nested arrays', () => {
+    const parsedType = parseEvmType('uint32[8][][256]')
+
+    expect(parsedType.type).toEqual('array')
+    expect((parsedType as ArrayType).itemType.type).toEqual('array')
+    expect((parsedType as ArrayType).size).toEqual(256)
+    expect(((parsedType as ArrayType).itemType as ArrayType).itemType.type).toEqual('array')
+    expect((((parsedType as ArrayType).itemType as ArrayType).itemType as ArrayType).itemType.type).toEqual('uinteger')
+    expect((((parsedType as ArrayType).itemType as ArrayType).itemType as ArrayType).size).toEqual(8)
+    expect(
+      ((((parsedType as ArrayType).itemType as ArrayType).itemType as ArrayType).itemType as UnsignedIntegerType).bits,
+    ).toEqual(32)
+  })
+
   it('parses tuples', () => {
     const parsedType = parseEvmType('tuple', [
       {
@@ -163,6 +177,43 @@ describe('parseEvmType function', () => {
       },
       originalType: 'tuple[][]',
       structName: { identifier: 'Call', namespace: 'Multicall' },
+    })
+  })
+
+  it('parses struct nested array with mix of constant and dynamic length', () => {
+    const parsedType = parseEvmType(
+      'tuple[2][][3]',
+      [
+        { name: 'target', type: { type: 'address', originalType: 'address' } },
+        { name: 'callData', type: { type: 'dynamic-bytes', originalType: 'bytes' } },
+      ],
+      'struct Multicall.Call[2][][3]',
+    )
+    expect(parsedType).toLooseEqual({
+      type: 'array',
+      itemType: {
+        type: 'array',
+        itemType: {
+          type: 'array',
+          itemType: {
+            type: 'tuple',
+            components: [
+              { name: 'target', type: { type: 'address', originalType: 'address' } },
+              { name: 'callData', type: { type: 'dynamic-bytes', originalType: 'bytes' } },
+            ],
+            originalType: 'tuple',
+            structName: { identifier: 'Call', namespace: 'Multicall' },
+          },
+          originalType: 'tuple[2]',
+          structName: { identifier: 'Call', namespace: 'Multicall' },
+          size: 2,
+        },
+        originalType: 'tuple[2][]',
+        structName: { identifier: 'Call', namespace: 'Multicall' },
+      },
+      originalType: 'tuple[2][][3]',
+      structName: { identifier: 'Call', namespace: 'Multicall' },
+      size: 3,
     })
   })
 
