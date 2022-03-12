@@ -153,6 +153,13 @@ export function parse(abi: RawAbiDefinition[], path: string, documentation?: Doc
 
   const structs: StructType[] = []
   function registerStruct(newStruct: StructType) {
+    // ignore registration if structName not present
+    if (newStruct.structName === undefined) return
+    // if struct array (recursive) then keep going deep until we reach the struct tuple
+    while (newStruct.type === 'array') {
+      newStruct = newStruct.itemType as StructType
+    }
+    // only register if not already registered
     const newStructName = newStruct.structName?.toString()
     if (!structs.find((s) => s.structName?.toString() === newStructName)) {
       structs.push(newStruct)

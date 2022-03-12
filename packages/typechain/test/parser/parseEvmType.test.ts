@@ -129,6 +129,7 @@ describe('parseEvmType function', () => {
           { name: 'callData', type: { type: 'dynamic-bytes', originalType: 'bytes' } },
         ],
         originalType: 'tuple',
+        structName: { identifier: 'Call', namespace: 'Multicall' },
       },
       originalType: 'tuple[]',
       structName: { identifier: 'Call', namespace: 'Multicall' },
@@ -155,8 +156,10 @@ describe('parseEvmType function', () => {
             { name: 'callData', type: { type: 'dynamic-bytes', originalType: 'bytes' } },
           ],
           originalType: 'tuple',
+          structName: { identifier: 'Call', namespace: 'Multicall' },
         },
         originalType: 'tuple[]',
+        structName: { identifier: 'Call', namespace: 'Multicall' },
       },
       originalType: 'tuple[][]',
       structName: { identifier: 'Call', namespace: 'Multicall' },
@@ -180,6 +183,7 @@ describe('parseEvmType function', () => {
       itemType: {
         type: 'tuple',
         originalType: 'tuple',
+        structName: { identifier: 'Vector2' },
         components: [
           { name: 'x', type: { originalType: 'uint256', type: 'uinteger', bits: 256 } },
           { name: 'y', type: { originalType: 'uint256', type: 'uinteger', bits: 256 } },
