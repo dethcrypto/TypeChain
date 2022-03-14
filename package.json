@@ -19,7 +19,7 @@
     "test": "pnpm compile-contracts && pnpm run --parallel --filter ./packages test",
     "test:fix": "pnpm lint:fix && pnpm test && pnpm format:fix && pnpm typecheck",
     "no-git-changes": "./scripts/no-git-changes.sh",
-    "check-examples": "pnpm ts-node ./scripts/check-examples.ts",
+    "check-examples": "ts-node --transpile-only ./scripts/check-examples.ts",
     "prerelease": "pnpm lint && pnpm format && pnpm test && pnpm typecheck",
     "release": "pnpm build && pnpm changeset publish"
   },
