@@ -15,12 +15,14 @@
     "test:fix": "pnpm lint:fix && pnpm format:fix && pnpm test && pnpm typecheck"
   },
   "devDependencies": {
+    "@ethersproject/providers": "^5.4.7",
+    "@ethersproject/abi": "^5.4.7",
     "@nomiclabs/hardhat-ethers": "^2.0.2",
-    "@typechain/ethers-v5": "*",
-    "@typechain/hardhat": "*",
+    "@typechain/ethers-v5": "workspace:^",
+    "@typechain/hardhat": "workspace:^",
     "ethers": "^5.4.7",
     "hardhat": "^2.0.10",
     "test-utils": "1.0.0",
-    "typechain": "*"
+    "typechain": "workspace:^"
   }
 }

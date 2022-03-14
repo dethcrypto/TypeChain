@@ -31,12 +31,20 @@
   },
   "peerDependencies": {
     "typechain": "^7.0.0",
-    "truffle": "^5.0.0"
+    "truffle": "^5.0.0",
+    "web3-core": "^1",
+    "web3-eth-contract": "^1",
+    "web3-utils": "^1",
+    "web3": "^1"
   },
   "devDependencies": {
     "ganache-cli": "^6.12.2",
     "typechain": "*",
-    "@types/lodash": "^4.14.139"
+    "@types/lodash": "^4.14.139",
+    "web3-core": "^1",
+    "web3-eth-contract": "^1",
+    "web3-utils": "^1",
+    "web3": "^1"
   },
   "dependencies": {
     "lodash": "^4.17.15"

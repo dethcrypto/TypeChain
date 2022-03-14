@@ -20,6 +20,9 @@
     "typechain": "*"
   },
   "dependencies": {
+    "@ethersproject/abi": "^5.0.0",
+    "@ethersproject/bytes": "^5.0.0",
+    "@ethersproject/providers": "^5.0.0",
     "ethers": "^5.1.3"
   }
 }

@@ -31,14 +31,19 @@
     "test:fix": "pnpm lint:fix && pnpm format:fix && pnpm test && pnpm typecheck"
   },
   "peerDependencies": {
-    "typechain": "^7.0.0",
-    "web3": "^1.0.0"
+    "typechain": "workspace:^",
+    "web3": "^1",
+    "web3-core": "^1",
+    "web3-eth-contract": "^1"
   },
   "devDependencies": {
     "ganache-cli": "^6.12.2",
-    "typechain": "*",
+    "typechain": "workspace:^",
     "test-utils": "1.0.0",
-    "@types/lodash": "^4.14.139"
+    "@types/lodash": "^4.14.139",
+    "web3": "^1",
+    "web3-core": "^1",
+    "web3-eth-contract": "^1"
   },
   "dependencies": {
     "lodash": "^4.17.15",

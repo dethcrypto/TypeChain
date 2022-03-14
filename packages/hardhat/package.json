@@ -40,12 +40,12 @@
     "ethers": "^5.4.7",
     "hardhat": "^2.0.10",
     "rimraf": "^3.0.2",
-    "typechain": "*",
-    "@types/lodash": "^4.14.139"
+    "typechain": "workspace:^",
+    "typescript": "^4"
   },
   "peerDependencies": {
     "hardhat": "^2.0.10",
-    "typechain": "^7.0.0",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "typechain": "workspace:^"
   }
 }
