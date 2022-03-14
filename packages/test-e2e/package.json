@@ -14,8 +14,8 @@
   },
   "dependencies": {
     "fs-extra": "^9.1.0",
-    "typechain": "workspace:^",
-    "@typechain/ethers-v5": "workspace:^"
+    "typechain": "workspace:^7.0.1",
+    "@typechain/ethers-v5": "workspace:^9.0.0"
   },
   "devDependencies": {
     "mocha": "^8.2.0"
