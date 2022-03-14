@@ -275,7 +275,7 @@ importers:
       '@types/glob': ^5.0.35
       '@types/lodash': ^4.14.139
       '@types/mkdirp': ^1.0.1
-      '@types/node': ^8.0.25
+      '@types/node': ^14
       '@types/prettier': ^2.1.1
       bluebird: ^3.5.1
       coveralls: ^3.0.2
@@ -307,7 +307,7 @@ importers:
       '@types/glob': 5.0.37
       '@types/lodash': 4.14.179
       '@types/mkdirp': 1.0.2
-      '@types/node': 8.10.66
+      '@types/node': 14.18.12
       bluebird: 3.7.2
       coveralls: 3.1.1
 
@@ -2223,12 +2223,12 @@ packages:
     resolution: {integrity: sha512-2U9uLN46+7dv9PiS8VQJcHhuoOjiDPZOLAt0WuA1EanEknIMae+2QbMhayF7cgGqjvRVIfNpt+6jLPczJZFiRw==}
     dev: true
 
-  /@types/node/16.10.3:
-    resolution: {integrity: sha512-ho3Ruq+fFnBrZhUYI46n/bV2GjwzSkwuT4dTf0GkuNFmnb8nq4ny2z9JEVemFi6bdEJanHLlYfy9c6FN9B9McQ==}
+  /@types/node/14.18.12:
+    resolution: {integrity: sha512-q4jlIR71hUpWTnGhXWcakgkZeHa3CCjcQcnuzU8M891BAWA2jHiziiWEPEkdS5pFsz7H9HJiy8BrK7tBRNrY7A==}
     dev: true
 
-  /@types/node/8.10.66:
-    resolution: {integrity: sha512-tktOkFUA4kXx2hhhrB8bIFb5TbwzS4uOhKEmwiD+NoiL0qtP2OQ9mFldbgD4dV1djrlBYP6eBuQZiWjuHUpqFw==}
+  /@types/node/16.10.3:
+    resolution: {integrity: sha512-ho3Ruq+fFnBrZhUYI46n/bV2GjwzSkwuT4dTf0GkuNFmnb8nq4ny2z9JEVemFi6bdEJanHLlYfy9c6FN9B9McQ==}
     dev: true
 
   /@types/normalize-package-data/2.4.0:
