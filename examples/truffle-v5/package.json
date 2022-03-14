@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "generate-types": "typechain --target=truffle-v5 'build/contracts/*.json'",
-    "postinstall": "truffle compile && yarn generate-types",
+    "postinstall": "truffle compile && pnpm generate-types",
     "migrate": "tsc -p ./tsconfig.migrate.json --outDir ./migrations && truffle migrate",
     "typecheck": "tsc --noEmit"
   },

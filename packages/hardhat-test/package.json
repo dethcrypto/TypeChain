@@ -11,8 +11,8 @@
     "typecheck": "tsc --noEmit --incremental false --composite false && tsc --noEmit --incremental false --composite false -p tsconfig.types.json",
     "clean": "hardhat clean && rm -f tsconfig.build.tsbuildinfo && rm -rf build",
     "generate-types": "hardhat clean && hardhat compile",
-    "test": "yarn generate-types && mocha --config ../../.mocharc.js",
-    "test:fix": "yarn lint:fix && yarn format:fix && yarn test && yarn typecheck"
+    "test": "pnpm generate-types && mocha --config ../../.mocharc.js",
+    "test:fix": "pnpm lint:fix && pnpm format:fix && pnpm test && pnpm typecheck"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",

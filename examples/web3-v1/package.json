@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "generate-types": "typechain --target=web3-v1 'abi/*.json'",
-    "postinstall": "yarn generate-types",
+    "postinstall": "pnpm generate-types",
     "start": "ts-node ./src/index.ts",
     "typecheck": "tsc --noEmit"
   },

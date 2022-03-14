@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "generate-types": "typechain --target=ethers-v5 'abi/*.json'",
-    "postinstall": "yarn generate-types",
+    "postinstall": "pnpm generate-types",
     "start": "ts-node ./src/index.ts",
     "typecheck": "tsc --noEmit"
   },

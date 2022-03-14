@@ -4,10 +4,10 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "compile": "yarn hardhat compile",
-    "clean": "yarn hardhat clean",
+    "compile": "pnpm hardhat compile",
+    "clean": "pnpm hardhat clean",
     "test": "hardhat test",
-    "typecheck": "yarn compile && yarn test && yarn tsc --noEmit"
+    "typecheck": "pnpm compile && pnpm test && pnpm tsc --noEmit"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",

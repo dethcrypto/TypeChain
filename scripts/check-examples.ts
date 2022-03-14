@@ -15,17 +15,8 @@ const failures: string[] = []
 for (const dir of readdirSync(examplesDir)) {
   console.log(`Checking example: ${bold(dir)}`)
 
-  const yarn = process.platform === 'win32' ? 'yarn.cmd' : 'yarn'
-  runProcess(
-    [
-      yarn,
-      '--non-interactive',
-      // temporarily removed: this seems to cause issues on the CI
-      // '--frozen-lockfile',
-    ],
-    dir,
-  )
-  runProcess([yarn, 'typecheck'], dir)
+  const pnpm = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm'
+  runProcess([pnpm, 'typecheck'], dir)
 }
 
 if (failures.length > 0) {
