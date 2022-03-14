@@ -13,7 +13,7 @@
   "devDependencies": {
     "@typechain/ethers-v5": "file:../../packages/target-ethers-v5",
     "@types/bn.js": "^5.1.0",
-    "ts-node": "^9.1.1",
+    "ts-node": "^10.7.0",
     "typechain": "file:../../packages/typechain",
     "typescript": "^4.6"
   },
