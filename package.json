@@ -15,7 +15,7 @@
     "build": "tsc --build --verbose ./tsconfig.prod.json && pnpm run --parallel --filter ./packages post-build",
     "watch": "tsc --build --verbose --watch ./tsconfig.prod.json",
     "clean": "pnpm --filter ./packages clean",
-    "compile-contracts": "ts-node ./scripts/compile-contracts && pnpm run --parallel --filter ./packages compile-contracts",
+    "compile-contracts": "ts-node --transpile-only ./scripts/compile-contracts && pnpm run --parallel --filter ./packages compile-contracts",
     "test": "pnpm compile-contracts && pnpm run --parallel --filter ./packages test",
     "test:fix": "pnpm lint:fix && pnpm test && pnpm format:fix && pnpm typecheck",
     "no-git-changes": "./scripts/no-git-changes.sh",
