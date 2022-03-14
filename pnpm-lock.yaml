@@ -54,6 +54,7 @@ importers:
       hardhat: ^2.0.10
       rimraf: ^3.0.2
       typechain: workspace:^
+      typescript: ^4
     dependencies:
       fs-extra: 9.1.0
     devDependencies:
@@ -68,6 +69,7 @@ importers:
       hardhat: 2.9.1
       rimraf: 3.0.2
       typechain: link:../typechain
+      typescript: 4.6.2
 
   packages/hardhat-test:
     specifiers:
