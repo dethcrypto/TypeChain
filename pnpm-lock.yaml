@@ -45,7 +45,7 @@ importers:
       '@ethersproject/abi': ^5.4.7
       '@ethersproject/providers': ^5.4.7
       '@nomiclabs/hardhat-ethers': ^2.0.2
-      '@typechain/ethers-v5': workspace:^
+      '@typechain/ethers-v5': workspace:^9.0.0
       '@types/fs-extra': ^9.0.7
       '@types/lodash': ^4.14.139
       '@types/rimraf': ^3.0.0
@@ -53,7 +53,7 @@ importers:
       fs-extra: ^9.1.0
       hardhat: ^2.0.10
       rimraf: ^3.0.2
-      typechain: workspace:^
+      typechain: workspace:^7.0.1
       typescript: ^4
     dependencies:
       fs-extra: 9.1.0
@@ -76,12 +76,12 @@ importers:
       '@ethersproject/abi': ^5.4.7
       '@ethersproject/providers': ^5.4.7
       '@nomiclabs/hardhat-ethers': ^2.0.2
-      '@typechain/ethers-v5': workspace:^
-      '@typechain/hardhat': workspace:^
+      '@typechain/ethers-v5': workspace:^9.0.0
+      '@typechain/hardhat': workspace:^5.0.0
       ethers: ^5.4.7
       hardhat: ^2.0.10
       test-utils: 1.0.0
-      typechain: workspace:^
+      typechain: workspace:^7.0.1
     devDependencies:
       '@ethersproject/abi': 5.6.0
       '@ethersproject/providers': 5.6.0
@@ -104,7 +104,7 @@ importers:
       lodash: ^4.17.15
       test-utils: 1.0.0
       ts-essentials: ^7.0.1
-      typechain: workspace:^
+      typechain: workspace:^7.0.1
       typescript: '>=4.3.0'
     dependencies:
       lodash: 4.17.21
@@ -177,7 +177,7 @@ importers:
       test-utils: 1.0.0
       truffle: ^5.1.21
       ts-essentials: ^7.0.1
-      typechain: workspace:^
+      typechain: workspace:^7.0.1
       typescript: ^4
       web3: ^1
       web3-core: ^1
@@ -213,7 +213,7 @@ importers:
       lodash: ^4.17.15
       test-utils: 1.0.0
       ts-essentials: ^7.0.1
-      typechain: workspace:^
+      typechain: workspace:^7.0.1
       web3: ^1
       web3-core: ^1
       web3-eth-contract: ^1
@@ -233,7 +233,7 @@ importers:
     specifiers:
       ganache-cli: ^6.12.2
       test-utils: 1.0.0
-      typechain: workspace:^
+      typechain: workspace:^7.0.1
       web3: ^1.6.0
       web3-core: ^1
       web3-eth-contract: ^1.6.0
@@ -247,10 +247,10 @@ importers:
 
   packages/test-e2e:
     specifiers:
-      '@typechain/ethers-v5': workspace:^
+      '@typechain/ethers-v5': workspace:^9.0.0
       fs-extra: ^9.1.0
       mocha: ^8.2.0
-      typechain: workspace:^
+      typechain: workspace:^7.0.1
     dependencies:
       '@typechain/ethers-v5': link:../target-ethers-v5
       fs-extra: 9.1.0
