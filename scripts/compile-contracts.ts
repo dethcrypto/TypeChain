@@ -70,12 +70,15 @@ function generateABIs({ rootDir, contracts, outDir }: Files) {
     const semver = dirName.replace(/^v/, '^')
     const contractPaths = fileNames.map((fileName) => `./contracts/${dirName}/${fileName}`).join(' ')
 
-    console.log(bold(`Compiling ${fileNames.length} contracts with \`pnpx solc@${semver}\``))
+    console.log(bold(`Compiling ${fileNames.length} contracts with \`pnpm dlx solc@${semver}\``))
 
-    execSync(`pnpx --yes solc@${semver} --abi ${contractPaths} --bin -o ./contracts/compiled/${dirName}`, {
-      cwd: rootDir,
-      stdio: ['ignore', 'ignore', 'inherit'],
-    })
+    execSync(
+      `pnpm --package solc@${semver} dlx solcjs --abi ${contractPaths} --bin -o ./contracts/compiled/${dirName}`,
+      {
+        cwd: rootDir,
+        stdio: ['ignore', 'ignore', 'inherit'],
+      },
+    )
   }
 }
 
