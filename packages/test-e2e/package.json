@@ -9,11 +9,15 @@
     "lint:fix": "pnpm lint --fix",
     "typecheck": "tsc --noEmit --incremental false --composite false && tsc --noEmit --incremental false --composite false -p tsconfig.json",
     "clean": "rm -rf dist contracts/* && rm -f tsconfig.build.tsbuildinfo && rm -rf build",
-    "generate-types": "node ../typechain/dist/cli/cli.js --target=../target-ethers-v5/dist/index.js --out-dir ./types/ '../../contracts/compiled/**/*.abi'",
     "test": "mocha --config ../../.mocharc.js",
     "test:fix": "pnpm lint:fix && pnpm format:fix && pnpm test && pnpm typecheck"
   },
   "dependencies": {
-    "fs-extra": "^9.1.0"
+    "fs-extra": "^9.1.0",
+    "typechain": "workspace:^",
+    "@typechain/ethers-v5": "workspace:^"
+  },
+  "devDependencies": {
+    "mocha": "^8.2.0"
   }
 }

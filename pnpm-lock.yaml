@@ -247,9 +247,16 @@ importers:
 
   packages/test-e2e:
     specifiers:
+      '@typechain/ethers-v5': workspace:^
       fs-extra: ^9.1.0
+      mocha: ^8.2.0
+      typechain: workspace:^
     dependencies:
+      '@typechain/ethers-v5': link:../target-ethers-v5
       fs-extra: 9.1.0
+      typechain: link:../typechain
+    devDependencies:
+      mocha: 8.2.0
 
   packages/test-utils:
     specifiers:
