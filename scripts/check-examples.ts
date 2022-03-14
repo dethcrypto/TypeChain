@@ -56,6 +56,6 @@ function runProcess(command: string[], dir: string) {
   }
 }
 
-function formatOutput(output: string[]) {
+function formatOutput(output: (string | null)[]) {
   return output.filter(Boolean).join('\n')
 }
