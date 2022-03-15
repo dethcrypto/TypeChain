@@ -6,6 +6,7 @@ importers:
     specifiers:
       '@changesets/cli': ^2.11.2
       '@types/mocha': ^8.2.1
+      '@types/node': ^14
       '@typescript-eslint/eslint-plugin': 4.15.1
       '@typescript-eslint/parser': 4.15.1
       earljs: ^0.1.12
@@ -18,15 +19,12 @@ importers:
       eslint-plugin-unused-imports: ^1.1.1
       mocha: ^8.2.0
       prettier: ^2.3.1
-      solc: 0.6.4
       ts-node: ^10.7.0
       typescript: ^4.6
-      wsrun: ^5.2.4
-    dependencies:
-      solc: 0.6.4
     devDependencies:
       '@changesets/cli': 2.11.2
       '@types/mocha': 8.2.1
+      '@types/node': 14.18.12
       '@typescript-eslint/eslint-plugin': 4.15.1_8093a7f5497377805cd004c7eaf3d7a4
       '@typescript-eslint/parser': 4.15.1_eslint@7.30.0+typescript@4.6.2
       earljs: 0.1.12_typescript@4.6.2
@@ -39,9 +37,8 @@ importers:
       eslint-plugin-unused-imports: 1.1.2
       mocha: 8.2.0
       prettier: 2.5.0
-      ts-node: 10.7.0_typescript@4.6.2
+      ts-node: 10.7.0_ef4f5b62551ca68fc45e5a6c3dd7806a
       typescript: 4.6.2
-      wsrun: 5.2.4
 
   packages/hardhat:
     specifiers:
@@ -1070,8 +1067,6 @@ packages:
 
   /@improbable-eng/grpc-web/0.12.0:
     resolution: {integrity: sha512-uJjgMPngreRTYPBuo6gswMj1gK39Wbqre/RgE0XnSDXJRg6ST7ZhuS53dFE6Vc2CX4jxgl+cO+0B3op8LA4Q0Q==}
-    peerDependencies:
-      google-protobuf: ^3.2.0
     dependencies:
       browser-headers: 0.4.1
     dev: true
@@ -1079,41 +1074,17 @@ packages:
 
   /@improbable-eng/grpc-web/0.13.0:
     resolution: {integrity: sha512-vaxxT+Qwb7GPqDQrBV4vAAfH0HywgOLw6xGIKXd9Q8hcV63CQhmS3p4+pZ9/wVvt4Ph3ZDK9fdC983b9aGMUFg==}
-    peerDependencies:
-      google-protobuf: ^3.2.0
     dependencies:
       browser-headers: 0.4.1
     dev: true
     optional: true
 
-  /@improbable-eng/grpc-web/0.13.0_google-protobuf@3.19.4:
-    resolution: {integrity: sha512-vaxxT+Qwb7GPqDQrBV4vAAfH0HywgOLw6xGIKXd9Q8hcV63CQhmS3p4+pZ9/wVvt4Ph3ZDK9fdC983b9aGMUFg==}
-    peerDependencies:
-      google-protobuf: ^3.2.0
-    dependencies:
-      browser-headers: 0.4.1
-      google-protobuf: 3.19.4
-    dev: true
-    optional: true
-
-  /@improbable-eng/grpc-web/0.14.1_google-protobuf@3.19.4:
+  /@improbable-eng/grpc-web/0.14.1:
     resolution: {integrity: sha512-XaIYuunepPxoiGVLLHmlnVminUGzBTnXr8Wv7khzmLWbNw4TCwJKX09GSMJlKhu/TRk6gms0ySFxewaETSBqgw==}
-    peerDependencies:
-      google-protobuf: ^3.14.0
     dependencies:
       browser-headers: 0.4.1
-      google-protobuf: 3.19.4
     dev: true
     optional: true
-
-  /@jest/types/24.9.0:
-    resolution: {integrity: sha512-XKK7ze1apu5JWQ5eZjHITP66AX+QsLlbaJRBGYr8pNzwcAE2JVkwnf0yqjHTsDRcjR0mujy/NmZMXw5kl+kGBw==}
-    engines: {node: '>= 6'}
-    dependencies:
-      '@types/istanbul-lib-coverage': 2.0.1
-      '@types/istanbul-reports': 1.1.1
-      '@types/yargs': 13.0.3
-    dev: true
 
   /@jest/types/26.6.2:
     resolution: {integrity: sha512-fC6QCp7Sc5sX6g8Tvbmj4XUTbyrik0akgRy03yjXbQaBWWNWGE7SGtJk98m0N8nzegD/7SggrUlivxo5ax4KWQ==}
@@ -1459,7 +1430,7 @@ packages:
   /@textile/buckets-grpc/2.6.6:
     resolution: {integrity: sha512-Gg+96RviTLNnSX8rhPxFgREJn3Ss2wca5Szk60nOenW+GoVIc+8dtsA9bE/6Vh5Gn85zAd17m1C2k6PbJK8x3Q==}
     dependencies:
-      '@improbable-eng/grpc-web': 0.13.0_google-protobuf@3.19.4
+      '@improbable-eng/grpc-web': 0.13.0
       '@types/google-protobuf': 3.15.5
       google-protobuf: 3.19.4
     dev: true
@@ -1484,12 +1455,10 @@ packages:
       cids: 1.1.9
       it-drain: 1.0.5
       loglevel: 1.8.0
-      native-abort-controller: 1.0.4_abort-controller@3.0.0
+      native-abort-controller: 1.0.4
       paramap-it: 0.1.1
     transitivePeerDependencies:
       - bufferutil
-      - google-protobuf
-      - node-fetch
       - supports-color
       - utf-8-validate
     dev: true
@@ -1500,8 +1469,6 @@ packages:
     dependencies:
       '@improbable-eng/grpc-web': 0.13.0
       '@textile/security': 0.9.1
-    transitivePeerDependencies:
-      - google-protobuf
     dev: true
     optional: true
 
@@ -1526,8 +1493,6 @@ packages:
       '@textile/security': 0.9.1
     transitivePeerDependencies:
       - bufferutil
-      - google-protobuf
-      - node-fetch
       - supports-color
       - utf-8-validate
     dev: true
@@ -1541,7 +1506,6 @@ packages:
       '@textile/grpc-transport': 0.5.2
     transitivePeerDependencies:
       - bufferutil
-      - google-protobuf
       - utf-8-validate
     dev: true
     optional: true
@@ -1549,7 +1513,7 @@ packages:
   /@textile/grpc-powergate-client/2.6.2:
     resolution: {integrity: sha512-ODe22lveqPiSkBsxnhLIRKQzZVwvyqDVx6WBPQJZI4yxrja5SDOq6/yH2Dtmqyfxg8BOobFvn+tid3wexRZjnQ==}
     dependencies:
-      '@improbable-eng/grpc-web': 0.14.1_google-protobuf@3.19.4
+      '@improbable-eng/grpc-web': 0.14.1
       '@types/google-protobuf': 3.15.5
       google-protobuf: 3.19.4
     dev: true
@@ -1565,7 +1529,6 @@ packages:
       ws: 7.5.7
     transitivePeerDependencies:
       - bufferutil
-      - google-protobuf
       - utf-8-validate
     dev: true
     optional: true
@@ -1585,8 +1548,6 @@ packages:
       loglevel: 1.8.0
     transitivePeerDependencies:
       - bufferutil
-      - google-protobuf
-      - node-fetch
       - supports-color
       - utf-8-validate
     dev: true
@@ -1595,7 +1556,7 @@ packages:
   /@textile/hub-grpc/2.6.6:
     resolution: {integrity: sha512-PHoLUE1lq0hyiVjIucPHRxps8r1oafXHIgmAR99+Lk4TwAF2MXx5rfxYhg1dEJ3ches8ZuNbVGkiNIXroIoZ8Q==}
     dependencies:
-      '@improbable-eng/grpc-web': 0.13.0_google-protobuf@3.19.4
+      '@improbable-eng/grpc-web': 0.13.0
       '@types/google-protobuf': 3.15.5
       google-protobuf: 3.19.4
     dev: true
@@ -1614,8 +1575,6 @@ packages:
       loglevel: 1.8.0
     transitivePeerDependencies:
       - bufferutil
-      - google-protobuf
-      - node-fetch
       - supports-color
       - utf-8-validate
     dev: true
@@ -1637,8 +1596,6 @@ packages:
       multihashes: 3.1.2
     transitivePeerDependencies:
       - bufferutil
-      - google-protobuf
-      - node-fetch
       - supports-color
       - utf-8-validate
     dev: true
@@ -1651,7 +1608,6 @@ packages:
       multiaddr: 8.1.2
       varint: 6.0.0
     transitivePeerDependencies:
-      - node-fetch
       - supports-color
     dev: true
     optional: true
@@ -1669,7 +1625,7 @@ packages:
   /@textile/threads-client-grpc/1.1.5:
     resolution: {integrity: sha512-gJw3Eso9hdwAB+LbCDAWnzp3/uS6ahs9a+gYmA+xBxeYL4PfTP/3X01G6dJz8oZ9/pHcw1cxodH16dXn4INT5g==}
     dependencies:
-      '@improbable-eng/grpc-web': 0.14.1_google-protobuf@3.19.4
+      '@improbable-eng/grpc-web': 0.14.1
       '@types/google-protobuf': 3.15.5
       google-protobuf: 3.19.4
     dev: true
@@ -1691,8 +1647,6 @@ packages:
       to-json-schema: 0.2.5
     transitivePeerDependencies:
       - bufferutil
-      - google-protobuf
-      - node-fetch
       - supports-color
       - utf-8-validate
     dev: true
@@ -1710,7 +1664,7 @@ packages:
   /@textile/users-grpc/2.6.6:
     resolution: {integrity: sha512-pzI/jAWJx1/NqvSj03ukn2++aDNRdnyjwgbxh2drrsuxRZyCQEa1osBAA+SDkH5oeRf6dgxrc9dF8W1Ttjn0Yw==}
     dependencies:
-      '@improbable-eng/grpc-web': 0.13.0_google-protobuf@3.19.4
+      '@improbable-eng/grpc-web': 0.13.0
       '@types/google-protobuf': 3.15.5
       google-protobuf: 3.19.4
     dev: true
@@ -1735,8 +1689,6 @@ packages:
       loglevel: 1.8.0
     transitivePeerDependencies:
       - bufferutil
-      - google-protobuf
-      - node-fetch
       - supports-color
       - utf-8-validate
     dev: true
@@ -1896,11 +1848,8 @@ packages:
       iter-tools: 7.2.2
       ws: 7.5.7
     transitivePeerDependencies:
-      - abort-controller
       - bufferutil
       - encoding
-      - google-protobuf
-      - node-fetch
       - supports-color
       - utf-8-validate
     dev: true
@@ -1930,9 +1879,7 @@ packages:
       ipfs-http-client: 48.2.2
       iter-tools: 7.2.2
     transitivePeerDependencies:
-      - abort-controller
       - encoding
-      - node-fetch
       - supports-color
     dev: true
     optional: true
@@ -2174,13 +2121,6 @@ packages:
       '@types/istanbul-lib-coverage': 2.0.1
     dev: true
 
-  /@types/istanbul-reports/1.1.1:
-    resolution: {integrity: sha512-UpYjBi8xefVChsCoBpKShdxTllC9pwISirfoZsUa2AAdQg/Jd2KQGtSbw+ya7GPo7x/wAPlH6JBhKhAsXUEZNA==}
-    dependencies:
-      '@types/istanbul-lib-coverage': 2.0.1
-      '@types/istanbul-lib-report': 1.1.1
-    dev: true
-
   /@types/istanbul-reports/3.0.0:
     resolution: {integrity: sha512-nwKNbvnwJ2/mndE9ItP/zc2TCzw6uuodnF4EHYWD+gCQDVBuRQL5UzbZD0/ezy1iKsFU2ZQiDqg4M9dN4+wZgA==}
     dependencies:
@@ -2355,12 +2295,6 @@ packages:
 
   /@types/yargs-parser/13.1.0:
     resolution: {integrity: sha512-gCubfBUZ6KxzoibJ+SCUc/57Ms1jz5NjHe4+dI2krNmU5zCPAphyLJYyTOg06ueIyfj+SaCUqmzun7ImlxDcKg==}
-    dev: true
-
-  /@types/yargs/13.0.3:
-    resolution: {integrity: sha512-K8/LfZq2duW33XW/tFwEAfnZlqIfVsoyRB3kfXdPXYhl0nfM8mmh7GS0jg7WrX2Dgq/0Ha/pR1PaR+BvmWwjiQ==}
-    dependencies:
-      '@types/yargs-parser': 13.1.0
     dev: true
 
   /@types/yargs/15.0.9:
@@ -2715,7 +2649,7 @@ packages:
     resolution: {integrity: sha512-B+rDnWasMi/eWcajPcCWSlYc7muXOrcYrqgyzcdKisl2H/WTlQ0gip1KyQfr0ZlxJdsuWCj/LWwQm7fhyhRfIQ==}
     dependencies:
       abort-controller: 3.0.0
-      native-abort-controller: 1.0.4_abort-controller@3.0.0
+      native-abort-controller: 1.0.4
     dev: true
     optional: true
 
@@ -4037,6 +3971,7 @@ packages:
 
   /command-exists/1.2.9:
     resolution: {integrity: sha512-LTQ/SGc+s0Xc0Fu5WaKnR0YiygZkm9eKFvyS+fRsU7/ZWFF8ykFM6Pc9aCVf1+xasOOZpO3BAVgVrKvsqKHV7w==}
+    dev: true
 
   /command-line-args/5.2.1:
     resolution: {integrity: sha512-H4UfQhZyakIjC74I9d34fGYDwk3XpSr17QhEd0Q3I9Xq1CETHo4Hcuo87WyWHpAF1aSLjLRf5lD9ZGX2qStUvg==}
@@ -4065,6 +4000,7 @@ packages:
 
   /commander/3.0.2:
     resolution: {integrity: sha512-Gar0ASD4BDyKC4hl4DwHqDrmvjoxWKZigVnAbn5H1owvm4CxCPdb0HQDehwNYMJpla5+M2tPmPARzhtYuwpHow==}
+    dev: true
 
   /component-emitter/1.3.0:
     resolution: {integrity: sha512-Rd3se6QB+sO1TwqZjscQrurpEPIfO0/yYnSin6Q/rD3mOutHvUrCAhJub3r90uNb+SESBuE0QYoB90YdfatsRg==}
@@ -4622,7 +4558,6 @@ packages:
       native-fetch: 3.0.0
       receptacle: 1.3.2
     transitivePeerDependencies:
-      - node-fetch
       - supports-color
     dev: true
     optional: true
@@ -5823,6 +5758,7 @@ packages:
       klaw: 1.3.1
       path-is-absolute: 1.0.1
       rimraf: 2.7.1
+    dev: true
 
   /fs-extra/4.0.3:
     resolution: {integrity: sha512-q6rbdDd1o2mAnQreO7YADIxf/Whx4AHBiRf6d+/cVT8h44ss+lHgxf1FemcqDnQt9X3ct4McHr+JMGlYSsK7Cg==}
@@ -6581,7 +6517,6 @@ packages:
       multiaddr: 8.1.2
       peer-id: 0.14.8
     transitivePeerDependencies:
-      - node-fetch
       - supports-color
     dev: true
     optional: true
@@ -6606,7 +6541,6 @@ packages:
       uint8arrays: 1.1.0
     transitivePeerDependencies:
       - encoding
-      - node-fetch
       - supports-color
     dev: true
     optional: true
@@ -6642,9 +6576,7 @@ packages:
       stream-to-it: 0.2.4
       uint8arrays: 1.1.0
     transitivePeerDependencies:
-      - abort-controller
       - encoding
-      - node-fetch
       - supports-color
     dev: true
     optional: true
@@ -6664,8 +6596,8 @@ packages:
       it-to-stream: 0.1.2
       merge-options: 2.0.0
       nanoid: 3.3.1
-      native-abort-controller: 0.0.3_abort-controller@3.0.0
-      native-fetch: 2.0.1_node-fetch@2.6.7
+      native-abort-controller: 0.0.3
+      native-fetch: 2.0.1
       node-fetch: 2.6.7
       stream-to-it: 0.2.4
     transitivePeerDependencies:
@@ -7227,15 +7159,6 @@ packages:
       iterate-iterator: 1.0.2
     dev: true
 
-  /jest-changed-files/24.9.0:
-    resolution: {integrity: sha512-6aTWpe2mHF0DhL28WjdkO8LyGjs3zItPET4bMSeXU6T3ub4FPMw+mcOcbdGXQOAfmLcxofD23/5Bl9Z4AkFwqg==}
-    engines: {node: '>= 6'}
-    dependencies:
-      '@jest/types': 24.9.0
-      execa: 1.0.0
-      throat: 4.1.0
-    dev: true
-
   /jest-diff/26.6.2:
     resolution: {integrity: sha512-6m+9Z3Gv9wN0WFVasqjCL/06+EFCMTqDEUl/b87HYK2rAPTyfz4ZIuSlPhY51PIQRWx5TaxeF1qmXKe9gfN3sA==}
     engines: {node: '>= 10.14.2'}
@@ -7523,6 +7446,7 @@ packages:
     resolution: {integrity: sha1-NzaitCi4e72gzIO1P6PWM6NcKug=}
     optionalDependencies:
       graceful-fs: 4.2.8
+    dev: true
 
   /jsonfile/4.0.0:
     resolution: {integrity: sha1-h3Gq4HmbZAdrdmQPygWPnBDjPss=}
@@ -7612,6 +7536,7 @@ packages:
     resolution: {integrity: sha1-QIhDO0azsbolnXh4XY6W9zugJDk=}
     optionalDependencies:
       graceful-fs: 4.2.8
+    dev: true
 
   /lcov-parse/1.0.0:
     resolution: {integrity: sha1-6w1GtUER68VhrLTECO+TY73I9+A=}
@@ -8117,6 +8042,7 @@ packages:
   /memorystream/0.3.1:
     resolution: {integrity: sha1-htcJCzDORV1j+64S3aUaR93K+bI=}
     engines: {node: '>= 0.10.0'}
+    dev: true
 
   /meow/6.1.1:
     resolution: {integrity: sha512-3YffViIt2QWgTy6Pale5QpopX/IvU3LPL03jOTqp6pGj3VjesdO/U8CuHMKpnQr4shCNCM5fd5XFFvIIl6JBHg==}
@@ -8475,7 +8401,6 @@ packages:
     dependencies:
       multiaddr: 8.1.2
     transitivePeerDependencies:
-      - node-fetch
       - supports-color
     dev: true
     optional: true
@@ -8492,7 +8417,6 @@ packages:
       uint8arrays: 1.1.0
       varint: 5.0.2
     transitivePeerDependencies:
-      - node-fetch
       - supports-color
     dev: true
     optional: true
@@ -8666,46 +8590,25 @@ packages:
 
   /native-abort-controller/0.0.3:
     resolution: {integrity: sha512-YIxU5nWqSHG1Xbu3eOu3pdFRD882ivQpIcu6AiPVe2oSVoRbfYW63DVkZm3g1gHiMtZSvZzF6THSzTGEBYl8YA==}
-    peerDependencies:
-      abort-controller: '*'
     dependencies:
       globalthis: 1.0.2
     dev: true
     optional: true
 
-  /native-abort-controller/0.0.3_abort-controller@3.0.0:
-    resolution: {integrity: sha512-YIxU5nWqSHG1Xbu3eOu3pdFRD882ivQpIcu6AiPVe2oSVoRbfYW63DVkZm3g1gHiMtZSvZzF6THSzTGEBYl8YA==}
-    peerDependencies:
-      abort-controller: '*'
-    dependencies:
-      abort-controller: 3.0.0
-      globalthis: 1.0.2
-    dev: true
-    optional: true
-
-  /native-abort-controller/1.0.4_abort-controller@3.0.0:
+  /native-abort-controller/1.0.4:
     resolution: {integrity: sha512-zp8yev7nxczDJMoP6pDxyD20IU0T22eX8VwN2ztDccKvSZhRaV33yP1BGwKSZfXuqWUzsXopVFjBdau9OOAwMQ==}
-    peerDependencies:
-      abort-controller: '*'
-    dependencies:
-      abort-controller: 3.0.0
     dev: true
     optional: true
 
-  /native-fetch/2.0.1_node-fetch@2.6.7:
+  /native-fetch/2.0.1:
     resolution: {integrity: sha512-gv4Bea+ga9QdXINurpkEqun3ap3vnB+WYoe4c8ddqUYEH7B2h6iD39RF8uVN7OwmSfMY3RDxkvBnoI4e2/vLXQ==}
-    peerDependencies:
-      node-fetch: '*'
     dependencies:
       globalthis: 1.0.2
-      node-fetch: 2.6.7
     dev: true
     optional: true
 
   /native-fetch/3.0.0:
     resolution: {integrity: sha512-G3Z7vx0IFb/FQ4JxvtqGABsOTIqRWvgQz6e+erkB+JJD6LrszQtMozEHI4EkmgZQvnGHrpLVzUWk7t4sJCIkVw==}
-    peerDependencies:
-      node-fetch: '*'
     dev: true
     optional: true
 
@@ -9102,6 +9005,7 @@ packages:
   /os-tmpdir/1.0.2:
     resolution: {integrity: sha1-u+Z0BseaqFxc/sdm/lc0VV36EnQ=}
     engines: {node: '>=0.10.0'}
+    dev: true
 
   /osenv/0.1.5:
     resolution: {integrity: sha512-0CWcCECdMVc2Rw3U5w9ZjqX6ga6ubk1xDVKxtBQPK7wis/0F2r9T6k4ydGYhecl7YUBxBVxhL5oisPsNxAPe2g==}
@@ -10229,6 +10133,7 @@ packages:
   /require-from-string/2.0.2:
     resolution: {integrity: sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==}
     engines: {node: '>=0.10.0'}
+    dev: true
 
   /require-main-filename/2.0.0:
     resolution: {integrity: sha512-NKN5kMDylKuldxYLSUfrbo5Tuzh4hd+2E8NPPX02mZtn1VuREQToYe/ZdlJy+J3uCpfaiGF05e7B8W0iXbQHmg==}
@@ -10332,6 +10237,7 @@ packages:
     hasBin: true
     dependencies:
       glob: 7.2.0
+    dev: true
 
   /rimraf/3.0.2:
     resolution: {integrity: sha512-JZkJMZkAGFFPP2YqXZXPbMlMBgsxzE8ILs4lMIX/2o0L9UBw9O/Y3o6wFw/i9YLapcUJWwqbi3kdxIPdC62TIA==}
@@ -10484,6 +10390,7 @@ packages:
   /semver/5.7.1:
     resolution: {integrity: sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ==}
     hasBin: true
+    dev: true
 
   /semver/6.3.0:
     resolution: {integrity: sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==}
@@ -10741,21 +10648,6 @@ packages:
       use: 3.1.1
     dev: true
 
-  /solc/0.6.4:
-    resolution: {integrity: sha512-HjUCys7ue9n7lGCa1XNf+wDdEY/wY64CpwnD4iPxW+BYYUX6ytwWXKitoolPXOOVxq4jewvwtL7Pngs+5k954A==}
-    engines: {node: '>=8.0.0'}
-    hasBin: true
-    dependencies:
-      command-exists: 1.2.9
-      commander: 3.0.2
-      fs-extra: 0.30.0
-      js-sha3: 0.8.0
-      memorystream: 0.3.1
-      require-from-string: 2.0.2
-      semver: 5.7.1
-      tmp: 0.0.33
-    dev: false
-
   /solc/0.7.3_debug@4.3.2:
     resolution: {integrity: sha512-GAsWNAjGzIDg7VxzP6mPjdurby3IkGCjQcM8GFYZT6RyaoUZKmMU6Y7YwG+tFGhv7dwZ8rmR4iwFDrrD99JwqA==}
     engines: {node: '>=8.0.0'}
@@ -10860,12 +10752,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dependencies:
       extend-shallow: 3.0.2
-    dev: true
-
-  /split/1.0.1:
-    resolution: {integrity: sha512-mTyOoPbrivtXnwnIxZRFYRrPNtEFKlpB2fvjSnCQUiAA6qAZzqwna5envK4uk6OIeP17CsdF3rSBGYVBsU0Tkg==}
-    dependencies:
-      through: 2.3.8
     dev: true
 
   /sprintf-js/1.0.3:
@@ -11236,14 +11122,6 @@ packages:
     resolution: {integrity: sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=}
     dev: true
 
-  /throat/4.1.0:
-    resolution: {integrity: sha1-iQN8vJLFarGJJua6TLsgDhVnKmo=}
-    dev: true
-
-  /through/2.3.8:
-    resolution: {integrity: sha1-DdTJ/6q8NXlgsbckEV1+Doai4fU=}
-    dev: true
-
   /through2/3.0.1:
     resolution: {integrity: sha512-M96dvTalPT3YbYLaKaCuwu+j06D/8Jfib0o/PxbVt6Amhv3dUAtW6rTV1jPgJSBG83I/e04Y6xkVdVhSRhi0ww==}
     dependencies:
@@ -11302,6 +11180,7 @@ packages:
     engines: {node: '>=0.6.0'}
     dependencies:
       os-tmpdir: 1.0.2
+    dev: true
 
   /tmpl/1.0.4:
     resolution: {integrity: sha1-I2QN17QtAEM5ERQIIOXPRA5SHdE=}
@@ -11431,12 +11310,9 @@ packages:
       '@truffle/preserve-to-filecoin': 0.2.8
       '@truffle/preserve-to-ipfs': 0.2.8
     transitivePeerDependencies:
-      - abort-controller
       - bufferutil
       - debug
       - encoding
-      - google-protobuf
-      - node-fetch
       - supports-color
       - utf-8-validate
     dev: true
@@ -11466,7 +11342,7 @@ packages:
     dependencies:
       typescript: 4.6.2
 
-  /ts-node/10.7.0_typescript@4.6.2:
+  /ts-node/10.7.0_ef4f5b62551ca68fc45e5a6c3dd7806a:
     resolution: {integrity: sha512-TbIGS4xgJoX2i3do417KSaep1uRAW/Lu+WAL2doDHC0D6ummjirVOXU5/7aiZotbQ5p1Zp9tP7U6cYhA0O7M8A==}
     hasBin: true
     peerDependencies:
@@ -11485,6 +11361,7 @@ packages:
       '@tsconfig/node12': 1.0.9
       '@tsconfig/node14': 1.0.1
       '@tsconfig/node16': 1.0.2
+      '@types/node': 14.18.12
       acorn: 8.7.0
       acorn-walk: 8.2.0
       arg: 4.1.3
@@ -12642,21 +12519,6 @@ packages:
       utf-8-validate: 5.0.9
     dev: true
     optional: true
-
-  /wsrun/5.2.4:
-    resolution: {integrity: sha512-akv3WtKBohdHsD/5uqhYRHw6GXeCXe87FsSg28Szq+2cpoqRW2SY4yPfm1D0za1cS6MgNy5hPgzS5SqYJaGUxg==}
-    hasBin: true
-    dependencies:
-      bluebird: 3.7.2
-      chalk: 2.4.2
-      glob: 7.2.0
-      jest-changed-files: 24.9.0
-      lodash: 4.17.21
-      minimatch: 3.0.4
-      split: 1.0.1
-      throat: 4.1.0
-      yargs: 13.3.2
-    dev: true
 
   /xhr-request-promise/0.1.3:
     resolution: {integrity: sha512-YUBytBsuwgitWtdRzXDDkWAXzhdGB8bYm0sSzMPZT7Z2MBjMSTHFsyCT1yCRATY+XC69DUrQraRAEgcoCRaIPg==}
