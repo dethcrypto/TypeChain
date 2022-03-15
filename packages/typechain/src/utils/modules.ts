@@ -4,9 +4,9 @@ export function tryRequire(name: string): { module: any; name: string; path: str
   try {
     let path: string
     try {
-      path = require.resolve(name)
-    } catch {
       path = require.resolve(name, { paths: [process.cwd()] })
+    } catch {
+      path = require.resolve(name)
     }
 
     const module = { module: require(path), name, path }

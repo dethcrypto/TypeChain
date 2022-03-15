@@ -8665,7 +8665,7 @@ packages:
       jest-pnp-resolver: 1.2.2_jest-resolve@26.6.2
       jest-util: 26.6.2
       read-pkg-up: 7.0.1
-      resolve: 1.20.0
+      resolve: 1.22.0
       slash: 3.0.0
     dev: true
 
@@ -13132,7 +13132,7 @@ packages:
       glob: 7.2.0
       mkdirp: 0.5.5
       prettier: 2.5.0
-      resolve: 1.20.0
+      resolve: 1.22.0
       ts-essentials: 1.0.4
     dev: true
 
