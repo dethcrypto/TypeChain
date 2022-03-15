@@ -11,10 +11,10 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@typechain/ethers-v5": "file:../../packages/target-ethers-v5",
+    "@typechain/ethers-v5": "workspace:^9.0.0",
     "@types/bn.js": "^5.1.0",
     "ts-node": "^10.7.0",
-    "typechain": "file:../../packages/typechain",
+    "typechain": "workspace:^7.0.1",
     "typescript": "^4.6"
   },
   "dependencies": {
