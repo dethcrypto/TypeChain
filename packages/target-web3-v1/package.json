@@ -37,7 +37,6 @@
     "web3-eth-contract": "^1"
   },
   "devDependencies": {
-    "ganache-cli": "^6.12.2",
     "typechain": "workspace:^7.0.1",
     "test-utils": "1.0.0",
     "@types/lodash": "^4.14.139",
