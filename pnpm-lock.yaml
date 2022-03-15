@@ -42,6 +42,8 @@ importers:
 
   examples/ethers-v5:
     specifiers:
+      '@ethersproject/abi': ^5.1.3
+      '@ethersproject/providers': ^5.1.3
       '@typechain/ethers-v5': workspace:^9.0.0
       '@types/bn.js': ^5.1.0
       ethers: ^5.1.3
@@ -49,6 +51,8 @@ importers:
       typechain: workspace:^7.0.1
       typescript: ^4.6
     dependencies:
+      '@ethersproject/abi': 5.6.0
+      '@ethersproject/providers': 5.6.0
       ethers: 5.6.0
     devDependencies:
       '@typechain/ethers-v5': link:../../packages/target-ethers-v5
@@ -59,6 +63,9 @@ importers:
 
   examples/hardhat:
     specifiers:
+      '@ethersproject/abi': 5.4.0
+      '@ethersproject/contracts': 5.4.0
+      '@ethersproject/providers': 5.4.0
       '@nomiclabs/hardhat-ethers': ^2.0.2
       '@nomiclabs/hardhat-waffle': ^2.0.1
       '@typechain/ethers-v5': workspace:^9.0.0
@@ -77,6 +84,9 @@ importers:
       typechain: file:../../packages/typechain
       typescript: ^4.6
     devDependencies:
+      '@ethersproject/abi': 5.4.0
+      '@ethersproject/contracts': 5.4.0
+      '@ethersproject/providers': 5.4.0
       '@nomiclabs/hardhat-ethers': 2.0.5_ethers@5.4.0+hardhat@2.9.1
       '@nomiclabs/hardhat-waffle': 2.0.3_8bed7f1d1d328bb9bbe74da5519e5263
       '@typechain/ethers-v5': link:../../packages/target-ethers-v5
@@ -106,6 +116,7 @@ importers:
       '@types/chai-as-promised': ^7.1.3
       '@types/mocha': ^8.2.0
       '@types/node': ^14
+      bn.js: ^4.11.0
       chai: ^4.3.0
       chai-as-promised: ^7.1.1
       chai-bn: ^0.2.1
@@ -116,9 +127,15 @@ importers:
       typechain: workspace:^7.0.1
       typescript: ^4.6
       web3: ^1.3.4
+      web3-core: ^1
+      web3-core-helpers: ^1.2.1
+      web3-core-promievent: ^1.2.1
+      web3-eth-abi: ^1.2.1
+      web3-eth-contract: ^1
+      web3-utils: ^1.2.1
     devDependencies:
       '@nomiclabs/hardhat-etherscan': 2.1.8_hardhat@2.9.1
-      '@nomiclabs/hardhat-truffle5': 2.0.5_49037d759bd074879d365a8082c229ce
+      '@nomiclabs/hardhat-truffle5': 2.0.5_16c05bc42c63a20d0051e7d7bb9d5e65
       '@nomiclabs/hardhat-web3': 2.0.0_hardhat@2.9.1+web3@1.7.1
       '@typechain/hardhat': link:../../packages/hardhat
       '@typechain/truffle-v5': link:../../packages/target-truffle-v5
@@ -126,9 +143,10 @@ importers:
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 8.2.1
       '@types/node': 14.18.12
+      bn.js: 4.12.0
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
-      chai-bn: 0.2.2_chai@4.3.6
+      chai-bn: 0.2.2_bn.js@4.12.0+chai@4.3.6
       dotenv: 8.6.0
       hardhat: 2.9.1
       ts-generator: 0.0.8
@@ -136,6 +154,12 @@ importers:
       typechain: link:../../packages/typechain
       typescript: 4.6.2
       web3: 1.7.1
+      web3-core: 1.7.1
+      web3-core-helpers: 1.7.1
+      web3-core-promievent: 1.7.1
+      web3-eth-abi: 1.7.1
+      web3-eth-contract: 1.7.1
+      web3-utils: 1.7.1
 
   examples/truffle-v5:
     specifiers:
@@ -147,7 +171,10 @@ importers:
       truffle: ^5.1.22
       typechain: workspace:^7.0.1
       typescript: ^4.6
+      web3: ^1
       web3-core: ^1
+      web3-eth-contract: ^1
+      web3-utils: ^1
     dependencies:
       '@typechain/truffle-v5': link:../../packages/target-truffle-v5
       '@types/bn.js': 4.11.6
@@ -157,7 +184,10 @@ importers:
       truffle: 5.5.4
       typechain: link:../../packages/typechain
       typescript: 4.6.2
+      web3: 1.7.1
       web3-core: 1.7.1
+      web3-eth-contract: 1.7.1
+      web3-utils: 1.7.1
 
   examples/web3-v1:
     specifiers:
@@ -165,9 +195,13 @@ importers:
       '@types/bn.js': ^4.11.6
       ts-node: ^10.7.0
       typechain: workspace:^7.0.1
-      web3: ^1.2.6
+      web3: ^1
+      web3-core: ^1
+      web3-eth-contract: ^1
     dependencies:
       web3: 1.7.1
+      web3-core: 1.7.1
+      web3-eth-contract: 1.7.1
     devDependencies:
       '@typechain/web3-v1': link:../../packages/target-web3-v1
       '@types/bn.js': 4.11.6
@@ -1757,7 +1791,7 @@ packages:
       - supports-color
     dev: true
 
-  /@nomiclabs/hardhat-truffle5/2.0.5_49037d759bd074879d365a8082c229ce:
+  /@nomiclabs/hardhat-truffle5/2.0.5_16c05bc42c63a20d0051e7d7bb9d5e65:
     resolution: {integrity: sha512-taTWfieMP3Rvj+y90DgdNpviUJ4zxgjpW0V8D++uPkg5R7HXVWBTf43a1PYw+cBhcqN29P9gB1zSS1HC+uz1Mw==}
     peerDependencies:
       '@nomiclabs/hardhat-web3': ^2.0.0
@@ -1765,7 +1799,7 @@ packages:
       web3: ^1.0.0-beta.36
     dependencies:
       '@nomiclabs/hardhat-web3': 2.0.0_hardhat@2.9.1+web3@1.7.1
-      '@nomiclabs/truffle-contract': 4.2.23_web3@1.7.1
+      '@nomiclabs/truffle-contract': 4.2.23_8211b8691fd663649d9b4395a48021fb
       '@types/chai': 4.3.0
       chai: 4.3.6
       ethereumjs-util: 7.1.4
@@ -1807,7 +1841,7 @@ packages:
       web3: 1.7.1
     dev: true
 
-  /@nomiclabs/truffle-contract/4.2.23_web3@1.7.1:
+  /@nomiclabs/truffle-contract/4.2.23_8211b8691fd663649d9b4395a48021fb:
     resolution: {integrity: sha512-Khj/Ts9r0LqEpGYhISbc+8WTOd6qJ4aFnDR+Ew+neqcjGnhwrIvuihNwPFWU6hDepW3Xod6Y+rTo90N8sLRDjw==}
     peerDependencies:
       web3: ^1.2.1
@@ -1826,6 +1860,10 @@ packages:
       ethers: 4.0.49
       source-map-support: 0.5.20
       web3: 1.7.1
+      web3-core-helpers: 1.7.1
+      web3-core-promievent: 1.7.1
+      web3-eth-abi: 1.7.1
+      web3-utils: 1.7.1
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -4738,12 +4776,13 @@ packages:
       check-error: 1.0.2
     dev: true
 
-  /chai-bn/0.2.2_chai@4.3.6:
+  /chai-bn/0.2.2_bn.js@4.12.0+chai@4.3.6:
     resolution: {integrity: sha512-MzjelH0p8vWn65QKmEq/DLBG1Hle4WeyqT79ANhXZhn/UxRWO0OogkAxi5oGGtfzwU9bZR8mvbvYdoqNVWQwFg==}
     peerDependencies:
       bn.js: ^4.11.0
       chai: ^4.0.0
     dependencies:
+      bn.js: 4.12.0
       chai: 4.3.6
     dev: true
 
@@ -5949,7 +5988,7 @@ packages:
       is-shared-array-buffer: 1.0.1
       is-string: 1.0.7
       is-weakref: 1.0.1
-      object-inspect: 1.11.0
+      object-inspect: 1.12.0
       object-keys: 1.1.1
       object.assign: 4.1.2
       string.prototype.trimend: 1.0.4
@@ -10378,9 +10417,6 @@ packages:
       define-property: 0.2.5
       kind-of: 3.2.2
     dev: true
-
-  /object-inspect/1.11.0:
-    resolution: {integrity: sha512-jp7ikS6Sd3GxQfZJPyH3cjcbJF6GZPClgdV+EFygjFLQ5FmW/dRUnTd9PQ9k0JhoNDabWFbpF1yCdSWCC6gexg==}
 
   /object-inspect/1.12.0:
     resolution: {integrity: sha512-Ho2z80bVIvJloH+YzRmpZVQe87+qASmBUKZDWgx9cu+KDrX2ZDH/3tMy+gXbZETVGs2M8YdxObOh7XAtim9Y0g==}

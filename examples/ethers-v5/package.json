@@ -17,6 +17,8 @@
     "typescript": "^4.6"
   },
   "dependencies": {
-    "ethers": "^5.1.3"
+    "ethers": "^5.1.3",
+    "@ethersproject/providers": "^5.1.3",
+    "@ethersproject/abi": "^5.1.3"
   }
 }

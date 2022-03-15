@@ -9,10 +9,13 @@ import { bold, brightItalic, red } from './_common'
 const VERBOSE = process.env.VERBOSE === 'true'
 
 const examplesDir = path.resolve(__dirname, '../examples')
+const exampleDirs = readdirSync(examplesDir, { withFileTypes: true })
+  .filter((x) => x.isDirectory())
+  .map((x) => x.name)
 
 const failures: string[] = []
 
-for (const dir of readdirSync(examplesDir)) {
+for (const dir of exampleDirs) {
   console.log(`Checking example: ${bold(dir)}`)
 
   const pnpm = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm'

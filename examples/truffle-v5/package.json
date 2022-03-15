@@ -17,6 +17,9 @@
     "@types/mocha": "^7.0.2",
     "@types/web3": "^1.2.2",
     "web3-core": "^1",
+    "web3-eth-contract": "^1",
+    "web3-utils": "^1",
+    "web3": "^1",
     "truffle": "^5.1.22",
     "typescript": "^4.6"
   }

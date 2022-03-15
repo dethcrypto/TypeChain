@@ -24,16 +24,13 @@
     "dotenv": "^8.2.0",
     "ethereum-waffle": "^3.2.2",
     "ethers": "5.4.0",
+    "@ethersproject/providers": "5.4.0",
+    "@ethersproject/contracts": "5.4.0",
+    "@ethersproject/abi": "5.4.0",
     "hardhat": "^2.0.10",
     "ts-node": "^10.7.0",
     "typechain": "file:../../packages/typechain",
     "typescript": "^4.6"
-  },
-  "resolutions": {
-    "ethers": "5.4.0",
-    "@ethersproject/providers": "5.4.0",
-    "@ethersproject/contracts": "5.4.0",
-    "@ethersproject/abi": "5.4.0"
   },
   "dependencies": {}
 }
