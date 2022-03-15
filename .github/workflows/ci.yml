@@ -76,8 +76,8 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           cache: 'pnpm'
-      - run: pnpm install --frozen-lockfile
-
+      - run: pnpm --filter ./packages install --frozen-lockfile
+      - run: pnpm --filter ./examples install --frozen-lockfile
       - run: pnpm check-examples
       - run: pnpm no-git-changes # ensure that committed types are up to date
         if: runner.os == 'Linux'
