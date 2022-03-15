@@ -15,7 +15,7 @@
     "test:fix": "pnpm lint:fix && pnpm format:fix && pnpm test && pnpm typecheck"
   },
   "devDependencies": {
-    "ganache-cli": "^6.12.2",
+    "ganache": "^7.0.3",
     "test-utils": "1.0.0",
     "typechain": "workspace:^7.0.1"
   },
