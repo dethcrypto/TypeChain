@@ -17,7 +17,7 @@
   "devDependencies": {
     "ganache-cli": "^6.12.2",
     "test-utils": "1.0.0",
-    "typechain": "*"
+    "typechain": "workspace:^7.0.1"
   },
   "dependencies": {
     "@ethersproject/abi": "^5.0.0",

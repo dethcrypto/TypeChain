@@ -38,8 +38,7 @@
     "web3": "^1"
   },
   "devDependencies": {
-    "ganache-cli": "^6.12.2",
-    "typechain": "*",
+    "typechain": "workspace:^7.0.1",
     "@types/lodash": "^4.14.139",
     "web3-core": "^1",
     "web3-eth-contract": "^1",
