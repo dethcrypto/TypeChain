@@ -17,12 +17,8 @@
     "test:fix": "pnpm lint:fix && pnpm format:fix && pnpm test && pnpm typecheck"
   },
   "dependencies": {
-    "ts-essentials": "^7.0.1"
-  },
-  "devDependencies": {
-    "conditional-type-checks": "^1.0.5",
-    "ganache-cli": "^6.12.2",
-    "web3": "^1.6.0",
-    "bignumber.js":"9.0.1"
+    "ts-essentials": "^7.0.1",
+    "bignumber.js":"9.0.1",
+    "conditional-type-checks": "^1.0.5"
   }
 }
