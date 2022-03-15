@@ -102,8 +102,8 @@ describe('Events', () => {
       await contract.methods.emit_event1().send({
         from: accounts[0],
         gas: GAS_LIMIT_STANDARD,
-        maxFeePerGas: new BigNumber('767621466'),
-        maxPriorityFeePerGas: new BigNumber('767621466'),
+        maxFeePerGas: new BigNumber(10 ** 9),
+        maxPriorityFeePerGas: new BigNumber(10 ** 9),
       })
       // doesn't throw error
     })
