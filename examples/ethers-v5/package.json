@@ -6,9 +6,8 @@
   "license": "MIT",
   "scripts": {
     "generate-types": "typechain --target=ethers-v5 'abi/*.json'",
-    "postinstall": "pnpm generate-types",
     "start": "ts-node ./src/index.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "pnpm generate-types && tsc --noEmit"
   },
   "devDependencies": {
     "@typechain/ethers-v5": "workspace:^9.0.0",
