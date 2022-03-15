@@ -4,7 +4,7 @@ import type { Awaited } from 'earljs/dist/mocks/types'
 import type { BigNumberish } from 'ethers'
 import { BigNumber, ethers } from 'ethers'
 import type { AssertTrue, IsExact } from 'test-utils'
-import { q18, typedAssert } from 'test-utils'
+import { q18, retry, typedAssert } from 'test-utils'
 
 import type { DataTypesInput } from '../types/v0.6.4/DataTypesInput'
 import { createNewBlockchain, deployContract } from './common'
@@ -19,11 +19,16 @@ type Struct3StructOutput = DataTypesInput.Struct3StructOutput
 describe('DataTypesInput', () => {
   let contract!: DataTypesInput
   let ganache: any
-  beforeEach(async () => {
-    const { ganache: _ganache, signer } = await createNewBlockchain()
-    ganache = _ganache
-    contract = await deployContract<DataTypesInput>(signer, 'DataTypesInput')
-  })
+  beforeEach(() =>
+    retry(
+      async () => {
+        const { ganache: _ganache, signer } = await createNewBlockchain()
+        ganache = _ganache
+        contract = await deployContract<DataTypesInput>(signer, 'DataTypesInput')
+      },
+      { max: 4 },
+    ),
+  )
 
   afterEach(() => ganache.close())
 

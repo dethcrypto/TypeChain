@@ -422,12 +422,16 @@ importers:
 
   packages/test-utils:
     specifiers:
+      '@types/retry-as-promised': ^2.3.3
       bignumber.js: 9.0.1
       conditional-type-checks: ^1.0.5
+      retry-as-promised: ^5.0.0
       ts-essentials: ^7.0.1
     dependencies:
+      '@types/retry-as-promised': 2.3.3
       bignumber.js: 9.0.1
       conditional-type-checks: 1.0.5
+      retry-as-promised: 5.0.0
       ts-essentials: 7.0.3_typescript@4.6.2
 
   packages/typechain:
@@ -2705,7 +2709,6 @@ packages:
 
   /@types/bluebird/3.5.36:
     resolution: {integrity: sha512-HBNx4lhkxN7bx6P0++W8E289foSu8kO8GCk2unhuVggO+cE7rh9DhZUyPhUxNRG9m+5B5BTKxZQ5ZP92x/mx9Q==}
-    dev: true
 
   /@types/bn.js/4.11.6:
     resolution: {integrity: sha512-pqr857jrp2kPuO9uRjZ3PwnJTjoQy+fcdxvBTvHm6dkmEL9q+hDD/2j/0ELOBPtPnS8LjCX0gI9nbl8lVkadpg==}
@@ -2959,6 +2962,12 @@ packages:
     dependencies:
       '@types/node': 16.10.3
     dev: true
+
+  /@types/retry-as-promised/2.3.3:
+    resolution: {integrity: sha512-zqu/fEgkpcbrPTsFnIxWo99vlMXf67lxomuSyw2dRyhYIUJPyAnEtW6COlYs2IB10yQeBS2LSahaWsHtD+b3dg==}
+    dependencies:
+      '@types/bluebird': 3.5.36
+    dev: false
 
   /@types/rimraf/3.0.2:
     resolution: {integrity: sha512-F3OznnSLAUxFrCEu/L5PY8+ny8DtcFRjx7fZZ9bycvXRi3KPTRS9HOitGZwvPg0juRhXFWIeKX58cnX5YqLohQ==}
@@ -11938,6 +11947,10 @@ packages:
   /retimer/2.0.0:
     resolution: {integrity: sha512-KLXY85WkEq2V2bKex/LOO1ViXVn2KGYe4PYysAdYdjmraYIUsVkXu8O4am+8+5UbaaGl1qho4aqAAPHNQ4GSbg==}
     optional: true
+
+  /retry-as-promised/5.0.0:
+    resolution: {integrity: sha512-6S+5LvtTl2ggBumk04hBo/4Uf6fRJUwIgunGZ7CYEBCeufGFW1Pu6ucUf/UskHeWOIsUcLOGLFXPig5tR5V1nA==}
+    dev: false
 
   /retry/0.13.1:
     resolution: {integrity: sha512-XQBQ3I8W1Cge0Seh+6gjj03LbmRFWuoszgK9ooCpwYIrhhoO80pfq4cUkU5DkknwfOfFteRwlZ56PYOGYyFWdg==}
