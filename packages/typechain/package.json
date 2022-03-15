@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@types/prettier": "^2.1.1",
-    "debug": "^4.1.1",
+    "debug": "^4.3.1",
     "fs-extra": "^7.0.0",
     "glob": "^7.1.6",
     "js-sha3": "^0.8.0",
