@@ -74,8 +74,10 @@ export function generateEventArgType(eventArg: EventArgDeclaration): string {
   return eventArg.isIndexed ? `${generateInputType({ useStructs: true }, eventArg.type)} | null` : 'null'
 }
 
-export function generateGetEventOverload(event: EventDeclaration): string {
-  return `getEvent(nameOrSignatureOrTopic: '${event.name}'): EventFragment;`
+export function generateGetEvent(event: EventDeclaration, useSignature: boolean): string {
+  return `getEvent(nameOrSignatureOrTopic: '${
+    useSignature ? generateEventSignature(event) : event.name
+  }'): EventFragment;`
 }
 
 function generateEventIdentifier(event: EventDeclaration, { includeArgTypes }: { includeArgTypes?: boolean } = {}) {

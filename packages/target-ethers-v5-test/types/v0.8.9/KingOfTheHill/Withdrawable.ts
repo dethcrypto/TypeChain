@@ -23,9 +23,12 @@ import type {
 
 export interface WithdrawableInterface extends utils.Interface {
   contractName: "Withdrawable";
+
   functions: {
     "withdraw()": FunctionFragment;
   };
+
+  getFunction(nameOrSignatureOrTopic: "withdraw"): FunctionFragment;
 
   encodeFunctionData(functionFragment: "withdraw", values?: undefined): string;
 

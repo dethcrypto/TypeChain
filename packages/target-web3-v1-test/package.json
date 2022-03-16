@@ -7,17 +7,19 @@
     "format": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --check \"./**/*.ts\"",
     "format:fix": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --write \"./**/*.ts\"",
     "lint": "eslint --ext .ts test",
-    "lint:fix": "yarn lint --fix",
+    "lint:fix": "pnpm lint --fix",
     "typecheck": "tsc --noEmit --incremental false --composite false && tsc --noEmit --incremental false --composite false -p tsconfig.types.json",
     "clean": "rm -rf dist contracts/* && rm -f tsconfig.build.tsbuildinfo && rm -rf build",
     "generate-types": "node ../typechain/dist/cli/cli.js --target=../target-web3-v1/dist/index.js --out-dir ./types/ '../../contracts/compiled/**/*.abi'",
-    "test": "yarn generate-types && mocha --config ../../.mocharc.js",
-    "test:fix": "yarn lint:fix && yarn format:fix && yarn test && yarn typecheck"
+    "test": "pnpm generate-types && mocha --config ../../.mocharc.js",
+    "test:fix": "pnpm lint:fix && pnpm format:fix && pnpm test && pnpm typecheck"
   },
   "devDependencies": {
-    "ganache-cli": "^6.12.2",
+    "ganache": "^7.0.3",
     "test-utils": "1.0.0",
-    "typechain": "*",
-    "web3": "^1.6.0"
+    "typechain": "workspace:^7.0.1",
+    "web3": "^1.6.0",
+    "web3-eth-contract": "^1.6.0",
+    "web3-core": "^1"
   }
 }

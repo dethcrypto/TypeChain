@@ -13,6 +13,7 @@ import type {
 
 export interface TestContractInterface extends utils.Interface {
   contractName: "TestContract";
+
   functions: {};
 
   events: {};

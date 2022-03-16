@@ -10,19 +10,17 @@
     "format": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --check \"./**/*.ts\"",
     "format:fix": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --write \"./**/*.ts\"",
     "lint": "eslint --ext .ts src",
-    "lint:fix": "yarn lint --fix",
+    "lint:fix": "pnpm lint --fix",
     "typecheck": "tsc --noEmit --incremental false --composite false",
     "clean": "rm -rf dist && rm -f tsconfig.build.tsbuildinfo",
     "true": "echo ok",
-    "test:fix": "yarn lint:fix && yarn format:fix && yarn test && yarn typecheck"
+    "test:fix": "pnpm lint:fix && pnpm format:fix && pnpm test && pnpm typecheck"
   },
   "dependencies": {
-    "ts-essentials": "^7.0.1"
-  },
-  "devDependencies": {
+    "ts-essentials": "^7.0.1",
+    "bignumber.js":"9.0.1",
     "conditional-type-checks": "^1.0.5",
-    "ganache-cli": "^6.12.2",
-    "web3": "^1.6.0",
-    "bignumber.js":"9.0.1"
+    "retry-as-promised": "^5.0.0",
+    "@types/retry-as-promised": "^2.3.3"
   }
 }

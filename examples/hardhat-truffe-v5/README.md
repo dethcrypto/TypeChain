@@ -4,16 +4,16 @@ Note: examples in this dir require building monorepo first
 
 ```sh
 # in the root of monorepo
-yarn
-yarn build
+pnpm install
+pnpm build
 ```
 
 ## Running
 
 ```sh
-yarn # it will automatically run TypeChain types generation
+pnpm install # it will automatically run TypeChain types generation
 
-# yarn generate-types to manually regenerate them
+# pnpm generate-types to manually regenerate them
 
-yarn test
+pnpm test
 ```

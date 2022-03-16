@@ -38,11 +38,16 @@ export declare namespace KingOfTheHill {
 
 export interface KingOfTheHillInterface extends utils.Interface {
   contractName: "KingOfTheHill";
+
   functions: {
     "bid()": FunctionFragment;
     "highestBid()": FunctionFragment;
     "withdraw()": FunctionFragment;
   };
+
+  getFunction(
+    nameOrSignatureOrTopic: "bid" | "highestBid" | "withdraw"
+  ): FunctionFragment;
 
   encodeFunctionData(functionFragment: "bid", values?: undefined): string;
   encodeFunctionData(
@@ -67,9 +72,8 @@ export type HighestBidIncreasedEvent = TypedEvent<
   { bid: KingOfTheHill.BidStructOutput }
 >;
 
-export type HighestBidIncreasedEventFilter = TypedEventFilter<
-  HighestBidIncreasedEvent
->;
+export type HighestBidIncreasedEventFilter =
+  TypedEventFilter<HighestBidIncreasedEvent>;
 
 export interface KingOfTheHill extends BaseContract {
   contractName: "KingOfTheHill";

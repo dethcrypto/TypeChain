@@ -28,6 +28,7 @@ import type {
 
 export interface ERC20Interface extends utils.Interface {
   contractName: "ERC20";
+
   functions: {
     "allowance(address,address)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
@@ -41,6 +42,21 @@ export interface ERC20Interface extends utils.Interface {
     "transfer(address,uint256)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
   };
+
+  getFunction(
+    nameOrSignatureOrTopic:
+      | "allowance"
+      | "approve"
+      | "balanceOf"
+      | "decimals"
+      | "decreaseAllowance"
+      | "increaseAllowance"
+      | "name"
+      | "symbol"
+      | "totalSupply"
+      | "transfer"
+      | "transferFrom"
+  ): FunctionFragment;
 
   encodeFunctionData(
     functionFragment: "allowance",

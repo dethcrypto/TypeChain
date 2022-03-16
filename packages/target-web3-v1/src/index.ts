@@ -54,7 +54,7 @@ export default class Web3V1 extends TypeChainTarget {
     }
   }
 
-  afterRun(): FileDescription[] {
+  override afterRun(): FileDescription[] {
     const { allFiles } = this.cfg
 
     const barrels = createBarrelFiles(

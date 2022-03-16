@@ -4,5 +4,10 @@
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src"
-  }
+  },
+  "references": [
+    {
+      "path": "../typechain/tsconfig.build.json"
+    }
+  ]
 }

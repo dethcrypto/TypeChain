@@ -24,9 +24,12 @@ import type {
 
 export interface IERC721ReceiverInterface extends utils.Interface {
   contractName: "IERC721Receiver";
+
   functions: {
     "onERC721Received(address,address,uint256,bytes)": FunctionFragment;
   };
+
+  getFunction(nameOrSignatureOrTopic: "onERC721Received"): FunctionFragment;
 
   encodeFunctionData(
     functionFragment: "onERC721Received",

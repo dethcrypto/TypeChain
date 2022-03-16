@@ -34,6 +34,7 @@ export declare namespace DataTypesView {
 
 export interface DataTypesViewInterface extends utils.Interface {
   contractName: "DataTypesView";
+
   functions: {
     "view_address()": FunctionFragment;
     "view_bool()": FunctionFragment;
@@ -50,6 +51,24 @@ export interface DataTypesViewInterface extends utils.Interface {
     "view_uint256()": FunctionFragment;
     "view_uint8()": FunctionFragment;
   };
+
+  getFunction(
+    nameOrSignatureOrTopic:
+      | "view_address"
+      | "view_bool"
+      | "view_bytes"
+      | "view_bytes1"
+      | "view_enum"
+      | "view_int256"
+      | "view_int8"
+      | "view_named"
+      | "view_stat_array"
+      | "view_string"
+      | "view_struct"
+      | "view_tuple"
+      | "view_uint256"
+      | "view_uint8"
+  ): FunctionFragment;
 
   encodeFunctionData(
     functionFragment: "view_address",

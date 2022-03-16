@@ -57,7 +57,7 @@ export default class Truffle extends TypeChainTarget {
     }
   }
 
-  afterRun(): FileDescription[] {
+  override afterRun(): FileDescription[] {
     return [
       {
         path: join(this.outDirAbs, 'index.d.ts'),

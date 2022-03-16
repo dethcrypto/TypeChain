@@ -13,6 +13,7 @@ import type {
 
 export interface AInterface extends utils.Interface {
   contractName: "A";
+
   functions: {};
 
   events: {

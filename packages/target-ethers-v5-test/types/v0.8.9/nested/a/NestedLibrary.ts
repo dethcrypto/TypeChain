@@ -21,9 +21,12 @@ import type {
 
 export interface NestedLibraryInterface extends utils.Interface {
   contractName: "NestedLibrary";
+
   functions: {
     "getValue()": FunctionFragment;
   };
+
+  getFunction(nameOrSignatureOrTopic: "getValue"): FunctionFragment;
 
   encodeFunctionData(functionFragment: "getValue", values?: undefined): string;
 

@@ -34,6 +34,7 @@ export declare namespace DataTypesPure {
 
 export interface DataTypesPureInterface extends utils.Interface {
   contractName: "DataTypesPure";
+
   functions: {
     "pure_address()": FunctionFragment;
     "pure_bool()": FunctionFragment;
@@ -50,6 +51,24 @@ export interface DataTypesPureInterface extends utils.Interface {
     "pure_uint256()": FunctionFragment;
     "pure_uint8()": FunctionFragment;
   };
+
+  getFunction(
+    nameOrSignatureOrTopic:
+      | "pure_address"
+      | "pure_bool"
+      | "pure_bytes"
+      | "pure_bytes1"
+      | "pure_enum"
+      | "pure_int256"
+      | "pure_int8"
+      | "pure_named"
+      | "pure_stat_array"
+      | "pure_string"
+      | "pure_struct"
+      | "pure_tuple"
+      | "pure_uint256"
+      | "pure_uint8"
+  ): FunctionFragment;
 
   encodeFunctionData(
     functionFragment: "pure_address",

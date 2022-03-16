@@ -27,11 +27,16 @@ import type {
 
 export interface CounterInterface extends utils.Interface {
   contractName: "Counter";
+
   functions: {
     "countDown()": FunctionFragment;
     "countUp()": FunctionFragment;
     "getCount()": FunctionFragment;
   };
+
+  getFunction(
+    nameOrSignatureOrTopic: "countDown" | "countUp" | "getCount"
+  ): FunctionFragment;
 
   encodeFunctionData(functionFragment: "countDown", values?: undefined): string;
   encodeFunctionData(functionFragment: "countUp", values?: undefined): string;

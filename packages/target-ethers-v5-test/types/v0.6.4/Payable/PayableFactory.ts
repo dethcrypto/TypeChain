@@ -23,9 +23,12 @@ import type {
 
 export interface PayableFactoryInterface extends utils.Interface {
   contractName: "PayableFactory";
+
   functions: {
     "newPayable()": FunctionFragment;
   };
+
+  getFunction(nameOrSignatureOrTopic: "newPayable"): FunctionFragment;
 
   encodeFunctionData(
     functionFragment: "newPayable",

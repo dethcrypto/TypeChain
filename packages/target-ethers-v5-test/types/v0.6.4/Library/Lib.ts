@@ -22,9 +22,12 @@ import type {
 
 export interface LibInterface extends utils.Interface {
   contractName: "Lib";
+
   functions: {
     "other(uint8)": FunctionFragment;
   };
+
+  getFunction(nameOrSignatureOrTopic: "other"): FunctionFragment;
 
   encodeFunctionData(functionFragment: "other", values: [BigNumberish]): string;
 

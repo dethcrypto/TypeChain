@@ -22,12 +22,17 @@ import type {
 
 export interface SafeMathInterface extends utils.Interface {
   contractName: "SafeMath";
+
   functions: {
     "add(uint256,uint256)": FunctionFragment;
     "div(uint256,uint256)": FunctionFragment;
     "mul(uint256,uint256)": FunctionFragment;
     "sub(uint256,uint256)": FunctionFragment;
   };
+
+  getFunction(
+    nameOrSignatureOrTopic: "add" | "div" | "mul" | "sub"
+  ): FunctionFragment;
 
   encodeFunctionData(
     functionFragment: "add",

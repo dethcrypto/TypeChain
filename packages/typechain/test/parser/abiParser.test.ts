@@ -1,6 +1,7 @@
 import { expect } from 'earljs'
-import { merge } from 'lodash'
+import { merge, values } from 'lodash'
 
+import { IntegerType, TupleType } from '../../src'
 import {
   BytecodeLinkReference,
   ensure0xPrefix,
@@ -413,6 +414,48 @@ describe('parse', () => {
       } as any
 
       expect(() => parse([fallbackAbiFunc], 'fallback')).not.toThrow()
+    })
+  })
+
+  describe('structs', () => {
+    const abiPiece = {
+      inputs: [
+        {
+          components: [
+            { internalType: 'uint256', name: 'uint256_0', type: 'uint256' },
+            { internalType: 'uint256', name: 'uint256_1', type: 'uint256' },
+          ],
+          internalType: 'struct MyContract.MyStruct[2][][3]',
+          name: 'input1',
+          type: 'tuple[2][][3]',
+        },
+      ],
+      name: 'doFoo',
+      outputs: [
+        {
+          components: [
+            { internalType: 'uint256', name: 'uint256_0', type: 'uint256' },
+            { internalType: 'uint256', name: 'uint256_1', type: 'uint256' },
+          ],
+          internalType: 'struct MyContract.MyStruct[2][][3]',
+          name: '',
+          type: 'tuple[2][][3]',
+        },
+      ],
+      type: 'function',
+      constant: false,
+      payable: false,
+    }
+
+    it('should parse struct directly and not the array', () => {
+      const { structs } = parse([abiPiece], 'ACoolContract')
+
+      const result = values(structs).map((s) => s[0])
+      expect(result[0].structName?.toString()).toEqual('MyContract.MyStruct')
+      expect(result[0].type).toEqual('tuple')
+      expect((result[0] as TupleType).components.length).toEqual(2)
+      expect((result[0] as TupleType).components[0].type.type).toEqual('uinteger')
+      expect(((result[0] as TupleType).components[0].type as IntegerType).bits).toEqual(256)
     })
   })
 

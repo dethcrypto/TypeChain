@@ -21,10 +21,13 @@ import type {
 
 export interface NAME12manglingInterface extends utils.Interface {
   contractName: "NAME12mangling";
+
   functions: {
     "provider()": FunctionFragment;
     "works()": FunctionFragment;
   };
+
+  getFunction(nameOrSignatureOrTopic: "provider" | "works"): FunctionFragment;
 
   encodeFunctionData(functionFragment: "provider", values?: undefined): string;
   encodeFunctionData(functionFragment: "works", values?: undefined): string;

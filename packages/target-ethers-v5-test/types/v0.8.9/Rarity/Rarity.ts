@@ -28,6 +28,7 @@ import type {
 
 export interface RarityInterface extends utils.Interface {
   contractName: "Rarity";
+
   functions: {
     "adventure(uint256)": FunctionFragment;
     "adventurers_log(uint256)": FunctionFragment;
@@ -42,6 +43,7 @@ export interface RarityInterface extends utils.Interface {
     "next_summoner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
+    "safeTransferFrom(address,address,uint256,bytes)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
     "spend_xp(uint256,uint256)": FunctionFragment;
     "summon(uint256)": FunctionFragment;
@@ -54,6 +56,35 @@ export interface RarityInterface extends utils.Interface {
     "xp(uint256)": FunctionFragment;
     "xp_required(uint256)": FunctionFragment;
   };
+
+  getFunction(
+    nameOrSignatureOrTopic:
+      | "adventure"
+      | "adventurers_log"
+      | "approve"
+      | "balanceOf"
+      | "class"
+      | "classes"
+      | "getApproved"
+      | "isApprovedForAll"
+      | "level"
+      | "level_up"
+      | "next_summoner"
+      | "ownerOf"
+      | "safeTransferFrom(address,address,uint256)"
+      | "safeTransferFrom(address,address,uint256,bytes)"
+      | "setApprovalForAll"
+      | "spend_xp"
+      | "summon"
+      | "summoner"
+      | "tokenByIndex"
+      | "tokenOfOwnerByIndex"
+      | "tokenURI"
+      | "totalSupply"
+      | "transferFrom"
+      | "xp"
+      | "xp_required"
+  ): FunctionFragment;
 
   encodeFunctionData(
     functionFragment: "adventure",
@@ -95,8 +126,12 @@ export interface RarityInterface extends utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "safeTransferFrom",
+    functionFragment: "safeTransferFrom(address,address,uint256)",
     values: [string, string, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "safeTransferFrom(address,address,uint256,bytes)",
+    values: [string, string, BigNumberish, BytesLike]
   ): string;
   encodeFunctionData(
     functionFragment: "setApprovalForAll",
@@ -165,7 +200,11 @@ export interface RarityInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "safeTransferFrom",
+    functionFragment: "safeTransferFrom(address,address,uint256)",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "safeTransferFrom(address,address,uint256,bytes)",
     data: BytesLike
   ): Result;
   decodeFunctionResult(

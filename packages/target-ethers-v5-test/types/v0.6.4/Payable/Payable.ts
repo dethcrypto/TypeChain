@@ -24,10 +24,15 @@ import type {
 
 export interface PayableInterface extends utils.Interface {
   contractName: "Payable";
+
   functions: {
     "non_payable_func()": FunctionFragment;
     "payable_func()": FunctionFragment;
   };
+
+  getFunction(
+    nameOrSignatureOrTopic: "non_payable_func" | "payable_func"
+  ): FunctionFragment;
 
   encodeFunctionData(
     functionFragment: "non_payable_func",
