@@ -70,6 +70,7 @@ export interface DataTypesInputInterface extends utils.Interface {
     "input_bytes(bytes)": FunctionFragment;
     "input_bytes1(bytes1)": FunctionFragment;
     "input_enum(uint8)": FunctionFragment;
+    "input_fixedarray_array_fixedarray(uint8[3][][4])": FunctionFragment;
     "input_int256(int256)": FunctionFragment;
     "input_int8(int8)": FunctionFragment;
     "input_multiple_structs_with_same_name((uint160,uint160))": FunctionFragment;
@@ -80,6 +81,14 @@ export interface DataTypesInputInterface extends utils.Interface {
     "input_struct2_array((uint256,(uint256,uint256))[])": FunctionFragment;
     "input_struct2_tuple(tuple[3])": FunctionFragment;
     "input_struct3_array((uint256[])[])": FunctionFragment;
+    "input_struct_array((uint256,uint256)[])": FunctionFragment;
+    "input_struct_array_array(tuple[][])": FunctionFragment;
+    "input_struct_array_array_array(tuple[][][])": FunctionFragment;
+    "input_struct_array_fixedarray(tuple[][2])": FunctionFragment;
+    "input_struct_fixedarray_array(tuple[2][])": FunctionFragment;
+    "input_struct_fixedarray_array_fixedarray(tuple[2][][3])": FunctionFragment;
+    "input_struct_fixedarray_array_fixedarray_array_fixedarray(tuple[2][][3][][4])": FunctionFragment;
+    "input_struct_fixedarray_fixedarray(tuple[2][3])": FunctionFragment;
     "input_tuple(uint256,uint256)": FunctionFragment;
     "input_uint256(uint256)": FunctionFragment;
     "input_uint8(uint8)": FunctionFragment;
@@ -93,6 +102,7 @@ export interface DataTypesInputInterface extends utils.Interface {
       | "input_bytes"
       | "input_bytes1"
       | "input_enum"
+      | "input_fixedarray_array_fixedarray"
       | "input_int256"
       | "input_int8"
       | "input_multiple_structs_with_same_name"
@@ -103,6 +113,14 @@ export interface DataTypesInputInterface extends utils.Interface {
       | "input_struct2_array"
       | "input_struct2_tuple"
       | "input_struct3_array"
+      | "input_struct_array"
+      | "input_struct_array_array"
+      | "input_struct_array_array_array"
+      | "input_struct_array_fixedarray"
+      | "input_struct_fixedarray_array"
+      | "input_struct_fixedarray_array_fixedarray"
+      | "input_struct_fixedarray_array_fixedarray_array_fixedarray"
+      | "input_struct_fixedarray_fixedarray"
       | "input_tuple"
       | "input_uint256"
       | "input_uint8"
@@ -125,6 +143,17 @@ export interface DataTypesInputInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "input_enum",
     values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "input_fixedarray_array_fixedarray",
+    values: [
+      [
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][]
+      ]
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "input_int256",
@@ -173,6 +202,73 @@ export interface DataTypesInputInterface extends utils.Interface {
     values: [DataTypesInput.Struct3Struct[]]
   ): string;
   encodeFunctionData(
+    functionFragment: "input_struct_array",
+    values: [DataTypesInput.Struct1Struct[]]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "input_struct_array_array",
+    values: [DataTypesInput.Struct1Struct[][]]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "input_struct_array_array_array",
+    values: [DataTypesInput.Struct1Struct[][][]]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "input_struct_array_fixedarray",
+    values: [[DataTypesInput.Struct1Struct[], DataTypesInput.Struct1Struct[]]]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "input_struct_fixedarray_array",
+    values: [[DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "input_struct_fixedarray_array_fixedarray",
+    values: [
+      [
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+      ]
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "input_struct_fixedarray_array_fixedarray_array_fixedarray",
+    values: [
+      [
+        [
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+        ][],
+        [
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+        ][],
+        [
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+        ][],
+        [
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+        ][]
+      ]
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "input_struct_fixedarray_fixedarray",
+    values: [
+      [
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct]
+      ]
+    ]
+  ): string;
+  encodeFunctionData(
     functionFragment: "input_tuple",
     values: [BigNumberish, BigNumberish]
   ): string;
@@ -203,6 +299,10 @@ export interface DataTypesInputInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "input_enum", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "input_fixedarray_array_fixedarray",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "input_int256",
     data: BytesLike
@@ -238,6 +338,38 @@ export interface DataTypesInputInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "input_struct3_array",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "input_struct_array",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "input_struct_array_array",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "input_struct_array_array_array",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "input_struct_array_fixedarray",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "input_struct_fixedarray_array",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "input_struct_fixedarray_array_fixedarray",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "input_struct_fixedarray_array_fixedarray_array_fixedarray",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "input_struct_fixedarray_fixedarray",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -307,6 +439,25 @@ export interface DataTypesInput extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[number]>;
 
+    input_fixedarray_array_fixedarray(
+      input1: [
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][]
+      ],
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        [
+          [number, number, number][],
+          [number, number, number][],
+          [number, number, number][],
+          [number, number, number][]
+        ]
+      ]
+    >;
+
     input_int256(
       input1: BigNumberish,
       overrides?: CallOverrides
@@ -368,6 +519,184 @@ export interface DataTypesInput extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[DataTypesInput.Struct3StructOutput[]]>;
 
+    input_struct_array(
+      input1: DataTypesInput.Struct1Struct[],
+      overrides?: CallOverrides
+    ): Promise<[DataTypesInput.Struct1StructOutput[]]>;
+
+    input_struct_array_array(
+      input1: DataTypesInput.Struct1Struct[][],
+      overrides?: CallOverrides
+    ): Promise<[DataTypesInput.Struct1StructOutput[][]]>;
+
+    input_struct_array_array_array(
+      input1: DataTypesInput.Struct1Struct[][][],
+      overrides?: CallOverrides
+    ): Promise<[DataTypesInput.Struct1StructOutput[][][]]>;
+
+    input_struct_array_fixedarray(
+      input1: [DataTypesInput.Struct1Struct[], DataTypesInput.Struct1Struct[]],
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        [
+          DataTypesInput.Struct1StructOutput[],
+          DataTypesInput.Struct1StructOutput[]
+        ]
+      ]
+    >;
+
+    input_struct_fixedarray_array(
+      input1: [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        [
+          DataTypesInput.Struct1StructOutput,
+          DataTypesInput.Struct1StructOutput
+        ][]
+      ]
+    >;
+
+    input_struct_fixedarray_array_fixedarray(
+      input1: [
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+      ],
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        [
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][],
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][],
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][]
+        ]
+      ]
+    >;
+
+    input_struct_fixedarray_array_fixedarray_array_fixedarray(
+      input1: [
+        [
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+        ][],
+        [
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+        ][],
+        [
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+        ][],
+        [
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+        ][]
+      ],
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        [
+          [
+            [
+              DataTypesInput.Struct1StructOutput,
+              DataTypesInput.Struct1StructOutput
+            ][],
+            [
+              DataTypesInput.Struct1StructOutput,
+              DataTypesInput.Struct1StructOutput
+            ][],
+            [
+              DataTypesInput.Struct1StructOutput,
+              DataTypesInput.Struct1StructOutput
+            ][]
+          ][],
+          [
+            [
+              DataTypesInput.Struct1StructOutput,
+              DataTypesInput.Struct1StructOutput
+            ][],
+            [
+              DataTypesInput.Struct1StructOutput,
+              DataTypesInput.Struct1StructOutput
+            ][],
+            [
+              DataTypesInput.Struct1StructOutput,
+              DataTypesInput.Struct1StructOutput
+            ][]
+          ][],
+          [
+            [
+              DataTypesInput.Struct1StructOutput,
+              DataTypesInput.Struct1StructOutput
+            ][],
+            [
+              DataTypesInput.Struct1StructOutput,
+              DataTypesInput.Struct1StructOutput
+            ][],
+            [
+              DataTypesInput.Struct1StructOutput,
+              DataTypesInput.Struct1StructOutput
+            ][]
+          ][],
+          [
+            [
+              DataTypesInput.Struct1StructOutput,
+              DataTypesInput.Struct1StructOutput
+            ][],
+            [
+              DataTypesInput.Struct1StructOutput,
+              DataTypesInput.Struct1StructOutput
+            ][],
+            [
+              DataTypesInput.Struct1StructOutput,
+              DataTypesInput.Struct1StructOutput
+            ][]
+          ][]
+        ]
+      ]
+    >;
+
+    input_struct_fixedarray_fixedarray(
+      input1: [
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct]
+      ],
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        [
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ],
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ],
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ]
+        ]
+      ]
+    >;
+
     input_tuple(
       input1: BigNumberish,
       input2: BigNumberish,
@@ -399,6 +728,23 @@ export interface DataTypesInput extends BaseContract {
   input_bytes1(input1: BytesLike, overrides?: CallOverrides): Promise<string>;
 
   input_enum(input1: BigNumberish, overrides?: CallOverrides): Promise<number>;
+
+  input_fixedarray_array_fixedarray(
+    input1: [
+      [BigNumberish, BigNumberish, BigNumberish][],
+      [BigNumberish, BigNumberish, BigNumberish][],
+      [BigNumberish, BigNumberish, BigNumberish][],
+      [BigNumberish, BigNumberish, BigNumberish][]
+    ],
+    overrides?: CallOverrides
+  ): Promise<
+    [
+      [number, number, number][],
+      [number, number, number][],
+      [number, number, number][],
+      [number, number, number][]
+    ]
+  >;
 
   input_int256(
     input1: BigNumberish,
@@ -454,6 +800,156 @@ export interface DataTypesInput extends BaseContract {
     overrides?: CallOverrides
   ): Promise<DataTypesInput.Struct3StructOutput[]>;
 
+  input_struct_array(
+    input1: DataTypesInput.Struct1Struct[],
+    overrides?: CallOverrides
+  ): Promise<DataTypesInput.Struct1StructOutput[]>;
+
+  input_struct_array_array(
+    input1: DataTypesInput.Struct1Struct[][],
+    overrides?: CallOverrides
+  ): Promise<DataTypesInput.Struct1StructOutput[][]>;
+
+  input_struct_array_array_array(
+    input1: DataTypesInput.Struct1Struct[][][],
+    overrides?: CallOverrides
+  ): Promise<DataTypesInput.Struct1StructOutput[][][]>;
+
+  input_struct_array_fixedarray(
+    input1: [DataTypesInput.Struct1Struct[], DataTypesInput.Struct1Struct[]],
+    overrides?: CallOverrides
+  ): Promise<
+    [DataTypesInput.Struct1StructOutput[], DataTypesInput.Struct1StructOutput[]]
+  >;
+
+  input_struct_fixedarray_array(
+    input1: [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+    overrides?: CallOverrides
+  ): Promise<
+    [DataTypesInput.Struct1StructOutput, DataTypesInput.Struct1StructOutput][]
+  >;
+
+  input_struct_fixedarray_array_fixedarray(
+    input1: [
+      [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+      [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+      [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+    ],
+    overrides?: CallOverrides
+  ): Promise<
+    [
+      [
+        DataTypesInput.Struct1StructOutput,
+        DataTypesInput.Struct1StructOutput
+      ][],
+      [
+        DataTypesInput.Struct1StructOutput,
+        DataTypesInput.Struct1StructOutput
+      ][],
+      [DataTypesInput.Struct1StructOutput, DataTypesInput.Struct1StructOutput][]
+    ]
+  >;
+
+  input_struct_fixedarray_array_fixedarray_array_fixedarray(
+    input1: [
+      [
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+      ][],
+      [
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+      ][],
+      [
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+      ][],
+      [
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+      ][]
+    ],
+    overrides?: CallOverrides
+  ): Promise<
+    [
+      [
+        [
+          DataTypesInput.Struct1StructOutput,
+          DataTypesInput.Struct1StructOutput
+        ][],
+        [
+          DataTypesInput.Struct1StructOutput,
+          DataTypesInput.Struct1StructOutput
+        ][],
+        [
+          DataTypesInput.Struct1StructOutput,
+          DataTypesInput.Struct1StructOutput
+        ][]
+      ][],
+      [
+        [
+          DataTypesInput.Struct1StructOutput,
+          DataTypesInput.Struct1StructOutput
+        ][],
+        [
+          DataTypesInput.Struct1StructOutput,
+          DataTypesInput.Struct1StructOutput
+        ][],
+        [
+          DataTypesInput.Struct1StructOutput,
+          DataTypesInput.Struct1StructOutput
+        ][]
+      ][],
+      [
+        [
+          DataTypesInput.Struct1StructOutput,
+          DataTypesInput.Struct1StructOutput
+        ][],
+        [
+          DataTypesInput.Struct1StructOutput,
+          DataTypesInput.Struct1StructOutput
+        ][],
+        [
+          DataTypesInput.Struct1StructOutput,
+          DataTypesInput.Struct1StructOutput
+        ][]
+      ][],
+      [
+        [
+          DataTypesInput.Struct1StructOutput,
+          DataTypesInput.Struct1StructOutput
+        ][],
+        [
+          DataTypesInput.Struct1StructOutput,
+          DataTypesInput.Struct1StructOutput
+        ][],
+        [
+          DataTypesInput.Struct1StructOutput,
+          DataTypesInput.Struct1StructOutput
+        ][]
+      ][]
+    ]
+  >;
+
+  input_struct_fixedarray_fixedarray(
+    input1: [
+      [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
+      [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
+      [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct]
+    ],
+    overrides?: CallOverrides
+  ): Promise<
+    [
+      [DataTypesInput.Struct1StructOutput, DataTypesInput.Struct1StructOutput],
+      [DataTypesInput.Struct1StructOutput, DataTypesInput.Struct1StructOutput],
+      [DataTypesInput.Struct1StructOutput, DataTypesInput.Struct1StructOutput]
+    ]
+  >;
+
   input_tuple(
     input1: BigNumberish,
     input2: BigNumberish,
@@ -485,6 +981,23 @@ export interface DataTypesInput extends BaseContract {
       input1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<number>;
+
+    input_fixedarray_array_fixedarray(
+      input1: [
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][]
+      ],
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        [number, number, number][],
+        [number, number, number][],
+        [number, number, number][],
+        [number, number, number][]
+      ]
+    >;
 
     input_int256(
       input1: BigNumberish,
@@ -543,6 +1056,168 @@ export interface DataTypesInput extends BaseContract {
       overrides?: CallOverrides
     ): Promise<DataTypesInput.Struct3StructOutput[]>;
 
+    input_struct_array(
+      input1: DataTypesInput.Struct1Struct[],
+      overrides?: CallOverrides
+    ): Promise<DataTypesInput.Struct1StructOutput[]>;
+
+    input_struct_array_array(
+      input1: DataTypesInput.Struct1Struct[][],
+      overrides?: CallOverrides
+    ): Promise<DataTypesInput.Struct1StructOutput[][]>;
+
+    input_struct_array_array_array(
+      input1: DataTypesInput.Struct1Struct[][][],
+      overrides?: CallOverrides
+    ): Promise<DataTypesInput.Struct1StructOutput[][][]>;
+
+    input_struct_array_fixedarray(
+      input1: [DataTypesInput.Struct1Struct[], DataTypesInput.Struct1Struct[]],
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        DataTypesInput.Struct1StructOutput[],
+        DataTypesInput.Struct1StructOutput[]
+      ]
+    >;
+
+    input_struct_fixedarray_array(
+      input1: [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+      overrides?: CallOverrides
+    ): Promise<
+      [DataTypesInput.Struct1StructOutput, DataTypesInput.Struct1StructOutput][]
+    >;
+
+    input_struct_fixedarray_array_fixedarray(
+      input1: [
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+      ],
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        [
+          DataTypesInput.Struct1StructOutput,
+          DataTypesInput.Struct1StructOutput
+        ][],
+        [
+          DataTypesInput.Struct1StructOutput,
+          DataTypesInput.Struct1StructOutput
+        ][],
+        [
+          DataTypesInput.Struct1StructOutput,
+          DataTypesInput.Struct1StructOutput
+        ][]
+      ]
+    >;
+
+    input_struct_fixedarray_array_fixedarray_array_fixedarray(
+      input1: [
+        [
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+        ][],
+        [
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+        ][],
+        [
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+        ][],
+        [
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+        ][]
+      ],
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        [
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][],
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][],
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][]
+        ][],
+        [
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][],
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][],
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][]
+        ][],
+        [
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][],
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][],
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][]
+        ][],
+        [
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][],
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][],
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][]
+        ][]
+      ]
+    >;
+
+    input_struct_fixedarray_fixedarray(
+      input1: [
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct]
+      ],
+      overrides?: CallOverrides
+    ): Promise<
+      [
+        [
+          DataTypesInput.Struct1StructOutput,
+          DataTypesInput.Struct1StructOutput
+        ],
+        [
+          DataTypesInput.Struct1StructOutput,
+          DataTypesInput.Struct1StructOutput
+        ],
+        [DataTypesInput.Struct1StructOutput, DataTypesInput.Struct1StructOutput]
+      ]
+    >;
+
     input_tuple(
       input1: BigNumberish,
       input2: BigNumberish,
@@ -587,6 +1262,16 @@ export interface DataTypesInput extends BaseContract {
 
     input_enum(
       input1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    input_fixedarray_array_fixedarray(
+      input1: [
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][]
+      ],
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -641,6 +1326,75 @@ export interface DataTypesInput extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    input_struct_array(
+      input1: DataTypesInput.Struct1Struct[],
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    input_struct_array_array(
+      input1: DataTypesInput.Struct1Struct[][],
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    input_struct_array_array_array(
+      input1: DataTypesInput.Struct1Struct[][][],
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    input_struct_array_fixedarray(
+      input1: [DataTypesInput.Struct1Struct[], DataTypesInput.Struct1Struct[]],
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    input_struct_fixedarray_array(
+      input1: [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    input_struct_fixedarray_array_fixedarray(
+      input1: [
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+      ],
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    input_struct_fixedarray_array_fixedarray_array_fixedarray(
+      input1: [
+        [
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+        ][],
+        [
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+        ][],
+        [
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+        ][],
+        [
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+        ][]
+      ],
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    input_struct_fixedarray_fixedarray(
+      input1: [
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct]
+      ],
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     input_tuple(
       input1: BigNumberish,
       input2: BigNumberish,
@@ -686,6 +1440,16 @@ export interface DataTypesInput extends BaseContract {
 
     input_enum(
       input1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    input_fixedarray_array_fixedarray(
+      input1: [
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][]
+      ],
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -740,6 +1504,75 @@ export interface DataTypesInput extends BaseContract {
 
     input_struct3_array(
       input1: DataTypesInput.Struct3Struct[],
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    input_struct_array(
+      input1: DataTypesInput.Struct1Struct[],
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    input_struct_array_array(
+      input1: DataTypesInput.Struct1Struct[][],
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    input_struct_array_array_array(
+      input1: DataTypesInput.Struct1Struct[][][],
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    input_struct_array_fixedarray(
+      input1: [DataTypesInput.Struct1Struct[], DataTypesInput.Struct1Struct[]],
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    input_struct_fixedarray_array(
+      input1: [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    input_struct_fixedarray_array_fixedarray(
+      input1: [
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+      ],
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    input_struct_fixedarray_array_fixedarray_array_fixedarray(
+      input1: [
+        [
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+        ][],
+        [
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+        ][],
+        [
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+        ][],
+        [
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+        ][]
+      ],
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    input_struct_fixedarray_fixedarray(
+      input1: [
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct]
+      ],
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

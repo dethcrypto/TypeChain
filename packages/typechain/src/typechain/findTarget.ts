@@ -12,9 +12,8 @@ export function findTarget(config: Config): TypeChainTarget {
   }
 
   const possiblePaths = [
-    process.env.NODE_ENV === 'test' && `../../typechain-target-${target}/lib/index`, // only for tests
-    `@typechain/${target}`, //external module
-    `typechain-target-${target}`, //external module
+    `@typechain/${target}`, // external module
+    `typechain-target-${target}`, // external module
     ensureAbsPath(target), // path
   ]
 

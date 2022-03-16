@@ -110,7 +110,7 @@ you will get TypeScript typings compatible with a given library.
 
 ### Step by step guide
 
-Install TypeChain with `yarn add --dev typechain` and install desired target.
+Install TypeChain with `npm install --save-dev typechain` and install desired target.
 
 Run `typechain --target=your_target` (you might need to make sure that it's available in your path if you installed it
 only locally), it will automatically find all `.abi` files in your project and generate Typescript classes based on

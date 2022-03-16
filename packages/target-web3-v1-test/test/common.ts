@@ -1,12 +1,11 @@
+import * as ganache from 'ganache'
 import { loadContract } from 'test-utils'
 import Web3 from 'web3'
-
-const ganache = require('ganache-cli')
 
 export const GAS_LIMIT_STANDARD = 6000000
 
 export async function createNewBlockchain() {
-  const web3 = new Web3(ganache.provider())
+  const web3 = new Web3(ganache.provider({ logging: { quiet: true } }) as any)
   const accounts = await web3.eth.getAccounts()
   return { web3, accounts }
 }

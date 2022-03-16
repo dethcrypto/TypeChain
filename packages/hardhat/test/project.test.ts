@@ -1,7 +1,8 @@
 /* eslint-disable no-console */
 /* eslint-disable no-invalid-this */
 import { expect, Mock, mockFn } from 'earljs'
-import { copyFileSync, existsSync, promises as fsPromises, readFileSync } from 'fs'
+import { copyFileSync, existsSync, readFileSync } from 'fs'
+import { readdir } from 'fs-extra'
 import { join } from 'path'
 import rimraf from 'rimraf'
 
@@ -28,7 +29,7 @@ describe('Typechain x Hardhat', function () {
 
     await this.hre.run('compile')
 
-    const dir = await fsPromises.readdir(this.hre.config.typechain.outDir)
+    const dir = await readdir(this.hre.config.typechain.outDir)
     expect(dir.length).not.toEqual(0)
   })
 
@@ -46,7 +47,7 @@ describe('Typechain x Hardhat', function () {
     // fsPromises.readdir uses process.cwd on Windows
     process.cwd = originalCwd
 
-    const dir = await fsPromises.readdir(this.hre.config.typechain.outDir)
+    const dir = await readdir(this.hre.config.typechain.outDir)
     expect(dir.length).not.toEqual(0)
   })
 

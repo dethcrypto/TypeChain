@@ -40,18 +40,7 @@ export function generateInputType(options: GenerateTypeOptions, evmType: EvmType
     case 'dynamic-bytes':
       return 'BytesLike'
     case 'array':
-      if (evmType.structName && !options.useStructs) {
-        // This emits right-hand side of struct type declaration.
-        // Example: `export type Struct3Struct = { input1: BigNumberish[] };`
-        return `(${generateInputType({ ...options, useStructs: true }, evmType.itemType)})`
-      } else {
-        return generateArrayOrTupleType(
-          evmType.structName
-            ? evmType.structName.toString() + STRUCT_INPUT_POSTFIX
-            : generateInputType({ ...options, useStructs: true }, evmType.itemType),
-          evmType.size,
-        )
-      }
+      return generateArrayOrTupleType(generateInputType(options, evmType.itemType), evmType.size)
     case 'boolean':
       return 'boolean'
     case 'string':
@@ -79,17 +68,7 @@ export function generateOutputType(options: GenerateTypeOptions, evmType: EvmOut
     case 'dynamic-bytes':
       return 'string'
     case 'array':
-      if (evmType.structName && !options.useStructs) {
-        // This emits right-hand side of struct type declaration.
-        // Example: `export type Struct3StructOutput = [BigNumber[]] & { input1: BigNumber[] };`
-        return `(${generateOutputType({ ...options, useStructs: true }, evmType.itemType)})`
-      }
-      return generateArrayOrTupleType(
-        evmType.structName
-          ? evmType.structName.toString() + STRUCT_OUTPUT_POSTFIX
-          : generateOutputType({ ...options, useStructs: true }, evmType.itemType),
-        evmType.size,
-      )
+      return generateArrayOrTupleType(generateOutputType(options, evmType.itemType), evmType.size)
     case 'boolean':
       return 'boolean'
     case 'string':
@@ -145,6 +124,6 @@ function generateArrayOrTupleType(item: string, length?: number) {
   if (length !== undefined && length < 6) {
     return `[${Array(length).fill(item).join(', ')}]`
   } else {
-    return `(${item})[]`
+    return `${item}[]`
   }
 }

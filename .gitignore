@@ -24,5 +24,5 @@ examples/hardhat-truffe-v5/typechain-types
 packages/hardhat/test/fixture-projects/hardhat-project/contracts/TestContract2.sol
 packages/hardhat-test/cache
 packages/hardhat-test/artifacts
-examples/*/yarn.lock
-yarn-error.log
+examples/*/pnpm-lock.yaml
+pnpm-debug.log

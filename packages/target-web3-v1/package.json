@@ -24,21 +24,25 @@
     "format": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --check \"./**/*.ts\" README.md",
     "format:fix": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --write \"./**/*.ts\" README.md",
     "lint": "eslint --ext .ts src",
-    "lint:fix": "yarn lint --fix",
+    "lint:fix": "pnpm lint --fix",
     "typecheck": "tsc --noEmit --incremental false --composite false",
     "clean": "rm -rf dist && rm -f tsconfig.build.tsbuildinfo",
     "test": "echo ok",
-    "test:fix": "yarn lint:fix && yarn format:fix && yarn test && yarn typecheck"
+    "test:fix": "pnpm lint:fix && pnpm format:fix && pnpm test && pnpm typecheck"
   },
   "peerDependencies": {
-    "typechain": "^7.0.0",
-    "web3": "^1.0.0"
+    "typechain": "workspace:^7.0.1",
+    "web3": "^1",
+    "web3-core": "^1",
+    "web3-eth-contract": "^1"
   },
   "devDependencies": {
-    "ganache-cli": "^6.12.2",
-    "typechain": "*",
+    "typechain": "workspace:^7.0.1",
     "test-utils": "1.0.0",
-    "@types/lodash": "^4.14.139"
+    "@types/lodash": "^4.14.139",
+    "web3": "^1",
+    "web3-core": "^1",
+    "web3-eth-contract": "^1"
   },
   "dependencies": {
     "lodash": "^4.17.15",

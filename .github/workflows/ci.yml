@@ -15,16 +15,19 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 6
       - uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
-          cache: 'yarn'
+          cache: 'pnpm'
 
-      - run: yarn --no-progress --non-interactive --frozen-lockfile
+      - run: pnpm install --frozen-lockfile
 
-      - run: yarn build
-      - run: yarn lint
-      - run: yarn no-git-changes # ensure that committed types are up to date
+      - run: pnpm build
+      - run: pnpm lint
+      - run: pnpm no-git-changes # ensure that committed types are up to date
 
   test:
     strategy:
@@ -37,19 +40,22 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 6
       - uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
-          cache: 'yarn'
+          cache: 'pnpm'
 
-      - run: yarn --no-progress --non-interactive --frozen-lockfile
+      - run: pnpm install --frozen-lockfile
 
-      - run: yarn build
-      - run: yarn test
-      - run: yarn format # do it at the very end because "yarn test" can generate types (which should be formatted)
+      - run: pnpm build
+      - run: pnpm test
+      - run: pnpm format # do it at the very end because "pnpm test" can generate types (which should be formatted)
         if: runner.os == 'Linux'
-      - run: yarn typecheck # this has to happen after yarn test b/c test does type generation
-      - run: yarn no-git-changes # ensure that committed types are up to date
+      - run: pnpm typecheck # this has to happen after pnpm test b/c test does type generation
+      - run: pnpm no-git-changes # ensure that committed types are up to date
         if: runner.os == 'Linux'
 
   test-examples:
@@ -63,15 +69,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 6
       - uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
-          cache: 'yarn'
-
-      - run: yarn --no-progress --non-interactive --frozen-lockfile
-
-      - run: yarn check-examples
-      - run: yarn no-git-changes # ensure that committed types are up to date
+          cache: 'pnpm'
+      - run: pnpm --filter ./packages install --frozen-lockfile
+      - run: pnpm --filter ./examples install --frozen-lockfile
+      - run: pnpm check-examples
+      - run: pnpm no-git-changes # ensure that committed types are up to date
         if: runner.os == 'Linux'
 # Few tips github actions
 # - name: Setup SSH debug session
