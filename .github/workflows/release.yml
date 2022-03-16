@@ -15,21 +15,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
         with:
           node-version: '14.x'
+          cache: 'yarn'
 
-      - name: Cache YARN dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            node_modules
-            */*/node_modules
-          key: ${{ runner.OS }}-14.x-yarn-cache-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: ${{ runner.OS }}-14.x-yarn-cache-
-
-      - name: Install
-        run: yarn --no-progress --non-interactive --frozen-lockfile
+      - run: yarn --no-progress --non-interactive --frozen-lockfile
 
       - name: Create Release Pull Request or Publish to npm
         uses: changesets/action@master
