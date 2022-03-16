@@ -11,16 +11,18 @@
     "typecheck": "tsc --noEmit --incremental false --composite false && tsc --noEmit --incremental false --composite false -p tsconfig.types.json",
     "clean": "hardhat clean && rm -f tsconfig.build.tsbuildinfo && rm -rf build",
     "generate-types": "hardhat clean && hardhat compile",
-    "test": "yarn generate-types && mocha --config ../../.mocharc.js",
-    "test:fix": "yarn lint:fix && yarn format:fix && yarn test && yarn typecheck"
+    "test": "pnpm generate-types && mocha --config ../../.mocharc.js",
+    "test:fix": "pnpm lint:fix && pnpm format:fix && pnpm test && pnpm typecheck"
   },
   "devDependencies": {
+    "@ethersproject/providers": "^5.4.7",
+    "@ethersproject/abi": "^5.4.7",
     "@nomiclabs/hardhat-ethers": "^2.0.2",
-    "@typechain/ethers-v5": "*",
-    "@typechain/hardhat": "*",
+    "@typechain/ethers-v5": "workspace:^9.0.0",
+    "@typechain/hardhat": "workspace:^5.0.0",
     "ethers": "^5.4.7",
     "hardhat": "^2.0.10",
     "test-utils": "1.0.0",
-    "typechain": "*"
+    "typechain": "workspace:^7.0.1"
   }
 }

@@ -1,5 +1,5 @@
 import BigNumber from 'bn.js'
-import { asyncWithDoneCase, typedAssert } from 'test-utils'
+import { asyncWithDoneCase, retry, typedAssert } from 'test-utils'
 
 import type { Events } from '../types/v0.6.4/Events'
 import { createNewBlockchain, deployContract, GAS_LIMIT_STANDARD } from './common'
@@ -8,11 +8,16 @@ import { createNewBlockchain, deployContract, GAS_LIMIT_STANDARD } from './commo
 describe('Events', () => {
   let contract: Events
   let accounts: string[]
-  beforeEach(async () => {
-    const { web3, accounts: _accounts } = await createNewBlockchain()
-    accounts = _accounts
-    contract = await deployContract<Events>(web3, accounts, 'Events')
-  })
+  beforeEach(() =>
+    retry(
+      async () => {
+        const { web3, accounts: _accounts } = await createNewBlockchain()
+        accounts = _accounts
+        contract = await deployContract<Events>(web3, accounts, 'Events')
+      },
+      { max: 4 },
+    ),
+  )
 
   describe('Event1', () => {
     it(
@@ -102,8 +107,8 @@ describe('Events', () => {
       await contract.methods.emit_event1().send({
         from: accounts[0],
         gas: GAS_LIMIT_STANDARD,
-        maxFeePerGas: new BigNumber('1'),
-        maxPriorityFeePerGas: new BigNumber('1'),
+        maxFeePerGas: new BigNumber(10 ** 9),
+        maxPriorityFeePerGas: new BigNumber(10 ** 9),
       })
       // doesn't throw error
     })

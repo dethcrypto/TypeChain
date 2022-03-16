@@ -9,23 +9,17 @@ import { bold, brightItalic, red } from './_common'
 const VERBOSE = process.env.VERBOSE === 'true'
 
 const examplesDir = path.resolve(__dirname, '../examples')
+const exampleDirs = readdirSync(examplesDir, { withFileTypes: true })
+  .filter((x) => x.isDirectory())
+  .map((x) => x.name)
 
 const failures: string[] = []
 
-for (const dir of readdirSync(examplesDir)) {
+for (const dir of exampleDirs) {
   console.log(`Checking example: ${bold(dir)}`)
 
-  const yarn = process.platform === 'win32' ? 'yarn.cmd' : 'yarn'
-  runProcess(
-    [
-      yarn,
-      '--non-interactive',
-      // temporarily removed: this seems to cause issues on the CI
-      // '--frozen-lockfile',
-    ],
-    dir,
-  )
-  runProcess([yarn, 'typecheck'], dir)
+  const pnpm = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm'
+  runProcess([pnpm, 'typecheck'], dir)
 }
 
 if (failures.length > 0) {
@@ -65,6 +59,6 @@ function runProcess(command: string[], dir: string) {
   }
 }
 
-function formatOutput(output: string[]) {
+function formatOutput(output: (string | null)[]) {
   return output.filter(Boolean).join('\n')
 }
