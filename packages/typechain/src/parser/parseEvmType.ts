@@ -90,7 +90,7 @@ export function parseEvmType(rawType: string, components?: EvmSymbol[], internal
 
     const result: ArrayType = {
       type: 'array',
-      itemType: parseEvmType(restOfTheType, components),
+      itemType: parseEvmType(restOfTheType, components, internalType),
       originalType: rawType,
     }
     if (arraySize) result.size = arraySize

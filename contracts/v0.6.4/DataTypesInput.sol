@@ -33,6 +33,9 @@ contract DataTypesInput {
   function input_stat_array(uint8[3] memory input1) public pure returns (uint8[3] memory) {
     return input1;
   }
+  function input_fixedarray_array_fixedarray(uint8[3][][4] memory input1) public pure returns (uint8[3][][4] memory) {
+    return input1;
+  }
   function input_tuple(uint256 input1, uint256 input2) public pure returns (uint256, uint256) {
     return (input1, input2);
   }
@@ -42,6 +45,30 @@ contract DataTypesInput {
       uint256 uint256_1;
   }
   function input_struct(Struct1 memory input1) public pure returns (Struct1 memory) {
+    return input1;
+  }
+  function input_struct_array(Struct1[] memory input1) public pure returns (Struct1[] memory) {
+    return input1;
+  }
+  function input_struct_array_array(Struct1[][] memory input1) public pure returns (Struct1[][] memory) {
+    return input1;
+  }
+  function input_struct_fixedarray_array(Struct1[2][] memory input1) public pure returns (Struct1[2][] memory) {
+    return input1;
+  }
+  function input_struct_array_fixedarray(Struct1[][2] memory input1) public pure returns (Struct1[][2] memory) {
+    return input1;
+  }
+  function input_struct_fixedarray_fixedarray(Struct1[2][3] memory input1) public pure returns (Struct1[2][3] memory) {
+    return input1;
+  }
+  function input_struct_array_array_array(Struct1[][][] memory input1) public pure returns (Struct1[][][] memory) {
+    return input1;
+  }
+  function input_struct_fixedarray_array_fixedarray(Struct1[2][][3] memory input1) public pure returns (Struct1[2][][3] memory) {
+    return input1;
+  }
+  function input_struct_fixedarray_array_fixedarray_array_fixedarray(Struct1[2][][3][][4] memory input1) public pure returns (Struct1[2][][3][][4] memory) {
     return input1;
   }
   enum Enum1 { On, Off, Undefined }
@@ -70,7 +97,6 @@ contract DataTypesInput {
   function input_struct2_tuple(Struct2[3] memory input) public pure returns (Struct2[3] memory) {
     return input;
   }
-
   function input_multiple_structs_with_same_name(StructsLib1.Info memory info1) public pure returns (StructsLib2.Info memory info2) {
     info2.a = address(info1.a);
     info2.b = address(info1.b);
