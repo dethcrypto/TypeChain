@@ -27,8 +27,6 @@ export interface SimpleTokenInterface extends utils.Interface {
     "transfer(address,uint256)": FunctionFragment;
   };
 
-  events: {};
-
   getFunction(nameOrSignatureOrTopic: "transfer"): FunctionFragment;
 
   encodeFunctionData(
@@ -37,6 +35,8 @@ export interface SimpleTokenInterface extends utils.Interface {
   ): string;
 
   decodeFunctionResult(functionFragment: "transfer", data: BytesLike): Result;
+
+  events: {};
 }
 
 export interface SimpleToken extends BaseContract {

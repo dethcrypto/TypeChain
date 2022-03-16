@@ -1,14 +1,17 @@
 import { posix } from 'path'
 
 /**
- * Transforms all paths matching `ContractName.sol/ContractName.json`
+ * Transforms all paths matching `ContractName(\.sol)?/ContractName.ext`
  */
-export function shortenFullJsonFilePath(path: string) {
-  const parsed = posix.parse(path)
+export function shortenFullJsonFilePath(path: string, allPaths: string[]) {
+  const { name, dir, base } = posix.parse(path)
 
-  const sourceFileName = `${parsed.name}.sol`
-  if (parsed.dir.endsWith(sourceFileName)) {
-    return parsed.dir.slice(0, -sourceFileName.length) + `${parsed.name}.json`
+  if (allPaths.filter((p) => p.startsWith(dir + '/')).length > 1) {
+    return path
+  }
+
+  if (dir.endsWith(`/${name}.sol`) || dir.endsWith(`/${name}`)) {
+    return dir.split('/').slice(0, -1).join('/') + '/' + base
   }
 
   return path
