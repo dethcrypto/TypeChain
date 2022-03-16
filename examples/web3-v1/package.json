@@ -6,17 +6,18 @@
   "license": "MIT",
   "scripts": {
     "generate-types": "typechain --target=web3-v1 'abi/*.json'",
-    "postinstall": "yarn generate-types",
     "start": "ts-node ./src/index.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "pnpm generate-types && tsc --noEmit"
   },
   "devDependencies": {
-    "@typechain/web3-v1": "file:../../packages/target-web3-v1",
+    "@typechain/web3-v1": "workspace:^5.0.0",
     "@types/bn.js": "^4.11.6",
-    "ts-node": "^8.8.2",
-    "typechain": "file:../../packages/typechain"
+    "ts-node": "^10.7.0",
+    "typechain": "workspace:^7.0.1"
   },
   "dependencies": {
-    "web3": "^1.2.6"
+    "web3": "^1",
+    "web3-eth-contract": "^1",
+    "web3-core": "^1"
   }
 }

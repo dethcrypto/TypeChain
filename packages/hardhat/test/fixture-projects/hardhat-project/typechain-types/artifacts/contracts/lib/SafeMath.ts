@@ -28,12 +28,9 @@ export interface SafeMathInterface extends utils.Interface {
     "sub(uint256,uint256)": FunctionFragment;
   };
 
-  events: {};
-
-  getFunction(nameOrSignatureOrTopic: "add"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "div"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "mul"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "sub"): FunctionFragment;
+  getFunction(
+    nameOrSignatureOrTopic: "add" | "div" | "mul" | "sub"
+  ): FunctionFragment;
 
   encodeFunctionData(
     functionFragment: "add",
@@ -56,6 +53,8 @@ export interface SafeMathInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "div", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "mul", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "sub", data: BytesLike): Result;
+
+  events: {};
 }
 
 export interface SafeMath extends BaseContract {

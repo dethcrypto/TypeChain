@@ -4,13 +4,10 @@ import { mkdirSync, readdirSync, renameSync, rmdirSync } from 'fs'
 import { copySync } from 'fs-extra'
 import { sync as globSync } from 'glob'
 import { resolve } from 'path'
-import { SemVer } from 'semver'
 
 import { bold, brightItalic } from './_common'
 
 function main() {
-  panicOnNpm7()
-
   const files = findFiles()
 
   removeOutDir(files)
@@ -21,22 +18,6 @@ function main() {
 }
 
 main()
-
-function panicOnNpm7() {
-  const version = new SemVer(execSync('npm -v', { encoding: 'utf8' }).trim())
-  if (version.major > 6) {
-    console.error(
-      '\n' +
-        `We're sorry, but it seems you are using ${bold('NPM ' + version.format())}.\n` +
-        'We need "npx" to fetch multiple versions of "solc".\n' +
-        'NPM versions newer than 6 have the following issue:\n' +
-        brightItalic('https://github.com/npm/cli/issues/3210') +
-        bold('\n\nPlease use Node 14 to contribute to TypeChain.') +
-        `\nYou can use ${brightItalic('nvm')}, ${brightItalic('fnm')} or ${brightItalic('volta')} to do it.\n\n`,
-    )
-    process.exit(1)
-  }
-}
 
 function findFiles() {
   const rootDir = resolve(__dirname, '..')
@@ -82,19 +63,22 @@ function removeOutDir({ outDir }: Files) {
   }
 }
 
-function generateABIs({ rootDir, contracts }: Files) {
+function generateABIs({ rootDir, contracts, outDir }: Files) {
   console.log(bold('Generating ABIs'))
 
   for (const [dirName, fileNames] of contracts.entries()) {
     const semver = dirName.replace(/^v/, '^')
     const contractPaths = fileNames.map((fileName) => `./contracts/${dirName}/${fileName}`).join(' ')
 
-    console.log(bold(`Compiling ${fileNames.length} contracts with \`npx solc@${semver}\``))
+    console.log(bold(`Compiling ${fileNames.length} contracts with \`pnpm dlx solc@${semver}\``))
 
-    execSync(`npx solc@${semver} --abi ${contractPaths} --bin -o ./contracts/compiled/${dirName}`, {
-      cwd: rootDir,
-      stdio: ['ignore', 'ignore', 'inherit'],
-    })
+    execSync(
+      `pnpm --package solc@${semver} dlx solcjs --abi ${contractPaths} --bin -o ./contracts/compiled/${dirName}`,
+      {
+        cwd: rootDir,
+        stdio: ['ignore', 'ignore', 'inherit'],
+      },
+    )
   }
 }
 

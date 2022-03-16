@@ -7,19 +7,22 @@
     "format": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --check \"./**/*.ts\"",
     "format:fix": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --write \"./**/*.ts\"",
     "lint": "eslint --ext .ts test",
-    "lint:fix": "yarn lint --fix",
+    "lint:fix": "pnpm lint --fix",
     "typecheck": "tsc --noEmit --incremental false --composite false && tsc --noEmit --incremental false --composite false -p tsconfig.types.json",
     "clean": "rm -rf dist contracts/* && rm -f tsconfig.build.tsbuildinfo && rm -rf build",
     "generate-types": "node ../typechain/dist/cli/cli.js --target=../target-ethers-v5/dist/index.js --out-dir ./types/ '../../contracts/compiled/**/*.abi'",
-    "test": "yarn generate-types && mocha --config ../../.mocharc.js",
-    "test:fix": "yarn lint:fix && yarn format:fix && yarn test && yarn typecheck"
+    "test": "pnpm generate-types && mocha --config ../../.mocharc.js",
+    "test:fix": "pnpm lint:fix && pnpm format:fix && pnpm test && pnpm typecheck"
   },
   "devDependencies": {
-    "ganache-cli": "^6.12.2",
+    "ganache": "^7.0.3",
     "test-utils": "1.0.0",
-    "typechain": "*"
+    "typechain": "workspace:^7.0.1"
   },
   "dependencies": {
+    "@ethersproject/abi": "^5.0.0",
+    "@ethersproject/bytes": "^5.0.0",
+    "@ethersproject/providers": "^5.0.0",
     "ethers": "^5.1.3"
   }
 }
