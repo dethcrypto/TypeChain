@@ -3,7 +3,7 @@ import { BigNumber } from 'ethers'
 import { typedAssert } from 'test-utils'
 
 import type { Overloads } from '../types/v0.6.4/Overloads'
-import { createNewBlockchain, deployContract } from './common'
+import { createNewBlockchain } from './common'
 
 describe('Overloads', () => {
   const chain = createNewBlockchain<Overloads>('Overloads')
