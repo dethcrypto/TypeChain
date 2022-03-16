@@ -2,11 +2,14 @@ import { readFileSync } from 'fs'
 import { join, relative, resolve } from 'path'
 import {
   Config,
+  createBarrelFiles,
   detectInputsRoot,
   extractAbi,
   extractDocumentation,
   FileDescription,
+  normalizeSlashes,
   parse,
+  shortenFullJsonFilePath,
   TypeChainTarget,
 } from 'typechain'
 
@@ -40,7 +43,7 @@ export default class Web3V1 extends TypeChainTarget {
       return
     }
 
-    const path = relative(this.inputsRoot, file.path)
+    const path = relative(this.inputsRoot, shortenFullJsonFilePath(file.path, this.cfg.allFiles))
     const documentation = extractDocumentation(file.contents)
 
     const contract = parse(abi, path, documentation)
@@ -52,11 +55,27 @@ export default class Web3V1 extends TypeChainTarget {
   }
 
   override afterRun(): FileDescription[] {
+    const { allFiles } = this.cfg
+
+    const barrels = createBarrelFiles(
+      allFiles
+        .map((p) => shortenFullJsonFilePath(p, allFiles))
+        .map((p) => relative(this.inputsRoot, p))
+        .map(normalizeSlashes),
+      {
+        typeOnly: true,
+      },
+    ).map((fd) => ({
+      path: join(this.outDirAbs, fd.path),
+      contents: fd.contents,
+    }))
+
     return [
       {
         path: join(this.outDirAbs, 'types.ts'),
         contents: readFileSync(join(__dirname, '../static/types.ts'), 'utf-8'),
       },
+      ...barrels,
     ]
   }
 }
