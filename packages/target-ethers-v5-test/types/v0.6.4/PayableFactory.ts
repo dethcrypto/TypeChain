@@ -28,8 +28,6 @@ export interface PayableFactoryInterface extends utils.Interface {
     "newPayable()": FunctionFragment;
   };
 
-  events: {};
-
   getFunction(nameOrSignatureOrTopic: "newPayable"): FunctionFragment;
 
   encodeFunctionData(
@@ -38,6 +36,8 @@ export interface PayableFactoryInterface extends utils.Interface {
   ): string;
 
   decodeFunctionResult(functionFragment: "newPayable", data: BytesLike): Result;
+
+  events: {};
 }
 
 export interface PayableFactory extends BaseContract {

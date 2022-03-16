@@ -86,8 +86,14 @@ export function generateInterfaceFunctionDescription(fn: FunctionDeclaration): s
   return `'${getSignatureForFn(fn)}': FunctionFragment;`
 }
 
-export function generateGetFunction(fn: FunctionDeclaration, useSignature: boolean): string {
-  return `getFunction(nameOrSignatureOrTopic: '${useSignature ? getSignatureForFn(fn) : fn.name}'): FunctionFragment;`
+export function generateFunctionNameOrSignature(fn: FunctionDeclaration, useSignature: boolean) {
+  return useSignature ? getSignatureForFn(fn) : fn.name
+}
+
+export function generateGetFunction(args: string[]): string {
+  if (args.length === 0) return ''
+
+  return `getFunction(nameOrSignatureOrTopic: ${args.map((s) => `"${s}"`).join(' | ')}): FunctionFragment;`
 }
 
 export function generateEncodeFunctionDataOverload(fn: FunctionDeclaration, useSignature: boolean): string {

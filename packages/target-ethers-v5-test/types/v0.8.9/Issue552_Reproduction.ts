@@ -58,11 +58,9 @@ export interface Issue552_ReproductionInterface extends utils.Interface {
     "makeObservation(uint256,uint256)": FunctionFragment;
   };
 
-  events: {};
-
-  getFunction(nameOrSignatureOrTopic: "bars"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "input"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "makeObservation"): FunctionFragment;
+  getFunction(
+    nameOrSignatureOrTopic: "bars" | "input" | "makeObservation"
+  ): FunctionFragment;
 
   encodeFunctionData(functionFragment: "bars", values: [BigNumberish]): string;
   encodeFunctionData(
@@ -80,6 +78,8 @@ export interface Issue552_ReproductionInterface extends utils.Interface {
     functionFragment: "makeObservation",
     data: BytesLike
   ): Result;
+
+  events: {};
 }
 
 export interface Issue552_Reproduction extends BaseContract {

@@ -47,25 +47,15 @@ export interface EventsInterface extends utils.Interface {
     "emit_event4()": FunctionFragment;
   };
 
-  events: {
-    "AnonEvent1(uint256)": EventFragment;
-    "Event1(uint256,uint256)": EventFragment;
-    "Event2(uint256)": EventFragment;
-    "Event3(bool,uint256)": EventFragment;
-    "Event3(uint256)": EventFragment;
-    "Event4(tuple)": EventFragment;
-    "NoArgsEvent()": EventFragment;
-    "UpdateFrequencySet(address[],uint256[])": EventFragment;
-  };
-
-  getFunction(nameOrSignatureOrTopic: "emit_anon1"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "emit_event1"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "emit_event2"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "emit_event3"): FunctionFragment;
   getFunction(
-    nameOrSignatureOrTopic: "emit_event3_overloaded"
+    nameOrSignatureOrTopic:
+      | "emit_anon1"
+      | "emit_event1"
+      | "emit_event2"
+      | "emit_event3"
+      | "emit_event3_overloaded"
+      | "emit_event4"
   ): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "emit_event4"): FunctionFragment;
 
   encodeFunctionData(
     functionFragment: "emit_anon1",
@@ -113,6 +103,17 @@ export interface EventsInterface extends utils.Interface {
     functionFragment: "emit_event4",
     data: BytesLike
   ): Result;
+
+  events: {
+    "AnonEvent1(uint256)": EventFragment;
+    "Event1(uint256,uint256)": EventFragment;
+    "Event2(uint256)": EventFragment;
+    "Event3(bool,uint256)": EventFragment;
+    "Event3(uint256)": EventFragment;
+    "Event4(tuple)": EventFragment;
+    "NoArgsEvent()": EventFragment;
+    "UpdateFrequencySet(address[],uint256[])": EventFragment;
+  };
 
   getEvent(nameOrSignatureOrTopic: "AnonEvent1"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Event1"): EventFragment;

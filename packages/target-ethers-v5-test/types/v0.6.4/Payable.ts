@@ -30,28 +30,29 @@ export interface PayableInterface extends utils.Interface {
     "payable_func()": FunctionFragment;
   };
 
+  getFunction(
+    nameOrSignatureOrTopic: "non_payable_func" | "payable_func"
+  ): FunctionFragment;
+
+  encodeFunctionData(
+    functionFragment: "non_payable_func",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "payable_func",
+    values?: undefined
+  ): string;
+
+  decodeFunctionResult(
+    functionFragment: "non_payable_func",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "payable_func",
+    data: BytesLike
+  ): Result;
+
   events: {};
-
-  getFunction(nameOrSignatureOrTopic: "non_payable_func"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "payable_func"): FunctionFragment;
-
-  encodeFunctionData(
-    functionFragment: "non_payable_func",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "payable_func",
-    values?: undefined
-  ): string;
-
-  decodeFunctionResult(
-    functionFragment: "non_payable_func",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "payable_func",
-    data: BytesLike
-  ): Result;
 }
 
 export interface Payable extends BaseContract {

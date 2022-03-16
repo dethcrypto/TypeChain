@@ -1,4 +1,4 @@
-import { values } from 'lodash'
+import { isString, values } from 'lodash'
 import {
   BytecodeWithLinkReferences,
   CodegenConfig,
@@ -23,6 +23,7 @@ import {
   codegenFunctions,
   generateDecodeFunctionResultOverload,
   generateEncodeFunctionDataOverload,
+  generateFunctionNameOrSignature,
   generateGetFunction,
   generateInterfaceFunctionDescription,
   generateParamNames,
@@ -32,6 +33,8 @@ import { generateStructTypes } from './structs'
 import { generateInputTypes } from './types'
 
 export function codegenContractTypings(contract: Contract, codegenConfig: CodegenConfig) {
+  const { alwaysGenerateOverloads } = codegenConfig
+
   const source = `
   ${generateStructTypes(values(contract.structs).map((v) => v[0]))}
 
@@ -44,28 +47,28 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
         .join('\n')}
     };
 
+    ${generateGetFunction(
+      values(contract.functions).flatMap((v) =>
+        processDeclaration(v, alwaysGenerateOverloads, generateFunctionNameOrSignature),
+      ),
+    )}
+
+    ${values(contract.functions)
+      .flatMap((v) => processDeclaration(v, alwaysGenerateOverloads, generateEncodeFunctionDataOverload))
+      .join('\n')}
+
+    ${values(contract.functions)
+      .flatMap((v) => processDeclaration(v, alwaysGenerateOverloads, generateDecodeFunctionResultOverload))
+      .join('\n')}
+
     events: {
       ${values(contract.events)
         .flatMap((v) => v.map(generateInterfaceEventDescription))
         .join('\n')}
     };
 
-    ${values(contract.functions)
-      .flatMap((v) => processDeclaration(v, codegenConfig.alwaysGenerateOverloads, generateGetFunction))
-      .join('\n')}
-
-    ${values(contract.functions)
-      .flatMap((v) => processDeclaration(v, codegenConfig.alwaysGenerateOverloads, generateEncodeFunctionDataOverload))
-      .join('\n')}
-
-    ${values(contract.functions)
-      .flatMap((v) =>
-        processDeclaration(v, codegenConfig.alwaysGenerateOverloads, generateDecodeFunctionResultOverload),
-      )
-      .join('\n')}
-
     ${values(contract.events)
-      .flatMap((v) => processDeclaration(v, codegenConfig.alwaysGenerateOverloads, generateGetEvent))
+      .flatMap((v) => processDeclaration(v, alwaysGenerateOverloads, generateGetEvent))
       .join('\n')}
   }
 
@@ -355,6 +358,15 @@ function generateLibraryAddressesInterface(contract: Contract, bytecode: Bytecod
   };`
 }
 
+/**
+ * Instruments code generator based on the number of overloads and config flag.
+ *
+ * @param fns - overloads of the function
+ * @param forceGenerateOverloads - flag to force generation of overloads.
+ *        If set to true, full signatures will be used even if the function is not overloaded.
+ * @param stringGen - function generating source code based on the declaration
+ * @returns generated source code
+ */
 function processDeclaration<D extends FunctionDeclaration | EventDeclaration>(
   fns: D[],
   forceGenerateOverloads: boolean,
@@ -364,9 +376,6 @@ function processDeclaration<D extends FunctionDeclaration | EventDeclaration>(
   if (fns.length > 1) {
     return fns.map((fn) => stringGen(fn, true))
   }
-  const result = [stringGen(fns[0], false)]
-  if (forceGenerateOverloads) {
-    result.push(stringGen(fns[0], true))
-  }
-  return result
+
+  return [stringGen(fns[0], false), forceGenerateOverloads && stringGen(fns[0], true)].filter(isString)
 }

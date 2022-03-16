@@ -52,22 +52,23 @@ export interface DataTypesPureInterface extends utils.Interface {
     "pure_uint8()": FunctionFragment;
   };
 
-  events: {};
-
-  getFunction(nameOrSignatureOrTopic: "pure_address"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "pure_bool"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "pure_bytes"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "pure_bytes1"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "pure_enum"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "pure_int256"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "pure_int8"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "pure_named"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "pure_stat_array"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "pure_string"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "pure_struct"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "pure_tuple"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "pure_uint256"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "pure_uint8"): FunctionFragment;
+  getFunction(
+    nameOrSignatureOrTopic:
+      | "pure_address"
+      | "pure_bool"
+      | "pure_bytes"
+      | "pure_bytes1"
+      | "pure_enum"
+      | "pure_int256"
+      | "pure_int8"
+      | "pure_named"
+      | "pure_stat_array"
+      | "pure_string"
+      | "pure_struct"
+      | "pure_tuple"
+      | "pure_uint256"
+      | "pure_uint8"
+  ): FunctionFragment;
 
   encodeFunctionData(
     functionFragment: "pure_address",
@@ -152,6 +153,8 @@ export interface DataTypesPureInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "pure_uint8", data: BytesLike): Result;
+
+  events: {};
 }
 
 export interface DataTypesPure extends BaseContract {

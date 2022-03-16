@@ -41,25 +41,18 @@ export interface IERC721Interface extends utils.Interface {
     "transferFrom(address,address,uint256)": FunctionFragment;
   };
 
-  events: {
-    "Approval(address,address,uint256)": EventFragment;
-    "ApprovalForAll(address,address,bool)": EventFragment;
-    "Transfer(address,address,uint256)": EventFragment;
-  };
-
-  getFunction(nameOrSignatureOrTopic: "approve"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "balanceOf"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "getApproved"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "isApprovedForAll"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "ownerOf"): FunctionFragment;
   getFunction(
-    nameOrSignatureOrTopic: "safeTransferFrom(address,address,uint256)"
+    nameOrSignatureOrTopic:
+      | "approve"
+      | "balanceOf"
+      | "getApproved"
+      | "isApprovedForAll"
+      | "ownerOf"
+      | "safeTransferFrom(address,address,uint256)"
+      | "safeTransferFrom(address,address,uint256,bytes)"
+      | "setApprovalForAll"
+      | "transferFrom"
   ): FunctionFragment;
-  getFunction(
-    nameOrSignatureOrTopic: "safeTransferFrom(address,address,uint256,bytes)"
-  ): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "setApprovalForAll"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "transferFrom"): FunctionFragment;
 
   encodeFunctionData(
     functionFragment: "approve",
@@ -122,6 +115,12 @@ export interface IERC721Interface extends utils.Interface {
     functionFragment: "transferFrom",
     data: BytesLike
   ): Result;
+
+  events: {
+    "Approval(address,address,uint256)": EventFragment;
+    "ApprovalForAll(address,address,bool)": EventFragment;
+    "Transfer(address,address,uint256)": EventFragment;
+  };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;

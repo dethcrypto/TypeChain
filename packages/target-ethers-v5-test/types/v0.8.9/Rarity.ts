@@ -57,43 +57,34 @@ export interface RarityInterface extends utils.Interface {
     "xp_required(uint256)": FunctionFragment;
   };
 
-  events: {
-    "Approval(address,address,uint256)": EventFragment;
-    "ApprovalForAll(address,address,bool)": EventFragment;
-    "Transfer(address,address,uint256)": EventFragment;
-    "leveled(address,uint256,uint256)": EventFragment;
-    "summoned(address,uint256,uint256)": EventFragment;
-  };
-
-  getFunction(nameOrSignatureOrTopic: "adventure"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "adventurers_log"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "approve"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "balanceOf"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "class"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "classes"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "getApproved"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "isApprovedForAll"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "level"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "level_up"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "next_summoner"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "ownerOf"): FunctionFragment;
   getFunction(
-    nameOrSignatureOrTopic: "safeTransferFrom(address,address,uint256)"
+    nameOrSignatureOrTopic:
+      | "adventure"
+      | "adventurers_log"
+      | "approve"
+      | "balanceOf"
+      | "class"
+      | "classes"
+      | "getApproved"
+      | "isApprovedForAll"
+      | "level"
+      | "level_up"
+      | "next_summoner"
+      | "ownerOf"
+      | "safeTransferFrom(address,address,uint256)"
+      | "safeTransferFrom(address,address,uint256,bytes)"
+      | "setApprovalForAll"
+      | "spend_xp"
+      | "summon"
+      | "summoner"
+      | "tokenByIndex"
+      | "tokenOfOwnerByIndex"
+      | "tokenURI"
+      | "totalSupply"
+      | "transferFrom"
+      | "xp"
+      | "xp_required"
   ): FunctionFragment;
-  getFunction(
-    nameOrSignatureOrTopic: "safeTransferFrom(address,address,uint256,bytes)"
-  ): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "setApprovalForAll"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "spend_xp"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "summon"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "summoner"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "tokenByIndex"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "tokenOfOwnerByIndex"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "tokenURI"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "totalSupply"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "transferFrom"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "xp"): FunctionFragment;
-  getFunction(nameOrSignatureOrTopic: "xp_required"): FunctionFragment;
 
   encodeFunctionData(
     functionFragment: "adventure",
@@ -245,6 +236,14 @@ export interface RarityInterface extends utils.Interface {
     functionFragment: "xp_required",
     data: BytesLike
   ): Result;
+
+  events: {
+    "Approval(address,address,uint256)": EventFragment;
+    "ApprovalForAll(address,address,bool)": EventFragment;
+    "Transfer(address,address,uint256)": EventFragment;
+    "leveled(address,uint256,uint256)": EventFragment;
+    "summoned(address,uint256,uint256)": EventFragment;
+  };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;

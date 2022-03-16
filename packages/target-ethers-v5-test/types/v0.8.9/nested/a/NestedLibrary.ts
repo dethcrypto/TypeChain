@@ -26,13 +26,13 @@ export interface NestedLibraryInterface extends utils.Interface {
     "getValue()": FunctionFragment;
   };
 
-  events: {};
-
   getFunction(nameOrSignatureOrTopic: "getValue"): FunctionFragment;
 
   encodeFunctionData(functionFragment: "getValue", values?: undefined): string;
 
   decodeFunctionResult(functionFragment: "getValue", data: BytesLike): Result;
+
+  events: {};
 }
 
 export interface NestedLibrary extends BaseContract {

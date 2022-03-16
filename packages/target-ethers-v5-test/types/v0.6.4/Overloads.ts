@@ -28,11 +28,8 @@ export interface OverloadsInterface extends utils.Interface {
     "overload1(uint256,uint256)": FunctionFragment;
   };
 
-  events: {};
-
-  getFunction(nameOrSignatureOrTopic: "overload1(int256)"): FunctionFragment;
   getFunction(
-    nameOrSignatureOrTopic: "overload1(uint256,uint256)"
+    nameOrSignatureOrTopic: "overload1(int256)" | "overload1(uint256,uint256)"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -52,6 +49,8 @@ export interface OverloadsInterface extends utils.Interface {
     functionFragment: "overload1(uint256,uint256)",
     data: BytesLike
   ): Result;
+
+  events: {};
 }
 
 export interface Overloads extends BaseContract {
