@@ -5,7 +5,8 @@ import Web3 from 'web3'
 export const GAS_LIMIT_STANDARD = 6000000
 
 export async function createNewBlockchain() {
-  const web3 = new Web3(ganache.provider({ logging: { quiet: true } }) as any)
+  const ganacheProvider = ganache.provider({ logging: { quiet: true } })
+  const web3 = new Web3(ganacheProvider as any)
   const accounts = await web3.eth.getAccounts()
   return { web3, accounts }
 }
