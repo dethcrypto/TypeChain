@@ -108,7 +108,6 @@ function renameOutputNames({ outDir, contracts, contractsDir }: Files) {
       const relativePath = outputPath.startsWith(DIRECTORY_PREFIX)
         ? outputPath.slice(DIRECTORY_PREFIX.length)
         : outputPath
-      console.log(`${outputPath} -> ${relativePath}`, DIRECTORY_PREFIX, outputPath.startsWith(DIRECTORY_PREFIX))
       ;[filePath, contractName] = relativePath.split('_sol_')
       ;[contractName, extension] = contractName.split('.')
 
@@ -168,6 +167,5 @@ function recoverDirectories(cwd: string, path: string) {
     }
   }
 
-  console.log({ segments })
   throw new Error('unexpected exit')
 }
