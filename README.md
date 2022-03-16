@@ -82,6 +82,8 @@ typechain --target=(ethers-v5|truffle-v4|truffle-v5|web3-v1|path-to-custom-targe
 - `--out-dir` (optional) - put all generated files to a specific dir.
 - `--always-generate-overloads` (optional) - some targets won't generate unnecessary types for overloaded functions by
   default, this option forces to always generate them
+- `--discriminate-types` (optional) - ethers-v5 will add an artificial field `contractName` that helps discriminate
+  between contracts
 
 TypeChain always will rewrite existing files. You should not commit them. Read more in FAQ section.
 

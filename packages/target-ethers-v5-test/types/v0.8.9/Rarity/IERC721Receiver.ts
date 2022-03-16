@@ -23,8 +23,6 @@ import type {
 } from "../../common";
 
 export interface IERC721ReceiverInterface extends utils.Interface {
-  contractName: "IERC721Receiver";
-
   functions: {
     "onERC721Received(address,address,uint256,bytes)": FunctionFragment;
   };
@@ -45,7 +43,6 @@ export interface IERC721ReceiverInterface extends utils.Interface {
 }
 
 export interface IERC721Receiver extends BaseContract {
-  contractName: "IERC721Receiver";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

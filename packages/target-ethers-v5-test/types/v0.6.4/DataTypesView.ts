@@ -33,8 +33,6 @@ export declare namespace DataTypesView {
 }
 
 export interface DataTypesViewInterface extends utils.Interface {
-  contractName: "DataTypesView";
-
   functions: {
     "view_address()": FunctionFragment;
     "view_bool()": FunctionFragment;
@@ -158,7 +156,6 @@ export interface DataTypesViewInterface extends utils.Interface {
 }
 
 export interface DataTypesView extends BaseContract {
-  contractName: "DataTypesView";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

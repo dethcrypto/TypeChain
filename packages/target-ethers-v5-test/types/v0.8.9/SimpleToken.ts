@@ -4,6 +4,7 @@
 import type {
   BaseContract,
   BigNumber,
+  BigNumberish,
   BytesLike,
   CallOverrides,
   ContractTransaction,
@@ -19,31 +20,31 @@ import type {
   TypedEvent,
   TypedListener,
   OnEvent,
-} from "../../common";
+} from "../common";
 
-export interface PayableFactoryInterface extends utils.Interface {
+export interface SimpleTokenInterface extends utils.Interface {
   functions: {
-    "newPayable()": FunctionFragment;
+    "transfer(address,uint256)": FunctionFragment;
   };
 
-  getFunction(nameOrSignatureOrTopic: "newPayable"): FunctionFragment;
+  getFunction(nameOrSignatureOrTopic: "transfer"): FunctionFragment;
 
   encodeFunctionData(
-    functionFragment: "newPayable",
-    values?: undefined
+    functionFragment: "transfer",
+    values: [string, BigNumberish]
   ): string;
 
-  decodeFunctionResult(functionFragment: "newPayable", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "transfer", data: BytesLike): Result;
 
   events: {};
 }
 
-export interface PayableFactory extends BaseContract {
+export interface SimpleToken extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: PayableFactoryInterface;
+  interface: SimpleTokenInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -65,29 +66,41 @@ export interface PayableFactory extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    newPayable(
+    transfer(
+      from: string,
+      value: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
 
-  newPayable(
+  transfer(
+    from: string,
+    value: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    newPayable(overrides?: CallOverrides): Promise<string>;
+    transfer(
+      from: string,
+      value: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
   };
 
   filters: {};
 
   estimateGas: {
-    newPayable(
+    transfer(
+      from: string,
+      value: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    newPayable(
+    transfer(
+      from: string,
+      value: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };

@@ -27,8 +27,6 @@ import type {
 } from "../../common";
 
 export interface ERC721Interface extends utils.Interface {
-  contractName: "ERC721";
-
   functions: {
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
@@ -149,7 +147,6 @@ export type TransferEvent = TypedEvent<
 export type TransferEventFilter = TypedEventFilter<TransferEvent>;
 
 export interface ERC721 extends BaseContract {
-  contractName: "ERC721";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

@@ -36,7 +36,7 @@ async function codegen({ tsNocheck }: { tsNocheck: boolean }) {
     flags: {
       alwaysGenerateOverloads: false,
       environment: undefined,
-
+      discriminateTypes: false,
       tsNocheck,
     },
   })

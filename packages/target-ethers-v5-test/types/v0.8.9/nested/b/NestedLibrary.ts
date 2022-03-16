@@ -20,8 +20,6 @@ import type {
 } from "../../../common";
 
 export interface NestedLibraryInterface extends utils.Interface {
-  contractName: "NestedLibrary";
-
   functions: {
     "getValue()": FunctionFragment;
   };
@@ -36,7 +34,6 @@ export interface NestedLibraryInterface extends utils.Interface {
 }
 
 export interface NestedLibrary extends BaseContract {
-  contractName: "NestedLibrary";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

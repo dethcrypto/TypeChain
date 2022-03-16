@@ -9,7 +9,7 @@
     "lint": "echo ok",
     "lint:fix": "echo ok",
     "typecheck": "tsc --noEmit --incremental false --composite false && tsc --noEmit --incremental false --composite false -p tsconfig.types.json",
-    "clean": "hardhat clean && rm -f tsconfig.build.tsbuildinfo && rm -rf build",
+    "clean": "rm -rf ./artifacts ./cache typechain-types && rm -f tsconfig.build.tsbuildinfo && rm -rf build",
     "generate-types": "hardhat clean && hardhat compile",
     "test": "pnpm generate-types && mocha --config ../../.mocharc.js",
     "test:fix": "pnpm lint:fix && pnpm format:fix && pnpm test && pnpm typecheck"

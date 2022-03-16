@@ -28,7 +28,7 @@
     "@types/mocha": "^8.2.1",
     "@typescript-eslint/eslint-plugin": "4.15.1",
     "@typescript-eslint/parser": "4.15.1",
-    "earljs": "^0.1.12",
+    "earljs": "0.2.2",
     "eslint": "^7.29.0",
     "eslint-config-typestrict": "^1.0.2",
     "eslint-plugin-import": "^2.23.4",

@@ -36,8 +36,6 @@ export declare namespace Events {
 }
 
 export interface EventsInterface extends utils.Interface {
-  contractName: "Events";
-
   functions: {
     "emit_anon1()": FunctionFragment;
     "emit_event1()": FunctionFragment;
@@ -175,7 +173,6 @@ export type UpdateFrequencySetEventFilter =
   TypedEventFilter<UpdateFrequencySetEvent>;
 
 export interface Events extends BaseContract {
-  contractName: "Events";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

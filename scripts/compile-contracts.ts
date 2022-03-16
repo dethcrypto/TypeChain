@@ -72,13 +72,18 @@ function generateABIs({ rootDir, contracts, outDir }: Files) {
 
     console.log(bold(`Compiling ${filePaths.length} contracts with \`pnpm dlx solc@${semver}\``))
 
-    execSync(
-      `pnpm --package solc@${semver} dlx solcjs --abi ${contractPaths} --bin -o ./contracts/compiled/${dirName}`,
-      {
-        cwd: rootDir,
-        stdio: ['ignore', 'ignore', 'inherit'],
-      },
-    )
+    const solcjsOptions = [
+      '--base-path .',
+      `--include-path ./contracts/${dirName}`,
+      `--abi ${contractPaths}`,
+      '--bin',
+      `-o ./contracts/compiled/${dirName}`,
+    ]
+
+    execSync(`pnpm --package solc@${semver} dlx solcjs ${solcjsOptions.join(' ')}`, {
+      cwd: rootDir,
+      stdio: ['ignore', 'ignore', 'inherit'],
+    })
   }
 }
 
@@ -98,9 +103,11 @@ function renameOutputNames({ outDir, contracts, contractsDir }: Files) {
       // > contracts_v0_8_9_Issue552_Reproduction_sol_Issue552_Observer.abi
       // > |--------------| |-------------------|     |---------------|
       // >     dir name           file name             contract name
-      const DIRECTORY_PREFIX = `contracts_${version}_`
-      const relativePath = outputPath.slice(DIRECTORY_PREFIX.length)
+      const DIRECTORY_PREFIX = `contracts_${version.replace(/\./g, '_')}_`
       let filePath: string, contractName: string, extension: string
+      const relativePath = outputPath.startsWith(DIRECTORY_PREFIX)
+        ? outputPath.slice(DIRECTORY_PREFIX.length)
+        : outputPath
       ;[filePath, contractName] = relativePath.split('_sol_')
       ;[contractName, extension] = contractName.split('.')
 

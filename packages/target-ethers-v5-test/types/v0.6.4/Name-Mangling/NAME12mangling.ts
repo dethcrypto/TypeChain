@@ -20,8 +20,6 @@ import type {
 } from "../../common";
 
 export interface NAME12manglingInterface extends utils.Interface {
-  contractName: "NAME12mangling";
-
   functions: {
     "provider()": FunctionFragment;
     "works()": FunctionFragment;
@@ -39,7 +37,6 @@ export interface NAME12manglingInterface extends utils.Interface {
 }
 
 export interface NAME12mangling extends BaseContract {
-  contractName: "NAME12mangling";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

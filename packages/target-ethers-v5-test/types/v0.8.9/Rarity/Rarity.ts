@@ -27,8 +27,6 @@ import type {
 } from "../../common";
 
 export interface RarityInterface extends utils.Interface {
-  contractName: "Rarity";
-
   functions: {
     "adventure(uint256)": FunctionFragment;
     "adventurers_log(uint256)": FunctionFragment;
@@ -288,7 +286,6 @@ export type summonedEvent = TypedEvent<
 export type summonedEventFilter = TypedEventFilter<summonedEvent>;
 
 export interface Rarity extends BaseContract {
-  contractName: "Rarity";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

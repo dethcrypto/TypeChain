@@ -22,8 +22,6 @@ import type {
 } from "../../common";
 
 export interface WithdrawableInterface extends utils.Interface {
-  contractName: "Withdrawable";
-
   functions: {
     "withdraw()": FunctionFragment;
   };
@@ -38,7 +36,6 @@ export interface WithdrawableInterface extends utils.Interface {
 }
 
 export interface Withdrawable extends BaseContract {
-  contractName: "Withdrawable";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

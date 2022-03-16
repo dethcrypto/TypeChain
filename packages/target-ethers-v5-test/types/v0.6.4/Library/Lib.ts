@@ -21,8 +21,6 @@ import type {
 } from "../../common";
 
 export interface LibInterface extends utils.Interface {
-  contractName: "Lib";
-
   functions: {
     "other(uint8)": FunctionFragment;
   };
@@ -37,7 +35,6 @@ export interface LibInterface extends utils.Interface {
 }
 
 export interface Lib extends BaseContract {
-  contractName: "Lib";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

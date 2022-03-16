@@ -12,15 +12,12 @@ import type {
 } from "../../common";
 
 export interface EdgeCasesInterface extends utils.Interface {
-  contractName: "EdgeCases";
-
   functions: {};
 
   events: {};
 }
 
 export interface EdgeCases extends BaseContract {
-  contractName: "EdgeCases";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

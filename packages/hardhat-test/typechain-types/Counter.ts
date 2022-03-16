@@ -26,8 +26,6 @@ import type {
 } from "./common";
 
 export interface CounterInterface extends utils.Interface {
-  contractName: "Counter";
-
   functions: {
     "countDown()": FunctionFragment;
     "countUp()": FunctionFragment;
@@ -58,7 +56,6 @@ export type CountedToEvent = TypedEvent<[BigNumber], { number: BigNumber }>;
 export type CountedToEventFilter = TypedEventFilter<CountedToEvent>;
 
 export interface Counter extends BaseContract {
-  contractName: "Counter";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

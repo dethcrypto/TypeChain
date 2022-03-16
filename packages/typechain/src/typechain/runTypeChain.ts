@@ -6,15 +6,22 @@ import * as prettier from 'prettier'
 import { debug } from '../utils/debug'
 import { findTarget } from './findTarget'
 import { loadFileDescriptions, processOutput, skipEmptyAbis } from './io'
-import { Config, PublicConfig, Services } from './types'
+import { CodegenConfig, Config, PublicConfig, Services } from './types'
 
 interface Result {
   filesGenerated: number
 }
 
+const DEFAULT_FLAGS: CodegenConfig = {
+  alwaysGenerateOverloads: false,
+  discriminateTypes: false,
+  tsNocheck: false,
+  environment: undefined,
+}
+
 export async function runTypeChain(publicConfig: PublicConfig): Promise<Result> {
   const _config: Config = {
-    flags: { alwaysGenerateOverloads: false, tsNocheck: false, environment: undefined },
+    flags: DEFAULT_FLAGS,
     ...publicConfig,
   }
   // skip empty paths

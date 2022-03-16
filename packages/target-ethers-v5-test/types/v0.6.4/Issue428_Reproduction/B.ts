@@ -12,8 +12,6 @@ import type {
 } from "../../common";
 
 export interface BInterface extends utils.Interface {
-  contractName: "B";
-
   functions: {};
 
   events: {
@@ -42,7 +40,6 @@ export type Committed_address_array_EventFilter =
   TypedEventFilter<Committed_address_array_Event>;
 
 export interface B extends BaseContract {
-  contractName: "B";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;

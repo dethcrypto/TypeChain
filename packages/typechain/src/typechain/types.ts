@@ -13,8 +13,10 @@ export interface Config {
   flags: CodegenConfig
 }
 
+// @note: these options ale mostly supported only by ethers-v5 target
 export interface CodegenConfig {
   alwaysGenerateOverloads: boolean
+  discriminateTypes: boolean // ethers-v5 will add an artificial field `contractName` that helps discriminate between contracts
   tsNocheck?: boolean
   environment: 'hardhat' | undefined
 }

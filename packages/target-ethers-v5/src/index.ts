@@ -121,7 +121,7 @@ export default class Ethers extends TypeChainTarget {
   genContractFactoryFile(contract: Contract, abi: any, bytecode?: BytecodeWithLinkReferences) {
     return {
       path: join(this.outDirAbs, 'factories', ...contract.path, `${contract.name}${FACTORY_POSTFIX}.ts`),
-      contents: codegenContractFactory(contract, abi, bytecode),
+      contents: codegenContractFactory(this.cfg.flags, contract, abi, bytecode),
     }
   }
 

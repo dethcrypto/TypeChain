@@ -39,8 +39,7 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
   ${generateStructTypes(values(contract.structs).map((v) => v[0]))}
 
   export interface ${contract.name}Interface extends utils.Interface {
-    contractName: '${contract.name}';
-
+    ${codegenConfig.discriminateTypes ? `contractName: '${contract.name}';\n` : ``}
     functions: {
       ${values(contract.functions)
         .flatMap((v) => v.map(generateInterfaceFunctionDescription))
@@ -75,7 +74,7 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
   ${values(contract.events).map(generateEventTypeExports).join('\n')}
 
   export interface ${contract.name} extends BaseContract {
-    contractName: '${contract.name}';
+    ${codegenConfig.discriminateTypes ? `contractName: '${contract.name}';\n` : ``}
     connect(signerOrProvider: Signer | Provider | string): this;
     attach(addressOrName: string): this;
     deployed(): Promise<this>;
@@ -149,7 +148,12 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
   return imports + source
 }
 
-export function codegenContractFactory(contract: Contract, abi: any, bytecode?: BytecodeWithLinkReferences): string {
+export function codegenContractFactory(
+  codegenConfig: CodegenConfig,
+  contract: Contract,
+  abi: any,
+  bytecode?: BytecodeWithLinkReferences,
+): string {
   const constructorArgs =
     (contract.constructor[0] ? generateInputTypes(contract.constructor[0].inputs, { useStructs: true }) : '') +
     `overrides?: ${
@@ -177,7 +181,7 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
   ${generateFactoryConstructorParamsAlias(contract, bytecode)}
 
   export class ${contract.name}${FACTORY_POSTFIX} extends ContractFactory {
-    ${generateFactoryConstructor(contract, bytecode)}
+    ${generateFactoryConstructor(codegenConfig, contract, bytecode)}
     override deploy(${constructorArgs}): Promise<${contract.name}> {
       return super.deploy(${constructorArgNames}) as Promise<${contract.name}>;
     }
@@ -190,8 +194,8 @@ export function codegenContractFactory(contract: Contract, abi: any, bytecode?: 
     override connect(signer: Signer): ${contract.name}${FACTORY_POSTFIX} {
       return super.connect(signer) as ${contract.name}${FACTORY_POSTFIX};
     }
-    static readonly contractName: '${contract.name}';
-    public readonly contractName: '${contract.name}';
+    ${codegenConfig.discriminateTypes ? `static readonly contractName: '${contract.name}';\n` : ``}
+    ${codegenConfig.discriminateTypes ? `public readonly contractName: '${contract.name}';\n` : ``}
     static readonly bytecode = _bytecode;
     ${body}
   }
@@ -265,7 +269,11 @@ function codegenCommonContractFactory(contract: Contract, abi: any): { header: s
   return { header, body }
 }
 
-function generateFactoryConstructor(contract: Contract, bytecode: BytecodeWithLinkReferences): string {
+function generateFactoryConstructor(
+  codegenConfig: CodegenConfig,
+  contract: Contract,
+  bytecode: BytecodeWithLinkReferences,
+): string {
   if (!bytecode.linkReferences) {
     return `
       constructor(...args: ${contract.name}ConstructorParams) {
@@ -274,7 +282,7 @@ function generateFactoryConstructor(contract: Contract, bytecode: BytecodeWithLi
         } else {
           super(_abi, _bytecode, args[0]);
         }
-        this.contractName = '${contract.name}';
+        ${codegenConfig.discriminateTypes ? `this.contractName = '${contract.name}';` : ''}
       }
     `
   }
@@ -308,7 +316,7 @@ function generateFactoryConstructor(contract: Contract, bytecode: BytecodeWithLi
           signer
         )
       }
-      this.contractName = '${contract.name}';
+      ${codegenConfig.discriminateTypes ? `this.contractName = '${contract.name}';` : ''}
     }
 
     static linkBytecode(linkLibraryAddresses: ${libAddressesName}): string {
