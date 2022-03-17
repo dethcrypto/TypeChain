@@ -34,6 +34,8 @@ export type { ISimpleToken } from "./v0.8.9/ISimpleToken";
 export { ISimpleToken__factory } from "./factories/v0.8.9/ISimpleToken__factory";
 export type { Issue552_Reproduction } from "./v0.8.9/Issue552_Reproduction";
 export { Issue552_Reproduction__factory } from "./factories/v0.8.9/Issue552_Reproduction__factory";
+export type { Issue623_Reproduction } from "./v0.8.9/Issue623_Reproduction";
+export { Issue623_Reproduction__factory } from "./factories/v0.8.9/Issue623_Reproduction__factory";
 export type { KingOfTheHill } from "./v0.8.9/KingOfTheHill/KingOfTheHill";
 export { KingOfTheHill__factory } from "./factories/v0.8.9/KingOfTheHill/KingOfTheHill__factory";
 export type { Withdrawable } from "./v0.8.9/KingOfTheHill/Withdrawable";

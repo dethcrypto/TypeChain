@@ -6,4 +6,5 @@ export * as rarity from "./Rarity";
 export * as nested from "./nested";
 export { ISimpleToken__factory } from "./ISimpleToken__factory";
 export { Issue552_Reproduction__factory } from "./Issue552_Reproduction__factory";
+export { Issue623_Reproduction__factory } from "./Issue623_Reproduction__factory";
 export { SimpleToken__factory } from "./SimpleToken__factory";

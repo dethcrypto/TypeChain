@@ -9,4 +9,5 @@ import type * as nested from "./nested";
 export type { nested };
 export type { ISimpleToken } from "./ISimpleToken";
 export type { Issue552_Reproduction } from "./Issue552_Reproduction";
+export type { Issue623_Reproduction } from "./Issue623_Reproduction";
 export type { SimpleToken } from "./SimpleToken";
