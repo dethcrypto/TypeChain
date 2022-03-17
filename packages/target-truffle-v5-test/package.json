@@ -10,7 +10,7 @@
     "lint:fix": "pnpm lint --fix",
     "typecheck": "tsc --noEmit --incremental false --composite false && tsc --noEmit --incremental false --composite false -p tsconfig.types.json",
     "clean": "rm -rf dist contracts/* && rm -f tsconfig.build.tsbuildinfo && rm -rf build",
-    "compile-contracts": "truffle compile --quiet",
+    "compile-contracts": "truffle compile --all --quiet",
     "generate-types": "node ../typechain/dist/cli/cli.js --target=../target-truffle-v5/dist/index.js './build/**/*.json'",
     "test": "pnpm generate-types && truffle test",
     "test:fix": "pnpm lint:fix && pnpm format:fix && pnpm test && pnpm typecheck"
