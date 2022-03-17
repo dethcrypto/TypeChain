@@ -5,7 +5,7 @@ import { loadContract } from 'test-utils'
 
 // const IS_WINDOWS_CI = process.env.CI === 'true' && process.platform === 'win32'
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-const IS_WINDOWS_CI = 2 > 1
+const IS_WINDOWS_CI = 2 < 1
 
 export const GAS_LIMIT_STANDARD = 6000000
 
