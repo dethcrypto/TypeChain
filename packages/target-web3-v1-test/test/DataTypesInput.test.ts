@@ -1,22 +1,17 @@
 import BN from 'bn.js'
 import { q18, typedAssert } from 'test-utils'
-import type Web3 from 'web3'
 
 import type { DataTypesInput } from '../types/v0.6.4/DataTypesInput'
-import { createNewBlockchain, deployContract } from './common'
+import { createNewBlockchain } from './common'
 
 describe('DataTypesInput', () => {
-  let contract!: DataTypesInput
-  let web3: Web3
-  beforeEach(async () => {
-    const { web3: _web3, accounts } = await createNewBlockchain()
-    web3 = _web3
-    contract = await deployContract<DataTypesInput>(web3, accounts, 'DataTypesInput')
-  })
+  const chain = createNewBlockchain<DataTypesInput>('DataTypesInput')
 
   const bn = (s: string) => new BN(s)
 
   it('works', async () => {
+    const { contract, web3 } = chain
+
     typedAssert(await contract.methods.input_uint8('42').call(), '42')
     typedAssert(await contract.methods.input_uint8(42).call(), '42')
     typedAssert(await contract.methods.input_uint8(bn('42')).call(), '42')

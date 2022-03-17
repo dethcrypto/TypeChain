@@ -1,28 +1,19 @@
 import BigNumber from 'bn.js'
-import { asyncWithDoneCase, retry, typedAssert } from 'test-utils'
+import { asyncWithDoneCase, typedAssert } from 'test-utils'
 
 import type { Events } from '../types/v0.6.4/Events'
-import { createNewBlockchain, deployContract, GAS_LIMIT_STANDARD } from './common'
+import { createNewBlockchain, GAS_LIMIT_STANDARD } from './common'
 
 // Docs: https://web3js.readthedocs.io/en/v1.2.6/web3-eth-contract.html#events
 describe('Events', () => {
-  let contract: Events
-  let accounts: string[]
-  beforeEach(() =>
-    retry(
-      async () => {
-        const { web3, accounts: _accounts } = await createNewBlockchain()
-        accounts = _accounts
-        contract = await deployContract<Events>(web3, accounts, 'Events')
-      },
-      { max: 4 },
-    ),
-  )
+  const chain = createNewBlockchain<Events>('Events')
 
   describe('Event1', () => {
     it(
       'works using once',
       asyncWithDoneCase(async (done) => {
+        const { accounts, contract } = chain
+
         contract.once('Event1', (_, event) => {
           typedAssert(event.returnValues.value1, '1')
           typedAssert(event.returnValues.value2, '2')
@@ -39,6 +30,8 @@ describe('Events', () => {
     it(
       'works using events property',
       asyncWithDoneCase(async (done) => {
+        const { accounts, contract } = chain
+
         contract.events.Event1((_, event) => {
           typedAssert(event.returnValues.value1, '1')
           typedAssert(event.returnValues.value2, '2')
@@ -59,6 +52,8 @@ describe('Events', () => {
     it(
       'works using once',
       asyncWithDoneCase(async (done) => {
+        const { accounts, contract } = chain
+
         contract.once('Event2', (_, event) => {
           typedAssert(event.returnValues[0], '1')
 
@@ -74,6 +69,8 @@ describe('Events', () => {
     it(
       'works using events property',
       asyncWithDoneCase(async (done) => {
+        const { accounts, contract } = chain
+
         contract.events['Event3(bool,uint256)']((_, event) => {
           typedAssert(event.returnValues.value1, true)
           typedAssert(event.returnValues.value2, '2')
@@ -90,6 +87,8 @@ describe('Events', () => {
     it(
       'works using events property for overloaded type',
       asyncWithDoneCase(async (done) => {
+        const { accounts, contract } = chain
+
         contract.events['Event3(uint256)']((_, event) => {
           typedAssert(event.returnValues.value1, '1')
           typedAssert(event.returnValues[0], '1')
@@ -104,6 +103,8 @@ describe('Events', () => {
 
   describe('EIP1559 overrides', () => {
     it('works', async () => {
+      const { accounts, contract } = chain
+
       await contract.methods.emit_event1().send({
         from: accounts[0],
         gas: GAS_LIMIT_STANDARD,
