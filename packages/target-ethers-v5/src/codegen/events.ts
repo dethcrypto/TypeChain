@@ -43,7 +43,8 @@ export function generateEventTypeExport(event: EventDeclaration, includeArgTypes
   const identifier = generateEventIdentifier(event, { includeArgTypes })
 
   return `
-    export type ${identifier} = TypedEvent<${arrayOutput}, ${objectOutput}>;
+    export interface ${identifier}Object ${objectOutput};
+    export type ${identifier} = TypedEvent<${arrayOutput}, ${identifier}Object>;
 
     export type ${identifier}Filter = TypedEventFilter<${identifier}>;
   `

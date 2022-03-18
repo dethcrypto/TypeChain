@@ -250,37 +250,62 @@ export interface RarityInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "summoned"): EventFragment;
 }
 
+export interface ApprovalEventObject {
+  owner: string;
+  approved: string;
+  tokenId: BigNumber;
+}
 export type ApprovalEvent = TypedEvent<
   [string, string, BigNumber],
-  { owner: string; approved: string; tokenId: BigNumber }
+  ApprovalEventObject
 >;
 
 export type ApprovalEventFilter = TypedEventFilter<ApprovalEvent>;
 
+export interface ApprovalForAllEventObject {
+  owner: string;
+  operator: string;
+  approved: boolean;
+}
 export type ApprovalForAllEvent = TypedEvent<
   [string, string, boolean],
-  { owner: string; operator: string; approved: boolean }
+  ApprovalForAllEventObject
 >;
 
 export type ApprovalForAllEventFilter = TypedEventFilter<ApprovalForAllEvent>;
 
+export interface TransferEventObject {
+  from: string;
+  to: string;
+  tokenId: BigNumber;
+}
 export type TransferEvent = TypedEvent<
   [string, string, BigNumber],
-  { from: string; to: string; tokenId: BigNumber }
+  TransferEventObject
 >;
 
 export type TransferEventFilter = TypedEventFilter<TransferEvent>;
 
+export interface leveledEventObject {
+  owner: string;
+  level: BigNumber;
+  summoner: BigNumber;
+}
 export type leveledEvent = TypedEvent<
   [string, BigNumber, BigNumber],
-  { owner: string; level: BigNumber; summoner: BigNumber }
+  leveledEventObject
 >;
 
 export type leveledEventFilter = TypedEventFilter<leveledEvent>;
 
+export interface summonedEventObject {
+  owner: string;
+  class: BigNumber;
+  summoner: BigNumber;
+}
 export type summonedEvent = TypedEvent<
   [string, BigNumber, BigNumber],
-  { owner: string; class: BigNumber; summoner: BigNumber }
+  summonedEventObject
 >;
 
 export type summonedEventFilter = TypedEventFilter<summonedEvent>;

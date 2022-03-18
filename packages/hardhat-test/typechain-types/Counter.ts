@@ -51,7 +51,10 @@ export interface CounterInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "CountedTo"): EventFragment;
 }
 
-export type CountedToEvent = TypedEvent<[BigNumber], { number: BigNumber }>;
+export interface CountedToEventObject {
+  number: BigNumber;
+}
+export type CountedToEvent = TypedEvent<[BigNumber], CountedToEventObject>;
 
 export type CountedToEventFilter = TypedEventFilter<CountedToEvent>;
 

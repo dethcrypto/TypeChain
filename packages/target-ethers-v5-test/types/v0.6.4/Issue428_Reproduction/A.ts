@@ -21,7 +21,10 @@ export interface AInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "Committed"): EventFragment;
 }
 
-export type CommittedEvent = TypedEvent<[string[]], { whitelist: string[] }>;
+export interface CommittedEventObject {
+  whitelist: string[];
+}
+export type CommittedEvent = TypedEvent<[string[]], CommittedEventObject>;
 
 export type CommittedEventFilter = TypedEventFilter<CommittedEvent>;
 
