@@ -45,6 +45,8 @@ export default class Ethers extends TypeChainTarget {
   constructor(config: Config) {
     super(config)
 
+    panicOnOldTypeScriptVersion()
+
     const { cwd, outDir, allFiles } = config
 
     this.inputsRoot = detectInputsRoot(allFiles)
@@ -194,4 +196,40 @@ function createRootIndexContent(rootIndexes: FileDescription[], paths: string[])
   ])
 
   return [...rootIndexContent].join('\n')
+}
+
+function panicOnOldTypeScriptVersion() {
+  const requiredTSVersion = { major: 4, minor: 3 }
+  const targetEthersVersion = require('../package.json').version
+
+  let major: number
+  let minor: number
+
+  try {
+    const { version } = require('typescript')
+    ;[major, minor] = version.split('.').map(Number)
+
+    if (major > requiredTSVersion.major || (major === requiredTSVersion.major && minor >= requiredTSVersion.minor)) {
+      // the user has current version
+      return
+    }
+  } catch (err) {
+    // we couldn't require `typescript`
+    return
+  }
+
+  const bold = (text: string | number) => `\x1b[1m${text}\x1b[0m`
+
+  const tsStr = `${requiredTSVersion.major}.${requiredTSVersion.minor}`
+  const errorMessage = `@typechain/ethers-v5 ${targetEthersVersion} needs TypeScript version ${tsStr} or newer.`
+
+  // eslint-disable-next-line no-console
+  console.error(`
+    ⚠  ${bold(errorMessage)}
+
+    Generated code will cause syntax errors in older TypeScript versions.
+    Your TypeScript version is ${major!}.${minor!}.
+  `)
+
+  throw new Error(errorMessage)
 }
