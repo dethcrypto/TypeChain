@@ -2,12 +2,38 @@ import * as ganache from 'ganache'
 import { loadContract } from 'test-utils'
 import Web3 from 'web3'
 
+const IS_WINDOWS_CI = process.env.CI === 'true' && process.platform === 'win32'
+
 export const GAS_LIMIT_STANDARD = 6000000
 
-export async function createNewBlockchain() {
-  const web3 = new Web3(ganache.provider({ logging: { quiet: true } }) as any)
-  const accounts = await web3.eth.getAccounts()
-  return { web3, accounts }
+/**
+ * ⚠ Beware: This function skips the test suite on Windows CI as a workaround
+ *    for flaky timeouts.
+ */
+export function createNewBlockchain<TContract>(contractName: string) {
+  const ganacheProvider = ganache.provider({ logging: { quiet: true } })
+  const web3 = new Web3(ganacheProvider as any)
+
+  const accounts: string[] = []
+  let contract: TContract
+
+  before(async function () {
+    if (IS_WINDOWS_CI) this.skip()
+
+    accounts.push(...(await web3.eth.getAccounts()))
+  })
+
+  beforeEach(async () => {
+    contract = await deployContract(web3, accounts, contractName)
+  })
+
+  return {
+    web3,
+    accounts,
+    get contract() {
+      return contract
+    },
+  }
 }
 
 export async function deployContract<T>(

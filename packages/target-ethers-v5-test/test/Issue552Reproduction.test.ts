@@ -1,10 +1,12 @@
 import type { AssertTrue, IsExact } from 'test-utils'
 
 import type { Issue552_Observer, Issue552_Reproduction } from '../types/v0.8.9/Issue552_Reproduction'
-import { createNewBlockchain, deployContract } from './common'
+import { createNewBlockchain } from './common'
 
 describe('Issue552Reproduction', () => {
-  it('does not emit overly long tuples', () => {
+  const chain = createNewBlockchain<Issue552_Reproduction>('Issue552_Reproduction')
+
+  it.skip('does not emit overly long tuples', () => {
     type _ = [
       AssertTrue<
         IsExact<Issue552_Reproduction.ObservationParamsStruct['observations'], Issue552_Observer.ObservationStruct[]>
@@ -19,14 +21,8 @@ describe('Issue552Reproduction', () => {
   })
 
   it('accepts array of numbers', async () => {
-    const { signer, ganache } = await createNewBlockchain()
+    const { contract } = chain
 
-    try {
-      const contract = await deployContract<Issue552_Reproduction>(signer, 'Issue552_Reproduction')
-
-      await contract.input([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-    } finally {
-      await ganache.close()
-    }
+    await contract.input([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
   })
 })

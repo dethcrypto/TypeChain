@@ -1,16 +1,14 @@
 import { q18, typedAssert } from 'test-utils'
 
 import type { DataTypesPure } from '../types/v0.6.4/DataTypesPure'
-import { createNewBlockchain, deployContract } from './common'
+import { createNewBlockchain } from './common'
 
 describe('DataTypesPure', () => {
-  let contract!: DataTypesPure
-  beforeEach(async () => {
-    const { web3, accounts } = await createNewBlockchain()
-    contract = await deployContract<DataTypesPure>(web3, accounts, 'DataTypesPure')
-  })
+  const chain = createNewBlockchain<DataTypesPure>('DataTypesPure')
 
   it('works', async () => {
+    const { contract } = chain
+
     typedAssert(await contract.methods.pure_uint8().call(), '42')
     typedAssert(await contract.methods.pure_uint256().call(), q18(1))
 

@@ -6,18 +6,20 @@ import type { Event1Event, Event1EventFilter, Event3_bool_uint256_Event, Events 
 import { createNewBlockchain, deployContract } from './common'
 
 describe('Events', () => {
+  const chain = createNewBlockchain<Events>('Events')
+
   let contract!: Events
-  let ganache: any
+
   beforeEach(async () => {
-    const { ganache: _ganache, signer } = await createNewBlockchain()
+    contract = chain.contract
+    const { signer } = chain
+
     signer.provider.pollingInterval = 100
-    ganache = _ganache
     contract = await deployContract<Events>(signer, 'Events')
   })
 
   afterEach(async () => {
     contract.removeAllListeners('Event1')
-    ganache.close()
   })
 
   it('queryFilter', async () => {

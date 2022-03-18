@@ -1,16 +1,14 @@
 import { q18, typedAssert } from 'test-utils'
 
 import type { DataTypesView } from '../types/v0.6.4/DataTypesView'
-import { createNewBlockchain, deployContract } from './common'
+import { createNewBlockchain } from './common'
 
 describe('DataTypesView', () => {
-  let contract!: DataTypesView
-  beforeEach(async () => {
-    const { web3, accounts } = await createNewBlockchain()
-    contract = await deployContract<DataTypesView>(web3, accounts, 'DataTypesView')
-  })
+  const chain = createNewBlockchain<DataTypesView>('DataTypesView')
 
   it('works', async () => {
+    const { contract } = chain
+
     typedAssert(await contract.methods.view_uint8().call(), '42')
     typedAssert(await contract.methods.view_uint256().call(), q18(1))
 
