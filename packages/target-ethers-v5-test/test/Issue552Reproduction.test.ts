@@ -21,8 +21,6 @@ describe('Issue552Reproduction', () => {
   })
 
   it('accepts array of numbers', async () => {
-    const { contract } = chain
-
-    await contract.input([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+    await chain.contract.input([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
   })
 })
