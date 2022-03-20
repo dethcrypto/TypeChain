@@ -125,23 +125,38 @@ export interface IERC721Interface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
 
+export interface ApprovalEventObject {
+  owner: string;
+  approved: string;
+  tokenId: BigNumber;
+}
 export type ApprovalEvent = TypedEvent<
   [string, string, BigNumber],
-  { owner: string; approved: string; tokenId: BigNumber }
+  ApprovalEventObject
 >;
 
 export type ApprovalEventFilter = TypedEventFilter<ApprovalEvent>;
 
+export interface ApprovalForAllEventObject {
+  owner: string;
+  operator: string;
+  approved: boolean;
+}
 export type ApprovalForAllEvent = TypedEvent<
   [string, string, boolean],
-  { owner: string; operator: string; approved: boolean }
+  ApprovalForAllEventObject
 >;
 
 export type ApprovalForAllEventFilter = TypedEventFilter<ApprovalForAllEvent>;
 
+export interface TransferEventObject {
+  from: string;
+  to: string;
+  tokenId: BigNumber;
+}
 export type TransferEvent = TypedEvent<
   [string, string, BigNumber],
-  { from: string; to: string; tokenId: BigNumber }
+  TransferEventObject
 >;
 
 export type TransferEventFilter = TypedEventFilter<TransferEvent>;

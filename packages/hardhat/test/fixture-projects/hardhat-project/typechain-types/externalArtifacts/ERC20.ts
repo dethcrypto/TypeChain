@@ -122,16 +122,26 @@ export interface ERC20Interface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
 
+export interface ApprovalEventObject {
+  owner: string;
+  spender: string;
+  value: BigNumber;
+}
 export type ApprovalEvent = TypedEvent<
   [string, string, BigNumber],
-  { owner: string; spender: string; value: BigNumber }
+  ApprovalEventObject
 >;
 
 export type ApprovalEventFilter = TypedEventFilter<ApprovalEvent>;
 
+export interface TransferEventObject {
+  from: string;
+  to: string;
+  value: BigNumber;
+}
 export type TransferEvent = TypedEvent<
   [string, string, BigNumber],
-  { from: string; to: string; value: BigNumber }
+  TransferEventObject
 >;
 
 export type TransferEventFilter = TypedEventFilter<TransferEvent>;

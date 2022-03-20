@@ -23,17 +23,23 @@ export interface BInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "Committed(address[])"): EventFragment;
 }
 
+export interface Committed_uint256_EventObject {
+  timelock: BigNumber;
+}
 export type Committed_uint256_Event = TypedEvent<
   [BigNumber],
-  { timelock: BigNumber }
+  Committed_uint256_EventObject
 >;
 
 export type Committed_uint256_EventFilter =
   TypedEventFilter<Committed_uint256_Event>;
 
+export interface Committed_address_array_EventObject {
+  whitelist: string[];
+}
 export type Committed_address_array_Event = TypedEvent<
   [string[]],
-  { whitelist: string[] }
+  Committed_address_array_EventObject
 >;
 
 export type Committed_address_array_EventFilter =

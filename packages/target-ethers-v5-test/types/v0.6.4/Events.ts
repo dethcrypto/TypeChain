@@ -123,50 +123,72 @@ export interface EventsInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "UpdateFrequencySet"): EventFragment;
 }
 
-export type AnonEvent1Event = TypedEvent<[BigNumber], { value1: BigNumber }>;
+export interface AnonEvent1EventObject {
+  value1: BigNumber;
+}
+export type AnonEvent1Event = TypedEvent<[BigNumber], AnonEvent1EventObject>;
 
 export type AnonEvent1EventFilter = TypedEventFilter<AnonEvent1Event>;
 
-export type Event1Event = TypedEvent<
-  [BigNumber, BigNumber],
-  { value1: BigNumber; value2: BigNumber }
->;
+export interface Event1EventObject {
+  value1: BigNumber;
+  value2: BigNumber;
+}
+export type Event1Event = TypedEvent<[BigNumber, BigNumber], Event1EventObject>;
 
 export type Event1EventFilter = TypedEventFilter<Event1Event>;
 
-export type Event2Event = TypedEvent<[BigNumber], { arg0: BigNumber }>;
+export interface Event2EventObject {
+  arg0: BigNumber;
+}
+export type Event2Event = TypedEvent<[BigNumber], Event2EventObject>;
 
 export type Event2EventFilter = TypedEventFilter<Event2Event>;
 
+export interface Event3_bool_uint256_EventObject {
+  value1: boolean;
+  value2: BigNumber;
+}
 export type Event3_bool_uint256_Event = TypedEvent<
   [boolean, BigNumber],
-  { value1: boolean; value2: BigNumber }
+  Event3_bool_uint256_EventObject
 >;
 
 export type Event3_bool_uint256_EventFilter =
   TypedEventFilter<Event3_bool_uint256_Event>;
 
+export interface Event3_uint256_EventObject {
+  value1: BigNumber;
+}
 export type Event3_uint256_Event = TypedEvent<
   [BigNumber],
-  { value1: BigNumber }
+  Event3_uint256_EventObject
 >;
 
 export type Event3_uint256_EventFilter = TypedEventFilter<Event3_uint256_Event>;
 
+export interface Event4EventObject {
+  data: Events.EventDataStructOutput;
+}
 export type Event4Event = TypedEvent<
   [Events.EventDataStructOutput],
-  { data: Events.EventDataStructOutput }
+  Event4EventObject
 >;
 
 export type Event4EventFilter = TypedEventFilter<Event4Event>;
 
-export type NoArgsEventEvent = TypedEvent<[], {}>;
+export interface NoArgsEventEventObject {}
+export type NoArgsEventEvent = TypedEvent<[], NoArgsEventEventObject>;
 
 export type NoArgsEventEventFilter = TypedEventFilter<NoArgsEventEvent>;
 
+export interface UpdateFrequencySetEventObject {
+  arg0: string[];
+  arg1: BigNumber[];
+}
 export type UpdateFrequencySetEvent = TypedEvent<
   [string[], BigNumber[]],
-  { arg0: string[]; arg1: BigNumber[] }
+  UpdateFrequencySetEventObject
 >;
 
 export type UpdateFrequencySetEventFilter =

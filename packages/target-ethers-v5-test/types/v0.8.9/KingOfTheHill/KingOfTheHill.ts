@@ -65,9 +65,12 @@ export interface KingOfTheHillInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "HighestBidIncreased"): EventFragment;
 }
 
+export interface HighestBidIncreasedEventObject {
+  bid: KingOfTheHill.BidStructOutput;
+}
 export type HighestBidIncreasedEvent = TypedEvent<
   [KingOfTheHill.BidStructOutput],
-  { bid: KingOfTheHill.BidStructOutput }
+  HighestBidIncreasedEventObject
 >;
 
 export type HighestBidIncreasedEventFilter =
