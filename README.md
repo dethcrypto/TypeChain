@@ -1,6 +1,5 @@
 <p align="center">
   <img src="/docs/images/typechain-logo.png" width="300" alt="TypeChain">
-  <h3 align="center">TypeChain</h3>
   <p align="center">🔌 TypeScript bindings for Ethereum smart contracts</p>
 
   <p align="center">
