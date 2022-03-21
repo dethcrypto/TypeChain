@@ -16,7 +16,10 @@ describe('Ethers target constructor', () => {
   })
 
   it('panics when TypeScript version is lower than 4.3', () => {
-    const mod = proxyquire('../src', { typescript: { version: '4.2' } }) as typeof import('../src')
+    const mod = proxyquire('../src', {
+      typescript: { version: '4.2' },
+      '../package.json': { version: '1.2.3' },
+    }) as typeof import('../src')
 
     const { default: EthersTarget } = mod
 
@@ -28,11 +31,11 @@ describe('Ethers target constructor', () => {
         allFiles: ['woop'],
         target: 'ethers-v5',
       })
-    }).toThrow('@typechain/ethers-v5 9.0.0 needs TypeScript version 4.3 or newer.')
+    }).toThrow('@typechain/ethers-v5 1.2.3 needs TypeScript version 4.3 or newer.')
 
     const message = consoleErrorMock.calls[0].args[0]
 
-    expect(message).toEqual(expect.stringMatching('@typechain/ethers-v5 9.0.0 needs TypeScript version 4.3 or newer.'))
+    expect(message).toEqual(expect.stringMatching('@typechain/ethers-v5 1.2.3 needs TypeScript version 4.3 or newer.'))
     expect(message).toEqual(
       expect.stringMatching('Generated code will cause syntax errors in older TypeScript versions.'),
     )
