@@ -3,7 +3,6 @@ import { join, relative, resolve } from 'path'
 import {
   Config,
   createBarrelFiles,
-  detectInputsRoot,
   extractAbi,
   extractDocumentation,
   FileDescription,
@@ -25,14 +24,12 @@ export default class Web3V1 extends TypeChainTarget {
   name = 'Web3-v1'
 
   private readonly outDirAbs: string
-  private readonly inputsRoot: string
 
   constructor(config: Config) {
     super(config)
 
-    const { cwd, outDir, allFiles } = config
+    const { cwd, outDir } = config
 
-    this.inputsRoot = detectInputsRoot(allFiles)
     this.outDirAbs = resolve(cwd, outDir || DEFAULT_OUT_PATH)
   }
 
@@ -43,7 +40,7 @@ export default class Web3V1 extends TypeChainTarget {
       return
     }
 
-    const path = relative(this.inputsRoot, shortenFullJsonFilePath(file.path, this.cfg.allFiles))
+    const path = relative(this.cfg.inputDir, shortenFullJsonFilePath(file.path, this.cfg.allFiles))
     const documentation = extractDocumentation(file.contents)
 
     const contract = parse(abi, path, documentation)
@@ -60,7 +57,7 @@ export default class Web3V1 extends TypeChainTarget {
     const barrels = createBarrelFiles(
       allFiles
         .map((p) => shortenFullJsonFilePath(p, allFiles))
-        .map((p) => relative(this.inputsRoot, p))
+        .map((p) => relative(this.cfg.inputDir, p))
         .map(normalizeSlashes),
       {
         typeOnly: true,

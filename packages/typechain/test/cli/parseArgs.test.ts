@@ -20,6 +20,7 @@ describe('cli > parseArgs', () => {
       files: ['**/*.abi'],
       target: 'sample-target',
       outDir: undefined,
+      inputDir: undefined,
       flags: { alwaysGenerateOverloads: false, tsNocheck: false, discriminateTypes: false },
     })
   })
@@ -33,6 +34,7 @@ describe('cli > parseArgs', () => {
       files: ['*.abi'],
       target: 'sample-target',
       outDir: undefined,
+      inputDir: undefined,
       flags: { alwaysGenerateOverloads: false, tsNocheck: false, discriminateTypes: false },
     })
   })
@@ -46,6 +48,7 @@ describe('cli > parseArgs', () => {
       files: ['*.json', '**/*.json'],
       target: 'sample-target',
       outDir: undefined,
+      inputDir: undefined,
       flags: { alwaysGenerateOverloads: false, tsNocheck: false, discriminateTypes: false },
     })
   })
@@ -59,6 +62,7 @@ describe('cli > parseArgs', () => {
       files: ['**/*.abi'],
       target: 'sample-target',
       outDir: undefined,
+      inputDir: undefined,
       flags: { alwaysGenerateOverloads: true, tsNocheck: false, discriminateTypes: true },
     })
   })

@@ -4,6 +4,7 @@ import { relative } from 'path'
 import * as prettier from 'prettier'
 
 import { debug } from '../utils/debug'
+import { detectInputsRoot } from '../utils/files'
 import { findTarget } from './findTarget'
 import { loadFileDescriptions, processOutput, skipEmptyAbis } from './io'
 import { CodegenConfig, Config, PublicConfig, Services } from './types'
@@ -20,15 +21,15 @@ const DEFAULT_FLAGS: CodegenConfig = {
 }
 
 export async function runTypeChain(publicConfig: PublicConfig): Promise<Result> {
-  const _config: Config = {
-    flags: DEFAULT_FLAGS,
-    ...publicConfig,
-  }
+  const allFiles = skipEmptyAbis(publicConfig.allFiles)
+
   // skip empty paths
   const config: Config = {
-    ..._config,
-    allFiles: skipEmptyAbis(_config.allFiles),
-    filesToProcess: skipEmptyAbis(_config.filesToProcess),
+    flags: DEFAULT_FLAGS,
+    inputDir: detectInputsRoot(allFiles),
+    ...publicConfig,
+    allFiles,
+    filesToProcess: skipEmptyAbis(publicConfig.filesToProcess),
   }
   const services: Services = {
     fs,

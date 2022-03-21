@@ -3,7 +3,6 @@ import { join, relative, resolve } from 'path'
 import {
   Config,
   Contract,
-  detectInputsRoot,
   extractAbi,
   extractDocumentation,
   FileDescription,
@@ -25,15 +24,13 @@ export default class Truffle extends TypeChainTarget {
   name = 'Truffle'
 
   private readonly outDirAbs: string
-  private readonly inputsRoot: string
   private contracts: Contract[] = []
 
   constructor(config: Config) {
     super(config)
 
-    const { cwd, outDir, allFiles } = config
+    const { cwd, outDir } = config
 
-    this.inputsRoot = detectInputsRoot(allFiles)
     this.outDirAbs = resolve(cwd, outDir || DEFAULT_OUT_PATH)
   }
 
@@ -44,7 +41,7 @@ export default class Truffle extends TypeChainTarget {
       return
     }
 
-    const path = relative(this.inputsRoot, shortenFullJsonFilePath(file.path, this.cfg.allFiles))
+    const path = relative(this.cfg.inputDir, shortenFullJsonFilePath(file.path, this.cfg.allFiles))
     const documentation = extractDocumentation(file.contents)
 
     const contract = parse(abi, path, documentation)

@@ -6,6 +6,7 @@ export interface ParsedArgs {
   files: string[]
   target: string
   outDir?: string | undefined
+  inputDir?: string | undefined
   flags: {
     discriminateTypes: boolean
     alwaysGenerateOverloads: boolean
@@ -30,6 +31,11 @@ export function parseArgs(): ParsedArgs {
           'One of ethers-v4, ethers-v5, truffle-v4, truffle-v5, web3-v1 or path to your custom target. Typechain will try to load package named: @typechain/<target>, so make sure that desired package is installed.',
       },
       'out-dir': { type: String, optional: true, description: 'Output directory for generated files.' },
+      'input-dir': {
+        type: String,
+        optional: true,
+        description: 'Directory containing ABI files. Inferred as lowest common path of all files if not specified.',
+      },
       'always-generate-overloads': {
         type: Boolean,
         defaultValue: false,
@@ -76,6 +82,7 @@ export function parseArgs(): ParsedArgs {
   return {
     files: rawOptions.glob,
     outDir: rawOptions['out-dir'],
+    inputDir: rawOptions['input-dir'],
     target: rawOptions.target,
     flags: {
       alwaysGenerateOverloads: rawOptions['always-generate-overloads'],
@@ -89,6 +96,7 @@ interface CommandLineArgs {
   glob: string[]
   target: string
   'out-dir'?: string
+  'input-dir'?: string
   'show-stack-traces': boolean
   'always-generate-overloads': boolean
   'discriminate-types': boolean

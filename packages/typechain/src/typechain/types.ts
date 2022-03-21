@@ -10,6 +10,11 @@ export interface Config {
   prettier?: object | undefined
   filesToProcess: string[] // filesToProcess is a subset of allFiles, used during incremental generating
   allFiles: string[]
+  /**
+   * Optional path to directory with ABI files.
+   * If not specified, inferred to be lowest common path of all input files.
+   */
+  inputDir: string
   flags: CodegenConfig
 }
 
@@ -21,7 +26,7 @@ export interface CodegenConfig {
   environment: 'hardhat' | undefined
 }
 
-export type PublicConfig = MarkOptional<Config, 'flags'>
+export type PublicConfig = MarkOptional<Config, 'flags' | 'inputDir'>
 
 export abstract class TypeChainTarget {
   public abstract readonly name: string

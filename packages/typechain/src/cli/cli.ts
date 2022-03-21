@@ -3,6 +3,7 @@ import * as prettier from 'prettier'
 
 import { runTypeChain } from '../typechain/runTypeChain'
 import { Config } from '../typechain/types'
+import { detectInputsRoot } from '../utils/files'
 import { glob } from '../utils/glob'
 import { logger } from '../utils/logger'
 import { parseArgs } from './parseArgs'
@@ -23,6 +24,7 @@ async function main() {
     outDir: cliConfig.outDir,
     allFiles: files,
     filesToProcess: files,
+    inputDir: cliConfig.inputDir || detectInputsRoot(files),
     prettier,
     flags: {
       ...cliConfig.flags,
