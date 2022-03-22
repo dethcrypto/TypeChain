@@ -145,7 +145,7 @@ describe('extractBytecode', () => {
     expect(extractBytecode(`{ "bytecode": { "object": "${sampleBytecode}" } }`)).toEqual(resultBytecode)
   })
 
-  it('should return bytecode from nested abi (@foundry/forge style)', () => {
+  it('should not throw when unexpected abi was passed', () => {
     expect(extractBytecode(`{ "bytecode": { "smt_else": "${sampleBytecode}" } }`)).toEqual(undefined)
   })
 
