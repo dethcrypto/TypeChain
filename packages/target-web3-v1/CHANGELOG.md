@@ -1,5 +1,32 @@
 # @typechain/web3-v1
 
+## 6.0.0
+
+### Major Changes
+
+- 3a8a99a: Directory tree in generated types now reflects the directory tree in the inputs. Also, only the main contract
+  type is reexported from each file.
+
+  This change solves a number of name clashing problems. All generated code can still be imported after updating the
+  import path.
+
+### Minor Changes
+
+- e447bfb: Added optional `config.inputDir` property and `--input-dir` flag to control directory structure in generated
+  types. If not set, it's inferred as lowest common path of all ABI files.
+- a59ae6e: Prefer `import type` in generated files when possible
+
+### Patch Changes
+
+- Updated dependencies [3a8a99a]
+- Updated dependencies [5b9a7fb]
+- Updated dependencies [e447bfb]
+- Updated dependencies [978490f]
+- Updated dependencies [a59ae6e]
+- Updated dependencies [975a9dc]
+- Updated dependencies [e1f832c]
+  - typechain@8.0.0
+
 ## 5.0.0
 
 ### Patch Changes
