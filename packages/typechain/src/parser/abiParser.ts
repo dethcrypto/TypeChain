@@ -402,13 +402,19 @@ export function extractBytecode(rawContents: string): BytecodeWithLinkReferences
 
   if (!json) return undefined
 
+  function tryMatchBytecode(obj: any | undefined): any | undefined {
+    if (obj && obj.match instanceof Function) {
+      return obj.match(bytecodeRegex)
+    }
+  }
+
   // `json.evm.bytecode` often has more information than `json.bytecode`, needs to be checked first
-  if (json.evm?.bytecode?.object?.match(bytecodeRegex)) {
+  if (tryMatchBytecode(json.evm?.bytecode?.object)) {
     return extractLinkReferences(json.evm.bytecode.object, json.evm.bytecode.linkReferences)
   }
 
   // handle json schema of @0x/sol-compiler
-  if (json.compilerOutput?.evm?.bytecode?.object?.match(bytecodeRegex)) {
+  if (tryMatchBytecode(json.compilerOutput?.evm?.bytecode?.object)) {
     return extractLinkReferences(
       json.compilerOutput.evm.bytecode.object,
       json.compilerOutput.evm.bytecode.linkReferences,
@@ -416,11 +422,11 @@ export function extractBytecode(rawContents: string): BytecodeWithLinkReferences
   }
 
   // handle json schema of @foundry/forge
-  if (json.bytecode?.object?.match(bytecodeRegex)) {
+  if (tryMatchBytecode(json.bytecode?.object)) {
     return extractLinkReferences(json.bytecode.object, json.bytecode.linkReferences)
   }
 
-  if (json.bytecode?.match(bytecodeRegex)) {
+  if (tryMatchBytecode(json.bytecode)) {
     return extractLinkReferences(json.bytecode, json.linkReferences)
   }
 

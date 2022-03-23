@@ -145,6 +145,10 @@ describe('extractBytecode', () => {
     expect(extractBytecode(`{ "bytecode": { "object": "${sampleBytecode}" } }`)).toEqual(resultBytecode)
   })
 
+  it('should not throw when unexpected abi was passed', () => {
+    expect(extractBytecode(`{ "bytecode": { "smt_else": "${sampleBytecode}" } }`)).toEqual(undefined)
+  })
+
   it('should return undefined when nested abi bytecode is malformed', () => {
     expect(extractBytecode(`{ "bytecode": "surely-not-bytecode" }`)).toEqual(undefined)
   })
