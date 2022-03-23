@@ -1,5 +1,90 @@
 # @typechain/ethers-v5
 
+## 10.0.0
+
+### Major Changes
+
+- 3a8a99a: Directory tree in generated types now reflects the directory tree in the inputs. Also, only the main contract
+  type is reexported from each file.
+
+  This change solves a number of name clashing problems. All generated code can still be imported after updating the
+  import path.
+
+- 978490f: ## What's breaking:
+
+  We are not emitting `contractName` fields on contracts and factories anymore.
+
+  ## Why?
+
+  `contractName` breaks polymorphism for example: exact token implementation is not assignable to token interface.
+
+  ## What do to?
+
+  We are adding optional flag `--discriminate-types` to continue emitting `contractName`.
+
+### Minor Changes
+
+- d86d048: The method overloads for:
+
+  ```
+  getEvent
+  getFunction
+  decodeFunctionResult
+  encodeFunctionData
+  ```
+
+  follow these rules:
+
+  • If these entities are not overloaded in the contract ABI and `--always-generate-overloads` is off, just the
+  entities' names are used (without the signature) • If the entities are overloaded, only signatures are used to
+  disambiguate them • If `--always-generate-overloads` is on, additional overloads are generated for functions that are
+  not ambiguous • For the method and event names in the events and functions properties only signature names are used
+  (that's according to the ethers API - they don't use shorthand naming).
+
+- e447bfb: Added optional `config.inputDir` property and `--input-dir` flag to control directory structure in generated
+  types. If not set, it's inferred as lowest common path of all ABI files.
+- a59ae6e: Prefer `import type` in generated files when possible
+- 47ab651: For every event, TypeChain now emits an interface with its named properties.
+
+  **Before**
+
+  ```ts
+  export type ApprovalEvent = TypedEvent<
+    [string, string, BigNumber],
+    { owner: string; approved: string; tokenId: BigNumber }
+  >
+  ```
+
+  **After**
+
+  ```ts
+  export interface ApprovalEventObject {
+    owner: string
+    approved: string
+    tokenId: BigNumber
+  }
+  export type ApprovalEvent = TypedEvent<[string, string, BigNumber], ApprovalEventObject>
+  ```
+
+### Patch Changes
+
+- 2395289: ContractFactory subclasses now use explicit "override" modifiers.
+
+  TypeScript version 4.3 or newer is now required.
+
+- 975a9dc: Fix type generation for arrays of nested structs ex: `GovernanceMessage.Call[][] calldata _remoteCalls`.
+
+  Fix structs parser in typechain package. Now only struct tuples are registered.
+
+- Updated dependencies [3a8a99a]
+- Updated dependencies [5b9a7fb]
+- Updated dependencies [e447bfb]
+- Updated dependencies [978490f]
+- Updated dependencies [a59ae6e]
+- Updated dependencies [975a9dc]
+- Updated dependencies [e1f832c]
+  - typechain@8.0.0
+
 ## 9.0.0
 
 ### Major Changes

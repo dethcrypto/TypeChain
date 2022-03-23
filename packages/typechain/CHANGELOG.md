@@ -1,5 +1,42 @@
 # typechain
 
+## 8.0.0
+
+### Major Changes
+
+- 3a8a99a: Directory tree in generated types now reflects the directory tree in the inputs. Also, only the main contract
+  type is reexported from each file.
+
+  This change solves a number of name clashing problems. All generated code can still be imported after updating the
+  import path.
+
+- 978490f: ## What's breaking:
+
+  We are not emitting `contractName` fields on contracts and factories anymore.
+
+  ## Why?
+
+  `contractName` breaks polymorphism for example: exact token implementation is not assignable to token interface.
+
+  ## What do to?
+
+  We are adding optional flag `--discriminate-types` to continue emitting `contractName`.
+
+- 975a9dc: Fix type generation for arrays of nested structs ex: `GovernanceMessage.Call[][] calldata _remoteCalls`.
+
+  Fix structs parser in typechain package. Now only struct tuples are registered.
+
+### Minor Changes
+
+- 5b9a7fb: `typechain` will now resolve targets better in cases where the core package is symlinked
+- e447bfb: Added optional `config.inputDir` property and `--input-dir` flag to control directory structure in generated
+  types. If not set, it's inferred as lowest common path of all ABI files.
+- a59ae6e: Prefer `import type` in generated files when possible
+
+### Patch Changes
+
+- e1f832c: Make parsing JSON abi files more resilent. This should improve foundry integration.
+
 ## 7.0.1
 
 ### Patch Changes

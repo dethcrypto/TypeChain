@@ -1,5 +1,23 @@
 # @typechain/truffle-v5
 
+## 8.0.0
+
+### Minor Changes
+
+- e447bfb: Added optional `config.inputDir` property and `--input-dir` flag to control directory structure in generated
+  types. If not set, it's inferred as lowest common path of all ABI files.
+
+### Patch Changes
+
+- Updated dependencies [3a8a99a]
+- Updated dependencies [5b9a7fb]
+- Updated dependencies [e447bfb]
+- Updated dependencies [978490f]
+- Updated dependencies [a59ae6e]
+- Updated dependencies [975a9dc]
+- Updated dependencies [e1f832c]
+  - typechain@8.0.0
+
 ## 7.0.0
 
 ### Patch Changes
