@@ -27,6 +27,7 @@ describe('Ethers target constructor', () => {
       const _ = new EthersTarget({
         flags: { alwaysGenerateOverloads: false, discriminateTypes: false, environment: 'hardhat' },
         filesToProcess: ['woop'],
+        inputDir: '',
         cwd: '',
         allFiles: ['woop'],
         target: 'ethers-v5',
@@ -52,6 +53,7 @@ describe('Ethers target constructor', () => {
         const _ = new EthersTarget({
           flags: { alwaysGenerateOverloads: false, discriminateTypes: false, environment: 'hardhat' },
           filesToProcess: ['woop'],
+          inputDir: '',
           cwd: '',
           allFiles: ['woop'],
           target: 'ethers-v5',

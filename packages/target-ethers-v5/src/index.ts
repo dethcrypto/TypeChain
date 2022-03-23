@@ -8,7 +8,6 @@ import {
   Config,
   Contract,
   createBarrelFiles,
-  detectInputsRoot,
   extractAbi,
   extractBytecode,
   extractDocumentation,
@@ -27,16 +26,11 @@ import { codegenAbstractContractFactory, codegenContractFactory, codegenContract
 import { generateHardhatHelper } from './codegen/hardhat'
 import { FACTORY_POSTFIX } from './common'
 
-export interface IEthersCfg {
-  outDir?: string
-}
-
 const DEFAULT_OUT_PATH = './types/ethers-contracts/'
 
 export default class Ethers extends TypeChainTarget {
   name = 'Ethers'
 
-  private readonly inputsRoot: string
   private readonly allFiles: string[]
   private readonly outDirAbs: string
   private readonly contractsWithoutBytecode: Dictionary<{ abi: any; contract: Contract } | undefined> = {}
@@ -49,10 +43,9 @@ export default class Ethers extends TypeChainTarget {
 
     const { cwd, outDir, allFiles } = config
 
-    this.inputsRoot = detectInputsRoot(allFiles)
     this.allFiles = allFiles
       .map((p) => shortenFullJsonFilePath(p, allFiles))
-      .map((p) => relative(this.inputsRoot, p))
+      .map((p) => relative(this.cfg.inputDir, p))
       .map(normalizeSlashes)
     this.outDirAbs = resolve(cwd, outDir || DEFAULT_OUT_PATH)
   }
@@ -96,7 +89,7 @@ export default class Ethers extends TypeChainTarget {
 
     const documentation = extractDocumentation(file.contents)
 
-    const path = relative(this.inputsRoot, shortenFullJsonFilePath(file.path, this.cfg.allFiles))
+    const path = relative(this.cfg.inputDir, shortenFullJsonFilePath(file.path, this.cfg.allFiles))
 
     const contract = parse(abi, path, documentation)
 

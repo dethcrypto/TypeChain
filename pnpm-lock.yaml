@@ -453,7 +453,7 @@ importers:
       coveralls: ^3.0.2
       debug: ^4.3.1
       fs-extra: ^7.0.0
-      glob: ^7.1.6
+      glob: 7.1.7
       js-sha3: ^0.8.0
       lodash: ^4.17.15
       mkdirp: ^1.0.4
@@ -464,7 +464,7 @@ importers:
       '@types/prettier': 2.2.3
       debug: 4.3.3
       fs-extra: 7.0.1
-      glob: 7.2.0
+      glob: 7.1.7
       js-sha3: 0.8.0
       lodash: 4.17.21
       mkdirp: 1.0.4
@@ -7488,6 +7488,17 @@ packages:
       minimatch: 3.0.4
       once: 1.4.0
       path-is-absolute: 1.0.1
+
+  /glob/7.1.7:
+    resolution: {integrity: sha512-OvD9ENzPLbegENnYP5UUfJIirTg4+XwMWGaQfQTY0JenxNvvIKP3U3/tAQSPIu/lHxXYSZmpXlUHeqAIdKzBLQ==}
+    dependencies:
+      fs.realpath: 1.0.0
+      inflight: 1.0.6
+      inherits: 2.0.4
+      minimatch: 3.0.4
+      once: 1.4.0
+      path-is-absolute: 1.0.1
+    dev: false
 
   /glob/7.2.0:
     resolution: {integrity: sha512-lmLf6gtyrPq8tTjSmrO94wBeQbFR3HbLHbuyD69wuyQkImp2hWqMGB47OX65FBkPffO641IP9jWa1z4ivqG26Q==}
