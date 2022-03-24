@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { execSync } from 'child_process'
-import { mkdirSync, readdirSync, renameSync, rmdirSync, Stats as FsStats } from 'fs'
+import { mkdirSync, readdirSync, renameSync, rmdirSync } from 'fs'
 import { copySync, statSync } from 'fs-extra'
 import { sync as globSync } from 'glob'
 import { posix, resolve } from 'path'
