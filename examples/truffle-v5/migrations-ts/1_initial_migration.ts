@@ -1,8 +1,10 @@
 const Migrations = artifacts.require('Migrations')
 
-module.exports = function (deployer) {
+const migration: Truffle.Migration = function (deployer) {
   deployer.deploy(Migrations)
-} as Truffle.Migration
+}
+
+module.exports = migration
 
 // because of https://stackoverflow.com/questions/40900791/cannot-redeclare-block-scoped-variable-in-unrelated-files
 export {}
