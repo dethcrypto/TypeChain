@@ -313,6 +313,38 @@ importers:
       test-utils: link:../test-utils
       typechain: link:../typechain
 
+  packages/target-starknet:
+    specifiers:
+      '@types/lodash': ^4.14.139
+      lodash: ^4.17.15
+      starknet: ^3.7.0
+      test-utils: 1.0.0
+      ts-essentials: ^7.0.1
+      typechain: workspace:^8.0.0
+      typescript: '>=4.3.0'
+    dependencies:
+      lodash: 4.17.21
+      ts-essentials: 7.0.3_typescript@4.6.2
+    devDependencies:
+      '@types/lodash': 4.14.179
+      starknet: 3.9.0
+      test-utils: link:../test-utils
+      typechain: link:../typechain
+      typescript: 4.6.2
+
+  packages/target-starknet-test:
+    specifiers:
+      ganache: ^7.0.3
+      starknet: ^3.7.0
+      test-utils: 1.0.0
+      typechain: workspace:^8.0.0
+    dependencies:
+      starknet: 3.9.0
+    devDependencies:
+      ganache: 7.0.3
+      test-utils: link:../test-utils
+      typechain: link:../typechain
+
   packages/target-truffle-v5:
     specifiers:
       '@types/lodash': ^4.14.139
@@ -1689,6 +1721,11 @@ packages:
     resolution: {integrity: sha512-CtzORUwWTTOTqfVtHaKRJ0I1kNQd1bpn3sUh8I3nJDVY+5/M/Oe1DnEWzPQvqq/xPIIkzzzIP7mfCoAjFRvDhg==}
     optional: true
 
+  /@ledgerhq/cryptoassets/6.27.1:
+    resolution: {integrity: sha512-kUsCATnxurYuAQ4dGBgaw+eUOGlX9IZvDPQlElrvb8/Kd2p6U5scpl5RX/YFnjkjGNmE4BhQioUslQGpNa3sZQ==}
+    dependencies:
+      invariant: 2.2.4
+
   /@ledgerhq/devices/5.51.1:
     resolution: {integrity: sha512-4w+P0VkbjzEXC7kv8T1GJ/9AVaP9I6uasMZ/JcdwZBS3qwvKo5A5z9uGhP5c7TvItzcmPb44b5Mw2kT+WjUuAA==}
     dependencies:
@@ -1698,9 +1735,42 @@ packages:
       semver: 7.3.5
     optional: true
 
+  /@ledgerhq/devices/6.27.1:
+    resolution: {integrity: sha512-jX++oy89jtv7Dp2X6gwt3MMkoajel80JFWcdc0HCouwDsV1mVJ3SQdwl/bQU0zd8HI6KebvUP95QTwbQLLK/RQ==}
+    dependencies:
+      '@ledgerhq/errors': 6.10.0
+      '@ledgerhq/logs': 6.10.0
+      rxjs: 6.6.7
+      semver: 7.3.5
+
   /@ledgerhq/errors/5.50.0:
     resolution: {integrity: sha512-gu6aJ/BHuRlpU7kgVpy2vcYk6atjB4iauP2ymF7Gk0ez0Y/6VSMVSJvubeEQN+IV60+OBK0JgeIZG7OiHaw8ow==}
     optional: true
+
+  /@ledgerhq/errors/6.10.0:
+    resolution: {integrity: sha512-fQFnl2VIXh9Yd41lGjReCeK+Q2hwxQJvLZfqHnKqWapTz68NHOv5QcI0OHuZVNEbv0xhgdLhi5b65kgYeQSUVg==}
+
+  /@ledgerhq/hw-app-eth/6.27.1:
+    resolution: {integrity: sha512-5v9D00syMWMDM0k7xGOWTx3LFHNCfoKF+MysHVvWOdo9JEZj1ZAVKdmSW9sbegtIf3lQUfbXTK63BDKmE3xu6Q==}
+    dependencies:
+      '@ethersproject/abi': 5.6.0
+      '@ethersproject/rlp': 5.6.0
+      '@ledgerhq/cryptoassets': 6.27.1
+      '@ledgerhq/errors': 6.10.0
+      '@ledgerhq/hw-transport': 6.27.1
+      '@ledgerhq/logs': 6.10.0
+      axios: 0.26.1
+      bignumber.js: 9.0.2
+    transitivePeerDependencies:
+      - debug
+
+  /@ledgerhq/hw-transport-webhid/6.27.1:
+    resolution: {integrity: sha512-u74rBYlibpbyGblSn74fRs2pMM19gEAkYhfVibq0RE1GNFjxDMFC1n7Sb+93Jqmz8flyfB4UFJsxs8/l1tm2Kw==}
+    dependencies:
+      '@ledgerhq/devices': 6.27.1
+      '@ledgerhq/errors': 6.10.0
+      '@ledgerhq/hw-transport': 6.27.1
+      '@ledgerhq/logs': 6.10.0
 
   /@ledgerhq/hw-transport-webusb/5.53.1:
     resolution: {integrity: sha512-A/f+xcrkIAZiJrvPpDvsrjxQX4cI2kbdiunQkwsYmOG3Bp4z89ZnsBiC7YBst4n2/g+QgTg0/KPVtODU5djooQ==}
@@ -1719,9 +1789,19 @@ packages:
       events: 3.3.0
     optional: true
 
+  /@ledgerhq/hw-transport/6.27.1:
+    resolution: {integrity: sha512-hnE4/Fq1YzQI4PA1W0H8tCkI99R3UWDb3pJeZd6/Xs4Qw/q1uiQO+vNLC6KIPPhK0IajUfuI/P2jk0qWcMsuAQ==}
+    dependencies:
+      '@ledgerhq/devices': 6.27.1
+      '@ledgerhq/errors': 6.10.0
+      events: 3.3.0
+
   /@ledgerhq/logs/5.50.0:
     resolution: {integrity: sha512-swKHYCOZUGyVt4ge0u8a7AwNcA//h4nx5wIi0sruGye1IJ5Cva0GyK9L2/WdX+kWVTKp92ZiEo1df31lrWGPgA==}
     optional: true
+
+  /@ledgerhq/logs/6.10.0:
+    resolution: {integrity: sha512-lLseUPEhSFUXYTKj6q7s2O3s2vW2ebgA11vMAlKodXGf5AFw4zUoEbTz9CoFOC9jS6xY4Qr8BmRnxP/odT4Uuw==}
 
   /@manypkg/find-root/1.1.0:
     resolution: {integrity: sha512-mki5uBvhHzO8kYYix/WRy2WX8S3B5wdVSc9D6KcU5lQNglP2yt58/VfLuAK49glRXChosY8ap2oJ1qgma3GUVA==}
@@ -1756,6 +1836,12 @@ packages:
   /@multiformats/base-x/4.0.1:
     resolution: {integrity: sha512-eMk0b9ReBbV23xXU693TAIrLyeO5iTgBZGSJfpqriG8UkYvr/hC9u9pyMlAakDNHWmbhMZCDs6KQO0jzKD8OTw==}
     optional: true
+
+  /@noble/hashes/0.5.9:
+    resolution: {integrity: sha512-7lN1Qh6d8DUGmfN36XRsbN/WcGIPNtTGhkw26vWId/DlCIGsYJJootTtPGghTLcn/AaXPx2Q0b3cacrwXa7OVw==}
+
+  /@noble/secp256k1/1.5.5:
+    resolution: {integrity: sha512-sZ1W6gQzYnu45wPrWx8D3kwI2/U29VYTx9OjbDAd7jwRItJ0cSTMPRL/C8AWZFn9kWFLQGqEXVEE86w4Z8LpIQ==}
 
   /@nodefactory/filsnap-adapter/0.2.2:
     resolution: {integrity: sha512-nbaYMwVopOXN2bWOdDY3il6gGL9qMuCmMN4WPuoxzJjSnAMJNqEeSe6MNNJ/fYBLipZcJfAtirNXRrFLFN+Tvw==}
@@ -3871,6 +3957,20 @@ packages:
     transitivePeerDependencies:
       - debug
     optional: true
+
+  /axios/0.23.0:
+    resolution: {integrity: sha512-NmvAE4i0YAv5cKq8zlDoPd1VLKAqX5oLuZKs8xkJa4qi6RGn0uhCYFjWtHHC9EM/MwOwYWOs53W+V0aqEXq1sg==}
+    dependencies:
+      follow-redirects: 1.14.9_debug@4.3.2
+    transitivePeerDependencies:
+      - debug
+
+  /axios/0.26.1:
+    resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
+    dependencies:
+      follow-redirects: 1.14.9_debug@4.3.2
+    transitivePeerDependencies:
+      - debug
 
   /babel-code-frame/6.26.0:
     resolution: {integrity: sha1-Y/1D99weO7fONZR9uP42mj9Yx0s=}
@@ -6601,6 +6701,13 @@ packages:
       secp256k1: 4.0.3
       setimmediate: 1.0.5
 
+  /ethereum-cryptography/0.2.5:
+    resolution: {integrity: sha512-aWvqiegXgSTwbuDE1DDnM7taLteLcHVHh5nMZnnD2dwlvH6w5bOxcdXW20oS+1aLDorDlrK1c82stB8jsLDN5Q==}
+    dependencies:
+      '@noble/hashes': 0.5.9
+      '@noble/secp256k1': 1.5.5
+      micro-base: 0.10.2
+
   /ethereum-ens/0.8.0:
     resolution: {integrity: sha512-a8cBTF4AWw1Q1Y37V1LSCS9pRY4Mh3f8vCg5cbXCCEJ3eno1hbI/+Ccv9SZLISYpqQhaglP3Bxb/34lS4Qf7Bg==}
     dependencies:
@@ -9008,6 +9115,11 @@ packages:
     resolution: {integrity: sha1-RsP+yMGJKxKwgz25vHYiF226s0s=}
     hasBin: true
 
+  /json-bigint/1.0.0:
+    resolution: {integrity: sha512-SiPv/8VpZuWbvLSMtTDU8hEfrZWg/mH/nV/b4o0CYbSxu1UIQPLdwKOCIyLQX+VIPO5vrLX3i8qtqFyhdPSUSQ==}
+    dependencies:
+      bignumber.js: 9.0.2
+
   /json-buffer/3.0.0:
     resolution: {integrity: sha1-Wx85evx11ne96Lz8Dkfh+aPZqJg=}
 
@@ -9908,6 +10020,10 @@ packages:
   /methods/1.1.2:
     resolution: {integrity: sha1-VSmk1nZUE07cxSZmVoNbD4Ua/O4=}
     engines: {node: '>= 0.6'}
+
+  /micro-base/0.10.2:
+    resolution: {integrity: sha512-lqqJrT7lfJtDmmiQ4zRLZuIJBk96t0RAc5pCrrWpL9zDeH5i/SUL85mku9HqzTI/OCZ8EQ3aicbMW+eK5Nyu5w==}
+    deprecated: Switch to @scure/base for audited version of the lib & updates
 
   /micromatch/3.1.10:
     resolution: {integrity: sha512-MWikgl9n9M3w+bpsY3He8L+w9eF9338xRl8IAO5viDizwSzziFEyUzo2xrrloB64ADbTf8uA8vRqqttDTOmccg==}
@@ -10907,6 +11023,9 @@ packages:
   /pako/1.0.11:
     resolution: {integrity: sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==}
     dev: true
+
+  /pako/2.0.4:
+    resolution: {integrity: sha512-v8tweI900AUkZN6heMU/4Uy4cXRc2AYNRggVmTR+dEncawDJgCdLMximOVA2p4qO57WMynangsfGRb5WD6L1Bg==}
 
   /param-case/2.1.1:
     resolution: {integrity: sha1-35T9jPZTHs915r75oIWPvHK+Ikc=}
@@ -12229,7 +12348,6 @@ packages:
     engines: {npm: '>=2.0.0'}
     dependencies:
       tslib: 1.14.1
-    optional: true
 
   /safe-buffer/5.1.2:
     resolution: {integrity: sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==}
@@ -12783,6 +12901,25 @@ packages:
       type-fest: 0.7.1
     dev: true
 
+  /starknet/3.9.0:
+    resolution: {integrity: sha512-/sn3WHFX7f+A3vVf3I+Kamg2KIW6494vpCcZWA09IQ5RZXrozjaBtYWT41SoKKWZ3b0Xg8WF//SOkRVCTZOZkQ==}
+    dependencies:
+      '@ledgerhq/hw-app-eth': 6.27.1
+      '@ledgerhq/hw-transport': 6.27.1
+      '@ledgerhq/hw-transport-webhid': 6.27.1
+      axios: 0.23.0
+      bn.js: 5.2.0
+      elliptic: 6.5.4
+      ethereum-cryptography: 0.2.5
+      hash.js: 1.1.7
+      json-bigint: 1.0.0
+      minimalistic-assert: 1.0.1
+      pako: 2.0.4
+      superstruct: 0.15.4
+      url-join: 4.0.1
+    transitivePeerDependencies:
+      - debug
+
   /static-extend/0.1.2:
     resolution: {integrity: sha1-YICcOcv/VTNyJv1eC1IPNB8ftcY=}
     engines: {node: '>=0.10.0'}
@@ -12998,6 +13135,9 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /superstruct/0.15.4:
+    resolution: {integrity: sha512-eOoMeSbP9ZJChNOm/9RYjE+F36rYR966AAqeG3xhQB02j2sfAUXDp4EQ/7bAOqnlJnuFDB8yvOu50SocvKpUEw==}
 
   /supports-color/2.0.0:
     resolution: {integrity: sha1-U10EXOa2Nj+kARcIRimZXp3zJMc=}
@@ -13818,6 +13958,9 @@ packages:
     resolution: {integrity: sha1-2pN/emLiH+wf0Y1Js1wpNQZ6bHI=}
     deprecated: Please see https://github.com/lydell/urix#deprecated
     dev: true
+
+  /url-join/4.0.1:
+    resolution: {integrity: sha512-jk1+QP6ZJqyOiuEI9AEWQfju/nB2Pw466kbA0LEZljHwKeMgd9WrAEgEGxjPDD2+TNbbb37rTyhEfrCXfuKXnA==}
 
   /url-parse-lax/1.0.0:
     resolution: {integrity: sha1-evjzA2Rem9eaJy56FKxovAYJ2nM=}

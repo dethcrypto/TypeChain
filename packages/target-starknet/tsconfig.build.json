@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["src"],
+  "lib": ["es2020", "ESNext", "DOM"],
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true
+  },
+  "exclude": ["node_modules", "**/node_modules/*", "dist"],
+  "references": [
+    {
+      "path": "../typechain/tsconfig.build.json"
+    }
+  ]
+}
