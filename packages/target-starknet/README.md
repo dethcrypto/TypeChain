@@ -1,0 +1,1 @@
+# Typechain target Starknet
