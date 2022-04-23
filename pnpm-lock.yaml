@@ -334,11 +334,13 @@ importers:
 
   packages/target-starknet-test:
     specifiers:
+      '@types/elliptic': ^6.4.14
       ganache: ^7.0.3
       starknet: ^3.7.0
       test-utils: 1.0.0
       typechain: workspace:^8.0.0
     dependencies:
+      '@types/elliptic': 6.4.14
       starknet: 3.9.0
     devDependencies:
       ganache: 7.0.3
@@ -2924,6 +2926,12 @@ packages:
       tweetnacl: 1.0.3
     optional: true
 
+  /@types/elliptic/6.4.14:
+    resolution: {integrity: sha512-z4OBcDAU0GVwDTuwJzQCiL6188QvZMkvoERgcVjq0/mPM8jCfdwZ3x5zQEVoL9WCAru3aG5wl3Z5Ww5wBWn7ZQ==}
+    dependencies:
+      '@types/bn.js': 5.1.0
+    dev: false
+
   /@types/express-serve-static-core/4.17.28:
     resolution: {integrity: sha512-P1BJAEAW3E2DJUlkgq4tOL3RyMunoWXqbSCygWo5ZIWTjUgN1YnaXWW4VWl/oc8vs/XoYibEGBKP0uZyF4AHig==}
     dependencies:
@@ -3961,14 +3969,14 @@ packages:
   /axios/0.23.0:
     resolution: {integrity: sha512-NmvAE4i0YAv5cKq8zlDoPd1VLKAqX5oLuZKs8xkJa4qi6RGn0uhCYFjWtHHC9EM/MwOwYWOs53W+V0aqEXq1sg==}
     dependencies:
-      follow-redirects: 1.14.9_debug@4.3.2
+      follow-redirects: 1.14.9
     transitivePeerDependencies:
       - debug
 
   /axios/0.26.1:
     resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
     dependencies:
-      follow-redirects: 1.14.9_debug@4.3.2
+      follow-redirects: 1.14.9
     transitivePeerDependencies:
       - debug
 
@@ -7445,6 +7453,15 @@ packages:
   /flow-stoplight/1.0.0:
     resolution: {integrity: sha1-SiksW8/4s5+mzAyxqFPYbyfu/3s=}
     dev: true
+
+  /follow-redirects/1.14.9:
+    resolution: {integrity: sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
 
   /follow-redirects/1.14.9_debug@4.3.2:
     resolution: {integrity: sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==}

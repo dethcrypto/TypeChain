@@ -20,6 +20,7 @@
     "typechain": "workspace:^8.0.0"
   },
   "dependencies": {
+    "@types/elliptic": "^6.4.14",
     "starknet": "^3.7.0"
   }
 }

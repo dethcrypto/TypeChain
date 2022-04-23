@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import {
+import type {
   AddTransactionResponse,
   Invocation,
   EstimateFeeResponse,
