@@ -18,6 +18,7 @@
     { "path": "./packages/target-web3-v1/tsconfig.build.json" },
     { "path": "./packages/target-truffle-v5/tsconfig.build.json" },
     { "path": "./packages/target-ethers-v5/tsconfig.build.json" },
-    { "path": "./packages/hardhat/tsconfig.build.json" }
+    { "path": "./packages/hardhat/tsconfig.build.json" },
+    { "path": "./packages/target-starknet/tsconfig.build.json" }
   ]
 }
