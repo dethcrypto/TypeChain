@@ -66,7 +66,7 @@ export class StarknetTarget extends TypeChainTarget {
       ${imports()}
       ${resultWithoutImports}
     `
-    
+
     return {
       contents: result,
       path: join(this.outDirAbs, `${name}.ts`), // @todo fix, should have same behaviour as in other plugins
@@ -90,13 +90,13 @@ function transformer(rawAbi: Abi) {
     return constructorAbi ? entriesTypesOnly(constructorAbi.inputs) : ''
   }
 
-  function options(returnType: DeclarationType): string {
-    const Overrides = impoort('starknet', 'Overrides')
-    const BlockIdentifier = impoort('starknet/provider/utils', 'BlockIdentifier')
+  function options(e: FunctionAbi, returnType: DeclarationType): string {
     // TODO: Why estimate takes blockIdentifier?
-    if (returnType === 'populate') {
+    if ((returnType === 'populate' || returnType === 'default')  && e.stateMutability !== 'view') {
+      const Overrides = impoort('starknet', 'Overrides')
       return `options?: ${Overrides}`
     }
+    const BlockIdentifier = impoort('starknet/provider/utils', 'BlockIdentifier')
     // TODO: Why BlockIdentifier is optional here?
     return `options?: { blockIdentifier?: ${BlockIdentifier}; }`
   }
@@ -106,7 +106,7 @@ function transformer(rawAbi: Abi) {
       .filter((e) => e.type === 'function') // && e.stateMutability === "view"
       .map((e: FunctionAbi) => {
         const args = entries(e.inputs)
-        const opts = options(returnType)
+        const opts = options(e, returnType)
         const rets = returns(e, returnType)
         return `${e.name}(${args}${args !== '' ? ', ' : ''}${opts}):${rets}`
       })
