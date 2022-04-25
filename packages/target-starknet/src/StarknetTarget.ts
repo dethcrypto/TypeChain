@@ -29,7 +29,7 @@ export class StarknetTarget extends TypeChainTarget {
       // constructorArgs,
       functions,
       imports,
-      impoort
+      impoort,
     } = transformer(compiled.abi)
 
     const ContractInterface = impoort('starknet', 'ContractInterface')
@@ -92,7 +92,7 @@ function transformer(rawAbi: Abi) {
 
   function options(e: FunctionAbi, returnType: DeclarationType): string {
     // TODO: Why estimate takes blockIdentifier?
-    if ((returnType === 'populate' || returnType === 'default')  && e.stateMutability !== 'view') {
+    if ((returnType === 'populate' || returnType === 'default') && e.stateMutability !== 'view') {
       const Overrides = impoort('starknet', 'Overrides')
       return `options?: ${Overrides}`
     }
@@ -124,13 +124,16 @@ function transformer(rawAbi: Abi) {
 
   function structTypes(): string {
     const structs = [...(abi.values() as any)] // @todo fix any
-      .filter((e) => e.type === 'struct');
-    const namedStructs = structs.filter((s) => !!s.name);
-    return namedStructs.map(s =>
-      `export type ${s.name} = {
+      .filter((e) => e.type === 'struct')
+    const namedStructs = structs.filter((s) => !!s.name)
+    return namedStructs
+      .map(
+        (s) =>
+          `export type ${s.name} = {
       ${entriesToInterface(s.members)}\n
-    }`
-    ).join('\n');
+    }`,
+      )
+      .join('\n')
   }
 
   function viewType(e: FunctionAbi) {
@@ -223,6 +226,6 @@ function transformer(rawAbi: Abi) {
     constructorArgs,
     functions,
     imports,
-    impoort
+    impoort,
   }
 }
