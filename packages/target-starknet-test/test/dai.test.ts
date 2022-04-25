@@ -1,5 +1,15 @@
 import fs from 'fs'
-import { Contract, Provider, defaultProvider, number, hash, ec } from 'starknet'
+import {
+  Contract,
+  Provider,
+  defaultProvider,
+  number,
+  hash,
+  ec,
+  Account,
+  AddTransactionResponse,
+  TransactionStatus,
+} from 'starknet'
 const { toBN } = number
 const { getSelectorFromName } = hash
 import { expect } from 'earljs'
@@ -7,51 +17,108 @@ import { contract as _contract } from '../types/contract'
 import { ERC20 as _ERC20 } from '../types/ERC20'
 import { ArgentAccount as _account } from '../types/ERC20'
 
-describe.skip('DAI', () => {
-  let contract: _contract
-  let ERC20: _ERC20
-  let account: Provider
+describe('DAI', () => {
+  let contract: _contract;
+  let ERC20: _ERC20;
+  let account: _account;
+  let account2: _account;
 
   before(async () => {
-    const provider = new Provider({ baseUrl: 'http://localhost:5000' })
+    const provider = new Provider({ baseUrl: 'http://localhost:5000' });
 
-    async function deployContract(name: string, calldata: any[] = [], options: object = {}): Promise<Contract> {
-      const compiledContract = JSON.parse(fs.readFileSync(`./example-abis/${name}.json`).toString('ascii'))
-      console.log(`Deploying contract: ${name}`)
+    async function deployContract(name: string, calldata: any[] = [], options: object = {}): Promise<any> {
+      const compiledContract = JSON.parse(fs.readFileSync(`./example-abis/${name}.json`).toString('ascii'));
+      console.log(`Deploying contract: ${name}`);
       const response = await provider.deployContract({
         contract: compiledContract,
         constructorCalldata: calldata,
         ...options,
-      })
-      await provider.waitForTransaction(response.transaction_hash)
-      const address = response.address || ''
-      return new Contract(compiledContract.abi, address, provider)
+      });
+      await provider.waitForTransaction(response.transaction_hash);
+      const address = response.address || '';
+      return new Contract(compiledContract.abi, address, provider);
     }
 
-    contract = (await deployContract('contract')) as _contract
-    ERC20 = (await deployContract('ERC20')) as _ERC20
-    /*
+    async function deployAccount(): Promise<Account> {
       const pair = ec.genKeyPair();
       const pub = ec.getStarkKey(pair);
-      _account = (await deployContract("ArgentAccount", [], { addressSalt: pub }) as _account);
-      const { transaction_hash: initializeTxHash } = await account.initialize(pub, "0");
+      const _ = await deployContract("ArgentAccount", [], { addressSalt: pub });
+      const { transaction_hash: initializeTxHash } = await _.initialize(pub, "0");
       await provider.waitForTransaction(initializeTxHash);
-      */
-  })
+      return new Account(provider, _.address, pair);
+    }
+
+    account = await deployAccount();
+    account2 = await deployAccount();
+
+    contract = await deployContract('contract');
+    ERC20 = await deployContract('ERC20');
+  });
 
   describe('Request Type Transformation', () => {
-    /*
-      it.only('Account', async () => {
-        await expect(account.execute(
+    describe('Account', () => {
+      it('Mint', async () => {
+        const res = await account.execute(
           {
             contractAddress: ERC20.address,
             entryPoint: "mint",
-            calldata: [contract.address, 1],
+            calldata: [account.address, 1],
           },
-          ERC20.abi,
-        )).not.toBeRejected();
+          [ERC20.abi],
+          { maxFee: "0" }, 
+        );
+        const response: AddTransactionResponse = {
+          address: account.address,
+          code: "TRANSACTION_RECEIVED" as TransactionStatus,
+          result: [], // not in AddTransactionResponse
+          transaction_hash: res.transaction_hash,
+        };
+        expect(res).toEqual(response);
       });
-      */
+
+      it('Transfer', async () => {
+        const res = await account.execute(
+          {
+            contractAddress: ERC20.address,
+            entryPoint: "transfer",
+            calldata: [account2.address, 1],
+          },
+          [ERC20.abi],
+          { maxFee: "0" }, 
+        );
+        const response: AddTransactionResponse = {
+          address: account.address,
+          code: "TRANSACTION_RECEIVED" as TransactionStatus,
+          result: [], // not in AddTransactionResponse
+          transaction_hash: res.transaction_hash,
+        };
+        expect(res).toEqual(response);
+      });
+
+      it('Mint bound', async () => {
+        ERC20.connect(account);
+        const res = await ERC20.mint(account.address, 1, { maxFee: "0" });
+        const response: AddTransactionResponse = {
+          address: account.address,
+          code: "TRANSACTION_RECEIVED" as TransactionStatus,
+          result: [], // not in AddTransactionResponse
+          transaction_hash: res.transaction_hash,
+        };
+        expect(res).toEqual(response);
+      });
+
+      it('Transfer bound', async () => {
+        ERC20.connect(account);
+        const res = await ERC20.transfer(account.address, 1, { maxFee: "0" });
+        const response: AddTransactionResponse = {
+          address: account.address,
+          code: "TRANSACTION_RECEIVED" as TransactionStatus,
+          result: [], // not in AddTransactionResponse
+          transaction_hash: res.transaction_hash,
+        };
+        expect(res).toEqual(response);
+      });
+    });
 
     it('Parsing the felt in request in invoke', async () => {
       await expect(ERC20.mint(3, 3)).not.toBeRejected()
