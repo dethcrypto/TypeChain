@@ -26,17 +26,26 @@ export class StarknetTarget extends TypeChainTarget {
 
     const {
       structTypes,
-      constructorArgs,
+      // constructorArgs,
       functions,
       imports,
       impoort
     } = transformer(compiled.abi)
 
-    impoort('starknet/utils/number', 'BigNumberish') //TODO: move somewhere else
     const ContractInterface = impoort('starknet', 'ContractInterface')
-    const contractInterface = `
-      ${structTypes()}
+    // const ContractFactory = impoort('starknet', 'ContractFactory')
+    // const Contract = impoort('starknet', 'Contract')
+    // const contractFactory = `
+    //   export interface ${name}Factory extends ${ContractFactory} {
+    //     async deploy(
+    //       constructorCalldata?: [${constructorArgs()}],
+    //       addressSalt?: BigNumberish
+    //     ): Promise<${Contract}>
+    //   }
+    // `
 
+    const resultWithoutImports = `
+      ${structTypes()}
       export interface ${name} extends ${ContractInterface} {
         ${functions('default').join('\n')}
         functions: {
@@ -51,25 +60,13 @@ export class StarknetTarget extends TypeChainTarget {
         estimateFee: {
           ${functions('estimate').join('\n')}
         }
-      }`
-
-    const ContractFactory = impoort('starknet', 'ContractFactory')
-    const Contract = impoort('starknet', 'Contract')
-    const contractFactory = `
-      export interface ${name}Factory extends ${ContractFactory} {
-        async deploy(
-          constructorCalldata?: [${constructorArgs()}],
-          addressSalt?: BigNumberish
-        ): Promise<${Contract}>
       }
     `
-
     const result = `
       ${imports()}
-      ${contractFactory}
-      ${contractInterface}
+      ${resultWithoutImports}
     `
-
+    
     return {
       contents: result,
       path: join(this.outDirAbs, `${name}.ts`), // @todo fix, should have same behaviour as in other plugins
@@ -195,14 +192,14 @@ function transformer(rawAbi: Abi) {
 
   function mapType(type: AbiEntry['type']): string {
     if (type === 'felt') {
-      return 'BigNumberish'
+      return impoort('starknet/utils/number', 'BigNumberish')
     }
 
     if (type === 'Uint256') {
       const entry = abi.get(type)! // @todo undefined
       if (entry.type === 'struct' && entry.members.length === 2) {
         //TODO: be more precise
-        return 'BigNumberish'
+        return impoort('starknet/utils/number', 'BigNumberish')
       }
     }
 
