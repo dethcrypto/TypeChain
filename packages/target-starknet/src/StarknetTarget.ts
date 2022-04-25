@@ -27,7 +27,7 @@ export class StarknetTarget extends TypeChainTarget {
 
     const { imports, impoort } = importer()
 
-    const ContractInterface = impoort("starknet", "ContractInterface");
+    const ContractInterface = impoort('starknet', 'ContractInterface')
     const contractInterface = `
       export interface ${name} extends ${ContractInterface} {
         ${functions(abiByName, 'default', impoort).join('\n')}
@@ -45,7 +45,7 @@ export class StarknetTarget extends TypeChainTarget {
         }
       }`
 
-    const ContractFactory = impoort("starknet", "ContractFactory");
+    const ContractFactory = impoort('starknet', 'ContractFactory')
     const contractFactory = `
       export interface ${name}Factory extends ${ContractFactory} {
         async deploy(
@@ -69,12 +69,10 @@ export class StarknetTarget extends TypeChainTarget {
 }
 
 function constructorArgs(abi: AbiEntriesByName): string {
-  const constructorAbi: FunctionAbi | undefined = [...(abi.values() as any)]
-    .find((e) => e.type === 'constructor')
+  const constructorAbi: FunctionAbi | undefined = [...(abi.values() as any)].find((e) => e.type === 'constructor')
 
   return constructorAbi ? entriesTypesOnly(abi, constructorAbi.inputs) : ''
 }
-
 
 type AbiEntriesByName = Map<string, FunctionAbi | StructAbi>
 
@@ -85,10 +83,10 @@ function byName(abi: Abi): AbiEntriesByName {
 type DeclarationType = 'default' | 'call' | 'populate' | 'estimate'
 
 function options(returnType: DeclarationType, impoort: Impoort): string {
-  const Overrides = impoort("starknet", "Overrides")
-  const BlockIdentifier = impoort("starknet/provider/utils", "BlockIdentifier")
+  const Overrides = impoort('starknet', 'Overrides')
+  const BlockIdentifier = impoort('starknet/provider/utils', 'BlockIdentifier')
   // TODO: Why estimate takes blockIdentifier?
-  if(returnType === 'populate') {
+  if (returnType === 'populate') {
     return `options?: ${Overrides}`
   }
   // TODO: Why BlockIdentifier is optional here?
@@ -102,7 +100,7 @@ function functions(abi: AbiEntriesByName, returnType: DeclarationType, impoort: 
       const args = entries(abi, e.inputs)
       const opts = options(returnType, impoort)
       const rets = returns(abi, e, returnType, impoort)
-      return `${e.name}(${args}${args !== '' ? ', ': ''}${opts}):${rets}`
+      return `${e.name}(${args}${args !== '' ? ', ' : ''}${opts}):${rets}`
     })
 }
 
@@ -134,7 +132,7 @@ function entriesPairs(abi: AbiEntriesByName, abiEntries: AbiEntry[]) {
       ) =>
         p && `${e!.name}_len` === p.name && e!.type.slice(-1) === '*'
           ? [`${e!.name}`, `${mapType(abi, e!.type.slice(0, -1))}[]`]
-          : [`${e!.name}`, `${mapType(abi, e!.type)}`]
+          : [`${e!.name}`, `${mapType(abi, e!.type)}`],
     )
 }
 
@@ -167,7 +165,7 @@ function mapType(abi: AbiEntriesByName, type: AbiEntry['type']): string {
   }
 
   if (tuple.test(type)) {
-    const types = type.slice(1, -1).replace(space, '', ).split(',')
+    const types = type.slice(1, -1).replace(space, '').split(',')
     return `[${types.map((t) => mapType(abi, t)).join(', ')}]`
   }
 
