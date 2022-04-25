@@ -3,6 +3,7 @@ import { join, resolve } from 'path'
 import { Abi, FunctionAbi, json } from 'starknet'
 import { AbiEntry, StructAbi } from 'starknet/types/lib'
 import { Config, FileDescription, Output, TypeChainTarget } from 'typechain'
+import { types } from 'util'
 
 const DEFAULT_OUT_PATH = './types/starknet-contracts/'
 
@@ -143,6 +144,7 @@ function entries(abi: AbiEntriesByName, abiEntries: AbiEntry[]) {
 }
 
 const tuple = /\(([^,]+)(, ([^,]+))*\)/
+const space = /\s/g
 
 function mapType(abi: AbiEntriesByName, type: AbiEntry['type']): string {
   if (type === 'felt') {
@@ -158,7 +160,7 @@ function mapType(abi: AbiEntriesByName, type: AbiEntry['type']): string {
   }
 
   if (tuple.test(type)) {
-    const types = type.slice(1, -1).replace(' ', '').split(',')
+    const types = type.slice(1, -1).replace(space, '', ).split(',')
     return `[${types.map((t) => mapType(abi, t)).join(', ')}]`
   }
 
