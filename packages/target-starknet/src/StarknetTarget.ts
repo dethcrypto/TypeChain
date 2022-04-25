@@ -6,6 +6,8 @@ import { Config, FileDescription, Output, TypeChainTarget } from 'typechain'
 
 const DEFAULT_OUT_PATH = './types/starknet-contracts/'
 
+type Member = AbiEntry & { offset: number };
+
 export class StarknetTarget extends TypeChainTarget {
   name = 'StarknetTarget'
   private readonly outDirAbs: string
@@ -33,6 +35,8 @@ export class StarknetTarget extends TypeChainTarget {
     requestImport("starknet//utils/number", "BigNumberish");
 
     const contractInterface = `
+      ${generateStructTypes(abiByName)}
+
       export interface ${name} extends ContractInterface {\n
         ${functions(abiByName, 'default', requestImport).join('\n')}\n
         functions: {\n
@@ -142,6 +146,27 @@ function functions(abi: AbiEntriesByName, returnType: ReturnType, requestImport:
     })
 }
 
+function generateEventTypes(abi: AbiEntriesByName): string {
+  const events = [...(abi.values() as any)] // @todo fix any
+    .filter((e) => e.type === 'event');
+  return events.map(e =>
+    `export type ${e.name} = {
+      ${entriesToInterface(abi, e.data)}
+    }`
+  ).join('\n');
+}
+
+function generateStructTypes(abi: AbiEntriesByName): string {
+  const structs = [...(abi.values() as any)] // @todo fix any
+    .filter((e) => e.type === 'struct');
+  const namedStructs = structs.filter((s) => !!s.name);
+  return namedStructs.map(s =>
+    `export type ${s.name} = {
+      ${entriesToInterface(abi, s.members)}
+    }`
+  ).join('\n');
+}
+
 function returns(abi: AbiEntriesByName, e: FunctionAbi, returnType: ReturnType, requestImport: RequestImport): string {
   switch (returnType) {
     case 'default':
@@ -178,6 +203,10 @@ function entries(abi: AbiEntriesByName, abiEntries: AbiEntry[]) {
   return entriesPairs(abi, abiEntries)
     .map(([name, type]) => `${name}: ${type}`)
     .join(', ')
+}
+
+function entriesToInterface(abi: AbiEntriesByName, abiEntries: AbiEntry[]) {
+  return `${entries(abi, abiEntries).split(', ').join(';\n')};\n`;
 }
 
 function entriesTypesOnly(abi: AbiEntriesByName, abiEntries: AbiEntry[]) {
