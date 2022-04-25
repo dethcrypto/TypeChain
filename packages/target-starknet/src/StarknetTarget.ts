@@ -3,7 +3,6 @@ import { join, resolve } from 'path'
 import { Abi, FunctionAbi, json } from 'starknet'
 import { AbiEntry, StructAbi } from 'starknet/types/lib'
 import { Config, FileDescription, Output, TypeChainTarget } from 'typechain'
-import { types } from 'util'
 
 const DEFAULT_OUT_PATH = './types/starknet-contracts/'
 
@@ -26,9 +25,15 @@ export class StarknetTarget extends TypeChainTarget {
 
     const { generateImportStatements, requestImport } = getModuleRequestor()
 
+    requestImport("starknet", "ContractInterface");
+    requestImport("starknet", "ContractFactory");
+    requestImport("starknet", "Overrides");
     requestImport("starknet", "Contract");
+    requestImport("starknet/provider/utils", "BlockIdentifier");
+    requestImport("starknet//utils/number", "BigNumberish");
+
     const contractInterface = `
-      export interface ${name} extends Contract {\n
+      export interface ${name} extends ContractInterface {\n
         ${functions(abiByName, 'default', requestImport).join('\n')}\n
         functions: {\n
           ${functions(abiByName, 'default', requestImport).join('\n')}\n
@@ -44,8 +49,18 @@ export class StarknetTarget extends TypeChainTarget {
         }\n
       }\n`
 
+    const contractFactory = `
+      export interface ${name}Factory extends ContractFactory {
+        async deploy(
+          constructorCalldata?: [${constructorArgs(abiByName)}],
+          addressSalt?: BigNumberish
+        ): Promise<Contract>
+      }
+    `
+
     const result = `
       ${generateImportStatements()}
+      ${contractFactory}
       ${contractInterface}
     `
 
@@ -54,6 +69,13 @@ export class StarknetTarget extends TypeChainTarget {
       path: join(this.outDirAbs, `${name}.ts`), // @todo fix, should have same behaviour as in other plugins
     }
   }
+}
+
+function constructorArgs(abi: AbiEntriesByName): string {
+  const constructorAbi: FunctionAbi | undefined = [...(abi.values() as any)]
+    .find((e) => e.type === 'constructor')
+
+  return constructorAbi ? entriesTypesOnly(abi, constructorAbi.inputs) : ''
 }
 
 type RequestImport = (module: string, symbol: string, runtimeImport?: boolean) => string
@@ -100,13 +122,23 @@ function byName(abi: Abi): AbiEntriesByName {
 
 type ReturnType = 'default' | 'call' | 'populate' | 'estimate'
 
+function options(returnType: ReturnType): string {
+  // TODO: Why estimate takes blockIdentifier?
+  if(returnType === 'populate') {
+    return 'options?: Overrides'
+  }
+  // TODO: Why BlockIdentifier is optional here?
+  return 'options?: { blockIdentifier?: BlockIdentifier; }'
+}
+
 function functions(abi: AbiEntriesByName, returnType: ReturnType, requestImport: RequestImport): string[] {
   return [...(abi.values() as any)] // @todo fix any
     .filter((e) => e.type === 'function') // && e.stateMutability === "view"
     .map((e: FunctionAbi) => {
       const args = entries(abi, e.inputs)
+      const opts = options(returnType)
       const rets = returns(abi, e, returnType, requestImport)
-      return `${e.name}(${args}):${rets}`
+      return `${e.name}(${args}${args !== '' ? ', ': ''}${opts}):${rets}`
     })
 }
 
@@ -125,9 +157,9 @@ function returns(abi: AbiEntriesByName, e: FunctionAbi, returnType: ReturnType, 
   }
 }
 
-function entries(abi: AbiEntriesByName, abiEntries: AbiEntry[]) {
+function entriesPairs(abi: AbiEntriesByName, abiEntries: AbiEntry[]) {
   if (abiEntries.length === 0) {
-    return ''
+    return []
   }
 
   return zip(abiEntries, abiEntries.slice(1), [undefined, ...abiEntries.slice(0, -1)])
@@ -137,9 +169,20 @@ function entries(abi: AbiEntriesByName, abiEntries: AbiEntry[]) {
         [e, _, p], // @todo fix !
       ) =>
         p && `${e!.name}_len` === p.name && e!.type.slice(-1) === '*'
-          ? `${e!.name}: ${mapType(abi, e!.type.slice(0, -1))}[]`
-          : `${e!.name}: ${mapType(abi, e!.type)}`,
+          ? [`${e!.name}`, `${mapType(abi, e!.type.slice(0, -1))}[]`]
+          : [`${e!.name}`, `${mapType(abi, e!.type)}`]
     )
+}
+
+function entries(abi: AbiEntriesByName, abiEntries: AbiEntry[]) {
+  return entriesPairs(abi, abiEntries)
+    .map(([name, type]) => `${name}: ${type}`)
+    .join(', ')
+}
+
+function entriesTypesOnly(abi: AbiEntriesByName, abiEntries: AbiEntry[]) {
+  return entriesPairs(abi, abiEntries)
+    .map(([_, type]) => `${type}`)
     .join(', ')
 }
 
@@ -148,14 +191,14 @@ const space = /\s/g
 
 function mapType(abi: AbiEntriesByName, type: AbiEntry['type']): string {
   if (type === 'felt') {
-    return 'BigInt'
+    return 'BigNumberish'
   }
 
   if (type === 'Uint256') {
     const entry = abi.get(type)! // @todo undefined
     if (entry.type === 'struct' && entry.members.length === 2) {
       //TODO: be more precise
-      return 'BigInt'
+      return 'BigNumberish'
     }
   }
 
