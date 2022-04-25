@@ -4,6 +4,8 @@ import { Abi, FunctionAbi, json } from 'starknet'
 import { AbiEntry, StructAbi } from 'starknet/types/lib'
 import { Config, FileDescription, Output, TypeChainTarget } from 'typechain'
 
+import { importer, Impoort } from './importer'
+
 const DEFAULT_OUT_PATH = './types/starknet-contracts/'
 
 type Member = AbiEntry & { offset: number };
@@ -25,45 +27,42 @@ export class StarknetTarget extends TypeChainTarget {
     const name = file.path.split('/').splice(-1)[0].replace('.json', '')
     const abiByName = byName(compiled.abi)
 
-    const { generateImportStatements, requestImport } = getModuleRequestor()
+    const { imports, impoort } = importer()
 
-    requestImport("starknet", "ContractInterface");
-    requestImport("starknet", "ContractFactory");
-    requestImport("starknet", "Overrides");
-    requestImport("starknet", "Contract");
-    requestImport("starknet/provider/utils", "BlockIdentifier");
-    requestImport("starknet//utils/number", "BigNumberish");
-
+    impoort('starknet/utils/number', 'BigNumberish') //TODO: move somewhere else
+    const ContractInterface = impoort('starknet', 'ContractInterface')
     const contractInterface = `
       ${generateStructTypes(abiByName)}
 
-      export interface ${name} extends ContractInterface {\n
-        ${functions(abiByName, 'default', requestImport).join('\n')}\n
-        functions: {\n
-          ${functions(abiByName, 'default', requestImport).join('\n')}\n
-        }\n
-        callStatic: {\n
-          ${functions(abiByName, 'call', requestImport).join('\n')}\n
-        }\n
-        populateTransaction: {\n
-          ${functions(abiByName, 'populate', requestImport).join('\n')}\n
-        }\n
-        estimateFee: {\n
-          ${functions(abiByName, 'estimate', requestImport).join('\n')}\n
-        }\n
-      }\n`
+      export interface ${name} extends ${ContractInterface} {
+        ${functions(abiByName, 'default', impoort).join('\n')}
+        functions: {
+          ${functions(abiByName, 'default', impoort).join('\n')}
+        }
+        callStatic: {
+          ${functions(abiByName, 'call', impoort).join('\n')}
+        }
+        populateTransaction: {
+          ${functions(abiByName, 'populate', impoort).join('\n')}
+        }
+        estimateFee: {
+          ${functions(abiByName, 'estimate', impoort).join('\n')}
+        }
+      }`
 
+    const ContractFactory = impoort('starknet', 'ContractFactory')
+    const Contract = impoort('starknet', 'Contract')
     const contractFactory = `
-      export interface ${name}Factory extends ContractFactory {
+      export interface ${name}Factory extends ${ContractFactory} {
         async deploy(
           constructorCalldata?: [${constructorArgs(abiByName)}],
           addressSalt?: BigNumberish
-        ): Promise<Contract>
+        ): Promise<${Contract}>
       }
     `
 
     const result = `
-      ${generateImportStatements()}
+      ${imports()}
       ${contractFactory}
       ${contractInterface}
     `
@@ -76,46 +75,9 @@ export class StarknetTarget extends TypeChainTarget {
 }
 
 function constructorArgs(abi: AbiEntriesByName): string {
-  const constructorAbi: FunctionAbi | undefined = [...(abi.values() as any)]
-    .find((e) => e.type === 'constructor')
+  const constructorAbi: FunctionAbi | undefined = [...(abi.values() as any)].find((e) => e.type === 'constructor')
 
   return constructorAbi ? entriesTypesOnly(abi, constructorAbi.inputs) : ''
-}
-
-type RequestImport = (module: string, symbol: string, runtimeImport?: boolean) => string
-// It's not possible to turn off compiler warnings for unused symbols (imports) so we need to do extra work and don't generate any types where they are not needed
-function getModuleRequestor() {
-  const requestedImports: { [moduleName: string]: Set<string> | undefined } = {}
-  const runtimeImports: { [moduleName: string]: true | undefined } = {}
-
-  const requestImport = (module: string, name: string, runtimeImport: boolean = false): string => {
-    if (!requestedImports[module]) {
-      requestedImports[module] = new Set()
-    }
-    requestedImports[module]!.add(name)
-
-    if (runtimeImport) {
-      runtimeImports[module] = true
-    }
-
-    return name
-  }
-
-  const generateImportStatements = (): string => {
-    return Object.entries(requestedImports)
-      .map(([moduleName, _symbols]): string => {
-        const symbols = Array.from(_symbols!)
-        const isRuntimeImport = !!runtimeImports[moduleName]
-
-        return `import ${!isRuntimeImport ? 'type ' : ''}{${symbols.join(', ')}} from "${moduleName}"`
-      })
-      .join('\n')
-  }
-
-  return {
-    requestImport,
-    generateImportStatements,
-  }
 }
 
 type AbiEntriesByName = Map<string, FunctionAbi | StructAbi>
@@ -124,25 +86,27 @@ function byName(abi: Abi): AbiEntriesByName {
   return abi.reduce((r, e) => r.set(e.name, e), new Map<string, FunctionAbi | StructAbi>())
 }
 
-type ReturnType = 'default' | 'call' | 'populate' | 'estimate'
+type DeclarationType = 'default' | 'call' | 'populate' | 'estimate'
 
-function options(returnType: ReturnType): string {
+function options(returnType: DeclarationType, impoort: Impoort): string {
+  const Overrides = impoort('starknet', 'Overrides')
+  const BlockIdentifier = impoort('starknet/provider/utils', 'BlockIdentifier')
   // TODO: Why estimate takes blockIdentifier?
-  if(returnType === 'populate') {
-    return 'options?: Overrides'
+  if (returnType === 'populate') {
+    return `options?: ${Overrides}`
   }
   // TODO: Why BlockIdentifier is optional here?
-  return 'options?: { blockIdentifier?: BlockIdentifier; }'
+  return `options?: { blockIdentifier?: ${BlockIdentifier}; }`
 }
 
-function functions(abi: AbiEntriesByName, returnType: ReturnType, requestImport: RequestImport): string[] {
+function functions(abi: AbiEntriesByName, returnType: DeclarationType, impoort: Impoort): string[] {
   return [...(abi.values() as any)] // @todo fix any
     .filter((e) => e.type === 'function') // && e.stateMutability === "view"
     .map((e: FunctionAbi) => {
       const args = entries(abi, e.inputs)
-      const opts = options(returnType)
-      const rets = returns(abi, e, returnType, requestImport)
-      return `${e.name}(${args}${args !== '' ? ', ': ''}${opts}):${rets}`
+      const opts = options(returnType, impoort)
+      const rets = returns(abi, e, returnType, impoort)
+      return `${e.name}(${args}${args !== '' ? ', ' : ''}${opts}):${rets}`
     })
 }
 
@@ -167,18 +131,22 @@ function generateStructTypes(abi: AbiEntriesByName): string {
   ).join('\n');
 }
 
-function returns(abi: AbiEntriesByName, e: FunctionAbi, returnType: ReturnType, requestImport: RequestImport): string {
+function viewType(abi: AbiEntriesByName, e: FunctionAbi) {
+  return `[${entriesTypesOnly(abi, e.outputs)}] & {${entries(abi, e.outputs)}}`
+}
+
+function returns(abi: AbiEntriesByName, e: FunctionAbi, returnType: DeclarationType, impoort: Impoort): string {
   switch (returnType) {
     case 'default':
       return e.stateMutability === 'view'
-        ? `Promise<{${entries(abi, e.outputs)}}>`
-        : `Promise<${requestImport('starknet', 'AddTransactionResponse')}>`
+        ? `Promise<${viewType(abi, e)}>`
+        : `Promise<${impoort('starknet', 'AddTransactionResponse')}>`
     case 'call':
-      return `Promise<{${entries(abi, e.outputs)}}>`
+      return `Promise<${viewType(abi, e)}>`
     case 'populate':
-      return `${requestImport('starknet', 'Invocation')}`
+      return `${impoort('starknet', 'Invocation')}`
     case 'estimate':
-      return `Promise<${requestImport('starknet', 'EstimateFeeResponse')}>`
+      return `Promise<${impoort('starknet', 'EstimateFeeResponse')}>`
   }
 }
 
@@ -195,7 +163,7 @@ function entriesPairs(abi: AbiEntriesByName, abiEntries: AbiEntry[]) {
       ) =>
         p && `${e!.name}_len` === p.name && e!.type.slice(-1) === '*'
           ? [`${e!.name}`, `${mapType(abi, e!.type.slice(0, -1))}[]`]
-          : [`${e!.name}`, `${mapType(abi, e!.type)}`]
+          : [`${e!.name}`, `${mapType(abi, e!.type)}`],
     )
 }
 
@@ -232,7 +200,7 @@ function mapType(abi: AbiEntriesByName, type: AbiEntry['type']): string {
   }
 
   if (tuple.test(type)) {
-    const types = type.slice(1, -1).replace(space, '', ).split(',')
+    const types = type.slice(1, -1).replace(space, '').split(',')
     return `[${types.map((t) => mapType(abi, t)).join(', ')}]`
   }
 

@@ -1,23 +1,18 @@
 import fs from 'fs'
-import { Contract, Provider, defaultProvider, number, hash, ec } from 'starknet'
+import { Contract, number, Provider } from 'starknet'
 const { toBN } = number
-const { getSelectorFromName } = hash
 import { expect } from 'earljs'
-import { contract as _contract } from '../types/contract'
-import { ERC20 as _ERC20 } from '../types/ERC20'
-import { ArgentAccount as _account } from '../types/ERC20'
 
-describe.skip('DAI', () => {
+import { contract as _contract } from '../types/contract'
+
+describe('Type Transformation', () => {
   let contract: _contract
-  let ERC20: _ERC20
-  let account: Provider
 
   before(async () => {
     const provider = new Provider({ baseUrl: 'http://localhost:5000' })
 
     async function deployContract(name: string, calldata: any[] = [], options: object = {}): Promise<Contract> {
       const compiledContract = JSON.parse(fs.readFileSync(`./example-abis/${name}.json`).toString('ascii'))
-      console.log(`Deploying contract: ${name}`)
       const response = await provider.deployContract({
         contract: compiledContract,
         constructorCalldata: calldata,
@@ -29,38 +24,9 @@ describe.skip('DAI', () => {
     }
 
     contract = (await deployContract('contract')) as _contract
-    ERC20 = (await deployContract('ERC20')) as _ERC20
-    /*
-      const pair = ec.genKeyPair();
-      const pub = ec.getStarkKey(pair);
-      _account = (await deployContract("ArgentAccount", [], { addressSalt: pub }) as _account);
-      const { transaction_hash: initializeTxHash } = await account.initialize(pub, "0");
-      await provider.waitForTransaction(initializeTxHash);
-      */
   })
 
-  describe('Request Type Transformation', () => {
-    /*
-      it.only('Account', async () => {
-        await expect(account.execute(
-          {
-            contractAddress: ERC20.address,
-            entryPoint: "mint",
-            calldata: [contract.address, 1],
-          },
-          ERC20.abi,
-        )).not.toBeRejected();
-      });
-      */
-
-    it('Parsing the felt in request in invoke', async () => {
-      await expect(ERC20.mint(3, 3)).not.toBeRejected()
-    })
-
-    it('Parsing the felt in request in invoke', async () => {
-      await expect(ERC20.mint(3, 3)).not.toBeRejected()
-    })
-
+  describe('Input Types', () => {
     it('Parsing the felt in request', async () => {
       await expect(contract.request_felt(3)).not.toBeRejected()
     })
@@ -96,7 +62,7 @@ describe.skip('DAI', () => {
     })
   })
 
-  describe('Response Type Transformation', () => {
+  describe('Return Types', () => {
     it('Parsing the felt in response', async () => {
       const { res } = await contract.get_felt()
       expect(res).toEqual(toBN(4))
