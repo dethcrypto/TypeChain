@@ -27,6 +27,7 @@ export class StarknetTarget extends TypeChainTarget {
 
     const { imports, impoort } = importer()
 
+    impoort('starknet/utils/number', 'BigNumberish') //TODO: move somewhere else
     const ContractInterface = impoort('starknet', 'ContractInterface')
     const contractInterface = `
       export interface ${name} extends ${ContractInterface} {
@@ -46,12 +47,13 @@ export class StarknetTarget extends TypeChainTarget {
       }`
 
     const ContractFactory = impoort('starknet', 'ContractFactory')
+    const Contract = impoort('starknet', 'Contract')
     const contractFactory = `
       export interface ${name}Factory extends ${ContractFactory} {
         async deploy(
           constructorCalldata?: [${constructorArgs(abiByName)}],
           addressSalt?: BigNumberish
-        ): Promise<Contract>
+        ): Promise<${Contract}>
       }
     `
 
@@ -104,14 +106,18 @@ function functions(abi: AbiEntriesByName, returnType: DeclarationType, impoort: 
     })
 }
 
+function viewType(abi: AbiEntriesByName, e: FunctionAbi) {
+  return `[${entriesTypesOnly(abi, e.outputs)}] & {${entries(abi, e.outputs)}}`
+}
+
 function returns(abi: AbiEntriesByName, e: FunctionAbi, returnType: DeclarationType, impoort: Impoort): string {
   switch (returnType) {
     case 'default':
       return e.stateMutability === 'view'
-        ? `Promise<{${entries(abi, e.outputs)}}>`
+        ? `Promise<${viewType(abi, e)}>`
         : `Promise<${impoort('starknet', 'AddTransactionResponse')}>`
     case 'call':
-      return `Promise<{${entries(abi, e.outputs)}}>`
+      return `Promise<${viewType(abi, e)}>`
     case 'populate':
       return `${impoort('starknet', 'Invocation')}`
     case 'estimate':
