@@ -25,8 +25,9 @@ export class StarknetTarget extends TypeChainTarget {
 
     const { generateImportStatements, requestImport } = getModuleRequestor()
 
+    requestImport("starknet", "Contract");
     const contractInterface = `
-      interface ${name} {\n 
+      export interface ${name} extends Contract {\n
         ${functions(abiByName, 'default', requestImport).join('\n')}\n
         functions: {\n
           ${functions(abiByName, 'default', requestImport).join('\n')}\n

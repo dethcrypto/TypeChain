@@ -3,12 +3,13 @@
 /* eslint-disable */
 
 import type {
+  Contract,
   AddTransactionResponse,
   Invocation,
   EstimateFeeResponse,
 } from "starknet";
 
-interface dai {
+export interface dai extends Contract {
   decimals(): Promise<{ res: BigInt }>;
   name(): Promise<{ res: BigInt }>;
   symbol(): Promise<{ res: BigInt }>;
