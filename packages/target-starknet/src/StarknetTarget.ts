@@ -115,7 +115,7 @@ function generateEventTypes(abi: AbiEntriesByName): string {
     .filter((e) => e.type === 'event');
   return events.map(e =>
     `export type ${e.name} = {
-      ${entriesToInterface(abi, e.data)}
+      ${entriesToInterface(abi, e.data)}\n
     }`
   ).join('\n');
 }
@@ -126,7 +126,7 @@ function generateStructTypes(abi: AbiEntriesByName): string {
   const namedStructs = structs.filter((s) => !!s.name);
   return namedStructs.map(s =>
     `export type ${s.name} = {
-      ${entriesToInterface(abi, s.members)}
+      ${entriesToInterface(abi, s.members)}\n
     }`
   ).join('\n');
 }
@@ -174,7 +174,9 @@ function entries(abi: AbiEntriesByName, abiEntries: AbiEntry[]) {
 }
 
 function entriesToInterface(abi: AbiEntriesByName, abiEntries: AbiEntry[]) {
-  return `${entries(abi, abiEntries).split(', ').join(';\n')};\n`;
+  return entriesPairs(abi, abiEntries)
+    .map(([name, type]) => `${name}: ${type}`)
+    .join(';\n')
 }
 
 function entriesTypesOnly(abi: AbiEntriesByName, abiEntries: AbiEntry[]) {
@@ -207,7 +209,7 @@ function mapType(abi: AbiEntriesByName, type: AbiEntry['type']): string {
   if (abi.has(type)) {
     const entry = abi.get(type)! // @todo undefined
     if (entry.type === 'struct') {
-      return `{${entries(abi, entry.members)}}`
+      return `${entry.name}`
     }
   }
 
