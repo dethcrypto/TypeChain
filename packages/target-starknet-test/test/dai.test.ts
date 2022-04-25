@@ -1,126 +1,159 @@
 import fs from "fs";
-import { Contract, Provider, defaultProvider } from "starknet";
+import { Contract, Provider, defaultProvider, number, hash, ec } from "starknet";
+const { toBN } = number;
+const { getSelectorFromName } = hash;
+import { expect } from "earljs";
 import { contract as _contract } from "../types/contract";
-import { expect } from 'earljs'
+import { ERC20 as _ERC20 } from "../types/ERC20";
+import { ArgentAccount as _account } from "../types/ERC20";
 
 describe('Type Transformation', () => {
-    let contract: Contract;
+    let contract: _contract;
+    let ERC20: _ERC20;
+    let account: Provider;
 
     before(async () => {
-      const compiledAbi = JSON.parse(
-        fs.readFileSync("./example-abis/contract.json").toString("ascii")
-      );
+      const provider = new Provider({ baseUrl: "http://localhost:5000" });
 
-      // const provider = new Provider({ baseUrl: "http://localhost:5000" });
-      console.log("Deploying contract");
-      const response = await defaultProvider.deployContract({
-        contract: compiledAbi,
-      });
-      await defaultProvider.waitForTransaction(response.transaction_hash);
-      const address = response.address || '';
-      console.log('address', address);
-      contract = (new Contract(compiledAbi.abi, address) as _contract);
-      const x = await contract.request_felt(3);
-      console.log(x);
+      async function deployContract(name: string, calldata: any[]=[], options: object={}): Promise<Contract> {
+        const compiledContract = JSON.parse(
+          fs.readFileSync(`./example-abis/${name}.json`).toString("ascii")
+        );
+        console.log(`Deploying contract: ${name}`);
+        const response = await provider.deployContract({
+          contract: compiledContract,
+          constructorCalldata: calldata,
+          ...options
+        });
+        await provider.waitForTransaction(response.transaction_hash);
+        const address = response.address || '';
+        return new Contract(compiledContract.abi, address, provider);
+      }
+
+      contract = (await deployContract("contract") as _contract);
+      ERC20 = (await deployContract("ERC20") as _ERC20);
+      /*
+      const pair = ec.genKeyPair();
+      const pub = ec.getStarkKey(pair);
+      _account = (await deployContract("ArgentAccount", [], { addressSalt: pub }) as _account);
+      const { transaction_hash: initializeTxHash } = await account.initialize(pub, "0");
+      await provider.waitForTransaction(initializeTxHash);
+      */
     });
 
     describe('Request Type Transformation', () => {
-      it('Parsing the felt in request', async () => {
-        //return expect(contract.request_felt(3)).resolves.not.toThrow();
-        const x = await contract.request_felt(3);
-        console.log(x);
-        // expect(await contract.request_felt(3)).toThrow();
+      /*
+      it.only('Account', async () => {
+        await expect(account.execute(
+          {
+            contractAddress: ERC20.address,
+            entryPoint: "mint",
+            calldata: [contract.address, 1],
+          },
+          ERC20.abi,
+        )).not.toBeRejected();
+      });
+      */
+
+      it('Parsing the felt in request in invoke', async () => {
+        await expect(ERC20.mint(3, 3)).not.toBeRejected();
       });
 
-      /*
+      it('Parsing the felt in request in invoke', async () => {
+        await expect(ERC20.mint(3, 3)).not.toBeRejected();
+      });
+
+      it('Parsing the felt in request', async () => {
+        await expect(contract.request_felt(3)).not.toBeRejected();
+      });
+
       it('Parsing the array of felt in request', async () => {
-        return expect(contract.request_array_of_felts([1, 2])).resolves.not.toThrow();
+        await expect(contract.request_array_of_felts([1, 2])).not.toBeRejected();
       });
 
       it('Parsing the struct in request', async () => {
-        return expect(contract.request_struct({ x: 1, y: 2 })).resolves.not.toThrow();
+        await expect(contract.request_struct({ x: 1, y: 2 })).not.toBeRejected();
       });
 
       it('Parsing the array of structs in request', async () => {
-        return expect(contract.request_array_of_structs([{ x: 1, y: 2 }])).resolves.not.toThrow();
+        await expect(contract.request_array_of_structs([{ x: 1, y: 2 }])).not.toBeRejected();
       });
 
       it('Parsing the nested structs in request', async () => {
-        return expect(
+        await expect(
           contract.request_nested_structs({
             p1: { x: 1, y: 2 },
             p2: { x: 3, y: 4 },
             extra: 5,
           })
-        ).resolves.not.toThrow();
+        ).not.toBeRejected();
       });
 
       it('Parsing the tuple in request', async () => {
-        return expect(contract.request_tuple([1, 2])).resolves.not.toThrow();
+        await expect(contract.request_tuple([1, 2])).not.toBeRejected();
       });
 
       it('Parsing the multiple types in request', async () => {
-        return expect(contract.request_mixed_types(2, { x: 1, y: 2 }, [1])).resolves.not.toThrow();
+        await expect(contract.request_mixed_types(2, { x: 1, y: 2 }, [1])).not.toBeRejected();
       });
     });
 
     describe('Response Type Transformation', () => {
       it('Parsing the felt in response', async () => {
         const { res } = await contract.get_felt();
-        expect(res).toStrictEqual(toBN(4));
+        expect(res).toEqual(toBN(4));
       });
 
       it('Parsing the array of felt in response', async () => {
         const result = await contract.get_array_of_felts();
         const [res] = result;
-        expect(res).toStrictEqual([toBN(4), toBN(5)]);
-        expect(res).toStrictEqual(result.res);
+        expect(res).toEqual([toBN(4), toBN(5)]);
+        expect(res).toEqual(result.res);
       });
 
       it('Parsing the array of structs in response', async () => {
         const result = await contract.get_struct();
         const [res] = result;
-        expect(res).toStrictEqual({ x: toBN(1), y: toBN(2) });
-        expect(res).toStrictEqual(result.res);
+        expect(res).toEqual({ x: toBN(1), y: toBN(2) });
+        expect(res).toEqual(result.res);
       });
 
       it('Parsing the array of structs in response', async () => {
         const result = await contract.get_array_of_structs();
         const [res] = result;
-        expect(res).toStrictEqual([{ x: toBN(1), y: toBN(2) }]);
-        expect(res).toStrictEqual(result.res);
+        expect(res).toEqual([{ x: toBN(1), y: toBN(2) }]);
+        expect(res).toEqual(result.res);
       });
 
       it('Parsing the nested structs in response', async () => {
         const result = await contract.get_nested_structs();
         const [res] = result;
-        expect(res).toStrictEqual({
+        expect(res).toEqual({
           p1: { x: toBN(1), y: toBN(2) },
           p2: { x: toBN(3), y: toBN(4) },
           extra: toBN(5),
         });
-        expect(res).toStrictEqual(result.res);
+        expect(res).toEqual(result.res);
       });
 
       it('Parsing the tuple in response', async () => {
         const result = await contract.get_tuple();
         const [res] = result;
-        expect(res).toStrictEqual([toBN(1), toBN(2), toBN(3)]);
-        expect(res).toStrictEqual(result.res);
+        expect(res).toEqual([toBN(1), toBN(2), toBN(3)]);
+        expect(res).toEqual(result.res);
       });
 
       it('Parsing the multiple types in response', async () => {
         const result = await contract.get_mixed_types();
         const [tuple, number, array, point] = result;
-        expect(tuple).toStrictEqual([toBN(1), toBN(2)]);
-        expect(number).toStrictEqual(toBN(3));
-        expect(array).toStrictEqual([toBN(4)]);
-        expect(point).toStrictEqual({ x: toBN(1), y: toBN(2) });
-        expect(tuple).toStrictEqual(result.tuple);
-        expect(number).toStrictEqual(result.number);
-        expect(array).toStrictEqual(result.array);
-        expect(point).toStrictEqual(result.point);
+        expect(tuple).toEqual([toBN(1), toBN(2)]);
+        expect(number).toEqual(toBN(3));
+        expect(array).toEqual([toBN(4)]);
+        expect(point).toEqual({ x: toBN(1), y: toBN(2) });
+        expect(tuple).toEqual(result.tuple);
+        expect(number).toEqual(result.number);
+        expect(array).toEqual(result.array);
+        expect(point).toEqual(result.point);
       });
-      */
     });
   });
