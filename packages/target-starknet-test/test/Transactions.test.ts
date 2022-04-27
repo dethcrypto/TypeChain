@@ -3,7 +3,6 @@ import fs from 'fs'
 import { Account, AccountInterface, Contract, ec, Provider, TransactionStatus } from 'starknet'
 
 import type { ERC20 } from '../types/ERC20'
-import * as console from 'console'
 
 describe('Transactions', () => {
   let erc20: ERC20
