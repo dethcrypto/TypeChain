@@ -318,7 +318,7 @@ export function parseCustomErrorDeclaration(
   registerStruct: (struct: StructType) => void,
   documentation?: DocumentationResult,
 ): CustomErrorDeclaration {
-  debug(`Parsing function declaration "${abiPiece.name}"`)
+  debug(`Parsing custom error declaration "${abiPiece.name}"`)
   return {
     name: abiPiece.name,
     inputs: abiPiece.inputs.map(parseRawAbiParameter.bind(null, registerStruct)),
