@@ -31,6 +31,8 @@ export interface NestedLibraryInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "getValue", data: BytesLike): Result;
 
   events: {};
+
+  errors: {};
 }
 
 export interface NestedLibrary extends BaseContract {

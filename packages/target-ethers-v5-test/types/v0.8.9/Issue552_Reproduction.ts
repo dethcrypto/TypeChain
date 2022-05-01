@@ -78,6 +78,8 @@ export interface Issue552_ReproductionInterface extends utils.Interface {
   ): Result;
 
   events: {};
+
+  errors: {};
 }
 
 export interface Issue552_Reproduction extends BaseContract {

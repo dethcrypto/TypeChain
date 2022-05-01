@@ -21,6 +21,8 @@ export interface BInterface extends utils.Interface {
 
   getEvent(nameOrSignatureOrTopic: "Committed(uint256)"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Committed(address[])"): EventFragment;
+
+  errors: {};
 }
 
 export interface Committed_uint256_EventObject {

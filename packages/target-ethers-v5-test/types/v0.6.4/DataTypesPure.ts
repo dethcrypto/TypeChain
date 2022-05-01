@@ -153,6 +153,8 @@ export interface DataTypesPureInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "pure_uint8", data: BytesLike): Result;
 
   events: {};
+
+  errors: {};
 }
 
 export interface DataTypesPure extends BaseContract {

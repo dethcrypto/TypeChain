@@ -1,4 +1,4 @@
-import { AbiParameter, EventDeclaration, FunctionDeclaration } from '../parser/abiParser'
+import { AbiParameter, CustomErrorDeclaration, EventDeclaration, FunctionDeclaration } from '../parser/abiParser'
 import { ArrayType, TupleType } from '../parser/parseEvmType'
 
 export function getFullSignatureAsSymbolForEvent(event: EventDeclaration): string {
@@ -32,6 +32,6 @@ export function getArgumentForSignature(argument: AbiParameter): string {
   }
 }
 
-export function getSignatureForFn(fn: FunctionDeclaration): string {
+export function getSignatureForFn(fn: FunctionDeclaration | CustomErrorDeclaration): string {
   return `${fn.name}(${fn.inputs.map((i) => getArgumentForSignature(i)).join(',')})`
 }

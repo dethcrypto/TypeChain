@@ -33,6 +33,8 @@ export interface WithdrawableInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "withdraw", data: BytesLike): Result;
 
   events: {};
+
+  errors: {};
 }
 
 export interface Withdrawable extends BaseContract {

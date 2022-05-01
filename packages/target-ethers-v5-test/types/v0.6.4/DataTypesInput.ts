@@ -388,6 +388,8 @@ export interface DataTypesInputInterface extends utils.Interface {
   ): Result;
 
   events: {};
+
+  errors: {};
 }
 
 export interface DataTypesInput extends BaseContract {

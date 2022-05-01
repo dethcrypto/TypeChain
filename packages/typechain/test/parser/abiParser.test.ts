@@ -12,6 +12,7 @@ import {
   isConstant,
   isConstantFn,
   parse,
+  parseCustomErrorDeclaration,
   parseEvent,
   RawAbiDefinition,
   RawEventAbiDefinition,
@@ -368,6 +369,37 @@ describe('parseEvent', () => {
   })
 })
 
+describe('parseError', () => {
+  it('works', () => {
+    const expectedError = {
+      inputs: [
+        {
+          internalType: "uint256",
+          name: "magic",
+          type: "uint256"
+        },
+        {
+          internalType: "address",
+          name: "target",
+          type: "address"
+        },
+      ],
+      "name": "InsufficientBalance",
+      "type": "error"
+    } as RawAbiDefinition
+    const parsedError = parseCustomErrorDeclaration(expectedError, () => {})
+
+    expect(parsedError).toEqual({
+      name: 'InsufficientBalance',
+      inputs: [
+        { name: 'magic', type: { type: 'uinteger', bits: 256, originalType: 'uint256' } },
+        { name: 'target', type: { type: 'address', originalType: 'address' } },
+      ],
+      documentation: undefined
+    })
+  })
+})
+
 describe('parse', () => {
   describe('functions', () => {
     const abiPiece = {
@@ -504,6 +536,7 @@ describe('parse', () => {
         documentation: undefined,
         functions: {},
         structs: {},
+        errors: {},
         name: 'Sc1',
         rawName: 'sc1',
         path: [],

@@ -49,6 +49,8 @@ export interface OverloadsInterface extends utils.Interface {
   ): Result;
 
   events: {};
+
+  errors: {};
 }
 
 export interface Overloads extends BaseContract {

@@ -30,6 +30,8 @@ export type { Payable } from "./v0.6.4/Payable/Payable";
 export { Payable__factory } from "./factories/v0.6.4/Payable/Payable__factory";
 export type { PayableFactory } from "./v0.6.4/Payable/PayableFactory";
 export { PayableFactory__factory } from "./factories/v0.6.4/Payable/PayableFactory__factory";
+export type { CustomError } from "./v0.8.9/CustomError";
+export { CustomError__factory } from "./factories/v0.8.9/CustomError__factory";
 export type { ISimpleToken } from "./v0.8.9/ISimpleToken";
 export { ISimpleToken__factory } from "./factories/v0.8.9/ISimpleToken__factory";
 export type { Issue552_Reproduction } from "./v0.8.9/Issue552_Reproduction";

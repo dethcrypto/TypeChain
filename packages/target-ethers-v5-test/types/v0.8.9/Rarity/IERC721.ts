@@ -123,6 +123,8 @@ export interface IERC721Interface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
+
+  errors: {};
 }
 
 export interface ApprovalEventObject {

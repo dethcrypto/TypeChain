@@ -37,6 +37,8 @@ export interface SimpleTokenInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "transfer", data: BytesLike): Result;
 
   events: {};
+
+  errors: {};
 }
 
 export interface SimpleToken extends BaseContract {

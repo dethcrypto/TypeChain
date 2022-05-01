@@ -61,6 +61,7 @@ export interface Contract {
   constructor: FunctionWithoutOutputDeclaration[]
   functions: Dictionary<FunctionDeclaration[]>
   events: Dictionary<EventDeclaration[]>
+  errors: Dictionary<CustomErrorDeclaration[]>
   structs: Dictionary<StructType[]>
   documentation?:
     | {
@@ -86,6 +87,12 @@ export interface RawAbiDefinition {
   inputs: RawAbiParameter[]
   outputs: RawAbiParameter[]
   type: string
+}
+
+export interface CustomErrorDeclaration {
+  name: string
+  inputs: AbiParameter[]
+  documentation?: FunctionDocumentation | undefined // should omit `return` from FunctionDocumentation?
 }
 
 export interface EventDeclaration {
@@ -150,6 +157,7 @@ export function parse(abi: RawAbiDefinition[], path: string, documentation?: Doc
   let fallback: FunctionWithoutInputDeclaration | undefined
   const functions: FunctionDeclaration[] = []
   const events: EventDeclaration[] = []
+  const errors: CustomErrorDeclaration[] = []
 
   const structs: StructType[] = []
   function registerStruct(newStruct: StructType) {
@@ -196,6 +204,11 @@ export function parse(abi: RawAbiDefinition[], path: string, documentation?: Doc
       return
     }
 
+    if (abiPiece.type === 'error') {
+      errors.push(parseCustomErrorDeclaration(abiPiece, registerStruct, documentation))
+      return
+    }
+
     debug(`Unrecognized abi element: ${abiPiece.type}`)
   })
 
@@ -205,6 +218,7 @@ export function parse(abi: RawAbiDefinition[], path: string, documentation?: Doc
     constructor: constructors,
     functions: groupBy(functions, (f) => f.name),
     events: groupBy(events, (e) => e.name),
+    errors: groupBy(errors, (e) => e.name),
     structs: groupBy(structs, (e) => e.structName && e.structName.toString()),
     documentation: documentation ? omit(documentation, ['methods']) : undefined,
   }
@@ -296,6 +310,19 @@ function parseFallback(
     inputs: [],
     outputs: parseOutputs(registerStruct, abiPiece.outputs),
     stateMutability: findStateMutability(abiPiece),
+  }
+}
+
+export function parseCustomErrorDeclaration(
+  abiPiece: RawAbiDefinition,
+  registerStruct: (struct: StructType) => void,
+  documentation?: DocumentationResult,
+): CustomErrorDeclaration {
+  debug(`Parsing function declaration "${abiPiece.name}"`)
+  return {
+    name: abiPiece.name,
+    inputs: abiPiece.inputs.map(parseRawAbiParameter.bind(null, registerStruct)),
+    documentation: getFunctionDocumentation(abiPiece, documentation),
   }
 }
 

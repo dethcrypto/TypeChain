@@ -36,6 +36,8 @@ export interface PayableFactoryInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "newPayable", data: BytesLike): Result;
 
   events: {};
+
+  errors: {};
 }
 
 export interface PayableFactory extends BaseContract {

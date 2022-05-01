@@ -5,6 +5,7 @@ import {
   Contract,
   createImportsForUsedIdentifiers,
   createImportTypeDeclaration,
+  CustomErrorDeclaration,
   EventDeclaration,
   FunctionDeclaration,
   StructType,
@@ -19,6 +20,11 @@ import {
   generateGetEvent,
   generateInterfaceEventDescription,
 } from './events'
+import {
+  generateInterfaceErrorDescription,
+  generateGetError,
+  generateErrorTypeExports
+} from './errors'
 import {
   codegenFunctions,
   generateDecodeFunctionResultOverload,
@@ -69,9 +75,20 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
     ${values(contract.events)
       .flatMap((v) => processDeclaration(v, alwaysGenerateOverloads, generateGetEvent))
       .join('\n')}
+
+      errors: {
+        ${values(contract.errors)
+          .flatMap((v) => v.map(generateInterfaceErrorDescription))
+          .join('\n')}
+      };
+
+      ${values(contract.errors)
+        .flatMap((v) => processDeclaration(v, alwaysGenerateOverloads, generateGetError))
+        .join('\n')}
   }
 
   ${values(contract.events).map(generateEventTypeExports).join('\n')}
+  ${values(contract.errors).map(generateErrorTypeExports).join('\n')}
 
   export interface ${contract.name} extends BaseContract {
     ${codegenConfig.discriminateTypes ? `contractName: '${contract.name}';\n` : ``}
@@ -137,7 +154,7 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
           'Signer',
           'utils',
         ],
-        'type @ethersproject/abi': ['FunctionFragment', 'Result', 'EventFragment'],
+        'type @ethersproject/abi': ['FunctionFragment', 'Result', 'EventFragment', 'ErrorFragment'],
         'type @ethersproject/providers': ['Listener', 'Provider'],
       },
       source,
@@ -375,7 +392,7 @@ function generateLibraryAddressesInterface(contract: Contract, bytecode: Bytecod
  * @param stringGen - function generating source code based on the declaration
  * @returns generated source code
  */
-function processDeclaration<D extends FunctionDeclaration | EventDeclaration>(
+function processDeclaration<D extends FunctionDeclaration | EventDeclaration | CustomErrorDeclaration>(
   fns: D[],
   forceGenerateOverloads: boolean,
   stringGen: (fn: D, useSignature: boolean) => string,

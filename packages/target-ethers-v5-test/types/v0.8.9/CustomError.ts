@@ -13,43 +13,54 @@ import type {
   Signer,
   utils,
 } from "ethers";
-import type { FunctionFragment, Result } from "@ethersproject/abi";
+import type {
+  FunctionFragment,
+  Result,
+  ErrorFragment,
+} from "@ethersproject/abi";
 import type { Listener, Provider } from "@ethersproject/providers";
 import type {
   TypedEventFilter,
   TypedEvent,
   TypedListener,
   OnEvent,
-} from "../../common";
+} from "../common";
 
-export interface IERC721ReceiverInterface extends utils.Interface {
+export interface CustomErrorInterface extends utils.Interface {
   functions: {
-    "onERC721Received(address,address,uint256,bytes)": FunctionFragment;
+    "transfer(address,uint256)": FunctionFragment;
   };
 
-  getFunction(nameOrSignatureOrTopic: "onERC721Received"): FunctionFragment;
+  getFunction(nameOrSignatureOrTopic: "transfer"): FunctionFragment;
 
   encodeFunctionData(
-    functionFragment: "onERC721Received",
-    values: [string, string, BigNumberish, BytesLike]
+    functionFragment: "transfer",
+    values: [string, BigNumberish]
   ): string;
 
-  decodeFunctionResult(
-    functionFragment: "onERC721Received",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "transfer", data: BytesLike): Result;
 
   events: {};
 
-  errors: {};
+  errors: {
+    "InsufficientBalance(uint256,uint256,uint256)": ErrorFragment;
+  };
+
+  getError(nameOrSignature: "InsufficientBalance"): ErrorFragment;
 }
 
-export interface IERC721Receiver extends BaseContract {
+export interface InsufficientBalanceErrorObject {
+  magic: BigNumber;
+  available: BigNumber;
+  required: BigNumber;
+}
+
+export interface CustomError extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: IERC721ReceiverInterface;
+  interface: CustomErrorInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -71,51 +82,41 @@ export interface IERC721Receiver extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    onERC721Received(
-      operator: string,
-      from: string,
-      tokenId: BigNumberish,
-      data: BytesLike,
+    transfer(
+      to: string,
+      amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
 
-  onERC721Received(
-    operator: string,
-    from: string,
-    tokenId: BigNumberish,
-    data: BytesLike,
+  transfer(
+    to: string,
+    amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    onERC721Received(
-      operator: string,
-      from: string,
-      tokenId: BigNumberish,
-      data: BytesLike,
+    transfer(
+      to: string,
+      amount: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<string>;
+    ): Promise<void>;
   };
 
   filters: {};
 
   estimateGas: {
-    onERC721Received(
-      operator: string,
-      from: string,
-      tokenId: BigNumberish,
-      data: BytesLike,
+    transfer(
+      to: string,
+      amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    onERC721Received(
-      operator: string,
-      from: string,
-      tokenId: BigNumberish,
-      data: BytesLike,
+    transfer(
+      to: string,
+      amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };
