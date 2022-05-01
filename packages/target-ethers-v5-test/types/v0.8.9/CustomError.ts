@@ -43,14 +43,13 @@ export interface CustomErrorInterface extends utils.Interface {
   events: {};
 
   errors: {
-    "InsufficientBalance(uint256,uint256,uint256)": ErrorFragment;
+    "InsufficientBalance(uint256,uint256)": ErrorFragment;
   };
 
   getError(nameOrSignature: "InsufficientBalance"): ErrorFragment;
 }
 
 export interface InsufficientBalanceErrorObject {
-  magic: BigNumber;
   available: BigNumber;
   required: BigNumber;
 }

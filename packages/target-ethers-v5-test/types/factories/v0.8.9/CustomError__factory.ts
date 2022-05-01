@@ -14,11 +14,6 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256",
-        name: "magic",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
         name: "available",
         type: "uint256",
       },

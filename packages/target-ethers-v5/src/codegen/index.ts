@@ -12,6 +12,7 @@ import {
 } from 'typechain'
 
 import { FACTORY_POSTFIX, STRUCT_INPUT_POSTFIX } from '../common'
+import { generateErrorTypeExports, generateGetError, generateInterfaceErrorDescription } from './errors'
 import {
   EVENT_IMPORTS,
   EVENT_METHOD_OVERRIDES,
@@ -20,11 +21,6 @@ import {
   generateGetEvent,
   generateInterfaceEventDescription,
 } from './events'
-import {
-  generateInterfaceErrorDescription,
-  generateGetError,
-  generateErrorTypeExports
-} from './errors'
 import {
   codegenFunctions,
   generateDecodeFunctionResultOverload,

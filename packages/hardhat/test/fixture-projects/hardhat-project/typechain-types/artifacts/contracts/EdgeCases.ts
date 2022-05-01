@@ -15,6 +15,8 @@ export interface EdgeCasesInterface extends utils.Interface {
   functions: {};
 
   events: {};
+
+  errors: {};
 }
 
 export interface EdgeCases extends BaseContract {

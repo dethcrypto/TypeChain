@@ -37,6 +37,8 @@ export interface DemoInterface extends utils.Interface {
   functions: {};
 
   events: {};
+
+  errors: {};
 }
 
 export interface Demo extends BaseContract {

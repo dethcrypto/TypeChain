@@ -15,6 +15,8 @@ export interface TestContractInterface extends utils.Interface {
   functions: {};
 
   events: {};
+
+  errors: {};
 }
 
 export interface TestContract extends BaseContract {

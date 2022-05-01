@@ -26,7 +26,7 @@ export function createNewBlockchain<TContract>(contractName: string) {
   const ctx: Partial<Ctx> = {}
 
   beforeEach(async () => {
-    const ganache = createGanacheServer({ logging: { quiet: false } })
+    const ganache = createGanacheServer({ logging: { quiet: true } })
 
     await ganache.listen(8545)
 

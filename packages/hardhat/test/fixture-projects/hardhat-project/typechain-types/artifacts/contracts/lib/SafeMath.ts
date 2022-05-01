@@ -55,6 +55,8 @@ export interface SafeMathInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "sub", data: BytesLike): Result;
 
   events: {};
+
+  errors: {};
 }
 
 export interface SafeMath extends BaseContract {

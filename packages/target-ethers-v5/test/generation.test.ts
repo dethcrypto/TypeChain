@@ -17,6 +17,7 @@ describe('Ethers generation edge cases', () => {
     rawName: 'TestContract',
     functions: {},
     events: {},
+    errors: {},
     structs: {},
     constructor: [{ name: 'constructor', inputs: [], outputs: [], stateMutability: 'nonpayable' }],
     path: [],
