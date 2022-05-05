@@ -11,13 +11,17 @@
     "typecheck": "tsc --noEmit --incremental false --composite false && tsc --noEmit --incremental false --composite false -p tsconfig.types.json",
     "clean": "rm -rf dist contracts/* && rm -f tsconfig.build.tsbuildinfo && rm -rf build",
     "generate-types": "node ../typechain/dist/cli/cli.js --target=../target-starknet/dist/index.js --out-dir './types/' './example-abis/*.json'",
-    "test": "pnpm generate-types && mocha --config ../../.mocharc.js",
+    "test-out": "pnpm generate-types && ../../node_modules/.bin/mocha --config ../../.mocharc.js",
+    "test": "wait-on tcp:5000 && pnpm generate-types && ../../node_modules/.bin/mocha --config ../../.mocharc.js",
+    "test:ci": "concurrently 'docker rm devnet; docker run --name devnet -p 127.0.0.1:5000:5000 shardlabs/starknet-devnet' 'yarn test; docker stop devnet'",
     "test:fix": "pnpm lint:fix && pnpm format:fix && pnpm test && pnpm typecheck"
   },
   "devDependencies": {
+    "concurrently": "^7.1.0",
     "ganache": "^7.0.3",
     "test-utils": "1.0.0",
-    "typechain": "workspace:^8.0.0"
+    "typechain": "workspace:^8.0.0",
+    "wait-on": "^6.0.1"
   },
   "dependencies": {
     "@types/elliptic": "^6.4.14",
