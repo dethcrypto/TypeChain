@@ -33,19 +33,22 @@
     "test:fix": "pnpm lint:fix && pnpm format:fix && pnpm test && pnpm typecheck"
   },
   "peerDependencies": {
+    "starknet": "^3.7.0",
     "typechain": "workspace:^8.0.0",
-    "typescript": ">=4.3.0",
-    "starknet": "^3.7.0"
+    "typescript": ">=4.3.0"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.139",
+    "starknet": "^3.7.0",
     "test-utils": "1.0.0",
     "typechain": "workspace:^8.0.0",
-    "typescript": ">=4.3.0",
-    "starknet": "^3.7.0"
+    "typescript": "^4.6.3"
   },
   "dependencies": {
+    "bn.js": "^4.11.0",
     "lodash": "^4.17.15",
-    "ts-essentials": "^7.0.1"
+    "ts-essentials": "^7.0.1",
+    "tsc": "^2.0.4",
+    "web3": "^1.7.3"
   }
 }
