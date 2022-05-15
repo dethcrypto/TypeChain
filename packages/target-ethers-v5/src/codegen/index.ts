@@ -39,7 +39,6 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
   ${generateStructTypes(values(contract.structs).map((v) => v[0]))}
 
   export interface ${contract.name}Interface extends utils.Interface {
-    ${codegenConfig.discriminateTypes ? `contractName: '${contract.name}';\n` : ``}
     functions: {
       ${values(contract.functions)
         .flatMap((v) => v.map(generateInterfaceFunctionDescription))
