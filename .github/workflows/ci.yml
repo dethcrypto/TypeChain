@@ -60,8 +60,6 @@ jobs:
 
   test-examples:
     strategy:
-      # When set to true, GitHub cancels all in-progress jobs if any matrix job fails.
-      fail-fast: false
       matrix:
         node: ['14.x']
         os: [ubuntu-latest, windows-latest]
@@ -76,8 +74,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           cache: 'pnpm'
-      - run: pnpm --filter ./packages install --frozen-lockfile
-      - run: pnpm --filter ./examples install --frozen-lockfile
+      - run: pnpm install --frozen-lockfile
       - run: pnpm check-examples
       - run: pnpm no-git-changes # ensure that committed types are up to date
         if: runner.os == 'Linux'
