@@ -416,11 +416,13 @@ importers:
   packages/test-e2e:
     specifiers:
       '@typechain/ethers-v5': workspace:^10.0.0
+      '@types/fs-extra': ^9.0.7
       fs-extra: ^9.1.0
       mocha: ^8.2.0
       typechain: workspace:^8.0.0
     dependencies:
       '@typechain/ethers-v5': link:../target-ethers-v5
+      '@types/fs-extra': 9.0.13
       fs-extra: 9.1.0
       typechain: link:../typechain
     devDependencies:
@@ -893,6 +895,8 @@ packages:
       level-mem: 5.0.1
       lru-cache: 5.1.1
       semaphore-async-await: 1.5.1
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /@ethereumjs/common/2.6.2:
@@ -2819,7 +2823,6 @@ packages:
     resolution: {integrity: sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==}
     dependencies:
       '@types/node': 16.10.3
-    dev: true
 
   /@types/glob/5.0.37:
     resolution: {integrity: sha512-ATA/xrS7CZ3A2WCPVY4eKdNpybq56zqlTirnHhhyOztZM/lPxJzusOBI3BsaXbu6FrUluqzvMlI4sZ6BDYMlMg==}
@@ -3550,6 +3553,7 @@ packages:
       parseurl: 1.3.3
     transitivePeerDependencies:
       - encoding
+      - supports-color
     optional: true
 
   /apollo-server-plugin-base/3.5.1_graphql@15.8.0:
@@ -3589,6 +3593,7 @@ packages:
       graphql: 15.8.0
     transitivePeerDependencies:
       - encoding
+      - supports-color
     optional: true
 
   /app-module-path/2.2.0:
@@ -4469,6 +4474,8 @@ packages:
       qs: 6.9.7
       raw-body: 2.4.3
       type-is: 1.6.18
+    transitivePeerDependencies:
+      - supports-color
 
   /boolbase/1.0.0:
     resolution: {integrity: sha1-aN/1++YMUes3cl6p4+0xDcwed24=}
@@ -5502,6 +5509,11 @@ packages:
 
   /debug/3.2.7:
     resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
     dependencies:
       ms: 2.1.3
 
@@ -6143,6 +6155,8 @@ packages:
     dependencies:
       debug: 2.6.9
       resolve: 1.20.0
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /eslint-module-utils/2.6.1_4jup6myizdznxceodpj5b2ehrm:
@@ -6164,7 +6178,11 @@ packages:
         optional: true
     dependencies:
       '@typescript-eslint/parser': 4.15.1_2vuhkhyp22deo6tuyg5caks2vy
+      debug: 3.2.7
       eslint-import-resolver-node: 0.3.4
+      pkg-dir: 2.0.0
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /eslint-plugin-import/2.23.4_lfmutok63aun36hejstoybqpbm:
@@ -6953,6 +6971,8 @@ packages:
       type-is: 1.6.18
       utils-merge: 1.0.1
       vary: 1.1.2
+    transitivePeerDependencies:
+      - supports-color
 
   /ext/1.6.0:
     resolution: {integrity: sha512-sdBImtzkq2HpkdRLtlLWDa6w4DX22ijZLKx8BMPUuKe1c5lbN6xwQDQCxSfxBQnHZ13ls/FH0MQZx/q/gr6FQg==}
@@ -7138,6 +7158,8 @@ packages:
       parseurl: 1.3.3
       statuses: 1.5.0
       unpipe: 1.0.0
+    transitivePeerDependencies:
+      - supports-color
 
   /find-replace/1.0.3:
     resolution: {integrity: sha1-uI5zZNLZyVlVnziMZmcNYTBEH6A=}
@@ -11057,6 +11079,13 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
+  /pkg-dir/2.0.0:
+    resolution: {integrity: sha1-9tXREJ4Z1j7fQo4L1X4Sd3YVM0s=}
+    engines: {node: '>=4'}
+    dependencies:
+      find-up: 2.1.0
+    dev: true
+
   /pkg-dir/4.2.0:
     resolution: {integrity: sha512-HRDzbaKjC+AOWVXxAU/x54COGeIv9eb+6CkDSQoNTt4XyWoIJvuPsXizxu/Fr23EiekbtZwmh1IcIG/l/a10GQ==}
     engines: {node: '>=8'}
@@ -12233,6 +12262,8 @@ packages:
       on-finished: 2.3.0
       range-parser: 1.2.1
       statuses: 1.5.0
+    transitivePeerDependencies:
+      - supports-color
 
   /sentence-case/2.1.1:
     resolution: {integrity: sha1-H24t2jnBaL+S0T+G1KkYkz9mftQ=}
