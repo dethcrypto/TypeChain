@@ -23,7 +23,7 @@ jobs:
           node-version: '14.x'
           cache: 'pnpm'
 
-      - run: pnpm install --frozen-lockfile
+      - run: pnpm install
 
       - name: Create Release Pull Request or Publish to npm
         uses: changesets/action@master

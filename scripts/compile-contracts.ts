@@ -1,13 +1,16 @@
 /* eslint-disable no-console */
+// note: we use npmx instead of pnpm dlx b/c of: https://github.com/pnpm/pnpm/issues/4740
 import { execSync } from 'child_process'
 import { mkdirSync, readdirSync, renameSync, rmdirSync } from 'fs'
 import { copySync, statSync } from 'fs-extra'
 import { sync as globSync } from 'glob'
 import { posix, resolve } from 'path'
+import { SemVer } from 'semver'
 
 import { bold, brightItalic } from './_common'
 
 function main() {
+  panicOnNpm7()
   const files = findFiles()
 
   removeOutDir(files)
@@ -18,6 +21,22 @@ function main() {
 }
 
 main()
+
+function panicOnNpm7() {
+  const version = new SemVer(execSync('npm -v', { encoding: 'utf8' }).trim())
+  if (version.major > 6) {
+    console.error(
+      '\n' +
+        `We're sorry, but it seems you are using ${bold('NPM ' + version.format())}.\n` +
+        'We need "npx" to fetch multiple versions of "solc".\n' +
+        'NPM versions newer than 6 have the following issue:\n' +
+        brightItalic('https://github.com/npm/cli/issues/3210') +
+        bold('\n\nPlease use Node 14 to contribute to TypeChain.') +
+        `\nYou can use ${brightItalic('nvm')}, ${brightItalic('fnm')} or ${brightItalic('volta')} to do it.\n\n`,
+    )
+    process.exit(1)
+  }
+}
 
 function findFiles() {
   const rootDir = resolve(__dirname, '..')
@@ -63,14 +82,14 @@ function removeOutDir({ outDir }: Files) {
   }
 }
 
-function generateABIs({ rootDir, contracts, outDir }: Files) {
+function generateABIs({ rootDir, contracts }: Files) {
   console.log(bold('Generating ABIs'))
 
   for (const [dirName, filePaths] of contracts.entries()) {
     const semver = dirName.replace(/^v/, '^')
     const contractPaths = filePaths.map((s) => posix.join('contracts', dirName, s)).join(' ')
 
-    console.log(bold(`Compiling ${filePaths.length} contracts with \`pnpm dlx solc@${semver}\``))
+    console.log(bold(`Compiling ${filePaths.length} contracts with \`npx solc@${semver}\``))
 
     const solcjsOptions = [
       '--base-path .',
@@ -80,7 +99,7 @@ function generateABIs({ rootDir, contracts, outDir }: Files) {
       `-o ./contracts/compiled/${dirName}`,
     ]
 
-    execSync(`pnpm --package solc@${semver} dlx solcjs ${solcjsOptions.join(' ')}`, {
+    execSync(`npx solc@${semver} --abi ${contractPaths} --bin -o ./contracts/compiled/${dirName}`, {
       cwd: rootDir,
       stdio: ['ignore', 'ignore', 'inherit'],
     })

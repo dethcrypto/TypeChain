@@ -23,7 +23,7 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: 'pnpm'
 
-      - run: pnpm install --frozen-lockfile
+      - run: pnpm install
 
       - run: pnpm build
       - run: pnpm lint
@@ -48,7 +48,7 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: 'pnpm'
 
-      - run: pnpm install --frozen-lockfile
+      - run: pnpm install
 
       - run: pnpm build
       - run: pnpm test
@@ -74,7 +74,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           cache: 'pnpm'
-      - run: pnpm install --frozen-lockfile
+      - run: pnpm install
       - run: pnpm check-examples
       - run: pnpm no-git-changes # ensure that committed types are up to date
         if: runner.os == 'Linux'
