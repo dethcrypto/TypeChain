@@ -3,7 +3,7 @@ import { Contract, number, Provider } from 'starknet'
 const { toBN } = number
 import { expect } from 'earljs'
 
-import type { contract as _contract } from '../types/contract'
+import type { contract as _contract } from '../types'
 
 describe('Type Transformation', () => {
   let contract: _contract

@@ -1,8 +1,16 @@
-import { zip } from 'lodash'
-import { join, resolve } from 'path'
+import { uniqBy, zip } from 'lodash'
+import { join, relative, resolve } from 'path'
 import { Abi, FunctionAbi, json } from 'starknet'
 import { AbiEntry, StructAbi } from 'starknet/types/lib'
-import { Config, FileDescription, Output, TypeChainTarget } from 'typechain'
+import {
+  Config,
+  FileDescription,
+  normalizeSlashes,
+  Output,
+  parseContractPath,
+  shortenFullJsonFilePath,
+  TypeChainTarget,
+} from 'typechain'
 
 import { importer } from './importer'
 
@@ -10,19 +18,25 @@ const DEFAULT_OUT_PATH = './types/starknet-contracts/'
 
 export class StarknetTarget extends TypeChainTarget {
   name = 'StarknetTarget'
+
+  private readonly allFiles: string[]
   private readonly outDirAbs: string
 
   constructor(config: Config) {
     super(config)
 
-    const { cwd, outDir } = config
+    const { cwd, outDir, allFiles } = config
 
+    this.allFiles = allFiles
+      .map((p) => shortenFullJsonFilePath(p, allFiles))
+      .map((p) => relative(this.cfg.inputDir, p))
+      .map(normalizeSlashes)
     this.outDirAbs = resolve(cwd, outDir || DEFAULT_OUT_PATH)
   }
 
   transformFile(file: FileDescription): Output {
     const compiled = json.parse(file.contents)
-    const name = file.path.split('/').splice(-1)[0].replace('.json', '')
+    const name = parseContractPath(file.path).rawName
 
     const {
       structTypes,
@@ -71,6 +85,15 @@ export class StarknetTarget extends TypeChainTarget {
       contents: result,
       path: join(this.outDirAbs, `${name}.ts`), // @todo fix, should have same behaviour as in other plugins
     }
+  }
+
+  override afterRun(): FileDescription[] {
+    const index = {
+      path: join(this.outDirAbs, 'index.ts'),
+      contents: createIndexContents(this.allFiles),
+    }
+
+    return [index]
   }
 }
 type DeclarationType = 'default' | 'call' | 'populate' | 'estimate'
@@ -228,4 +251,15 @@ function transformer(rawAbi: Abi) {
     imports,
     impoort,
   }
+}
+
+function createIndexContents(paths: string[]) {
+  const contracts: { path: string[]; rawName: string }[] = paths.map(parseContractPath)
+
+  return uniqBy(Object.values(contracts), (c) => c.rawName)
+    .flatMap((c) => {
+      const path = c.path.length === 0 ? c.rawName : `${c.path.join('/')}/${c.rawName}`
+      return [`export type { ${c.rawName} } from './${path}';`]
+    })
+    .join('\n')
 }
