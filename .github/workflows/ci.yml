@@ -75,8 +75,8 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: 'pnpm'
         # first we build core, and then examples. This ensures that build artifacts will be linked properly in the example packages
-      - run: pnpm --filter ./packages install
-      - run: pnpm --filter ./examples install
+      - run: pnpm --filter './packages/**' install
+      - run: pnpm --filter './examples/**' install
 
       - run: pnpm check-examples
       - run: pnpm no-git-changes # ensure that committed types are up to date
