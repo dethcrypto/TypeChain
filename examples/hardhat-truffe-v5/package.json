@@ -36,7 +36,8 @@
     "web3-core-promievent": "^1.2.1",
     "web3-eth-abi": "^1.2.1",
     "web3-utils": "^1.2.1",
-    "bn.js": "^4.11.0"
+    "bn.js": "^4.11.0",
+    "@types/bn.js": "^4.11.6"
   },
   "dependencies": {}
 }
