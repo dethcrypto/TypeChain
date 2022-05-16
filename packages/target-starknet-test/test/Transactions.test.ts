@@ -12,7 +12,9 @@ describe('Transactions', () => {
   before(async () => {
     const provider = new Provider({ baseUrl: 'http://localhost:5000' })
 
-    async function deployContract(name: string, calldata: any[] = [], options: object = {}): Promise<any> {
+    async function deployContract<C extends Contract>(
+      name: string, calldata: any[] = [], options: object = {}
+    ): Promise<C> {
       const compiledContract = JSON.parse(fs.readFileSync(`./example-abis/${name}.json`).toString('ascii'))
       const response = await provider.deployContract({
         contract: compiledContract,
@@ -21,7 +23,7 @@ describe('Transactions', () => {
       })
       await provider.waitForTransaction(response.transaction_hash)
       const address = response.address || ''
-      return new Contract(compiledContract.abi, address, provider)
+      return new Contract(compiledContract.abi, address, provider) as C
     }
 
     async function deployAccount(): Promise<Account> {
@@ -36,7 +38,7 @@ describe('Transactions', () => {
     account = await deployAccount()
     account2 = await deployAccount()
 
-    erc20 = (await deployContract('ERC20')) as any as ERC20
+    erc20 = await deployContract('ERC20')
   })
 
   describe('via execute', () => {

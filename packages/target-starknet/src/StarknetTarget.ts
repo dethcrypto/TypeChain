@@ -46,7 +46,7 @@ export class StarknetTarget extends TypeChainTarget {
       impoort,
     } = transformer(compiled.abi)
 
-    const ContractInterface = impoort('starknet', 'ContractInterface')
+    const ContractInterface = impoort('starknet', 'Contract')
     // const ContractFactory = impoort('starknet', 'ContractFactory')
     // const Contract = impoort('starknet', 'Contract')
     // const contractFactory = `
