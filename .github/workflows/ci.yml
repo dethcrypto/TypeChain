@@ -75,6 +75,8 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: 'pnpm'
       - run: pnpm install
+      - name: Setup SSH debug session
+        uses: mxschmitt/action-tmate@v2
       - run: pnpm check-examples
       - run: pnpm no-git-changes # ensure that committed types are up to date
         if: runner.os == 'Linux'
