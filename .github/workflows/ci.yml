@@ -35,7 +35,10 @@ jobs:
       fail-fast: false
       matrix:
         node: ['14.x']
-        os: [ubuntu-latest, windows-latest]
+        os: [
+          ubuntu-latest
+        # , windows-latest # disabled windows builds due to stability issues
+        ]
     runs-on: ${{ matrix.os }}
 
     steps:
