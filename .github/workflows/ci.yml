@@ -17,13 +17,13 @@ jobs:
       - uses: actions/checkout@v1
       - uses: pnpm/action-setup@v2
         with:
-          version: 6
+          version: 7.1.0
       - uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
           cache: 'pnpm'
 
-      - run: pnpm install --frozen-lockfile
+      - run: pnpm install
 
       - run: pnpm build
       - run: pnpm lint
@@ -35,20 +35,23 @@ jobs:
       fail-fast: false
       matrix:
         node: ['14.x']
-        os: [ubuntu-latest, windows-latest]
+        os: [
+          ubuntu-latest
+        # , windows-latest # disabled windows builds due to stability issues
+        ]
     runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v1
       - uses: pnpm/action-setup@v2
         with:
-          version: 6
+          version: 7.1.0
       - uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
           cache: 'pnpm'
 
-      - run: pnpm install --frozen-lockfile
+      - run: pnpm install
 
       - run: pnpm build
       - run: pnpm test
@@ -60,8 +63,6 @@ jobs:
 
   test-examples:
     strategy:
-      # When set to true, GitHub cancels all in-progress jobs if any matrix job fails.
-      fail-fast: false
       matrix:
         node: ['14.x']
         os: [ubuntu-latest, windows-latest]
@@ -71,13 +72,15 @@ jobs:
       - uses: actions/checkout@v1
       - uses: pnpm/action-setup@v2
         with:
-          version: 6
+          version: 7.1.0
       - uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node }}
           cache: 'pnpm'
-      - run: pnpm --filter ./packages install --frozen-lockfile
-      - run: pnpm --filter ./examples install --frozen-lockfile
+      - run: pnpm install
+        # Second install is needed to link bin files that were created only after build (post install hook to first pnpm install)
+      - run: pnpm install
+
       - run: pnpm check-examples
       - run: pnpm no-git-changes # ensure that committed types are up to date
         if: runner.os == 'Linux'
