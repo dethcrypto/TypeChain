@@ -62,7 +62,7 @@ jobs:
     strategy:
       matrix:
         node: ['14.x']
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -74,9 +74,10 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           cache: 'pnpm'
-      - run: pnpm install
-      - name: Setup SSH debug session
-        uses: mxschmitt/action-tmate@v2
+        # first we build core, and then examples. This ensures that build artifacts will be linked properly in the example packages
+      - run: pnpm --filter ./packages install
+      - run: pnpm --filter ./examples install
+
       - run: pnpm check-examples
       - run: pnpm no-git-changes # ensure that committed types are up to date
         if: runner.os == 'Linux'
