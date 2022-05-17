@@ -221,13 +221,17 @@ function transformer(rawAbi: Abi) {
       return impoort('starknet/utils/number', 'BigNumberish')
     }
 
-    if (type === 'Uint256') {
-      const entry = abi.get(type)! // @todo undefined
-      if (entry.type === 'struct' && entry.members.length === 2) {
-        //TODO: be more precise
-        return impoort('starknet/utils/number', 'BigNumberish')
-      }
-    }
+    // Disabled as this feature is not yet available in starknet.js
+    // if (type === 'Uint256') {
+    //   const entry = abi.get(type)! // @todo undefined
+    //   if (entry.type === 'struct' &&
+    //     entry.members.length === 2 &&
+    //     entry.members[0].name === 'low' && entry.members[0].type === 'felt' &&
+    //     entry.members[1].name === 'high' && entry.members[1].type === 'felt'
+    //   ) {
+    //     return impoort('starknet/utils/number', 'BigNumberish')
+    //   }
+    // }
 
     if (tuple.test(type)) {
       const types = type.slice(1, -1).replace(space, '').split(',')

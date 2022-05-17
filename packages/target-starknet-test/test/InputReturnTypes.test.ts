@@ -12,7 +12,9 @@ describe('Type Transformation', () => {
     const provider = new Provider({ baseUrl: 'http://localhost:5000' })
 
     async function deployContract<C extends Contract>(
-      name: string, calldata: any[] = [], options: object = {}
+      name: string,
+      calldata: any[] = [],
+      options: object = {},
     ): Promise<C> {
       const compiledContract = JSON.parse(fs.readFileSync(`./example-abis/${name}.json`).toString('ascii'))
       const response = await provider.deployContract({

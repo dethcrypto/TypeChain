@@ -25,6 +25,6 @@
   },
   "dependencies": {
     "@types/elliptic": "^6.4.14",
-    "starknet": "^3.7.0"
+    "starknet": "^3.9.0"
   }
 }
