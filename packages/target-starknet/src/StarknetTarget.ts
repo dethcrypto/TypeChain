@@ -14,8 +14,6 @@ import {
 
 import { importer } from './importer'
 
-import { importer } from './importer'
-
 const DEFAULT_OUT_PATH = './types/starknet-contracts/'
 
 export class StarknetTarget extends TypeChainTarget {
