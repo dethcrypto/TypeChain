@@ -26,3 +26,4 @@ packages/hardhat-test/cache
 packages/hardhat-test/artifacts
 examples/*/pnpm-lock.yaml
 pnpm-debug.log
+/packages/target-starknet-test/types/
