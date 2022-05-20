@@ -99,7 +99,11 @@ function generateABIs({ rootDir, contracts }: Files) {
       `-o ./contracts/compiled/${dirName}`,
     ]
 
-    execSync(`npx solc@${semver} --abi ${contractPaths} --bin -o ./contracts/compiled/${dirName}`, {
+    /**
+     * Fix contract v.0.8.9 on win platform
+     */
+    const winPlatform = process.platform === 'win32' ? `--base-path . --include-path ./contracts/${dirName}` : ''
+    execSync(`npx solc@${semver} ${winPlatform} --abi ${contractPaths} --bin -o ./contracts/compiled/${dirName}`, {
       cwd: rootDir,
       stdio: ['ignore', 'ignore', 'inherit'],
     })
