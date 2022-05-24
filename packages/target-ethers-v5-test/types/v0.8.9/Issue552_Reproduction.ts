@@ -128,7 +128,7 @@ export interface Issue552_Reproduction extends BaseContract {
     makeObservation(
       barId: PromiseOrValue<BigNumberish>,
       newVal: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
   };
 
@@ -145,7 +145,7 @@ export interface Issue552_Reproduction extends BaseContract {
   makeObservation(
     barId: PromiseOrValue<BigNumberish>,
     newVal: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: string | Promise<string> }
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   callStatic: {
@@ -182,7 +182,7 @@ export interface Issue552_Reproduction extends BaseContract {
     makeObservation(
       barId: PromiseOrValue<BigNumberish>,
       newVal: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
   };
 
@@ -200,7 +200,7 @@ export interface Issue552_Reproduction extends BaseContract {
     makeObservation(
       barId: PromiseOrValue<BigNumberish>,
       newVal: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
   };
 }

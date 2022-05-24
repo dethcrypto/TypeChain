@@ -78,13 +78,13 @@ export class TestContract__factory extends ContractFactory {
 
   override deploy(
     _amount: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: string | Promise<string> }
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<TestContract> {
     return super.deploy(_amount, overrides || {}) as Promise<TestContract>;
   }
   override getDeployTransaction(
     _amount: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: string | Promise<string> }
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): TransactionRequest {
     return super.getDeployTransaction(_amount, overrides || {});
   }

@@ -129,12 +129,12 @@ export class SafeMath__factory extends ContractFactory {
   }
 
   override deploy(
-    overrides?: Overrides & { from?: string | Promise<string> }
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<SafeMath> {
     return super.deploy(overrides || {}) as Promise<SafeMath>;
   }
   override getDeployTransaction(
-    overrides?: Overrides & { from?: string | Promise<string> }
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): TransactionRequest {
     return super.getDeployTransaction(overrides || {});
   }

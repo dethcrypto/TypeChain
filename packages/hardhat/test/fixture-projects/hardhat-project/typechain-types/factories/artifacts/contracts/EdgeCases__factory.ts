@@ -59,14 +59,14 @@ export class EdgeCases__factory extends ContractFactory {
   override deploy(
     test: PromiseOrValue<BigNumberish>,
     arg1: PromiseOrValue<BytesLike>,
-    overrides?: Overrides & { from?: string | Promise<string> }
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<EdgeCases> {
     return super.deploy(test, arg1, overrides || {}) as Promise<EdgeCases>;
   }
   override getDeployTransaction(
     test: PromiseOrValue<BigNumberish>,
     arg1: PromiseOrValue<BytesLike>,
-    overrides?: Overrides & { from?: string | Promise<string> }
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): TransactionRequest {
     return super.getDeployTransaction(test, arg1, overrides || {});
   }

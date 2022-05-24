@@ -70,14 +70,14 @@ export interface ISimpleToken extends BaseContract {
     transfer(
       from: PromiseOrValue<string>,
       value: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
   };
 
   transfer(
     from: PromiseOrValue<string>,
     value: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: string | Promise<string> }
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   callStatic: {
@@ -94,7 +94,7 @@ export interface ISimpleToken extends BaseContract {
     transfer(
       from: PromiseOrValue<string>,
       value: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
   };
 
@@ -102,7 +102,7 @@ export interface ISimpleToken extends BaseContract {
     transfer(
       from: PromiseOrValue<string>,
       value: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
   };
 }
