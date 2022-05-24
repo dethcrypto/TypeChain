@@ -5,6 +5,7 @@ import { BigNumber, ethers } from 'ethers'
 import type { AssertTrue, IsExact } from 'test-utils'
 import { q18, typedAssert } from 'test-utils'
 
+import type { PromiseOrValue } from '../types/common'
 import type { DataTypesInput } from '../types/v0.6.4/DataTypesInput'
 import { createNewBlockchain } from './common'
 
@@ -18,7 +19,7 @@ type Struct3StructOutput = DataTypesInput.Struct3StructOutput
 describe('DataTypesInput', () => {
   const chain = createNewBlockchain<DataTypesInput>('DataTypesInput')
 
-  it('works', async function () {
+  it('value works', async function () {
     const { contract } = chain
 
     typedAssert(await chain.contract.input_uint8('42'), 42)
@@ -79,6 +80,75 @@ describe('DataTypesInput', () => {
     typedAssert(await chain.contract.input_enum(1), 1)
   })
 
+  it('promise works', async function () {
+    const { contract } = chain
+
+    typedAssert(await chain.contract.input_uint8(getPromise('42')), 42)
+    typedAssert(await chain.contract.input_uint8(getPromise(42)), 42)
+
+    typedAssert(await chain.contract.input_uint256(getPromise(q18(1))), BigNumber.from(q18(1)))
+    typedAssert(await chain.contract.input_uint256(getPromise(1)), BigNumber.from(1))
+
+    typedAssert(await chain.contract.input_int8(getPromise('42')), 42)
+    typedAssert(await chain.contract.input_int8(getPromise(42)), 42)
+
+    typedAssert(await chain.contract.input_int256(getPromise(q18(1))), BigNumber.from(q18(1)))
+    typedAssert(await chain.contract.input_int256(getPromise(1)), BigNumber.from('1'))
+
+    typedAssert(await chain.contract.input_bool(getPromise(true)), true)
+
+    typedAssert(
+      await chain.contract.input_address(getPromise('0x70b144972C5Ef6CB941A5379240B74239c418CD4')),
+      '0x70b144972C5Ef6CB941A5379240B74239c418CD4',
+    )
+    typedAssert(await contract.functions.input_address(getPromise('0x70b144972C5Ef6CB941A5379240B74239c418CD4')), [
+      '0x70b144972C5Ef6CB941A5379240B74239c418CD4',
+    ])
+
+    typedAssert(
+      await chain.contract.input_address(getPromise('0x70b144972C5Ef6CB941A5379240B74239c418CD4')),
+      '0x70b144972C5Ef6CB941A5379240B74239c418CD4',
+    )
+
+    typedAssert(await chain.contract.input_bytes1(getPromise('0xaa')), '0xaa')
+    typedAssert(await chain.contract.input_bytes1(getPromise([0])), '0x00')
+
+    typedAssert(
+      await chain.contract.input_bytes(getPromise(ethers.utils.formatBytes32String('TypeChain'))),
+      '0x54797065436861696e0000000000000000000000000000000000000000000000',
+    )
+
+    typedAssert(await chain.contract.input_string(getPromise('TypeChain')), 'TypeChain')
+
+    typedAssert(await chain.contract.input_stat_array(['1', getPromise('2'), '3']), [1, 2, 3])
+
+    typedAssert(await chain.contract.input_stat_array([1, 2, 3]), [1, 2, 3])
+
+    // TODO: this reverts for some weird reason
+    // typedAssert(await chain.contract.input_tuple('1', '2'), { 0: new BigNumber('1'), 1: new BigNumber('2') })
+    // typedAssert(await chain.contract.input_tuple(1, 2), { 0: '1', 1: '2' })
+
+    expect(
+      await chain.contract.input_struct({ uint256_0: getPromise(BigNumber.from('1')), uint256_1: BigNumber.from('2') }),
+    ).toLooseEqual(expect.a(Array))
+
+    typedAssert(
+      await chain.contract.input_struct({
+        uint256_0: getPromise(BigNumber.from('1')),
+        uint256_1: getPromise(BigNumber.from('2')),
+      }),
+      {
+        0: BigNumber.from('1'),
+        1: BigNumber.from('2'),
+        uint256_0: BigNumber.from('1'),
+        uint256_1: BigNumber.from('2'),
+      } as any,
+    )
+
+    typedAssert(await chain.contract.input_enum(getPromise('1')), 1)
+    typedAssert(await chain.contract.input_enum(getPromise(1)), 1)
+  })
+
   it('generates correct signature for tuples', () => {
     const fragment: FunctionFragment = chain.contract.interface.functions['input_struct((uint256,uint256))']
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
@@ -96,7 +166,9 @@ describe('DataTypesInput', () => {
   it('generates correct input types for array', () => {
     type InputType = Parameters<typeof chain.contract.input_uint_array>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    type _t1 = AssertTrue<IsExact<InputType, [input1: BigNumberish[], overrides?: ethers.CallOverrides | undefined]>>
+    type _t1 = AssertTrue<
+      IsExact<InputType, [input1: PromiseOrValue<BigNumberish>[], overrides?: ethers.CallOverrides | undefined]>
+    >
   })
 
   it('generates correct output types for array', () => {
@@ -111,7 +183,9 @@ describe('DataTypesInput', () => {
 
   it('generates correct types for input structs', () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    type _t1 = AssertTrue<IsExact<Struct1Struct, { uint256_0: BigNumberish; uint256_1: BigNumberish }>>
+    type _t1 = AssertTrue<
+      IsExact<Struct1Struct, { uint256_0: PromiseOrValue<BigNumberish>; uint256_1: PromiseOrValue<BigNumberish> }>
+    >
   })
 
   it('generates correct types for output structs', () => {
@@ -129,7 +203,7 @@ describe('DataTypesInput', () => {
 
   it('generates correct input types for structs with are only used as array in some function input/output', () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    type _t1 = AssertTrue<IsExact<Struct3Struct, { input1: BigNumberish[] }>>
+    type _t1 = AssertTrue<IsExact<Struct3Struct, { input1: PromiseOrValue<BigNumberish>[] }>>
   })
 
   it('generates correct output types for structs with are only used as array in some function input/output', () => {
@@ -147,7 +221,13 @@ describe('DataTypesInput', () => {
   it('generates correct types for input complex structs', () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     type _t1 = AssertTrue<
-      IsExact<Struct2Struct, { input1: BigNumberish; input2: { uint256_0: BigNumberish; uint256_1: BigNumberish } }>
+      IsExact<
+        Struct2Struct,
+        {
+          input1: PromiseOrValue<BigNumberish>
+          input2: { uint256_0: PromiseOrValue<BigNumberish>; uint256_1: PromiseOrValue<BigNumberish> }
+        }
+      >
     >
   })
 
@@ -182,10 +262,10 @@ describe('DataTypesInput', () => {
         ViewStructType,
         [
           input1: [
-            [BigNumberish, BigNumberish, BigNumberish][],
-            [BigNumberish, BigNumberish, BigNumberish][],
-            [BigNumberish, BigNumberish, BigNumberish][],
-            [BigNumberish, BigNumberish, BigNumberish][],
+            [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>][],
+            [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>][],
+            [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>][],
+            [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>][],
           ],
           overrides?: ethers.CallOverrides | undefined,
         ]
@@ -488,7 +568,10 @@ describe('DataTypesInput', () => {
     type _t1 = AssertTrue<
       IsExact<
         ViewFunctionInputType,
-        [info1: { a: BigNumberish; b: BigNumberish }, overrides?: ethers.CallOverrides | undefined]
+        [
+          info1: { a: PromiseOrValue<BigNumberish>; b: PromiseOrValue<BigNumberish> },
+          overrides?: ethers.CallOverrides | undefined,
+        ]
       >
     >
 
@@ -512,3 +595,7 @@ describe('DataTypesInput', () => {
     contract.functions.not_existing(1)
   })
 }).timeout(15_000)
+
+function getPromise<T>(val: T): Promise<T> {
+  return new Promise<T>((res) => res(val))
+}
