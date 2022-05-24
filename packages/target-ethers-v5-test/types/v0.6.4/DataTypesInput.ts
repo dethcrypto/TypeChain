@@ -18,10 +18,14 @@ import type {
   TypedEvent,
   TypedListener,
   OnEvent,
+  PromiseOrValue,
 } from "../common";
 
 export declare namespace StructsLib1 {
-  export type InfoStruct = { a: BigNumberish; b: BigNumberish };
+  export type InfoStruct = {
+    a: PromiseOrValue<BigNumberish>;
+    b: PromiseOrValue<BigNumberish>;
+  };
 
   export type InfoStructOutput = [BigNumber, BigNumber] & {
     a: BigNumber;
@@ -30,15 +34,18 @@ export declare namespace StructsLib1 {
 }
 
 export declare namespace StructsLib2 {
-  export type InfoStruct = { a: string; b: string };
+  export type InfoStruct = {
+    a: PromiseOrValue<string>;
+    b: PromiseOrValue<string>;
+  };
 
   export type InfoStructOutput = [string, string] & { a: string; b: string };
 }
 
 export declare namespace DataTypesInput {
   export type Struct1Struct = {
-    uint256_0: BigNumberish;
-    uint256_1: BigNumberish;
+    uint256_0: PromiseOrValue<BigNumberish>;
+    uint256_1: PromiseOrValue<BigNumberish>;
   };
 
   export type Struct1StructOutput = [BigNumber, BigNumber] & {
@@ -47,7 +54,7 @@ export declare namespace DataTypesInput {
   };
 
   export type Struct2Struct = {
-    input1: BigNumberish;
+    input1: PromiseOrValue<BigNumberish>;
     input2: DataTypesInput.Struct1Struct;
   };
 
@@ -56,7 +63,7 @@ export declare namespace DataTypesInput {
     DataTypesInput.Struct1StructOutput
   ] & { input1: BigNumber; input2: DataTypesInput.Struct1StructOutput };
 
-  export type Struct3Struct = { input1: BigNumberish[] };
+  export type Struct3Struct = { input1: PromiseOrValue<BigNumberish>[] };
 
   export type Struct3StructOutput = [BigNumber[]] & { input1: BigNumber[] };
 }
@@ -127,39 +134,58 @@ export interface DataTypesInputInterface extends utils.Interface {
 
   encodeFunctionData(
     functionFragment: "input_address",
-    values: [string]
+    values: [PromiseOrValue<string>]
   ): string;
-  encodeFunctionData(functionFragment: "input_bool", values: [boolean]): string;
+  encodeFunctionData(
+    functionFragment: "input_bool",
+    values: [PromiseOrValue<boolean>]
+  ): string;
   encodeFunctionData(
     functionFragment: "input_bytes",
-    values: [BytesLike]
+    values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
     functionFragment: "input_bytes1",
-    values: [BytesLike]
+    values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
     functionFragment: "input_enum",
-    values: [BigNumberish]
+    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "input_fixedarray_array_fixedarray",
     values: [
       [
-        [BigNumberish, BigNumberish, BigNumberish][],
-        [BigNumberish, BigNumberish, BigNumberish][],
-        [BigNumberish, BigNumberish, BigNumberish][],
-        [BigNumberish, BigNumberish, BigNumberish][]
+        [
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>
+        ][],
+        [
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>
+        ][],
+        [
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>
+        ][],
+        [
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>
+        ][]
       ]
     ]
   ): string;
   encodeFunctionData(
     functionFragment: "input_int256",
-    values: [BigNumberish]
+    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "input_int8",
-    values: [BigNumberish]
+    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "input_multiple_structs_with_same_name",
@@ -167,11 +193,17 @@ export interface DataTypesInputInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "input_stat_array",
-    values: [[BigNumberish, BigNumberish, BigNumberish]]
+    values: [
+      [
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>
+      ]
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "input_string",
-    values: [string]
+    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "input_struct",
@@ -268,19 +300,19 @@ export interface DataTypesInputInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "input_tuple",
-    values: [BigNumberish, BigNumberish]
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "input_uint256",
-    values: [BigNumberish]
+    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "input_uint8",
-    values: [BigNumberish]
+    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "input_uint_array",
-    values: [BigNumberish[]]
+    values: [PromiseOrValue<BigNumberish>[]]
   ): string;
 
   decodeFunctionResult(
@@ -417,31 +449,53 @@ export interface DataTypesInput extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    input_address(input1: string, overrides?: CallOverrides): Promise<[string]>;
+    input_address(
+      input1: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
 
-    input_bool(input1: boolean, overrides?: CallOverrides): Promise<[boolean]>;
+    input_bool(
+      input1: PromiseOrValue<boolean>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
 
     input_bytes(
-      input1: BytesLike,
+      input1: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<[string]>;
 
     input_bytes1(
-      input1: BytesLike,
+      input1: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<[string]>;
 
     input_enum(
-      input1: BigNumberish,
+      input1: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[number]>;
 
     input_fixedarray_array_fixedarray(
       input1: [
-        [BigNumberish, BigNumberish, BigNumberish][],
-        [BigNumberish, BigNumberish, BigNumberish][],
-        [BigNumberish, BigNumberish, BigNumberish][],
-        [BigNumberish, BigNumberish, BigNumberish][]
+        [
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>
+        ][],
+        [
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>
+        ][],
+        [
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>
+        ][],
+        [
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>
+        ][]
       ],
       overrides?: CallOverrides
     ): Promise<
@@ -456,12 +510,12 @@ export interface DataTypesInput extends BaseContract {
     >;
 
     input_int256(
-      input1: BigNumberish,
+      input1: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
     input_int8(
-      input1: BigNumberish,
+      input1: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[number]>;
 
@@ -473,11 +527,18 @@ export interface DataTypesInput extends BaseContract {
     >;
 
     input_stat_array(
-      input1: [BigNumberish, BigNumberish, BigNumberish],
+      input1: [
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>
+      ],
       overrides?: CallOverrides
     ): Promise<[[number, number, number]]>;
 
-    input_string(input1: string, overrides?: CallOverrides): Promise<[string]>;
+    input_string(
+      input1: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
 
     input_struct(
       input1: DataTypesInput.Struct1Struct,
@@ -695,43 +756,74 @@ export interface DataTypesInput extends BaseContract {
     >;
 
     input_tuple(
-      input1: BigNumberish,
-      input2: BigNumberish,
+      input1: PromiseOrValue<BigNumberish>,
+      input2: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[BigNumber, BigNumber]>;
 
     input_uint256(
-      input1: BigNumberish,
+      input1: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
     input_uint8(
-      input1: BigNumberish,
+      input1: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[number]>;
 
     input_uint_array(
-      input1: BigNumberish[],
+      input1: PromiseOrValue<BigNumberish>[],
       overrides?: CallOverrides
     ): Promise<[BigNumber[]]>;
   };
 
-  input_address(input1: string, overrides?: CallOverrides): Promise<string>;
+  input_address(
+    input1: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<string>;
 
-  input_bool(input1: boolean, overrides?: CallOverrides): Promise<boolean>;
+  input_bool(
+    input1: PromiseOrValue<boolean>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
 
-  input_bytes(input1: BytesLike, overrides?: CallOverrides): Promise<string>;
+  input_bytes(
+    input1: PromiseOrValue<BytesLike>,
+    overrides?: CallOverrides
+  ): Promise<string>;
 
-  input_bytes1(input1: BytesLike, overrides?: CallOverrides): Promise<string>;
+  input_bytes1(
+    input1: PromiseOrValue<BytesLike>,
+    overrides?: CallOverrides
+  ): Promise<string>;
 
-  input_enum(input1: BigNumberish, overrides?: CallOverrides): Promise<number>;
+  input_enum(
+    input1: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<number>;
 
   input_fixedarray_array_fixedarray(
     input1: [
-      [BigNumberish, BigNumberish, BigNumberish][],
-      [BigNumberish, BigNumberish, BigNumberish][],
-      [BigNumberish, BigNumberish, BigNumberish][],
-      [BigNumberish, BigNumberish, BigNumberish][]
+      [
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>
+      ][],
+      [
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>
+      ][],
+      [
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>
+      ][],
+      [
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>
+      ][]
     ],
     overrides?: CallOverrides
   ): Promise<
@@ -744,11 +836,14 @@ export interface DataTypesInput extends BaseContract {
   >;
 
   input_int256(
-    input1: BigNumberish,
+    input1: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  input_int8(input1: BigNumberish, overrides?: CallOverrides): Promise<number>;
+  input_int8(
+    input1: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<number>;
 
   input_multiple_structs_with_same_name(
     info1: StructsLib1.InfoStruct,
@@ -756,11 +851,18 @@ export interface DataTypesInput extends BaseContract {
   ): Promise<StructsLib2.InfoStructOutput>;
 
   input_stat_array(
-    input1: [BigNumberish, BigNumberish, BigNumberish],
+    input1: [
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>
+    ],
     overrides?: CallOverrides
   ): Promise<[number, number, number]>;
 
-  input_string(input1: string, overrides?: CallOverrides): Promise<string>;
+  input_string(
+    input1: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<string>;
 
   input_struct(
     input1: DataTypesInput.Struct1Struct,
@@ -948,43 +1050,74 @@ export interface DataTypesInput extends BaseContract {
   >;
 
   input_tuple(
-    input1: BigNumberish,
-    input2: BigNumberish,
+    input1: PromiseOrValue<BigNumberish>,
+    input2: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<[BigNumber, BigNumber]>;
 
   input_uint256(
-    input1: BigNumberish,
+    input1: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  input_uint8(input1: BigNumberish, overrides?: CallOverrides): Promise<number>;
+  input_uint8(
+    input1: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<number>;
 
   input_uint_array(
-    input1: BigNumberish[],
+    input1: PromiseOrValue<BigNumberish>[],
     overrides?: CallOverrides
   ): Promise<BigNumber[]>;
 
   callStatic: {
-    input_address(input1: string, overrides?: CallOverrides): Promise<string>;
+    input_address(
+      input1: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
-    input_bool(input1: boolean, overrides?: CallOverrides): Promise<boolean>;
+    input_bool(
+      input1: PromiseOrValue<boolean>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
-    input_bytes(input1: BytesLike, overrides?: CallOverrides): Promise<string>;
+    input_bytes(
+      input1: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
-    input_bytes1(input1: BytesLike, overrides?: CallOverrides): Promise<string>;
+    input_bytes1(
+      input1: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
     input_enum(
-      input1: BigNumberish,
+      input1: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<number>;
 
     input_fixedarray_array_fixedarray(
       input1: [
-        [BigNumberish, BigNumberish, BigNumberish][],
-        [BigNumberish, BigNumberish, BigNumberish][],
-        [BigNumberish, BigNumberish, BigNumberish][],
-        [BigNumberish, BigNumberish, BigNumberish][]
+        [
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>
+        ][],
+        [
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>
+        ][],
+        [
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>
+        ][],
+        [
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>
+        ][]
       ],
       overrides?: CallOverrides
     ): Promise<
@@ -997,12 +1130,12 @@ export interface DataTypesInput extends BaseContract {
     >;
 
     input_int256(
-      input1: BigNumberish,
+      input1: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     input_int8(
-      input1: BigNumberish,
+      input1: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<number>;
 
@@ -1012,11 +1145,18 @@ export interface DataTypesInput extends BaseContract {
     ): Promise<StructsLib2.InfoStructOutput>;
 
     input_stat_array(
-      input1: [BigNumberish, BigNumberish, BigNumberish],
+      input1: [
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>
+      ],
       overrides?: CallOverrides
     ): Promise<[number, number, number]>;
 
-    input_string(input1: string, overrides?: CallOverrides): Promise<string>;
+    input_string(
+      input1: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
     input_struct(
       input1: DataTypesInput.Struct1Struct,
@@ -1216,23 +1356,23 @@ export interface DataTypesInput extends BaseContract {
     >;
 
     input_tuple(
-      input1: BigNumberish,
-      input2: BigNumberish,
+      input1: PromiseOrValue<BigNumberish>,
+      input2: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[BigNumber, BigNumber]>;
 
     input_uint256(
-      input1: BigNumberish,
+      input1: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     input_uint8(
-      input1: BigNumberish,
+      input1: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<number>;
 
     input_uint_array(
-      input1: BigNumberish[],
+      input1: PromiseOrValue<BigNumberish>[],
       overrides?: CallOverrides
     ): Promise<BigNumber[]>;
   };
@@ -1241,44 +1381,63 @@ export interface DataTypesInput extends BaseContract {
 
   estimateGas: {
     input_address(
-      input1: string,
+      input1: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    input_bool(input1: boolean, overrides?: CallOverrides): Promise<BigNumber>;
+    input_bool(
+      input1: PromiseOrValue<boolean>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     input_bytes(
-      input1: BytesLike,
+      input1: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     input_bytes1(
-      input1: BytesLike,
+      input1: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     input_enum(
-      input1: BigNumberish,
+      input1: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     input_fixedarray_array_fixedarray(
       input1: [
-        [BigNumberish, BigNumberish, BigNumberish][],
-        [BigNumberish, BigNumberish, BigNumberish][],
-        [BigNumberish, BigNumberish, BigNumberish][],
-        [BigNumberish, BigNumberish, BigNumberish][]
+        [
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>
+        ][],
+        [
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>
+        ][],
+        [
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>
+        ][],
+        [
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>
+        ][]
       ],
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     input_int256(
-      input1: BigNumberish,
+      input1: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     input_int8(
-      input1: BigNumberish,
+      input1: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1288,11 +1447,18 @@ export interface DataTypesInput extends BaseContract {
     ): Promise<BigNumber>;
 
     input_stat_array(
-      input1: [BigNumberish, BigNumberish, BigNumberish],
+      input1: [
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>
+      ],
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    input_string(input1: string, overrides?: CallOverrides): Promise<BigNumber>;
+    input_string(
+      input1: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     input_struct(
       input1: DataTypesInput.Struct1Struct,
@@ -1393,70 +1559,86 @@ export interface DataTypesInput extends BaseContract {
     ): Promise<BigNumber>;
 
     input_tuple(
-      input1: BigNumberish,
-      input2: BigNumberish,
+      input1: PromiseOrValue<BigNumberish>,
+      input2: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     input_uint256(
-      input1: BigNumberish,
+      input1: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     input_uint8(
-      input1: BigNumberish,
+      input1: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     input_uint_array(
-      input1: BigNumberish[],
+      input1: PromiseOrValue<BigNumberish>[],
       overrides?: CallOverrides
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
     input_address(
-      input1: string,
+      input1: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     input_bool(
-      input1: boolean,
+      input1: PromiseOrValue<boolean>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     input_bytes(
-      input1: BytesLike,
+      input1: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     input_bytes1(
-      input1: BytesLike,
+      input1: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     input_enum(
-      input1: BigNumberish,
+      input1: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     input_fixedarray_array_fixedarray(
       input1: [
-        [BigNumberish, BigNumberish, BigNumberish][],
-        [BigNumberish, BigNumberish, BigNumberish][],
-        [BigNumberish, BigNumberish, BigNumberish][],
-        [BigNumberish, BigNumberish, BigNumberish][]
+        [
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>
+        ][],
+        [
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>
+        ][],
+        [
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>
+        ][],
+        [
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>,
+          PromiseOrValue<BigNumberish>
+        ][]
       ],
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     input_int256(
-      input1: BigNumberish,
+      input1: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     input_int8(
-      input1: BigNumberish,
+      input1: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1466,12 +1648,16 @@ export interface DataTypesInput extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     input_stat_array(
-      input1: [BigNumberish, BigNumberish, BigNumberish],
+      input1: [
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>,
+        PromiseOrValue<BigNumberish>
+      ],
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     input_string(
-      input1: string,
+      input1: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1574,23 +1760,23 @@ export interface DataTypesInput extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     input_tuple(
-      input1: BigNumberish,
-      input2: BigNumberish,
+      input1: PromiseOrValue<BigNumberish>,
+      input2: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     input_uint256(
-      input1: BigNumberish,
+      input1: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     input_uint8(
-      input1: BigNumberish,
+      input1: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     input_uint_array(
-      input1: BigNumberish[],
+      input1: PromiseOrValue<BigNumberish>[],
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };

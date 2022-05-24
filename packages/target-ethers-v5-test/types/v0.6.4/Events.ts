@@ -24,10 +24,14 @@ import type {
   TypedEvent,
   TypedListener,
   OnEvent,
+  PromiseOrValue,
 } from "../common";
 
 export declare namespace Events {
-  export type EventDataStruct = { index: BigNumberish; name: string };
+  export type EventDataStruct = {
+    index: PromiseOrValue<BigNumberish>;
+    name: PromiseOrValue<string>;
+  };
 
   export type EventDataStructOutput = [BigNumber, string] & {
     index: BigNumber;
@@ -285,23 +289,32 @@ export interface Events extends BaseContract {
   };
 
   filters: {
-    "AnonEvent1(uint256)"(value1?: BigNumberish | null): AnonEvent1EventFilter;
-    AnonEvent1(value1?: BigNumberish | null): AnonEvent1EventFilter;
+    "AnonEvent1(uint256)"(
+      value1?: PromiseOrValue<BigNumberish> | null
+    ): AnonEvent1EventFilter;
+    AnonEvent1(
+      value1?: PromiseOrValue<BigNumberish> | null
+    ): AnonEvent1EventFilter;
 
     "Event1(uint256,uint256)"(
-      value1?: BigNumberish | null,
+      value1?: PromiseOrValue<BigNumberish> | null,
       value2?: null
     ): Event1EventFilter;
-    Event1(value1?: BigNumberish | null, value2?: null): Event1EventFilter;
+    Event1(
+      value1?: PromiseOrValue<BigNumberish> | null,
+      value2?: null
+    ): Event1EventFilter;
 
     "Event2(uint256)"(arg0?: null): Event2EventFilter;
     Event2(arg0?: null): Event2EventFilter;
 
     "Event3(bool,uint256)"(
-      value1?: boolean | null,
+      value1?: PromiseOrValue<boolean> | null,
       value2?: null
     ): Event3_bool_uint256_EventFilter;
-    "Event3(uint256)"(value1?: BigNumberish | null): Event3_uint256_EventFilter;
+    "Event3(uint256)"(
+      value1?: PromiseOrValue<BigNumberish> | null
+    ): Event3_uint256_EventFilter;
 
     "Event4(tuple)"(data?: null): Event4EventFilter;
     Event4(data?: null): Event4EventFilter;

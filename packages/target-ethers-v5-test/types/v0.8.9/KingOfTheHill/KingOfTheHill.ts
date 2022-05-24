@@ -25,10 +25,14 @@ import type {
   TypedEvent,
   TypedListener,
   OnEvent,
+  PromiseOrValue,
 } from "../../common";
 
 export declare namespace KingOfTheHill {
-  export type BidStruct = { bidder: string; value: BigNumberish };
+  export type BidStruct = {
+    bidder: PromiseOrValue<string>;
+    value: PromiseOrValue<BigNumberish>;
+  };
 
   export type BidStructOutput = [string, BigNumber] & {
     bidder: string;

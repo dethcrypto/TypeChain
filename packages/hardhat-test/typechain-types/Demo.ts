@@ -15,17 +15,24 @@ import type {
   TypedEvent,
   TypedListener,
   OnEvent,
+  PromiseOrValue,
 } from "./common";
 
 export declare namespace Demo {
-  export type Struct1Struct = { a: BigNumberish; b: BigNumberish };
+  export type Struct1Struct = {
+    a: PromiseOrValue<BigNumberish>;
+    b: PromiseOrValue<BigNumberish>;
+  };
 
   export type Struct1StructOutput = [BigNumber, BigNumber] & {
     a: BigNumber;
     b: BigNumber;
   };
 
-  export type Struct2Struct = { a: BigNumberish; b: BigNumberish };
+  export type Struct2Struct = {
+    a: PromiseOrValue<BigNumberish>;
+    b: PromiseOrValue<BigNumberish>;
+  };
 
   export type Struct2StructOutput = [BigNumber, BigNumber] & {
     a: BigNumber;

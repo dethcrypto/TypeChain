@@ -15,9 +15,13 @@ import type {
   TypedEvent,
   TypedListener,
   OnEvent,
+  PromiseOrValue,
 } from "./common";
 
-export type Vector2Struct = { x: BigNumberish; y: BigNumberish };
+export type Vector2Struct = {
+  x: PromiseOrValue<BigNumberish>;
+  y: PromiseOrValue<BigNumberish>;
+};
 
 export type Vector2StructOutput = [BigNumber, BigNumber] & {
   x: BigNumber;
