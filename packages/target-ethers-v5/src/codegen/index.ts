@@ -143,7 +143,7 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
       source,
     ) +
     '\n' +
-    createImportTypeDeclaration(EVENT_IMPORTS, commonPath)
+    createImportTypeDeclaration([...EVENT_IMPORTS, 'PromiseOrValue'], commonPath)
 
   return imports + source
 }
@@ -203,22 +203,29 @@ export function codegenContractFactory(
   ${generateLibraryAddressesInterface(contract, bytecode)}
   `
 
-  const imports = createImportsForUsedIdentifiers(
-    {
-      ethers: [
-        'Signer',
-        'utils',
-        'Contract',
-        'ContractFactory',
-        'PayableOverrides',
-        'BytesLike',
-        'BigNumberish',
-        'Overrides',
-      ],
-      'type @ethersproject/providers': ['Provider', 'TransactionRequest'],
-    },
-    source,
-  )
+  const commonPath = contract.path.length
+    ? `${new Array(contract.path.length + 1).fill('..').join('/')}/common`
+    : './common'
+
+  const imports =
+    createImportsForUsedIdentifiers(
+      {
+        ethers: [
+          'Signer',
+          'utils',
+          'Contract',
+          'ContractFactory',
+          'PayableOverrides',
+          'BytesLike',
+          'BigNumberish',
+          'Overrides',
+        ],
+        'type @ethersproject/providers': ['Provider', 'TransactionRequest'],
+      },
+      source,
+    ) +
+    '\n' +
+    createImportTypeDeclaration(['PromiseOrValue'], commonPath)
 
   return imports + source
 }
