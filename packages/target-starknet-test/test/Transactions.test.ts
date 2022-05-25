@@ -10,7 +10,7 @@ describe('Transactions', () => {
   let account2: AccountInterface
 
   before(async () => {
-    const provider = new Provider({ baseUrl: 'http://localhost:5000' })
+    const provider = new Provider({ baseUrl: 'http://localhost:5050' })
 
     async function deployContract<C extends Contract>(
       name: string,
