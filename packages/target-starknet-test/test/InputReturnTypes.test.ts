@@ -3,7 +3,7 @@ import { Contract, number, Provider } from 'starknet'
 const { toBN } = number
 import { expect } from 'earljs'
 
-import type { contract as _contract } from '../types/contract'
+import type { contract as _contract } from '../types'
 
 describe('Type Transformation', () => {
   let contract: _contract
@@ -11,7 +11,11 @@ describe('Type Transformation', () => {
   before(async () => {
     const provider = new Provider({ baseUrl: 'http://localhost:5000' })
 
-    async function deployContract(name: string, calldata: any[] = [], options: object = {}): Promise<Contract> {
+    async function deployContract<C extends Contract>(
+      name: string,
+      calldata: any[] = [],
+      options: object = {},
+    ): Promise<C> {
       const compiledContract = JSON.parse(fs.readFileSync(`./example-abis/${name}.json`).toString('ascii'))
       const response = await provider.deployContract({
         contract: compiledContract,
@@ -20,10 +24,10 @@ describe('Type Transformation', () => {
       })
       await provider.waitForTransaction(response.transaction_hash)
       const address = response.address || ''
-      return new Contract(compiledContract.abi, address, provider)
+      return new Contract(compiledContract.abi, address, provider) as C
     }
 
-    contract = (await deployContract('contract')) as any as _contract
+    contract = await deployContract('contract')
   })
 
   describe('Input Types', () => {

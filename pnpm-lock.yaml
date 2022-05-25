@@ -318,7 +318,7 @@ importers:
       '@types/lodash': ^4.14.139
       bn.js: ^4.11.0
       lodash: ^4.17.15
-      starknet: ^3.7.0
+      starknet: ^3.9.0
       test-utils: 1.0.0
       ts-essentials: ^7.0.1
       tsc: ^2.0.4
@@ -343,7 +343,7 @@ importers:
       '@types/elliptic': ^6.4.14
       concurrently: ^7.1.0
       ganache: ^7.0.3
-      starknet: ^3.7.0
+      starknet: ^3.9.0
       test-utils: 1.0.0
       typechain: workspace:^8.0.0
       wait-on: ^6.0.1
@@ -3860,7 +3860,7 @@ packages:
     dev: false
 
   /array-flatten/1.1.1:
-    resolution: {integrity: sha1-ml9pkFGx5wczKPKgCJaLZOopVdI=}
+    resolution: {integrity: sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==}
 
   /array-includes/3.1.3:
     resolution: {integrity: sha512-gcem1KlBU7c9rB+Rq8/3PPKsK2kjqeEBa3bD5kkQo4nYlOHQCJqIJFqBXDEfwaRuYTT4E+FxA9xez7Gf/e3Q7A==}
@@ -4809,7 +4809,7 @@ packages:
     dev: true
 
   /brorand/1.1.0:
-    resolution: {integrity: sha1-EsJe/kCkXjwyPrhnWgoM5XsiNx8=}
+    resolution: {integrity: sha512-cKV8tMCEpQs4hK/ik71d6LrPOnpkpGBR0wzxqr68g2m/LB2GxVYQroAjMJZRVM1Y4BCjCKc3vAamxSzOY2RP+w==}
 
   /browser-headers/0.4.1:
     resolution: {integrity: sha512-CA9hsySZVo9371qEHjHZtYxV2cFtVj5Wj/ZHi8ooEsrtm4vOnl9Y9HmyYWk9q+05d7K3rdoAE0j3MVEFVvtQtg==}
@@ -4914,7 +4914,7 @@ packages:
     optional: true
 
   /buffer-to-arraybuffer/0.0.5:
-    resolution: {integrity: sha1-YGSkD6dutDxyOrqe+PbhIW0QURo=}
+    resolution: {integrity: sha512-3dthu5CYiVB1DEJp61FtApNnNndTckcqe4pFcLdvHtrpG+kcyekCJKg4MRiDcFW7A6AODnXB9U4dwQiCW5kzJQ==}
 
   /buffer-xor/1.0.3:
     resolution: {integrity: sha1-JuYe0UIvtw3ULm42cp7VHYVf6Nk=}
