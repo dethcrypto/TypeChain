@@ -1,0 +1,53 @@
+{
+  "name": "@typechain/starknet",
+  "description": "🔌 TypeChain target for Starknet",
+  "keywords": [
+    "ethers",
+    "ethersjs",
+    "ethereum",
+    "TypeChain",
+    "TypeScript"
+  ],
+  "version": "0.2.0",
+  "license": "MIT",
+  "repository": "https://github.com/ethereum-ts/Typechain",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**",
+    "static/**",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "start": "ts-node -T ./src/index.ts",
+    "build": "tsc --build ./tsconfig.build.json --verbose",
+    "format": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --check \"./**/*.ts\" README.md",
+    "format:fix": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --write \"./**/*.ts\" README.md",
+    "lint": "eslint --ext .ts src",
+    "lint:fix": "pnpm lint --fix",
+    "typecheck": "tsc --noEmit --incremental false --composite false",
+    "clean": "rm -rf dist && rm -f tsconfig.build.tsbuildinfo",
+    "test": "true",
+    "test:fix": "pnpm lint:fix && pnpm format:fix && pnpm test && pnpm typecheck"
+  },
+  "peerDependencies": {
+    "starknet": "^3.9.0",
+    "typechain": "workspace:^8.0.0",
+    "typescript": ">=4.3.0"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.139",
+    "starknet": "^3.9.0",
+    "test-utils": "1.0.0",
+    "typechain": "workspace:^8.0.0",
+    "typescript": "^4.6.3"
+  },
+  "dependencies": {
+    "bn.js": "^4.11.0",
+    "lodash": "^4.17.15",
+    "ts-essentials": "^7.0.1",
+    "web3": "^1.7.3"
+  }
+}
