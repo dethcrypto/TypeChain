@@ -26,7 +26,7 @@ jobs:
       - run: pnpm install
 
       - name: Create Release Pull Request or Publish to npm
-        uses: changesets/action@master
+        uses: changesets/action@v1
         with:
           version: pnpm changeset version && pnpm install
           publish: pnpm release
