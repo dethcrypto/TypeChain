@@ -1,5 +1,18 @@
 # @typechain/hardhat
 
+## 6.1.0
+
+### Minor Changes
+
+- 63691c4: - Expose `TypechainUserConfig` type.
+  - Removed `contractName` from interface output see #692 for details.
+
+### Patch Changes
+
+- Updated dependencies [63691c4]
+  - typechain@8.1.0
+  - @typechain/ethers-v5@10.0.1
+
 ## 6.0.0
 
 ### Major Changes
