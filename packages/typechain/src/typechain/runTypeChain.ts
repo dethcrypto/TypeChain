@@ -13,7 +13,7 @@ interface Result {
   filesGenerated: number
 }
 
-const DEFAULT_FLAGS: CodegenConfig = {
+export const DEFAULT_FLAGS: CodegenConfig = {
   alwaysGenerateOverloads: false,
   discriminateTypes: false,
   tsNocheck: false,
