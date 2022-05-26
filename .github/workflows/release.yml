@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     branches:
-      - master
+      - kk/changeset-fix
 
 jobs:
   release:
