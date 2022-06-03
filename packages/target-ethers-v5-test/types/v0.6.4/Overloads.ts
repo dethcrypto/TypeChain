@@ -18,6 +18,7 @@ import type {
   TypedEvent,
   TypedListener,
   OnEvent,
+  PromiseOrValue,
 } from "../common";
 
 export interface OverloadsInterface extends utils.Interface {
@@ -32,11 +33,11 @@ export interface OverloadsInterface extends utils.Interface {
 
   encodeFunctionData(
     functionFragment: "overload1(int256)",
-    values: [BigNumberish]
+    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "overload1(uint256,uint256)",
-    values: [BigNumberish, BigNumberish]
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
   ): string;
 
   decodeFunctionResult(
@@ -79,37 +80,37 @@ export interface Overloads extends BaseContract {
 
   functions: {
     "overload1(int256)"(
-      input1: BigNumberish,
+      input1: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
     "overload1(uint256,uint256)"(
-      input1: BigNumberish,
-      input2: BigNumberish,
+      input1: PromiseOrValue<BigNumberish>,
+      input2: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
   };
 
   "overload1(int256)"(
-    input1: BigNumberish,
+    input1: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
   "overload1(uint256,uint256)"(
-    input1: BigNumberish,
-    input2: BigNumberish,
+    input1: PromiseOrValue<BigNumberish>,
+    input2: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
   callStatic: {
     "overload1(int256)"(
-      input1: BigNumberish,
+      input1: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     "overload1(uint256,uint256)"(
-      input1: BigNumberish,
-      input2: BigNumberish,
+      input1: PromiseOrValue<BigNumberish>,
+      input2: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
   };
@@ -118,26 +119,26 @@ export interface Overloads extends BaseContract {
 
   estimateGas: {
     "overload1(int256)"(
-      input1: BigNumberish,
+      input1: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     "overload1(uint256,uint256)"(
-      input1: BigNumberish,
-      input2: BigNumberish,
+      input1: PromiseOrValue<BigNumberish>,
+      input2: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
     "overload1(int256)"(
-      input1: BigNumberish,
+      input1: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     "overload1(uint256,uint256)"(
-      input1: BigNumberish,
-      input2: BigNumberish,
+      input1: PromiseOrValue<BigNumberish>,
+      input2: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };

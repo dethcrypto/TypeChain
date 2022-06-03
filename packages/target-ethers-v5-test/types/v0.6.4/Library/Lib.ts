@@ -18,6 +18,7 @@ import type {
   TypedEvent,
   TypedListener,
   OnEvent,
+  PromiseOrValue,
 } from "../../common";
 
 export interface LibInterface extends utils.Interface {
@@ -27,7 +28,10 @@ export interface LibInterface extends utils.Interface {
 
   getFunction(nameOrSignatureOrTopic: "other"): FunctionFragment;
 
-  encodeFunctionData(functionFragment: "other", values: [BigNumberish]): string;
+  encodeFunctionData(
+    functionFragment: "other",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
 
   decodeFunctionResult(functionFragment: "other", data: BytesLike): Result;
 
@@ -61,24 +65,36 @@ export interface Lib extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    other(b: BigNumberish, overrides?: CallOverrides): Promise<[number]>;
+    other(
+      b: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[number]>;
   };
 
-  other(b: BigNumberish, overrides?: CallOverrides): Promise<number>;
+  other(
+    b: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<number>;
 
   callStatic: {
-    other(b: BigNumberish, overrides?: CallOverrides): Promise<number>;
+    other(
+      b: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<number>;
   };
 
   filters: {};
 
   estimateGas: {
-    other(b: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+    other(
+      b: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
     other(
-      b: BigNumberish,
+      b: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };

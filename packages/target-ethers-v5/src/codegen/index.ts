@@ -142,7 +142,7 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
       source,
     ) +
     '\n' +
-    createImportTypeDeclaration(EVENT_IMPORTS, commonPath)
+    createImportTypeDeclaration([...EVENT_IMPORTS, 'PromiseOrValue'], commonPath)
 
   return imports + source
 }
@@ -157,8 +157,8 @@ export function codegenContractFactory(
     (contract.constructor[0] ? generateInputTypes(contract.constructor[0].inputs, { useStructs: true }) : '') +
     `overrides?: ${
       contract.constructor[0]?.stateMutability === 'payable'
-        ? 'PayableOverrides & { from?: string | Promise<string> }'
-        : 'Overrides & { from?: string | Promise<string> }'
+        ? 'PayableOverrides & { from?: PromiseOrValue<string> }'
+        : 'Overrides & { from?: PromiseOrValue<string> }'
     }`
   const constructorArgNamesWithoutOverrides = contract.constructor[0]
     ? generateParamNames(contract.constructor[0].inputs)
@@ -202,22 +202,27 @@ export function codegenContractFactory(
   ${generateLibraryAddressesInterface(contract, bytecode)}
   `
 
-  const imports = createImportsForUsedIdentifiers(
-    {
-      ethers: [
-        'Signer',
-        'utils',
-        'Contract',
-        'ContractFactory',
-        'PayableOverrides',
-        'BytesLike',
-        'BigNumberish',
-        'Overrides',
-      ],
-      'type @ethersproject/providers': ['Provider', 'TransactionRequest'],
-    },
-    source,
-  )
+  const commonPath = `${new Array(contract.path.length + 1).fill('..').join('/')}/common`
+
+  const imports =
+    createImportsForUsedIdentifiers(
+      {
+        ethers: [
+          'Signer',
+          'utils',
+          'Contract',
+          'ContractFactory',
+          'PayableOverrides',
+          'BytesLike',
+          'BigNumberish',
+          'Overrides',
+        ],
+        'type @ethersproject/providers': ['Provider', 'TransactionRequest'],
+      },
+      source,
+    ) +
+    '\n' +
+    createImportTypeDeclaration(['PromiseOrValue'], commonPath)
 
   return imports + source
 }

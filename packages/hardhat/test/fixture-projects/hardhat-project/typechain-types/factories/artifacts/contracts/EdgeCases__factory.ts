@@ -11,6 +11,7 @@ import {
   Overrides,
 } from "ethers";
 import type { Provider, TransactionRequest } from "@ethersproject/providers";
+import type { PromiseOrValue } from "../../../common";
 import type {
   EdgeCases,
   EdgeCasesInterface,
@@ -56,16 +57,16 @@ export class EdgeCases__factory extends ContractFactory {
   }
 
   override deploy(
-    test: BigNumberish,
-    arg1: BytesLike,
-    overrides?: Overrides & { from?: string | Promise<string> }
+    test: PromiseOrValue<BigNumberish>,
+    arg1: PromiseOrValue<BytesLike>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<EdgeCases> {
     return super.deploy(test, arg1, overrides || {}) as Promise<EdgeCases>;
   }
   override getDeployTransaction(
-    test: BigNumberish,
-    arg1: BytesLike,
-    overrides?: Overrides & { from?: string | Promise<string> }
+    test: PromiseOrValue<BigNumberish>,
+    arg1: PromiseOrValue<BytesLike>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): TransactionRequest {
     return super.getDeployTransaction(test, arg1, overrides || {});
   }

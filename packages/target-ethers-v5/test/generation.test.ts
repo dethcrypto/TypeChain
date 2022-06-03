@@ -91,8 +91,8 @@ describe(generateEventFilters.name, () => {
     const contract = parse(abi, 'Rarity')
     const [actual] = Object.values(contract.events).map(generateEventFilters)
 
-    expect(actual).toEqual(expect.stringMatching('owner?: string'))
-    expect(actual).toEqual(expect.stringMatching('approved?: string'))
-    expect(actual).toEqual(expect.stringMatching('tokenId?: BigNumberish'))
+    expect(actual).toEqual(expect.stringMatching('owner?: PromiseOrValue<string>'))
+    expect(actual).toEqual(expect.stringMatching('approved?: PromiseOrValue<string>'))
+    expect(actual).toEqual(expect.stringMatching('tokenId?: PromiseOrValue<BigNumberish>'))
   })
 })

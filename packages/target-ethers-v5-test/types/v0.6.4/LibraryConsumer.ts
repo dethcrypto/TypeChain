@@ -18,6 +18,7 @@ import type {
   TypedEvent,
   TypedListener,
   OnEvent,
+  PromiseOrValue,
 } from "../common";
 
 export interface LibraryConsumerInterface extends utils.Interface {
@@ -29,7 +30,7 @@ export interface LibraryConsumerInterface extends utils.Interface {
 
   encodeFunctionData(
     functionFragment: "someOther",
-    values: [BigNumberish]
+    values: [PromiseOrValue<BigNumberish>]
   ): string;
 
   decodeFunctionResult(functionFragment: "someOther", data: BytesLike): Result;
@@ -64,24 +65,36 @@ export interface LibraryConsumer extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    someOther(b: BigNumberish, overrides?: CallOverrides): Promise<[number]>;
+    someOther(
+      b: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[number]>;
   };
 
-  someOther(b: BigNumberish, overrides?: CallOverrides): Promise<number>;
+  someOther(
+    b: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<number>;
 
   callStatic: {
-    someOther(b: BigNumberish, overrides?: CallOverrides): Promise<number>;
+    someOther(
+      b: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<number>;
   };
 
   filters: {};
 
   estimateGas: {
-    someOther(b: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+    someOther(
+      b: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
     someOther(
-      b: BigNumberish,
+      b: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };

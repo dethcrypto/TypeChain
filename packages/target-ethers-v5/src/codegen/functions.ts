@@ -46,8 +46,8 @@ function generateFunction(options: GenerateFunctionOptions, fn: FunctionDeclarat
     !options.isStaticCall && !isConstant(fn) && !isConstantFn(fn)
       ? `overrides?: ${
           isPayable(fn)
-            ? 'PayableOverrides & { from?: string | Promise<string> }'
-            : 'Overrides & { from?: string | Promise<string> }'
+            ? 'PayableOverrides & { from?: PromiseOrValue<string> }'
+            : 'Overrides & { from?: PromiseOrValue<string> }'
         }`
       : 'overrides?: CallOverrides'
   }): ${

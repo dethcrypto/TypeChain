@@ -10,20 +10,20 @@ import type {
   TypedListener,
   OnEvent,
   PromiseOrValue,
-} from "../../common";
+} from "../common";
 
-export interface TestContract1Interface extends utils.Interface {
+export interface HelloInterface extends utils.Interface {
   functions: {};
 
   events: {};
 }
 
-export interface TestContract1 extends BaseContract {
+export interface Hello extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: TestContract1Interface;
+  interface: HelloInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
