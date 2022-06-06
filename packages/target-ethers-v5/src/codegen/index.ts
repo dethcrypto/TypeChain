@@ -240,6 +240,23 @@ export function codegenAbstractContractFactory(contract: Contract, abi: any): st
   `
 }
 
+// Earlier versions of the vyper compiler included the 'gas' estimates as a member
+// in the vyper-generated abi object.
+// This breaks the typechain auto-generation code, since gas is a number and not stringified.
+// Further, even if it were stringified, the gas estimates are generally incorrect.
+// So the 'gas' member is manually removed from the abi in the generated typechain.
+function stringifyAbi(abi: any): string {
+  if (typeof abi === 'object') {
+    const abiNoGas = abi.map((element: any) => {
+      const { gas: _, ...withoutGas } = element
+      return withoutGas
+    })
+    return JSON.stringify(abiNoGas, null, 2)
+  }
+
+  return JSON.stringify(abi, null, 2)
+}
+
 function codegenCommonContractFactory(contract: Contract, abi: any): { header: string; body: string } {
   const imports: Set<string> = new Set([contract.name, contract.name + 'Interface'])
 
@@ -257,7 +274,7 @@ function codegenCommonContractFactory(contract: Contract, abi: any): { header: s
   const header = `
   import type { ${[...imports.values()].join(', ')} } from "${contractTypesImportPath}";
 
-  const _abi = ${JSON.stringify(abi, null, 2)};
+  const _abi = ${stringifyAbi(abi)};
   `.trim()
 
   const body = `

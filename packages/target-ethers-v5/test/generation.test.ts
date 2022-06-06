@@ -37,6 +37,35 @@ describe('Ethers generation edge cases', () => {
     expect(source).toEqual(expect.stringMatching(/export class TestContract__factory extends ContractFactory \{/))
     expect(source).toEqual(expect.stringMatching(/static linkBytecode\(/))
   })
+
+  it('should exclude gas field from ABI', () => {
+    const abi = [
+      {
+        stateMutability: 'view',
+        type: 'function',
+        name: 'foo',
+        inputs: [
+          {
+            name: 'bar',
+            type: 'address',
+          },
+        ],
+        outputs: [
+          {
+            name: '',
+            type: 'uint256',
+          },
+        ],
+        gas: 3135,
+      },
+    ]
+
+    const source = codegenContractFactory(DEFAULT_FLAGS, emptyContract, abi, {
+      bytecode: '{{BYTECODE}}',
+    })
+
+    expect(source).not.toEqual(expect.stringMatching(/"gas":/))
+  })
 })
 
 describe(generateEventFilters.name, () => {
