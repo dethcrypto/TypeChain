@@ -18,7 +18,7 @@ extendConfig((config) => {
 
 task(TASK_COMPILE)
   .addFlag('noTypechain', 'Skip Typechain compilation')
-  .setAction(async ({ noTypechain }: { global: boolean; noTypechain: boolean }, {config}, runSuper) => {
+  .setAction(async ({ noTypechain }: { global: boolean; noTypechain: boolean }, { config }, runSuper) => {
     // just save task arguments for later b/c there is no easier way to access them in subtask
     taskArgsStore.noTypechain = noTypechain!! || config.typechain.dontOverrideCompile
 
