@@ -140,8 +140,7 @@ describe('dontOverrideCompile', function () {
     await this.hre.run('clean')
   })
 
-  this.afterEach(async function () {
-    await this.hre.run('clean')
+  this.afterEach(() => {
     process.cwd = originalCwd
   })
 
