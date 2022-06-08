@@ -16,7 +16,7 @@ extendConfig((config) => {
   config.typechain = getDefaultTypechainConfig(config)
 })
 
-task(TASK_COMPILE, 'Compiles the entire project, building all artifacts')
+task(TASK_COMPILE)
   .addFlag('noTypechain', 'Skip Typechain compilation')
   .setAction(async ({ noTypechain }: { global: boolean; noTypechain: boolean }, _, runSuper) => {
     // just save task arguments for later b/c there is no easier way to access them in subtask
