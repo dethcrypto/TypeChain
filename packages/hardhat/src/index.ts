@@ -107,7 +107,7 @@ task(
   'Clears the cache and deletes all artifacts',
   async ({ global }: { global: boolean }, { config }, runSuper) => {
     if (global) {
-      return
+      return runSuper()
     }
 
     if (await fsExtra.pathExists(config.typechain.outDir)) {
