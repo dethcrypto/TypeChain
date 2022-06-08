@@ -5,6 +5,7 @@ export interface TypechainConfig {
   discriminateTypes: boolean
   tsNocheck: boolean
   externalArtifacts?: string[]
+  dontOverrideCompile: boolean
 }
 
 export interface TypechainUserConfig extends Partial<TypechainConfig> {}
