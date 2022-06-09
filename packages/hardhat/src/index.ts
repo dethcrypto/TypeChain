@@ -16,11 +16,11 @@ extendConfig((config) => {
   config.typechain = getDefaultTypechainConfig(config)
 })
 
-task(TASK_COMPILE, 'Compiles the entire project, building all artifacts')
+task(TASK_COMPILE)
   .addFlag('noTypechain', 'Skip Typechain compilation')
-  .setAction(async ({ noTypechain }: { global: boolean; noTypechain: boolean }, _, runSuper) => {
+  .setAction(async ({ noTypechain }: { global: boolean; noTypechain: boolean }, { config }, runSuper) => {
     // just save task arguments for later b/c there is no easier way to access them in subtask
-    taskArgsStore.noTypechain = noTypechain!!
+    taskArgsStore.noTypechain = noTypechain!! || config.typechain.dontOverrideCompile
 
     await runSuper()
   })
@@ -37,9 +37,7 @@ subtask(TASK_TYPECHAIN_GENERATE_TYPES)
   .addParam('compileSolOutput', 'Solidity compilation output', {}, types.any)
   .setAction(async ({ compileSolOutput }, { config, artifacts }) => {
     const artifactFQNs: string[] = getFQNamesFromCompilationOutput(compileSolOutput)
-    const artifactPaths = uniq(
-      artifactFQNs.map((fqn) => (artifacts as any)._getArtifactPathFromFullyQualifiedName(fqn)),
-    )
+    const artifactPaths = uniq(artifactFQNs.map((fqn) => artifacts.formArtifactPathFromFullyQualifiedName(fqn)))
 
     if (taskArgsStore.noTypechain) {
       return compileSolOutput
@@ -107,7 +105,7 @@ task(
   'Clears the cache and deletes all artifacts',
   async ({ global }: { global: boolean }, { config }, runSuper) => {
     if (global) {
-      return
+      return runSuper()
     }
 
     if (await fsExtra.pathExists(config.typechain.outDir)) {

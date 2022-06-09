@@ -131,6 +131,30 @@ describe('Typechain x Hardhat', function () {
   })
 })
 
+describe('dontOverrideCompile', function () {
+  useEnvironment('no-override-project')
+  let originalCwd: typeof process.cwd
+
+  beforeEach(async function () {
+    originalCwd = process.cwd
+    await this.hre.run('clean')
+  })
+
+  this.afterEach(() => {
+    process.cwd = originalCwd
+  })
+
+  it('should desible typechain for the compile task', async function () {
+    const exists = existsSync(this.hre.config.typechain.outDir)
+    expect(exists).toEqual(false)
+
+    await this.hre.run('compile')
+
+    const existsAfter = existsSync(this.hre.config.typechain.outDir)
+    expect(existsAfter).toEqual(false)
+  })
+})
+
 const contractDir = join(__dirname, 'fixture-projects/hardhat-project/contracts')
 const fixtureFilesDir = join(__dirname, 'fixture-files')
 const TestContract2OriginPath = join(fixtureFilesDir, 'TestContract2.sol')

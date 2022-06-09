@@ -27,7 +27,7 @@
     "@ethersproject/providers": "5.4.0",
     "@ethersproject/contracts": "5.4.0",
     "@ethersproject/abi": "5.4.0",
-    "hardhat": "^2.0.10",
+    "hardhat": "^2.9.9",
     "ts-node": "^10.7.0",
     "typechain": "workspace:^8.0.0",
     "typescript": "^4.6"
