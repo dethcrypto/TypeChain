@@ -1,5 +1,12 @@
 # typechain
 
+## 8.1.0
+
+### Minor Changes
+
+- 63691c4: - Expose `TypechainUserConfig` type.
+  - Removed `contractName` from interface output see #692 for details.
+
 ## 8.0.0
 
 ### Major Changes
