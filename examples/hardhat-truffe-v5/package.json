@@ -24,7 +24,7 @@
     "chai-as-promised": "^7.1.1",
     "chai-bn": "^0.2.1",
     "dotenv": "^8.2.0",
-    "hardhat": "^2.0.10",
+    "hardhat": "^2.9.9",
     "ts-generator": "0.0.8",
     "ts-node": "^10.7.0",
     "typechain": "workspace:^8.0.0",
