@@ -1,5 +1,16 @@
 # @typechain/ethers-v5
 
+## 10.1.0
+
+### Minor Changes
+
+- 015abb2: Added support for inputs wrapped in promise for ethers-v5 target.
+
+### Patch Changes
+
+- Updated dependencies [63691c4]
+  - typechain@8.1.0
+
 ## 10.0.0
 
 ### Major Changes
