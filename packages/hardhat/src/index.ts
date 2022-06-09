@@ -37,9 +37,7 @@ subtask(TASK_TYPECHAIN_GENERATE_TYPES)
   .addParam('compileSolOutput', 'Solidity compilation output', {}, types.any)
   .setAction(async ({ compileSolOutput }, { config, artifacts }) => {
     const artifactFQNs: string[] = getFQNamesFromCompilationOutput(compileSolOutput)
-    const artifactPaths = uniq(
-      artifactFQNs.map((fqn) => (artifacts as any)._getArtifactPathFromFullyQualifiedName(fqn)),
-    )
+    const artifactPaths = uniq(artifactFQNs.map((fqn) => artifacts.formArtifactPathFromFullyQualifiedName(fqn)))
 
     if (taskArgsStore.noTypechain) {
       return compileSolOutput
