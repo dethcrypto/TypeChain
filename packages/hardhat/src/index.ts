@@ -18,7 +18,7 @@ extendConfig((config) => {
 
 task(TASK_COMPILE)
   .addFlag('noTypechain', 'Skip Typechain compilation')
-  .setAction(async ({ noTypechain }: { global: boolean; noTypechain: boolean }, { config }, runSuper) => {
+  .setAction(async ({ noTypechain }: { noTypechain: boolean }, { config }, runSuper) => {
     // just save task arguments for later b/c there is no easier way to access them in subtask
     taskArgsStore.noTypechain = noTypechain!! || config.typechain.dontOverrideCompile
 
@@ -28,14 +28,15 @@ task(TASK_COMPILE)
 subtask(TASK_COMPILE_SOLIDITY_COMPILE_JOBS, 'Compiles the entire project, building all artifacts').setAction(
   async (taskArgs, { run }, runSuper) => {
     const compileSolOutput = await runSuper(taskArgs)
-    await run(TASK_TYPECHAIN_GENERATE_TYPES, { compileSolOutput })
+    await run(TASK_TYPECHAIN_GENERATE_TYPES, { compileSolOutput, quiet: taskArgs.quiet })
     return compileSolOutput
   },
 )
 
 subtask(TASK_TYPECHAIN_GENERATE_TYPES)
   .addParam('compileSolOutput', 'Solidity compilation output', {}, types.any)
-  .setAction(async ({ compileSolOutput }, { config, artifacts }) => {
+  .addFlag('quiet', 'Makes the process less verbose')
+  .setAction(async ({ compileSolOutput, quiet }, { config, artifacts }) => {
     const artifactFQNs: string[] = getFQNamesFromCompilationOutput(compileSolOutput)
     const artifactPaths = uniq(artifactFQNs.map((fqn) => artifacts.formArtifactPathFromFullyQualifiedName(fqn)))
 
@@ -46,18 +47,23 @@ subtask(TASK_TYPECHAIN_GENERATE_TYPES)
     // RUN TYPECHAIN TASK
     const typechainCfg = config.typechain
     if (artifactPaths.length === 0 && !taskArgsStore.fullRebuild && !typechainCfg.externalArtifacts) {
-      // eslint-disable-next-line no-console
-      console.log('No need to generate any newer typings.')
+      if (!quiet) {
+        // eslint-disable-next-line no-console
+        console.log('No need to generate any newer typings.')
+      }
+
       return compileSolOutput
     }
 
     // incremental generation is only supported in 'ethers-v5'
     // @todo: probably targets should specify somehow if then support incremental generation this won't work with custom targets
     const needsFullRebuild = taskArgsStore.fullRebuild || typechainCfg.target !== 'ethers-v5'
-    // eslint-disable-next-line no-console
-    console.log(
-      `Generating typings for: ${artifactPaths.length} artifacts in dir: ${typechainCfg.outDir} for target: ${typechainCfg.target}`,
-    )
+    if (!quiet) {
+      // eslint-disable-next-line no-console
+      console.log(
+        `Generating typings for: ${artifactPaths.length} artifacts in dir: ${typechainCfg.outDir} for target: ${typechainCfg.target}`,
+      )
+    }
     const cwd = config.paths.root
 
     const allFiles = glob(cwd, [`${config.paths.artifacts}/!(build-info)/**/+([a-zA-Z0-9_]).json`])
@@ -82,16 +88,23 @@ subtask(TASK_TYPECHAIN_GENERATE_TYPES)
       ...typechainOptions,
       filesToProcess: needsFullRebuild ? allFiles : glob(cwd, artifactPaths), // only process changed files if not doing full rebuild
     })
-    // eslint-disable-next-line no-console
-    console.log(`Successfully generated ${result.filesGenerated} typings!`)
+
+    if (!quiet) {
+      // eslint-disable-next-line no-console
+      console.log(`Successfully generated ${result.filesGenerated} typings!`)
+    }
+
     // if this is not full rebuilding, always re-generate types for external artifacts
     if (!needsFullRebuild && typechainCfg.externalArtifacts) {
       const result = await runTypeChain({
         ...typechainOptions,
         filesToProcess: glob(cwd, typechainCfg.externalArtifacts!, false), // only process files with external artifacts
       })
-      // eslint-disable-next-line no-console
-      console.log(`Successfully generated ${result.filesGenerated} typings for external artifacts!`)
+
+      if (!quiet) {
+        // eslint-disable-next-line no-console
+        console.log(`Successfully generated ${result.filesGenerated} typings for external artifacts!`)
+      }
     }
   })
 
