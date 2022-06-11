@@ -2,4 +2,4 @@
 '@typechain/hardhat': patch
 ---
 
-Respect the --quiet flag
+Respect the `--quiet` flag
