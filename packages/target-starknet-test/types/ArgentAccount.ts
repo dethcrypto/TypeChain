@@ -10,6 +10,7 @@ import type {
   EstimateFeeResponse,
 } from "starknet";
 import type { BigNumberish } from "starknet/utils/number";
+import type BN from "bn.js";
 import type { BlockIdentifier } from "starknet/provider/utils";
 
 export type CallArray = {
@@ -18,6 +19,13 @@ export type CallArray = {
   data_offset: BigNumberish;
   data_len: BigNumberish;
 };
+export type CallArrayOutput = {
+  to: BN;
+  selector: BN;
+  data_offset: BN;
+  data_len: BN;
+};
+
 export interface ArgentAccount extends Contract {
   initialize(
     signer: BigNumberish,
@@ -65,30 +73,25 @@ export interface ArgentAccount extends Contract {
   supportsInterface(
     interfaceId: BigNumberish,
     options?: { blockIdentifier?: BlockIdentifier }
-  ): Promise<[BigNumberish] & { success: BigNumberish }>;
+  ): Promise<[BN] & { success: BN }>;
   get_nonce(options?: {
     blockIdentifier?: BlockIdentifier;
-  }): Promise<[BigNumberish] & { nonce: BigNumberish }>;
+  }): Promise<[BN] & { nonce: BN }>;
   get_signer(options?: {
     blockIdentifier?: BlockIdentifier;
-  }): Promise<[BigNumberish] & { signer: BigNumberish }>;
+  }): Promise<[BN] & { signer: BN }>;
   get_guardian(options?: {
     blockIdentifier?: BlockIdentifier;
-  }): Promise<[BigNumberish] & { guardian: BigNumberish }>;
+  }): Promise<[BN] & { guardian: BN }>;
   get_guardian_backup(options?: {
     blockIdentifier?: BlockIdentifier;
-  }): Promise<[BigNumberish] & { guardian_backup: BigNumberish }>;
+  }): Promise<[BN] & { guardian_backup: BN }>;
   get_escape(options?: {
     blockIdentifier?: BlockIdentifier;
-  }): Promise<
-    [BigNumberish, BigNumberish] & {
-      active_at: BigNumberish;
-      type: BigNumberish;
-    }
-  >;
+  }): Promise<[BN, BN] & { active_at: BN; type: BN }>;
   get_version(options?: {
     blockIdentifier?: BlockIdentifier;
-  }): Promise<[BigNumberish] & { version: BigNumberish }>;
+  }): Promise<[BN] & { version: BN }>;
   functions: {
     initialize(
       signer: BigNumberish,
@@ -138,30 +141,25 @@ export interface ArgentAccount extends Contract {
     supportsInterface(
       interfaceId: BigNumberish,
       options?: { blockIdentifier?: BlockIdentifier }
-    ): Promise<[BigNumberish] & { success: BigNumberish }>;
+    ): Promise<[BN] & { success: BN }>;
     get_nonce(options?: {
       blockIdentifier?: BlockIdentifier;
-    }): Promise<[BigNumberish] & { nonce: BigNumberish }>;
+    }): Promise<[BN] & { nonce: BN }>;
     get_signer(options?: {
       blockIdentifier?: BlockIdentifier;
-    }): Promise<[BigNumberish] & { signer: BigNumberish }>;
+    }): Promise<[BN] & { signer: BN }>;
     get_guardian(options?: {
       blockIdentifier?: BlockIdentifier;
-    }): Promise<[BigNumberish] & { guardian: BigNumberish }>;
+    }): Promise<[BN] & { guardian: BN }>;
     get_guardian_backup(options?: {
       blockIdentifier?: BlockIdentifier;
-    }): Promise<[BigNumberish] & { guardian_backup: BigNumberish }>;
+    }): Promise<[BN] & { guardian_backup: BN }>;
     get_escape(options?: {
       blockIdentifier?: BlockIdentifier;
-    }): Promise<
-      [BigNumberish, BigNumberish] & {
-        active_at: BigNumberish;
-        type: BigNumberish;
-      }
-    >;
+    }): Promise<[BN, BN] & { active_at: BN; type: BN }>;
     get_version(options?: {
       blockIdentifier?: BlockIdentifier;
-    }): Promise<[BigNumberish] & { version: BigNumberish }>;
+    }): Promise<[BN] & { version: BN }>;
   };
   callStatic: {
     initialize(
@@ -174,7 +172,7 @@ export interface ArgentAccount extends Contract {
       calldata: BigNumberish[],
       nonce: BigNumberish,
       options?: { blockIdentifier?: BlockIdentifier }
-    ): Promise<[BigNumberish[]] & { response: BigNumberish[] }>;
+    ): Promise<[BN[]] & { response: BN[] }>;
     upgrade(
       implementation: BigNumberish,
       options?: { blockIdentifier?: BlockIdentifier }
@@ -216,30 +214,25 @@ export interface ArgentAccount extends Contract {
     supportsInterface(
       interfaceId: BigNumberish,
       options?: { blockIdentifier?: BlockIdentifier }
-    ): Promise<[BigNumberish] & { success: BigNumberish }>;
+    ): Promise<[BN] & { success: BN }>;
     get_nonce(options?: {
       blockIdentifier?: BlockIdentifier;
-    }): Promise<[BigNumberish] & { nonce: BigNumberish }>;
+    }): Promise<[BN] & { nonce: BN }>;
     get_signer(options?: {
       blockIdentifier?: BlockIdentifier;
-    }): Promise<[BigNumberish] & { signer: BigNumberish }>;
+    }): Promise<[BN] & { signer: BN }>;
     get_guardian(options?: {
       blockIdentifier?: BlockIdentifier;
-    }): Promise<[BigNumberish] & { guardian: BigNumberish }>;
+    }): Promise<[BN] & { guardian: BN }>;
     get_guardian_backup(options?: {
       blockIdentifier?: BlockIdentifier;
-    }): Promise<[BigNumberish] & { guardian_backup: BigNumberish }>;
+    }): Promise<[BN] & { guardian_backup: BN }>;
     get_escape(options?: {
       blockIdentifier?: BlockIdentifier;
-    }): Promise<
-      [BigNumberish, BigNumberish] & {
-        active_at: BigNumberish;
-        type: BigNumberish;
-      }
-    >;
+    }): Promise<[BN, BN] & { active_at: BN; type: BN }>;
     get_version(options?: {
       blockIdentifier?: BlockIdentifier;
-    }): Promise<[BigNumberish] & { version: BigNumberish }>;
+    }): Promise<[BN] & { version: BN }>;
   };
   populateTransaction: {
     initialize(

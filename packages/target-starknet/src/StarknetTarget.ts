@@ -223,7 +223,7 @@ function transformer(rawAbi: Abi) {
       if (dir === 'input') {
         return impoort('starknet/utils/number', 'BigNumberish')
       } else {
-        return impoort('bn.js', 'BN')
+        return impoort('bn.js', 'BN', false, true)
       }
     }
 

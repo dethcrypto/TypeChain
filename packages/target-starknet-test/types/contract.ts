@@ -4,213 +4,193 @@
 
 import type { Contract, Invocation, EstimateFeeResponse } from "starknet";
 import type { BigNumberish } from "starknet/utils/number";
+import type BN from "bn.js";
 import type { BlockIdentifier } from "starknet/provider/utils";
 
-export type Point = {
-  x: BigNumberish;
-  y: BigNumberish;
-};
-export type PointPair = {
-  p1: Point;
-  p2: Point;
-  extra: BigNumberish;
-};
+export type Point = { x: BigNumberish; y: BigNumberish };
+export type PointOutput = { x: BN; y: BN };
+
+export type PointPair = { p1: Point; p2: Point; extra: BigNumberish };
+export type PointPairOutput = { p1: PointOutput; p2: PointOutput; extra: BN };
+
 export interface contract extends Contract {
   get_felt(options?: {
     blockIdentifier?: BlockIdentifier;
-  }): Promise<[BigNumberish] & { res: BigNumberish }>;
+  }): Promise<[BN] & { res: BN }>;
   get_array_of_felts(options?: {
     blockIdentifier?: BlockIdentifier;
-  }): Promise<[BigNumberish[]] & { res: BigNumberish[] }>;
+  }): Promise<[BN[]] & { res: BN[] }>;
   get_struct(options?: {
     blockIdentifier?: BlockIdentifier;
-  }): Promise<[Point] & { res: Point }>;
+  }): Promise<[PointOutput] & { res: PointOutput }>;
   get_array_of_structs(options?: {
     blockIdentifier?: BlockIdentifier;
-  }): Promise<[Point[]] & { res: Point[] }>;
+  }): Promise<[PointOutput[]] & { res: PointOutput[] }>;
   get_nested_structs(options?: {
     blockIdentifier?: BlockIdentifier;
-  }): Promise<[PointPair] & { res: PointPair }>;
+  }): Promise<[PointPairOutput] & { res: PointPairOutput }>;
   get_tuple(options?: {
     blockIdentifier?: BlockIdentifier;
-  }): Promise<
-    [[BigNumberish, BigNumberish, BigNumberish]] & {
-      res: [BigNumberish, BigNumberish, BigNumberish];
-    }
-  >;
+  }): Promise<[[BN, BN, BN]] & { res: [BN, BN, BN] }>;
   get_mixed_types(options?: {
     blockIdentifier?: BlockIdentifier;
   }): Promise<
-    [[BigNumberish, BigNumberish], BigNumberish, BigNumberish[], Point] & {
-      tuple: [BigNumberish, BigNumberish];
-      number: BigNumberish;
-      array: BigNumberish[];
-      point: Point;
+    [[BN, BN], BN, BN[], PointOutput] & {
+      tuple: [BN, BN];
+      number: BN;
+      array: BN[];
+      point: PointOutput;
     }
   >;
   request_felt(
     num: BigNumberish,
     options?: { blockIdentifier?: BlockIdentifier }
-  ): Promise<[BigNumberish] & { res: BigNumberish }>;
+  ): Promise<[BN] & { res: BN }>;
   request_array_of_felts(
     arr: BigNumberish[],
     options?: { blockIdentifier?: BlockIdentifier }
-  ): Promise<[BigNumberish[]] & { res: BigNumberish[] }>;
+  ): Promise<[BN[]] & { res: BN[] }>;
   request_struct(
     str: Point,
     options?: { blockIdentifier?: BlockIdentifier }
-  ): Promise<[Point] & { res: Point }>;
+  ): Promise<[PointOutput] & { res: PointOutput }>;
   request_array_of_structs(
     str: Point[],
     options?: { blockIdentifier?: BlockIdentifier }
-  ): Promise<[Point[]] & { res: Point[] }>;
+  ): Promise<[PointOutput[]] & { res: PointOutput[] }>;
   request_nested_structs(
     str: PointPair,
     options?: { blockIdentifier?: BlockIdentifier }
-  ): Promise<[PointPair] & { res: PointPair }>;
+  ): Promise<[PointPairOutput] & { res: PointPairOutput }>;
   request_tuple(
     tup: [BigNumberish, BigNumberish],
     options?: { blockIdentifier?: BlockIdentifier }
-  ): Promise<
-    [[BigNumberish, BigNumberish]] & { res: [BigNumberish, BigNumberish] }
-  >;
+  ): Promise<[[BN, BN]] & { res: [BN, BN] }>;
   request_mixed_types(
     num: BigNumberish,
     point: Point,
     arr: BigNumberish[],
     options?: { blockIdentifier?: BlockIdentifier }
-  ): Promise<[BigNumberish] & { res: BigNumberish }>;
+  ): Promise<[BN] & { res: BN }>;
   functions: {
     get_felt(options?: {
       blockIdentifier?: BlockIdentifier;
-    }): Promise<[BigNumberish] & { res: BigNumberish }>;
+    }): Promise<[BN] & { res: BN }>;
     get_array_of_felts(options?: {
       blockIdentifier?: BlockIdentifier;
-    }): Promise<[BigNumberish[]] & { res: BigNumberish[] }>;
+    }): Promise<[BN[]] & { res: BN[] }>;
     get_struct(options?: {
       blockIdentifier?: BlockIdentifier;
-    }): Promise<[Point] & { res: Point }>;
+    }): Promise<[PointOutput] & { res: PointOutput }>;
     get_array_of_structs(options?: {
       blockIdentifier?: BlockIdentifier;
-    }): Promise<[Point[]] & { res: Point[] }>;
+    }): Promise<[PointOutput[]] & { res: PointOutput[] }>;
     get_nested_structs(options?: {
       blockIdentifier?: BlockIdentifier;
-    }): Promise<[PointPair] & { res: PointPair }>;
+    }): Promise<[PointPairOutput] & { res: PointPairOutput }>;
     get_tuple(options?: {
       blockIdentifier?: BlockIdentifier;
-    }): Promise<
-      [[BigNumberish, BigNumberish, BigNumberish]] & {
-        res: [BigNumberish, BigNumberish, BigNumberish];
-      }
-    >;
+    }): Promise<[[BN, BN, BN]] & { res: [BN, BN, BN] }>;
     get_mixed_types(options?: {
       blockIdentifier?: BlockIdentifier;
     }): Promise<
-      [[BigNumberish, BigNumberish], BigNumberish, BigNumberish[], Point] & {
-        tuple: [BigNumberish, BigNumberish];
-        number: BigNumberish;
-        array: BigNumberish[];
-        point: Point;
+      [[BN, BN], BN, BN[], PointOutput] & {
+        tuple: [BN, BN];
+        number: BN;
+        array: BN[];
+        point: PointOutput;
       }
     >;
     request_felt(
       num: BigNumberish,
       options?: { blockIdentifier?: BlockIdentifier }
-    ): Promise<[BigNumberish] & { res: BigNumberish }>;
+    ): Promise<[BN] & { res: BN }>;
     request_array_of_felts(
       arr: BigNumberish[],
       options?: { blockIdentifier?: BlockIdentifier }
-    ): Promise<[BigNumberish[]] & { res: BigNumberish[] }>;
+    ): Promise<[BN[]] & { res: BN[] }>;
     request_struct(
       str: Point,
       options?: { blockIdentifier?: BlockIdentifier }
-    ): Promise<[Point] & { res: Point }>;
+    ): Promise<[PointOutput] & { res: PointOutput }>;
     request_array_of_structs(
       str: Point[],
       options?: { blockIdentifier?: BlockIdentifier }
-    ): Promise<[Point[]] & { res: Point[] }>;
+    ): Promise<[PointOutput[]] & { res: PointOutput[] }>;
     request_nested_structs(
       str: PointPair,
       options?: { blockIdentifier?: BlockIdentifier }
-    ): Promise<[PointPair] & { res: PointPair }>;
+    ): Promise<[PointPairOutput] & { res: PointPairOutput }>;
     request_tuple(
       tup: [BigNumberish, BigNumberish],
       options?: { blockIdentifier?: BlockIdentifier }
-    ): Promise<
-      [[BigNumberish, BigNumberish]] & { res: [BigNumberish, BigNumberish] }
-    >;
+    ): Promise<[[BN, BN]] & { res: [BN, BN] }>;
     request_mixed_types(
       num: BigNumberish,
       point: Point,
       arr: BigNumberish[],
       options?: { blockIdentifier?: BlockIdentifier }
-    ): Promise<[BigNumberish] & { res: BigNumberish }>;
+    ): Promise<[BN] & { res: BN }>;
   };
   callStatic: {
     get_felt(options?: {
       blockIdentifier?: BlockIdentifier;
-    }): Promise<[BigNumberish] & { res: BigNumberish }>;
+    }): Promise<[BN] & { res: BN }>;
     get_array_of_felts(options?: {
       blockIdentifier?: BlockIdentifier;
-    }): Promise<[BigNumberish[]] & { res: BigNumberish[] }>;
+    }): Promise<[BN[]] & { res: BN[] }>;
     get_struct(options?: {
       blockIdentifier?: BlockIdentifier;
-    }): Promise<[Point] & { res: Point }>;
+    }): Promise<[PointOutput] & { res: PointOutput }>;
     get_array_of_structs(options?: {
       blockIdentifier?: BlockIdentifier;
-    }): Promise<[Point[]] & { res: Point[] }>;
+    }): Promise<[PointOutput[]] & { res: PointOutput[] }>;
     get_nested_structs(options?: {
       blockIdentifier?: BlockIdentifier;
-    }): Promise<[PointPair] & { res: PointPair }>;
+    }): Promise<[PointPairOutput] & { res: PointPairOutput }>;
     get_tuple(options?: {
       blockIdentifier?: BlockIdentifier;
-    }): Promise<
-      [[BigNumberish, BigNumberish, BigNumberish]] & {
-        res: [BigNumberish, BigNumberish, BigNumberish];
-      }
-    >;
+    }): Promise<[[BN, BN, BN]] & { res: [BN, BN, BN] }>;
     get_mixed_types(options?: {
       blockIdentifier?: BlockIdentifier;
     }): Promise<
-      [[BigNumberish, BigNumberish], BigNumberish, BigNumberish[], Point] & {
-        tuple: [BigNumberish, BigNumberish];
-        number: BigNumberish;
-        array: BigNumberish[];
-        point: Point;
+      [[BN, BN], BN, BN[], PointOutput] & {
+        tuple: [BN, BN];
+        number: BN;
+        array: BN[];
+        point: PointOutput;
       }
     >;
     request_felt(
       num: BigNumberish,
       options?: { blockIdentifier?: BlockIdentifier }
-    ): Promise<[BigNumberish] & { res: BigNumberish }>;
+    ): Promise<[BN] & { res: BN }>;
     request_array_of_felts(
       arr: BigNumberish[],
       options?: { blockIdentifier?: BlockIdentifier }
-    ): Promise<[BigNumberish[]] & { res: BigNumberish[] }>;
+    ): Promise<[BN[]] & { res: BN[] }>;
     request_struct(
       str: Point,
       options?: { blockIdentifier?: BlockIdentifier }
-    ): Promise<[Point] & { res: Point }>;
+    ): Promise<[PointOutput] & { res: PointOutput }>;
     request_array_of_structs(
       str: Point[],
       options?: { blockIdentifier?: BlockIdentifier }
-    ): Promise<[Point[]] & { res: Point[] }>;
+    ): Promise<[PointOutput[]] & { res: PointOutput[] }>;
     request_nested_structs(
       str: PointPair,
       options?: { blockIdentifier?: BlockIdentifier }
-    ): Promise<[PointPair] & { res: PointPair }>;
+    ): Promise<[PointPairOutput] & { res: PointPairOutput }>;
     request_tuple(
       tup: [BigNumberish, BigNumberish],
       options?: { blockIdentifier?: BlockIdentifier }
-    ): Promise<
-      [[BigNumberish, BigNumberish]] & { res: [BigNumberish, BigNumberish] }
-    >;
+    ): Promise<[[BN, BN]] & { res: [BN, BN] }>;
     request_mixed_types(
       num: BigNumberish,
       point: Point,
       arr: BigNumberish[],
       options?: { blockIdentifier?: BlockIdentifier }
-    ): Promise<[BigNumberish] & { res: BigNumberish }>;
+    ): Promise<[BN] & { res: BN }>;
   };
   populateTransaction: {
     get_felt(options?: { blockIdentifier?: BlockIdentifier }): Invocation;
