@@ -1,5 +1,12 @@
 # @typechain/hardhat
 
+## 6.1.2
+
+### Patch Changes
+
+- ed6f85b: Don't autodisable overrides for js projects
+- 1663b98: Respect the `--quiet` flag
+
 ## 6.1.0
 
 ### Minor Changes
