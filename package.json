@@ -23,7 +23,7 @@
     "check-examples": "ts-node --transpile-only ./scripts/check-examples.ts",
     "ci:version": "pnpm changeset version && pnpm install --no-frozen-lockfile",
     "pre:ci:publish": "pnpm lint && pnpm format && pnpm test && pnpm typecheck",
-    "ci:publish": "pnpm pre:ci:release && pnpm build && pnpm changeset publish"
+    "ci:publish": "pnpm pre:ci:publish && pnpm build && pnpm changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "^2.22.0",
