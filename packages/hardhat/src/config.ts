@@ -9,7 +9,7 @@ export function getDefaultTypechainConfig(config: HardhatConfig): TypechainConfi
     alwaysGenerateOverloads: false,
     discriminateTypes: false,
     tsNocheck: false,
-    dontOverrideCompile: config.paths.configFile.endsWith('.js'),
+    dontOverrideCompile: false,
   }
 
   return {
