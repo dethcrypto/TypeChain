@@ -21,8 +21,9 @@
     "test:fix": "pnpm lint:fix && pnpm test && pnpm format:fix && pnpm typecheck",
     "no-git-changes": "./scripts/no-git-changes.sh",
     "check-examples": "ts-node --transpile-only ./scripts/check-examples.ts",
-    "prerelease": "pnpm lint && pnpm format && pnpm test && pnpm typecheck",
-    "release": "pnpm build && pnpm changeset publish"
+    "ci:version": "pnpm changeset version && pnpm install --no-frozen-lockfile",
+    "pre:ci:publish": "pnpm lint && pnpm format && pnpm test && pnpm typecheck",
+    "ci:publish": "pnpm pre:ci:release && pnpm build && pnpm changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "^2.22.0",
