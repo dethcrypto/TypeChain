@@ -14,7 +14,7 @@
     "@nomiclabs/hardhat-etherscan": "^2.1.1",
     "@nomiclabs/hardhat-truffle5": "^2.0.0",
     "@nomiclabs/hardhat-web3": "^2.0.0",
-    "@typechain/hardhat": "workspace:^6.1.0",
+    "@typechain/hardhat": "workspace:^6.1.1",
     "@typechain/truffle-v5": "workspace:^8.0.1",
     "@types/chai": "^4.2.15",
     "@types/chai-as-promised": "^7.1.3",

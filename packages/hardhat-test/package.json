@@ -19,7 +19,7 @@
     "@ethersproject/abi": "^5.4.7",
     "@nomiclabs/hardhat-ethers": "^2.0.2",
     "@typechain/ethers-v5": "workspace:^10.1.0",
-    "@typechain/hardhat": "workspace:^6.1.0",
+    "@typechain/hardhat": "workspace:^6.1.1",
     "ethers": "^5.4.7",
     "hardhat": "^2.9.9",
     "test-utils": "1.0.0",

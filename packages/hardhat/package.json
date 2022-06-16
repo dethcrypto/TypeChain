@@ -11,7 +11,7 @@
     "smartcontract",
     "blockchain"
   ],
-  "version": "6.1.0",
+  "version": "6.1.1",
   "license": "MIT",
   "repository": "https://github.com/ethereum-ts/Typechain",
   "main": "./dist/index.js",
