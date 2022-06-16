@@ -10,24 +10,25 @@ import type {
   EstimateFeeResponse,
 } from "starknet";
 import type { BlockIdentifier } from "starknet/provider/utils";
+import type BN from "bn.js";
 import type { BigNumberish } from "starknet/utils/number";
 
 export interface ERC20 extends Contract {
   decimals(options?: {
     blockIdentifier?: BlockIdentifier;
-  }): Promise<[BigNumberish] & { res: BigNumberish }>;
+  }): Promise<[BN] & { res: BN }>;
   get_total_supply(options?: {
     blockIdentifier?: BlockIdentifier;
-  }): Promise<[BigNumberish] & { res: BigNumberish }>;
+  }): Promise<[BN] & { res: BN }>;
   balance_of(
     user: BigNumberish,
     options?: { blockIdentifier?: BlockIdentifier }
-  ): Promise<[BigNumberish] & { res: BigNumberish }>;
+  ): Promise<[BN] & { res: BN }>;
   allowance(
     owner: BigNumberish,
     spender: BigNumberish,
     options?: { blockIdentifier?: BlockIdentifier }
-  ): Promise<[BigNumberish] & { res: BigNumberish }>;
+  ): Promise<[BN] & { res: BN }>;
   initialize(options?: Overrides): Promise<AddTransactionResponse>;
   mint(
     recipient: BigNumberish,
@@ -53,19 +54,19 @@ export interface ERC20 extends Contract {
   functions: {
     decimals(options?: {
       blockIdentifier?: BlockIdentifier;
-    }): Promise<[BigNumberish] & { res: BigNumberish }>;
+    }): Promise<[BN] & { res: BN }>;
     get_total_supply(options?: {
       blockIdentifier?: BlockIdentifier;
-    }): Promise<[BigNumberish] & { res: BigNumberish }>;
+    }): Promise<[BN] & { res: BN }>;
     balance_of(
       user: BigNumberish,
       options?: { blockIdentifier?: BlockIdentifier }
-    ): Promise<[BigNumberish] & { res: BigNumberish }>;
+    ): Promise<[BN] & { res: BN }>;
     allowance(
       owner: BigNumberish,
       spender: BigNumberish,
       options?: { blockIdentifier?: BlockIdentifier }
-    ): Promise<[BigNumberish] & { res: BigNumberish }>;
+    ): Promise<[BN] & { res: BN }>;
     initialize(options?: Overrides): Promise<AddTransactionResponse>;
     mint(
       recipient: BigNumberish,
@@ -92,19 +93,19 @@ export interface ERC20 extends Contract {
   callStatic: {
     decimals(options?: {
       blockIdentifier?: BlockIdentifier;
-    }): Promise<[BigNumberish] & { res: BigNumberish }>;
+    }): Promise<[BN] & { res: BN }>;
     get_total_supply(options?: {
       blockIdentifier?: BlockIdentifier;
-    }): Promise<[BigNumberish] & { res: BigNumberish }>;
+    }): Promise<[BN] & { res: BN }>;
     balance_of(
       user: BigNumberish,
       options?: { blockIdentifier?: BlockIdentifier }
-    ): Promise<[BigNumberish] & { res: BigNumberish }>;
+    ): Promise<[BN] & { res: BN }>;
     allowance(
       owner: BigNumberish,
       spender: BigNumberish,
       options?: { blockIdentifier?: BlockIdentifier }
-    ): Promise<[BigNumberish] & { res: BigNumberish }>;
+    ): Promise<[BN] & { res: BN }>;
     initialize(options?: {
       blockIdentifier?: BlockIdentifier;
     }): Promise<[] & {}>;

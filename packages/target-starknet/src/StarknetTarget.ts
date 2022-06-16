@@ -103,6 +103,8 @@ function byName(abi: Abi): AbiEntriesByName {
   return abi.reduce((r, e) => r.set(e.name, e), new Map<string, FunctionAbi | StructAbi>())
 }
 
+type Direction = 'input' | 'output'
+
 function transformer(rawAbi: Abi) {
   const abi = byName(rawAbi)
   const { imports, impoort } = importer()
@@ -110,7 +112,7 @@ function transformer(rawAbi: Abi) {
   function constructorArgs(): string {
     const constructorAbi: FunctionAbi | undefined = [...(abi.values() as any)].find((e) => e.type === 'constructor')
 
-    return constructorAbi ? entriesTypesOnly(constructorAbi.inputs) : ''
+    return constructorAbi ? entriesTypesOnly(constructorAbi.inputs, 'input') : ''
   }
 
   function options(e: FunctionAbi, returnType: DeclarationType): string {
@@ -128,7 +130,7 @@ function transformer(rawAbi: Abi) {
     return [...(abi.values() as any)] // @todo fix any
       .filter((e) => e.type === 'function') // && e.stateMutability === "view"
       .map((e: FunctionAbi) => {
-        const args = entries(e.inputs)
+        const args = entries(e.inputs, 'input')
         const opts = options(e, returnType)
         const rets = returns(e, returnType)
         return `${e.name}(${args}${args !== '' ? ', ' : ''}${opts}):${rets}`
@@ -150,27 +152,27 @@ function transformer(rawAbi: Abi) {
       .filter((e) => e.type === 'struct')
     const namedStructs = structs.filter((s) => !!s.name)
     return namedStructs
-      .map(
-        (s) =>
-          `export type ${s.name} = {
-      ${entriesToInterface(s.members)}\n
-    }`,
-      )
+      .map((s) => {
+        return `
+          export type ${s.name} = { ${entriesToInterface(s.members, 'input')}\n }
+          export type ${s.name}Output = { ${entriesToInterface(s.members, 'output')}\n }
+        `
+      })
       .join('\n')
   }
 
-  function viewType(e: FunctionAbi) {
-    return `[${entriesTypesOnly(e.outputs)}] & {${entries(e.outputs)}}`
+  function viewType(e: FunctionAbi, dir: Direction) {
+    return `[${entriesTypesOnly(e.outputs, dir)}] & {${entries(e.outputs, dir)}}`
   }
 
   function returns(e: FunctionAbi, returnType: DeclarationType): string {
     switch (returnType) {
       case 'default':
         return e.stateMutability === 'view'
-          ? `Promise<${viewType(e)}>`
+          ? `Promise<${viewType(e, 'output')}>`
           : `Promise<${impoort('starknet', 'AddTransactionResponse')}>`
       case 'call':
-        return `Promise<${viewType(e)}>`
+        return `Promise<${viewType(e, 'output')}>`
       case 'populate':
         return `${impoort('starknet', 'Invocation')}`
       case 'estimate':
@@ -178,7 +180,7 @@ function transformer(rawAbi: Abi) {
     }
   }
 
-  function entriesPairs(abiEntries: AbiEntry[]) {
+  function entriesPairs(abiEntries: AbiEntry[], dir: Direction) {
     if (abiEntries.length === 0) {
       return []
     }
@@ -190,25 +192,25 @@ function transformer(rawAbi: Abi) {
           [e, _, p], // @todo fix !
         ) =>
           p && `${e!.name}_len` === p.name && e!.type.slice(-1) === '*'
-            ? [`${e!.name}`, `${mapType(e!.type.slice(0, -1))}[]`]
-            : [`${e!.name}`, `${mapType(e!.type)}`],
+            ? [`${e!.name}`, `${mapType(e!.type.slice(0, -1), dir)}[]`]
+            : [`${e!.name}`, `${mapType(e!.type, dir)}`],
       )
   }
 
-  function entries(abiEntries: AbiEntry[]) {
-    return entriesPairs(abiEntries)
+  function entries(abiEntries: AbiEntry[], dir: Direction) {
+    return entriesPairs(abiEntries, dir)
       .map(([name, type]) => `${name}: ${type}`)
       .join(', ')
   }
 
-  function entriesToInterface(abiEntries: AbiEntry[]) {
-    return entriesPairs(abiEntries)
+  function entriesToInterface(abiEntries: AbiEntry[], dir: Direction) {
+    return entriesPairs(abiEntries, dir)
       .map(([name, type]) => `${name}: ${type}`)
       .join(';\n')
   }
 
-  function entriesTypesOnly(abiEntries: AbiEntry[]) {
-    return entriesPairs(abiEntries)
+  function entriesTypesOnly(abiEntries: AbiEntry[], dir: Direction) {
+    return entriesPairs(abiEntries, dir)
       .map(([_, type]) => `${type}`)
       .join(', ')
   }
@@ -216,9 +218,13 @@ function transformer(rawAbi: Abi) {
   const tuple = /\(([^,]+)(, ([^,]+))*\)/
   const space = /\s/g
 
-  function mapType(type: AbiEntry['type']): string {
+  function mapType(type: AbiEntry['type'], dir: Direction): string {
     if (type === 'felt') {
-      return impoort('starknet/utils/number', 'BigNumberish')
+      if (dir === 'input') {
+        return impoort('starknet/utils/number', 'BigNumberish')
+      } else {
+        return impoort('bn.js', 'BN', false, true)
+      }
     }
 
     // Disabled as this feature is not yet available in starknet.js
@@ -235,16 +241,19 @@ function transformer(rawAbi: Abi) {
 
     if (tuple.test(type)) {
       const types = type.slice(1, -1).replace(space, '').split(',')
-      return `[${types.map((t) => mapType(t)).join(', ')}]`
+      return `[${types.map((t) => mapType(t, dir)).join(', ')}]`
     }
 
     if (abi.has(type)) {
       const entry = abi.get(type)! // @todo undefined
       if (entry.type === 'struct') {
-        return `${entry.name}`
+        if (dir === 'input') {
+          return `${entry.name}`
+        } else {
+          return `${entry.name}Output`
+        }
       }
     }
-
     return type
   }
 

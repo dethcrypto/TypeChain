@@ -338,6 +338,7 @@ importers:
 
   packages/target-starknet-test:
     specifiers:
+      '@types/bn.js': ^5.1.0
       '@types/elliptic': ^6.4.14
       concurrently: ^7.1.0
       ganache: ^7.0.3
@@ -349,6 +350,7 @@ importers:
       '@types/elliptic': 6.4.14
       starknet: 3.9.0
     devDependencies:
+      '@types/bn.js': 5.1.0
       concurrently: 7.1.0
       ganache: 7.0.3
       test-utils: link:../test-utils
@@ -5897,7 +5899,6 @@ packages:
         optional: true
     dependencies:
       ms: 2.1.2
-    dev: true
 
   /debug/4.3.3:
     resolution: {integrity: sha512-/zxw5+vh1Tfv+4Qn7a5nsbcJKPaSvCDhojn6FEl9vupwK2VCSDtEiEtqr8DFtzYFOdz63LBkxec7DYuc2jon6Q==}
@@ -7732,7 +7733,7 @@ packages:
   /fs-extra/0.30.0:
     resolution: {integrity: sha1-8jP/zAjU2n1DLapEl3aYnbHfk/A=}
     dependencies:
-      graceful-fs: 4.2.8
+      graceful-fs: 4.2.10
       jsonfile: 2.4.0
       klaw: 1.3.1
       path-is-absolute: 1.0.1
@@ -9486,7 +9487,7 @@ packages:
     resolution: {integrity: sha1-peZUwuWi3rXyAdls77yoDA7y9RM=}
 
   /jsdom/7.2.2:
-    resolution: {integrity: sha1-QLQCdwwr2iNGkJa+6Rq2deOx/G4=}
+    resolution: {integrity: sha512-kYeYuos/pYp0V/V8VAoGnUc0va0UZjTjwCsldBFZNBrOi9Q5kUXrvsw6W5/lQllB7hKXBARC4HRk1Sfk4dPFtA==}
     requiresBuild: true
     dependencies:
       abab: 1.0.4
@@ -16062,7 +16063,7 @@ packages:
       string-width: 2.1.1
 
   /wif/2.0.6:
-    resolution: {integrity: sha1-CNP1IFbGZnkplyb63g1DKudLRwQ=}
+    resolution: {integrity: sha512-HIanZn1zmduSF+BQhkE+YXIbEiH0xPr1012QbFEGB0xsKqJii0/SqJjyn8dFv6y36kOznMgMB+LGcbZTJ1xACQ==}
     dependencies:
       bs58check: 2.1.2
     optional: true

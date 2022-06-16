@@ -17,6 +17,7 @@
     "test:fix": "pnpm lint:fix && pnpm format:fix && pnpm test && pnpm typecheck"
   },
   "devDependencies": {
+    "@types/bn.js": "^5.1.0",
     "concurrently": "^7.1.0",
     "ganache": "^7.0.3",
     "test-utils": "1.0.0",
