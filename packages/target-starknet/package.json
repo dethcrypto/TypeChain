@@ -2,11 +2,11 @@
   "name": "@typechain/starknet",
   "description": "🔌 TypeChain target for Starknet",
   "keywords": [
-    "ethers",
-    "ethersjs",
-    "ethereum",
+    "starknet",
+    "cairo",
     "TypeChain",
-    "TypeScript"
+    "TypeScript",
+    "ethereum"
   ],
   "version": "0.2.2",
   "license": "MIT",
