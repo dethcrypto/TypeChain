@@ -135,7 +135,7 @@ If you're using Ethers.js v4, you can find legacy `@typechain/ethers-v4` target 
 ### Truffle v5
 
 Truffle target is great when you use truffle contracts already. Check out
-[truffle-typechain-example](https://github.com/ethereum-ts/truffle-typechain-example) for more details. It require
+[truffle-typechain-example](https://github.com/dethcrypto/TypeChain/tree/master/examples/truffle-v5) for more details. It require
 installing [typings](https://www.npmjs.com/package/truffle-typings) for truffle library itself.
 
 Now you can simply use your contracts as you did before and get full type safety, yay!
