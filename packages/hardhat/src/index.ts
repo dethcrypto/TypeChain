@@ -10,6 +10,13 @@ import { glob, PublicConfig as RunTypeChainConfig, runTypeChain } from 'typechai
 import { getDefaultTypechainConfig } from './config'
 import { TASK_TYPECHAIN, TASK_TYPECHAIN_GENERATE_TYPES } from './constants'
 
+function intersect<T>(a: Array<T>, b: Array<T>): Array<T> {
+  var setA = new Set(a)
+  var setB = new Set(b)
+  var intersection = new Set([...setA].filter((x) => setB.has(x)))
+  return Array.from(intersection)
+}
+
 const taskArgsStore: { noTypechain: boolean; fullRebuild: boolean } = { noTypechain: false, fullRebuild: false }
 
 extendConfig((config) => {
@@ -38,7 +45,7 @@ subtask(TASK_TYPECHAIN_GENERATE_TYPES)
   .addFlag('quiet', 'Makes the process less verbose')
   .setAction(async ({ compileSolOutput, quiet }, { config, artifacts }) => {
     const artifactFQNs: string[] = getFQNamesFromCompilationOutput(compileSolOutput)
-    const artifactPaths = uniq(artifactFQNs.map((fqn) => artifacts.formArtifactPathFromFullyQualifiedName(fqn)))
+    let artifactPaths = uniq(artifactFQNs.map((fqn) => artifacts.formArtifactPathFromFullyQualifiedName(fqn)))
 
     if (taskArgsStore.noTypechain) {
       return compileSolOutput
@@ -46,7 +53,20 @@ subtask(TASK_TYPECHAIN_GENERATE_TYPES)
 
     // RUN TYPECHAIN TASK
     const typechainCfg = config.typechain
-    if (artifactPaths.length === 0 && !taskArgsStore.fullRebuild && !typechainCfg.externalArtifacts) {
+
+    const cwd = config.paths.root
+    const allFiles = glob(cwd, [typechainCfg.artifacts])
+    if (typechainCfg.externalArtifacts) {
+      allFiles.push(...glob(cwd, typechainCfg.externalArtifacts, false))
+    }
+
+    // incremental generation is only supported in 'ethers-v5'
+    // @todo: probably targets should specify somehow if then support incremental generation this won't work with custom targets
+    const needsFullRebuild = taskArgsStore.fullRebuild || typechainCfg.target !== 'ethers-v5'
+    artifactPaths = intersect(allFiles, artifactPaths)
+    const filesToProcess = needsFullRebuild ? allFiles : glob(cwd, artifactPaths)
+
+    if (filesToProcess.length === 0 && !typechainCfg.externalArtifacts) {
       if (!quiet) {
         // eslint-disable-next-line no-console
         console.log('No need to generate any newer typings.')
@@ -55,20 +75,11 @@ subtask(TASK_TYPECHAIN_GENERATE_TYPES)
       return compileSolOutput
     }
 
-    // incremental generation is only supported in 'ethers-v5'
-    // @todo: probably targets should specify somehow if then support incremental generation this won't work with custom targets
-    const needsFullRebuild = taskArgsStore.fullRebuild || typechainCfg.target !== 'ethers-v5'
     if (!quiet) {
       // eslint-disable-next-line no-console
       console.log(
         `Generating typings for: ${artifactPaths.length} artifacts in dir: ${typechainCfg.outDir} for target: ${typechainCfg.target}`,
       )
-    }
-    const cwd = config.paths.root
-
-    const allFiles = glob(cwd, [`${config.paths.artifacts}/!(build-info)/**/+([a-zA-Z0-9_]).json`])
-    if (typechainCfg.externalArtifacts) {
-      allFiles.push(...glob(cwd, typechainCfg.externalArtifacts, false))
     }
 
     const typechainOptions: Omit<RunTypeChainConfig, 'filesToProcess'> = {
@@ -84,14 +95,16 @@ subtask(TASK_TYPECHAIN_GENERATE_TYPES)
       },
     }
 
-    const result = await runTypeChain({
-      ...typechainOptions,
-      filesToProcess: needsFullRebuild ? allFiles : glob(cwd, artifactPaths), // only process changed files if not doing full rebuild
-    })
+    if (filesToProcess.length > 0) {
+      const result = await runTypeChain({
+        ...typechainOptions,
+        filesToProcess, // only process changed files if not doing full rebuild
+      })
 
-    if (!quiet) {
-      // eslint-disable-next-line no-console
-      console.log(`Successfully generated ${result.filesGenerated} typings!`)
+      if (!quiet) {
+        // eslint-disable-next-line no-console
+        console.log(`Successfully generated ${result.filesGenerated} typings!`)
+      }
     }
 
     // if this is not full rebuilding, always re-generate types for external artifacts
