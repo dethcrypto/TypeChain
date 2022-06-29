@@ -10,7 +10,7 @@ import { glob, PublicConfig as RunTypeChainConfig, runTypeChain } from 'typechai
 import { getDefaultTypechainConfig } from './config'
 import { TASK_TYPECHAIN, TASK_TYPECHAIN_GENERATE_TYPES } from './constants'
 
-function intersect(a: Array<T>, b: Array<T>): Array<T> {
+function intersect<T>(a: Array<T>, b: Array<T>): Array<T> {
   var setA = new Set(a)
   var setB = new Set(b)
   var intersection = new Set([...setA].filter((x) => setB.has(x)))

@@ -90,12 +90,16 @@ hardhat typechain # always regenerates typings to all files
 
 ## Configuration
 
-This plugin extends the `hardhatConfig` optional `typechain` object. 
-The object contains the following (optional) fields:
-- `target`: one of the targets specified by the TypeChain [docs](https://github.com/ethereum-ts/TypeChain#cli) (defaults to `ethers`)
+This plugin extends the `hardhatConfig` optional `typechain` object. The object contains the following (optional)
+fields:
+
+- `target`: one of the targets specified by the TypeChain [docs](https://github.com/ethereum-ts/TypeChain#cli) (defaults
+  to `ethers`)
 - `outDir`: the output directory of the artifacts that TypeChain creates (defaults to `typechain`).
-- `artifacts`: glob pattern that defines for which build artifacts to generate types (defaults to all artifacts generated in compile step)
-- `alwaysGenerateOverloads`: some targets won't generate unnecessary types for overloaded functions by default, this option forces to always generate them
+- `artifacts`: glob pattern that defines for which build artifacts to generate types (defaults to all artifacts
+  generated in compile step)
+- `alwaysGenerateOverloads`: some targets won't generate unnecessary types for overloaded functions by default, this
+  option forces to always generate them
 - `externalArtifacts`: array of glob patterns with external artifacts to process (e.g external libs from `node_modules`)
 - `dontOverrideCompile`: boolean disabling automatic inclusion of type generation in compile task.
 
