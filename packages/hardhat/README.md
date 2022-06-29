@@ -90,10 +90,14 @@ hardhat typechain # always regenerates typings to all files
 
 ## Configuration
 
-This plugin extends the `hardhatConfig` optional `typechain` object. The object contains two fields, `outDir` and
-`target`. `outDir` is the output directory of the artifacts that TypeChain creates (defaults to `typechain`). `target`
-is one of the targets specified by the TypeChain [docs](https://github.com/ethereum-ts/TypeChain#cli) (defaults to
-`ethers`).
+This plugin extends the `hardhatConfig` optional `typechain` object. 
+The object contains the following (optional) fields:
+- `target`: one of the targets specified by the TypeChain [docs](https://github.com/ethereum-ts/TypeChain#cli) (defaults to `ethers`)
+- `outDir`: the output directory of the artifacts that TypeChain creates (defaults to `typechain`).
+- `artifacts`: glob pattern that defines for which build artifacts to generate types (defaults to all artifacts generated in compile step)
+- `alwaysGenerateOverloads`: some targets won't generate unnecessary types for overloaded functions by default, this option forces to always generate them
+- `externalArtifacts`: array of glob patterns with external artifacts to process (e.g external libs from `node_modules`)
+- `dontOverrideCompile`: boolean disabling automatic inclusion of type generation in compile task.
 
 This is an example of how to set it:
 
@@ -102,9 +106,10 @@ module.exports = {
   typechain: {
     outDir: 'src/types',
     target: 'ethers-v5',
-    alwaysGenerateOverloads: false, // should overloads with full signatures like deposit(uint256) be generated always, even if there are no overloads?
-    externalArtifacts: ['externalArtifacts/*.json'], // optional array of glob patterns with external artifacts to process (for example external libs from node_modules)
-    dontOverrideCompile: false // defaults to false
+    artifacts: '**/TestContract.json',
+    alwaysGenerateOverloads: false,
+    externalArtifacts: ['externalArtifacts/*.json'],
+    dontOverrideCompile: false,
   },
 }
 ```
