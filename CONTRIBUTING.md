@@ -30,7 +30,7 @@ set the current solidity version.
 ### Local linking
 
 Run `pnpm build` to build all packages or `pnpm watch` to start watching. Then enter desired package directory and run
-`pmpm link`.
+`pnpm link`.
 
 ### Debugging 🐞
 
