@@ -29,12 +29,23 @@ If you're a Truffle user you need:
 npm install --save-dev typechain @typechain/hardhat @typechain/truffle-v5
 ```
 
+If you're using Web3-v1 run:
+
+```bash
+npm install --save-dev typechain @typechain/web3-v1 @typechain/hardhat-web3
+```
+
 And add the following statements to your `hardhat.config.js`:
 
 ```javascript
 require('@typechain/hardhat')
+// If you're using Ethers/Waffle
 require('@nomiclabs/hardhat-ethers')
 require('@nomiclabs/hardhat-waffle')
+// If you're using Truffle
+require('@nomiclabs/hardhat-truffle')
+// If you're using Web3-v1
+require('@nomiclabs/hardhat-web3')
 ```
 
 Or, if you use TypeScript, add this to your `hardhat.config.ts`:
