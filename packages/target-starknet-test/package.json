@@ -12,7 +12,7 @@
     "clean": "rm -rf dist contracts/* && rm -f tsconfig.build.tsbuildinfo && rm -rf build",
     "generate-types": "node ../typechain/dist/cli/cli.js --target=../target-starknet/dist/index.js --out-dir './types/' './example-abis/*.json'",
     "test-out": "pnpm generate-types && ../../node_modules/.bin/mocha --config ../../.mocharc.js",
-    "test": "concurrently -k './devnet.sh' 'yarn test:fast; docker stop devnet'",
+    "test": "concurrently -k './devnet.sh' 'pnpm test:fast; docker stop devnet'",
     "test:fast": "wait-on tcp:5050 && pnpm generate-types && ../../node_modules/.bin/mocha --config ../../.mocharc.js",
     "test:fix": "pnpm lint:fix && pnpm format:fix && pnpm test && pnpm typecheck"
   },
