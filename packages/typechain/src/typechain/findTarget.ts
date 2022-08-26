@@ -3,10 +3,9 @@ import _, { compact } from 'lodash'
 import { debug } from '../utils/debug'
 import { ensureAbsPath } from '../utils/files/ensureAbsPath'
 import { tryRequire } from '../utils/modules'
-import { Config, TypeChainTarget } from './types'
+import { FindChainTarget } from './types'
 
-export function findTarget(config: Config): TypeChainTarget {
-  const target = config.target
+export function findTarget(target: string): FindChainTarget {
   if (!target) {
     throw new Error(`Please provide --target parameter!`)
   }
@@ -21,7 +20,7 @@ export function findTarget(config: Config): TypeChainTarget {
 
   if (!moduleInfo || !moduleInfo.module.default) {
     throw new Error(
-      `Couldn't find ${config.target}. Tried loading: ${compact(possiblePaths).join(
+      `Couldn't find ${target}. Tried loading: ${compact(possiblePaths).join(
         ', ',
       )}.\nPerhaps you forgot to install @typechain/${target}?`,
     )
@@ -29,5 +28,9 @@ export function findTarget(config: Config): TypeChainTarget {
 
   debug('Plugin found at', moduleInfo.path)
 
-  return new moduleInfo.module.default(config)
+  const chainTarget = moduleInfo.module.default
+
+  chainTarget.extractAbi = moduleInfo.module.extractAbi
+
+  return chainTarget
 }

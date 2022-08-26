@@ -3,9 +3,9 @@ import { isArray } from 'lodash'
 import { dirname, relative } from 'path'
 
 import { outputTransformers } from '../codegen/outputTransformers'
-import { extractAbi } from '../parser/abiParser'
+import { extractAbi as extractAbiDefault } from '../parser/abiParser'
 import { debug } from '../utils/debug'
-import { Config, FileDescription, Output, Services } from './types'
+import { Config, ExtractAbiFunction, FileDescription, Output, Services } from './types'
 
 export function processOutput(services: Services, cfg: Config, output: Output): number {
   const { fs, mkdirp } = services
@@ -39,10 +39,10 @@ export function loadFileDescriptions(services: Services, files: string[]): FileD
   return fileDescriptions
 }
 
-export function skipEmptyAbis(paths: string[]): string[] {
+export function skipEmptyAbis(paths: string[], extractAbi?: ExtractAbiFunction): string[] {
   const notEmptyAbis = paths
     .map((p) => ({ path: p, contents: readFileSync(p, 'utf-8') }))
-    .filter((fd) => extractAbi(fd.contents).length !== 0)
+    .filter((fd) => (extractAbi || extractAbiDefault)(fd.contents).length !== 0)
 
   return notEmptyAbis.map((p) => p.path)
 }

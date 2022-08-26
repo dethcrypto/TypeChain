@@ -21,7 +21,8 @@ export const DEFAULT_FLAGS: CodegenConfig = {
 }
 
 export async function runTypeChain(publicConfig: PublicConfig): Promise<Result> {
-  const allFiles = skipEmptyAbis(publicConfig.allFiles)
+  const ChainTarget = findTarget(publicConfig.target)
+  const allFiles = skipEmptyAbis(publicConfig.allFiles, ChainTarget.extractAbi)
 
   // skip empty paths
   const config: Config = {
@@ -29,7 +30,7 @@ export async function runTypeChain(publicConfig: PublicConfig): Promise<Result> 
     inputDir: detectInputsRoot(allFiles),
     ...publicConfig,
     allFiles,
-    filesToProcess: skipEmptyAbis(publicConfig.filesToProcess),
+    filesToProcess: skipEmptyAbis(publicConfig.filesToProcess, ChainTarget.extractAbi),
   }
   const services: Services = {
     fs,
@@ -38,7 +39,7 @@ export async function runTypeChain(publicConfig: PublicConfig): Promise<Result> 
   }
   let filesGenerated = 0
 
-  const target = findTarget(config)
+  const target = new ChainTarget(config)
 
   const fileDescriptions = loadFileDescriptions(services, config.filesToProcess)
 

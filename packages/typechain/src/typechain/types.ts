@@ -3,6 +3,8 @@ import { sync as mkdirp } from 'mkdirp'
 import * as prettier from 'prettier'
 import { MarkOptional } from 'ts-essentials'
 
+import { RawAbiDefinition } from '../parser/abiParser'
+
 export interface Config {
   cwd: string
   target: string
@@ -27,6 +29,10 @@ export interface CodegenConfig {
 }
 
 export type PublicConfig = MarkOptional<Config, 'flags' | 'inputDir'>
+
+export type ExtractAbiFunction = (rawJson: string) => RawAbiDefinition[]
+
+export type FindChainTarget = { new (...args: any[]): TypeChainTarget; extractAbi?: ExtractAbiFunction }
 
 export abstract class TypeChainTarget {
   public abstract readonly name: string
