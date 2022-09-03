@@ -5,7 +5,7 @@ import { TASK_CLEAN, TASK_COMPILE, TASK_COMPILE_SOLIDITY_COMPILE_JOBS } from 'ha
 import { extendConfig, subtask, task, types } from 'hardhat/config'
 import { getFullyQualifiedName } from 'hardhat/utils/contract-names'
 import _, { uniq } from 'lodash'
-import { glob, PublicConfig as RunTypeChainConfig, runTypeChain } from 'typechain'
+import type { PublicConfig as RunTypeChainConfig } from 'typechain'
 
 import { getDefaultTypechainConfig } from './config'
 import { TASK_TYPECHAIN, TASK_TYPECHAIN_GENERATE_TYPES } from './constants'
@@ -66,6 +66,7 @@ subtask(TASK_TYPECHAIN_GENERATE_TYPES)
     }
     const cwd = config.paths.root
 
+    const { glob } = await import('typechain')
     const allFiles = glob(cwd, [`${config.paths.artifacts}/!(build-info)/**/+([a-zA-Z0-9_]).json`])
     if (typechainCfg.externalArtifacts) {
       allFiles.push(...glob(cwd, typechainCfg.externalArtifacts, false))
@@ -84,6 +85,7 @@ subtask(TASK_TYPECHAIN_GENERATE_TYPES)
       },
     }
 
+    const { runTypeChain } = await import('typechain')
     const result = await runTypeChain({
       ...typechainOptions,
       filesToProcess: needsFullRebuild ? allFiles : glob(cwd, artifactPaths), // only process changed files if not doing full rebuild
