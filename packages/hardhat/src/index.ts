@@ -1,6 +1,5 @@
 import './type-extensions'
 
-import fsExtra from 'fs-extra'
 import { TASK_CLEAN, TASK_COMPILE, TASK_COMPILE_SOLIDITY_COMPILE_JOBS } from 'hardhat/builtin-tasks/task-names'
 import { extendConfig, subtask, task, types } from 'hardhat/config'
 import { getFullyQualifiedName } from 'hardhat/utils/contract-names'
@@ -124,6 +123,7 @@ task(
       return runSuper()
     }
 
+    const fsExtra = await import('fs-extra')
     if (await fsExtra.pathExists(config.typechain.outDir)) {
       await fsExtra.remove(config.typechain.outDir)
     }
