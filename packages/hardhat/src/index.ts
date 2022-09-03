@@ -4,7 +4,6 @@ import fsExtra from 'fs-extra'
 import { TASK_CLEAN, TASK_COMPILE, TASK_COMPILE_SOLIDITY_COMPILE_JOBS } from 'hardhat/builtin-tasks/task-names'
 import { extendConfig, subtask, task, types } from 'hardhat/config'
 import { getFullyQualifiedName } from 'hardhat/utils/contract-names'
-import _, { uniq } from 'lodash'
 import type { PublicConfig as RunTypeChainConfig } from 'typechain'
 
 import { getDefaultTypechainConfig } from './config'
@@ -38,7 +37,9 @@ subtask(TASK_TYPECHAIN_GENERATE_TYPES)
   .addFlag('quiet', 'Makes the process less verbose')
   .setAction(async ({ compileSolOutput, quiet }, { config, artifacts }) => {
     const artifactFQNs: string[] = getFQNamesFromCompilationOutput(compileSolOutput)
-    const artifactPaths = uniq(artifactFQNs.map((fqn) => artifacts.formArtifactPathFromFullyQualifiedName(fqn)))
+    const artifactPaths = Array.from(
+      new Set(artifactFQNs.map((fqn) => artifacts.formArtifactPathFromFullyQualifiedName(fqn))),
+    )
 
     if (taskArgsStore.noTypechain) {
       return compileSolOutput
@@ -140,5 +141,5 @@ function getFQNamesFromCompilationOutput(compileSolOutput: any): string[] {
     })
   })
 
-  return _(allFQNNamesNested).flatten().flatten().value()
+  return allFQNNamesNested.flat(2)
 }
