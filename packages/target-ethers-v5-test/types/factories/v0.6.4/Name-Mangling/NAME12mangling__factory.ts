@@ -45,7 +45,7 @@ export class NAME12mangling__factory {
   }
   static connect(
     address: string,
-    signerOrProvider: Signer | Provider
+    signerOrProvider?: Signer | Provider
   ): NAME12mangling {
     return new Contract(address, _abi, signerOrProvider) as NAME12mangling;
   }

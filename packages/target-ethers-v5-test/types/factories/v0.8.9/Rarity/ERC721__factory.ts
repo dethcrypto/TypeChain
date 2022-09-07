@@ -280,7 +280,7 @@ export class ERC721__factory {
   static createInterface(): ERC721Interface {
     return new utils.Interface(_abi) as ERC721Interface;
   }
-  static connect(address: string, signerOrProvider: Signer | Provider): ERC721 {
+  static connect(address: string, signerOrProvider?: Signer | Provider): ERC721 {
     return new Contract(address, _abi, signerOrProvider) as ERC721;
   }
 }

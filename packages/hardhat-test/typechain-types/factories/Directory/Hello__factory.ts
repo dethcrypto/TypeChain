@@ -71,7 +71,7 @@ export class Hello__factory extends ContractFactory {
   static createInterface(): HelloInterface {
     return new utils.Interface(_abi) as HelloInterface;
   }
-  static connect(address: string, signerOrProvider: Signer | Provider): Hello {
+  static connect(address: string, signerOrProvider?: Signer | Provider): Hello {
     return new Contract(address, _abi, signerOrProvider) as Hello;
   }
 }

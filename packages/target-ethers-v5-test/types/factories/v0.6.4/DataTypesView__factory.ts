@@ -223,7 +223,7 @@ export class DataTypesView__factory {
   }
   static connect(
     address: string,
-    signerOrProvider: Signer | Provider
+    signerOrProvider?: Signer | Provider
   ): DataTypesView {
     return new Contract(address, _abi, signerOrProvider) as DataTypesView;
   }

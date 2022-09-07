@@ -33,7 +33,7 @@ export class Lib__factory {
   static createInterface(): LibInterface {
     return new utils.Interface(_abi) as LibInterface;
   }
-  static connect(address: string, signerOrProvider: Signer | Provider): Lib {
+  static connect(address: string, signerOrProvider?: Signer | Provider): Lib {
     return new Contract(address, _abi, signerOrProvider) as Lib;
   }
 }

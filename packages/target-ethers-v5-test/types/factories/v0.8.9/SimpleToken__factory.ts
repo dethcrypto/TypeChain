@@ -37,7 +37,7 @@ export class SimpleToken__factory {
   }
   static connect(
     address: string,
-    signerOrProvider: Signer | Provider
+    signerOrProvider?: Signer | Provider
   ): SimpleToken {
     return new Contract(address, _abi, signerOrProvider) as SimpleToken;
   }

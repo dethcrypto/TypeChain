@@ -95,7 +95,7 @@ export class Demo__factory extends ContractFactory {
   static createInterface(): DemoInterface {
     return new utils.Interface(_abi) as DemoInterface;
   }
-  static connect(address: string, signerOrProvider: Signer | Provider): Demo {
+  static connect(address: string, signerOrProvider?: Signer | Provider): Demo {
     return new Contract(address, _abi, signerOrProvider) as Demo;
   }
 }

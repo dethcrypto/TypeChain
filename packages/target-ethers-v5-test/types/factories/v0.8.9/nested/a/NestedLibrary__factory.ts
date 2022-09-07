@@ -32,7 +32,7 @@ export class NestedLibrary__factory {
   }
   static connect(
     address: string,
-    signerOrProvider: Signer | Provider
+    signerOrProvider?: Signer | Provider
   ): NestedLibrary {
     return new Contract(address, _abi, signerOrProvider) as NestedLibrary;
   }

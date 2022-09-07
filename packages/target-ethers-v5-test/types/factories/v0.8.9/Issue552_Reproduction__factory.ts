@@ -93,7 +93,7 @@ export class Issue552_Reproduction__factory {
   }
   static connect(
     address: string,
-    signerOrProvider: Signer | Provider
+    signerOrProvider?: Signer | Provider
   ): Issue552_Reproduction {
     return new Contract(
       address,

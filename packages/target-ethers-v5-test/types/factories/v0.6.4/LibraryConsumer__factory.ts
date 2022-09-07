@@ -38,7 +38,7 @@ export class LibraryConsumer__factory {
   }
   static connect(
     address: string,
-    signerOrProvider: Signer | Provider
+    signerOrProvider?: Signer | Provider
   ): LibraryConsumer {
     return new Contract(address, _abi, signerOrProvider) as LibraryConsumer;
   }

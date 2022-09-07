@@ -623,7 +623,7 @@ export class Rarity__factory {
   static createInterface(): RarityInterface {
     return new utils.Interface(_abi) as RarityInterface;
   }
-  static connect(address: string, signerOrProvider: Signer | Provider): Rarity {
+  static connect(address: string, signerOrProvider?: Signer | Provider): Rarity {
     return new Contract(address, _abi, signerOrProvider) as Rarity;
   }
 }

@@ -33,7 +33,7 @@ export class Payable__factory {
   }
   static connect(
     address: string,
-    signerOrProvider: Signer | Provider
+    signerOrProvider?: Signer | Provider
   ): Payable {
     return new Contract(address, _abi, signerOrProvider) as Payable;
   }
