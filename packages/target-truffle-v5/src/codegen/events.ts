@@ -22,9 +22,9 @@ export function codegenAllPossibleEvents(contract: Contract): string {
     .map((e) => e.name)
 
   if (allPossibleEvents.length === 0) {
-    return `type AllEvents = never`
+    return `export type AllEvents = never`
   }
-  return `type AllEvents = ${allPossibleEvents.join(' | ')};`
+  return `export type AllEvents = ${allPossibleEvents.join(' | ')};`
 }
 
 export function codegenEventsEmitters(contract: Contract): string {
