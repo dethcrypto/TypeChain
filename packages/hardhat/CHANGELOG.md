@@ -1,5 +1,11 @@
 # @typechain/hardhat
 
+## 6.1.3
+
+### Patch Changes
+
+- dc5ede9: Reduce the time it takes to load the plugin by importing every library only when needed
+
 ## 6.1.2
 
 ### Patch Changes
