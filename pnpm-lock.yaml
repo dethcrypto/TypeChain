@@ -217,25 +217,21 @@ importers:
       '@nomiclabs/hardhat-ethers': ^2.0.2
       '@typechain/ethers-v5': workspace:^10.1.0
       '@types/fs-extra': ^9.0.7
-      '@types/lodash': ^4.14.139
       '@types/rimraf': ^3.0.0
       ethers: ^5.4.7
       fs-extra: ^9.1.0
       hardhat: ^2.9.9
-      lodash: ^4.17.15
       rimraf: ^3.0.2
       typechain: workspace:^8.1.0
       typescript: ^4
     dependencies:
       fs-extra: 9.1.0
-      lodash: 4.17.21
     devDependencies:
       '@ethersproject/abi': 5.6.0
       '@ethersproject/providers': 5.6.0
       '@nomiclabs/hardhat-ethers': 2.0.5_ethers@5.6.0+hardhat@2.9.9
       '@typechain/ethers-v5': link:../target-ethers-v5
       '@types/fs-extra': 9.0.13
-      '@types/lodash': 4.14.179
       '@types/rimraf': 3.0.2
       ethers: 5.6.0
       hardhat: 2.9.9_typescript@4.6.2
@@ -14287,7 +14283,6 @@ packages:
     resolution: {integrity: sha512-9ia/jWHIEbo49HfjrLGfKbZSuWo9iTMwXO+Ca3pRsSpbsMbc7/IU8NKdCZVRRBafVPGnoJeFL76ZOAA84I9fEg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
-    dev: true
 
   /typewise-core/1.2.0:
     resolution: {integrity: sha1-l+uRgFx/VdL5QXSPpQ0xXZke8ZU=}

@@ -1,11 +1,9 @@
 import './type-extensions'
 
-import fsExtra from 'fs-extra'
 import { TASK_CLEAN, TASK_COMPILE, TASK_COMPILE_SOLIDITY_COMPILE_JOBS } from 'hardhat/builtin-tasks/task-names'
 import { extendConfig, subtask, task, types } from 'hardhat/config'
 import { getFullyQualifiedName } from 'hardhat/utils/contract-names'
-import _, { uniq } from 'lodash'
-import { glob, PublicConfig as RunTypeChainConfig, runTypeChain } from 'typechain'
+import type { PublicConfig as RunTypeChainConfig } from 'typechain'
 
 import { getDefaultTypechainConfig } from './config'
 import { TASK_TYPECHAIN, TASK_TYPECHAIN_GENERATE_TYPES } from './constants'
@@ -38,7 +36,9 @@ subtask(TASK_TYPECHAIN_GENERATE_TYPES)
   .addFlag('quiet', 'Makes the process less verbose')
   .setAction(async ({ compileSolOutput, quiet }, { config, artifacts }) => {
     const artifactFQNs: string[] = getFQNamesFromCompilationOutput(compileSolOutput)
-    const artifactPaths = uniq(artifactFQNs.map((fqn) => artifacts.formArtifactPathFromFullyQualifiedName(fqn)))
+    const artifactPaths = Array.from(
+      new Set(artifactFQNs.map((fqn) => artifacts.formArtifactPathFromFullyQualifiedName(fqn))),
+    )
 
     if (taskArgsStore.noTypechain) {
       return compileSolOutput
@@ -66,6 +66,7 @@ subtask(TASK_TYPECHAIN_GENERATE_TYPES)
     }
     const cwd = config.paths.root
 
+    const { glob } = await import('typechain')
     const allFiles = glob(cwd, [`${config.paths.artifacts}/!(build-info)/**/+([a-zA-Z0-9_]).json`])
     if (typechainCfg.externalArtifacts) {
       allFiles.push(...glob(cwd, typechainCfg.externalArtifacts, false))
@@ -84,6 +85,7 @@ subtask(TASK_TYPECHAIN_GENERATE_TYPES)
       },
     }
 
+    const { runTypeChain } = await import('typechain')
     const result = await runTypeChain({
       ...typechainOptions,
       filesToProcess: needsFullRebuild ? allFiles : glob(cwd, artifactPaths), // only process changed files if not doing full rebuild
@@ -121,6 +123,7 @@ task(
       return runSuper()
     }
 
+    const fsExtra = await import('fs-extra')
     if (await fsExtra.pathExists(config.typechain.outDir)) {
       await fsExtra.remove(config.typechain.outDir)
     }
@@ -138,5 +141,5 @@ function getFQNamesFromCompilationOutput(compileSolOutput: any): string[] {
     })
   })
 
-  return _(allFQNNamesNested).flatten().flatten().value()
+  return allFQNNamesNested.flat(2)
 }
