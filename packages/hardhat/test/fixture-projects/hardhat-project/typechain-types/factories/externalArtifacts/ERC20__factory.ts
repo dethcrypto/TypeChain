@@ -3,7 +3,7 @@
 /* eslint-disable */
 import { Signer, utils, Contract, ContractFactory, Overrides } from "ethers";
 import type { Provider, TransactionRequest } from "@ethersproject/providers";
-import type { PromiseOrValue } from "../../common";
+
 import type { ERC20, ERC20Interface } from "../../externalArtifacts/ERC20";
 
 const _abi = [
