@@ -24,7 +24,7 @@ main()
 
 function panicOnNpm7() {
   const version = new SemVer(execSync('npm -v', { encoding: 'utf8' }).trim())
-  if (version.major > 6) {
+  if (version.major > 6 && (version.major < 8 && version.minor < 16)) {
     console.error(
       '\n' +
         `We're sorry, but it seems you are using ${bold('NPM ' + version.format())}.\n` +
