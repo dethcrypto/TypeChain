@@ -3,15 +3,13 @@
 /* eslint-disable */
 import type {
   BaseContract,
-  BigNumber,
-  BigNumberish,
-  BytesLike,
-  CallOverrides,
   PopulatedTransaction,
-  Signer,
-  utils,
-} from "ethers";
-import type { FunctionFragment, Result } from "@ethersproject/abi";
+  CallOverrides,
+} from "@ethersproject/contracts";
+import type { Signer } from "@ethersproject/abstract-signer";
+import type { BigNumber, BigNumberish } from "@ethersproject/bignumber";
+import type { BytesLike } from "@ethersproject/bytes";
+import type { Interface, FunctionFragment, Result } from "@ethersproject/abi";
 import type { Listener, Provider } from "@ethersproject/providers";
 import type {
   TypedEventFilter,
@@ -21,7 +19,7 @@ import type {
   PromiseOrValue,
 } from "../common";
 
-export interface OverloadsInterface extends utils.Interface {
+export interface OverloadsInterface extends Interface {
   functions: {
     "overload1(int256)": FunctionFragment;
     "overload1(uint256,uint256)": FunctionFragment;

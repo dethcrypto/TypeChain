@@ -2,7 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
+import { Contract } from "@ethersproject/contracts";
+import { Signer } from "@ethersproject/abstract-signer";
 import type { Provider } from "@ethersproject/providers";
 import type {
   ERC721Enumerable,
@@ -337,7 +338,7 @@ const _abi = [
 export class ERC721Enumerable__factory {
   static readonly abi = _abi;
   static createInterface(): ERC721EnumerableInterface {
-    return new utils.Interface(_abi) as ERC721EnumerableInterface;
+    return new Interface(_abi) as ERC721EnumerableInterface;
   }
   static connect(
     address: string,

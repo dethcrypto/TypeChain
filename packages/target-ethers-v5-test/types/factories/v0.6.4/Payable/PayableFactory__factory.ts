@@ -2,7 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
+import { Contract } from "@ethersproject/contracts";
+import { Signer } from "@ethersproject/abstract-signer";
 import type { Provider } from "@ethersproject/providers";
 import type {
   PayableFactory,
@@ -28,7 +29,7 @@ const _abi = [
 export class PayableFactory__factory {
   static readonly abi = _abi;
   static createInterface(): PayableFactoryInterface {
-    return new utils.Interface(_abi) as PayableFactoryInterface;
+    return new Interface(_abi) as PayableFactoryInterface;
   }
   static connect(
     address: string,

@@ -2,7 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
+import { Contract } from "@ethersproject/contracts";
+import { Signer } from "@ethersproject/abstract-signer";
 import type { Provider } from "@ethersproject/providers";
 import type {
   DataTypesInput,
@@ -955,7 +956,7 @@ const _abi = [
 export class DataTypesInput__factory {
   static readonly abi = _abi;
   static createInterface(): DataTypesInputInterface {
-    return new utils.Interface(_abi) as DataTypesInputInterface;
+    return new Interface(_abi) as DataTypesInputInterface;
   }
   static connect(
     address: string,

@@ -4,7 +4,6 @@ import {
   CodegenConfig,
   Contract,
   createImportsForUsedIdentifiers,
-  createImportTypeDeclaration,
   EventDeclaration,
   FunctionDeclaration,
   StructType,
@@ -38,7 +37,7 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
   const source = `
   ${generateStructTypes(values(contract.structs).map((v) => v[0]))}
 
-  export interface ${contract.name}Interface extends utils.Interface {
+  export interface ${contract.name}Interface extends Interface {
     functions: {
       ${values(contract.functions)
         .flatMap((v) => v.map(generateInterfaceFunctionDescription))
@@ -120,29 +119,25 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
     ? `${new Array(contract.path.length).fill('..').join('/')}/common`
     : './common'
 
-  const imports =
-    createImportsForUsedIdentifiers(
-      {
-        'type ethers': [
-          'BaseContract',
-          'BigNumber',
-          'BigNumberish',
-          'BytesLike',
-          'CallOverrides',
-          'ContractTransaction',
-          'Overrides',
-          'PayableOverrides',
-          'PopulatedTransaction',
-          'Signer',
-          'utils',
-        ],
-        'type @ethersproject/abi': ['FunctionFragment', 'Result', 'EventFragment'],
-        'type @ethersproject/providers': ['Listener', 'Provider'],
-      },
-      source,
-    ) +
-    '\n' +
-    createImportTypeDeclaration([...EVENT_IMPORTS, 'PromiseOrValue'], commonPath)
+  const imports = createImportsForUsedIdentifiers(
+    {
+      'type @ethersproject/contracts': [
+        'BaseContract',
+        'ContractTransaction',
+        'Overrides',
+        'PayableOverrides',
+        'PopulatedTransaction',
+        'CallOverrides',
+      ],
+      'type @ethersproject/abstract-signer': ['Signer'],
+      'type @ethersproject/bignumber': ['BigNumber', 'BigNumberish'],
+      'type @ethersproject/bytes': ['BytesLike'],
+      'type @ethersproject/abi': ['Interface', 'FunctionFragment', 'Result', 'EventFragment'],
+      'type @ethersproject/providers': ['Listener', 'Provider'],
+      [`type ${commonPath}`]: [...EVENT_IMPORTS, 'PromiseOrValue'],
+    },
+    source,
+  )
 
   return imports + source
 }
@@ -204,25 +199,19 @@ export function codegenContractFactory(
 
   const commonPath = `${new Array(contract.path.length + 1).fill('..').join('/')}/common`
 
-  const imports =
-    createImportsForUsedIdentifiers(
-      {
-        ethers: [
-          'Signer',
-          'utils',
-          'Contract',
-          'ContractFactory',
-          'PayableOverrides',
-          'BytesLike',
-          'BigNumberish',
-          'Overrides',
-        ],
-        'type @ethersproject/providers': ['Provider', 'TransactionRequest'],
-      },
-      source,
-    ) +
-    '\n' +
-    createImportTypeDeclaration(['PromiseOrValue'], commonPath)
+  const imports = createImportsForUsedIdentifiers(
+    {
+      'type @ethersproject/abstract-signer': ['Signer'],
+      'type @ethersproject/bytes': ['BytesLike'],
+      'type @ethersproject/units': ['Units'],
+      'type @ethersproject/contracts': ['Contract', 'Overrides'],
+      '@ethersproject/contracts': ['ContractFactory'],
+      'type @ethersproject/bignumber': ['BigNumberish'],
+      'type @ethersproject/providers': ['Provider', 'TransactionRequest'],
+      [`type ${commonPath}`]: ['PromiseOrValue'],
+    },
+    source,
+  )
 
   return imports + source
 }
@@ -230,7 +219,8 @@ export function codegenContractFactory(
 export function codegenAbstractContractFactory(contract: Contract, abi: any): string {
   const { body, header } = codegenCommonContractFactory(contract, abi)
   return `
-  import { Contract, Signer, utils } from "ethers";
+  import { Contract } from "@ethersproject/contracts";
+  import { Signer } from "@ethersproject/abstract-signer";
   import type { Provider } from "@ethersproject/providers";
   ${header}
 
@@ -243,7 +233,7 @@ export function codegenAbstractContractFactory(contract: Contract, abi: any): st
 function codegenCommonContractFactory(contract: Contract, abi: any): { header: string; body: string } {
   const imports: Set<string> = new Set([contract.name, contract.name + 'Interface'])
 
-  contract.constructor[0]?.inputs.forEach(({ type }) => {
+  contract.constructor[0]?.inputs.forEach(({ type }: { type: any }) => {
     const { structName } = type as StructType
     if (structName) {
       imports.add(structName.namespace || structName.identifier + STRUCT_INPUT_POSTFIX)
@@ -263,7 +253,7 @@ function codegenCommonContractFactory(contract: Contract, abi: any): { header: s
   const body = `
     static readonly abi = _abi;
     static createInterface(): ${contract.name}Interface {
-      return new utils.Interface(_abi) as ${contract.name}Interface;
+      return new Interface(_abi) as ${contract.name}Interface;
     }
     static connect(address: string, signerOrProvider: Signer | Provider): ${contract.name} {
       return new Contract(address, _abi, signerOrProvider) as ${contract.name};

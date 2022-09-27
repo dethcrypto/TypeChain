@@ -2,7 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
+import { Contract } from "@ethersproject/contracts";
+import { Signer } from "@ethersproject/abstract-signer";
 import type { Provider } from "@ethersproject/providers";
 import type {
   IERC721Enumerable,
@@ -337,7 +338,7 @@ const _abi = [
 export class IERC721Enumerable__factory {
   static readonly abi = _abi;
   static createInterface(): IERC721EnumerableInterface {
-    return new utils.Interface(_abi) as IERC721EnumerableInterface;
+    return new Interface(_abi) as IERC721EnumerableInterface;
   }
   static connect(
     address: string,

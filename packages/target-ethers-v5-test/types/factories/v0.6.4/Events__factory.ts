@@ -2,7 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
+import { Contract } from "@ethersproject/contracts";
+import { Signer } from "@ethersproject/abstract-signer";
 import type { Provider } from "@ethersproject/providers";
 import type { Events, EventsInterface } from "../../v0.6.4/Events";
 
@@ -181,7 +182,7 @@ const _abi = [
 export class Events__factory {
   static readonly abi = _abi;
   static createInterface(): EventsInterface {
-    return new utils.Interface(_abi) as EventsInterface;
+    return new Interface(_abi) as EventsInterface;
   }
   static connect(address: string, signerOrProvider: Signer | Provider): Events {
     return new Contract(address, _abi, signerOrProvider) as Events;

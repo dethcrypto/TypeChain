@@ -2,7 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
+import { Contract } from "@ethersproject/contracts";
+import { Signer } from "@ethersproject/abstract-signer";
 import type { Provider } from "@ethersproject/providers";
 import type {
   NAME12mangling,
@@ -41,7 +42,7 @@ const _abi = [
 export class NAME12mangling__factory {
   static readonly abi = _abi;
   static createInterface(): NAME12manglingInterface {
-    return new utils.Interface(_abi) as NAME12manglingInterface;
+    return new Interface(_abi) as NAME12manglingInterface;
   }
   static connect(
     address: string,

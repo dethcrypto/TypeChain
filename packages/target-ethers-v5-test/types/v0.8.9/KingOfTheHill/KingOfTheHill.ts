@@ -3,18 +3,17 @@
 /* eslint-disable */
 import type {
   BaseContract,
-  BigNumber,
-  BigNumberish,
-  BytesLike,
-  CallOverrides,
   ContractTransaction,
   Overrides,
   PayableOverrides,
   PopulatedTransaction,
-  Signer,
-  utils,
-} from "ethers";
+  CallOverrides,
+} from "@ethersproject/contracts";
+import type { Signer } from "@ethersproject/abstract-signer";
+import type { BigNumber, BigNumberish } from "@ethersproject/bignumber";
+import type { BytesLike } from "@ethersproject/bytes";
 import type {
+  Interface,
   FunctionFragment,
   Result,
   EventFragment,
@@ -40,7 +39,7 @@ export declare namespace KingOfTheHill {
   };
 }
 
-export interface KingOfTheHillInterface extends utils.Interface {
+export interface KingOfTheHillInterface extends Interface {
   functions: {
     "bid()": FunctionFragment;
     "highestBid()": FunctionFragment;

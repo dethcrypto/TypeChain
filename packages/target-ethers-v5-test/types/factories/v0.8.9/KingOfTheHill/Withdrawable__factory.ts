@@ -2,7 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
+import { Contract } from "@ethersproject/contracts";
+import { Signer } from "@ethersproject/abstract-signer";
 import type { Provider } from "@ethersproject/providers";
 import type {
   Withdrawable,
@@ -22,7 +23,7 @@ const _abi = [
 export class Withdrawable__factory {
   static readonly abi = _abi;
   static createInterface(): WithdrawableInterface {
-    return new utils.Interface(_abi) as WithdrawableInterface;
+    return new Interface(_abi) as WithdrawableInterface;
   }
   static connect(
     address: string,

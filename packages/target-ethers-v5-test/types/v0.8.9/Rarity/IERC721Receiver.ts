@@ -3,17 +3,15 @@
 /* eslint-disable */
 import type {
   BaseContract,
-  BigNumber,
-  BigNumberish,
-  BytesLike,
-  CallOverrides,
   ContractTransaction,
   Overrides,
   PopulatedTransaction,
-  Signer,
-  utils,
-} from "ethers";
-import type { FunctionFragment, Result } from "@ethersproject/abi";
+  CallOverrides,
+} from "@ethersproject/contracts";
+import type { Signer } from "@ethersproject/abstract-signer";
+import type { BigNumber, BigNumberish } from "@ethersproject/bignumber";
+import type { BytesLike } from "@ethersproject/bytes";
+import type { Interface, FunctionFragment, Result } from "@ethersproject/abi";
 import type { Listener, Provider } from "@ethersproject/providers";
 import type {
   TypedEventFilter,
@@ -23,7 +21,7 @@ import type {
   PromiseOrValue,
 } from "../../common";
 
-export interface IERC721ReceiverInterface extends utils.Interface {
+export interface IERC721ReceiverInterface extends Interface {
   functions: {
     "onERC721Received(address,address,uint256,bytes)": FunctionFragment;
   };

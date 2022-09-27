@@ -2,7 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
+import { Contract } from "@ethersproject/contracts";
+import { Signer } from "@ethersproject/abstract-signer";
 import type { Provider } from "@ethersproject/providers";
 import type { Overloads, OverloadsInterface } from "../../v0.6.4/Overloads";
 
@@ -55,7 +56,7 @@ const _abi = [
 export class Overloads__factory {
   static readonly abi = _abi;
   static createInterface(): OverloadsInterface {
-    return new utils.Interface(_abi) as OverloadsInterface;
+    return new Interface(_abi) as OverloadsInterface;
   }
   static connect(
     address: string,

@@ -3,16 +3,16 @@
 /* eslint-disable */
 import type {
   BaseContract,
-  BigNumber,
-  BytesLike,
-  CallOverrides,
   ContractTransaction,
   Overrides,
   PopulatedTransaction,
-  Signer,
-  utils,
-} from "ethers";
+  CallOverrides,
+} from "@ethersproject/contracts";
+import type { Signer } from "@ethersproject/abstract-signer";
+import type { BigNumber } from "@ethersproject/bignumber";
+import type { BytesLike } from "@ethersproject/bytes";
 import type {
+  Interface,
   FunctionFragment,
   Result,
   EventFragment,
@@ -26,7 +26,7 @@ import type {
   PromiseOrValue,
 } from "./common";
 
-export interface CounterInterface extends utils.Interface {
+export interface CounterInterface extends Interface {
   functions: {
     "countDown()": FunctionFragment;
     "countUp()": FunctionFragment;

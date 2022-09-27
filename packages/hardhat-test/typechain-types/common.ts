@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { Listener } from "@ethersproject/providers";
-import type { Event, EventFilter } from "ethers";
+import type { Event, EventFilter } from "@ethersproject/contracts";
 
 export interface TypedEvent<
   TArgsArray extends Array<any> = any,
