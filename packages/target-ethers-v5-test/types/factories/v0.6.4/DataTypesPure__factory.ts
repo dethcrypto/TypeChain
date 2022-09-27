@@ -3,7 +3,8 @@
 /* eslint-disable */
 
 import { Contract } from "@ethersproject/contracts";
-import { Signer } from "@ethersproject/abstract-signer";
+import { Interface } from "@ethersproject/abi";
+import type { Signer } from "@ethersproject/abstract-signer";
 import type { Provider } from "@ethersproject/providers";
 import type {
   DataTypesPure,
@@ -224,7 +225,7 @@ export class DataTypesPure__factory {
   }
   static connect(
     address: string,
-    signerOrProvider: Signer | Provider
+    signerOrProvider: Signer | Provider | undefined
   ): DataTypesPure {
     return new Contract(address, _abi, signerOrProvider) as DataTypesPure;
   }

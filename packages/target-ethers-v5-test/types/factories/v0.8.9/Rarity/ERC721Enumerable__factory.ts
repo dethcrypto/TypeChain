@@ -3,7 +3,8 @@
 /* eslint-disable */
 
 import { Contract } from "@ethersproject/contracts";
-import { Signer } from "@ethersproject/abstract-signer";
+import { Interface } from "@ethersproject/abi";
+import type { Signer } from "@ethersproject/abstract-signer";
 import type { Provider } from "@ethersproject/providers";
 import type {
   ERC721Enumerable,
@@ -342,7 +343,7 @@ export class ERC721Enumerable__factory {
   }
   static connect(
     address: string,
-    signerOrProvider: Signer | Provider
+    signerOrProvider: Signer | Provider | undefined
   ): ERC721Enumerable {
     return new Contract(address, _abi, signerOrProvider) as ERC721Enumerable;
   }

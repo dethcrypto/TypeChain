@@ -3,7 +3,8 @@
 /* eslint-disable */
 
 import { Contract } from "@ethersproject/contracts";
-import { Signer } from "@ethersproject/abstract-signer";
+import { Interface } from "@ethersproject/abi";
+import type { Signer } from "@ethersproject/abstract-signer";
 import type { Provider } from "@ethersproject/providers";
 import type { Rarity, RarityInterface } from "../../../v0.8.9/Rarity/Rarity";
 
@@ -624,7 +625,10 @@ export class Rarity__factory {
   static createInterface(): RarityInterface {
     return new Interface(_abi) as RarityInterface;
   }
-  static connect(address: string, signerOrProvider: Signer | Provider): Rarity {
+  static connect(
+    address: string,
+    signerOrProvider: Signer | Provider | undefined
+  ): Rarity {
     return new Contract(address, _abi, signerOrProvider) as Rarity;
   }
 }

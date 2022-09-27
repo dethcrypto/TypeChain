@@ -204,10 +204,11 @@ export function codegenContractFactory(
       'type @ethersproject/abstract-signer': ['Signer'],
       'type @ethersproject/bytes': ['BytesLike'],
       'type @ethersproject/units': ['Units'],
-      'type @ethersproject/contracts': ['Contract', 'Overrides'],
-      '@ethersproject/contracts': ['ContractFactory'],
+      'type @ethersproject/contracts': ['Overrides', 'PayableOverrides', 'CallOverrides', 'ContractTransaction'],
+      '@ethersproject/contracts': ['ContractFactory', 'Contract'],
       'type @ethersproject/bignumber': ['BigNumberish'],
       'type @ethersproject/providers': ['Provider', 'TransactionRequest'],
+      '@ethersproject/abi': ['Interface'],
       [`type ${commonPath}`]: ['PromiseOrValue'],
     },
     source,
@@ -220,7 +221,8 @@ export function codegenAbstractContractFactory(contract: Contract, abi: any): st
   const { body, header } = codegenCommonContractFactory(contract, abi)
   return `
   import { Contract } from "@ethersproject/contracts";
-  import { Signer } from "@ethersproject/abstract-signer";
+  import { Interface } from "@ethersproject/abi";
+  import type { Signer } from "@ethersproject/abstract-signer";
   import type { Provider } from "@ethersproject/providers";
   ${header}
 
@@ -255,7 +257,7 @@ function codegenCommonContractFactory(contract: Contract, abi: any): { header: s
     static createInterface(): ${contract.name}Interface {
       return new Interface(_abi) as ${contract.name}Interface;
     }
-    static connect(address: string, signerOrProvider: Signer | Provider): ${contract.name} {
+    static connect(address: string, signerOrProvider: Signer | Provider | undefined): ${contract.name} {
       return new Contract(address, _abi, signerOrProvider) as ${contract.name};
     }
   `.trim()

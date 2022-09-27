@@ -1,5 +1,6 @@
+import { ContractFactory } from '@ethersproject/contracts'
 import { JsonRpcProvider, JsonRpcSigner } from '@ethersproject/providers'
-import { ethers } from 'ethers'
+import type { Signer } from '@ethersproject/abstract-signer'
 import { Server as GanacheServer, server as createGanacheServer } from 'ganache'
 import { loadContract } from 'test-utils'
 
@@ -43,9 +44,9 @@ export function createNewBlockchain<TContract>(contractName: string) {
   return ctx as Ctx
 }
 
-export function deployContract<T>(signer: ethers.Signer, name: string): Promise<T> {
+export function deployContract<T>(signer: Signer, name: string): Promise<T> {
   const { abi, code } = loadContract(name)
 
-  const factory = new ethers.ContractFactory(abi, code, signer)
+  const factory = new ContractFactory(abi, code, signer)
   return factory.deploy() as any as Promise<T>
 }

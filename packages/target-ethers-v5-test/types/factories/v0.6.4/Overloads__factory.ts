@@ -3,7 +3,8 @@
 /* eslint-disable */
 
 import { Contract } from "@ethersproject/contracts";
-import { Signer } from "@ethersproject/abstract-signer";
+import { Interface } from "@ethersproject/abi";
+import type { Signer } from "@ethersproject/abstract-signer";
 import type { Provider } from "@ethersproject/providers";
 import type { Overloads, OverloadsInterface } from "../../v0.6.4/Overloads";
 
@@ -60,7 +61,7 @@ export class Overloads__factory {
   }
   static connect(
     address: string,
-    signerOrProvider: Signer | Provider
+    signerOrProvider: Signer | Provider | undefined
   ): Overloads {
     return new Contract(address, _abi, signerOrProvider) as Overloads;
   }

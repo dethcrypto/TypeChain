@@ -39,7 +39,7 @@
     "@typechain/ethers-v5": "workspace:^10.1.0",
     "@types/fs-extra": "^9.0.7",
     "@types/rimraf": "^3.0.0",
-    "ethers": "^5.4.7",
+    "ethers": "^5.7.0",
     "hardhat": "^2.9.9",
     "rimraf": "^3.0.2",
     "typechain": "workspace:^8.1.0",
@@ -49,7 +49,7 @@
     "@ethersproject/abi": "^5.4.7",
     "@ethersproject/providers": "^5.4.7",
     "@typechain/ethers-v5": "workspace:^10.1.0",
-    "ethers": "^5.4.7",
+    "ethers": "^5.7.0",
     "hardhat": "^2.9.9",
     "typechain": "workspace:^8.1.0"
   }

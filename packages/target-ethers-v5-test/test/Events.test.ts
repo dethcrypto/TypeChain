@@ -1,4 +1,4 @@
-import { BigNumber, ethers } from 'ethers'
+import { BigNumber  } from '@ethersproject/bignumber'
 import { AssertTrue, IsExact, typedAssert } from 'test-utils'
 
 import type { TypedEventFilter } from '../types/common'
@@ -65,9 +65,9 @@ describe('Events', () => {
     contract.on(filter, (a, b, c) => {
       typedAssert(a, BigNumber.from(1))
       typedAssert(b, BigNumber.from(2))
-      const args = [a, b] as [ethers.BigNumber, ethers.BigNumber] & {
-        value1: ethers.BigNumber
-        value2: ethers.BigNumber
+      const args = [a, b] as [BigNumber, BigNumber] & {
+        value1: BigNumber
+        value2: BigNumber
       }
       args.value1 = a
       args.value2 = b
@@ -85,9 +85,9 @@ describe('Events', () => {
     contract.once(filter, (a, b, c) => {
       typedAssert(a, BigNumber.from(1))
       typedAssert(b, BigNumber.from(2))
-      const args = [a, b] as [ethers.BigNumber, ethers.BigNumber] & {
-        value1: ethers.BigNumber
-        value2: ethers.BigNumber
+      const args = [a, b] as [BigNumber, BigNumber] & {
+        value1: BigNumber
+        value2: BigNumber
       }
       args.value1 = a
       args.value2 = b

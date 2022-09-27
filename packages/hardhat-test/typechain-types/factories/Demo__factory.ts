@@ -3,10 +3,11 @@
 /* eslint-disable */
 import type { Signer } from "@ethersproject/abstract-signer";
 
-import type { Contract, Overrides } from "@ethersproject/contracts";
-import { ContractFactory } from "@ethersproject/contracts";
+import type { Overrides } from "@ethersproject/contracts";
+import { ContractFactory, Contract } from "@ethersproject/contracts";
 
 import type { Provider, TransactionRequest } from "@ethersproject/providers";
+import { Interface } from "@ethersproject/abi";
 import type { PromiseOrValue } from "../common";
 import type { Demo, DemoInterface } from "../Demo";
 
@@ -99,7 +100,10 @@ export class Demo__factory extends ContractFactory {
   static createInterface(): DemoInterface {
     return new Interface(_abi) as DemoInterface;
   }
-  static connect(address: string, signerOrProvider: Signer | Provider): Demo {
+  static connect(
+    address: string,
+    signerOrProvider: Signer | Provider | undefined
+  ): Demo {
     return new Contract(address, _abi, signerOrProvider) as Demo;
   }
 }

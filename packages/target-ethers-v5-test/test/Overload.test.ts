@@ -1,5 +1,5 @@
 import { expect } from 'earljs'
-import { BigNumber } from 'ethers'
+import { BigNumber } from '@ethersproject/bignumber'
 import { typedAssert } from 'test-utils'
 
 import type { Overloads } from '../types/v0.6.4/Overloads'

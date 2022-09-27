@@ -3,7 +3,8 @@
 /* eslint-disable */
 
 import { Contract } from "@ethersproject/contracts";
-import { Signer } from "@ethersproject/abstract-signer";
+import { Interface } from "@ethersproject/abi";
+import type { Signer } from "@ethersproject/abstract-signer";
 import type { Provider } from "@ethersproject/providers";
 import type { Lib, LibInterface } from "../../../v0.6.4/Library/Lib";
 
@@ -34,7 +35,10 @@ export class Lib__factory {
   static createInterface(): LibInterface {
     return new Interface(_abi) as LibInterface;
   }
-  static connect(address: string, signerOrProvider: Signer | Provider): Lib {
+  static connect(
+    address: string,
+    signerOrProvider: Signer | Provider | undefined
+  ): Lib {
     return new Contract(address, _abi, signerOrProvider) as Lib;
   }
 }
