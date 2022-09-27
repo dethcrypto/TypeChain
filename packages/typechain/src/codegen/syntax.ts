@@ -41,7 +41,6 @@ export function getUsedIdentifiers(identifiers: string[], sourceFile: string): s
   identifiers.forEach((identifier) => {
     if (new RegExp(`\\W${identifier}(\\W|$)`).test(sourceFile)) usedIdentifiers.add(identifier)
   })
-  console.log(Array.from(usedIdentifiers))
   return Array.from(usedIdentifiers)
 }
 
