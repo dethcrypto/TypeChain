@@ -2,7 +2,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
+import { Contract } from "@ethersproject/contracts";
+import { Interface } from "@ethersproject/abi";
+import type { Signer } from "@ethersproject/abstract-signer";
 import type { Provider } from "@ethersproject/providers";
 import type {
   KingOfTheHill,
@@ -93,11 +95,11 @@ const _abi = [
 export class KingOfTheHill__factory {
   static readonly abi = _abi;
   static createInterface(): KingOfTheHillInterface {
-    return new utils.Interface(_abi) as KingOfTheHillInterface;
+    return new Interface(_abi) as KingOfTheHillInterface;
   }
   static connect(
     address: string,
-    signerOrProvider: Signer | Provider
+    signerOrProvider: Signer | Provider | undefined
   ): KingOfTheHill {
     return new Contract(address, _abi, signerOrProvider) as KingOfTheHill;
   }

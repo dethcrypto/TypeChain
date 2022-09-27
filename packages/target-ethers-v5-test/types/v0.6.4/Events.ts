@@ -3,17 +3,16 @@
 /* eslint-disable */
 import type {
   BaseContract,
-  BigNumber,
-  BigNumberish,
-  BytesLike,
-  CallOverrides,
   ContractTransaction,
   Overrides,
   PopulatedTransaction,
-  Signer,
-  utils,
-} from "ethers";
+  CallOverrides,
+} from "@ethersproject/contracts";
+import type { Signer } from "@ethersproject/abstract-signer";
+import type { BigNumber, BigNumberish } from "@ethersproject/bignumber";
+import type { BytesLike } from "@ethersproject/bytes";
 import type {
+  Interface,
   FunctionFragment,
   Result,
   EventFragment,
@@ -39,7 +38,7 @@ export declare namespace Events {
   };
 }
 
-export interface EventsInterface extends utils.Interface {
+export interface EventsInterface extends Interface {
   functions: {
     "emit_anon1()": FunctionFragment;
     "emit_event1()": FunctionFragment;

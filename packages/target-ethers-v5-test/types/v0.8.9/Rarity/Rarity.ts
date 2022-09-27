@@ -3,17 +3,16 @@
 /* eslint-disable */
 import type {
   BaseContract,
-  BigNumber,
-  BigNumberish,
-  BytesLike,
-  CallOverrides,
   ContractTransaction,
   Overrides,
   PopulatedTransaction,
-  Signer,
-  utils,
-} from "ethers";
+  CallOverrides,
+} from "@ethersproject/contracts";
+import type { Signer } from "@ethersproject/abstract-signer";
+import type { BigNumber, BigNumberish } from "@ethersproject/bignumber";
+import type { BytesLike } from "@ethersproject/bytes";
 import type {
+  Interface,
   FunctionFragment,
   Result,
   EventFragment,
@@ -27,7 +26,7 @@ import type {
   PromiseOrValue,
 } from "../../common";
 
-export interface RarityInterface extends utils.Interface {
+export interface RarityInterface extends Interface {
   functions: {
     "adventure(uint256)": FunctionFragment;
     "adventurers_log(uint256)": FunctionFragment;

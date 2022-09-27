@@ -2,7 +2,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
+import { Contract } from "@ethersproject/contracts";
+import { Interface } from "@ethersproject/abi";
+import type { Signer } from "@ethersproject/abstract-signer";
 import type { Provider } from "@ethersproject/providers";
 import type {
   Payable,
@@ -29,11 +31,11 @@ const _abi = [
 export class Payable__factory {
   static readonly abi = _abi;
   static createInterface(): PayableInterface {
-    return new utils.Interface(_abi) as PayableInterface;
+    return new Interface(_abi) as PayableInterface;
   }
   static connect(
     address: string,
-    signerOrProvider: Signer | Provider
+    signerOrProvider: Signer | Provider | undefined
   ): Payable {
     return new Contract(address, _abi, signerOrProvider) as Payable;
   }

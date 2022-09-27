@@ -2,7 +2,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
+import { Contract } from "@ethersproject/contracts";
+import { Interface } from "@ethersproject/abi";
+import type { Signer } from "@ethersproject/abstract-signer";
 import type { Provider } from "@ethersproject/providers";
 import type {
   Issue552_Reproduction,
@@ -89,11 +91,11 @@ const _abi = [
 export class Issue552_Reproduction__factory {
   static readonly abi = _abi;
   static createInterface(): Issue552_ReproductionInterface {
-    return new utils.Interface(_abi) as Issue552_ReproductionInterface;
+    return new Interface(_abi) as Issue552_ReproductionInterface;
   }
   static connect(
     address: string,
-    signerOrProvider: Signer | Provider
+    signerOrProvider: Signer | Provider | undefined
   ): Issue552_Reproduction {
     return new Contract(
       address,

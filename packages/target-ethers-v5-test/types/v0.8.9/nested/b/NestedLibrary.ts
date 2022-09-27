@@ -3,24 +3,22 @@
 /* eslint-disable */
 import type {
   BaseContract,
-  BigNumber,
-  BytesLike,
-  CallOverrides,
   PopulatedTransaction,
-  Signer,
-  utils,
-} from "ethers";
-import type { FunctionFragment, Result } from "@ethersproject/abi";
+  CallOverrides,
+} from "@ethersproject/contracts";
+import type { Signer } from "@ethersproject/abstract-signer";
+import type { BigNumber } from "@ethersproject/bignumber";
+import type { BytesLike } from "@ethersproject/bytes";
+import type { Interface, FunctionFragment, Result } from "@ethersproject/abi";
 import type { Listener, Provider } from "@ethersproject/providers";
 import type {
   TypedEventFilter,
   TypedEvent,
   TypedListener,
   OnEvent,
-  PromiseOrValue,
 } from "../../../common";
 
-export interface NestedLibraryInterface extends utils.Interface {
+export interface NestedLibraryInterface extends Interface {
   functions: {
     "getValue()": FunctionFragment;
   };

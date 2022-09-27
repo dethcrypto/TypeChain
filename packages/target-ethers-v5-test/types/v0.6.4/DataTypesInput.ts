@@ -3,15 +3,13 @@
 /* eslint-disable */
 import type {
   BaseContract,
-  BigNumber,
-  BigNumberish,
-  BytesLike,
-  CallOverrides,
   PopulatedTransaction,
-  Signer,
-  utils,
-} from "ethers";
-import type { FunctionFragment, Result } from "@ethersproject/abi";
+  CallOverrides,
+} from "@ethersproject/contracts";
+import type { Signer } from "@ethersproject/abstract-signer";
+import type { BigNumber, BigNumberish } from "@ethersproject/bignumber";
+import type { BytesLike } from "@ethersproject/bytes";
+import type { Interface, FunctionFragment, Result } from "@ethersproject/abi";
 import type { Listener, Provider } from "@ethersproject/providers";
 import type {
   TypedEventFilter,
@@ -68,7 +66,7 @@ export declare namespace DataTypesInput {
   export type Struct3StructOutput = [BigNumber[]] & { input1: BigNumber[] };
 }
 
-export interface DataTypesInputInterface extends utils.Interface {
+export interface DataTypesInputInterface extends Interface {
   functions: {
     "input_address(address)": FunctionFragment;
     "input_bool(bool)": FunctionFragment;

@@ -1,7 +1,9 @@
 import type { FunctionFragment } from '@ethersproject/abi'
 import { expect } from 'earljs'
-import type { BigNumberish } from 'ethers'
-import { BigNumber, ethers } from 'ethers'
+import type { BigNumberish } from '@ethersproject/bignumber'
+import { BigNumber } from '@ethersproject/bignumber'
+import type { CallOverrides } from '@ethersproject/contracts'
+import { formatBytes32String } from '@ethersproject/strings'
 import type { AssertTrue, IsExact } from 'test-utils'
 import { q18, typedAssert } from 'test-utils'
 
@@ -53,7 +55,7 @@ describe('DataTypesInput', () => {
     typedAssert(await chain.contract.input_bytes1([0]), '0x00')
 
     typedAssert(
-      await chain.contract.input_bytes(ethers.utils.formatBytes32String('TypeChain')),
+      await chain.contract.input_bytes(formatBytes32String('TypeChain')),
       '0x54797065436861696e0000000000000000000000000000000000000000000000',
     )
 
@@ -114,7 +116,7 @@ describe('DataTypesInput', () => {
     typedAssert(await chain.contract.input_bytes1(getPromise([0])), '0x00')
 
     typedAssert(
-      await chain.contract.input_bytes(getPromise(ethers.utils.formatBytes32String('TypeChain'))),
+      await chain.contract.input_bytes(getPromise(formatBytes32String('TypeChain'))),
       '0x54797065436861696e0000000000000000000000000000000000000000000000',
     )
 
@@ -167,7 +169,7 @@ describe('DataTypesInput', () => {
     type InputType = Parameters<typeof chain.contract.input_uint_array>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     type _t1 = AssertTrue<
-      IsExact<InputType, [input1: PromiseOrValue<BigNumberish>[], overrides?: ethers.CallOverrides | undefined]>
+      IsExact<InputType, [input1: PromiseOrValue<BigNumberish>[], overrides?: CallOverrides | undefined]>
     >
   })
 
@@ -267,7 +269,7 @@ describe('DataTypesInput', () => {
             [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>][],
             [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>][],
           ],
-          overrides?: ethers.CallOverrides | undefined,
+          overrides?: CallOverrides | undefined,
         ]
       >
     >
@@ -292,7 +294,7 @@ describe('DataTypesInput', () => {
     type ViewStructType = Parameters<typeof chain.contract.input_struct>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     type _t1 = AssertTrue<
-      IsExact<ViewStructType, [input1: Struct1Struct, overrides?: ethers.CallOverrides | undefined]>
+      IsExact<ViewStructType, [input1: Struct1Struct, overrides?: CallOverrides | undefined]>
     >
   })
 
@@ -307,7 +309,7 @@ describe('DataTypesInput', () => {
     type ViewStructType = Parameters<typeof chain.contract.input_struct_array>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     type _t1 = AssertTrue<
-      IsExact<ViewStructType, [input1: Struct1Struct[], overrides?: ethers.CallOverrides | undefined]>
+      IsExact<ViewStructType, [input1: Struct1Struct[], overrides?: CallOverrides | undefined]>
     >
   })
 
@@ -322,7 +324,7 @@ describe('DataTypesInput', () => {
     type ViewStructType = Parameters<typeof chain.contract.input_struct_array_array>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     type _t1 = AssertTrue<
-      IsExact<ViewStructType, [input1: Struct1Struct[][], overrides?: ethers.CallOverrides | undefined]>
+      IsExact<ViewStructType, [input1: Struct1Struct[][], overrides?: CallOverrides | undefined]>
     >
   })
 
@@ -337,7 +339,7 @@ describe('DataTypesInput', () => {
     type ViewStructType = Parameters<typeof chain.contract.input_struct_fixedarray_array>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     type _t1 = AssertTrue<
-      IsExact<ViewStructType, [input1: [Struct1Struct, Struct1Struct][], overrides?: ethers.CallOverrides | undefined]>
+      IsExact<ViewStructType, [input1: [Struct1Struct, Struct1Struct][], overrides?: CallOverrides | undefined]>
     >
   })
 
@@ -354,7 +356,7 @@ describe('DataTypesInput', () => {
     type _t1 = AssertTrue<
       IsExact<
         ViewStructType,
-        [input1: [Struct1Struct[], Struct1Struct[]], overrides?: ethers.CallOverrides | undefined]
+        [input1: [Struct1Struct[], Struct1Struct[]], overrides?: CallOverrides | undefined]
       >
     >
   })
@@ -374,7 +376,7 @@ describe('DataTypesInput', () => {
         ViewStructType,
         [
           input1: [[Struct1Struct, Struct1Struct], [Struct1Struct, Struct1Struct], [Struct1Struct, Struct1Struct]],
-          overrides?: ethers.CallOverrides | undefined,
+          overrides?: CallOverrides | undefined,
         ]
       >
     >
@@ -400,7 +402,7 @@ describe('DataTypesInput', () => {
     type ViewStructType = Parameters<typeof chain.contract.input_struct_array_array_array>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     type _t1 = AssertTrue<
-      IsExact<ViewStructType, [input1: Struct1Struct[][][], overrides?: ethers.CallOverrides | undefined]>
+      IsExact<ViewStructType, [input1: Struct1Struct[][][], overrides?: CallOverrides | undefined]>
     >
   })
 
@@ -423,7 +425,7 @@ describe('DataTypesInput', () => {
             [Struct1Struct, Struct1Struct][],
             [Struct1Struct, Struct1Struct][],
           ],
-          overrides?: ethers.CallOverrides | undefined,
+          overrides?: CallOverrides | undefined,
         ]
       >
     >
@@ -458,7 +460,7 @@ describe('DataTypesInput', () => {
             [[Struct1Struct, Struct1Struct][], [Struct1Struct, Struct1Struct][], [Struct1Struct, Struct1Struct][]][],
             [[Struct1Struct, Struct1Struct][], [Struct1Struct, Struct1Struct][], [Struct1Struct, Struct1Struct][]][],
           ],
-          overrides?: ethers.CallOverrides | undefined,
+          overrides?: CallOverrides | undefined,
         ]
       >
     >
@@ -503,7 +505,7 @@ describe('DataTypesInput', () => {
     type ViewStructType = Parameters<typeof chain.contract.input_struct3_array>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     type _t1 = AssertTrue<
-      IsExact<ViewStructType, [input1: Struct3Struct[], overrides?: ethers.CallOverrides | undefined]>
+      IsExact<ViewStructType, [input1: Struct3Struct[], overrides?: CallOverrides | undefined]>
     >
   })
 
@@ -518,7 +520,7 @@ describe('DataTypesInput', () => {
     type ViewStructType = Parameters<typeof chain.contract.input_struct2>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     type _t1 = AssertTrue<
-      IsExact<ViewStructType, [input1: Struct2Struct, overrides?: ethers.CallOverrides | undefined]>
+      IsExact<ViewStructType, [input1: Struct2Struct, overrides?: CallOverrides | undefined]>
     >
   })
 
@@ -533,7 +535,7 @@ describe('DataTypesInput', () => {
     type ViewStructType = Parameters<typeof chain.contract.input_struct2_array>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     type _t1 = AssertTrue<
-      IsExact<ViewStructType, [input1: Struct2Struct[], overrides?: ethers.CallOverrides | undefined]>
+      IsExact<ViewStructType, [input1: Struct2Struct[], overrides?: CallOverrides | undefined]>
     >
   })
 
@@ -570,7 +572,7 @@ describe('DataTypesInput', () => {
         ViewFunctionInputType,
         [
           info1: { a: PromiseOrValue<BigNumberish>; b: PromiseOrValue<BigNumberish> },
-          overrides?: ethers.CallOverrides | undefined,
+          overrides?: CallOverrides | undefined,
         ]
       >
     >

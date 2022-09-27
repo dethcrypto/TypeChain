@@ -3,17 +3,15 @@
 /* eslint-disable */
 import type {
   BaseContract,
-  BigNumber,
-  BigNumberish,
-  BytesLike,
-  CallOverrides,
   ContractTransaction,
   Overrides,
   PopulatedTransaction,
-  Signer,
-  utils,
-} from "ethers";
-import type { FunctionFragment, Result } from "@ethersproject/abi";
+  CallOverrides,
+} from "@ethersproject/contracts";
+import type { Signer } from "@ethersproject/abstract-signer";
+import type { BigNumber, BigNumberish } from "@ethersproject/bignumber";
+import type { BytesLike } from "@ethersproject/bytes";
+import type { Interface, FunctionFragment, Result } from "@ethersproject/abi";
 import type { Listener, Provider } from "@ethersproject/providers";
 import type {
   TypedEventFilter,
@@ -50,7 +48,7 @@ export declare namespace Issue552_Reproduction {
   };
 }
 
-export interface Issue552_ReproductionInterface extends utils.Interface {
+export interface Issue552_ReproductionInterface extends Interface {
   functions: {
     "bars(uint256)": FunctionFragment;
     "input(uint256[10])": FunctionFragment;

@@ -2,7 +2,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
+import { Contract } from "@ethersproject/contracts";
+import { Interface } from "@ethersproject/abi";
+import type { Signer } from "@ethersproject/abstract-signer";
 import type { Provider } from "@ethersproject/providers";
 import type { B, BInterface } from "../../../v0.6.4/Issue428_Reproduction/B";
 
@@ -38,9 +40,12 @@ const _abi = [
 export class B__factory {
   static readonly abi = _abi;
   static createInterface(): BInterface {
-    return new utils.Interface(_abi) as BInterface;
+    return new Interface(_abi) as BInterface;
   }
-  static connect(address: string, signerOrProvider: Signer | Provider): B {
+  static connect(
+    address: string,
+    signerOrProvider: Signer | Provider | undefined
+  ): B {
     return new Contract(address, _abi, signerOrProvider) as B;
   }
 }
