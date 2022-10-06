@@ -73,7 +73,7 @@ function codegenEventDeclaration(event: EventDeclaration, overloadedName?: strin
 
 function codegenOutputTypesForEvents(outputs: EventArgDeclaration[]): string {
   return `{
-    ${outputs.map((t) => t.name && `${t.name}: ${codegenOutputType(t.type)}, `).join('')}
-    ${outputs.map((t, i) => `${i}: ${codegenOutputType(t.type)}`).join(', ')}
+    ${outputs.map((t) => t.name && `${t.name}: ${codegenOutputType({ useStructs: true }, t.type)}, `).join('')}
+    ${outputs.map((t, i) => `${i}: ${codegenOutputType({ useStructs: true }, t.type)}`).join(', ')}
   }`
 }

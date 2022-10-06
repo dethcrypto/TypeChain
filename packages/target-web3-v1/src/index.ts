@@ -47,7 +47,7 @@ export default class Web3V1 extends TypeChainTarget {
 
     return {
       path: join(this.outDirAbs, ...contract.path, `${contract.name}.ts`),
-      contents: codegen(contract),
+      contents: codegen(contract, this.cfg.flags),
     }
   }
 

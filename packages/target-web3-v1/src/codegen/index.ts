@@ -1,9 +1,11 @@
-import { Contract } from 'typechain'
+import { values } from 'lodash'
+import { CodegenConfig, Contract } from 'typechain'
 
 import { codegenForEvents, codegenForEventsDeclarations, codegenForEventsOnceFns } from './events'
 import { codegenForFunctions } from './functions'
+import { generateStructTypes } from './structs'
 
-export function codegen(contract: Contract) {
+export function codegen(contract: Contract, codegenConfig: CodegenConfig) {
   const typesPath = contract.path.length ? `${new Array(contract.path.length).fill('..').join('/')}/types` : './types'
 
   const template = `
@@ -19,13 +21,15 @@ export function codegen(contract: Contract) {
     topics?: string[];
   }
 
+  ${generateStructTypes(values(contract.structs).map((v) => v[0]))}
+
   ${codegenForEventsDeclarations(contract.events)}
 
   export interface ${contract.name} extends BaseContract {
     constructor(jsonInterface: any[], address?: string, options?: ContractOptions): ${contract.name};
     clone(): ${contract.name};
     methods: {
-      ${codegenForFunctions(contract.functions)}
+      ${codegenForFunctions(contract.functions, { codegenConfig })}
     };
     events: {
       ${codegenForEvents(contract.events)}

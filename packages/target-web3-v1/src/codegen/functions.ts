@@ -1,29 +1,43 @@
 import { values } from 'lodash'
 import { Dictionary } from 'ts-essentials'
-import { FunctionDeclaration, FunctionDocumentation, getSignatureForFn } from 'typechain'
+import { CodegenConfig, FunctionDeclaration, FunctionDocumentation, getSignatureForFn } from 'typechain'
 
 import { codegenInputTypes, codegenOutputTypes } from './types'
 
-export function codegenForFunctions(fns: Dictionary<FunctionDeclaration[]>): string {
+interface GenerateFunctionOptions {
+  returnResultObject?: boolean
+  isStaticCall?: boolean
+  overrideOutput?: string
+  codegenConfig: CodegenConfig
+}
+
+export function codegenForFunctions(fns: Dictionary<FunctionDeclaration[]>, options: GenerateFunctionOptions): string {
   return values(fns)
     .map((fns) => {
       if (fns.length === 1) {
-        return codegenForSingleFunction(fns[0])
+        return codegenForSingleFunction(fns[0], options)
       } else {
-        return codegenForOverloadedFunctions(fns)
+        return codegenForOverloadedFunctions(fns, options)
       }
     })
     .join('\n')
 }
 
-function codegenForOverloadedFunctions(fns: FunctionDeclaration[]): string {
-  return fns.map((f) => codegenForSingleFunction(f, `"${getSignatureForFn(f)}"`)).join('\n')
+function codegenForOverloadedFunctions(fns: FunctionDeclaration[], options: GenerateFunctionOptions): string {
+  return fns.map((f) => codegenForSingleFunction(f, options, `"${getSignatureForFn(f)}"`)).join('\n')
 }
 
-function codegenForSingleFunction(fn: FunctionDeclaration, overloadedName?: string): string {
+function codegenForSingleFunction(
+  fn: FunctionDeclaration,
+  options: GenerateFunctionOptions,
+  overloadedName?: string,
+): string {
   return `
   ${generateFunctionDocumentation(fn.documentation)}
-  ${overloadedName ?? fn.name}(${codegenInputTypes(fn.inputs)}): ${getTransactionObject(fn)}<${codegenOutputTypes(
+  ${overloadedName ?? fn.name}(${codegenInputTypes({ useStructs: true }, fn.inputs)}): ${getTransactionObject(
+    fn,
+  )}<${codegenOutputTypes(
+    { returnResultObject: !!options.returnResultObject, useStructs: true},
     fn.outputs,
   )}>;
 `
