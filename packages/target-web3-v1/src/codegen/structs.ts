@@ -29,13 +29,19 @@ function generateExports(struct: StructWithName): string {
 
   const inputName = `${identifier}${STRUCT_INPUT_POSTFIX}`
   const outputName = `${identifier}${STRUCT_OUTPUT_POSTFIX}`
+  const outputNameArray = `${outputName}Array`;
+  const outputNameObject = `${outputName}Struct`;
   const inputType = codegenInputType({ useStructs: false }, struct)
   const outputType = codegenOutputType({ useStructs: false }, struct)
+
+  const [outputTypeArray,outputTypeObject] = outputType.split('&');
 
   return `
     export type ${inputName} = ${inputType}
 
-    export type ${outputName} = ${outputType}
+    export type ${outputNameArray} = ${outputTypeArray}
+    export type ${outputNameObject} = ${outputTypeObject}
+    export type ${outputName} = ${outputNameArray} & ${outputNameObject}
   `
 }
 
