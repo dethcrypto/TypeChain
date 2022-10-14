@@ -214,7 +214,7 @@ const _abi = [
     stateMutability: "pure",
     type: "function",
   },
-];
+] as const;
 
 export class DataTypesPure__factory {
   static readonly abi = _abi;

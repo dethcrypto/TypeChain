@@ -28,7 +28,7 @@ const _abi = [
     stateMutability: "nonpayable",
     type: "function",
   },
-];
+] as const;
 
 export class ISimpleToken__factory {
   static readonly abi = _abi;

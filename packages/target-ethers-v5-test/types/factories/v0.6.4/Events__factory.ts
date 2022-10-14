@@ -176,7 +176,7 @@ const _abi = [
     stateMutability: "nonpayable",
     type: "function",
   },
-];
+] as const;
 
 export class Events__factory {
   static readonly abi = _abi;

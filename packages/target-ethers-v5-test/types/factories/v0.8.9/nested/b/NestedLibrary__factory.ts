@@ -23,7 +23,7 @@ const _abi = [
     stateMutability: "pure",
     type: "function",
   },
-];
+] as const;
 
 export class NestedLibrary__factory {
   static readonly abi = _abi;

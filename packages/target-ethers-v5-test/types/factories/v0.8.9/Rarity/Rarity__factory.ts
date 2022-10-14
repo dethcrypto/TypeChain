@@ -616,7 +616,7 @@ const _abi = [
     stateMutability: "pure",
     type: "function",
   },
-];
+] as const;
 
 export class Rarity__factory {
   static readonly abi = _abi;

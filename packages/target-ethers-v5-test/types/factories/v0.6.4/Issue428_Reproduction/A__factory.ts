@@ -20,7 +20,7 @@ const _abi = [
     name: "Committed",
     type: "event",
   },
-];
+] as const;
 
 export class A__factory {
   static readonly abi = _abi;
