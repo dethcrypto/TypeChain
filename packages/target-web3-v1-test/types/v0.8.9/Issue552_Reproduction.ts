@@ -3,6 +3,7 @@
 /* eslint-disable */
 
 import type BN from "bn.js";
+import type BigNumber from "bignumber.js";
 import type { ContractOptions } from "web3-eth-contract";
 import type { EventLog } from "web3-core";
 import type { EventEmitter } from "events";
@@ -30,14 +31,16 @@ export interface Issue552_Reproduction extends BaseContract {
   clone(): Issue552_Reproduction;
   methods: {
     bars(
-      arg0: number | string | BN
+      arg0: number | string | BN | BigNumber
     ): NonPayableTransactionObject<[[string, string][], string]>;
 
-    input(values: (number | string | BN)[]): NonPayableTransactionObject<void>;
+    input(
+      values: (number | string | BN | BigNumber)[]
+    ): NonPayableTransactionObject<void>;
 
     makeObservation(
-      barId: number | string | BN,
-      newVal: number | string | BN
+      barId: number | string | BN | BigNumber,
+      newVal: number | string | BN | BigNumber
     ): NonPayableTransactionObject<void>;
   };
   events: {

@@ -3,6 +3,7 @@
 /* eslint-disable */
 
 import type BN from "bn.js";
+import type BigNumber from "bignumber.js";
 import type { ContractOptions } from "web3-eth-contract";
 import type { EventLog } from "web3-core";
 import type { EventEmitter } from "events";
@@ -71,26 +72,30 @@ export interface Rarity extends BaseContract {
   clone(): Rarity;
   methods: {
     adventure(
-      _summoner: number | string | BN
+      _summoner: number | string | BN | BigNumber
     ): NonPayableTransactionObject<void>;
 
     adventurers_log(
-      arg0: number | string | BN
+      arg0: number | string | BN | BigNumber
     ): NonPayableTransactionObject<string>;
 
     approve(
       to: string,
-      tokenId: number | string | BN
+      tokenId: number | string | BN | BigNumber
     ): NonPayableTransactionObject<void>;
 
     balanceOf(owner: string): NonPayableTransactionObject<string>;
 
-    class(arg0: number | string | BN): NonPayableTransactionObject<string>;
+    class(
+      arg0: number | string | BN | BigNumber
+    ): NonPayableTransactionObject<string>;
 
-    classes(id: number | string | BN): NonPayableTransactionObject<string>;
+    classes(
+      id: number | string | BN | BigNumber
+    ): NonPayableTransactionObject<string>;
 
     getApproved(
-      tokenId: number | string | BN
+      tokenId: number | string | BN | BigNumber
     ): NonPayableTransactionObject<string>;
 
     isApprovedForAll(
@@ -98,26 +103,30 @@ export interface Rarity extends BaseContract {
       operator: string
     ): NonPayableTransactionObject<boolean>;
 
-    level(arg0: number | string | BN): NonPayableTransactionObject<string>;
+    level(
+      arg0: number | string | BN | BigNumber
+    ): NonPayableTransactionObject<string>;
 
     level_up(
-      _summoner: number | string | BN
+      _summoner: number | string | BN | BigNumber
     ): NonPayableTransactionObject<void>;
 
     next_summoner(): NonPayableTransactionObject<string>;
 
-    ownerOf(tokenId: number | string | BN): NonPayableTransactionObject<string>;
+    ownerOf(
+      tokenId: number | string | BN | BigNumber
+    ): NonPayableTransactionObject<string>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: string,
       to: string,
-      tokenId: number | string | BN
+      tokenId: number | string | BN | BigNumber
     ): NonPayableTransactionObject<void>;
 
     "safeTransferFrom(address,address,uint256,bytes)"(
       from: string,
       to: string,
-      tokenId: number | string | BN,
+      tokenId: number | string | BN | BigNumber,
       _data: string | number[]
     ): NonPayableTransactionObject<void>;
 
@@ -127,13 +136,17 @@ export interface Rarity extends BaseContract {
     ): NonPayableTransactionObject<void>;
 
     spend_xp(
-      _summoner: number | string | BN,
-      _xp: number | string | BN
+      _summoner: number | string | BN | BigNumber,
+      _xp: number | string | BN | BigNumber
     ): NonPayableTransactionObject<void>;
 
-    summon(_class: number | string | BN): NonPayableTransactionObject<void>;
+    summon(
+      _class: number | string | BN | BigNumber
+    ): NonPayableTransactionObject<void>;
 
-    summoner(_summoner: number | string | BN): NonPayableTransactionObject<{
+    summoner(
+      _summoner: number | string | BN | BigNumber
+    ): NonPayableTransactionObject<{
       _xp: string;
       _log: string;
       _class: string;
@@ -145,16 +158,16 @@ export interface Rarity extends BaseContract {
     }>;
 
     tokenByIndex(
-      index: number | string | BN
+      index: number | string | BN | BigNumber
     ): NonPayableTransactionObject<string>;
 
     tokenOfOwnerByIndex(
       owner: string,
-      index: number | string | BN
+      index: number | string | BN | BigNumber
     ): NonPayableTransactionObject<string>;
 
     tokenURI(
-      _summoner: number | string | BN
+      _summoner: number | string | BN | BigNumber
     ): NonPayableTransactionObject<string>;
 
     totalSupply(): NonPayableTransactionObject<string>;
@@ -162,13 +175,15 @@ export interface Rarity extends BaseContract {
     transferFrom(
       from: string,
       to: string,
-      tokenId: number | string | BN
+      tokenId: number | string | BN | BigNumber
     ): NonPayableTransactionObject<void>;
 
-    xp(arg0: number | string | BN): NonPayableTransactionObject<string>;
+    xp(
+      arg0: number | string | BN | BigNumber
+    ): NonPayableTransactionObject<string>;
 
     xp_required(
-      curent_level: number | string | BN
+      curent_level: number | string | BN | BigNumber
     ): NonPayableTransactionObject<string>;
   };
   events: {

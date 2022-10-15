@@ -8,6 +8,7 @@ export function codegen(contract: Contract) {
 
   const template = `
   import type BN from "bn.js";
+  import type BigNumber from "bignumber.js";
   import type { ContractOptions } from "web3-eth-contract";
   import type { EventLog } from "web3-core";
   import type { EventEmitter } from "events";

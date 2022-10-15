@@ -3,6 +3,7 @@
 /* eslint-disable */
 
 import type BN from "bn.js";
+import type BigNumber from "bignumber.js";
 import type { ContractOptions } from "web3-eth-contract";
 import type { EventLog } from "web3-core";
 import type { EventEmitter } from "events";
@@ -30,12 +31,12 @@ export interface Overloads extends BaseContract {
   clone(): Overloads;
   methods: {
     "overload1(int256)"(
-      input1: number | string | BN
+      input1: number | string | BN | BigNumber
     ): NonPayableTransactionObject<string>;
 
     "overload1(uint256,uint256)"(
-      input1: number | string | BN,
-      input2: number | string | BN
+      input1: number | string | BN | BigNumber,
+      input2: number | string | BN | BigNumber
     ): NonPayableTransactionObject<string>;
   };
   events: {

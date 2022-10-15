@@ -3,6 +3,7 @@
 /* eslint-disable */
 
 import type BN from "bn.js";
+import type BigNumber from "bignumber.js";
 import type { ContractOptions } from "web3-eth-contract";
 import type { EventLog } from "web3-core";
 import type { EventEmitter } from "events";
@@ -32,7 +33,7 @@ export interface IERC721Receiver extends BaseContract {
     onERC721Received(
       operator: string,
       from: string,
-      tokenId: number | string | BN,
+      tokenId: number | string | BN | BigNumber,
       data: string | number[]
     ): NonPayableTransactionObject<string>;
   };

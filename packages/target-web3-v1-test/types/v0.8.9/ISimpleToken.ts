@@ -3,6 +3,7 @@
 /* eslint-disable */
 
 import type BN from "bn.js";
+import type BigNumber from "bignumber.js";
 import type { ContractOptions } from "web3-eth-contract";
 import type { EventLog } from "web3-core";
 import type { EventEmitter } from "events";
@@ -31,7 +32,7 @@ export interface ISimpleToken extends BaseContract {
   methods: {
     transfer(
       from: string,
-      value: number | string | BN
+      value: number | string | BN | BigNumber
     ): NonPayableTransactionObject<void>;
   };
   events: {

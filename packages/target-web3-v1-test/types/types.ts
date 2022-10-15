@@ -2,6 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type BN from "bn.js";
+import type BigNumber from "bignumber.js";
 import type { EventEmitter } from "events";
 import type { EventLog, PromiEvent, TransactionReceipt } from "web3-core/types";
 import type { Contract } from "web3-eth-contract";
@@ -9,7 +10,7 @@ import type { Contract } from "web3-eth-contract";
 export interface EstimateGasOptions {
   from?: string;
   gas?: number;
-  value?: number | string | BN;
+  value?: number | string | BN | BigNumber;
 }
 
 export interface EventOptions {
@@ -32,19 +33,19 @@ export interface ContractEventEmitter<T> extends EventEmitter {
 }
 
 export interface NonPayableTx {
-  nonce?: string | number | BN;
-  chainId?: string | number | BN;
+  nonce?: string | number | BN | BigNumber;
+  chainId?: string | number | BN | BigNumber;
   from?: string;
   to?: string;
   data?: string;
-  gas?: string | number | BN;
-  maxPriorityFeePerGas?: string | number | BN;
-  maxFeePerGas?: string | number | BN;
-  gasPrice?: string | number | BN;
+  gas?: string | number | BN | BigNumber;
+  maxPriorityFeePerGas?: string | number | BN | BigNumber;
+  maxFeePerGas?: string | number | BN | BigNumber;
+  gasPrice?: string | number | BN | BigNumber;
 }
 
 export interface PayableTx extends NonPayableTx {
-  value?: string | number | BN;
+  value?: string | number | BN | BigNumber;
 }
 
 export interface NonPayableTransactionObject<T> {
@@ -69,5 +70,6 @@ export type BlockType =
   | "genesis"
   | "earliest"
   | number
-  | BN;
+  | BN
+  | BigNumber;
 export type BaseContract = Omit<Contract, "clone" | "once">;
