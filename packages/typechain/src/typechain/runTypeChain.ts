@@ -22,6 +22,11 @@ export const DEFAULT_FLAGS: CodegenConfig = {
 
 export async function runTypeChain(publicConfig: PublicConfig): Promise<Result> {
   const allFiles = skipEmptyAbis(publicConfig.allFiles)
+  if (allFiles.length === 0) {
+    return {
+      filesGenerated: 0,
+    }
+  }
 
   // skip empty paths
   const config: Config = {
