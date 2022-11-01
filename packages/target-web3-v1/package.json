@@ -7,7 +7,7 @@
     "TypeChain",
     "TypeScript"
   ],
-  "version": "6.0.1",
+  "version": "6.0.2",
   "license": "MIT",
   "repository": "https://github.com/ethereum-ts/Typechain",
   "main": "./dist/index.js",
@@ -31,13 +31,13 @@
     "test:fix": "pnpm lint:fix && pnpm format:fix && pnpm test && pnpm typecheck"
   },
   "peerDependencies": {
-    "typechain": "workspace:^8.1.0",
+    "typechain": "workspace:^8.1.1",
     "web3": "^1",
     "web3-core": "^1",
     "web3-eth-contract": "^1"
   },
   "devDependencies": {
-    "typechain": "workspace:^8.1.0",
+    "typechain": "workspace:^8.1.1",
     "test-utils": "1.0.0",
     "@types/lodash": "^4.14.139",
     "web3": "^1",
