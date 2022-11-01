@@ -1,5 +1,12 @@
 # @typechain/starknet
 
+## 0.2.4
+
+### Patch Changes
+
+- Updated dependencies [bbc9656]
+  - typechain@8.1.1
+
 ## 0.2.3
 
 ### Patch Changes
