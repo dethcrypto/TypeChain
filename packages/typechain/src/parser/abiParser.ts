@@ -441,7 +441,14 @@ export function extractDocumentation(rawContents: string): DocumentationResult |
     return undefined
   }
 
-  if (!json || (!json.devdoc && !json.userdoc)) return undefined
+  if (!json) return undefined
+
+  // Tools like brownie merge devdoc and userdoc into natspec
+  if (json.natspec) {
+    return json.natspec as DocumentationResult
+  }
+
+  if (!json.devdoc && !json.userdoc) return undefined
 
   const result: DocumentationResult = json.devdoc || {}
 

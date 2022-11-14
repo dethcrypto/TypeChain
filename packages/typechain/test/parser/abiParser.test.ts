@@ -227,6 +227,49 @@ describe('extractDocumentation', () => {
       notice: 'You can use this contract for only the most basic simulation',
     })
   })
+
+  const natspec = `{
+    "natspec": {
+      "author" : "Larry A. Gardner",
+      "details" : "All function calls are currently implemented without side effects",
+      "methods" :
+      {
+        "age(uint256)" :
+        {
+          "author" : "Mary A. Botanist",
+          "notice" : "Calculate tree age in years, rounded up, for live trees",
+          "details" : "The Alexandr N. Tetearing algorithm could increase precision",
+          "params" :
+          {
+            "rings" : "The number of rings from dendrochronological sample"
+          },
+          "return" : "age in years, rounded up for partial years"
+        }
+      },
+      "notice": "You can use this contract for only the most basic simulation",
+      "title" : "A simulator for trees"
+    }
+  }`
+
+  it('should parse natspec only', () => {
+    const doc = extractDocumentation(natspec)
+
+    expect(doc).toEqual({
+      author: 'Larry A. Gardner',
+      details: 'All function calls are currently implemented without side effects',
+      methods: {
+        'age(uint256)': {
+          author: 'Mary A. Botanist',
+          details: 'The Alexandr N. Tetearing algorithm could increase precision',
+          notice: 'Calculate tree age in years, rounded up, for live trees',
+          params: { rings: 'The number of rings from dendrochronological sample' },
+          return: 'age in years, rounded up for partial years',
+        },
+      },
+      notice: 'You can use this contract for only the most basic simulation',
+      title: 'A simulator for trees',
+    })
+  })
 })
 
 describe('extractBytecode with link references', () => {
