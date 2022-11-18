@@ -51,7 +51,7 @@ export function createBarrelFiles(
 
     const namespacesExports = nestedDirs
       .map((p) => {
-        const namespaceIdentifier = camelCase(p)
+        const namespaceIdentifier = camelCase(p).replace(/^([0-9])(.*)/g, '$$$1$2')
 
         if (typeOnly)
           return [
@@ -70,7 +70,7 @@ export function createBarrelFiles(
         const name = `${normalizeName(p)}${postfix}`
         // We can't always `export *` because of possible name conflicts.
         // @todo possibly a config option for user to decide?
-        return `${exportKeyword} { ${name} } from './${name}';`
+        return `${exportKeyword} { ${name.replace(/^([0-9])(.*)/g, '$$$1$2')} } from './${name}';`
       })
       .join('\n')
 
