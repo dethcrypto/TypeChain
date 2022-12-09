@@ -1,9 +1,8 @@
 import { expect } from 'earljs'
 import fs from 'fs'
-import { Account, Contract, ec, json, Provider, TransactionStatus } from 'starknet'
+import { Account, Contract, ec, json, Provider } from 'starknet'
 
 import type { ERC20 } from '../types'
-import console from 'console'
 
 describe('Transactions', () => {
   let erc20: ERC20

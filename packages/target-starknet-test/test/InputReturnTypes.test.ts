@@ -1,10 +1,9 @@
 import fs from 'fs'
-import { Account, Contract, ec, number, SequencerProvider, json } from 'starknet'
+import { Account, Contract, ec, json,number, SequencerProvider } from 'starknet'
 const { toBN } = number
 import { expect } from 'earljs'
 
 import type { contract as _contract } from '../types'
-import * as console from 'console'
 
 describe('Type Transformation', () => {
   let contract: _contract
