@@ -1,51 +1,58 @@
 import { expect } from 'earljs'
 import fs from 'fs'
-import { Account, AccountInterface, Contract, ec, Provider, TransactionStatus } from 'starknet'
+import { Account, Contract, ec, json, Provider, TransactionStatus } from 'starknet'
 
 import type { ERC20 } from '../types'
+import console from 'console'
 
 describe('Transactions', () => {
   let erc20: ERC20
-  let account: AccountInterface
-  let account2: AccountInterface
+  let account: Account
+  let account2: Account
+  let provider: Provider
 
   before(async () => {
-    const provider = new Provider({ baseUrl: 'http://localhost:5050' })
+    // @ts-ignore
+    provider = new Provider({
+      sequencer: { baseUrl: 'http://localhost:5050' },
+    })
+
+    account = new Account(
+      provider,
+      '0x7e00d496e324876bbc8531f2d9a82bf154d1a04a50218ee74cdd372f75a551a',
+      ec.getKeyPair('0xe3e70682c2094cac629f6fbed82c07cd'),
+    )
+
+    account2 = new Account(
+      provider,
+      '0x69b49c2cc8b16e80e86bfc5b0614a59aa8c9b601569c7b80dde04d3f3151b79',
+      ec.getKeyPair('0xf728b4fa42485e3a0a5d2f346baa9455'),
+    )
 
     async function deployContract<C extends Contract>(
+      account: Account,
       name: string,
-      calldata: any[] = [],
-      options: object = {},
+      classHash: string,
+      constructorCalldata: any[] = [],
     ): Promise<C> {
-      const compiledContract = JSON.parse(fs.readFileSync(`./example-abis/${name}.json`).toString('ascii'))
-      const response = await provider.deployContract({
-        contract: compiledContract,
-        constructorCalldata: calldata,
-        ...options,
+      const contract = json.parse(fs.readFileSync(`./example-abis/${name}.json`).toString('ascii'))
+      const response = await account.declareDeploy({
+        contract,
+        constructorCalldata,
+        classHash,
       })
-      await provider.waitForTransaction(response.transaction_hash)
-      const address = response.address || ''
-      return new Contract(compiledContract.abi, address, provider) as C
+      const address = response.deploy.contract_address
+      return new Contract(contract.abi, address, provider) as C
     }
 
-    async function deployAccount(): Promise<Account> {
-      const pair = ec.genKeyPair()
-      const pub = ec.getStarkKey(pair)
-      const _ = await deployContract('ArgentAccount', [], { addressSalt: pub })
-      const { transaction_hash: initializeTxHash } = await _.initialize(pub, '0')
-      await provider.waitForTransaction(initializeTxHash)
-      return new Account(provider, _.address, pair)
-    }
-
-    account = await deployAccount()
-    account2 = await deployAccount()
-
-    erc20 = await deployContract('ERC20')
+    // starkli class-hash example-abis/ERC20.json
+    const erc20ClassHash = '0x02864c45bd4ba3e66d8f7855adcadf07205c88f43806ffca664f1f624765207e'
+    erc20 = await deployContract(account, 'ERC20', erc20ClassHash)
   })
 
   describe('via execute', () => {
     it('mints', async () => {
-      const res = await account.execute(
+      const { transaction_hash } = await account.execute(
         {
           contractAddress: erc20.address,
           entrypoint: 'mint',
@@ -54,17 +61,12 @@ describe('Transactions', () => {
         [erc20.abi],
         { maxFee: '0' },
       )
-      const response = {
-        address: account.address,
-        code: 'TRANSACTION_RECEIVED' as TransactionStatus,
-        result: [], // not in AddTransactionResponse
-        transaction_hash: res.transaction_hash,
-      }
-      expect(res).toEqual(response)
+      const { status } = await provider.waitForTransaction(transaction_hash)
+      expect(status).toEqual('ACCEPTED_ON_L2')
     })
 
     it('transfers', async () => {
-      const res = await account.execute(
+      const { transaction_hash } = await account.execute(
         {
           contractAddress: erc20.address,
           entrypoint: 'transfer',
@@ -73,38 +75,23 @@ describe('Transactions', () => {
         [erc20.abi],
         { maxFee: '0' },
       )
-      const response = {
-        address: account.address,
-        code: 'TRANSACTION_RECEIVED' as TransactionStatus,
-        result: [], // not in AddTransactionResponse
-        transaction_hash: res.transaction_hash,
-      }
-      expect(res).toEqual(response)
+      const { status } = await provider.waitForTransaction(transaction_hash)
+      expect(status).toEqual('ACCEPTED_ON_L2')
     })
   })
   describe('account bound', () => {
     it('mints', async () => {
       erc20.connect(account)
-      const res = await erc20.mint(account.address, 1, { maxFee: '0' })
-      const response = {
-        address: account.address,
-        code: 'TRANSACTION_RECEIVED' as TransactionStatus,
-        result: [], // not in AddTransactionResponse
-        transaction_hash: res.transaction_hash,
-      }
-      expect(res).toEqual(response)
+      const { transaction_hash } = await erc20.mint(account.address, 1, { maxFee: '0' })
+      const { status } = await provider.waitForTransaction(transaction_hash)
+      expect(status).toEqual('ACCEPTED_ON_L2')
     })
 
     it('transfers', async () => {
       erc20.connect(account)
-      const res = await erc20.transfer(account.address, 1, { maxFee: '0' })
-      const response = {
-        address: account.address,
-        code: 'TRANSACTION_RECEIVED' as TransactionStatus,
-        result: [], // not in AddTransactionResponse
-        transaction_hash: res.transaction_hash,
-      }
-      expect(res).toEqual(response)
+      const { transaction_hash } = await erc20.transfer(account.address, 1, { maxFee: '0' })
+      const { status } = await provider.waitForTransaction(transaction_hash)
+      expect(status).toEqual('ACCEPTED_ON_L2')
     })
   })
 })
