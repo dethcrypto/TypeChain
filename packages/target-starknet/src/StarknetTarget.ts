@@ -1,7 +1,7 @@
 import { uniqBy, zip } from 'lodash'
 import { join, relative, resolve } from 'path'
-import { Abi, AbiEntry, FunctionAbi, json, number, StructAbi } from 'starknet'
-// import { AbiEntry, StructAbi } from 'starknet/types/lib'
+import { Abi, AbiEntry, FunctionAbi, json, StructAbi } from 'starknet'
+
 import {
   Config,
   FileDescription,
