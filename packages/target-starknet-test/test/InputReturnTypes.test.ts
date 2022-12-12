@@ -1,5 +1,5 @@
 import fs from 'fs'
-import { Contract, number, Provider } from 'starknet'
+import { Account, Contract, ec, json, number, SequencerProvider } from 'starknet'
 const { toBN } = number
 import { expect } from 'earljs'
 
@@ -9,25 +9,34 @@ describe('Type Transformation', () => {
   let contract: _contract
 
   before(async () => {
-    const provider = new Provider({ baseUrl: 'http://localhost:5050' })
+    const provider = new SequencerProvider({ baseUrl: 'http://localhost:5050' })
+
+    const account = new Account(
+      provider,
+      '0x7e00d496e324876bbc8531f2d9a82bf154d1a04a50218ee74cdd372f75a551a',
+      ec.getKeyPair('0xe3e70682c2094cac629f6fbed82c07cd'),
+    )
 
     async function deployContract<C extends Contract>(
+      account: Account,
       name: string,
-      calldata: any[] = [],
-      options: object = {},
+      classHash: string,
+      constructorCalldata: any[] = [],
     ): Promise<C> {
-      const compiledContract = JSON.parse(fs.readFileSync(`./example-abis/${name}.json`).toString('ascii'))
-      const response = await provider.deployContract({
-        contract: compiledContract,
-        constructorCalldata: calldata,
-        ...options,
+      const contract = json.parse(fs.readFileSync(`./example-abis/${name}.json`).toString('ascii'))
+      const response = await account.declareDeploy({
+        contract,
+        constructorCalldata,
+        classHash,
       })
-      await provider.waitForTransaction(response.transaction_hash)
-      const address = response.address || ''
-      return new Contract(compiledContract.abi, address, provider) as C
+      const address = response.deploy.contract_address
+      return new Contract(contract.abi, address, provider) as C
     }
-
-    contract = await deployContract('contract')
+    // starkli class-hash example-abis/contract.json
+    const classHash = '0x022a0e662b13d18a2aaa3ee54ae290de6569621b549022c18169c6e7893809ea'
+    contract = await deployContract(account, 'contract', classHash)
+    contract.connect(account)
+    return contract
   })
 
   describe('Input Types', () => {

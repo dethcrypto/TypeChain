@@ -9,6 +9,7 @@ export function importer() {
   function impoort(
     module: string,
     name: string,
+    imported: string = name,
     isRuntimeImport: boolean = false,
     isDefaultImport: boolean = false,
   ): string {
@@ -25,7 +26,7 @@ export function importer() {
       defaultImports[module] = true
     }
 
-    return name
+    return imported
   }
 
   function imports(): string {
