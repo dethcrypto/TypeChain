@@ -36,7 +36,7 @@ const _abi = [
     stateMutability: "view",
     type: "function",
   },
-];
+] as const;
 
 export class NAME12mangling__factory {
   static readonly abi = _abi;

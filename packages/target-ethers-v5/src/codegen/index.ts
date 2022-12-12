@@ -257,7 +257,7 @@ function codegenCommonContractFactory(contract: Contract, abi: any): { header: s
   const header = `
   import type { ${[...imports.values()].join(', ')} } from "${contractTypesImportPath}";
 
-  const _abi = ${JSON.stringify(abi, null, 2)};
+  const _abi = ${JSON.stringify(abi, null, 2)} as const;
   `.trim()
 
   const body = `

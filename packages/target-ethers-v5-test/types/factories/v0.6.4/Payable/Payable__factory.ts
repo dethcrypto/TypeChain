@@ -24,7 +24,7 @@ const _abi = [
     stateMutability: "payable",
     type: "function",
   },
-];
+] as const;
 
 export class Payable__factory {
   static readonly abi = _abi;
