@@ -44,7 +44,7 @@ importers:
     specifiers:
       '@ethersproject/abi': ^5.1.3
       '@ethersproject/providers': ^5.1.3
-      '@typechain/ethers-v5': workspace:^10.1.1
+      '@typechain/ethers-v5': workspace:^10.2.0
       '@types/bn.js': ^5.1.0
       ethers: ^5.1.3
       ts-node: ^10.7.0
@@ -110,7 +110,7 @@ importers:
       '@nomiclabs/hardhat-etherscan': ^2.1.1
       '@nomiclabs/hardhat-truffle5': ^2.0.0
       '@nomiclabs/hardhat-web3': ^2.0.0
-      '@typechain/hardhat': workspace:^6.1.4
+      '@typechain/hardhat': workspace:^6.1.5
       '@typechain/truffle-v5': workspace:^8.0.2
       '@types/bn.js': ^4.11.6
       '@types/chai': ^4.2.15
@@ -215,7 +215,7 @@ importers:
       '@ethersproject/abi': ^5.4.7
       '@ethersproject/providers': ^5.4.7
       '@nomiclabs/hardhat-ethers': ^2.0.2
-      '@typechain/ethers-v5': workspace:^10.1.1
+      '@typechain/ethers-v5': workspace:^10.2.0
       '@types/fs-extra': ^9.0.7
       '@types/rimraf': ^3.0.0
       ethers: ^5.4.7
@@ -244,8 +244,8 @@ importers:
       '@ethersproject/abi': ^5.4.7
       '@ethersproject/providers': ^5.4.7
       '@nomiclabs/hardhat-ethers': ^2.0.2
-      '@typechain/ethers-v5': workspace:^10.1.1
-      '@typechain/hardhat': workspace:^6.1.4
+      '@typechain/ethers-v5': workspace:^10.2.0
+      '@typechain/hardhat': workspace:^6.1.5
       ethers: ^5.4.7
       hardhat: ^2.9.9
       test-utils: 1.0.0
@@ -463,7 +463,7 @@ importers:
 
   packages/test-e2e:
     specifiers:
-      '@typechain/ethers-v5': workspace:^10.1.1
+      '@typechain/ethers-v5': workspace:^10.2.0
       '@types/fs-extra': ^9.0.7
       fs-extra: ^9.1.0
       mocha: ^8.2.0
