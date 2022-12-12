@@ -4,14 +4,16 @@
 
 import type {
   Contract,
+  number,
   Overrides,
-  AddTransactionResponse,
+  InvokeTransactionResponse,
+  EstimateFeeDetails,
   Invocation,
   EstimateFeeResponse,
 } from "starknet";
-import type { BigNumberish } from "starknet/utils/number";
-import type BN from "bn.js";
-import type { BlockIdentifier } from "starknet/provider/utils";
+type CallOptions = { blockIdentifier: EstimateFeeDetails["blockIdentifier"] };
+type BigNumberish = number.BigNumberish;
+type BN = ReturnType<typeof number.toBN>;
 
 export type CallArray = {
   to: BigNumberish;
@@ -31,208 +33,184 @@ export interface ArgentAccount extends Contract {
     signer: BigNumberish,
     guardian: BigNumberish,
     options?: Overrides
-  ): Promise<AddTransactionResponse>;
+  ): Promise<InvokeTransactionResponse>;
   __execute__(
     call_array: CallArray[],
     calldata: BigNumberish[],
     nonce: BigNumberish,
     options?: Overrides
-  ): Promise<AddTransactionResponse>;
+  ): Promise<InvokeTransactionResponse>;
   upgrade(
     implementation: BigNumberish,
     options?: Overrides
-  ): Promise<AddTransactionResponse>;
+  ): Promise<InvokeTransactionResponse>;
   change_signer(
     new_signer: BigNumberish,
     options?: Overrides
-  ): Promise<AddTransactionResponse>;
+  ): Promise<InvokeTransactionResponse>;
   change_guardian(
     new_guardian: BigNumberish,
     options?: Overrides
-  ): Promise<AddTransactionResponse>;
+  ): Promise<InvokeTransactionResponse>;
   change_guardian_backup(
     new_guardian: BigNumberish,
     options?: Overrides
-  ): Promise<AddTransactionResponse>;
-  trigger_escape_guardian(options?: Overrides): Promise<AddTransactionResponse>;
-  trigger_escape_signer(options?: Overrides): Promise<AddTransactionResponse>;
-  cancel_escape(options?: Overrides): Promise<AddTransactionResponse>;
+  ): Promise<InvokeTransactionResponse>;
+  trigger_escape_guardian(
+    options?: Overrides
+  ): Promise<InvokeTransactionResponse>;
+  trigger_escape_signer(
+    options?: Overrides
+  ): Promise<InvokeTransactionResponse>;
+  cancel_escape(options?: Overrides): Promise<InvokeTransactionResponse>;
   escape_guardian(
     new_guardian: BigNumberish,
     options?: Overrides
-  ): Promise<AddTransactionResponse>;
+  ): Promise<InvokeTransactionResponse>;
   escape_signer(
     new_signer: BigNumberish,
     options?: Overrides
-  ): Promise<AddTransactionResponse>;
+  ): Promise<InvokeTransactionResponse>;
   is_valid_signature(
     hash: BigNumberish,
     sig: BigNumberish[],
-    options?: { blockIdentifier?: BlockIdentifier }
+    options?: CallOptions
   ): Promise<[] & {}>;
   supportsInterface(
     interfaceId: BigNumberish,
-    options?: { blockIdentifier?: BlockIdentifier }
+    options?: CallOptions
   ): Promise<[BN] & { success: BN }>;
-  get_nonce(options?: {
-    blockIdentifier?: BlockIdentifier;
-  }): Promise<[BN] & { nonce: BN }>;
-  get_signer(options?: {
-    blockIdentifier?: BlockIdentifier;
-  }): Promise<[BN] & { signer: BN }>;
-  get_guardian(options?: {
-    blockIdentifier?: BlockIdentifier;
-  }): Promise<[BN] & { guardian: BN }>;
-  get_guardian_backup(options?: {
-    blockIdentifier?: BlockIdentifier;
-  }): Promise<[BN] & { guardian_backup: BN }>;
-  get_escape(options?: {
-    blockIdentifier?: BlockIdentifier;
-  }): Promise<[BN, BN] & { active_at: BN; type: BN }>;
-  get_version(options?: {
-    blockIdentifier?: BlockIdentifier;
-  }): Promise<[BN] & { version: BN }>;
+  get_nonce(options?: CallOptions): Promise<[BN] & { nonce: BN }>;
+  get_signer(options?: CallOptions): Promise<[BN] & { signer: BN }>;
+  get_guardian(options?: CallOptions): Promise<[BN] & { guardian: BN }>;
+  get_guardian_backup(
+    options?: CallOptions
+  ): Promise<[BN] & { guardian_backup: BN }>;
+  get_escape(
+    options?: CallOptions
+  ): Promise<[BN, BN] & { active_at: BN; type: BN }>;
+  get_version(options?: CallOptions): Promise<[BN] & { version: BN }>;
   functions: {
     initialize(
       signer: BigNumberish,
       guardian: BigNumberish,
       options?: Overrides
-    ): Promise<AddTransactionResponse>;
+    ): Promise<InvokeTransactionResponse>;
     __execute__(
       call_array: CallArray[],
       calldata: BigNumberish[],
       nonce: BigNumberish,
       options?: Overrides
-    ): Promise<AddTransactionResponse>;
+    ): Promise<InvokeTransactionResponse>;
     upgrade(
       implementation: BigNumberish,
       options?: Overrides
-    ): Promise<AddTransactionResponse>;
+    ): Promise<InvokeTransactionResponse>;
     change_signer(
       new_signer: BigNumberish,
       options?: Overrides
-    ): Promise<AddTransactionResponse>;
+    ): Promise<InvokeTransactionResponse>;
     change_guardian(
       new_guardian: BigNumberish,
       options?: Overrides
-    ): Promise<AddTransactionResponse>;
+    ): Promise<InvokeTransactionResponse>;
     change_guardian_backup(
       new_guardian: BigNumberish,
       options?: Overrides
-    ): Promise<AddTransactionResponse>;
+    ): Promise<InvokeTransactionResponse>;
     trigger_escape_guardian(
       options?: Overrides
-    ): Promise<AddTransactionResponse>;
-    trigger_escape_signer(options?: Overrides): Promise<AddTransactionResponse>;
-    cancel_escape(options?: Overrides): Promise<AddTransactionResponse>;
+    ): Promise<InvokeTransactionResponse>;
+    trigger_escape_signer(
+      options?: Overrides
+    ): Promise<InvokeTransactionResponse>;
+    cancel_escape(options?: Overrides): Promise<InvokeTransactionResponse>;
     escape_guardian(
       new_guardian: BigNumberish,
       options?: Overrides
-    ): Promise<AddTransactionResponse>;
+    ): Promise<InvokeTransactionResponse>;
     escape_signer(
       new_signer: BigNumberish,
       options?: Overrides
-    ): Promise<AddTransactionResponse>;
+    ): Promise<InvokeTransactionResponse>;
     is_valid_signature(
       hash: BigNumberish,
       sig: BigNumberish[],
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<[] & {}>;
     supportsInterface(
       interfaceId: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<[BN] & { success: BN }>;
-    get_nonce(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Promise<[BN] & { nonce: BN }>;
-    get_signer(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Promise<[BN] & { signer: BN }>;
-    get_guardian(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Promise<[BN] & { guardian: BN }>;
-    get_guardian_backup(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Promise<[BN] & { guardian_backup: BN }>;
-    get_escape(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Promise<[BN, BN] & { active_at: BN; type: BN }>;
-    get_version(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Promise<[BN] & { version: BN }>;
+    get_nonce(options?: CallOptions): Promise<[BN] & { nonce: BN }>;
+    get_signer(options?: CallOptions): Promise<[BN] & { signer: BN }>;
+    get_guardian(options?: CallOptions): Promise<[BN] & { guardian: BN }>;
+    get_guardian_backup(
+      options?: CallOptions
+    ): Promise<[BN] & { guardian_backup: BN }>;
+    get_escape(
+      options?: CallOptions
+    ): Promise<[BN, BN] & { active_at: BN; type: BN }>;
+    get_version(options?: CallOptions): Promise<[BN] & { version: BN }>;
   };
   callStatic: {
     initialize(
       signer: BigNumberish,
       guardian: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<[] & {}>;
     __execute__(
       call_array: CallArray[],
       calldata: BigNumberish[],
       nonce: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<[BN[]] & { response: BN[] }>;
     upgrade(
       implementation: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<[] & {}>;
     change_signer(
       new_signer: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<[] & {}>;
     change_guardian(
       new_guardian: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<[] & {}>;
     change_guardian_backup(
       new_guardian: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<[] & {}>;
-    trigger_escape_guardian(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Promise<[] & {}>;
-    trigger_escape_signer(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Promise<[] & {}>;
-    cancel_escape(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Promise<[] & {}>;
+    trigger_escape_guardian(options?: CallOptions): Promise<[] & {}>;
+    trigger_escape_signer(options?: CallOptions): Promise<[] & {}>;
+    cancel_escape(options?: CallOptions): Promise<[] & {}>;
     escape_guardian(
       new_guardian: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<[] & {}>;
     escape_signer(
       new_signer: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<[] & {}>;
     is_valid_signature(
       hash: BigNumberish,
       sig: BigNumberish[],
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<[] & {}>;
     supportsInterface(
       interfaceId: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<[BN] & { success: BN }>;
-    get_nonce(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Promise<[BN] & { nonce: BN }>;
-    get_signer(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Promise<[BN] & { signer: BN }>;
-    get_guardian(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Promise<[BN] & { guardian: BN }>;
-    get_guardian_backup(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Promise<[BN] & { guardian_backup: BN }>;
-    get_escape(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Promise<[BN, BN] & { active_at: BN; type: BN }>;
-    get_version(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Promise<[BN] & { version: BN }>;
+    get_nonce(options?: CallOptions): Promise<[BN] & { nonce: BN }>;
+    get_signer(options?: CallOptions): Promise<[BN] & { signer: BN }>;
+    get_guardian(options?: CallOptions): Promise<[BN] & { guardian: BN }>;
+    get_guardian_backup(
+      options?: CallOptions
+    ): Promise<[BN] & { guardian_backup: BN }>;
+    get_escape(
+      options?: CallOptions
+    ): Promise<[BN, BN] & { active_at: BN; type: BN }>;
+    get_version(options?: CallOptions): Promise<[BN] & { version: BN }>;
   };
   populateTransaction: {
     initialize(
@@ -267,92 +245,74 @@ export interface ArgentAccount extends Contract {
     is_valid_signature(
       hash: BigNumberish,
       sig: BigNumberish[],
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Invocation;
     supportsInterface(
       interfaceId: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Invocation;
-    get_nonce(options?: { blockIdentifier?: BlockIdentifier }): Invocation;
-    get_signer(options?: { blockIdentifier?: BlockIdentifier }): Invocation;
-    get_guardian(options?: { blockIdentifier?: BlockIdentifier }): Invocation;
-    get_guardian_backup(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Invocation;
-    get_escape(options?: { blockIdentifier?: BlockIdentifier }): Invocation;
-    get_version(options?: { blockIdentifier?: BlockIdentifier }): Invocation;
+    get_nonce(options?: CallOptions): Invocation;
+    get_signer(options?: CallOptions): Invocation;
+    get_guardian(options?: CallOptions): Invocation;
+    get_guardian_backup(options?: CallOptions): Invocation;
+    get_escape(options?: CallOptions): Invocation;
+    get_version(options?: CallOptions): Invocation;
   };
   estimateFee: {
     initialize(
       signer: BigNumberish,
       guardian: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<EstimateFeeResponse>;
     __execute__(
       call_array: CallArray[],
       calldata: BigNumberish[],
       nonce: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<EstimateFeeResponse>;
     upgrade(
       implementation: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<EstimateFeeResponse>;
     change_signer(
       new_signer: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<EstimateFeeResponse>;
     change_guardian(
       new_guardian: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<EstimateFeeResponse>;
     change_guardian_backup(
       new_guardian: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<EstimateFeeResponse>;
-    trigger_escape_guardian(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Promise<EstimateFeeResponse>;
-    trigger_escape_signer(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Promise<EstimateFeeResponse>;
-    cancel_escape(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Promise<EstimateFeeResponse>;
+    trigger_escape_guardian(
+      options?: CallOptions
+    ): Promise<EstimateFeeResponse>;
+    trigger_escape_signer(options?: CallOptions): Promise<EstimateFeeResponse>;
+    cancel_escape(options?: CallOptions): Promise<EstimateFeeResponse>;
     escape_guardian(
       new_guardian: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<EstimateFeeResponse>;
     escape_signer(
       new_signer: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<EstimateFeeResponse>;
     is_valid_signature(
       hash: BigNumberish,
       sig: BigNumberish[],
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<EstimateFeeResponse>;
     supportsInterface(
       interfaceId: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<EstimateFeeResponse>;
-    get_nonce(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Promise<EstimateFeeResponse>;
-    get_signer(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Promise<EstimateFeeResponse>;
-    get_guardian(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Promise<EstimateFeeResponse>;
-    get_guardian_backup(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Promise<EstimateFeeResponse>;
-    get_escape(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Promise<EstimateFeeResponse>;
-    get_version(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Promise<EstimateFeeResponse>;
+    get_nonce(options?: CallOptions): Promise<EstimateFeeResponse>;
+    get_signer(options?: CallOptions): Promise<EstimateFeeResponse>;
+    get_guardian(options?: CallOptions): Promise<EstimateFeeResponse>;
+    get_guardian_backup(options?: CallOptions): Promise<EstimateFeeResponse>;
+    get_escape(options?: CallOptions): Promise<EstimateFeeResponse>;
+    get_version(options?: CallOptions): Promise<EstimateFeeResponse>;
   };
 }

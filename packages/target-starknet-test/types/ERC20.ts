@@ -4,146 +4,129 @@
 
 import type {
   Contract,
+  EstimateFeeDetails,
+  number,
   Overrides,
-  AddTransactionResponse,
+  InvokeTransactionResponse,
   Invocation,
   EstimateFeeResponse,
 } from "starknet";
-import type { BlockIdentifier } from "starknet/provider/utils";
-import type BN from "bn.js";
-import type { BigNumberish } from "starknet/utils/number";
+type CallOptions = { blockIdentifier: EstimateFeeDetails["blockIdentifier"] };
+type BigNumberish = number.BigNumberish;
+type BN = ReturnType<typeof number.toBN>;
 
 export interface ERC20 extends Contract {
-  decimals(options?: {
-    blockIdentifier?: BlockIdentifier;
-  }): Promise<[BN] & { res: BN }>;
-  get_total_supply(options?: {
-    blockIdentifier?: BlockIdentifier;
-  }): Promise<[BN] & { res: BN }>;
+  decimals(options?: CallOptions): Promise<[BN] & { res: BN }>;
+  get_total_supply(options?: CallOptions): Promise<[BN] & { res: BN }>;
   balance_of(
     user: BigNumberish,
-    options?: { blockIdentifier?: BlockIdentifier }
+    options?: CallOptions
   ): Promise<[BN] & { res: BN }>;
   allowance(
     owner: BigNumberish,
     spender: BigNumberish,
-    options?: { blockIdentifier?: BlockIdentifier }
+    options?: CallOptions
   ): Promise<[BN] & { res: BN }>;
-  initialize(options?: Overrides): Promise<AddTransactionResponse>;
+  initialize(options?: Overrides): Promise<InvokeTransactionResponse>;
   mint(
     recipient: BigNumberish,
     amount: BigNumberish,
     options?: Overrides
-  ): Promise<AddTransactionResponse>;
+  ): Promise<InvokeTransactionResponse>;
   transfer(
     recipient: BigNumberish,
     amount: BigNumberish,
     options?: Overrides
-  ): Promise<AddTransactionResponse>;
+  ): Promise<InvokeTransactionResponse>;
   transfer_from(
     sender: BigNumberish,
     recipient: BigNumberish,
     amount: BigNumberish,
     options?: Overrides
-  ): Promise<AddTransactionResponse>;
+  ): Promise<InvokeTransactionResponse>;
   approve(
     spender: BigNumberish,
     amount: BigNumberish,
     options?: Overrides
-  ): Promise<AddTransactionResponse>;
+  ): Promise<InvokeTransactionResponse>;
   functions: {
-    decimals(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Promise<[BN] & { res: BN }>;
-    get_total_supply(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Promise<[BN] & { res: BN }>;
+    decimals(options?: CallOptions): Promise<[BN] & { res: BN }>;
+    get_total_supply(options?: CallOptions): Promise<[BN] & { res: BN }>;
     balance_of(
       user: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<[BN] & { res: BN }>;
     allowance(
       owner: BigNumberish,
       spender: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<[BN] & { res: BN }>;
-    initialize(options?: Overrides): Promise<AddTransactionResponse>;
+    initialize(options?: Overrides): Promise<InvokeTransactionResponse>;
     mint(
       recipient: BigNumberish,
       amount: BigNumberish,
       options?: Overrides
-    ): Promise<AddTransactionResponse>;
+    ): Promise<InvokeTransactionResponse>;
     transfer(
       recipient: BigNumberish,
       amount: BigNumberish,
       options?: Overrides
-    ): Promise<AddTransactionResponse>;
+    ): Promise<InvokeTransactionResponse>;
     transfer_from(
       sender: BigNumberish,
       recipient: BigNumberish,
       amount: BigNumberish,
       options?: Overrides
-    ): Promise<AddTransactionResponse>;
+    ): Promise<InvokeTransactionResponse>;
     approve(
       spender: BigNumberish,
       amount: BigNumberish,
       options?: Overrides
-    ): Promise<AddTransactionResponse>;
+    ): Promise<InvokeTransactionResponse>;
   };
   callStatic: {
-    decimals(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Promise<[BN] & { res: BN }>;
-    get_total_supply(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Promise<[BN] & { res: BN }>;
+    decimals(options?: CallOptions): Promise<[BN] & { res: BN }>;
+    get_total_supply(options?: CallOptions): Promise<[BN] & { res: BN }>;
     balance_of(
       user: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<[BN] & { res: BN }>;
     allowance(
       owner: BigNumberish,
       spender: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<[BN] & { res: BN }>;
-    initialize(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Promise<[] & {}>;
+    initialize(options?: CallOptions): Promise<[] & {}>;
     mint(
       recipient: BigNumberish,
       amount: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<[] & {}>;
     transfer(
       recipient: BigNumberish,
       amount: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<[] & {}>;
     transfer_from(
       sender: BigNumberish,
       recipient: BigNumberish,
       amount: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<[] & {}>;
     approve(
       spender: BigNumberish,
       amount: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<[] & {}>;
   };
   populateTransaction: {
-    decimals(options?: { blockIdentifier?: BlockIdentifier }): Invocation;
-    get_total_supply(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Invocation;
-    balance_of(
-      user: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
-    ): Invocation;
+    decimals(options?: CallOptions): Invocation;
+    get_total_supply(options?: CallOptions): Invocation;
+    balance_of(user: BigNumberish, options?: CallOptions): Invocation;
     allowance(
       owner: BigNumberish,
       spender: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Invocation;
     initialize(options?: Overrides): Invocation;
     mint(
@@ -169,44 +152,38 @@ export interface ERC20 extends Contract {
     ): Invocation;
   };
   estimateFee: {
-    decimals(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Promise<EstimateFeeResponse>;
-    get_total_supply(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Promise<EstimateFeeResponse>;
+    decimals(options?: CallOptions): Promise<EstimateFeeResponse>;
+    get_total_supply(options?: CallOptions): Promise<EstimateFeeResponse>;
     balance_of(
       user: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<EstimateFeeResponse>;
     allowance(
       owner: BigNumberish,
       spender: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<EstimateFeeResponse>;
-    initialize(options?: {
-      blockIdentifier?: BlockIdentifier;
-    }): Promise<EstimateFeeResponse>;
+    initialize(options?: CallOptions): Promise<EstimateFeeResponse>;
     mint(
       recipient: BigNumberish,
       amount: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<EstimateFeeResponse>;
     transfer(
       recipient: BigNumberish,
       amount: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<EstimateFeeResponse>;
     transfer_from(
       sender: BigNumberish,
       recipient: BigNumberish,
       amount: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<EstimateFeeResponse>;
     approve(
       spender: BigNumberish,
       amount: BigNumberish,
-      options?: { blockIdentifier?: BlockIdentifier }
+      options?: CallOptions
     ): Promise<EstimateFeeResponse>;
   };
 }

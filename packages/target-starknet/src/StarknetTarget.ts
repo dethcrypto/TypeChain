@@ -1,6 +1,6 @@
 import { uniqBy, zip } from 'lodash'
 import { join, relative, resolve } from 'path'
-import { Abi, AbiEntry, FunctionAbi, json, StructAbi } from 'starknet'
+import { Abi, AbiEntry, FunctionAbi, json, number, StructAbi } from 'starknet'
 // import { AbiEntry, StructAbi } from 'starknet/types/lib'
 import {
   Config,
@@ -76,8 +76,18 @@ export class StarknetTarget extends TypeChainTarget {
         }
       }
     `
+
+    const temporaryAliases = [
+      resultWithoutImports.indexOf('options?: CallOptions') >= 0
+        ? 'type CallOptions = { blockIdentifier: EstimateFeeDetails["blockIdentifier"] }'
+        : '',
+      resultWithoutImports.indexOf('BigNumberish') >= 0 ? 'type BigNumberish = number.BigNumberish' : '',
+      resultWithoutImports.indexOf('BN') >= 0 ? 'type BN = ReturnType<typeof number.toBN>' : ''
+    ].join('\n')
+
     const result = `
       ${imports()}
+      ${temporaryAliases}
       ${resultWithoutImports}
     `
 
@@ -121,9 +131,9 @@ function transformer(rawAbi: Abi) {
       const Overrides = impoort('starknet', 'Overrides')
       return `options?: ${Overrides}`
     }
-    const BlockIdentifier = impoort('starknet/provider/utils', 'BlockIdentifier')
-    // TODO: Why BlockIdentifier is optional here?
-    return `options?: { blockIdentifier?: ${BlockIdentifier}; }`
+    // const CallOptions = impoort('starknet', 'CallOptions')
+    impoort('starknet', 'EstimateFeeDetails')
+    return `options?: CallOptions`
   }
 
   function functions(returnType: DeclarationType): string[] {
@@ -170,7 +180,7 @@ function transformer(rawAbi: Abi) {
       case 'default':
         return e.stateMutability === 'view'
           ? `Promise<${viewType(e, 'output')}>`
-          : `Promise<${impoort('starknet', 'AddTransactionResponse')}>`
+          : `Promise<${impoort('starknet', 'InvokeTransactionResponse')}>`
       case 'call':
         return `Promise<${viewType(e, 'output')}>`
       case 'populate':
@@ -221,9 +231,9 @@ function transformer(rawAbi: Abi) {
   function mapType(type: AbiEntry['type'], dir: Direction): string {
     if (type === 'felt') {
       if (dir === 'input') {
-        return impoort('starknet/utils/number', 'BigNumberish')
+        return impoort('starknet', 'number', 'BigNumberish')
       } else {
-        return impoort('bn.js', 'BN', false, true)
+        return impoort('starknet', 'number', 'BN')
       }
     }
 

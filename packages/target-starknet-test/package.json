@@ -8,7 +8,7 @@
     "format:fix": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --write \"./**/*.ts\"",
     "lint": "eslint --ext .ts test",
     "lint:fix": "pnpm lint --fix",
-    "typecheck": "tsc --noEmit --incremental false --composite false && tsc --noEmit --incremental false --composite false -p tsconfig.types.json",
+    "typecheck": "tsc --noEmit --skipLibCheck --incremental false --composite false && tsc --noEmit --skipLibCheck --incremental false --composite false -p tsconfig.types.json",
     "clean": "rm -rf dist contracts/* && rm -f tsconfig.build.tsbuildinfo && rm -rf build",
     "generate-types": "node ../typechain/dist/cli/cli.js --target=../target-starknet/dist/index.js --out-dir './types/' './example-abis/*.json'",
     "test-out": "pnpm generate-types && ../../node_modules/.bin/mocha --config ../../.mocharc.js",
@@ -17,13 +17,14 @@
     "test:fix": "pnpm lint:fix && pnpm format:fix && pnpm test && pnpm typecheck"
   },
   "devDependencies": {
-    "@types/bn.js": "^5.1.1",
     "concurrently": "^7.6.0",
     "test-utils": "workspace:1.0.0",
     "typechain": "workspace:^8.1.1",
-    "wait-on": "^6.0.1"
+    "wait-on": "^6.0.1",
+    "typescript": "^4.7.3"
   },
   "dependencies": {
+    "@types/elliptic": "^6.4.14",
     "starknet": "^4.15.1"
   }
 }

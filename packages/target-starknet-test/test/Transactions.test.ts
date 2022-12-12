@@ -82,14 +82,14 @@ describe('Transactions', () => {
     it('mints', async () => {
       erc20.connect(account)
       const { transaction_hash } = await erc20.mint(account.address, 1, { maxFee: '0' })
-      const { status } = await provider.waitForTransaction(transaction_hash)
+      const { status } = await provider.waitForTransaction(transaction_hash!)
       expect(status).toEqual('ACCEPTED_ON_L2')
     })
 
     it('transfers', async () => {
       erc20.connect(account)
       const { transaction_hash } = await erc20.transfer(account.address, 1, { maxFee: '0' })
-      const { status } = await provider.waitForTransaction(transaction_hash)
+      const { status } = await provider.waitForTransaction(transaction_hash!)
       expect(status).toEqual('ACCEPTED_ON_L2')
     })
   })

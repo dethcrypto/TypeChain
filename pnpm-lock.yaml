@@ -312,39 +312,39 @@ importers:
   packages/target-starknet:
     specifiers:
       '@types/lodash': ^4.14.139
-      bn.js: ^4.11.0
       lodash: ^4.17.15
       starknet: ^4.15.1
       test-utils: 1.0.0
       ts-essentials: ^7.0.1
       typechain: workspace:^8.1.1
-      typescript: ^4.6.3
+      typescript: ^4.7.3
     dependencies:
-      bn.js: 4.12.0
       lodash: 4.17.21
-      ts-essentials: 7.0.3_typescript@4.6.4
+      ts-essentials: 7.0.3_typescript@4.9.4
     devDependencies:
       '@types/lodash': 4.14.179
       starknet: 4.15.1
       test-utils: link:../test-utils
       typechain: link:../typechain
-      typescript: 4.6.4
+      typescript: 4.9.4
 
   packages/target-starknet-test:
     specifiers:
-      '@types/bn.js': ^5.1.1
+      '@types/elliptic': ^6.4.14
       concurrently: ^7.6.0
       starknet: ^4.15.1
       test-utils: workspace:1.0.0
       typechain: workspace:^8.1.1
+      typescript: ^4.7.3
       wait-on: ^6.0.1
     dependencies:
+      '@types/elliptic': 6.4.14
       starknet: 4.15.1
     devDependencies:
-      '@types/bn.js': 5.1.1
       concurrently: 7.6.0
       test-utils: link:../test-utils
       typechain: link:../typechain
+      typescript: 4.9.4
       wait-on: 6.0.1
 
   packages/target-truffle-v5:
@@ -2892,8 +2892,8 @@ packages:
   /@types/bn.js/5.1.1:
     resolution: {integrity: sha512-qNrYbZqMx0uJAfKnKclPh+dTwK33KfLHYqtyODwd5HnXOjnkhc4qgn3BrK6RWyGZm5+sIFE7Q7Vz6QQtJB7w7g==}
     dependencies:
-      '@types/node': 18.11.11
-    dev: true
+      '@types/node': 16.10.3
+    dev: false
 
   /@types/body-parser/1.19.2:
     resolution: {integrity: sha512-ALYone6pm6QmwZoAgeyNksccT9Q4AWZQ6PvfwR37GT6r6FWUPguq6sUmNGSMV2Wr761oQoBxwGGa6DR5o1DC9g==}
@@ -2946,6 +2946,12 @@ packages:
     dependencies:
       tweetnacl: 1.0.3
     optional: true
+
+  /@types/elliptic/6.4.14:
+    resolution: {integrity: sha512-z4OBcDAU0GVwDTuwJzQCiL6188QvZMkvoERgcVjq0/mPM8jCfdwZ3x5zQEVoL9WCAru3aG5wl3Z5Ww5wBWn7ZQ==}
+    dependencies:
+      '@types/bn.js': 5.1.1
+    dev: false
 
   /@types/express-serve-static-core/4.17.28:
     resolution: {integrity: sha512-P1BJAEAW3E2DJUlkgq4tOL3RyMunoWXqbSCygWo5ZIWTjUgN1YnaXWW4VWl/oc8vs/XoYibEGBKP0uZyF4AHig==}
@@ -3123,10 +3129,6 @@ packages:
 
   /@types/node/16.10.3:
     resolution: {integrity: sha512-ho3Ruq+fFnBrZhUYI46n/bV2GjwzSkwuT4dTf0GkuNFmnb8nq4ny2z9JEVemFi6bdEJanHLlYfy9c6FN9B9McQ==}
-
-  /@types/node/18.11.11:
-    resolution: {integrity: sha512-KJ021B1nlQUBLopzZmPBVuGU9un7WJd/W4ya7Ih02B4Uwky5Nja0yGYav2EfYIk0RR2Q9oVhf60S2XR1BCWJ2g==}
-    dev: true
 
   /@types/normalize-package-data/2.4.0:
     resolution: {integrity: sha512-f5j5b/Gf71L+dbqxIpQ4Z2WlmI/mPJ0fOkGGmFgtb6sAu97EPczzbS3/tJKxmcYDj55OX6ssqwDAWOHIYDRDGA==}
@@ -13738,7 +13740,7 @@ packages:
     dependencies:
       typescript: 4.6.2
 
-  /ts-essentials/7.0.3_typescript@4.6.4:
+  /ts-essentials/7.0.3_typescript@4.9.4:
     resolution: {integrity: sha512-8+gr5+lqO3G84KdiTSMRLtuyJ+nTBVRKuCrK4lidMPdVeEp0uqC875uE5NMcaA7YYMN7XsNiFQuMvasF8HT/xQ==}
     peerDependencies:
       typescript: '>=3.7.0'
@@ -13746,7 +13748,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      typescript: 4.6.4
+      typescript: 4.9.4
     dev: false
 
   /ts-generator/0.0.8:
@@ -14054,8 +14056,8 @@ packages:
     engines: {node: '>=4.2.0'}
     hasBin: true
 
-  /typescript/4.6.4:
-    resolution: {integrity: sha512-9ia/jWHIEbo49HfjrLGfKbZSuWo9iTMwXO+Ca3pRsSpbsMbc7/IU8NKdCZVRRBafVPGnoJeFL76ZOAA84I9fEg==}
+  /typescript/4.9.4:
+    resolution: {integrity: sha512-Uz+dTXYzxXXbsFpM86Wh3dKCxrQqUcVMxwU54orwlJjOpO3ao8L7j5lH+dWfTwgCwIuM9GQ2kvVotzYJMXTBZg==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: true

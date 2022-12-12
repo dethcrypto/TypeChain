@@ -2,9 +2,10 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Contract } from "starknet";
-import type { BigNumberish } from "starknet/utils/number";
-import type BN from "bn.js";
+import type { Contract, number } from "starknet";
+
+type BigNumberish = number.BigNumberish;
+type BN = ReturnType<typeof number.toBN>;
 
 export type Point = { x: BigNumberish; y: BigNumberish };
 export type PointOutput = { x: BN; y: BN };
