@@ -82,7 +82,7 @@ export class StarknetTarget extends TypeChainTarget {
         ? 'type CallOptions = { blockIdentifier: EstimateFeeDetails["blockIdentifier"] }'
         : '',
       resultWithoutImports.indexOf('BigNumberish') >= 0 ? 'type BigNumberish = number.BigNumberish' : '',
-      resultWithoutImports.indexOf('BN') >= 0 ? 'type BN = ReturnType<typeof number.toBN>' : ''
+      resultWithoutImports.indexOf('BN') >= 0 ? 'type BN = ReturnType<typeof number.toBN>' : '',
     ].join('\n')
 
     const result = `

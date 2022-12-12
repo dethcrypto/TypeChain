@@ -1,5 +1,5 @@
 import fs from 'fs'
-import { Account, Contract, ec, json,number, SequencerProvider } from 'starknet'
+import { Account, Contract, ec, json, number, SequencerProvider } from 'starknet'
 const { toBN } = number
 import { expect } from 'earljs'
 
