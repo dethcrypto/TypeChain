@@ -3,6 +3,7 @@
 /* eslint-disable */
 
 import type BN from "bn.js";
+import type BigNumber from "bignumber.js";
 import type { ContractOptions } from "web3-eth-contract";
 import type { EventLog } from "web3-core";
 import type { EventEmitter } from "events";
@@ -29,7 +30,9 @@ export interface LibraryConsumer extends BaseContract {
   ): LibraryConsumer;
   clone(): LibraryConsumer;
   methods: {
-    someOther(b: number | string | BN): NonPayableTransactionObject<string>;
+    someOther(
+      b: number | string | BN | BigNumber
+    ): NonPayableTransactionObject<string>;
   };
   events: {
     allEvents(options?: EventOptions, cb?: Callback<EventLog>): EventEmitter;

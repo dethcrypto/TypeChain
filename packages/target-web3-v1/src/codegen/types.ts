@@ -24,7 +24,7 @@ export function codegenInputType(evmType: EvmType): string {
   switch (evmType.type) {
     case 'integer':
     case 'uinteger':
-      return 'number | string | BN'
+      return 'number | string | BN | BigNumber'
     case 'address':
       return 'string'
     case 'bytes':

@@ -1,4 +1,5 @@
-import BigNumber from 'bn.js'
+import BigNumber from 'bignumber.js'
+import BN from 'bn.js'
 import { asyncWithDoneCase, typedAssert } from 'test-utils'
 
 import type { Events } from '../types/v0.6.4/Events'
@@ -104,6 +105,14 @@ describe('Events', () => {
   describe('EIP1559 overrides', () => {
     it('works', async () => {
       const { accounts, contract } = chain
+
+      await contract.methods.emit_event1().send({
+        from: accounts[0],
+        gas: GAS_LIMIT_STANDARD,
+        maxFeePerGas: new BN(10 ** 9),
+        maxPriorityFeePerGas: new BN(10 ** 9),
+      })
+      // doesn't throw error
 
       await contract.methods.emit_event1().send({
         from: accounts[0],

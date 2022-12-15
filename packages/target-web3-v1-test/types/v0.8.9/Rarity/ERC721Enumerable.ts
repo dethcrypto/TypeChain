@@ -3,6 +3,7 @@
 /* eslint-disable */
 
 import type BN from "bn.js";
+import type BigNumber from "bignumber.js";
 import type { ContractOptions } from "web3-eth-contract";
 import type { EventLog } from "web3-core";
 import type { EventEmitter } from "events";
@@ -56,13 +57,13 @@ export interface ERC721Enumerable extends BaseContract {
   methods: {
     approve(
       to: string,
-      tokenId: number | string | BN
+      tokenId: number | string | BN | BigNumber
     ): NonPayableTransactionObject<void>;
 
     balanceOf(owner: string): NonPayableTransactionObject<string>;
 
     getApproved(
-      tokenId: number | string | BN
+      tokenId: number | string | BN | BigNumber
     ): NonPayableTransactionObject<string>;
 
     isApprovedForAll(
@@ -70,18 +71,20 @@ export interface ERC721Enumerable extends BaseContract {
       operator: string
     ): NonPayableTransactionObject<boolean>;
 
-    ownerOf(tokenId: number | string | BN): NonPayableTransactionObject<string>;
+    ownerOf(
+      tokenId: number | string | BN | BigNumber
+    ): NonPayableTransactionObject<string>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: string,
       to: string,
-      tokenId: number | string | BN
+      tokenId: number | string | BN | BigNumber
     ): NonPayableTransactionObject<void>;
 
     "safeTransferFrom(address,address,uint256,bytes)"(
       from: string,
       to: string,
-      tokenId: number | string | BN,
+      tokenId: number | string | BN | BigNumber,
       _data: string | number[]
     ): NonPayableTransactionObject<void>;
 
@@ -91,12 +94,12 @@ export interface ERC721Enumerable extends BaseContract {
     ): NonPayableTransactionObject<void>;
 
     tokenByIndex(
-      index: number | string | BN
+      index: number | string | BN | BigNumber
     ): NonPayableTransactionObject<string>;
 
     tokenOfOwnerByIndex(
       owner: string,
-      index: number | string | BN
+      index: number | string | BN | BigNumber
     ): NonPayableTransactionObject<string>;
 
     totalSupply(): NonPayableTransactionObject<string>;
@@ -104,7 +107,7 @@ export interface ERC721Enumerable extends BaseContract {
     transferFrom(
       from: string,
       to: string,
-      tokenId: number | string | BN
+      tokenId: number | string | BN | BigNumber
     ): NonPayableTransactionObject<void>;
   };
   events: {
