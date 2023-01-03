@@ -1,5 +1,5 @@
 {
-  "name": "@typechain/ethers-v5-test",
+  "name": "@typechain/ethers-v6-test",
   "private": true,
   "version": "1.0.0",
   "license": "MIT",
@@ -10,7 +10,7 @@
     "lint:fix": "pnpm lint --fix",
     "typecheck": "tsc --noEmit --incremental false --composite false && tsc --noEmit --incremental false --composite false -p tsconfig.types.json",
     "clean": "rm -rf dist contracts/* && rm -f tsconfig.build.tsbuildinfo && rm -rf build",
-    "generate-types": "node ../typechain/dist/cli/cli.js --target=../target-ethers-v5/dist/index.js --out-dir ./types/ '../../contracts/compiled/**/*.abi'",
+    "generate-types": "node ../typechain/dist/cli/cli.js --target=../target-ethers-v6/dist/index.js --out-dir ./types/ '../../contracts/compiled/**/*.abi'",
     "test": "pnpm generate-types && mocha --config ../../.mocharc.js",
     "test:fix": "pnpm lint:fix && pnpm format:fix && pnpm test && pnpm typecheck"
   },
@@ -20,9 +20,6 @@
     "typechain": "workspace:^8.1.1"
   },
   "dependencies": {
-    "@ethersproject/abi": "^5.0.0",
-    "@ethersproject/bytes": "^5.0.0",
-    "@ethersproject/providers": "^5.0.0",
-    "ethers": "^5.1.3"
+    "ethers": "6.0.0-beta-exports.9"
   }
 }

@@ -13,7 +13,7 @@ describe(EthersTarget.name, () => {
       inputDir: join(__dirname, 'input dir'),
       allFiles: files,
       filesToProcess: files,
-      target: 'ethers-v5',
+      target: 'ethers-v6',
       flags: {
         alwaysGenerateOverloads: false,
         discriminateTypes: false,

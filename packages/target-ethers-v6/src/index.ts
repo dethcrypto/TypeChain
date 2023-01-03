@@ -214,7 +214,7 @@ function panicOnOldTypeScriptVersion() {
   const bold = (text: string | number) => `\x1b[1m${text}\x1b[0m`
 
   const tsStr = `${requiredTSVersion.major}.${requiredTSVersion.minor}`
-  const errorMessage = `@typechain/ethers-v5 ${targetEthersVersion} needs TypeScript version ${tsStr} or newer.`
+  const errorMessage = `@typechain/ethers-v6 ${targetEthersVersion} needs TypeScript version ${tsStr} or newer.`
 
   // eslint-disable-next-line no-console
   console.error(`

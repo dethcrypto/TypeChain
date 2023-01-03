@@ -30,13 +30,13 @@ describe('Ethers target constructor', () => {
         inputDir: '',
         cwd: '',
         allFiles: ['woop'],
-        target: 'ethers-v5',
+        target: 'ethers-v6',
       })
-    }).toThrow('@typechain/ethers-v5 1.2.3 needs TypeScript version 4.3 or newer.')
+    }).toThrow('@typechain/ethers-v6 1.2.3 needs TypeScript version 4.3 or newer.')
 
     const message = consoleErrorMock.calls[0].args[0]
 
-    expect(message).toEqual(expect.stringMatching('@typechain/ethers-v5 1.2.3 needs TypeScript version 4.3 or newer.'))
+    expect(message).toEqual(expect.stringMatching('@typechain/ethers-v6 1.2.3 needs TypeScript version 4.3 or newer.'))
     expect(message).toEqual(
       expect.stringMatching('Generated code will cause syntax errors in older TypeScript versions.'),
     )
@@ -56,7 +56,7 @@ describe('Ethers target constructor', () => {
           inputDir: '',
           cwd: '',
           allFiles: ['woop'],
-          target: 'ethers-v5',
+          target: 'ethers-v6',
         })
       }).not.toThrow()
 
