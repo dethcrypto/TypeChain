@@ -3,16 +3,13 @@
 /* eslint-disable */
 import type {
   BaseContract,
-  BigNumber,
   BigNumberish,
   BytesLike,
-  CallOverrides,
-  PopulatedTransaction,
-  Signer,
-  utils,
+  Interface, FunctionFragment, Result,
 } from "ethers";
-import type { FunctionFragment, Result } from "@ethersproject/abi";
-import type { Listener, Provider } from "@ethersproject/providers";
+import type { ContractRunner,TransactionRequest,  } from "ethers/types/providers";
+import type { ContractMethod, ContractEvent, EventLog  } from "ethers/types/contract";
+import type { Listener } from "ethers/src.ts/utils";
 import type {
   TypedEventFilter,
   TypedEvent,
@@ -27,9 +24,9 @@ export declare namespace StructsLib1 {
     b: PromiseOrValue<BigNumberish>;
   };
 
-  export type InfoStructOutput = [BigNumber, BigNumber] & {
-    a: BigNumber;
-    b: BigNumber;
+  export type InfoStructOutput = [bigint, bigint] & {
+    a: bigint;
+    b: bigint;
   };
 }
 
@@ -48,9 +45,9 @@ export declare namespace DataTypesInput {
     uint256_1: PromiseOrValue<BigNumberish>;
   };
 
-  export type Struct1StructOutput = [BigNumber, BigNumber] & {
-    uint256_0: BigNumber;
-    uint256_1: BigNumber;
+  export type Struct1StructOutput = [bigint, bigint] & {
+    uint256_0: bigint;
+    uint256_1: bigint;
   };
 
   export type Struct2Struct = {
@@ -59,16 +56,16 @@ export declare namespace DataTypesInput {
   };
 
   export type Struct2StructOutput = [
-    BigNumber,
+    bigint,
     DataTypesInput.Struct1StructOutput
-  ] & { input1: BigNumber; input2: DataTypesInput.Struct1StructOutput };
+  ] & { input1: bigint; input2: DataTypesInput.Struct1StructOutput };
 
   export type Struct3Struct = { input1: PromiseOrValue<BigNumberish>[] };
 
-  export type Struct3StructOutput = [BigNumber[]] & { input1: BigNumber[] };
+  export type Struct3StructOutput = [bigint[]] & { input1: bigint[] };
 }
 
-export interface DataTypesInputInterface extends utils.Interface {
+export interface DataTypesInputInterface extends Interface {
   functions: {
     "input_address(address)": FunctionFragment;
     "input_bool(bool)": FunctionFragment;
@@ -423,383 +420,51 @@ export interface DataTypesInputInterface extends utils.Interface {
 }
 
 export interface DataTypesInput extends BaseContract {
-  connect(signerOrProvider: Signer | Provider | string): this;
+  connect(runner: null | ContractRunner): BaseContract;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
   interface: DataTypesInputInterface;
 
-  queryFilter<TEvent extends TypedEvent>(
-    event: TypedEventFilter<TEvent>,
+  queryFilter<TEventArgs extends Array<any>>(
+    event: ContractEvent<TEventArgs>, // TODO add args
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TEvent>>;
+  ): Promise<Array<EventLog>>;
 
-  listeners<TEvent extends TypedEvent>(
-    eventFilter?: TypedEventFilter<TEvent>
-  ): Array<TypedListener<TEvent>>;
-  listeners(eventName?: string): Array<Listener>;
-  removeAllListeners<TEvent extends TypedEvent>(
-    eventFilter: TypedEventFilter<TEvent>
-  ): this;
+  listeners<TEventArgs extends Array<any>>(
+    eventFilter?: ContractEvent<TEventArgs>, // TODO add args
+  ): Listener; // TODO add args
+  listeners(): Promise<Array<Listener>>;
+  removeAllListeners<TEventArgs extends Array<any>>(
+    eventFilter: ContractEvent<TEventArgs>, // TODO add args
+  ): Promise<this>;
   removeAllListeners(eventName?: string): this;
-  off: OnEvent<this>;
-  on: OnEvent<this>;
-  once: OnEvent<this>;
-  removeListener: OnEvent<this>;
+  off: <TEventArgs extends Array<any>>(event: ContractEvent<TEventArgs>, listener: Listener) => Promise<this>;
+  on: <TEventArgs extends Array<any>>(event: ContractEvent<TEventArgs>, listener: Listener) => Promise<this>;
+  once: <TEventArgs extends Array<any>>(event: ContractEvent<TEventArgs>, listener: Listener) => Promise<this>;
+  removeListener: <TEventArgs extends Array<any>>(event: ContractEvent<TEventArgs>, listener: Listener) => Promise<this>;
 
-  functions: {
-    input_address(
-      input1: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    input_bool(
-      input1: PromiseOrValue<boolean>,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
-
-    input_bytes(
-      input1: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    input_bytes1(
-      input1: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    input_enum(
-      input1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[number]>;
-
-    input_fixedarray_array_fixedarray(
-      input1: [
-        [
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>
-        ][],
-        [
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>
-        ][],
-        [
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>
-        ][],
-        [
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>
-        ][]
-      ],
-      overrides?: CallOverrides
-    ): Promise<
-      [
-        [
-          [number, number, number][],
-          [number, number, number][],
-          [number, number, number][],
-          [number, number, number][]
-        ]
-      ]
-    >;
-
-    input_int256(
-      input1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    input_int8(
-      input1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[number]>;
-
-    input_multiple_structs_with_same_name(
-      info1: StructsLib1.InfoStruct,
-      overrides?: CallOverrides
-    ): Promise<
-      [StructsLib2.InfoStructOutput] & { info2: StructsLib2.InfoStructOutput }
-    >;
-
-    input_stat_array(
-      input1: [
-        PromiseOrValue<BigNumberish>,
-        PromiseOrValue<BigNumberish>,
-        PromiseOrValue<BigNumberish>
-      ],
-      overrides?: CallOverrides
-    ): Promise<[[number, number, number]]>;
-
-    input_string(
-      input1: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    input_struct(
-      input1: DataTypesInput.Struct1Struct,
-      overrides?: CallOverrides
-    ): Promise<[DataTypesInput.Struct1StructOutput]>;
-
-    input_struct2(
-      input1: DataTypesInput.Struct2Struct,
-      overrides?: CallOverrides
-    ): Promise<[DataTypesInput.Struct2StructOutput]>;
-
-    input_struct2_array(
-      input1: DataTypesInput.Struct2Struct[],
-      overrides?: CallOverrides
-    ): Promise<[DataTypesInput.Struct2StructOutput[]]>;
-
-    input_struct2_tuple(
-      input: [
-        DataTypesInput.Struct2Struct,
-        DataTypesInput.Struct2Struct,
-        DataTypesInput.Struct2Struct
-      ],
-      overrides?: CallOverrides
-    ): Promise<
-      [
-        [
-          DataTypesInput.Struct2StructOutput,
-          DataTypesInput.Struct2StructOutput,
-          DataTypesInput.Struct2StructOutput
-        ]
-      ]
-    >;
-
-    input_struct3_array(
-      input1: DataTypesInput.Struct3Struct[],
-      overrides?: CallOverrides
-    ): Promise<[DataTypesInput.Struct3StructOutput[]]>;
-
-    input_struct_array(
-      input1: DataTypesInput.Struct1Struct[],
-      overrides?: CallOverrides
-    ): Promise<[DataTypesInput.Struct1StructOutput[]]>;
-
-    input_struct_array_array(
-      input1: DataTypesInput.Struct1Struct[][],
-      overrides?: CallOverrides
-    ): Promise<[DataTypesInput.Struct1StructOutput[][]]>;
-
-    input_struct_array_array_array(
-      input1: DataTypesInput.Struct1Struct[][][],
-      overrides?: CallOverrides
-    ): Promise<[DataTypesInput.Struct1StructOutput[][][]]>;
-
-    input_struct_array_fixedarray(
-      input1: [DataTypesInput.Struct1Struct[], DataTypesInput.Struct1Struct[]],
-      overrides?: CallOverrides
-    ): Promise<
-      [
-        [
-          DataTypesInput.Struct1StructOutput[],
-          DataTypesInput.Struct1StructOutput[]
-        ]
-      ]
-    >;
-
-    input_struct_fixedarray_array(
-      input1: [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-      overrides?: CallOverrides
-    ): Promise<
-      [
-        [
-          DataTypesInput.Struct1StructOutput,
-          DataTypesInput.Struct1StructOutput
-        ][]
-      ]
-    >;
-
-    input_struct_fixedarray_array_fixedarray(
-      input1: [
-        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
-      ],
-      overrides?: CallOverrides
-    ): Promise<
-      [
-        [
-          [
-            DataTypesInput.Struct1StructOutput,
-            DataTypesInput.Struct1StructOutput
-          ][],
-          [
-            DataTypesInput.Struct1StructOutput,
-            DataTypesInput.Struct1StructOutput
-          ][],
-          [
-            DataTypesInput.Struct1StructOutput,
-            DataTypesInput.Struct1StructOutput
-          ][]
-        ]
-      ]
-    >;
-
-    input_struct_fixedarray_array_fixedarray_array_fixedarray(
-      input1: [
-        [
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
-        ][],
-        [
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
-        ][],
-        [
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
-        ][],
-        [
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
-        ][]
-      ],
-      overrides?: CallOverrides
-    ): Promise<
-      [
-        [
-          [
-            [
-              DataTypesInput.Struct1StructOutput,
-              DataTypesInput.Struct1StructOutput
-            ][],
-            [
-              DataTypesInput.Struct1StructOutput,
-              DataTypesInput.Struct1StructOutput
-            ][],
-            [
-              DataTypesInput.Struct1StructOutput,
-              DataTypesInput.Struct1StructOutput
-            ][]
-          ][],
-          [
-            [
-              DataTypesInput.Struct1StructOutput,
-              DataTypesInput.Struct1StructOutput
-            ][],
-            [
-              DataTypesInput.Struct1StructOutput,
-              DataTypesInput.Struct1StructOutput
-            ][],
-            [
-              DataTypesInput.Struct1StructOutput,
-              DataTypesInput.Struct1StructOutput
-            ][]
-          ][],
-          [
-            [
-              DataTypesInput.Struct1StructOutput,
-              DataTypesInput.Struct1StructOutput
-            ][],
-            [
-              DataTypesInput.Struct1StructOutput,
-              DataTypesInput.Struct1StructOutput
-            ][],
-            [
-              DataTypesInput.Struct1StructOutput,
-              DataTypesInput.Struct1StructOutput
-            ][]
-          ][],
-          [
-            [
-              DataTypesInput.Struct1StructOutput,
-              DataTypesInput.Struct1StructOutput
-            ][],
-            [
-              DataTypesInput.Struct1StructOutput,
-              DataTypesInput.Struct1StructOutput
-            ][],
-            [
-              DataTypesInput.Struct1StructOutput,
-              DataTypesInput.Struct1StructOutput
-            ][]
-          ][]
-        ]
-      ]
-    >;
-
-    input_struct_fixedarray_fixedarray(
-      input1: [
-        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
-        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
-        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct]
-      ],
-      overrides?: CallOverrides
-    ): Promise<
-      [
-        [
-          [
-            DataTypesInput.Struct1StructOutput,
-            DataTypesInput.Struct1StructOutput
-          ],
-          [
-            DataTypesInput.Struct1StructOutput,
-            DataTypesInput.Struct1StructOutput
-          ],
-          [
-            DataTypesInput.Struct1StructOutput,
-            DataTypesInput.Struct1StructOutput
-          ]
-        ]
-      ]
-    >;
-
-    input_tuple(
-      input1: PromiseOrValue<BigNumberish>,
-      input2: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber, BigNumber]>;
-
-    input_uint256(
-      input1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    input_uint8(
-      input1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[number]>;
-
-    input_uint_array(
-      input1: PromiseOrValue<BigNumberish>[],
-      overrides?: CallOverrides
-    ): Promise<[BigNumber[]]>;
-  };
-
-  input_address(
-    input1: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<string>;
+  input_address: ContractMethod<[input1: PromiseOrValue<string>], [string]>;
 
   input_bool(
     input1: PromiseOrValue<boolean>,
-    overrides?: CallOverrides
+    overrides?: TransactionRequest
   ): Promise<boolean>;
 
   input_bytes(
     input1: PromiseOrValue<BytesLike>,
-    overrides?: CallOverrides
+    overrides?: TransactionRequest
   ): Promise<string>;
 
   input_bytes1(
     input1: PromiseOrValue<BytesLike>,
-    overrides?: CallOverrides
+    overrides?: TransactionRequest
   ): Promise<string>;
 
   input_enum(
     input1: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
+    overrides?: TransactionRequest
   ): Promise<number>;
 
   input_fixedarray_array_fixedarray(
@@ -825,7 +490,7 @@ export interface DataTypesInput extends BaseContract {
         PromiseOrValue<BigNumberish>
       ][]
     ],
-    overrides?: CallOverrides
+    overrides?: TransactionRequest
   ): Promise<
     [
       [number, number, number][],
@@ -837,17 +502,17 @@ export interface DataTypesInput extends BaseContract {
 
   input_int256(
     input1: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
+    overrides?: TransactionRequest
+  ): Promise<bigint>;
 
   input_int8(
     input1: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
+    overrides?: TransactionRequest
   ): Promise<number>;
 
   input_multiple_structs_with_same_name(
     info1: StructsLib1.InfoStruct,
-    overrides?: CallOverrides
+    overrides?: TransactionRequest
   ): Promise<StructsLib2.InfoStructOutput>;
 
   input_stat_array(
@@ -856,27 +521,27 @@ export interface DataTypesInput extends BaseContract {
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BigNumberish>
     ],
-    overrides?: CallOverrides
+    overrides?: TransactionRequest
   ): Promise<[number, number, number]>;
 
   input_string(
     input1: PromiseOrValue<string>,
-    overrides?: CallOverrides
+    overrides?: TransactionRequest
   ): Promise<string>;
 
   input_struct(
     input1: DataTypesInput.Struct1Struct,
-    overrides?: CallOverrides
+    overrides?: TransactionRequest
   ): Promise<DataTypesInput.Struct1StructOutput>;
 
   input_struct2(
     input1: DataTypesInput.Struct2Struct,
-    overrides?: CallOverrides
+    overrides?: TransactionRequest
   ): Promise<DataTypesInput.Struct2StructOutput>;
 
   input_struct2_array(
     input1: DataTypesInput.Struct2Struct[],
-    overrides?: CallOverrides
+    overrides?: TransactionRequest
   ): Promise<DataTypesInput.Struct2StructOutput[]>;
 
   input_struct2_tuple(
@@ -885,7 +550,7 @@ export interface DataTypesInput extends BaseContract {
       DataTypesInput.Struct2Struct,
       DataTypesInput.Struct2Struct
     ],
-    overrides?: CallOverrides
+    overrides?: TransactionRequest
   ): Promise<
     [
       DataTypesInput.Struct2StructOutput,
@@ -896,34 +561,34 @@ export interface DataTypesInput extends BaseContract {
 
   input_struct3_array(
     input1: DataTypesInput.Struct3Struct[],
-    overrides?: CallOverrides
+    overrides?: TransactionRequest
   ): Promise<DataTypesInput.Struct3StructOutput[]>;
 
   input_struct_array(
     input1: DataTypesInput.Struct1Struct[],
-    overrides?: CallOverrides
+    overrides?: TransactionRequest
   ): Promise<DataTypesInput.Struct1StructOutput[]>;
 
   input_struct_array_array(
     input1: DataTypesInput.Struct1Struct[][],
-    overrides?: CallOverrides
+    overrides?: TransactionRequest
   ): Promise<DataTypesInput.Struct1StructOutput[][]>;
 
   input_struct_array_array_array(
     input1: DataTypesInput.Struct1Struct[][][],
-    overrides?: CallOverrides
+    overrides?: TransactionRequest
   ): Promise<DataTypesInput.Struct1StructOutput[][][]>;
 
   input_struct_array_fixedarray(
     input1: [DataTypesInput.Struct1Struct[], DataTypesInput.Struct1Struct[]],
-    overrides?: CallOverrides
+    overrides?: TransactionRequest
   ): Promise<
     [DataTypesInput.Struct1StructOutput[], DataTypesInput.Struct1StructOutput[]]
   >;
 
   input_struct_fixedarray_array(
     input1: [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-    overrides?: CallOverrides
+    overrides?: TransactionRequest
   ): Promise<
     [DataTypesInput.Struct1StructOutput, DataTypesInput.Struct1StructOutput][]
   >;
@@ -934,7 +599,7 @@ export interface DataTypesInput extends BaseContract {
       [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
       [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
     ],
-    overrides?: CallOverrides
+    overrides?: TransactionRequest
   ): Promise<
     [
       [
@@ -972,7 +637,7 @@ export interface DataTypesInput extends BaseContract {
         [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
       ][]
     ],
-    overrides?: CallOverrides
+    overrides?: TransactionRequest
   ): Promise<
     [
       [
@@ -1040,7 +705,7 @@ export interface DataTypesInput extends BaseContract {
       [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
       [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct]
     ],
-    overrides?: CallOverrides
+    overrides?: TransactionRequest
   ): Promise<
     [
       [DataTypesInput.Struct1StructOutput, DataTypesInput.Struct1StructOutput],
@@ -1052,48 +717,48 @@ export interface DataTypesInput extends BaseContract {
   input_tuple(
     input1: PromiseOrValue<BigNumberish>,
     input2: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<[BigNumber, BigNumber]>;
+    overrides?: TransactionRequest
+  ): Promise<[bigint, bigint]>;
 
   input_uint256(
     input1: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
+    overrides?: TransactionRequest
+  ): Promise<bigint>;
 
   input_uint8(
     input1: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
+    overrides?: TransactionRequest
   ): Promise<number>;
 
   input_uint_array(
     input1: PromiseOrValue<BigNumberish>[],
-    overrides?: CallOverrides
-  ): Promise<BigNumber[]>;
+    overrides?: TransactionRequest
+  ): Promise<bigint[]>;
 
   callStatic: {
     input_address(
       input1: PromiseOrValue<string>,
-      overrides?: CallOverrides
+      overrides?: TransactionRequest
     ): Promise<string>;
 
     input_bool(
       input1: PromiseOrValue<boolean>,
-      overrides?: CallOverrides
+      overrides?: TransactionRequest
     ): Promise<boolean>;
 
     input_bytes(
       input1: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
+      overrides?: TransactionRequest
     ): Promise<string>;
 
     input_bytes1(
       input1: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
+      overrides?: TransactionRequest
     ): Promise<string>;
 
     input_enum(
       input1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
+      overrides?: TransactionRequest
     ): Promise<number>;
 
     input_fixedarray_array_fixedarray(
@@ -1119,7 +784,7 @@ export interface DataTypesInput extends BaseContract {
           PromiseOrValue<BigNumberish>
         ][]
       ],
-      overrides?: CallOverrides
+      overrides?: TransactionRequest
     ): Promise<
       [
         [number, number, number][],
@@ -1131,17 +796,17 @@ export interface DataTypesInput extends BaseContract {
 
     input_int256(
       input1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+      overrides?: TransactionRequest
+    ): Promise<bigint>;
 
     input_int8(
       input1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
+      overrides?: TransactionRequest
     ): Promise<number>;
 
     input_multiple_structs_with_same_name(
       info1: StructsLib1.InfoStruct,
-      overrides?: CallOverrides
+      overrides?: TransactionRequest
     ): Promise<StructsLib2.InfoStructOutput>;
 
     input_stat_array(
@@ -1150,27 +815,27 @@ export interface DataTypesInput extends BaseContract {
         PromiseOrValue<BigNumberish>,
         PromiseOrValue<BigNumberish>
       ],
-      overrides?: CallOverrides
+      overrides?: TransactionRequest
     ): Promise<[number, number, number]>;
 
     input_string(
       input1: PromiseOrValue<string>,
-      overrides?: CallOverrides
+      overrides?: TransactionRequest
     ): Promise<string>;
 
     input_struct(
       input1: DataTypesInput.Struct1Struct,
-      overrides?: CallOverrides
+      overrides?: TransactionRequest
     ): Promise<DataTypesInput.Struct1StructOutput>;
 
     input_struct2(
       input1: DataTypesInput.Struct2Struct,
-      overrides?: CallOverrides
+      overrides?: TransactionRequest
     ): Promise<DataTypesInput.Struct2StructOutput>;
 
     input_struct2_array(
       input1: DataTypesInput.Struct2Struct[],
-      overrides?: CallOverrides
+      overrides?: TransactionRequest
     ): Promise<DataTypesInput.Struct2StructOutput[]>;
 
     input_struct2_tuple(
@@ -1179,7 +844,7 @@ export interface DataTypesInput extends BaseContract {
         DataTypesInput.Struct2Struct,
         DataTypesInput.Struct2Struct
       ],
-      overrides?: CallOverrides
+      overrides?: TransactionRequest
     ): Promise<
       [
         DataTypesInput.Struct2StructOutput,
@@ -1190,27 +855,27 @@ export interface DataTypesInput extends BaseContract {
 
     input_struct3_array(
       input1: DataTypesInput.Struct3Struct[],
-      overrides?: CallOverrides
+      overrides?: TransactionRequest
     ): Promise<DataTypesInput.Struct3StructOutput[]>;
 
     input_struct_array(
       input1: DataTypesInput.Struct1Struct[],
-      overrides?: CallOverrides
+      overrides?: TransactionRequest
     ): Promise<DataTypesInput.Struct1StructOutput[]>;
 
     input_struct_array_array(
       input1: DataTypesInput.Struct1Struct[][],
-      overrides?: CallOverrides
+      overrides?: TransactionRequest
     ): Promise<DataTypesInput.Struct1StructOutput[][]>;
 
     input_struct_array_array_array(
       input1: DataTypesInput.Struct1Struct[][][],
-      overrides?: CallOverrides
+      overrides?: TransactionRequest
     ): Promise<DataTypesInput.Struct1StructOutput[][][]>;
 
     input_struct_array_fixedarray(
       input1: [DataTypesInput.Struct1Struct[], DataTypesInput.Struct1Struct[]],
-      overrides?: CallOverrides
+      overrides?: TransactionRequest
     ): Promise<
       [
         DataTypesInput.Struct1StructOutput[],
@@ -1220,7 +885,7 @@ export interface DataTypesInput extends BaseContract {
 
     input_struct_fixedarray_array(
       input1: [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-      overrides?: CallOverrides
+      overrides?: TransactionRequest
     ): Promise<
       [DataTypesInput.Struct1StructOutput, DataTypesInput.Struct1StructOutput][]
     >;
@@ -1231,7 +896,7 @@ export interface DataTypesInput extends BaseContract {
         [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
         [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
       ],
-      overrides?: CallOverrides
+      overrides?: TransactionRequest
     ): Promise<
       [
         [
@@ -1272,7 +937,7 @@ export interface DataTypesInput extends BaseContract {
           [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
         ][]
       ],
-      overrides?: CallOverrides
+      overrides?: TransactionRequest
     ): Promise<
       [
         [
@@ -1340,7 +1005,7 @@ export interface DataTypesInput extends BaseContract {
         [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
         [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct]
       ],
-      overrides?: CallOverrides
+      overrides?: TransactionRequest
     ): Promise<
       [
         [
@@ -1358,426 +1023,24 @@ export interface DataTypesInput extends BaseContract {
     input_tuple(
       input1: PromiseOrValue<BigNumberish>,
       input2: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber, BigNumber]>;
+      overrides?: TransactionRequest
+    ): Promise<[bigint, bigint]>;
 
     input_uint256(
       input1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+      overrides?: TransactionRequest
+    ): Promise<bigint>;
 
     input_uint8(
       input1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
+      overrides?: TransactionRequest
     ): Promise<number>;
 
     input_uint_array(
       input1: PromiseOrValue<BigNumberish>[],
-      overrides?: CallOverrides
-    ): Promise<BigNumber[]>;
+      overrides?: TransactionRequest
+    ): Promise<bigint[]>;
   };
 
   filters: {};
-
-  estimateGas: {
-    input_address(
-      input1: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    input_bool(
-      input1: PromiseOrValue<boolean>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    input_bytes(
-      input1: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    input_bytes1(
-      input1: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    input_enum(
-      input1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    input_fixedarray_array_fixedarray(
-      input1: [
-        [
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>
-        ][],
-        [
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>
-        ][],
-        [
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>
-        ][],
-        [
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>
-        ][]
-      ],
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    input_int256(
-      input1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    input_int8(
-      input1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    input_multiple_structs_with_same_name(
-      info1: StructsLib1.InfoStruct,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    input_stat_array(
-      input1: [
-        PromiseOrValue<BigNumberish>,
-        PromiseOrValue<BigNumberish>,
-        PromiseOrValue<BigNumberish>
-      ],
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    input_string(
-      input1: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    input_struct(
-      input1: DataTypesInput.Struct1Struct,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    input_struct2(
-      input1: DataTypesInput.Struct2Struct,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    input_struct2_array(
-      input1: DataTypesInput.Struct2Struct[],
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    input_struct2_tuple(
-      input: [
-        DataTypesInput.Struct2Struct,
-        DataTypesInput.Struct2Struct,
-        DataTypesInput.Struct2Struct
-      ],
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    input_struct3_array(
-      input1: DataTypesInput.Struct3Struct[],
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    input_struct_array(
-      input1: DataTypesInput.Struct1Struct[],
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    input_struct_array_array(
-      input1: DataTypesInput.Struct1Struct[][],
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    input_struct_array_array_array(
-      input1: DataTypesInput.Struct1Struct[][][],
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    input_struct_array_fixedarray(
-      input1: [DataTypesInput.Struct1Struct[], DataTypesInput.Struct1Struct[]],
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    input_struct_fixedarray_array(
-      input1: [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    input_struct_fixedarray_array_fixedarray(
-      input1: [
-        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
-      ],
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    input_struct_fixedarray_array_fixedarray_array_fixedarray(
-      input1: [
-        [
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
-        ][],
-        [
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
-        ][],
-        [
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
-        ][],
-        [
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
-        ][]
-      ],
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    input_struct_fixedarray_fixedarray(
-      input1: [
-        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
-        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
-        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct]
-      ],
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    input_tuple(
-      input1: PromiseOrValue<BigNumberish>,
-      input2: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    input_uint256(
-      input1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    input_uint8(
-      input1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    input_uint_array(
-      input1: PromiseOrValue<BigNumberish>[],
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-  };
-
-  populateTransaction: {
-    input_address(
-      input1: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    input_bool(
-      input1: PromiseOrValue<boolean>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    input_bytes(
-      input1: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    input_bytes1(
-      input1: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    input_enum(
-      input1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    input_fixedarray_array_fixedarray(
-      input1: [
-        [
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>
-        ][],
-        [
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>
-        ][],
-        [
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>
-        ][],
-        [
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>
-        ][]
-      ],
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    input_int256(
-      input1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    input_int8(
-      input1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    input_multiple_structs_with_same_name(
-      info1: StructsLib1.InfoStruct,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    input_stat_array(
-      input1: [
-        PromiseOrValue<BigNumberish>,
-        PromiseOrValue<BigNumberish>,
-        PromiseOrValue<BigNumberish>
-      ],
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    input_string(
-      input1: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    input_struct(
-      input1: DataTypesInput.Struct1Struct,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    input_struct2(
-      input1: DataTypesInput.Struct2Struct,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    input_struct2_array(
-      input1: DataTypesInput.Struct2Struct[],
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    input_struct2_tuple(
-      input: [
-        DataTypesInput.Struct2Struct,
-        DataTypesInput.Struct2Struct,
-        DataTypesInput.Struct2Struct
-      ],
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    input_struct3_array(
-      input1: DataTypesInput.Struct3Struct[],
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    input_struct_array(
-      input1: DataTypesInput.Struct1Struct[],
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    input_struct_array_array(
-      input1: DataTypesInput.Struct1Struct[][],
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    input_struct_array_array_array(
-      input1: DataTypesInput.Struct1Struct[][][],
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    input_struct_array_fixedarray(
-      input1: [DataTypesInput.Struct1Struct[], DataTypesInput.Struct1Struct[]],
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    input_struct_fixedarray_array(
-      input1: [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    input_struct_fixedarray_array_fixedarray(
-      input1: [
-        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
-      ],
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    input_struct_fixedarray_array_fixedarray_array_fixedarray(
-      input1: [
-        [
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
-        ][],
-        [
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
-        ][],
-        [
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
-        ][],
-        [
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
-        ][]
-      ],
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    input_struct_fixedarray_fixedarray(
-      input1: [
-        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
-        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
-        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct]
-      ],
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    input_tuple(
-      input1: PromiseOrValue<BigNumberish>,
-      input2: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    input_uint256(
-      input1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    input_uint8(
-      input1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    input_uint_array(
-      input1: PromiseOrValue<BigNumberish>[],
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-  };
 }
