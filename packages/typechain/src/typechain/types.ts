@@ -23,7 +23,9 @@ export interface CodegenConfig {
   alwaysGenerateOverloads: boolean
   discriminateTypes: boolean // ethers-v5 will add an artificial field `contractName` that helps discriminate between contracts
   tsNocheck?: boolean
+  node16Modules?: boolean
   environment: 'hardhat' | undefined
+
 }
 
 export type PublicConfig = MarkOptional<Config, 'flags' | 'inputDir'>
