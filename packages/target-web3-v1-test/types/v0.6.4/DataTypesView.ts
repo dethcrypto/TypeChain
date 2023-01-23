@@ -26,10 +26,13 @@ export declare namespace DataTypesView {
     | [number | string | BN, number | string | BN]
     | { uint256_0: number | string | BN; uint256_1: number | string | BN };
 
-  export type Struct1StructOutput = [string, string] & {
+  export type Struct1StructOutputArray = [string, string];
+  export type Struct1StructOutputStruct = {
     uint256_0: string;
     uint256_1: string;
   };
+  export type Struct1StructOutput = Struct1StructOutputArray &
+    Struct1StructOutputStruct;
 }
 
 export interface DataTypesView extends BaseContract {

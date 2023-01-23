@@ -26,13 +26,17 @@ export declare namespace StructsLib1 {
     | [number | string | BN, number | string | BN]
     | { a: number | string | BN; b: number | string | BN };
 
-  export type InfoStructOutput = [string, string] & { a: string; b: string };
+  export type InfoStructOutputArray = [string, string];
+  export type InfoStructOutputStruct = { a: string; b: string };
+  export type InfoStructOutput = InfoStructOutputArray & InfoStructOutputStruct;
 }
 
 export declare namespace StructsLib2 {
   export type InfoStruct = [string, string] | { a: string; b: string };
 
-  export type InfoStructOutput = [string, string] & { a: string; b: string };
+  export type InfoStructOutputArray = [string, string];
+  export type InfoStructOutputStruct = { a: string; b: string };
+  export type InfoStructOutput = InfoStructOutputArray & InfoStructOutputStruct;
 }
 
 export declare namespace DataTypesInput {
@@ -40,25 +44,37 @@ export declare namespace DataTypesInput {
     | [number | string | BN, number | string | BN]
     | { uint256_0: number | string | BN; uint256_1: number | string | BN };
 
-  export type Struct1StructOutput = [string, string] & {
+  export type Struct1StructOutputArray = [string, string];
+  export type Struct1StructOutputStruct = {
     uint256_0: string;
     uint256_1: string;
   };
+  export type Struct1StructOutput = Struct1StructOutputArray &
+    Struct1StructOutputStruct;
 
   export type Struct2Struct =
     | [number | string | BN, DataTypesInput.Struct1Struct]
     | { input1: number | string | BN; input2: DataTypesInput.Struct1Struct };
 
-  export type Struct2StructOutput = [
+  export type Struct2StructOutputArray = [
     string,
     DataTypesInput.Struct1StructOutput
-  ] & { input1: string; input2: DataTypesInput.Struct1StructOutput };
+  ];
+  export type Struct2StructOutputStruct = {
+    input1: string;
+    input2: DataTypesInput.Struct1StructOutput;
+  };
+  export type Struct2StructOutput = Struct2StructOutputArray &
+    Struct2StructOutputStruct;
 
   export type Struct3Struct =
     | [number | string | BN[]]
     | { input1: number | string | BN[] };
 
-  export type Struct3StructOutput = [string[]] & { input1: string[] };
+  export type Struct3StructOutputArray = [string[]];
+  export type Struct3StructOutputStruct = { input1: string[] };
+  export type Struct3StructOutput = Struct3StructOutputArray &
+    Struct3StructOutputStruct;
 }
 
 export interface DataTypesInput extends BaseContract {

@@ -26,10 +26,9 @@ export declare namespace KingOfTheHill {
     | [string, number | string | BN]
     | { bidder: string; value: number | string | BN };
 
-  export type BidStructOutput = [string, string] & {
-    bidder: string;
-    value: string;
-  };
+  export type BidStructOutputArray = [string, string];
+  export type BidStructOutputStruct = { bidder: string; value: string };
+  export type BidStructOutput = BidStructOutputArray & BidStructOutputStruct;
 }
 
 export type HighestBidIncreased = ContractEventLog<{

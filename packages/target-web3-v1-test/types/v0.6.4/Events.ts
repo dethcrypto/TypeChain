@@ -26,10 +26,10 @@ export declare namespace Events {
     | [number | string | BN, string]
     | { index: number | string | BN; name: string };
 
-  export type EventDataStructOutput = [string, string] & {
-    index: string;
-    name: string;
-  };
+  export type EventDataStructOutputArray = [string, string];
+  export type EventDataStructOutputStruct = { index: string; name: string };
+  export type EventDataStructOutput = EventDataStructOutputArray &
+    EventDataStructOutputStruct;
 }
 
 export type AnonEvent1 = ContractEventLog<{

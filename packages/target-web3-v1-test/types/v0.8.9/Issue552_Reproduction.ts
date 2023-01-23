@@ -26,10 +26,13 @@ export declare namespace Issue552_Observer {
     | [number | string | BN, number | string | BN]
     | { val: number | string | BN; blockTimestamp: number | string | BN };
 
-  export type ObservationStructOutput = [string, string] & {
+  export type ObservationStructOutputArray = [string, string];
+  export type ObservationStructOutputStruct = {
     val: string;
     blockTimestamp: string;
   };
+  export type ObservationStructOutput = ObservationStructOutputArray &
+    ObservationStructOutputStruct;
 }
 
 export declare namespace Issue552_Reproduction {
@@ -40,13 +43,16 @@ export declare namespace Issue552_Reproduction {
         index: number | string | BN;
       };
 
-  export type ObservationParamsStructOutput = [
+  export type ObservationParamsStructOutputArray = [
     Issue552_Observer.ObservationStructOutput[],
     string
-  ] & {
+  ];
+  export type ObservationParamsStructOutputStruct = {
     observations: Issue552_Observer.ObservationStructOutput[];
     index: string;
   };
+  export type ObservationParamsStructOutput =
+    ObservationParamsStructOutputArray & ObservationParamsStructOutputStruct;
 }
 
 export interface Issue552_Reproduction extends BaseContract {

@@ -36,10 +36,7 @@ function codegenForSingleFunction(
   ${generateFunctionDocumentation(fn.documentation)}
   ${overloadedName ?? fn.name}(${codegenInputTypes({ useStructs: true }, fn.inputs)}): ${getTransactionObject(
     fn,
-  )}<${codegenOutputTypes(
-    { returnResultObject: !!options.returnResultObject, useStructs: true},
-    fn.outputs,
-  )}>;
+  )}<${codegenOutputTypes({ returnResultObject: !!options.returnResultObject, useStructs: true }, fn.outputs)}>;
 `
 }
 

@@ -128,7 +128,6 @@ export function codegenOutputComplexTypesAsObject(
   if (namedElements.length > 0) {
     namedElementsCode =
       '{' + namedElements.map((t) => `${t.name}: ${codegenOutputType(options, t.type)}`).join(', ') + ' }'
-
   }
 
   return namedElementsCode
