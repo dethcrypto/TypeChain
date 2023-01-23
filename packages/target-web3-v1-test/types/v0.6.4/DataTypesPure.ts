@@ -21,6 +21,17 @@ export interface EventOptions {
   topics?: string[];
 }
 
+export declare namespace DataTypesPure {
+  export type Struct1Struct =
+    | [number | string | BN, number | string | BN]
+    | { uint256_0: number | string | BN; uint256_1: number | string | BN };
+
+  export type Struct1StructOutput = [string, string] & {
+    uint256_0: string;
+    uint256_1: string;
+  };
+}
+
 export interface DataTypesPure extends BaseContract {
   constructor(
     jsonInterface: any[],
@@ -43,23 +54,17 @@ export interface DataTypesPure extends BaseContract {
 
     pure_int8(): NonPayableTransactionObject<string>;
 
-    pure_named(): NonPayableTransactionObject<{
-      uint256_1: string;
-      uint256_2: string;
-      0: string;
-      1: string;
-    }>;
+    pure_named(): NonPayableTransactionObject<
+      [string, string] & { uint256_1: string; uint256_2: string }
+    >;
 
-    pure_stat_array(): NonPayableTransactionObject<string[]>;
+    pure_stat_array(): NonPayableTransactionObject<[string, string, string]>;
 
     pure_string(): NonPayableTransactionObject<string>;
 
-    pure_struct(): NonPayableTransactionObject<[string, string]>;
+    pure_struct(): NonPayableTransactionObject<DataTypesPure.Struct1StructOutput>;
 
-    pure_tuple(): NonPayableTransactionObject<{
-      0: string;
-      1: string;
-    }>;
+    pure_tuple(): NonPayableTransactionObject<[string, string]>;
 
     pure_uint256(): NonPayableTransactionObject<string>;
 
