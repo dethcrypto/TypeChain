@@ -10,7 +10,7 @@ export function codegen(contract: Contract) {
   import type BN from "bn.js";
   import type { ContractOptions } from "web3-eth-contract";
   import type { EventLog } from "web3-core";
-  import { AbiItem } from 'web3-utils';
+  import type { AbiItem } from 'web3-utils';
   import type { EventEmitter } from "events";
   import type { Callback, PayableTransactionObject, NonPayableTransactionObject, BlockType, ContractEventLog, BaseContract } from "${typesPath}";
 
