@@ -20,7 +20,7 @@ export interface EventOptions {
 
 export type Callback<T> = (error: Error, result: T) => void;
 export interface ContractEventLog<T> extends EventLog {
-  returnValues: T;
+  returnValues: Partial<T>;
 }
 export interface ContractEventEmitter<T> extends EventEmitter {
   on(event: "connected", listener: (subscriptionId: string) => void): this;
