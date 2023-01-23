@@ -5,6 +5,7 @@
 import type BN from "bn.js";
 import type { ContractOptions } from "web3-eth-contract";
 import type { EventLog } from "web3-core";
+import type { AbiItem } from "web3-utils";
 import type { EventEmitter } from "events";
 import type {
   Callback,
@@ -21,12 +22,15 @@ export interface EventOptions {
   topics?: string[];
 }
 
-export interface IERC721Receiver extends BaseContract {
+export interface IERC721ReceiverConstructor {
   constructor(
-    jsonInterface: any[],
+    jsonInterface: AbiItem[],
     address?: string,
     options?: ContractOptions
   ): IERC721Receiver;
+}
+
+export interface IERC721Receiver extends BaseContract {
   clone(): IERC721Receiver;
   methods: {
     onERC721Received(

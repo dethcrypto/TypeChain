@@ -5,6 +5,7 @@
 import type BN from "bn.js";
 import type { ContractOptions } from "web3-eth-contract";
 import type { EventLog } from "web3-core";
+import type { AbiItem } from "web3-utils";
 import type { EventEmitter } from "events";
 import type {
   Callback,
@@ -21,12 +22,15 @@ export interface EventOptions {
   topics?: string[];
 }
 
-export interface NestedLibrary extends BaseContract {
+export interface NestedLibraryConstructor {
   constructor(
-    jsonInterface: any[],
+    jsonInterface: AbiItem[],
     address?: string,
     options?: ContractOptions
   ): NestedLibrary;
+}
+
+export interface NestedLibrary extends BaseContract {
   clone(): NestedLibrary;
   methods: {
     getValue(): NonPayableTransactionObject<string>;
