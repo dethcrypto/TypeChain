@@ -5,6 +5,7 @@
 import type BN from "bn.js";
 import type { ContractOptions } from "web3-eth-contract";
 import type { EventLog } from "web3-core";
+import type { AbiItem } from "web3-utils";
 import type { EventEmitter } from "events";
 import type {
   Callback,
@@ -54,12 +55,15 @@ export type UpdateFrequencySet = ContractEventLog<{
   1: string[];
 }>;
 
-export interface Events extends BaseContract {
+export interface EventsConstructor {
   constructor(
-    jsonInterface: any[],
+    jsonInterface: AbiItem[],
     address?: string,
     options?: ContractOptions
   ): Events;
+}
+
+export interface Events extends BaseContract {
   clone(): Events;
   methods: {
     emit_anon1(): NonPayableTransactionObject<void>;

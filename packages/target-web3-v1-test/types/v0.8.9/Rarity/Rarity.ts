@@ -5,6 +5,7 @@
 import type BN from "bn.js";
 import type { ContractOptions } from "web3-eth-contract";
 import type { EventLog } from "web3-core";
+import type { AbiItem } from "web3-utils";
 import type { EventEmitter } from "events";
 import type {
   Callback,
@@ -62,12 +63,15 @@ export type summoned = ContractEventLog<{
   2: string;
 }>;
 
-export interface Rarity extends BaseContract {
+export interface RarityConstructor {
   constructor(
-    jsonInterface: any[],
+    jsonInterface: AbiItem[],
     address?: string,
     options?: ContractOptions
   ): Rarity;
+}
+
+export interface Rarity extends BaseContract {
   clone(): Rarity;
   methods: {
     adventure(

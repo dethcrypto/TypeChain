@@ -21,6 +21,7 @@
     "web3": "^1.6.0",
     "web3-eth-contract": "^1.6.0",
     "web3-core": "^1",
+    "web3-utils": "^1.6.0",
     "@types/bn.js": "^4.11.6"
   }
 }

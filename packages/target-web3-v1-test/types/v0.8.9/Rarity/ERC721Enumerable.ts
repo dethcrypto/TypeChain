@@ -5,6 +5,7 @@
 import type BN from "bn.js";
 import type { ContractOptions } from "web3-eth-contract";
 import type { EventLog } from "web3-core";
+import type { AbiItem } from "web3-utils";
 import type { EventEmitter } from "events";
 import type {
   Callback,
@@ -46,12 +47,15 @@ export type Transfer = ContractEventLog<{
   2: string;
 }>;
 
-export interface ERC721Enumerable extends BaseContract {
+export interface ERC721EnumerableConstructor {
   constructor(
-    jsonInterface: any[],
+    jsonInterface: AbiItem[],
     address?: string,
     options?: ContractOptions
   ): ERC721Enumerable;
+}
+
+export interface ERC721Enumerable extends BaseContract {
   clone(): ERC721Enumerable;
   methods: {
     approve(

@@ -5,6 +5,7 @@
 import type BN from "bn.js";
 import type { ContractOptions } from "web3-eth-contract";
 import type { EventLog } from "web3-core";
+import type { AbiItem } from "web3-utils";
 import type { EventEmitter } from "events";
 import type {
   Callback,
@@ -26,12 +27,15 @@ export type HighestBidIncreased = ContractEventLog<{
   0: [string, string];
 }>;
 
-export interface KingOfTheHill extends BaseContract {
+export interface KingOfTheHillConstructor {
   constructor(
-    jsonInterface: any[],
+    jsonInterface: AbiItem[],
     address?: string,
     options?: ContractOptions
   ): KingOfTheHill;
+}
+
+export interface KingOfTheHill extends BaseContract {
   clone(): KingOfTheHill;
   methods: {
     bid(): PayableTransactionObject<void>;

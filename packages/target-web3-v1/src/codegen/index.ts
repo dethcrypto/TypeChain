@@ -10,6 +10,7 @@ export function codegen(contract: Contract) {
   import type BN from "bn.js";
   import type { ContractOptions } from "web3-eth-contract";
   import type { EventLog } from "web3-core";
+  import type { AbiItem } from 'web3-utils';
   import type { EventEmitter } from "events";
   import type { Callback, PayableTransactionObject, NonPayableTransactionObject, BlockType, ContractEventLog, BaseContract } from "${typesPath}";
 
@@ -21,8 +22,11 @@ export function codegen(contract: Contract) {
 
   ${codegenForEventsDeclarations(contract.events)}
 
+  export interface ${contract.name}Constructor {
+    constructor(jsonInterface: AbiItem[], address?: string, options?: ContractOptions): ${contract.name};
+  }
+
   export interface ${contract.name} extends BaseContract {
-    constructor(jsonInterface: any[], address?: string, options?: ContractOptions): ${contract.name};
     clone(): ${contract.name};
     methods: {
       ${codegenForFunctions(contract.functions)}

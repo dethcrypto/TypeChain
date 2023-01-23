@@ -5,6 +5,7 @@
 import type BN from "bn.js";
 import type { ContractOptions } from "web3-eth-contract";
 import type { EventLog } from "web3-core";
+import type { AbiItem } from "web3-utils";
 import type { EventEmitter } from "events";
 import type {
   Callback,
@@ -30,12 +31,15 @@ export type Committed_address_array = ContractEventLog<{
   0: string[];
 }>;
 
-export interface B extends BaseContract {
+export interface BConstructor {
   constructor(
-    jsonInterface: any[],
+    jsonInterface: AbiItem[],
     address?: string,
     options?: ContractOptions
   ): B;
+}
+
+export interface B extends BaseContract {
   clone(): B;
   methods: {};
   events: {
