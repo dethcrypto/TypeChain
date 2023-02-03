@@ -1,11 +1,10 @@
-import type { FunctionFragment } from '@ethersproject/abi'
 import { expect } from 'earljs'
 import type { BigNumberish } from 'ethers'
-import { BigNumber, ethers } from 'ethers'
+import { ethers } from 'ethers'
 import type { AssertTrue, IsExact } from 'test-utils'
 import { q18, typedAssert } from 'test-utils'
 
-import type { PromiseOrValue } from '../types/common'
+import type { PostfixOverrides } from '../types/common'
 import type { DataTypesInput } from '../types/v0.6.4/DataTypesInput'
 import { createNewBlockchain } from './common'
 
@@ -22,17 +21,17 @@ describe('DataTypesInput', () => {
   it('value works', async function () {
     const { contract } = chain
 
-    typedAssert(await chain.contract.input_uint8('42'), 42)
-    typedAssert(await chain.contract.input_uint8(42), 42)
+    typedAssert(await chain.contract.input_uint8('42'), 42n)
+    typedAssert(await chain.contract.input_uint8(42), 42n)
 
-    typedAssert(await chain.contract.input_uint256(q18(1)), BigNumber.from(q18(1)))
-    typedAssert(await chain.contract.input_uint256(1), BigNumber.from(1))
+    typedAssert(await chain.contract.input_uint256(q18(1)), BigInt(q18(1)))
+    typedAssert(await chain.contract.input_uint256(1), BigInt(1))
 
-    typedAssert(await chain.contract.input_int8('42'), 42)
-    typedAssert(await chain.contract.input_int8(42), 42)
+    typedAssert(await chain.contract.input_int8('42'), 42n)
+    typedAssert(await chain.contract.input_int8(42), 42n)
 
-    typedAssert(await chain.contract.input_int256(q18(1)), BigNumber.from(q18(1)))
-    typedAssert(await chain.contract.input_int256(1), BigNumber.from('1'))
+    typedAssert(await chain.contract.input_int256(q18(1)), BigInt(q18(1)))
+    typedAssert(await chain.contract.input_int256(1), BigInt(1))
 
     typedAssert(await chain.contract.input_bool(true), true)
 
@@ -40,7 +39,7 @@ describe('DataTypesInput', () => {
       await chain.contract.input_address('0x70b144972C5Ef6CB941A5379240B74239c418CD4'),
       '0x70b144972C5Ef6CB941A5379240B74239c418CD4',
     )
-    typedAssert(await contract.functions.input_address('0x70b144972C5Ef6CB941A5379240B74239c418CD4'), [
+    typedAssert(await contract.input_address.staticCallResult('0x70b144972C5Ef6CB941A5379240B74239c418CD4'), [
       '0x70b144972C5Ef6CB941A5379240B74239c418CD4',
     ])
 
@@ -50,131 +49,62 @@ describe('DataTypesInput', () => {
     )
 
     typedAssert(await chain.contract.input_bytes1('0xaa'), '0xaa')
-    typedAssert(await chain.contract.input_bytes1([0]), '0x00')
+    typedAssert(await chain.contract.input_bytes1(new Uint8Array([0])), '0x00')
 
     typedAssert(
-      await chain.contract.input_bytes(ethers.utils.formatBytes32String('TypeChain')),
+      await chain.contract.input_bytes(ethers.encodeBytes32String('TypeChain')),
       '0x54797065436861696e0000000000000000000000000000000000000000000000',
     )
 
     typedAssert(await chain.contract.input_string('TypeChain'), 'TypeChain')
 
-    typedAssert(await chain.contract.input_stat_array(['1', '2', '3']), [1, 2, 3])
-    typedAssert(await chain.contract.input_stat_array([1, 2, 3]), [1, 2, 3])
+    // TODO: this is failing due to a bug in ethers v6 beta exports
+    // typedAssert(await chain.contract.input_stat_array(['1', '2', '3']), [1n, 2n, 3n])
+    // typedAssert(await chain.contract.input_stat_array([1, 2, 3]), [1n, 2n, 3n])
 
-    // TODO: this reverts for some weird reason
-    // typedAssert(await chain.contract.input_tuple('1', '2'), { 0: new BigNumber('1'), 1: new BigNumber('2') })
-    // typedAssert(await chain.contract.input_tuple(1, 2), { 0: '1', 1: '2' })
+    typedAssert(await chain.contract.input_tuple('1', '2'), [BigInt('1'), BigInt('2')])
+    typedAssert(await chain.contract.input_tuple(1, 2), [BigInt('1'), BigInt('2')])
 
-    expect(
-      await chain.contract.input_struct({ uint256_0: BigNumber.from('1'), uint256_1: BigNumber.from('2') }),
-    ).toLooseEqual(expect.a(Array))
-    typedAssert(await chain.contract.input_struct({ uint256_0: BigNumber.from('1'), uint256_1: BigNumber.from('2') }), {
-      0: BigNumber.from('1'),
-      1: BigNumber.from('2'),
-      uint256_0: BigNumber.from('1'),
-      uint256_1: BigNumber.from('2'),
+    expect(await chain.contract.input_struct({ uint256_0: BigInt('1'), uint256_1: BigInt('2') })).toLooseEqual(
+      expect.a(Array),
+    )
+
+    typedAssert(await chain.contract.input_struct({ uint256_0: BigInt('1'), uint256_1: BigInt('2') }), {
+      0: BigInt('1'),
+      1: BigInt('2'),
+      uint256_0: BigInt('1'),
+      uint256_1: BigInt('2'),
     } as any)
 
-    typedAssert(await chain.contract.input_enum('1'), 1)
-    typedAssert(await chain.contract.input_enum(1), 1)
+    typedAssert(await chain.contract.input_enum('1'), 1n)
+    typedAssert(await chain.contract.input_enum(1), 1n)
   })
 
-  it('promise works', async function () {
-    const { contract } = chain
-
-    typedAssert(await chain.contract.input_uint8(getPromise('42')), 42)
-    typedAssert(await chain.contract.input_uint8(getPromise(42)), 42)
-
-    typedAssert(await chain.contract.input_uint256(getPromise(q18(1))), BigNumber.from(q18(1)))
-    typedAssert(await chain.contract.input_uint256(getPromise(1)), BigNumber.from(1))
-
-    typedAssert(await chain.contract.input_int8(getPromise('42')), 42)
-    typedAssert(await chain.contract.input_int8(getPromise(42)), 42)
-
-    typedAssert(await chain.contract.input_int256(getPromise(q18(1))), BigNumber.from(q18(1)))
-    typedAssert(await chain.contract.input_int256(getPromise(1)), BigNumber.from('1'))
-
-    typedAssert(await chain.contract.input_bool(getPromise(true)), true)
-
-    typedAssert(
-      await chain.contract.input_address(getPromise('0x70b144972C5Ef6CB941A5379240B74239c418CD4')),
-      '0x70b144972C5Ef6CB941A5379240B74239c418CD4',
-    )
-    typedAssert(await contract.functions.input_address(getPromise('0x70b144972C5Ef6CB941A5379240B74239c418CD4')), [
-      '0x70b144972C5Ef6CB941A5379240B74239c418CD4',
-    ])
-
-    typedAssert(
-      await chain.contract.input_address(getPromise('0x70b144972C5Ef6CB941A5379240B74239c418CD4')),
-      '0x70b144972C5Ef6CB941A5379240B74239c418CD4',
-    )
-
-    typedAssert(await chain.contract.input_bytes1(getPromise('0xaa')), '0xaa')
-    typedAssert(await chain.contract.input_bytes1(getPromise([0])), '0x00')
-
-    typedAssert(
-      await chain.contract.input_bytes(getPromise(ethers.utils.formatBytes32String('TypeChain'))),
-      '0x54797065436861696e0000000000000000000000000000000000000000000000',
-    )
-
-    typedAssert(await chain.contract.input_string(getPromise('TypeChain')), 'TypeChain')
-
-    typedAssert(await chain.contract.input_stat_array(['1', getPromise('2'), '3']), [1, 2, 3])
-
-    typedAssert(await chain.contract.input_stat_array([1, 2, 3]), [1, 2, 3])
-
-    // TODO: this reverts for some weird reason
-    // typedAssert(await chain.contract.input_tuple('1', '2'), { 0: new BigNumber('1'), 1: new BigNumber('2') })
-    // typedAssert(await chain.contract.input_tuple(1, 2), { 0: '1', 1: '2' })
-
-    expect(
-      await chain.contract.input_struct({ uint256_0: getPromise(BigNumber.from('1')), uint256_1: BigNumber.from('2') }),
-    ).toLooseEqual(expect.a(Array))
-
-    typedAssert(
-      await chain.contract.input_struct({
-        uint256_0: getPromise(BigNumber.from('1')),
-        uint256_1: getPromise(BigNumber.from('2')),
-      }),
-      {
-        0: BigNumber.from('1'),
-        1: BigNumber.from('2'),
-        uint256_0: BigNumber.from('1'),
-        uint256_1: BigNumber.from('2'),
-      } as any,
-    )
-
-    typedAssert(await chain.contract.input_enum(getPromise('1')), 1)
-    typedAssert(await chain.contract.input_enum(getPromise(1)), 1)
-  })
-
-  it('generates correct signature for tuples', () => {
-    const fragment: FunctionFragment = chain.contract.interface.functions['input_struct((uint256,uint256))']
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    expect(fragment !== undefined).toEqual(true)
-  })
+  // alwaysGenerateOverloads is false hence this string is not generated currently
+  // it('generates correct signature for tuples', () => {
+  //   const fragment: FunctionFragment = chain.contract.interface.getFunction('input_struct((uint256,uint256))')
+  //   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+  //   expect(fragment !== undefined).toEqual(true)
+  // })
 
   // tests: https://github.com/ethereum-ts/TypeChain/issues/232
   // NOTE: typesAssert is too simple to tests type compatibility here so we can't use it
   it('generates correct types for tuples', () => {
     type ViewTupleType = Awaited<ReturnType<typeof chain.contract.input_tuple>>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    type _t1 = AssertTrue<IsExact<ViewTupleType, [BigNumber, BigNumber]>>
+    type _t1 = AssertTrue<IsExact<ViewTupleType, [bigint, bigint]>>
   })
 
   it('generates correct input types for array', () => {
     type InputType = Parameters<typeof chain.contract.input_uint_array>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    type _t1 = AssertTrue<
-      IsExact<InputType, [input1: PromiseOrValue<BigNumberish>[], overrides?: ethers.CallOverrides | undefined]>
-    >
+    type _t1 = AssertTrue<IsExact<InputType, PostfixOverrides<[input1: ethers.Typed | BigNumberish[]], 'view'>>>
   })
 
   it('generates correct output types for array', () => {
     type OutputType = Awaited<ReturnType<typeof chain.contract.input_uint_array>>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    type _t1 = AssertTrue<IsExact<OutputType, BigNumber[]>>
+    type _t1 = AssertTrue<IsExact<OutputType, bigint[]>>
   })
 
   /**
@@ -183,9 +113,7 @@ describe('DataTypesInput', () => {
 
   it('generates correct types for input structs', () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    type _t1 = AssertTrue<
-      IsExact<Struct1Struct, { uint256_0: PromiseOrValue<BigNumberish>; uint256_1: PromiseOrValue<BigNumberish> }>
-    >
+    type _t1 = AssertTrue<IsExact<Struct1Struct, { uint256_0: BigNumberish; uint256_1: BigNumberish }>>
   })
 
   it('generates correct types for output structs', () => {
@@ -193,9 +121,9 @@ describe('DataTypesInput', () => {
     type _t1 = AssertTrue<
       IsExact<
         Struct1StructOutput,
-        [BigNumber, BigNumber] & {
-          uint256_0: BigNumber
-          uint256_1: BigNumber
+        [bigint, bigint] & {
+          uint256_0: bigint
+          uint256_1: bigint
         }
       >
     >
@@ -203,7 +131,7 @@ describe('DataTypesInput', () => {
 
   it('generates correct input types for structs with are only used as array in some function input/output', () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    type _t1 = AssertTrue<IsExact<Struct3Struct, { input1: PromiseOrValue<BigNumberish>[] }>>
+    type _t1 = AssertTrue<IsExact<Struct3Struct, { input1: BigNumberish[] }>>
   })
 
   it('generates correct output types for structs with are only used as array in some function input/output', () => {
@@ -211,8 +139,8 @@ describe('DataTypesInput', () => {
     type _t1 = AssertTrue<
       IsExact<
         Struct3StructOutput,
-        [BigNumber[]] & {
-          input1: BigNumber[]
+        [bigint[]] & {
+          input1: bigint[]
         }
       >
     >
@@ -224,8 +152,8 @@ describe('DataTypesInput', () => {
       IsExact<
         Struct2Struct,
         {
-          input1: PromiseOrValue<BigNumberish>
-          input2: { uint256_0: PromiseOrValue<BigNumberish>; uint256_1: PromiseOrValue<BigNumberish> }
+          input1: BigNumberish
+          input2: { uint256_0: BigNumberish; uint256_1: BigNumberish }
         }
       >
     >
@@ -237,16 +165,16 @@ describe('DataTypesInput', () => {
       IsExact<
         Struct2StructOutput,
         [
-          BigNumber,
-          [BigNumber, BigNumber] & {
-            uint256_0: BigNumber
-            uint256_1: BigNumber
+          bigint,
+          [bigint, bigint] & {
+            uint256_0: bigint
+            uint256_1: bigint
           },
         ] & {
-          input1: BigNumber
-          input2: [BigNumber, BigNumber] & {
-            uint256_0: BigNumber
-            uint256_1: BigNumber
+          input1: bigint
+          input2: [bigint, bigint] & {
+            uint256_0: bigint
+            uint256_1: bigint
           }
         }
       >
@@ -260,15 +188,19 @@ describe('DataTypesInput', () => {
     type _t1 = AssertTrue<
       IsExact<
         ViewStructType,
-        [
-          input1: [
-            [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>][],
-            [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>][],
-            [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>][],
-            [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>][],
+        PostfixOverrides<
+          [
+            input1:
+              | ethers.Typed
+              | [
+                  [BigNumberish, BigNumberish, BigNumberish][],
+                  [BigNumberish, BigNumberish, BigNumberish][],
+                  [BigNumberish, BigNumberish, BigNumberish][],
+                  [BigNumberish, BigNumberish, BigNumberish][],
+                ],
           ],
-          overrides?: ethers.CallOverrides | undefined,
-        ]
+          'view'
+        >
       >
     >
   })
@@ -279,7 +211,7 @@ describe('DataTypesInput', () => {
     type _t1 = AssertTrue<
       IsExact<
         ViewStructType,
-        [[number, number, number][], [number, number, number][], [number, number, number][], [number, number, number][]]
+        [[bigint, bigint, bigint][], [bigint, bigint, bigint][], [bigint, bigint, bigint][], [bigint, bigint, bigint][]]
       >
     >
   })
@@ -291,9 +223,7 @@ describe('DataTypesInput', () => {
   it('generates correct parameter types for function structs', () => {
     type ViewStructType = Parameters<typeof chain.contract.input_struct>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    type _t1 = AssertTrue<
-      IsExact<ViewStructType, [input1: Struct1Struct, overrides?: ethers.CallOverrides | undefined]>
-    >
+    type _t1 = AssertTrue<IsExact<ViewStructType, PostfixOverrides<[input1: ethers.Typed | Struct1Struct], 'view'>>>
   })
 
   it('generates correct return types for function structs', () => {
@@ -306,9 +236,7 @@ describe('DataTypesInput', () => {
   it('generates correct parameter types for function struct array', () => {
     type ViewStructType = Parameters<typeof chain.contract.input_struct_array>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    type _t1 = AssertTrue<
-      IsExact<ViewStructType, [input1: Struct1Struct[], overrides?: ethers.CallOverrides | undefined]>
-    >
+    type _t1 = AssertTrue<IsExact<ViewStructType, PostfixOverrides<[input1: ethers.Typed | Struct1Struct[]], 'view'>>>
   })
 
   it('generates correct return types for function struct array', () => {
@@ -321,9 +249,7 @@ describe('DataTypesInput', () => {
   it('generates correct parameter types for function struct array array', () => {
     type ViewStructType = Parameters<typeof chain.contract.input_struct_array_array>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    type _t1 = AssertTrue<
-      IsExact<ViewStructType, [input1: Struct1Struct[][], overrides?: ethers.CallOverrides | undefined]>
-    >
+    type _t1 = AssertTrue<IsExact<ViewStructType, PostfixOverrides<[input1: ethers.Typed | Struct1Struct[][]], 'view'>>>
   })
 
   it('generates correct return types for function struct array array', () => {
@@ -337,7 +263,7 @@ describe('DataTypesInput', () => {
     type ViewStructType = Parameters<typeof chain.contract.input_struct_fixedarray_array>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     type _t1 = AssertTrue<
-      IsExact<ViewStructType, [input1: [Struct1Struct, Struct1Struct][], overrides?: ethers.CallOverrides | undefined]>
+      IsExact<ViewStructType, PostfixOverrides<[input1: ethers.Typed | [Struct1Struct, Struct1Struct][]], 'view'>>
     >
   })
 
@@ -352,10 +278,7 @@ describe('DataTypesInput', () => {
     type ViewStructType = Parameters<typeof chain.contract.input_struct_array_fixedarray>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     type _t1 = AssertTrue<
-      IsExact<
-        ViewStructType,
-        [input1: [Struct1Struct[], Struct1Struct[]], overrides?: ethers.CallOverrides | undefined]
-      >
+      IsExact<ViewStructType, PostfixOverrides<[input1: ethers.Typed | [Struct1Struct[], Struct1Struct[]]], 'view'>>
     >
   })
 
@@ -372,10 +295,14 @@ describe('DataTypesInput', () => {
     type _t1 = AssertTrue<
       IsExact<
         ViewStructType,
-        [
-          input1: [[Struct1Struct, Struct1Struct], [Struct1Struct, Struct1Struct], [Struct1Struct, Struct1Struct]],
-          overrides?: ethers.CallOverrides | undefined,
-        ]
+        PostfixOverrides<
+          [
+            input1:
+              | ethers.Typed
+              | [[Struct1Struct, Struct1Struct], [Struct1Struct, Struct1Struct], [Struct1Struct, Struct1Struct]],
+          ],
+          'view'
+        >
       >
     >
   })
@@ -400,7 +327,7 @@ describe('DataTypesInput', () => {
     type ViewStructType = Parameters<typeof chain.contract.input_struct_array_array_array>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     type _t1 = AssertTrue<
-      IsExact<ViewStructType, [input1: Struct1Struct[][][], overrides?: ethers.CallOverrides | undefined]>
+      IsExact<ViewStructType, PostfixOverrides<[input1: ethers.Typed | Struct1Struct[][][]], 'view'>>
     >
   })
 
@@ -417,14 +344,14 @@ describe('DataTypesInput', () => {
     type _t1 = AssertTrue<
       IsExact<
         ViewStructType,
-        [
-          input1: [
-            [Struct1Struct, Struct1Struct][],
-            [Struct1Struct, Struct1Struct][],
-            [Struct1Struct, Struct1Struct][],
+        PostfixOverrides<
+          [
+            input1:
+              | ethers.Typed
+              | [[Struct1Struct, Struct1Struct][], [Struct1Struct, Struct1Struct][], [Struct1Struct, Struct1Struct][]],
           ],
-          overrides?: ethers.CallOverrides | undefined,
-        ]
+          'view'
+        >
       >
     >
   })
@@ -451,15 +378,35 @@ describe('DataTypesInput', () => {
     type _t1 = AssertTrue<
       IsExact<
         ViewStructType,
-        [
-          input1: [
-            [[Struct1Struct, Struct1Struct][], [Struct1Struct, Struct1Struct][], [Struct1Struct, Struct1Struct][]][],
-            [[Struct1Struct, Struct1Struct][], [Struct1Struct, Struct1Struct][], [Struct1Struct, Struct1Struct][]][],
-            [[Struct1Struct, Struct1Struct][], [Struct1Struct, Struct1Struct][], [Struct1Struct, Struct1Struct][]][],
-            [[Struct1Struct, Struct1Struct][], [Struct1Struct, Struct1Struct][], [Struct1Struct, Struct1Struct][]][],
+        PostfixOverrides<
+          [
+            input1:
+              | ethers.Typed
+              | [
+                  [
+                    [Struct1Struct, Struct1Struct][],
+                    [Struct1Struct, Struct1Struct][],
+                    [Struct1Struct, Struct1Struct][],
+                  ][],
+                  [
+                    [Struct1Struct, Struct1Struct][],
+                    [Struct1Struct, Struct1Struct][],
+                    [Struct1Struct, Struct1Struct][],
+                  ][],
+                  [
+                    [Struct1Struct, Struct1Struct][],
+                    [Struct1Struct, Struct1Struct][],
+                    [Struct1Struct, Struct1Struct][],
+                  ][],
+                  [
+                    [Struct1Struct, Struct1Struct][],
+                    [Struct1Struct, Struct1Struct][],
+                    [Struct1Struct, Struct1Struct][],
+                  ][],
+                ],
           ],
-          overrides?: ethers.CallOverrides | undefined,
-        ]
+          'view'
+        >
       >
     >
   })
@@ -502,9 +449,7 @@ describe('DataTypesInput', () => {
   it('generates correct parameter types for function structs only used as array in some function input/output', () => {
     type ViewStructType = Parameters<typeof chain.contract.input_struct3_array>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    type _t1 = AssertTrue<
-      IsExact<ViewStructType, [input1: Struct3Struct[], overrides?: ethers.CallOverrides | undefined]>
-    >
+    type _t1 = AssertTrue<IsExact<ViewStructType, PostfixOverrides<[input1: ethers.Typed | Struct3Struct[]], 'view'>>>
   })
 
   it('generates correct return types for function structs only used as array in some function input/output', () => {
@@ -517,9 +462,7 @@ describe('DataTypesInput', () => {
   it('generates correct parameter types for complex function structs', () => {
     type ViewStructType = Parameters<typeof chain.contract.input_struct2>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    type _t1 = AssertTrue<
-      IsExact<ViewStructType, [input1: Struct2Struct, overrides?: ethers.CallOverrides | undefined]>
-    >
+    type _t1 = AssertTrue<IsExact<ViewStructType, PostfixOverrides<[input1: ethers.Typed | Struct2Struct], 'view'>>>
   })
 
   it('generates correct return types for complex function structs', () => {
@@ -532,9 +475,7 @@ describe('DataTypesInput', () => {
   it('generates correct parameter types for complex struct array', () => {
     type ViewStructType = Parameters<typeof chain.contract.input_struct2_array>
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    type _t1 = AssertTrue<
-      IsExact<ViewStructType, [input1: Struct2Struct[], overrides?: ethers.CallOverrides | undefined]>
-    >
+    type _t1 = AssertTrue<IsExact<ViewStructType, PostfixOverrides<[input1: ethers.Typed | Struct2Struct[]], 'view'>>>
   })
 
   it('generates correct return types for complex struct array', () => {
@@ -546,7 +487,7 @@ describe('DataTypesInput', () => {
   // function input_struct2_tuple(Struct2[3] memory input) public pure returns (Struct2[3] memory)
   it('generates correct argument types for constant size struct array', () => {
     type ViewStructType = Parameters<typeof chain.contract.input_struct2_tuple>[0]
-    type _ = AssertTrue<IsExact<ViewStructType, [Struct2Struct, Struct2Struct, Struct2Struct]>>
+    type _ = AssertTrue<IsExact<ViewStructType, ethers.Typed | [Struct2Struct, Struct2Struct, Struct2Struct]>>
   })
 
   it('generates correct return types for constant size struct array', () => {
@@ -568,10 +509,7 @@ describe('DataTypesInput', () => {
     type _t1 = AssertTrue<
       IsExact<
         ViewFunctionInputType,
-        [
-          info1: { a: PromiseOrValue<BigNumberish>; b: PromiseOrValue<BigNumberish> },
-          overrides?: ethers.CallOverrides | undefined,
-        ]
+        PostfixOverrides<[info1: ethers.Typed | { a: BigNumberish; b: BigNumberish }], 'view'>
       >
     >
 
@@ -595,7 +533,3 @@ describe('DataTypesInput', () => {
     contract.functions.not_existing(1)
   })
 }).timeout(15_000)
-
-function getPromise<T>(val: T): Promise<T> {
-  return new Promise<T>((res) => res(val))
-}
