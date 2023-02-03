@@ -3,54 +3,36 @@
 /* eslint-disable */
 import type {
   BaseContract,
-  BigNumber,
   BigNumberish,
   BytesLike,
-  CallOverrides,
-  ContractTransaction,
-  Overrides,
-  PopulatedTransaction,
-  Signer,
-  utils,
-} from "ethers";
-import type {
   FunctionFragment,
   Result,
+  Interface,
   EventFragment,
-} from "@ethersproject/abi";
-import type { Listener, Provider } from "@ethersproject/providers";
+} from "ethers";
+import type { ContractRunner } from "ethers/types/providers";
+
+import type { Listener } from "ethers/src.ts/utils";
 import type {
-  TypedEventFilter,
-  TypedEvent,
+  TypedContractEvent,
+  TypedDeferredTopicFilter,
+  TypedEventLog,
   TypedListener,
-  OnEvent,
-  PromiseOrValue,
+  TypedContractMethod,
 } from "../common";
 
 export declare namespace Events {
-  export type EventDataStruct = {
-    index: PromiseOrValue<BigNumberish>;
-    name: PromiseOrValue<string>;
-  };
+  export type EventDataStruct = { index: BigNumberish; name: string };
 
-  export type EventDataStructOutput = [BigNumber, string] & {
-    index: BigNumber;
+  export type EventDataStructOutput = [bigint, string] & {
+    index: bigint;
     name: string;
   };
 }
 
-export interface EventsInterface extends utils.Interface {
-  functions: {
-    "emit_anon1()": FunctionFragment;
-    "emit_event1()": FunctionFragment;
-    "emit_event2()": FunctionFragment;
-    "emit_event3()": FunctionFragment;
-    "emit_event3_overloaded()": FunctionFragment;
-    "emit_event4()": FunctionFragment;
-  };
-
+export interface EventsInterface extends Interface {
   getFunction(
-    nameOrSignatureOrTopic:
+    nameOrSignature:
       | "emit_anon1"
       | "emit_event1"
       | "emit_event2"
@@ -58,6 +40,18 @@ export interface EventsInterface extends utils.Interface {
       | "emit_event3_overloaded"
       | "emit_event4"
   ): FunctionFragment;
+
+  getEvent(
+    nameOrSignatureOrTopic:
+      | "AnonEvent1"
+      | "Event1"
+      | "Event2"
+      | "Event3(bool,uint256)"
+      | "Event3(uint256)"
+      | "Event4"
+      | "NoArgsEvent"
+      | "UpdateFrequencySet"
+  ): EventFragment;
 
   encodeFunctionData(
     functionFragment: "emit_anon1",
@@ -105,279 +99,241 @@ export interface EventsInterface extends utils.Interface {
     functionFragment: "emit_event4",
     data: BytesLike
   ): Result;
-
-  events: {
-    "AnonEvent1(uint256)": EventFragment;
-    "Event1(uint256,uint256)": EventFragment;
-    "Event2(uint256)": EventFragment;
-    "Event3(bool,uint256)": EventFragment;
-    "Event3(uint256)": EventFragment;
-    "Event4(tuple)": EventFragment;
-    "NoArgsEvent()": EventFragment;
-    "UpdateFrequencySet(address[],uint256[])": EventFragment;
-  };
-
-  getEvent(nameOrSignatureOrTopic: "AnonEvent1"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Event1"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Event2"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Event3(bool,uint256)"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Event3(uint256)"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Event4"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "NoArgsEvent"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "UpdateFrequencySet"): EventFragment;
 }
 
-export interface AnonEvent1EventObject {
-  value1: BigNumber;
+export namespace AnonEvent1Event {
+  export interface Object {
+    value1: bigint;
+  }
+  export type Tuple = [value1: bigint];
+  export type Event = TypedContractEvent<Tuple, Object>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
 }
-export type AnonEvent1Event = TypedEvent<[BigNumber], AnonEvent1EventObject>;
 
-export type AnonEvent1EventFilter = TypedEventFilter<AnonEvent1Event>;
-
-export interface Event1EventObject {
-  value1: BigNumber;
-  value2: BigNumber;
+export namespace Event1Event {
+  export interface Object {
+    value1: bigint;
+    value2: bigint;
+  }
+  export type Tuple = [value1: bigint, value2: bigint];
+  export type Event = TypedContractEvent<Tuple, Object>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
 }
-export type Event1Event = TypedEvent<[BigNumber, BigNumber], Event1EventObject>;
 
-export type Event1EventFilter = TypedEventFilter<Event1Event>;
-
-export interface Event2EventObject {
-  arg0: BigNumber;
+export namespace Event2Event {
+  export interface Object {
+    arg0: bigint;
+  }
+  export type Tuple = [arg0: bigint];
+  export type Event = TypedContractEvent<Tuple, Object>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
 }
-export type Event2Event = TypedEvent<[BigNumber], Event2EventObject>;
 
-export type Event2EventFilter = TypedEventFilter<Event2Event>;
-
-export interface Event3_bool_uint256_EventObject {
-  value1: boolean;
-  value2: BigNumber;
+export namespace Event3_bool_uint256_Event {
+  export interface Object {
+    value1: boolean;
+    value2: bigint;
+  }
+  export type Tuple = [value1: boolean, value2: bigint];
+  export type Event = TypedContractEvent<Tuple, Object>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
 }
-export type Event3_bool_uint256_Event = TypedEvent<
-  [boolean, BigNumber],
-  Event3_bool_uint256_EventObject
->;
 
-export type Event3_bool_uint256_EventFilter =
-  TypedEventFilter<Event3_bool_uint256_Event>;
-
-export interface Event3_uint256_EventObject {
-  value1: BigNumber;
+export namespace Event3_uint256_Event {
+  export interface Object {
+    value1: bigint;
+  }
+  export type Tuple = [value1: bigint];
+  export type Event = TypedContractEvent<Tuple, Object>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
 }
-export type Event3_uint256_Event = TypedEvent<
-  [BigNumber],
-  Event3_uint256_EventObject
->;
 
-export type Event3_uint256_EventFilter = TypedEventFilter<Event3_uint256_Event>;
-
-export interface Event4EventObject {
-  data: Events.EventDataStructOutput;
+export namespace Event4Event {
+  export interface Object {
+    data: Events.EventDataStructOutput;
+  }
+  export type Tuple = [data: Events.EventDataStructOutput];
+  export type Event = TypedContractEvent<Tuple, Object>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
 }
-export type Event4Event = TypedEvent<
-  [Events.EventDataStructOutput],
-  Event4EventObject
->;
 
-export type Event4EventFilter = TypedEventFilter<Event4Event>;
-
-export interface NoArgsEventEventObject {}
-export type NoArgsEventEvent = TypedEvent<[], NoArgsEventEventObject>;
-
-export type NoArgsEventEventFilter = TypedEventFilter<NoArgsEventEvent>;
-
-export interface UpdateFrequencySetEventObject {
-  arg0: string[];
-  arg1: BigNumber[];
+export namespace NoArgsEventEvent {
+  export interface Object {}
+  export type Tuple = [];
+  export type Event = TypedContractEvent<Tuple, Object>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
 }
-export type UpdateFrequencySetEvent = TypedEvent<
-  [string[], BigNumber[]],
-  UpdateFrequencySetEventObject
->;
 
-export type UpdateFrequencySetEventFilter =
-  TypedEventFilter<UpdateFrequencySetEvent>;
+export namespace UpdateFrequencySetEvent {
+  export interface Object {
+    arg0: string[];
+    arg1: bigint[];
+  }
+  export type Tuple = [arg0: string[], arg1: bigint[]];
+  export type Event = TypedContractEvent<Tuple, Object>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+}
 
 export interface Events extends BaseContract {
-  connect(signerOrProvider: Signer | Provider | string): this;
+  connect(runner: null | ContractRunner): BaseContract;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
   interface: EventsInterface;
 
-  queryFilter<TEvent extends TypedEvent>(
-    event: TypedEventFilter<TEvent>,
+  queryFilter<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TEvent>>;
+  ): Promise<Array<TypedEventLog<TCEvent>>>;
+  queryFilter<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    fromBlockOrBlockhash?: string | number | undefined,
+    toBlock?: string | number | undefined
+  ): Promise<Array<TypedEventLog<TCEvent>>>;
 
-  listeners<TEvent extends TypedEvent>(
-    eventFilter?: TypedEventFilter<TEvent>
-  ): Array<TypedListener<TEvent>>;
-  listeners(eventName?: string): Array<Listener>;
-  removeAllListeners<TEvent extends TypedEvent>(
-    eventFilter: TypedEventFilter<TEvent>
-  ): this;
-  removeAllListeners(eventName?: string): this;
-  off: OnEvent<this>;
-  on: OnEvent<this>;
-  once: OnEvent<this>;
-  removeListener: OnEvent<this>;
+  on<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
 
-  functions: {
-    emit_anon1(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+  once<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
 
-    emit_event1(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+  listeners<TCEvent extends TypedContractEvent>(
+    event: TCEvent
+  ): Promise<Array<TypedListener<TCEvent>>>;
+  listeners(eventName?: string): Promise<Array<Listener>>;
+  removeAllListeners<TCEvent extends TypedContractEvent>(
+    event: TCEvent
+  ): Promise<this>;
 
-    emit_event2(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+  emit_anon1: TypedContractMethod<[], [void], "nonpayable">;
 
-    emit_event3(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+  emit_event1: TypedContractMethod<[], [void], "nonpayable">;
 
-    emit_event3_overloaded(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+  emit_event2: TypedContractMethod<[], [void], "nonpayable">;
 
-    emit_event4(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-  };
+  emit_event3: TypedContractMethod<[], [void], "nonpayable">;
 
-  emit_anon1(
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  emit_event3_overloaded: TypedContractMethod<[], [void], "nonpayable">;
 
-  emit_event1(
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  emit_event4: TypedContractMethod<[], [void], "nonpayable">;
 
-  emit_event2(
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  getFunction(
+    nameOrSignature: "emit_anon1"
+  ): TypedContractMethod<[], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "emit_event1"
+  ): TypedContractMethod<[], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "emit_event2"
+  ): TypedContractMethod<[], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "emit_event3"
+  ): TypedContractMethod<[], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "emit_event3_overloaded"
+  ): TypedContractMethod<[], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "emit_event4"
+  ): TypedContractMethod<[], [void], "nonpayable">;
 
-  emit_event3(
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  getEvent(
+    key: "AnonEvent1"
+  ): TypedContractEvent<AnonEvent1Event.Tuple, AnonEvent1Event.Object>;
+  getEvent(
+    key: "Event1"
+  ): TypedContractEvent<Event1Event.Tuple, Event1Event.Object>;
+  getEvent(
+    key: "Event2"
+  ): TypedContractEvent<Event2Event.Tuple, Event2Event.Object>;
+  getEvent(
+    key: "Event3(bool,uint256)"
+  ): TypedContractEvent<
+    Event3_bool_uint256_Event.Tuple,
+    Event3_bool_uint256_Event.Object
+  >;
+  getEvent(
+    key: "Event3(uint256)"
+  ): TypedContractEvent<
+    Event3_uint256_Event.Tuple,
+    Event3_uint256_Event.Object
+  >;
+  getEvent(
+    key: "Event4"
+  ): TypedContractEvent<Event4Event.Tuple, Event4Event.Object>;
+  getEvent(
+    key: "NoArgsEvent"
+  ): TypedContractEvent<NoArgsEventEvent.Tuple, NoArgsEventEvent.Object>;
+  getEvent(
+    key: "UpdateFrequencySet"
+  ): TypedContractEvent<
+    UpdateFrequencySetEvent.Tuple,
+    UpdateFrequencySetEvent.Object
+  >;
 
-  emit_event3_overloaded(
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  emit_event4(
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  callStatic: {
-    emit_anon1(overrides?: CallOverrides): Promise<void>;
-
-    emit_event1(overrides?: CallOverrides): Promise<void>;
-
-    emit_event2(overrides?: CallOverrides): Promise<void>;
-
-    emit_event3(overrides?: CallOverrides): Promise<void>;
-
-    emit_event3_overloaded(overrides?: CallOverrides): Promise<void>;
-
-    emit_event4(overrides?: CallOverrides): Promise<void>;
-  };
-
+  // TODO change this bucket to events once changed in ethers beta exports
   filters: {
-    "AnonEvent1(uint256)"(
-      value1?: PromiseOrValue<BigNumberish> | null
-    ): AnonEvent1EventFilter;
-    AnonEvent1(
-      value1?: PromiseOrValue<BigNumberish> | null
-    ): AnonEvent1EventFilter;
+    "AnonEvent1(uint256)": TypedContractEvent<
+      AnonEvent1Event.Tuple,
+      AnonEvent1Event.Object
+    >;
+    AnonEvent1: TypedContractEvent<
+      AnonEvent1Event.Tuple,
+      AnonEvent1Event.Object
+    >;
 
-    "Event1(uint256,uint256)"(
-      value1?: PromiseOrValue<BigNumberish> | null,
-      value2?: null
-    ): Event1EventFilter;
-    Event1(
-      value1?: PromiseOrValue<BigNumberish> | null,
-      value2?: null
-    ): Event1EventFilter;
+    "Event1(uint256,uint256)": TypedContractEvent<
+      Event1Event.Tuple,
+      Event1Event.Object
+    >;
+    Event1: TypedContractEvent<Event1Event.Tuple, Event1Event.Object>;
 
-    "Event2(uint256)"(arg0?: null): Event2EventFilter;
-    Event2(arg0?: null): Event2EventFilter;
+    "Event2(uint256)": TypedContractEvent<
+      Event2Event.Tuple,
+      Event2Event.Object
+    >;
+    Event2: TypedContractEvent<Event2Event.Tuple, Event2Event.Object>;
 
-    "Event3(bool,uint256)"(
-      value1?: PromiseOrValue<boolean> | null,
-      value2?: null
-    ): Event3_bool_uint256_EventFilter;
-    "Event3(uint256)"(
-      value1?: PromiseOrValue<BigNumberish> | null
-    ): Event3_uint256_EventFilter;
+    "Event3(bool,uint256)": TypedContractEvent<
+      Event3_bool_uint256_Event.Tuple,
+      Event3_bool_uint256_Event.Object
+    >;
+    "Event3(uint256)": TypedContractEvent<
+      Event3_uint256_Event.Tuple,
+      Event3_uint256_Event.Object
+    >;
 
-    "Event4(tuple)"(data?: null): Event4EventFilter;
-    Event4(data?: null): Event4EventFilter;
+    "Event4(tuple)": TypedContractEvent<Event4Event.Tuple, Event4Event.Object>;
+    Event4: TypedContractEvent<Event4Event.Tuple, Event4Event.Object>;
 
-    "NoArgsEvent()"(): NoArgsEventEventFilter;
-    NoArgsEvent(): NoArgsEventEventFilter;
+    "NoArgsEvent()": TypedContractEvent<
+      NoArgsEventEvent.Tuple,
+      NoArgsEventEvent.Object
+    >;
+    NoArgsEvent: TypedContractEvent<
+      NoArgsEventEvent.Tuple,
+      NoArgsEventEvent.Object
+    >;
 
-    "UpdateFrequencySet(address[],uint256[])"(
-      arg0?: null,
-      arg1?: null
-    ): UpdateFrequencySetEventFilter;
-    UpdateFrequencySet(arg0?: null, arg1?: null): UpdateFrequencySetEventFilter;
-  };
-
-  estimateGas: {
-    emit_anon1(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    emit_event1(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    emit_event2(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    emit_event3(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    emit_event3_overloaded(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    emit_event4(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-  };
-
-  populateTransaction: {
-    emit_anon1(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    emit_event1(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    emit_event2(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    emit_event3(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    emit_event3_overloaded(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    emit_event4(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
+    "UpdateFrequencySet(address[],uint256[])": TypedContractEvent<
+      UpdateFrequencySetEvent.Tuple,
+      UpdateFrequencySetEvent.Object
+    >;
+    UpdateFrequencySet: TypedContractEvent<
+      UpdateFrequencySetEvent.Tuple,
+      UpdateFrequencySetEvent.Object
+    >;
   };
 }

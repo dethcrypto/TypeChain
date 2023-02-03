@@ -3,75 +3,63 @@
 /* eslint-disable */
 import type {
   BaseContract,
-  BigNumber,
   BigNumberish,
   BytesLike,
-  CallOverrides,
-  ContractTransaction,
-  Overrides,
-  PopulatedTransaction,
-  Signer,
-  utils,
+  FunctionFragment,
+  Result,
+  Interface,
 } from "ethers";
-import type { FunctionFragment, Result } from "@ethersproject/abi";
-import type { Listener, Provider } from "@ethersproject/providers";
+import type { ContractRunner } from "ethers/types/providers";
+
+import type { Listener } from "ethers/src.ts/utils";
 import type {
-  TypedEventFilter,
-  TypedEvent,
+  TypedContractEvent,
+  TypedDeferredTopicFilter,
+  TypedEventLog,
   TypedListener,
-  OnEvent,
-  PromiseOrValue,
+  TypedContractMethod,
 } from "../common";
 
 export declare namespace Issue552_Observer {
   export type ObservationStruct = {
-    val: PromiseOrValue<BigNumberish>;
-    blockTimestamp: PromiseOrValue<BigNumberish>;
+    val: BigNumberish;
+    blockTimestamp: BigNumberish;
   };
 
-  export type ObservationStructOutput = [BigNumber, BigNumber] & {
-    val: BigNumber;
-    blockTimestamp: BigNumber;
+  export type ObservationStructOutput = [bigint, bigint] & {
+    val: bigint;
+    blockTimestamp: bigint;
   };
 }
 
 export declare namespace Issue552_Reproduction {
   export type ObservationParamsStruct = {
     observations: Issue552_Observer.ObservationStruct[];
-    index: PromiseOrValue<BigNumberish>;
+    index: BigNumberish;
   };
 
   export type ObservationParamsStructOutput = [
     Issue552_Observer.ObservationStructOutput[],
-    number
+    bigint
   ] & {
     observations: Issue552_Observer.ObservationStructOutput[];
-    index: number;
+    index: bigint;
   };
 }
 
-export interface Issue552_ReproductionInterface extends utils.Interface {
-  functions: {
-    "bars(uint256)": FunctionFragment;
-    "input(uint256[10])": FunctionFragment;
-    "makeObservation(uint256,uint256)": FunctionFragment;
-  };
-
+export interface Issue552_ReproductionInterface extends Interface {
   getFunction(
-    nameOrSignatureOrTopic: "bars" | "input" | "makeObservation"
+    nameOrSignature: "bars" | "input" | "makeObservation"
   ): FunctionFragment;
 
-  encodeFunctionData(
-    functionFragment: "bars",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
+  encodeFunctionData(functionFragment: "bars", values: [BigNumberish]): string;
   encodeFunctionData(
     functionFragment: "input",
-    values: [PromiseOrValue<BigNumberish>[]]
+    values: [BigNumberish[]]
   ): string;
   encodeFunctionData(
     functionFragment: "makeObservation",
-    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
+    values: [BigNumberish, BigNumberish]
   ): string;
 
   decodeFunctionResult(functionFragment: "bars", data: BytesLike): Result;
@@ -80,127 +68,84 @@ export interface Issue552_ReproductionInterface extends utils.Interface {
     functionFragment: "makeObservation",
     data: BytesLike
   ): Result;
-
-  events: {};
 }
 
 export interface Issue552_Reproduction extends BaseContract {
-  connect(signerOrProvider: Signer | Provider | string): this;
+  connect(runner: null | ContractRunner): BaseContract;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
   interface: Issue552_ReproductionInterface;
 
-  queryFilter<TEvent extends TypedEvent>(
-    event: TypedEventFilter<TEvent>,
+  queryFilter<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TEvent>>;
+  ): Promise<Array<TypedEventLog<TCEvent>>>;
+  queryFilter<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    fromBlockOrBlockhash?: string | number | undefined,
+    toBlock?: string | number | undefined
+  ): Promise<Array<TypedEventLog<TCEvent>>>;
 
-  listeners<TEvent extends TypedEvent>(
-    eventFilter?: TypedEventFilter<TEvent>
-  ): Array<TypedListener<TEvent>>;
-  listeners(eventName?: string): Array<Listener>;
-  removeAllListeners<TEvent extends TypedEvent>(
-    eventFilter: TypedEventFilter<TEvent>
-  ): this;
-  removeAllListeners(eventName?: string): this;
-  off: OnEvent<this>;
-  on: OnEvent<this>;
-  once: OnEvent<this>;
-  removeListener: OnEvent<this>;
+  on<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
 
-  functions: {
-    bars(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<
-      [Issue552_Reproduction.ObservationParamsStructOutput] & {
-        fooObservations: Issue552_Reproduction.ObservationParamsStructOutput;
-      }
-    >;
+  once<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
 
-    input(
-      values: PromiseOrValue<BigNumberish>[],
-      overrides?: CallOverrides
-    ): Promise<[void]>;
+  listeners<TCEvent extends TypedContractEvent>(
+    event: TCEvent
+  ): Promise<Array<TypedListener<TCEvent>>>;
+  listeners(eventName?: string): Promise<Array<Listener>>;
+  removeAllListeners<TCEvent extends TypedContractEvent>(
+    event: TCEvent
+  ): Promise<this>;
 
-    makeObservation(
-      barId: PromiseOrValue<BigNumberish>,
-      newVal: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-  };
+  bars: TypedContractMethod<
+    [arg0: BigNumberish],
+    [Issue552_Reproduction.ObservationParamsStructOutput],
+    "view"
+  >;
 
-  bars(
-    arg0: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<Issue552_Reproduction.ObservationParamsStructOutput>;
+  input: TypedContractMethod<[values: BigNumberish[]], [void], "view">;
 
-  input(
-    values: PromiseOrValue<BigNumberish>[],
-    overrides?: CallOverrides
-  ): Promise<void>;
+  makeObservation: TypedContractMethod<
+    [barId: BigNumberish, newVal: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
 
-  makeObservation(
-    barId: PromiseOrValue<BigNumberish>,
-    newVal: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  getFunction(
+    nameOrSignature: "bars"
+  ): TypedContractMethod<
+    [arg0: BigNumberish],
+    [Issue552_Reproduction.ObservationParamsStructOutput],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "input"
+  ): TypedContractMethod<[values: BigNumberish[]], [void], "view">;
+  getFunction(
+    nameOrSignature: "makeObservation"
+  ): TypedContractMethod<
+    [barId: BigNumberish, newVal: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
 
-  callStatic: {
-    bars(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<Issue552_Reproduction.ObservationParamsStructOutput>;
-
-    input(
-      values: PromiseOrValue<BigNumberish>[],
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    makeObservation(
-      barId: PromiseOrValue<BigNumberish>,
-      newVal: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-  };
-
+  // TODO change this bucket to events once changed in ethers beta exports
   filters: {};
-
-  estimateGas: {
-    bars(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    input(
-      values: PromiseOrValue<BigNumberish>[],
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    makeObservation(
-      barId: PromiseOrValue<BigNumberish>,
-      newVal: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-  };
-
-  populateTransaction: {
-    bars(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    input(
-      values: PromiseOrValue<BigNumberish>[],
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    makeObservation(
-      barId: PromiseOrValue<BigNumberish>,
-      newVal: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-  };
 }

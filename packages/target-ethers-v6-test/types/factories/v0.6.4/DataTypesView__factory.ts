@@ -2,8 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
-import type { Provider } from "@ethersproject/providers";
+import { Contract, Interface } from "ethers";
+import type { ContractRunner } from "ethers/types/providers";
 import type {
   DataTypesView,
   DataTypesViewInterface,
@@ -219,12 +219,9 @@ const _abi = [
 export class DataTypesView__factory {
   static readonly abi = _abi;
   static createInterface(): DataTypesViewInterface {
-    return new utils.Interface(_abi) as DataTypesViewInterface;
+    return new Interface(_abi) as DataTypesViewInterface;
   }
-  static connect(
-    address: string,
-    signerOrProvider: Signer | Provider
-  ): DataTypesView {
-    return new Contract(address, _abi, signerOrProvider) as DataTypesView;
+  static connect(address: string, runner: ContractRunner): DataTypesView {
+    return new Contract(address, _abi, runner) as unknown as DataTypesView;
   }
 }

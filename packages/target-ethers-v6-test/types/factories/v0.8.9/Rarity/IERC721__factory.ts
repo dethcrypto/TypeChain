@@ -2,8 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
-import type { Provider } from "@ethersproject/providers";
+import { Contract, Interface } from "ethers";
+import type { ContractRunner } from "ethers/types/providers";
 import type { IERC721, IERC721Interface } from "../../../v0.8.9/Rarity/IERC721";
 
 const _abi = [
@@ -278,12 +278,9 @@ const _abi = [
 export class IERC721__factory {
   static readonly abi = _abi;
   static createInterface(): IERC721Interface {
-    return new utils.Interface(_abi) as IERC721Interface;
+    return new Interface(_abi) as IERC721Interface;
   }
-  static connect(
-    address: string,
-    signerOrProvider: Signer | Provider
-  ): IERC721 {
-    return new Contract(address, _abi, signerOrProvider) as IERC721;
+  static connect(address: string, runner: ContractRunner): IERC721 {
+    return new Contract(address, _abi, runner) as unknown as IERC721;
   }
 }

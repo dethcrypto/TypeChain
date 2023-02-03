@@ -3,41 +3,35 @@
 /* eslint-disable */
 import type {
   BaseContract,
-  BigNumber,
   BigNumberish,
   BytesLike,
-  CallOverrides,
-  PopulatedTransaction,
-  Signer,
-  utils,
+  FunctionFragment,
+  Result,
+  Interface,
 } from "ethers";
-import type { FunctionFragment, Result } from "@ethersproject/abi";
-import type { Listener, Provider } from "@ethersproject/providers";
+import type { ContractRunner } from "ethers/types/providers";
+
+import type { Listener } from "ethers/src.ts/utils";
 import type {
-  TypedEventFilter,
-  TypedEvent,
+  TypedContractEvent,
+  TypedDeferredTopicFilter,
+  TypedEventLog,
   TypedListener,
-  OnEvent,
-  PromiseOrValue,
+  TypedContractMethod,
 } from "../common";
 
-export interface OverloadsInterface extends utils.Interface {
-  functions: {
-    "overload1(int256)": FunctionFragment;
-    "overload1(uint256,uint256)": FunctionFragment;
-  };
-
+export interface OverloadsInterface extends Interface {
   getFunction(
-    nameOrSignatureOrTopic: "overload1(int256)" | "overload1(uint256,uint256)"
+    nameOrSignature: "overload1(int256)" | "overload1(uint256,uint256)"
   ): FunctionFragment;
 
   encodeFunctionData(
     functionFragment: "overload1(int256)",
-    values: [PromiseOrValue<BigNumberish>]
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "overload1(uint256,uint256)",
-    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
+    values: [BigNumberish, BigNumberish]
   ): string;
 
   decodeFunctionResult(
@@ -48,98 +42,75 @@ export interface OverloadsInterface extends utils.Interface {
     functionFragment: "overload1(uint256,uint256)",
     data: BytesLike
   ): Result;
-
-  events: {};
 }
 
 export interface Overloads extends BaseContract {
-  connect(signerOrProvider: Signer | Provider | string): this;
+  connect(runner: null | ContractRunner): BaseContract;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
   interface: OverloadsInterface;
 
-  queryFilter<TEvent extends TypedEvent>(
-    event: TypedEventFilter<TEvent>,
+  queryFilter<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TEvent>>;
+  ): Promise<Array<TypedEventLog<TCEvent>>>;
+  queryFilter<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    fromBlockOrBlockhash?: string | number | undefined,
+    toBlock?: string | number | undefined
+  ): Promise<Array<TypedEventLog<TCEvent>>>;
 
-  listeners<TEvent extends TypedEvent>(
-    eventFilter?: TypedEventFilter<TEvent>
-  ): Array<TypedListener<TEvent>>;
-  listeners(eventName?: string): Array<Listener>;
-  removeAllListeners<TEvent extends TypedEvent>(
-    eventFilter: TypedEventFilter<TEvent>
-  ): this;
-  removeAllListeners(eventName?: string): this;
-  off: OnEvent<this>;
-  on: OnEvent<this>;
-  once: OnEvent<this>;
-  removeListener: OnEvent<this>;
+  on<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
 
-  functions: {
-    "overload1(int256)"(
-      input1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
+  once<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
 
-    "overload1(uint256,uint256)"(
-      input1: PromiseOrValue<BigNumberish>,
-      input2: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-  };
+  listeners<TCEvent extends TypedContractEvent>(
+    event: TCEvent
+  ): Promise<Array<TypedListener<TCEvent>>>;
+  listeners(eventName?: string): Promise<Array<Listener>>;
+  removeAllListeners<TCEvent extends TypedContractEvent>(
+    event: TCEvent
+  ): Promise<this>;
 
-  "overload1(int256)"(
-    input1: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
+  "overload1(int256)": TypedContractMethod<
+    [input1: BigNumberish],
+    [bigint],
+    "view"
+  >;
 
-  "overload1(uint256,uint256)"(
-    input1: PromiseOrValue<BigNumberish>,
-    input2: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
+  "overload1(uint256,uint256)": TypedContractMethod<
+    [input1: BigNumberish, input2: BigNumberish],
+    [bigint],
+    "view"
+  >;
 
-  callStatic: {
-    "overload1(int256)"(
-      input1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+  getFunction(
+    nameOrSignature: "overload1(int256)"
+  ): TypedContractMethod<[input1: BigNumberish], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "overload1(uint256,uint256)"
+  ): TypedContractMethod<
+    [input1: BigNumberish, input2: BigNumberish],
+    [bigint],
+    "view"
+  >;
 
-    "overload1(uint256,uint256)"(
-      input1: PromiseOrValue<BigNumberish>,
-      input2: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-  };
-
+  // TODO change this bucket to events once changed in ethers beta exports
   filters: {};
-
-  estimateGas: {
-    "overload1(int256)"(
-      input1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "overload1(uint256,uint256)"(
-      input1: PromiseOrValue<BigNumberish>,
-      input2: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-  };
-
-  populateTransaction: {
-    "overload1(int256)"(
-      input1: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "overload1(uint256,uint256)"(
-      input1: PromiseOrValue<BigNumberish>,
-      input2: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-  };
 }

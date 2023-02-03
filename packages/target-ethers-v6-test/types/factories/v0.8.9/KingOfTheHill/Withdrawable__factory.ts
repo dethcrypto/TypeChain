@@ -2,8 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
-import type { Provider } from "@ethersproject/providers";
+import { Contract, Interface } from "ethers";
+import type { ContractRunner } from "ethers/types/providers";
 import type {
   Withdrawable,
   WithdrawableInterface,
@@ -22,12 +22,9 @@ const _abi = [
 export class Withdrawable__factory {
   static readonly abi = _abi;
   static createInterface(): WithdrawableInterface {
-    return new utils.Interface(_abi) as WithdrawableInterface;
+    return new Interface(_abi) as WithdrawableInterface;
   }
-  static connect(
-    address: string,
-    signerOrProvider: Signer | Provider
-  ): Withdrawable {
-    return new Contract(address, _abi, signerOrProvider) as Withdrawable;
+  static connect(address: string, runner: ContractRunner): Withdrawable {
+    return new Contract(address, _abi, runner) as unknown as Withdrawable;
   }
 }

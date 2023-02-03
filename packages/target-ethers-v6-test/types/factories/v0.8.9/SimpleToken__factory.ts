@@ -2,8 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
-import type { Provider } from "@ethersproject/providers";
+import { Contract, Interface } from "ethers";
+import type { ContractRunner } from "ethers/types/providers";
 import type {
   SimpleToken,
   SimpleTokenInterface,
@@ -33,12 +33,9 @@ const _abi = [
 export class SimpleToken__factory {
   static readonly abi = _abi;
   static createInterface(): SimpleTokenInterface {
-    return new utils.Interface(_abi) as SimpleTokenInterface;
+    return new Interface(_abi) as SimpleTokenInterface;
   }
-  static connect(
-    address: string,
-    signerOrProvider: Signer | Provider
-  ): SimpleToken {
-    return new Contract(address, _abi, signerOrProvider) as SimpleToken;
+  static connect(address: string, runner: ContractRunner): SimpleToken {
+    return new Contract(address, _abi, runner) as unknown as SimpleToken;
   }
 }

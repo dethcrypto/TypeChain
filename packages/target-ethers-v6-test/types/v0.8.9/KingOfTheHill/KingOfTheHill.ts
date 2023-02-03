@@ -3,53 +3,39 @@
 /* eslint-disable */
 import type {
   BaseContract,
-  BigNumber,
   BigNumberish,
   BytesLike,
-  CallOverrides,
-  ContractTransaction,
-  Overrides,
-  PayableOverrides,
-  PopulatedTransaction,
-  Signer,
-  utils,
-} from "ethers";
-import type {
   FunctionFragment,
   Result,
+  Interface,
   EventFragment,
-} from "@ethersproject/abi";
-import type { Listener, Provider } from "@ethersproject/providers";
+} from "ethers";
+import type { ContractRunner } from "ethers/types/providers";
+
+import type { Listener } from "ethers/src.ts/utils";
 import type {
-  TypedEventFilter,
-  TypedEvent,
+  TypedContractEvent,
+  TypedDeferredTopicFilter,
+  TypedEventLog,
   TypedListener,
-  OnEvent,
-  PromiseOrValue,
+  TypedContractMethod,
 } from "../../common";
 
 export declare namespace KingOfTheHill {
-  export type BidStruct = {
-    bidder: PromiseOrValue<string>;
-    value: PromiseOrValue<BigNumberish>;
-  };
+  export type BidStruct = { bidder: string; value: BigNumberish };
 
-  export type BidStructOutput = [string, BigNumber] & {
+  export type BidStructOutput = [string, bigint] & {
     bidder: string;
-    value: BigNumber;
+    value: bigint;
   };
 }
 
-export interface KingOfTheHillInterface extends utils.Interface {
-  functions: {
-    "bid()": FunctionFragment;
-    "highestBid()": FunctionFragment;
-    "withdraw()": FunctionFragment;
-  };
-
+export interface KingOfTheHillInterface extends Interface {
   getFunction(
-    nameOrSignatureOrTopic: "bid" | "highestBid" | "withdraw"
+    nameOrSignature: "bid" | "highestBid" | "withdraw"
   ): FunctionFragment;
+
+  getEvent(nameOrSignatureOrTopic: "HighestBidIncreased"): EventFragment;
 
   encodeFunctionData(functionFragment: "bid", values?: undefined): string;
   encodeFunctionData(
@@ -61,113 +47,101 @@ export interface KingOfTheHillInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "bid", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "highestBid", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "withdraw", data: BytesLike): Result;
-
-  events: {
-    "HighestBidIncreased(tuple)": EventFragment;
-  };
-
-  getEvent(nameOrSignatureOrTopic: "HighestBidIncreased"): EventFragment;
 }
 
-export interface HighestBidIncreasedEventObject {
-  bid: KingOfTheHill.BidStructOutput;
+export namespace HighestBidIncreasedEvent {
+  export interface Object {
+    bid: KingOfTheHill.BidStructOutput;
+  }
+  export type Tuple = [bid: KingOfTheHill.BidStructOutput];
+  export type Event = TypedContractEvent<Tuple, Object>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
 }
-export type HighestBidIncreasedEvent = TypedEvent<
-  [KingOfTheHill.BidStructOutput],
-  HighestBidIncreasedEventObject
->;
-
-export type HighestBidIncreasedEventFilter =
-  TypedEventFilter<HighestBidIncreasedEvent>;
 
 export interface KingOfTheHill extends BaseContract {
-  connect(signerOrProvider: Signer | Provider | string): this;
+  connect(runner: null | ContractRunner): BaseContract;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
   interface: KingOfTheHillInterface;
 
-  queryFilter<TEvent extends TypedEvent>(
-    event: TypedEventFilter<TEvent>,
+  queryFilter<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TEvent>>;
+  ): Promise<Array<TypedEventLog<TCEvent>>>;
+  queryFilter<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    fromBlockOrBlockhash?: string | number | undefined,
+    toBlock?: string | number | undefined
+  ): Promise<Array<TypedEventLog<TCEvent>>>;
 
-  listeners<TEvent extends TypedEvent>(
-    eventFilter?: TypedEventFilter<TEvent>
-  ): Array<TypedListener<TEvent>>;
-  listeners(eventName?: string): Array<Listener>;
-  removeAllListeners<TEvent extends TypedEvent>(
-    eventFilter: TypedEventFilter<TEvent>
-  ): this;
-  removeAllListeners(eventName?: string): this;
-  off: OnEvent<this>;
-  on: OnEvent<this>;
-  once: OnEvent<this>;
-  removeListener: OnEvent<this>;
+  on<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
 
-  functions: {
-    bid(
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+  once<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
 
-    highestBid(
-      overrides?: CallOverrides
-    ): Promise<[string, BigNumber] & { bidder: string; value: BigNumber }>;
+  listeners<TCEvent extends TypedContractEvent>(
+    event: TCEvent
+  ): Promise<Array<TypedListener<TCEvent>>>;
+  listeners(eventName?: string): Promise<Array<Listener>>;
+  removeAllListeners<TCEvent extends TypedContractEvent>(
+    event: TCEvent
+  ): Promise<this>;
 
-    withdraw(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-  };
+  bid: TypedContractMethod<[], [void], "payable">;
 
-  bid(
-    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  highestBid: TypedContractMethod<
+    [],
+    [[string, bigint] & { bidder: string; value: bigint }],
+    "view"
+  >;
 
-  highestBid(
-    overrides?: CallOverrides
-  ): Promise<[string, BigNumber] & { bidder: string; value: BigNumber }>;
+  withdraw: TypedContractMethod<[], [void], "nonpayable">;
 
-  withdraw(
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+  getFunction(
+    nameOrSignature: "bid"
+  ): TypedContractMethod<[], [void], "payable">;
+  getFunction(
+    nameOrSignature: "highestBid"
+  ): TypedContractMethod<
+    [],
+    [[string, bigint] & { bidder: string; value: bigint }],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "withdraw"
+  ): TypedContractMethod<[], [void], "nonpayable">;
 
-  callStatic: {
-    bid(overrides?: CallOverrides): Promise<void>;
+  getEvent(
+    key: "HighestBidIncreased"
+  ): TypedContractEvent<
+    HighestBidIncreasedEvent.Tuple,
+    HighestBidIncreasedEvent.Object
+  >;
 
-    highestBid(
-      overrides?: CallOverrides
-    ): Promise<[string, BigNumber] & { bidder: string; value: BigNumber }>;
-
-    withdraw(overrides?: CallOverrides): Promise<void>;
-  };
-
+  // TODO change this bucket to events once changed in ethers beta exports
   filters: {
-    "HighestBidIncreased(tuple)"(bid?: null): HighestBidIncreasedEventFilter;
-    HighestBidIncreased(bid?: null): HighestBidIncreasedEventFilter;
-  };
-
-  estimateGas: {
-    bid(
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    highestBid(overrides?: CallOverrides): Promise<BigNumber>;
-
-    withdraw(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-  };
-
-  populateTransaction: {
-    bid(
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    highestBid(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    withdraw(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
+    "HighestBidIncreased(tuple)": TypedContractEvent<
+      HighestBidIncreasedEvent.Tuple,
+      HighestBidIncreasedEvent.Object
+    >;
+    HighestBidIncreased: TypedContractEvent<
+      HighestBidIncreasedEvent.Tuple,
+      HighestBidIncreasedEvent.Object
+    >;
   };
 }

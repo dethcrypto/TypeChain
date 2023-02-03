@@ -2,8 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
-import type { Provider } from "@ethersproject/providers";
+import { Contract, Interface } from "ethers";
+import type { ContractRunner } from "ethers/types/providers";
 import type {
   DataTypesInput,
   DataTypesInputInterface,
@@ -955,12 +955,9 @@ const _abi = [
 export class DataTypesInput__factory {
   static readonly abi = _abi;
   static createInterface(): DataTypesInputInterface {
-    return new utils.Interface(_abi) as DataTypesInputInterface;
+    return new Interface(_abi) as DataTypesInputInterface;
   }
-  static connect(
-    address: string,
-    signerOrProvider: Signer | Provider
-  ): DataTypesInput {
-    return new Contract(address, _abi, signerOrProvider) as DataTypesInput;
+  static connect(address: string, runner: ContractRunner): DataTypesInput {
+    return new Contract(address, _abi, runner) as unknown as DataTypesInput;
   }
 }

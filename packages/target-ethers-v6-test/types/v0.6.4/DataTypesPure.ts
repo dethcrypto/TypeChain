@@ -3,56 +3,38 @@
 /* eslint-disable */
 import type {
   BaseContract,
-  BigNumber,
   BigNumberish,
   BytesLike,
-  CallOverrides,
-  PopulatedTransaction,
-  Signer,
-  utils,
+  FunctionFragment,
+  Result,
+  Interface,
 } from "ethers";
-import type { FunctionFragment, Result } from "@ethersproject/abi";
-import type { Listener, Provider } from "@ethersproject/providers";
+import type { ContractRunner } from "ethers/types/providers";
+
+import type { Listener } from "ethers/src.ts/utils";
 import type {
-  TypedEventFilter,
-  TypedEvent,
+  TypedContractEvent,
+  TypedDeferredTopicFilter,
+  TypedEventLog,
   TypedListener,
-  OnEvent,
-  PromiseOrValue,
+  TypedContractMethod,
 } from "../common";
 
 export declare namespace DataTypesPure {
   export type Struct1Struct = {
-    uint256_0: PromiseOrValue<BigNumberish>;
-    uint256_1: PromiseOrValue<BigNumberish>;
+    uint256_0: BigNumberish;
+    uint256_1: BigNumberish;
   };
 
-  export type Struct1StructOutput = [BigNumber, BigNumber] & {
-    uint256_0: BigNumber;
-    uint256_1: BigNumber;
+  export type Struct1StructOutput = [bigint, bigint] & {
+    uint256_0: bigint;
+    uint256_1: bigint;
   };
 }
 
-export interface DataTypesPureInterface extends utils.Interface {
-  functions: {
-    "pure_address()": FunctionFragment;
-    "pure_bool()": FunctionFragment;
-    "pure_bytes()": FunctionFragment;
-    "pure_bytes1()": FunctionFragment;
-    "pure_enum()": FunctionFragment;
-    "pure_int256()": FunctionFragment;
-    "pure_int8()": FunctionFragment;
-    "pure_named()": FunctionFragment;
-    "pure_stat_array()": FunctionFragment;
-    "pure_string()": FunctionFragment;
-    "pure_struct()": FunctionFragment;
-    "pure_tuple()": FunctionFragment;
-    "pure_uint256()": FunctionFragment;
-    "pure_uint8()": FunctionFragment;
-  };
-
+export interface DataTypesPureInterface extends Interface {
   getFunction(
-    nameOrSignatureOrTopic:
+    nameOrSignature:
       | "pure_address"
       | "pure_bool"
       | "pure_bytes"
@@ -152,205 +134,135 @@ export interface DataTypesPureInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "pure_uint8", data: BytesLike): Result;
-
-  events: {};
 }
 
 export interface DataTypesPure extends BaseContract {
-  connect(signerOrProvider: Signer | Provider | string): this;
+  connect(runner: null | ContractRunner): BaseContract;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
   interface: DataTypesPureInterface;
 
-  queryFilter<TEvent extends TypedEvent>(
-    event: TypedEventFilter<TEvent>,
+  queryFilter<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TEvent>>;
+  ): Promise<Array<TypedEventLog<TCEvent>>>;
+  queryFilter<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    fromBlockOrBlockhash?: string | number | undefined,
+    toBlock?: string | number | undefined
+  ): Promise<Array<TypedEventLog<TCEvent>>>;
 
-  listeners<TEvent extends TypedEvent>(
-    eventFilter?: TypedEventFilter<TEvent>
-  ): Array<TypedListener<TEvent>>;
-  listeners(eventName?: string): Array<Listener>;
-  removeAllListeners<TEvent extends TypedEvent>(
-    eventFilter: TypedEventFilter<TEvent>
-  ): this;
-  removeAllListeners(eventName?: string): this;
-  off: OnEvent<this>;
-  on: OnEvent<this>;
-  once: OnEvent<this>;
-  removeListener: OnEvent<this>;
+  on<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
 
-  functions: {
-    pure_address(overrides?: CallOverrides): Promise<[string]>;
+  once<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
 
-    pure_bool(overrides?: CallOverrides): Promise<[boolean]>;
+  listeners<TCEvent extends TypedContractEvent>(
+    event: TCEvent
+  ): Promise<Array<TypedListener<TCEvent>>>;
+  listeners(eventName?: string): Promise<Array<Listener>>;
+  removeAllListeners<TCEvent extends TypedContractEvent>(
+    event: TCEvent
+  ): Promise<this>;
 
-    pure_bytes(overrides?: CallOverrides): Promise<[string]>;
+  pure_address: TypedContractMethod<[], [string], "view">;
 
-    pure_bytes1(overrides?: CallOverrides): Promise<[string]>;
+  pure_bool: TypedContractMethod<[], [boolean], "view">;
 
-    pure_enum(overrides?: CallOverrides): Promise<[number]>;
+  pure_bytes: TypedContractMethod<[], [string], "view">;
 
-    pure_int256(overrides?: CallOverrides): Promise<[BigNumber]>;
+  pure_bytes1: TypedContractMethod<[], [string], "view">;
 
-    pure_int8(overrides?: CallOverrides): Promise<[number]>;
+  pure_enum: TypedContractMethod<[], [bigint], "view">;
 
-    pure_named(
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber] & { uint256_1: BigNumber; uint256_2: BigNumber }
-    >;
+  pure_int256: TypedContractMethod<[], [bigint], "view">;
 
-    pure_stat_array(
-      overrides?: CallOverrides
-    ): Promise<[[number, number, number]]>;
+  pure_int8: TypedContractMethod<[], [bigint], "view">;
 
-    pure_string(overrides?: CallOverrides): Promise<[string]>;
-
-    pure_struct(
-      overrides?: CallOverrides
-    ): Promise<[DataTypesPure.Struct1StructOutput]>;
-
-    pure_tuple(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
-
-    pure_uint256(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    pure_uint8(overrides?: CallOverrides): Promise<[number]>;
-  };
-
-  pure_address(overrides?: CallOverrides): Promise<string>;
-
-  pure_bool(overrides?: CallOverrides): Promise<boolean>;
-
-  pure_bytes(overrides?: CallOverrides): Promise<string>;
-
-  pure_bytes1(overrides?: CallOverrides): Promise<string>;
-
-  pure_enum(overrides?: CallOverrides): Promise<number>;
-
-  pure_int256(overrides?: CallOverrides): Promise<BigNumber>;
-
-  pure_int8(overrides?: CallOverrides): Promise<number>;
-
-  pure_named(
-    overrides?: CallOverrides
-  ): Promise<
-    [BigNumber, BigNumber] & { uint256_1: BigNumber; uint256_2: BigNumber }
+  pure_named: TypedContractMethod<
+    [],
+    [[bigint, bigint] & { uint256_1: bigint; uint256_2: bigint }],
+    "view"
   >;
 
-  pure_stat_array(overrides?: CallOverrides): Promise<[number, number, number]>;
+  pure_stat_array: TypedContractMethod<[], [[bigint, bigint, bigint]], "view">;
 
-  pure_string(overrides?: CallOverrides): Promise<string>;
+  pure_string: TypedContractMethod<[], [string], "view">;
 
-  pure_struct(
-    overrides?: CallOverrides
-  ): Promise<DataTypesPure.Struct1StructOutput>;
+  pure_struct: TypedContractMethod<
+    [],
+    [DataTypesPure.Struct1StructOutput],
+    "view"
+  >;
 
-  pure_tuple(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
+  pure_tuple: TypedContractMethod<[], [[bigint, bigint]], "view">;
 
-  pure_uint256(overrides?: CallOverrides): Promise<BigNumber>;
+  pure_uint256: TypedContractMethod<[], [bigint], "view">;
 
-  pure_uint8(overrides?: CallOverrides): Promise<number>;
+  pure_uint8: TypedContractMethod<[], [bigint], "view">;
 
-  callStatic: {
-    pure_address(overrides?: CallOverrides): Promise<string>;
+  getFunction(
+    nameOrSignature: "pure_address"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "pure_bool"
+  ): TypedContractMethod<[], [boolean], "view">;
+  getFunction(
+    nameOrSignature: "pure_bytes"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "pure_bytes1"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "pure_enum"
+  ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "pure_int256"
+  ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "pure_int8"
+  ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "pure_named"
+  ): TypedContractMethod<
+    [],
+    [[bigint, bigint] & { uint256_1: bigint; uint256_2: bigint }],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "pure_stat_array"
+  ): TypedContractMethod<[], [[bigint, bigint, bigint]], "view">;
+  getFunction(
+    nameOrSignature: "pure_string"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "pure_struct"
+  ): TypedContractMethod<[], [DataTypesPure.Struct1StructOutput], "view">;
+  getFunction(
+    nameOrSignature: "pure_tuple"
+  ): TypedContractMethod<[], [[bigint, bigint]], "view">;
+  getFunction(
+    nameOrSignature: "pure_uint256"
+  ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "pure_uint8"
+  ): TypedContractMethod<[], [bigint], "view">;
 
-    pure_bool(overrides?: CallOverrides): Promise<boolean>;
-
-    pure_bytes(overrides?: CallOverrides): Promise<string>;
-
-    pure_bytes1(overrides?: CallOverrides): Promise<string>;
-
-    pure_enum(overrides?: CallOverrides): Promise<number>;
-
-    pure_int256(overrides?: CallOverrides): Promise<BigNumber>;
-
-    pure_int8(overrides?: CallOverrides): Promise<number>;
-
-    pure_named(
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber] & { uint256_1: BigNumber; uint256_2: BigNumber }
-    >;
-
-    pure_stat_array(
-      overrides?: CallOverrides
-    ): Promise<[number, number, number]>;
-
-    pure_string(overrides?: CallOverrides): Promise<string>;
-
-    pure_struct(
-      overrides?: CallOverrides
-    ): Promise<DataTypesPure.Struct1StructOutput>;
-
-    pure_tuple(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
-
-    pure_uint256(overrides?: CallOverrides): Promise<BigNumber>;
-
-    pure_uint8(overrides?: CallOverrides): Promise<number>;
-  };
-
+  // TODO change this bucket to events once changed in ethers beta exports
   filters: {};
-
-  estimateGas: {
-    pure_address(overrides?: CallOverrides): Promise<BigNumber>;
-
-    pure_bool(overrides?: CallOverrides): Promise<BigNumber>;
-
-    pure_bytes(overrides?: CallOverrides): Promise<BigNumber>;
-
-    pure_bytes1(overrides?: CallOverrides): Promise<BigNumber>;
-
-    pure_enum(overrides?: CallOverrides): Promise<BigNumber>;
-
-    pure_int256(overrides?: CallOverrides): Promise<BigNumber>;
-
-    pure_int8(overrides?: CallOverrides): Promise<BigNumber>;
-
-    pure_named(overrides?: CallOverrides): Promise<BigNumber>;
-
-    pure_stat_array(overrides?: CallOverrides): Promise<BigNumber>;
-
-    pure_string(overrides?: CallOverrides): Promise<BigNumber>;
-
-    pure_struct(overrides?: CallOverrides): Promise<BigNumber>;
-
-    pure_tuple(overrides?: CallOverrides): Promise<BigNumber>;
-
-    pure_uint256(overrides?: CallOverrides): Promise<BigNumber>;
-
-    pure_uint8(overrides?: CallOverrides): Promise<BigNumber>;
-  };
-
-  populateTransaction: {
-    pure_address(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    pure_bool(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    pure_bytes(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    pure_bytes1(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    pure_enum(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    pure_int256(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    pure_int8(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    pure_named(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    pure_stat_array(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    pure_string(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    pure_struct(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    pure_tuple(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    pure_uint256(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    pure_uint8(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-  };
 }

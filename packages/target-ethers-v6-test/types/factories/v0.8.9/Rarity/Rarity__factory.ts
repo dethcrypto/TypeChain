@@ -2,8 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
-import type { Provider } from "@ethersproject/providers";
+import { Contract, Interface } from "ethers";
+import type { ContractRunner } from "ethers/types/providers";
 import type { Rarity, RarityInterface } from "../../../v0.8.9/Rarity/Rarity";
 
 const _abi = [
@@ -621,9 +621,9 @@ const _abi = [
 export class Rarity__factory {
   static readonly abi = _abi;
   static createInterface(): RarityInterface {
-    return new utils.Interface(_abi) as RarityInterface;
+    return new Interface(_abi) as RarityInterface;
   }
-  static connect(address: string, signerOrProvider: Signer | Provider): Rarity {
-    return new Contract(address, _abi, signerOrProvider) as Rarity;
+  static connect(address: string, runner: ContractRunner): Rarity {
+    return new Contract(address, _abi, runner) as unknown as Rarity;
   }
 }

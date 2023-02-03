@@ -3,56 +3,38 @@
 /* eslint-disable */
 import type {
   BaseContract,
-  BigNumber,
   BigNumberish,
   BytesLike,
-  CallOverrides,
-  PopulatedTransaction,
-  Signer,
-  utils,
+  FunctionFragment,
+  Result,
+  Interface,
 } from "ethers";
-import type { FunctionFragment, Result } from "@ethersproject/abi";
-import type { Listener, Provider } from "@ethersproject/providers";
+import type { ContractRunner } from "ethers/types/providers";
+
+import type { Listener } from "ethers/src.ts/utils";
 import type {
-  TypedEventFilter,
-  TypedEvent,
+  TypedContractEvent,
+  TypedDeferredTopicFilter,
+  TypedEventLog,
   TypedListener,
-  OnEvent,
-  PromiseOrValue,
+  TypedContractMethod,
 } from "../common";
 
 export declare namespace DataTypesView {
   export type Struct1Struct = {
-    uint256_0: PromiseOrValue<BigNumberish>;
-    uint256_1: PromiseOrValue<BigNumberish>;
+    uint256_0: BigNumberish;
+    uint256_1: BigNumberish;
   };
 
-  export type Struct1StructOutput = [BigNumber, BigNumber] & {
-    uint256_0: BigNumber;
-    uint256_1: BigNumber;
+  export type Struct1StructOutput = [bigint, bigint] & {
+    uint256_0: bigint;
+    uint256_1: bigint;
   };
 }
 
-export interface DataTypesViewInterface extends utils.Interface {
-  functions: {
-    "view_address()": FunctionFragment;
-    "view_bool()": FunctionFragment;
-    "view_bytes()": FunctionFragment;
-    "view_bytes1()": FunctionFragment;
-    "view_enum()": FunctionFragment;
-    "view_int256()": FunctionFragment;
-    "view_int8()": FunctionFragment;
-    "view_named()": FunctionFragment;
-    "view_stat_array()": FunctionFragment;
-    "view_string()": FunctionFragment;
-    "view_struct()": FunctionFragment;
-    "view_tuple()": FunctionFragment;
-    "view_uint256()": FunctionFragment;
-    "view_uint8()": FunctionFragment;
-  };
-
+export interface DataTypesViewInterface extends Interface {
   getFunction(
-    nameOrSignatureOrTopic:
+    nameOrSignature:
       | "view_address"
       | "view_bool"
       | "view_bytes"
@@ -152,205 +134,135 @@ export interface DataTypesViewInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "view_uint8", data: BytesLike): Result;
-
-  events: {};
 }
 
 export interface DataTypesView extends BaseContract {
-  connect(signerOrProvider: Signer | Provider | string): this;
+  connect(runner: null | ContractRunner): BaseContract;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
   interface: DataTypesViewInterface;
 
-  queryFilter<TEvent extends TypedEvent>(
-    event: TypedEventFilter<TEvent>,
+  queryFilter<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TEvent>>;
+  ): Promise<Array<TypedEventLog<TCEvent>>>;
+  queryFilter<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    fromBlockOrBlockhash?: string | number | undefined,
+    toBlock?: string | number | undefined
+  ): Promise<Array<TypedEventLog<TCEvent>>>;
 
-  listeners<TEvent extends TypedEvent>(
-    eventFilter?: TypedEventFilter<TEvent>
-  ): Array<TypedListener<TEvent>>;
-  listeners(eventName?: string): Array<Listener>;
-  removeAllListeners<TEvent extends TypedEvent>(
-    eventFilter: TypedEventFilter<TEvent>
-  ): this;
-  removeAllListeners(eventName?: string): this;
-  off: OnEvent<this>;
-  on: OnEvent<this>;
-  once: OnEvent<this>;
-  removeListener: OnEvent<this>;
+  on<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
 
-  functions: {
-    view_address(overrides?: CallOverrides): Promise<[string]>;
+  once<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
 
-    view_bool(overrides?: CallOverrides): Promise<[boolean]>;
+  listeners<TCEvent extends TypedContractEvent>(
+    event: TCEvent
+  ): Promise<Array<TypedListener<TCEvent>>>;
+  listeners(eventName?: string): Promise<Array<Listener>>;
+  removeAllListeners<TCEvent extends TypedContractEvent>(
+    event: TCEvent
+  ): Promise<this>;
 
-    view_bytes(overrides?: CallOverrides): Promise<[string]>;
+  view_address: TypedContractMethod<[], [string], "view">;
 
-    view_bytes1(overrides?: CallOverrides): Promise<[string]>;
+  view_bool: TypedContractMethod<[], [boolean], "view">;
 
-    view_enum(overrides?: CallOverrides): Promise<[number]>;
+  view_bytes: TypedContractMethod<[], [string], "view">;
 
-    view_int256(overrides?: CallOverrides): Promise<[BigNumber]>;
+  view_bytes1: TypedContractMethod<[], [string], "view">;
 
-    view_int8(overrides?: CallOverrides): Promise<[number]>;
+  view_enum: TypedContractMethod<[], [bigint], "view">;
 
-    view_named(
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber] & { uint256_1: BigNumber; uint256_2: BigNumber }
-    >;
+  view_int256: TypedContractMethod<[], [bigint], "view">;
 
-    view_stat_array(
-      overrides?: CallOverrides
-    ): Promise<[[number, number, number]]>;
+  view_int8: TypedContractMethod<[], [bigint], "view">;
 
-    view_string(overrides?: CallOverrides): Promise<[string]>;
-
-    view_struct(
-      overrides?: CallOverrides
-    ): Promise<[DataTypesView.Struct1StructOutput]>;
-
-    view_tuple(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
-
-    view_uint256(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    view_uint8(overrides?: CallOverrides): Promise<[number]>;
-  };
-
-  view_address(overrides?: CallOverrides): Promise<string>;
-
-  view_bool(overrides?: CallOverrides): Promise<boolean>;
-
-  view_bytes(overrides?: CallOverrides): Promise<string>;
-
-  view_bytes1(overrides?: CallOverrides): Promise<string>;
-
-  view_enum(overrides?: CallOverrides): Promise<number>;
-
-  view_int256(overrides?: CallOverrides): Promise<BigNumber>;
-
-  view_int8(overrides?: CallOverrides): Promise<number>;
-
-  view_named(
-    overrides?: CallOverrides
-  ): Promise<
-    [BigNumber, BigNumber] & { uint256_1: BigNumber; uint256_2: BigNumber }
+  view_named: TypedContractMethod<
+    [],
+    [[bigint, bigint] & { uint256_1: bigint; uint256_2: bigint }],
+    "view"
   >;
 
-  view_stat_array(overrides?: CallOverrides): Promise<[number, number, number]>;
+  view_stat_array: TypedContractMethod<[], [[bigint, bigint, bigint]], "view">;
 
-  view_string(overrides?: CallOverrides): Promise<string>;
+  view_string: TypedContractMethod<[], [string], "view">;
 
-  view_struct(
-    overrides?: CallOverrides
-  ): Promise<DataTypesView.Struct1StructOutput>;
+  view_struct: TypedContractMethod<
+    [],
+    [DataTypesView.Struct1StructOutput],
+    "view"
+  >;
 
-  view_tuple(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
+  view_tuple: TypedContractMethod<[], [[bigint, bigint]], "view">;
 
-  view_uint256(overrides?: CallOverrides): Promise<BigNumber>;
+  view_uint256: TypedContractMethod<[], [bigint], "view">;
 
-  view_uint8(overrides?: CallOverrides): Promise<number>;
+  view_uint8: TypedContractMethod<[], [bigint], "view">;
 
-  callStatic: {
-    view_address(overrides?: CallOverrides): Promise<string>;
+  getFunction(
+    nameOrSignature: "view_address"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "view_bool"
+  ): TypedContractMethod<[], [boolean], "view">;
+  getFunction(
+    nameOrSignature: "view_bytes"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "view_bytes1"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "view_enum"
+  ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "view_int256"
+  ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "view_int8"
+  ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "view_named"
+  ): TypedContractMethod<
+    [],
+    [[bigint, bigint] & { uint256_1: bigint; uint256_2: bigint }],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "view_stat_array"
+  ): TypedContractMethod<[], [[bigint, bigint, bigint]], "view">;
+  getFunction(
+    nameOrSignature: "view_string"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "view_struct"
+  ): TypedContractMethod<[], [DataTypesView.Struct1StructOutput], "view">;
+  getFunction(
+    nameOrSignature: "view_tuple"
+  ): TypedContractMethod<[], [[bigint, bigint]], "view">;
+  getFunction(
+    nameOrSignature: "view_uint256"
+  ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "view_uint8"
+  ): TypedContractMethod<[], [bigint], "view">;
 
-    view_bool(overrides?: CallOverrides): Promise<boolean>;
-
-    view_bytes(overrides?: CallOverrides): Promise<string>;
-
-    view_bytes1(overrides?: CallOverrides): Promise<string>;
-
-    view_enum(overrides?: CallOverrides): Promise<number>;
-
-    view_int256(overrides?: CallOverrides): Promise<BigNumber>;
-
-    view_int8(overrides?: CallOverrides): Promise<number>;
-
-    view_named(
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber] & { uint256_1: BigNumber; uint256_2: BigNumber }
-    >;
-
-    view_stat_array(
-      overrides?: CallOverrides
-    ): Promise<[number, number, number]>;
-
-    view_string(overrides?: CallOverrides): Promise<string>;
-
-    view_struct(
-      overrides?: CallOverrides
-    ): Promise<DataTypesView.Struct1StructOutput>;
-
-    view_tuple(overrides?: CallOverrides): Promise<[BigNumber, BigNumber]>;
-
-    view_uint256(overrides?: CallOverrides): Promise<BigNumber>;
-
-    view_uint8(overrides?: CallOverrides): Promise<number>;
-  };
-
+  // TODO change this bucket to events once changed in ethers beta exports
   filters: {};
-
-  estimateGas: {
-    view_address(overrides?: CallOverrides): Promise<BigNumber>;
-
-    view_bool(overrides?: CallOverrides): Promise<BigNumber>;
-
-    view_bytes(overrides?: CallOverrides): Promise<BigNumber>;
-
-    view_bytes1(overrides?: CallOverrides): Promise<BigNumber>;
-
-    view_enum(overrides?: CallOverrides): Promise<BigNumber>;
-
-    view_int256(overrides?: CallOverrides): Promise<BigNumber>;
-
-    view_int8(overrides?: CallOverrides): Promise<BigNumber>;
-
-    view_named(overrides?: CallOverrides): Promise<BigNumber>;
-
-    view_stat_array(overrides?: CallOverrides): Promise<BigNumber>;
-
-    view_string(overrides?: CallOverrides): Promise<BigNumber>;
-
-    view_struct(overrides?: CallOverrides): Promise<BigNumber>;
-
-    view_tuple(overrides?: CallOverrides): Promise<BigNumber>;
-
-    view_uint256(overrides?: CallOverrides): Promise<BigNumber>;
-
-    view_uint8(overrides?: CallOverrides): Promise<BigNumber>;
-  };
-
-  populateTransaction: {
-    view_address(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    view_bool(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    view_bytes(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    view_bytes1(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    view_enum(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    view_int256(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    view_int8(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    view_named(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    view_stat_array(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    view_string(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    view_struct(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    view_tuple(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    view_uint256(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    view_uint8(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-  };
 }

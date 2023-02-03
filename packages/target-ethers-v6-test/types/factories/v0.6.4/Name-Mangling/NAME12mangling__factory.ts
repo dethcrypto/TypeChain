@@ -2,8 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
-import type { Provider } from "@ethersproject/providers";
+import { Contract, Interface } from "ethers";
+import type { ContractRunner } from "ethers/types/providers";
 import type {
   NAME12mangling,
   NAME12manglingInterface,
@@ -41,12 +41,9 @@ const _abi = [
 export class NAME12mangling__factory {
   static readonly abi = _abi;
   static createInterface(): NAME12manglingInterface {
-    return new utils.Interface(_abi) as NAME12manglingInterface;
+    return new Interface(_abi) as NAME12manglingInterface;
   }
-  static connect(
-    address: string,
-    signerOrProvider: Signer | Provider
-  ): NAME12mangling {
-    return new Contract(address, _abi, signerOrProvider) as NAME12mangling;
+  static connect(address: string, runner: ContractRunner): NAME12mangling {
+    return new Contract(address, _abi, runner) as unknown as NAME12mangling;
   }
 }

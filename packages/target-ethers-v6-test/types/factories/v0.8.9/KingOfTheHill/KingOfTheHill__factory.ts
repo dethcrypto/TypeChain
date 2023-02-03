@@ -2,8 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
-import type { Provider } from "@ethersproject/providers";
+import { Contract, Interface } from "ethers";
+import type { ContractRunner } from "ethers/types/providers";
 import type {
   KingOfTheHill,
   KingOfTheHillInterface,
@@ -93,12 +93,9 @@ const _abi = [
 export class KingOfTheHill__factory {
   static readonly abi = _abi;
   static createInterface(): KingOfTheHillInterface {
-    return new utils.Interface(_abi) as KingOfTheHillInterface;
+    return new Interface(_abi) as KingOfTheHillInterface;
   }
-  static connect(
-    address: string,
-    signerOrProvider: Signer | Provider
-  ): KingOfTheHill {
-    return new Contract(address, _abi, signerOrProvider) as KingOfTheHill;
+  static connect(address: string, runner: ContractRunner): KingOfTheHill {
+    return new Contract(address, _abi, runner) as unknown as KingOfTheHill;
   }
 }

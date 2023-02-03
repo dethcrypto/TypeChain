@@ -5,44 +5,37 @@ import type {
   BaseContract,
   BigNumberish,
   BytesLike,
-  Interface, FunctionFragment, Result,
+  FunctionFragment,
+  Result,
+  Interface,
 } from "ethers";
-import type { ContractRunner,TransactionRequest,  } from "ethers/types/providers";
-import type { ContractMethod, ContractEvent, EventLog  } from "ethers/types/contract";
+import type { ContractRunner } from "ethers/types/providers";
+
 import type { Listener } from "ethers/src.ts/utils";
 import type {
-  TypedEventFilter,
-  TypedEvent,
+  TypedContractEvent,
+  TypedDeferredTopicFilter,
+  TypedEventLog,
   TypedListener,
-  OnEvent,
-  PromiseOrValue,
+  TypedContractMethod,
 } from "../common";
 
 export declare namespace StructsLib1 {
-  export type InfoStruct = {
-    a: PromiseOrValue<BigNumberish>;
-    b: PromiseOrValue<BigNumberish>;
-  };
+  export type InfoStruct = { a: BigNumberish; b: BigNumberish };
 
-  export type InfoStructOutput = [bigint, bigint] & {
-    a: bigint;
-    b: bigint;
-  };
+  export type InfoStructOutput = [bigint, bigint] & { a: bigint; b: bigint };
 }
 
 export declare namespace StructsLib2 {
-  export type InfoStruct = {
-    a: PromiseOrValue<string>;
-    b: PromiseOrValue<string>;
-  };
+  export type InfoStruct = { a: string; b: string };
 
   export type InfoStructOutput = [string, string] & { a: string; b: string };
 }
 
 export declare namespace DataTypesInput {
   export type Struct1Struct = {
-    uint256_0: PromiseOrValue<BigNumberish>;
-    uint256_1: PromiseOrValue<BigNumberish>;
+    uint256_0: BigNumberish;
+    uint256_1: BigNumberish;
   };
 
   export type Struct1StructOutput = [bigint, bigint] & {
@@ -51,7 +44,7 @@ export declare namespace DataTypesInput {
   };
 
   export type Struct2Struct = {
-    input1: PromiseOrValue<BigNumberish>;
+    input1: BigNumberish;
     input2: DataTypesInput.Struct1Struct;
   };
 
@@ -60,45 +53,14 @@ export declare namespace DataTypesInput {
     DataTypesInput.Struct1StructOutput
   ] & { input1: bigint; input2: DataTypesInput.Struct1StructOutput };
 
-  export type Struct3Struct = { input1: PromiseOrValue<BigNumberish>[] };
+  export type Struct3Struct = { input1: BigNumberish[] };
 
   export type Struct3StructOutput = [bigint[]] & { input1: bigint[] };
 }
 
 export interface DataTypesInputInterface extends Interface {
-  functions: {
-    "input_address(address)": FunctionFragment;
-    "input_bool(bool)": FunctionFragment;
-    "input_bytes(bytes)": FunctionFragment;
-    "input_bytes1(bytes1)": FunctionFragment;
-    "input_enum(uint8)": FunctionFragment;
-    "input_fixedarray_array_fixedarray(uint8[3][][4])": FunctionFragment;
-    "input_int256(int256)": FunctionFragment;
-    "input_int8(int8)": FunctionFragment;
-    "input_multiple_structs_with_same_name((uint160,uint160))": FunctionFragment;
-    "input_stat_array(uint8[3])": FunctionFragment;
-    "input_string(string)": FunctionFragment;
-    "input_struct((uint256,uint256))": FunctionFragment;
-    "input_struct2((uint256,(uint256,uint256)))": FunctionFragment;
-    "input_struct2_array((uint256,(uint256,uint256))[])": FunctionFragment;
-    "input_struct2_tuple(tuple[3])": FunctionFragment;
-    "input_struct3_array((uint256[])[])": FunctionFragment;
-    "input_struct_array((uint256,uint256)[])": FunctionFragment;
-    "input_struct_array_array(tuple[][])": FunctionFragment;
-    "input_struct_array_array_array(tuple[][][])": FunctionFragment;
-    "input_struct_array_fixedarray(tuple[][2])": FunctionFragment;
-    "input_struct_fixedarray_array(tuple[2][])": FunctionFragment;
-    "input_struct_fixedarray_array_fixedarray(tuple[2][][3])": FunctionFragment;
-    "input_struct_fixedarray_array_fixedarray_array_fixedarray(tuple[2][][3][][4])": FunctionFragment;
-    "input_struct_fixedarray_fixedarray(tuple[2][3])": FunctionFragment;
-    "input_tuple(uint256,uint256)": FunctionFragment;
-    "input_uint256(uint256)": FunctionFragment;
-    "input_uint8(uint8)": FunctionFragment;
-    "input_uint_array(uint256[])": FunctionFragment;
-  };
-
   getFunction(
-    nameOrSignatureOrTopic:
+    nameOrSignature:
       | "input_address"
       | "input_bool"
       | "input_bytes"
@@ -131,58 +93,39 @@ export interface DataTypesInputInterface extends Interface {
 
   encodeFunctionData(
     functionFragment: "input_address",
-    values: [PromiseOrValue<string>]
+    values: [string]
   ): string;
-  encodeFunctionData(
-    functionFragment: "input_bool",
-    values: [PromiseOrValue<boolean>]
-  ): string;
+  encodeFunctionData(functionFragment: "input_bool", values: [boolean]): string;
   encodeFunctionData(
     functionFragment: "input_bytes",
-    values: [PromiseOrValue<BytesLike>]
+    values: [BytesLike]
   ): string;
   encodeFunctionData(
     functionFragment: "input_bytes1",
-    values: [PromiseOrValue<BytesLike>]
+    values: [BytesLike]
   ): string;
   encodeFunctionData(
     functionFragment: "input_enum",
-    values: [PromiseOrValue<BigNumberish>]
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "input_fixedarray_array_fixedarray",
     values: [
       [
-        [
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>
-        ][],
-        [
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>
-        ][],
-        [
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>
-        ][],
-        [
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>
-        ][]
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][]
       ]
     ]
   ): string;
   encodeFunctionData(
     functionFragment: "input_int256",
-    values: [PromiseOrValue<BigNumberish>]
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "input_int8",
-    values: [PromiseOrValue<BigNumberish>]
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "input_multiple_structs_with_same_name",
@@ -190,17 +133,11 @@ export interface DataTypesInputInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "input_stat_array",
-    values: [
-      [
-        PromiseOrValue<BigNumberish>,
-        PromiseOrValue<BigNumberish>,
-        PromiseOrValue<BigNumberish>
-      ]
-    ]
+    values: [[BigNumberish, BigNumberish, BigNumberish]]
   ): string;
   encodeFunctionData(
     functionFragment: "input_string",
-    values: [PromiseOrValue<string>]
+    values: [string]
   ): string;
   encodeFunctionData(
     functionFragment: "input_struct",
@@ -297,19 +234,19 @@ export interface DataTypesInputInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "input_tuple",
-    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
+    values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "input_uint256",
-    values: [PromiseOrValue<BigNumberish>]
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "input_uint8",
-    values: [PromiseOrValue<BigNumberish>]
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "input_uint_array",
-    values: [PromiseOrValue<BigNumberish>[]]
+    values: [BigNumberish[]]
   ): string;
 
   decodeFunctionResult(
@@ -415,8 +352,6 @@ export interface DataTypesInputInterface extends Interface {
     functionFragment: "input_uint_array",
     data: BytesLike
   ): Result;
-
-  events: {};
 }
 
 export interface DataTypesInput extends BaseContract {
@@ -426,478 +361,179 @@ export interface DataTypesInput extends BaseContract {
 
   interface: DataTypesInputInterface;
 
-  queryFilter<TEventArgs extends Array<any>>(
-    event: ContractEvent<TEventArgs>, // TODO add args
+  queryFilter<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<EventLog>>;
+  ): Promise<Array<TypedEventLog<TCEvent>>>;
+  queryFilter<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    fromBlockOrBlockhash?: string | number | undefined,
+    toBlock?: string | number | undefined
+  ): Promise<Array<TypedEventLog<TCEvent>>>;
 
-  listeners<TEventArgs extends Array<any>>(
-    eventFilter?: ContractEvent<TEventArgs>, // TODO add args
-  ): Listener; // TODO add args
-  listeners(): Promise<Array<Listener>>;
-  removeAllListeners<TEventArgs extends Array<any>>(
-    eventFilter: ContractEvent<TEventArgs>, // TODO add args
+  on<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
+    listener: TypedListener<TCEvent>
   ): Promise<this>;
-  removeAllListeners(eventName?: string): this;
-  off: <TEventArgs extends Array<any>>(event: ContractEvent<TEventArgs>, listener: Listener) => Promise<this>;
-  on: <TEventArgs extends Array<any>>(event: ContractEvent<TEventArgs>, listener: Listener) => Promise<this>;
-  once: <TEventArgs extends Array<any>>(event: ContractEvent<TEventArgs>, listener: Listener) => Promise<this>;
-  removeListener: <TEventArgs extends Array<any>>(event: ContractEvent<TEventArgs>, listener: Listener) => Promise<this>;
+  on<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
 
-  input_address: ContractMethod<[input1: PromiseOrValue<string>], [string]>;
+  once<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
 
-  input_bool(
-    input1: PromiseOrValue<boolean>,
-    overrides?: TransactionRequest
-  ): Promise<boolean>;
+  listeners<TCEvent extends TypedContractEvent>(
+    event: TCEvent
+  ): Promise<Array<TypedListener<TCEvent>>>;
+  listeners(eventName?: string): Promise<Array<Listener>>;
+  removeAllListeners<TCEvent extends TypedContractEvent>(
+    event: TCEvent
+  ): Promise<this>;
 
-  input_bytes(
-    input1: PromiseOrValue<BytesLike>,
-    overrides?: TransactionRequest
-  ): Promise<string>;
+  input_address: TypedContractMethod<[input1: string], [string], "view">;
 
-  input_bytes1(
-    input1: PromiseOrValue<BytesLike>,
-    overrides?: TransactionRequest
-  ): Promise<string>;
+  input_bool: TypedContractMethod<[input1: boolean], [boolean], "view">;
 
-  input_enum(
-    input1: PromiseOrValue<BigNumberish>,
-    overrides?: TransactionRequest
-  ): Promise<number>;
+  input_bytes: TypedContractMethod<[input1: BytesLike], [string], "view">;
 
-  input_fixedarray_array_fixedarray(
-    input1: [
-      [
-        PromiseOrValue<BigNumberish>,
-        PromiseOrValue<BigNumberish>,
-        PromiseOrValue<BigNumberish>
-      ][],
-      [
-        PromiseOrValue<BigNumberish>,
-        PromiseOrValue<BigNumberish>,
-        PromiseOrValue<BigNumberish>
-      ][],
-      [
-        PromiseOrValue<BigNumberish>,
-        PromiseOrValue<BigNumberish>,
-        PromiseOrValue<BigNumberish>
-      ][],
-      [
-        PromiseOrValue<BigNumberish>,
-        PromiseOrValue<BigNumberish>,
-        PromiseOrValue<BigNumberish>
-      ][]
-    ],
-    overrides?: TransactionRequest
-  ): Promise<
+  input_bytes1: TypedContractMethod<[input1: BytesLike], [string], "view">;
+
+  input_enum: TypedContractMethod<[input1: BigNumberish], [bigint], "view">;
+
+  input_fixedarray_array_fixedarray: TypedContractMethod<
     [
-      [number, number, number][],
-      [number, number, number][],
-      [number, number, number][],
-      [number, number, number][]
-    ]
-  >;
-
-  input_int256(
-    input1: PromiseOrValue<BigNumberish>,
-    overrides?: TransactionRequest
-  ): Promise<bigint>;
-
-  input_int8(
-    input1: PromiseOrValue<BigNumberish>,
-    overrides?: TransactionRequest
-  ): Promise<number>;
-
-  input_multiple_structs_with_same_name(
-    info1: StructsLib1.InfoStruct,
-    overrides?: TransactionRequest
-  ): Promise<StructsLib2.InfoStructOutput>;
-
-  input_stat_array(
-    input1: [
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>
-    ],
-    overrides?: TransactionRequest
-  ): Promise<[number, number, number]>;
-
-  input_string(
-    input1: PromiseOrValue<string>,
-    overrides?: TransactionRequest
-  ): Promise<string>;
-
-  input_struct(
-    input1: DataTypesInput.Struct1Struct,
-    overrides?: TransactionRequest
-  ): Promise<DataTypesInput.Struct1StructOutput>;
-
-  input_struct2(
-    input1: DataTypesInput.Struct2Struct,
-    overrides?: TransactionRequest
-  ): Promise<DataTypesInput.Struct2StructOutput>;
-
-  input_struct2_array(
-    input1: DataTypesInput.Struct2Struct[],
-    overrides?: TransactionRequest
-  ): Promise<DataTypesInput.Struct2StructOutput[]>;
-
-  input_struct2_tuple(
-    input: [
-      DataTypesInput.Struct2Struct,
-      DataTypesInput.Struct2Struct,
-      DataTypesInput.Struct2Struct
-    ],
-    overrides?: TransactionRequest
-  ): Promise<
-    [
-      DataTypesInput.Struct2StructOutput,
-      DataTypesInput.Struct2StructOutput,
-      DataTypesInput.Struct2StructOutput
-    ]
-  >;
-
-  input_struct3_array(
-    input1: DataTypesInput.Struct3Struct[],
-    overrides?: TransactionRequest
-  ): Promise<DataTypesInput.Struct3StructOutput[]>;
-
-  input_struct_array(
-    input1: DataTypesInput.Struct1Struct[],
-    overrides?: TransactionRequest
-  ): Promise<DataTypesInput.Struct1StructOutput[]>;
-
-  input_struct_array_array(
-    input1: DataTypesInput.Struct1Struct[][],
-    overrides?: TransactionRequest
-  ): Promise<DataTypesInput.Struct1StructOutput[][]>;
-
-  input_struct_array_array_array(
-    input1: DataTypesInput.Struct1Struct[][][],
-    overrides?: TransactionRequest
-  ): Promise<DataTypesInput.Struct1StructOutput[][][]>;
-
-  input_struct_array_fixedarray(
-    input1: [DataTypesInput.Struct1Struct[], DataTypesInput.Struct1Struct[]],
-    overrides?: TransactionRequest
-  ): Promise<
-    [DataTypesInput.Struct1StructOutput[], DataTypesInput.Struct1StructOutput[]]
-  >;
-
-  input_struct_fixedarray_array(
-    input1: [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-    overrides?: TransactionRequest
-  ): Promise<
-    [DataTypesInput.Struct1StructOutput, DataTypesInput.Struct1StructOutput][]
-  >;
-
-  input_struct_fixedarray_array_fixedarray(
-    input1: [
-      [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-      [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-      [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
-    ],
-    overrides?: TransactionRequest
-  ): Promise<
-    [
-      [
-        DataTypesInput.Struct1StructOutput,
-        DataTypesInput.Struct1StructOutput
-      ][],
-      [
-        DataTypesInput.Struct1StructOutput,
-        DataTypesInput.Struct1StructOutput
-      ][],
-      [DataTypesInput.Struct1StructOutput, DataTypesInput.Struct1StructOutput][]
-    ]
-  >;
-
-  input_struct_fixedarray_array_fixedarray_array_fixedarray(
-    input1: [
-      [
-        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
-      ][],
-      [
-        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
-      ][],
-      [
-        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
-      ][],
-      [
-        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
-      ][]
-    ],
-    overrides?: TransactionRequest
-  ): Promise<
-    [
-      [
-        [
-          DataTypesInput.Struct1StructOutput,
-          DataTypesInput.Struct1StructOutput
-        ][],
-        [
-          DataTypesInput.Struct1StructOutput,
-          DataTypesInput.Struct1StructOutput
-        ][],
-        [
-          DataTypesInput.Struct1StructOutput,
-          DataTypesInput.Struct1StructOutput
-        ][]
-      ][],
-      [
-        [
-          DataTypesInput.Struct1StructOutput,
-          DataTypesInput.Struct1StructOutput
-        ][],
-        [
-          DataTypesInput.Struct1StructOutput,
-          DataTypesInput.Struct1StructOutput
-        ][],
-        [
-          DataTypesInput.Struct1StructOutput,
-          DataTypesInput.Struct1StructOutput
-        ][]
-      ][],
-      [
-        [
-          DataTypesInput.Struct1StructOutput,
-          DataTypesInput.Struct1StructOutput
-        ][],
-        [
-          DataTypesInput.Struct1StructOutput,
-          DataTypesInput.Struct1StructOutput
-        ][],
-        [
-          DataTypesInput.Struct1StructOutput,
-          DataTypesInput.Struct1StructOutput
-        ][]
-      ][],
-      [
-        [
-          DataTypesInput.Struct1StructOutput,
-          DataTypesInput.Struct1StructOutput
-        ][],
-        [
-          DataTypesInput.Struct1StructOutput,
-          DataTypesInput.Struct1StructOutput
-        ][],
-        [
-          DataTypesInput.Struct1StructOutput,
-          DataTypesInput.Struct1StructOutput
-        ][]
-      ][]
-    ]
-  >;
-
-  input_struct_fixedarray_fixedarray(
-    input1: [
-      [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
-      [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
-      [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct]
-    ],
-    overrides?: TransactionRequest
-  ): Promise<
-    [
-      [DataTypesInput.Struct1StructOutput, DataTypesInput.Struct1StructOutput],
-      [DataTypesInput.Struct1StructOutput, DataTypesInput.Struct1StructOutput],
-      [DataTypesInput.Struct1StructOutput, DataTypesInput.Struct1StructOutput]
-    ]
-  >;
-
-  input_tuple(
-    input1: PromiseOrValue<BigNumberish>,
-    input2: PromiseOrValue<BigNumberish>,
-    overrides?: TransactionRequest
-  ): Promise<[bigint, bigint]>;
-
-  input_uint256(
-    input1: PromiseOrValue<BigNumberish>,
-    overrides?: TransactionRequest
-  ): Promise<bigint>;
-
-  input_uint8(
-    input1: PromiseOrValue<BigNumberish>,
-    overrides?: TransactionRequest
-  ): Promise<number>;
-
-  input_uint_array(
-    input1: PromiseOrValue<BigNumberish>[],
-    overrides?: TransactionRequest
-  ): Promise<bigint[]>;
-
-  callStatic: {
-    input_address(
-      input1: PromiseOrValue<string>,
-      overrides?: TransactionRequest
-    ): Promise<string>;
-
-    input_bool(
-      input1: PromiseOrValue<boolean>,
-      overrides?: TransactionRequest
-    ): Promise<boolean>;
-
-    input_bytes(
-      input1: PromiseOrValue<BytesLike>,
-      overrides?: TransactionRequest
-    ): Promise<string>;
-
-    input_bytes1(
-      input1: PromiseOrValue<BytesLike>,
-      overrides?: TransactionRequest
-    ): Promise<string>;
-
-    input_enum(
-      input1: PromiseOrValue<BigNumberish>,
-      overrides?: TransactionRequest
-    ): Promise<number>;
-
-    input_fixedarray_array_fixedarray(
       input1: [
-        [
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>
-        ][],
-        [
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>
-        ][],
-        [
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>
-        ][],
-        [
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>,
-          PromiseOrValue<BigNumberish>
-        ][]
-      ],
-      overrides?: TransactionRequest
-    ): Promise<
-      [
-        [number, number, number][],
-        [number, number, number][],
-        [number, number, number][],
-        [number, number, number][]
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][]
       ]
-    >;
+    ],
+    [
+      [
+        [bigint, bigint, bigint][],
+        [bigint, bigint, bigint][],
+        [bigint, bigint, bigint][],
+        [bigint, bigint, bigint][]
+      ]
+    ],
+    "view"
+  >;
 
-    input_int256(
-      input1: PromiseOrValue<BigNumberish>,
-      overrides?: TransactionRequest
-    ): Promise<bigint>;
+  input_int256: TypedContractMethod<[input1: BigNumberish], [bigint], "view">;
 
-    input_int8(
-      input1: PromiseOrValue<BigNumberish>,
-      overrides?: TransactionRequest
-    ): Promise<number>;
+  input_int8: TypedContractMethod<[input1: BigNumberish], [bigint], "view">;
 
-    input_multiple_structs_with_same_name(
-      info1: StructsLib1.InfoStruct,
-      overrides?: TransactionRequest
-    ): Promise<StructsLib2.InfoStructOutput>;
+  input_multiple_structs_with_same_name: TypedContractMethod<
+    [info1: StructsLib1.InfoStruct],
+    [StructsLib2.InfoStructOutput],
+    "view"
+  >;
 
-    input_stat_array(
-      input1: [
-        PromiseOrValue<BigNumberish>,
-        PromiseOrValue<BigNumberish>,
-        PromiseOrValue<BigNumberish>
-      ],
-      overrides?: TransactionRequest
-    ): Promise<[number, number, number]>;
+  input_stat_array: TypedContractMethod<
+    [input1: [BigNumberish, BigNumberish, BigNumberish]],
+    [[bigint, bigint, bigint]],
+    "view"
+  >;
 
-    input_string(
-      input1: PromiseOrValue<string>,
-      overrides?: TransactionRequest
-    ): Promise<string>;
+  input_string: TypedContractMethod<[input1: string], [string], "view">;
 
-    input_struct(
-      input1: DataTypesInput.Struct1Struct,
-      overrides?: TransactionRequest
-    ): Promise<DataTypesInput.Struct1StructOutput>;
+  input_struct: TypedContractMethod<
+    [input1: DataTypesInput.Struct1Struct],
+    [DataTypesInput.Struct1StructOutput],
+    "view"
+  >;
 
-    input_struct2(
-      input1: DataTypesInput.Struct2Struct,
-      overrides?: TransactionRequest
-    ): Promise<DataTypesInput.Struct2StructOutput>;
+  input_struct2: TypedContractMethod<
+    [input1: DataTypesInput.Struct2Struct],
+    [DataTypesInput.Struct2StructOutput],
+    "view"
+  >;
 
-    input_struct2_array(
-      input1: DataTypesInput.Struct2Struct[],
-      overrides?: TransactionRequest
-    ): Promise<DataTypesInput.Struct2StructOutput[]>;
+  input_struct2_array: TypedContractMethod<
+    [input1: DataTypesInput.Struct2Struct[]],
+    [DataTypesInput.Struct2StructOutput[]],
+    "view"
+  >;
 
-    input_struct2_tuple(
+  input_struct2_tuple: TypedContractMethod<
+    [
       input: [
         DataTypesInput.Struct2Struct,
         DataTypesInput.Struct2Struct,
         DataTypesInput.Struct2Struct
-      ],
-      overrides?: TransactionRequest
-    ): Promise<
+      ]
+    ],
+    [
       [
         DataTypesInput.Struct2StructOutput,
         DataTypesInput.Struct2StructOutput,
         DataTypesInput.Struct2StructOutput
       ]
-    >;
+    ],
+    "view"
+  >;
 
-    input_struct3_array(
-      input1: DataTypesInput.Struct3Struct[],
-      overrides?: TransactionRequest
-    ): Promise<DataTypesInput.Struct3StructOutput[]>;
+  input_struct3_array: TypedContractMethod<
+    [input1: DataTypesInput.Struct3Struct[]],
+    [DataTypesInput.Struct3StructOutput[]],
+    "view"
+  >;
 
-    input_struct_array(
-      input1: DataTypesInput.Struct1Struct[],
-      overrides?: TransactionRequest
-    ): Promise<DataTypesInput.Struct1StructOutput[]>;
+  input_struct_array: TypedContractMethod<
+    [input1: DataTypesInput.Struct1Struct[]],
+    [DataTypesInput.Struct1StructOutput[]],
+    "view"
+  >;
 
-    input_struct_array_array(
-      input1: DataTypesInput.Struct1Struct[][],
-      overrides?: TransactionRequest
-    ): Promise<DataTypesInput.Struct1StructOutput[][]>;
+  input_struct_array_array: TypedContractMethod<
+    [input1: DataTypesInput.Struct1Struct[][]],
+    [DataTypesInput.Struct1StructOutput[][]],
+    "view"
+  >;
 
-    input_struct_array_array_array(
-      input1: DataTypesInput.Struct1Struct[][][],
-      overrides?: TransactionRequest
-    ): Promise<DataTypesInput.Struct1StructOutput[][][]>;
+  input_struct_array_array_array: TypedContractMethod<
+    [input1: DataTypesInput.Struct1Struct[][][]],
+    [DataTypesInput.Struct1StructOutput[][][]],
+    "view"
+  >;
 
-    input_struct_array_fixedarray(
-      input1: [DataTypesInput.Struct1Struct[], DataTypesInput.Struct1Struct[]],
-      overrides?: TransactionRequest
-    ): Promise<
+  input_struct_array_fixedarray: TypedContractMethod<
+    [input1: [DataTypesInput.Struct1Struct[], DataTypesInput.Struct1Struct[]]],
+    [
       [
         DataTypesInput.Struct1StructOutput[],
         DataTypesInput.Struct1StructOutput[]
       ]
-    >;
+    ],
+    "view"
+  >;
 
-    input_struct_fixedarray_array(
-      input1: [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
-      overrides?: TransactionRequest
-    ): Promise<
+  input_struct_fixedarray_array: TypedContractMethod<
+    [input1: [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]],
+    [
       [DataTypesInput.Struct1StructOutput, DataTypesInput.Struct1StructOutput][]
-    >;
+    ],
+    "view"
+  >;
 
-    input_struct_fixedarray_array_fixedarray(
+  input_struct_fixedarray_array_fixedarray: TypedContractMethod<
+    [
       input1: [
         [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
         [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
         [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
-      ],
-      overrides?: TransactionRequest
-    ): Promise<
+      ]
+    ],
+    [
       [
         [
           DataTypesInput.Struct1StructOutput,
@@ -912,9 +548,12 @@ export interface DataTypesInput extends BaseContract {
           DataTypesInput.Struct1StructOutput
         ][]
       ]
-    >;
+    ],
+    "view"
+  >;
 
-    input_struct_fixedarray_array_fixedarray_array_fixedarray(
+  input_struct_fixedarray_array_fixedarray_array_fixedarray: TypedContractMethod<
+    [
       input1: [
         [
           [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
@@ -936,9 +575,9 @@ export interface DataTypesInput extends BaseContract {
           [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
           [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
         ][]
-      ],
-      overrides?: TransactionRequest
-    ): Promise<
+      ]
+    ],
+    [
       [
         [
           [
@@ -997,16 +636,19 @@ export interface DataTypesInput extends BaseContract {
           ][]
         ][]
       ]
-    >;
+    ],
+    "view"
+  >;
 
-    input_struct_fixedarray_fixedarray(
+  input_struct_fixedarray_fixedarray: TypedContractMethod<
+    [
       input1: [
         [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
         [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
         [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct]
-      ],
-      overrides?: TransactionRequest
-    ): Promise<
+      ]
+    ],
+    [
       [
         [
           DataTypesInput.Struct1StructOutput,
@@ -1018,29 +660,333 @@ export interface DataTypesInput extends BaseContract {
         ],
         [DataTypesInput.Struct1StructOutput, DataTypesInput.Struct1StructOutput]
       ]
-    >;
+    ],
+    "view"
+  >;
 
-    input_tuple(
-      input1: PromiseOrValue<BigNumberish>,
-      input2: PromiseOrValue<BigNumberish>,
-      overrides?: TransactionRequest
-    ): Promise<[bigint, bigint]>;
+  input_tuple: TypedContractMethod<
+    [input1: BigNumberish, input2: BigNumberish],
+    [[bigint, bigint]],
+    "view"
+  >;
 
-    input_uint256(
-      input1: PromiseOrValue<BigNumberish>,
-      overrides?: TransactionRequest
-    ): Promise<bigint>;
+  input_uint256: TypedContractMethod<[input1: BigNumberish], [bigint], "view">;
 
-    input_uint8(
-      input1: PromiseOrValue<BigNumberish>,
-      overrides?: TransactionRequest
-    ): Promise<number>;
+  input_uint8: TypedContractMethod<[input1: BigNumberish], [bigint], "view">;
 
-    input_uint_array(
-      input1: PromiseOrValue<BigNumberish>[],
-      overrides?: TransactionRequest
-    ): Promise<bigint[]>;
-  };
+  input_uint_array: TypedContractMethod<
+    [input1: BigNumberish[]],
+    [bigint[]],
+    "view"
+  >;
 
+  getFunction(
+    nameOrSignature: "input_address"
+  ): TypedContractMethod<[input1: string], [string], "view">;
+  getFunction(
+    nameOrSignature: "input_bool"
+  ): TypedContractMethod<[input1: boolean], [boolean], "view">;
+  getFunction(
+    nameOrSignature: "input_bytes"
+  ): TypedContractMethod<[input1: BytesLike], [string], "view">;
+  getFunction(
+    nameOrSignature: "input_bytes1"
+  ): TypedContractMethod<[input1: BytesLike], [string], "view">;
+  getFunction(
+    nameOrSignature: "input_enum"
+  ): TypedContractMethod<[input1: BigNumberish], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "input_fixedarray_array_fixedarray"
+  ): TypedContractMethod<
+    [
+      input1: [
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][],
+        [BigNumberish, BigNumberish, BigNumberish][]
+      ]
+    ],
+    [
+      [
+        [bigint, bigint, bigint][],
+        [bigint, bigint, bigint][],
+        [bigint, bigint, bigint][],
+        [bigint, bigint, bigint][]
+      ]
+    ],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "input_int256"
+  ): TypedContractMethod<[input1: BigNumberish], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "input_int8"
+  ): TypedContractMethod<[input1: BigNumberish], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "input_multiple_structs_with_same_name"
+  ): TypedContractMethod<
+    [info1: StructsLib1.InfoStruct],
+    [StructsLib2.InfoStructOutput],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "input_stat_array"
+  ): TypedContractMethod<
+    [input1: [BigNumberish, BigNumberish, BigNumberish]],
+    [[bigint, bigint, bigint]],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "input_string"
+  ): TypedContractMethod<[input1: string], [string], "view">;
+  getFunction(
+    nameOrSignature: "input_struct"
+  ): TypedContractMethod<
+    [input1: DataTypesInput.Struct1Struct],
+    [DataTypesInput.Struct1StructOutput],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "input_struct2"
+  ): TypedContractMethod<
+    [input1: DataTypesInput.Struct2Struct],
+    [DataTypesInput.Struct2StructOutput],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "input_struct2_array"
+  ): TypedContractMethod<
+    [input1: DataTypesInput.Struct2Struct[]],
+    [DataTypesInput.Struct2StructOutput[]],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "input_struct2_tuple"
+  ): TypedContractMethod<
+    [
+      input: [
+        DataTypesInput.Struct2Struct,
+        DataTypesInput.Struct2Struct,
+        DataTypesInput.Struct2Struct
+      ]
+    ],
+    [
+      [
+        DataTypesInput.Struct2StructOutput,
+        DataTypesInput.Struct2StructOutput,
+        DataTypesInput.Struct2StructOutput
+      ]
+    ],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "input_struct3_array"
+  ): TypedContractMethod<
+    [input1: DataTypesInput.Struct3Struct[]],
+    [DataTypesInput.Struct3StructOutput[]],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "input_struct_array"
+  ): TypedContractMethod<
+    [input1: DataTypesInput.Struct1Struct[]],
+    [DataTypesInput.Struct1StructOutput[]],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "input_struct_array_array"
+  ): TypedContractMethod<
+    [input1: DataTypesInput.Struct1Struct[][]],
+    [DataTypesInput.Struct1StructOutput[][]],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "input_struct_array_array_array"
+  ): TypedContractMethod<
+    [input1: DataTypesInput.Struct1Struct[][][]],
+    [DataTypesInput.Struct1StructOutput[][][]],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "input_struct_array_fixedarray"
+  ): TypedContractMethod<
+    [input1: [DataTypesInput.Struct1Struct[], DataTypesInput.Struct1Struct[]]],
+    [
+      [
+        DataTypesInput.Struct1StructOutput[],
+        DataTypesInput.Struct1StructOutput[]
+      ]
+    ],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "input_struct_fixedarray_array"
+  ): TypedContractMethod<
+    [input1: [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]],
+    [
+      [DataTypesInput.Struct1StructOutput, DataTypesInput.Struct1StructOutput][]
+    ],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "input_struct_fixedarray_array_fixedarray"
+  ): TypedContractMethod<
+    [
+      input1: [
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+      ]
+    ],
+    [
+      [
+        [
+          DataTypesInput.Struct1StructOutput,
+          DataTypesInput.Struct1StructOutput
+        ][],
+        [
+          DataTypesInput.Struct1StructOutput,
+          DataTypesInput.Struct1StructOutput
+        ][],
+        [
+          DataTypesInput.Struct1StructOutput,
+          DataTypesInput.Struct1StructOutput
+        ][]
+      ]
+    ],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "input_struct_fixedarray_array_fixedarray_array_fixedarray"
+  ): TypedContractMethod<
+    [
+      input1: [
+        [
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+        ][],
+        [
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+        ][],
+        [
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+        ][],
+        [
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+        ][]
+      ]
+    ],
+    [
+      [
+        [
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][],
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][],
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][]
+        ][],
+        [
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][],
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][],
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][]
+        ][],
+        [
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][],
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][],
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][]
+        ][],
+        [
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][],
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][],
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][]
+        ][]
+      ]
+    ],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "input_struct_fixedarray_fixedarray"
+  ): TypedContractMethod<
+    [
+      input1: [
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct]
+      ]
+    ],
+    [
+      [
+        [
+          DataTypesInput.Struct1StructOutput,
+          DataTypesInput.Struct1StructOutput
+        ],
+        [
+          DataTypesInput.Struct1StructOutput,
+          DataTypesInput.Struct1StructOutput
+        ],
+        [DataTypesInput.Struct1StructOutput, DataTypesInput.Struct1StructOutput]
+      ]
+    ],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "input_tuple"
+  ): TypedContractMethod<
+    [input1: BigNumberish, input2: BigNumberish],
+    [[bigint, bigint]],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "input_uint256"
+  ): TypedContractMethod<[input1: BigNumberish], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "input_uint8"
+  ): TypedContractMethod<[input1: BigNumberish], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "input_uint_array"
+  ): TypedContractMethod<[input1: BigNumberish[]], [bigint[]], "view">;
+
+  // TODO change this bucket to events once changed in ethers beta exports
   filters: {};
 }

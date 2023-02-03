@@ -2,8 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
-import type { Provider } from "@ethersproject/providers";
+import { Contract, Interface } from "ethers";
+import type { ContractRunner } from "ethers/types/providers";
 import type {
   Payable,
   PayableInterface,
@@ -29,12 +29,9 @@ const _abi = [
 export class Payable__factory {
   static readonly abi = _abi;
   static createInterface(): PayableInterface {
-    return new utils.Interface(_abi) as PayableInterface;
+    return new Interface(_abi) as PayableInterface;
   }
-  static connect(
-    address: string,
-    signerOrProvider: Signer | Provider
-  ): Payable {
-    return new Contract(address, _abi, signerOrProvider) as Payable;
+  static connect(address: string, runner: ContractRunner): Payable {
+    return new Contract(address, _abi, runner) as unknown as Payable;
   }
 }
