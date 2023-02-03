@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { isString, values } from 'lodash'
 import {
   BytecodeWithLinkReferences,
@@ -15,17 +16,19 @@ import {
   EVENT_IMPORTS,
   EVENT_METHOD_OVERRIDES,
   generateEventFilters,
+  generateEventNameOrSignature,
   generateEventTypeExports,
-  generateGetEvent,
-  generateInterfaceEventDescription,
+  generateGetEventForContract,
+  generateGetEventForInterface,
 } from './events'
 import {
   codegenFunctions,
+  FUNCTION_IMPORTS,
   generateDecodeFunctionResultOverload,
   generateEncodeFunctionDataOverload,
   generateFunctionNameOrSignature,
-  generateGetFunction,
-  generateInterfaceFunctionDescription,
+  generateGetFunctionForContract,
+  generateGetFunctionForInterface,
   generateParamNames,
 } from './functions'
 import { reservedKeywords } from './reserved-keywords'
@@ -38,16 +41,16 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
   const source = `
   ${generateStructTypes(values(contract.structs).map((v) => v[0]))}
 
-  export interface ${contract.name}Interface extends utils.Interface {
-    functions: {
-      ${values(contract.functions)
-        .flatMap((v) => v.map(generateInterfaceFunctionDescription))
-        .join('\n')}
-    };
-
-    ${generateGetFunction(
+  export interface ${contract.name}Interface extends Interface {
+    ${generateGetFunctionForInterface(
       values(contract.functions).flatMap((v) =>
         processDeclaration(v, alwaysGenerateOverloads, generateFunctionNameOrSignature),
+      ),
+    )}
+
+    ${generateGetEventForInterface(
+      values(contract.events).flatMap((v) =>
+        processDeclaration(v, alwaysGenerateOverloads, generateEventNameOrSignature),
       ),
     )}
 
@@ -58,23 +61,13 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
     ${values(contract.functions)
       .flatMap((v) => processDeclaration(v, alwaysGenerateOverloads, generateDecodeFunctionResultOverload))
       .join('\n')}
-
-    events: {
-      ${values(contract.events)
-        .flatMap((v) => v.map(generateInterfaceEventDescription))
-        .join('\n')}
-    };
-
-    ${values(contract.events)
-      .flatMap((v) => processDeclaration(v, alwaysGenerateOverloads, generateGetEvent))
-      .join('\n')}
   }
 
   ${values(contract.events).map(generateEventTypeExports).join('\n')}
 
   export interface ${contract.name} extends BaseContract {
     ${codegenConfig.discriminateTypes ? `contractName: '${contract.name}';\n` : ``}
-    connect(signerOrProvider: Signer | Provider | string): this;
+    connect(runner: null | ContractRunner): BaseContract;
     attach(addressOrName: string): this;
     deployed(): Promise<this>;
 
@@ -82,37 +75,23 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
 
     ${EVENT_METHOD_OVERRIDES}
 
-    functions: {
-      ${values(contract.functions)
-        .map(codegenFunctions.bind(null, { returnResultObject: true, codegenConfig }))
-        .join('\n')}
-    };
-
     ${values(contract.functions)
       .filter((f) => !reservedKeywords.has(f[0].name))
       .map(codegenFunctions.bind(null, { codegenConfig }))
       .join('\n')}
 
-    callStatic: {
-      ${values(contract.functions)
-        .map(codegenFunctions.bind(null, { isStaticCall: true, codegenConfig }))
-        .join('\n')}
-    };
+    
+    ${values(contract.functions)
+      .flatMap((v) => processDeclaration(v, alwaysGenerateOverloads, generateGetFunctionForContract))
+      .join('\n')}
 
+    ${values(contract.events)
+      .flatMap((v) => processDeclaration(v, alwaysGenerateOverloads, generateGetEventForContract))
+      .join('\n')}
+
+    // TODO change this bucket to events once changed in ethers beta exports
     filters: {
       ${values(contract.events).map(generateEventFilters).join('\n')}
-    };
-
-    estimateGas: {
-      ${values(contract.functions)
-        .map(codegenFunctions.bind(null, { overrideOutput: 'Promise<BigNumber>', codegenConfig }))
-        .join('\n')}
-    };
-
-    populateTransaction: {
-      ${values(contract.functions)
-        .map(codegenFunctions.bind(null, { overrideOutput: 'Promise<PopulatedTransaction>', codegenConfig }))
-        .join('\n')}
     };
   }`
 
@@ -125,24 +104,22 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
       {
         'type ethers': [
           'BaseContract',
-          'BigNumber',
           'BigNumberish',
           'BytesLike',
-          'CallOverrides',
           'ContractTransaction',
-          'Overrides',
-          'PayableOverrides',
-          'PopulatedTransaction',
-          'Signer',
-          'utils',
+          'FunctionFragment',
+          'Result',
+          'Interface',
+          'EventFragment',
         ],
-        'type @ethersproject/abi': ['FunctionFragment', 'Result', 'EventFragment'],
-        'type @ethersproject/providers': ['Listener', 'Provider'],
+        'type ethers/types/providers': ['ContractRunner', 'TransactionRequest'],
+        'type ethers/types/contract': ['ContractEvent', 'EventLog'],
+        'type ethers/src.ts/utils': ['Listener'],
       },
       source,
     ) +
     '\n' +
-    createImportTypeDeclaration([...EVENT_IMPORTS, 'PromiseOrValue'], commonPath)
+    createImportsForUsedIdentifiers({ ['type ' + commonPath]: [...EVENT_IMPORTS, ...FUNCTION_IMPORTS] }, source)
 
   return imports + source
 }
@@ -158,7 +135,7 @@ export function codegenContractFactory(
     `overrides?: ${
       contract.constructor[0]?.stateMutability === 'payable'
         ? 'PayableOverrides & { from?: PromiseOrValue<string> }'
-        : 'Overrides & { from?: PromiseOrValue<string> }'
+        : 'NonPayableOverrides & { from?: PromiseOrValue<string> }'
     }`
   const constructorArgNamesWithoutOverrides = contract.constructor[0]
     ? generateParamNames(contract.constructor[0].inputs)
@@ -230,8 +207,8 @@ export function codegenContractFactory(
 export function codegenAbstractContractFactory(contract: Contract, abi: any): string {
   const { body, header } = codegenCommonContractFactory(contract, abi)
   return `
-  import { Contract, Signer, utils } from "ethers";
-  import type { Provider } from "@ethersproject/providers";
+  import { Contract, Interface } from "ethers";
+  import type { ContractRunner } from "ethers/types/providers";
   ${header}
 
   export class ${contract.name}${FACTORY_POSTFIX} {
@@ -263,10 +240,10 @@ function codegenCommonContractFactory(contract: Contract, abi: any): { header: s
   const body = `
     static readonly abi = _abi;
     static createInterface(): ${contract.name}Interface {
-      return new utils.Interface(_abi) as ${contract.name}Interface;
+      return new Interface(_abi) as ${contract.name}Interface;
     }
-    static connect(address: string, signerOrProvider: Signer | Provider): ${contract.name} {
-      return new Contract(address, _abi, signerOrProvider) as ${contract.name};
+    static connect(address: string, runner: ContractRunner): ${contract.name} {
+      return new Contract(address, _abi, runner) as unknown as ${contract.name};
     }
   `.trim()
 

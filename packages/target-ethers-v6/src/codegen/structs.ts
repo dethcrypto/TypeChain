@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { groupBy } from 'lodash'
 import { StructName, StructType } from 'typechain'
 

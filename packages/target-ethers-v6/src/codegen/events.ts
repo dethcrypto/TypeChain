@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import {
   createPositionalIdentifier,
   EventArgDeclaration,
@@ -5,23 +6,28 @@ import {
   getFullSignatureAsSymbolForEvent,
 } from 'typechain'
 
-import { generateInputType, generateOutputComplexTypeAsArray, generateOutputComplexTypesAsObject } from './types'
+import { generateInputType, generateOutputComplexTypeAsTuple, generateOutputComplexTypesAsObject } from './types'
 
 export function generateEventFilters(events: EventDeclaration[]) {
   if (events.length === 1) {
     const event = events[0]
-    const typedEventFilter = `${generateEventIdentifier(event, { includeArgTypes: false })}Filter`
+    const eventIdentifier = generateEventIdentifier(event, {
+      includeArgTypes: false,
+    })
+    const typedEventFilter = `TypedContractEvent<${eventIdentifier}.Tuple, ${eventIdentifier}.Object>`
 
     return `
-      '${generateEventSignature(event)}'(${generateEventInputs(event.inputs)}): ${typedEventFilter};
-      ${event.name}(${generateEventInputs(event.inputs)}): ${typedEventFilter};
+      '${generateEventSignature(event)}': ${typedEventFilter};
+      ${event.name}: ${typedEventFilter};
     `
   } else {
     return events
       .map((event) => {
-        const typedEventFilter = `${generateEventIdentifier(event, { includeArgTypes: true })}Filter`
-
-        return `'${generateEventSignature(event)}'(${generateEventInputs(event.inputs)}): ${typedEventFilter};`
+        const eventIdentifier = generateEventIdentifier(event, {
+          includeArgTypes: true,
+        })
+        const typedEventFilter = `TypedContractEvent<${eventIdentifier}.Tuple, ${eventIdentifier}.Object>`
+        return `'${generateEventSignature(event)}': ${typedEventFilter};`
       })
       .join('\n')
   }
@@ -37,16 +43,22 @@ export function generateEventTypeExports(events: EventDeclaration[]) {
 
 export function generateEventTypeExport(event: EventDeclaration, includeArgTypes: boolean) {
   const components = event.inputs.map((input, i) => ({ name: input.name ?? `arg${i.toString()}`, type: input.type }))
-  const arrayOutput = generateOutputComplexTypeAsArray(components, { useStructs: true })
+  const tupleOutput = generateOutputComplexTypeAsTuple(components, {
+    useStructs: true,
+    includeLabelsInTupleTypes: true,
+  })
   const objectOutput = generateOutputComplexTypesAsObject(components, { useStructs: true }) || '{}'
 
   const identifier = generateEventIdentifier(event, { includeArgTypes })
 
   return `
-    export interface ${identifier}Object ${objectOutput};
-    export type ${identifier} = TypedEvent<${arrayOutput}, ${identifier}Object>;
+    export namespace ${identifier} {
+      export interface Object ${objectOutput};
+      export type Tuple = ${tupleOutput};
+      export type Event = TypedContractEvent<Tuple, Object>
+      export type Filter = TypedDeferredTopicFilter<Event>
+    }
 
-    export type ${identifier}Filter = TypedEventFilter<${identifier}>;
   `
 }
 
@@ -75,10 +87,28 @@ export function generateEventArgType(eventArg: EventArgDeclaration): string {
   return eventArg.isIndexed ? `${generateInputType({ useStructs: true }, eventArg.type)} | null` : 'null'
 }
 
-export function generateGetEvent(event: EventDeclaration, useSignature: boolean): string {
-  return `getEvent(nameOrSignatureOrTopic: '${
-    useSignature ? generateEventSignature(event) : event.name
-  }'): EventFragment;`
+export function generateEventNameOrSignature(event: EventDeclaration, useSignature: boolean) {
+  return useSignature ? generateEventSignature(event) : event.name
+}
+
+// export function generateGetEventForInterface(event: EventDeclaration, useSignature: boolean): string {
+//   return `getEvent(nameOrSignatureOrTopic: '${
+//     useSignature ? generateEventSignature(event) : event.name
+//   }'): EventFragment;`
+// }
+
+export function generateGetEventForInterface(args: string[]): string {
+  if (args.length === 0) return ''
+
+  return `getEvent(nameOrSignatureOrTopic: ${args.map((s) => `"${s}"`).join(' | ')}): EventFragment;`
+}
+
+export function generateGetEventForContract(event: EventDeclaration, useSignature: boolean): string {
+  const eventIdentifier = generateEventIdentifier(event, {
+    includeArgTypes: useSignature,
+  })
+  const typedContractEvent = `TypedContractEvent<${eventIdentifier}.Tuple, ${eventIdentifier}.Object>`
+  return `getEvent(key: '${useSignature ? generateEventSignature(event) : event.name}'): ${typedContractEvent};`
 }
 
 function generateEventIdentifier(event: EventDeclaration, { includeArgTypes }: { includeArgTypes?: boolean } = {}) {
@@ -90,20 +120,28 @@ function generateEventIdentifier(event: EventDeclaration, { includeArgTypes }: {
 }
 
 export const EVENT_METHOD_OVERRIDES = `
-  queryFilter<TEvent extends TypedEvent>(
-    event: TypedEventFilter<TEvent>,
+  queryFilter<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined,
-  ): Promise<Array<TEvent>>
+  ): Promise<Array<TypedEventLog<TCEvent>>>
+  queryFilter<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    fromBlockOrBlockhash?: string | number | undefined,
+    toBlock?: string | number | undefined
+  ): Promise<Array<TypedEventLog<TCEvent>>>;
 
-  listeners<TEvent extends TypedEvent>(eventFilter?: TypedEventFilter<TEvent>): Array<TypedListener<TEvent>>
-  listeners(eventName?: string): Array<Listener>
-  removeAllListeners<TEvent extends TypedEvent>(eventFilter: TypedEventFilter<TEvent>): this
-  removeAllListeners(eventName?: string): this
-  off: OnEvent<this>
-  on: OnEvent<this>
-  once: OnEvent<this>
-  removeListener: OnEvent<this>
+  on<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>
+  on<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>
+  
+  once<TCEvent extends TypedContractEvent>(event: TCEvent, listener: TypedListener<TCEvent>): Promise<this>
+  once<TCEvent extends TypedContractEvent>(filter: TypedDeferredTopicFilter<TCEvent>, listener: TypedListener<TCEvent>): Promise<this>
+
+  listeners<TCEvent extends TypedContractEvent>(
+    event: TCEvent
+  ): Promise<Array<TypedListener<TCEvent>>>;
+  listeners(eventName?: string): Promise<Array<Listener>>
+  removeAllListeners<TCEvent extends TypedContractEvent>(event: TCEvent): Promise<this>
 `
 
-export const EVENT_IMPORTS = ['TypedEventFilter', 'TypedEvent', 'TypedListener', 'OnEvent']
+export const EVENT_IMPORTS = ['TypedContractEvent', 'TypedDeferredTopicFilter', 'TypedEventLog', 'TypedListener']

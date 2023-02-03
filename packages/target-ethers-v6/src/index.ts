@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { readFileSync } from 'fs'
 import { compact, partition, uniqBy } from 'lodash'
 import { join, relative, resolve } from 'path'

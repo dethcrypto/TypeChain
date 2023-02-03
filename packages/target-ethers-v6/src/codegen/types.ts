@@ -1,11 +1,14 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { compact } from 'lodash'
 import { AbiOutputParameter, AbiParameter, EvmOutputType, EvmType, TupleType } from 'typechain'
 
 import { STRUCT_INPUT_POSTFIX, STRUCT_OUTPUT_POSTFIX } from '../common'
+import { reservedKeywordsLabels } from './reserved-keywords'
 
 interface GenerateTypeOptions {
   returnResultObject?: boolean
   useStructs?: boolean // uses struct type for first depth, if false then generates first depth tuple types
+  includeLabelsInTupleTypes?: boolean // if true, then generates tuple types with labels
 }
 
 export function generateInputTypes(input: Array<AbiParameter>, options: GenerateTypeOptions): string {
@@ -31,20 +34,20 @@ export function generateOutputTypes(options: GenerateTypeOptions, outputs: Array
 export function generateInputType(options: GenerateTypeOptions, evmType: EvmType): string {
   switch (evmType.type) {
     case 'integer':
-      return wrapInPromiseOrValue('BigNumberish')
+      return 'BigNumberish'
     case 'uinteger':
-      return wrapInPromiseOrValue('BigNumberish')
+      return 'BigNumberish'
     case 'address':
-      return wrapInPromiseOrValue('string')
+      return 'string'
     case 'bytes':
     case 'dynamic-bytes':
-      return wrapInPromiseOrValue('BytesLike')
+      return 'BytesLike'
     case 'array':
       return generateArrayOrTupleType(generateInputType(options, evmType.itemType), evmType.size)
     case 'boolean':
-      return wrapInPromiseOrValue('boolean')
+      return 'boolean'
     case 'string':
-      return wrapInPromiseOrValue('string')
+      return 'string'
     case 'tuple':
       if (evmType.structName && options.useStructs) {
         return evmType.structName.toString() + STRUCT_INPUT_POSTFIX
@@ -59,7 +62,7 @@ export function generateOutputType(options: GenerateTypeOptions, evmType: EvmOut
   switch (evmType.type) {
     case 'integer':
     case 'uinteger':
-      return evmType.bits <= 48 ? 'number' : 'BigNumber'
+      return 'bigint'
     case 'address':
       return 'string'
     case 'void':
@@ -93,17 +96,24 @@ export function generateObjectTypeLiteral(tuple: TupleType, generator: (evmType:
  **/
 export function generateOutputComplexType(components: AbiOutputParameter[], options: GenerateTypeOptions) {
   const existingOutputComponents = compact([
-    generateOutputComplexTypeAsArray(components, options),
+    generateOutputComplexTypeAsTuple(components, options),
     generateOutputComplexTypesAsObject(components, options),
   ])
   return existingOutputComponents.join(' & ')
 }
 
-export function generateOutputComplexTypeAsArray(
+export function generateOutputComplexTypeAsTuple(
   components: AbiOutputParameter[],
   options: GenerateTypeOptions,
 ): string {
-  return `[${components.map((t) => generateOutputType(options, t.type)).join(', ')}]`
+  return `[${components
+    .map(
+      (t) =>
+        (options.includeLabelsInTupleTypes && !!t.name
+          ? `${t.name}${reservedKeywordsLabels.has(t.name) ? '_' : ''}: `
+          : '') + generateOutputType(options, t.type),
+    )
+    .join(', ')}]`
 }
 
 export function generateOutputComplexTypesAsObject(
@@ -126,8 +136,4 @@ function generateArrayOrTupleType(item: string, length?: number) {
   } else {
     return `${item}[]`
   }
-}
-
-function wrapInPromiseOrValue(str: string): string {
-  return `PromiseOrValue<${str}>`
 }

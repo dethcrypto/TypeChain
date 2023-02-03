@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import {
   AbiParameter,
   CodegenConfig,
@@ -13,8 +14,6 @@ import {
 import { generateInputType, generateInputTypes, generateOutputTypes } from './types'
 
 interface GenerateFunctionOptions {
-  returnResultObject?: boolean
-  isStaticCall?: boolean
   overrideOutput?: string
   codegenConfig: CodegenConfig
 }
@@ -22,43 +21,45 @@ interface GenerateFunctionOptions {
 export function codegenFunctions(options: GenerateFunctionOptions, fns: FunctionDeclaration[]): string {
   if (fns.length === 1) {
     if (options.codegenConfig.alwaysGenerateOverloads) {
-      return generateFunction(options, fns[0]) + codegenForOverloadedFunctions(options, fns)
+      return generateFunction(fns[0]) + codegenForOverloadedFunctions(fns)
     } else {
-      return generateFunction(options, fns[0])
+      return generateFunction(fns[0])
     }
   }
 
-  return codegenForOverloadedFunctions(options, fns)
+  return codegenForOverloadedFunctions(fns)
 }
 
-export function codegenForOverloadedFunctions(options: GenerateFunctionOptions, fns: FunctionDeclaration[]): string {
-  return fns.map((fn) => generateFunction(options, fn, `"${getSignatureForFn(fn)}"`)).join('\n')
+export function codegenForOverloadedFunctions(fns: FunctionDeclaration[]): string {
+  return fns.map((fn) => generateFunction(fn, `"${getSignatureForFn(fn)}"`)).join('\n')
 }
 
 function isPayable(fn: FunctionDeclaration): boolean {
   return fn.stateMutability === 'payable'
 }
 
-function generateFunction(options: GenerateFunctionOptions, fn: FunctionDeclaration, overloadedName?: string): string {
+function generateFunctionReturnType(fn: FunctionDeclaration): string {
+  let stateMutability
+  if (isConstant(fn) || isConstantFn(fn)) {
+    stateMutability = 'view'
+  } else if (isPayable(fn)) {
+    stateMutability = 'payable'
+  } else {
+    stateMutability = 'nonpayable'
+  }
+
+  return `TypedContractMethod<
+      [${generateInputTypes(fn.inputs, { useStructs: true })}],
+      [${generateOutputTypes({ returnResultObject: false, useStructs: true }, fn.outputs)}],
+      '${stateMutability}'
+    >`
+}
+
+function generateFunction(fn: FunctionDeclaration, overloadedName?: string): string {
   return `
-  ${generateFunctionDocumentation(fn.documentation)}
-  ${overloadedName ?? fn.name}(${generateInputTypes(fn.inputs, { useStructs: true })}${
-    !options.isStaticCall && !isConstant(fn) && !isConstantFn(fn)
-      ? `overrides?: ${
-          isPayable(fn)
-            ? 'PayableOverrides & { from?: PromiseOrValue<string> }'
-            : 'Overrides & { from?: PromiseOrValue<string> }'
-        }`
-      : 'overrides?: CallOverrides'
-  }): ${
-    options.overrideOutput ??
-    `Promise<${
-      options.isStaticCall || fn.stateMutability === 'pure' || fn.stateMutability === 'view'
-        ? generateOutputTypes({ returnResultObject: !!options.returnResultObject, useStructs: true }, fn.outputs)
-        : 'ContractTransaction'
-    }>`
-  };
-`
+    ${generateFunctionDocumentation(fn.documentation)}
+    ${overloadedName ?? fn.name}: ${generateFunctionReturnType(fn)}
+    `
 }
 
 function generateFunctionDocumentation(doc?: FunctionDocumentation): string {
@@ -90,10 +91,17 @@ export function generateFunctionNameOrSignature(fn: FunctionDeclaration, useSign
   return useSignature ? getSignatureForFn(fn) : fn.name
 }
 
-export function generateGetFunction(args: string[]): string {
+export function generateGetFunctionForInterface(args: string[]): string {
   if (args.length === 0) return ''
 
-  return `getFunction(nameOrSignatureOrTopic: ${args.map((s) => `"${s}"`).join(' | ')}): FunctionFragment;`
+  return `getFunction(nameOrSignature: ${args.map((s) => `"${s}"`).join(' | ')}): FunctionFragment;`
+}
+
+export function generateGetFunctionForContract(fn: FunctionDeclaration, useSignature: boolean): string {
+  return `getFunction(nameOrSignature: '${generateFunctionNameOrSignature(
+    fn,
+    useSignature,
+  )}'): ${generateFunctionReturnType(fn)};`
 }
 
 export function generateEncodeFunctionDataOverload(fn: FunctionDeclaration, useSignature: boolean): string {
@@ -119,3 +127,5 @@ export function generateDecodeFunctionResultOverload(fn: FunctionDeclaration, us
 export function generateParamNames(params: Array<AbiParameter | EventArgDeclaration>): string {
   return params.map((param, index) => (param.name ? createPositionalIdentifier(param.name) : `arg${index}`)).join(', ')
 }
+
+export const FUNCTION_IMPORTS = ['TypedContractMethod']
