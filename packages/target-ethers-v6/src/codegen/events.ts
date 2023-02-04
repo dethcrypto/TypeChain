@@ -141,7 +141,7 @@ export const EVENT_METHOD_OVERRIDES = `
     event: TCEvent
   ): Promise<Array<TypedListener<TCEvent>>>;
   listeners(eventName?: string): Promise<Array<Listener>>
-  removeAllListeners<TCEvent extends TypedContractEvent>(event: TCEvent): Promise<this>
+  removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>
 `
 
 export const EVENT_IMPORTS = ['TypedContractEvent', 'TypedDeferredTopicFilter', 'TypedEventLog', 'TypedListener']

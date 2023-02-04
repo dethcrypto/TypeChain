@@ -395,7 +395,7 @@ export interface DataTypesInput extends BaseContract {
   ): Promise<Array<TypedListener<TCEvent>>>;
   listeners(eventName?: string): Promise<Array<Listener>>;
   removeAllListeners<TCEvent extends TypedContractEvent>(
-    event: TCEvent
+    event?: TCEvent
   ): Promise<this>;
 
   input_address: TypedContractMethod<[input1: string], [string], "view">;

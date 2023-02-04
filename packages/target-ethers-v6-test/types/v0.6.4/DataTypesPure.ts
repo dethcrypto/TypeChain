@@ -177,7 +177,7 @@ export interface DataTypesPure extends BaseContract {
   ): Promise<Array<TypedListener<TCEvent>>>;
   listeners(eventName?: string): Promise<Array<Listener>>;
   removeAllListeners<TCEvent extends TypedContractEvent>(
-    event: TCEvent
+    event?: TCEvent
   ): Promise<this>;
 
   pure_address: TypedContractMethod<[], [string], "view">;

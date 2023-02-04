@@ -72,7 +72,7 @@ export interface LibraryConsumer extends BaseContract {
   ): Promise<Array<TypedListener<TCEvent>>>;
   listeners(eventName?: string): Promise<Array<Listener>>;
   removeAllListeners<TCEvent extends TypedContractEvent>(
-    event: TCEvent
+    event?: TCEvent
   ): Promise<this>;
 
   someOther: TypedContractMethod<[b: BigNumberish], [bigint], "view">;

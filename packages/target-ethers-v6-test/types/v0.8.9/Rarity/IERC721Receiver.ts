@@ -75,7 +75,7 @@ export interface IERC721Receiver extends BaseContract {
   ): Promise<Array<TypedListener<TCEvent>>>;
   listeners(eventName?: string): Promise<Array<Listener>>;
   removeAllListeners<TCEvent extends TypedContractEvent>(
-    event: TCEvent
+    event?: TCEvent
   ): Promise<this>;
 
   onERC721Received: TypedContractMethod<

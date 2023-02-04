@@ -84,7 +84,7 @@ export interface Payable extends BaseContract {
   ): Promise<Array<TypedListener<TCEvent>>>;
   listeners(eventName?: string): Promise<Array<Listener>>;
   removeAllListeners<TCEvent extends TypedContractEvent>(
-    event: TCEvent
+    event?: TCEvent
   ): Promise<this>;
 
   non_payable_func: TypedContractMethod<[], [void], "nonpayable">;

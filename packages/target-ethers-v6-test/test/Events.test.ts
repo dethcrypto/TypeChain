@@ -18,15 +18,7 @@ describe('Events', () => {
   })
 
   afterEach(async () => {
-    // try {
-    //   // @ts-ignore
-    //   await contract.removeAllListeners()
-    // } catch {}
-    // await contract.removeAllListeners(contract.getEvent('Event2'))
-    // await contract.removeAllListeners(contract.getEvent('AnonEvent1'))
-    // await contract.removeAllListeners(contract.getEvent('Event3(bool,uint256)'))
-    // await contract.removeAllListeners(contract.getEvent('Event3(uint256)'))
-    // await contract.removeAllListeners(contract.getEvent('Event4'))
+    await contract.removeAllListeners()
   })
 
   it('queryFilter', async () => {
@@ -59,7 +51,7 @@ describe('Events', () => {
   })
 
   // TODO update ethers version and see
-  it.skip('contract.on', async () => {
+  it('contract.on', async () => {
     const filter = contract.filters.Event1(undefined, undefined)
     await contract.queryFilter(filter)
     type _ = AssertTrue<IsExact<GetEventFromFilter<typeof filter>, Event1Event.Event>>
@@ -84,7 +76,7 @@ describe('Events', () => {
   })
 
   // TODO update ethers version and see
-  it.skip('contract.once', async () => {
+  it('contract.once', async () => {
     const filter = contract.filters.Event1(undefined, undefined)
     await contract.queryFilter(filter)
 
