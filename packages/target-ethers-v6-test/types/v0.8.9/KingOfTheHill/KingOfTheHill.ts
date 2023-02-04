@@ -133,7 +133,6 @@ export interface KingOfTheHill extends BaseContract {
     HighestBidIncreasedEvent.Object
   >;
 
-  // TODO change this bucket to events once changed in ethers beta exports
   filters: {
     "HighestBidIncreased(tuple)": TypedContractEvent<
       HighestBidIncreasedEvent.Tuple,

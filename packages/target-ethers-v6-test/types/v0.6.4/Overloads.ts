@@ -111,6 +111,5 @@ export interface Overloads extends BaseContract {
     "view"
   >;
 
-  // TODO change this bucket to events once changed in ethers beta exports
   filters: {};
 }

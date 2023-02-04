@@ -38,7 +38,6 @@ describe('Events', () => {
   it('queryFilter without params', async () => {
     await contract.emit_event1()
 
-    // TODO allow optional
     const filter = contract.filters.Event1()
 
     const results = await contract.queryFilter(filter)
@@ -50,7 +49,6 @@ describe('Events', () => {
     })
   })
 
-  // TODO update ethers version and see
   it('contract.on', async () => {
     const filter = contract.filters.Event1(undefined, undefined)
     await contract.queryFilter(filter)
@@ -75,7 +73,6 @@ describe('Events', () => {
     await contract.off(filter)
   })
 
-  // TODO update ethers version and see
   it('contract.once', async () => {
     const filter = contract.filters.Event1(undefined, undefined)
     await contract.queryFilter(filter)

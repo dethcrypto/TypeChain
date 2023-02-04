@@ -547,7 +547,6 @@ export interface Rarity extends BaseContract {
     key: "summoned"
   ): TypedContractEvent<summonedEvent.Tuple, summonedEvent.Object>;
 
-  // TODO change this bucket to events once changed in ethers beta exports
   filters: {
     "Approval(address,address,uint256)": TypedContractEvent<
       ApprovalEvent.Tuple,

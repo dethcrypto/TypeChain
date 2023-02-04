@@ -77,6 +77,5 @@ export interface Withdrawable extends BaseContract {
     nameOrSignature: "withdraw"
   ): TypedContractMethod<[], [void], "nonpayable">;
 
-  // TODO change this bucket to events once changed in ethers beta exports
   filters: {};
 }

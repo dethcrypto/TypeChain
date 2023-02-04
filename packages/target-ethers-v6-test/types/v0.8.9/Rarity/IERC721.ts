@@ -279,7 +279,6 @@ export interface IERC721 extends BaseContract {
     key: "Transfer"
   ): TypedContractEvent<TransferEvent.Tuple, TransferEvent.Object>;
 
-  // TODO change this bucket to events once changed in ethers beta exports
   filters: {
     "Approval(address,address,uint256)": TypedContractEvent<
       ApprovalEvent.Tuple,

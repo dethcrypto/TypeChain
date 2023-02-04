@@ -93,7 +93,6 @@ export interface B extends BaseContract {
     Committed_address_array_Event.Object
   >;
 
-  // TODO change this bucket to events once changed in ethers beta exports
   filters: {
     "Committed(uint256)": TypedContractEvent<
       Committed_uint256_Event.Tuple,

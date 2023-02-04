@@ -89,7 +89,6 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
       .flatMap((v) => processDeclaration(v, alwaysGenerateOverloads, generateGetEventForContract))
       .join('\n')}
 
-    // TODO change this bucket to events once changed in ethers beta exports
     filters: {
       ${values(contract.events).map(generateEventFilters).join('\n')}
     };

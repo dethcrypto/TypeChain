@@ -89,6 +89,5 @@ export interface ISimpleToken extends BaseContract {
     "nonpayable"
   >;
 
-  // TODO change this bucket to events once changed in ethers beta exports
   filters: {};
 }

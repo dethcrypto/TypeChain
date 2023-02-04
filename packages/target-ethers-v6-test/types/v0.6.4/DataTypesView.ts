@@ -263,6 +263,5 @@ export interface DataTypesView extends BaseContract {
     nameOrSignature: "view_uint8"
   ): TypedContractMethod<[], [bigint], "view">;
 
-  // TODO change this bucket to events once changed in ethers beta exports
   filters: {};
 }

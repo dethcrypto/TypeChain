@@ -58,9 +58,8 @@ describe('DataTypesInput', () => {
 
     typedAssert(await chain.contract.input_string('TypeChain'), 'TypeChain')
 
-    // TODO: this is failing due to a bug in ethers v6 beta exports
-    // typedAssert(await chain.contract.input_stat_array(['1', '2', '3']), [1n, 2n, 3n])
-    // typedAssert(await chain.contract.input_stat_array([1, 2, 3]), [1n, 2n, 3n])
+    typedAssert(await chain.contract.input_stat_array(['1', '2', '3']), [1n, 2n, 3n])
+    typedAssert(await chain.contract.input_stat_array([1, 2, 3]), [1n, 2n, 3n])
 
     typedAssert(await chain.contract.input_tuple('1', '2'), [BigInt('1'), BigInt('2')])
     typedAssert(await chain.contract.input_tuple(1, 2), [BigInt('1'), BigInt('2')])

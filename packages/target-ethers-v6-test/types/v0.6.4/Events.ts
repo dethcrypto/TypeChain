@@ -283,7 +283,6 @@ export interface Events extends BaseContract {
     UpdateFrequencySetEvent.Object
   >;
 
-  // TODO change this bucket to events once changed in ethers beta exports
   filters: {
     "AnonEvent1(uint256)": TypedContractEvent<
       AnonEvent1Event.Tuple,

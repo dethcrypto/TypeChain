@@ -987,6 +987,5 @@ export interface DataTypesInput extends BaseContract {
     nameOrSignature: "input_uint_array"
   ): TypedContractMethod<[input1: BigNumberish[]], [bigint[]], "view">;
 
-  // TODO change this bucket to events once changed in ethers beta exports
   filters: {};
 }

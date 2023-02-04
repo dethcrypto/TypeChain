@@ -98,6 +98,5 @@ export interface Payable extends BaseContract {
     nameOrSignature: "payable_func"
   ): TypedContractMethod<[], [void], "payable">;
 
-  // TODO change this bucket to events once changed in ethers beta exports
   filters: {};
 }

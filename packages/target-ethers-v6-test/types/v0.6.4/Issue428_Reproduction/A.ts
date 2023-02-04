@@ -73,7 +73,6 @@ export interface A extends BaseContract {
     key: "Committed"
   ): TypedContractEvent<CommittedEvent.Tuple, CommittedEvent.Object>;
 
-  // TODO change this bucket to events once changed in ethers beta exports
   filters: {
     "Committed(address[])": TypedContractEvent<
       CommittedEvent.Tuple,

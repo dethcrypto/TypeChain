@@ -80,6 +80,5 @@ export interface PayableFactory extends BaseContract {
     nameOrSignature: "newPayable"
   ): TypedContractMethod<[], [string], "nonpayable">;
 
-  // TODO change this bucket to events once changed in ethers beta exports
   filters: {};
 }

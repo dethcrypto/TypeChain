@@ -124,7 +124,3 @@ export interface TypedContractMethod<
   estimateGas(...args: ContractMethodArgs<A, S>): Promise<bigint>;
   staticCallResult(...args: ContractMethodArgs<A, S>): Promise<R>;
 }
-
-// export type NonPayableContractMethod<A extends any[] = any[], R = any> = ContractMethod<A, R, 'nonpayable'>
-// export type PayableContractMethod<A extends any[] = any[], R = any> = ContractMethod<A, R, 'payable'> // TODO improve override typing
-// export type ViewContractMethod<A extends any[] = any[], R = any> = ContractMethod<A, R, 'view'>

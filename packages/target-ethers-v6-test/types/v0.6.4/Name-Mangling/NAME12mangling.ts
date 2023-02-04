@@ -82,6 +82,5 @@ export interface NAME12mangling extends BaseContract {
     nameOrSignature: "works"
   ): TypedContractMethod<[], [boolean], "view">;
 
-  // TODO change this bucket to events once changed in ethers beta exports
   filters: {};
 }

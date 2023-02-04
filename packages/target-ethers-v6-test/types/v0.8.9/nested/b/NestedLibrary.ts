@@ -77,6 +77,5 @@ export interface NestedLibrary extends BaseContract {
     nameOrSignature: "getValue"
   ): TypedContractMethod<[], [bigint], "view">;
 
-  // TODO change this bucket to events once changed in ethers beta exports
   filters: {};
 }

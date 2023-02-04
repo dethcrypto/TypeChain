@@ -263,6 +263,5 @@ export interface DataTypesPure extends BaseContract {
     nameOrSignature: "pure_uint8"
   ): TypedContractMethod<[], [bigint], "view">;
 
-  // TODO change this bucket to events once changed in ethers beta exports
   filters: {};
 }

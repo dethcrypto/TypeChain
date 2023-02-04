@@ -81,6 +81,5 @@ export interface LibraryConsumer extends BaseContract {
     nameOrSignature: "someOther"
   ): TypedContractMethod<[b: BigNumberish], [bigint], "view">;
 
-  // TODO change this bucket to events once changed in ethers beta exports
   filters: {};
 }
