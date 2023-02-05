@@ -6,29 +6,24 @@ import {
   getFullSignatureAsSymbolForEvent,
 } from 'typechain'
 
-import { generateInputType, generateOutputComplexTypeAsTuple, generateOutputComplexTypesAsObject } from './types'
+import {
+  generateInputComplexTypeAsTuple,
+  generateInputType,
+  generateOutputComplexTypeAsTuple,
+  generateOutputComplexTypesAsObject,
+} from './types'
 
 export function generateEventFilters(events: EventDeclaration[]) {
   if (events.length === 1) {
     const event = events[0]
-    const eventIdentifier = generateEventIdentifier(event, {
-      includeArgTypes: false,
-    })
-    const typedEventFilter = `TypedContractEvent<${eventIdentifier}.Tuple, ${eventIdentifier}.Object>`
-
+    const typedEventFilter = generateTypedContractEvent(event, false)
     return `
       '${generateEventSignature(event)}': ${typedEventFilter};
       ${event.name}: ${typedEventFilter};
     `
   } else {
     return events
-      .map((event) => {
-        const eventIdentifier = generateEventIdentifier(event, {
-          includeArgTypes: true,
-        })
-        const typedEventFilter = `TypedContractEvent<${eventIdentifier}.Tuple, ${eventIdentifier}.Object>`
-        return `'${generateEventSignature(event)}': ${typedEventFilter};`
-      })
+      .map((event) => `'${generateEventSignature(event)}': ${generateTypedContractEvent(event, true)};`)
       .join('\n')
   }
 }
@@ -43,19 +38,24 @@ export function generateEventTypeExports(events: EventDeclaration[]) {
 
 export function generateEventTypeExport(event: EventDeclaration, includeArgTypes: boolean) {
   const components = event.inputs.map((input, i) => ({ name: input.name ?? `arg${i.toString()}`, type: input.type }))
-  const tupleOutput = generateOutputComplexTypeAsTuple(components, {
+  const inputTuple = generateInputComplexTypeAsTuple(components, {
     useStructs: true,
     includeLabelsInTupleTypes: true,
   })
-  const objectOutput = generateOutputComplexTypesAsObject(components, { useStructs: true }) || '{}'
+  const outputTuple = generateOutputComplexTypeAsTuple(components, {
+    useStructs: true,
+    includeLabelsInTupleTypes: true,
+  })
+  const outputObject = generateOutputComplexTypesAsObject(components, { useStructs: true }) || '{}'
 
   const identifier = generateEventIdentifier(event, { includeArgTypes })
 
   return `
     export namespace ${identifier} {
-      export interface Object ${objectOutput};
-      export type Tuple = ${tupleOutput};
-      export type Event = TypedContractEvent<Tuple, Object>
+      export type InputTuple = ${inputTuple};
+      export type OutputTuple = ${outputTuple};
+      export interface OutputObject ${outputObject};
+      export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
       export type Filter = TypedDeferredTopicFilter<Event>
     }
 
@@ -103,11 +103,15 @@ export function generateGetEventForInterface(args: string[]): string {
   return `getEvent(nameOrSignatureOrTopic: ${args.map((s) => `"${s}"`).join(' | ')}): EventFragment;`
 }
 
-export function generateGetEventForContract(event: EventDeclaration, useSignature: boolean): string {
+export function generateTypedContractEvent(event: EventDeclaration, useSignature: boolean): string {
   const eventIdentifier = generateEventIdentifier(event, {
     includeArgTypes: useSignature,
   })
-  const typedContractEvent = `TypedContractEvent<${eventIdentifier}.Tuple, ${eventIdentifier}.Object>`
+  return `TypedContractEvent<${eventIdentifier}.InputTuple, ${eventIdentifier}.OutputTuple, ${eventIdentifier}.OutputObject>`
+}
+
+export function generateGetEventForContract(event: EventDeclaration, useSignature: boolean): string {
+  const typedContractEvent = generateTypedContractEvent(event, useSignature)
   return `getEvent(key: '${useSignature ? generateEventSignature(event) : event.name}'): ${typedContractEvent};`
 }
 

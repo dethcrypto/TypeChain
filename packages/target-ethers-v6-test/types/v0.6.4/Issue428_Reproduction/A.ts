@@ -17,11 +17,12 @@ export interface AInterface extends Interface {
 }
 
 export namespace CommittedEvent {
-  export interface Object {
+  export type InputTuple = [whitelist: string[]];
+  export type OutputTuple = [whitelist: string[]];
+  export interface OutputObject {
     whitelist: string[];
   }
-  export type Tuple = [whitelist: string[]];
-  export type Event = TypedContractEvent<Tuple, Object>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
 }
 
@@ -71,13 +72,22 @@ export interface A extends BaseContract {
 
   getEvent(
     key: "Committed"
-  ): TypedContractEvent<CommittedEvent.Tuple, CommittedEvent.Object>;
+  ): TypedContractEvent<
+    CommittedEvent.InputTuple,
+    CommittedEvent.OutputTuple,
+    CommittedEvent.OutputObject
+  >;
 
   filters: {
     "Committed(address[])": TypedContractEvent<
-      CommittedEvent.Tuple,
-      CommittedEvent.Object
+      CommittedEvent.InputTuple,
+      CommittedEvent.OutputTuple,
+      CommittedEvent.OutputObject
     >;
-    Committed: TypedContractEvent<CommittedEvent.Tuple, CommittedEvent.Object>;
+    Committed: TypedContractEvent<
+      CommittedEvent.InputTuple,
+      CommittedEvent.OutputTuple,
+      CommittedEvent.OutputObject
+    >;
   };
 }

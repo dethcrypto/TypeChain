@@ -102,75 +102,83 @@ export interface EventsInterface extends Interface {
 }
 
 export namespace AnonEvent1Event {
-  export interface Object {
+  export type InputTuple = [value1: BigNumberish];
+  export type OutputTuple = [value1: bigint];
+  export interface OutputObject {
     value1: bigint;
   }
-  export type Tuple = [value1: bigint];
-  export type Event = TypedContractEvent<Tuple, Object>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
 }
 
 export namespace Event1Event {
-  export interface Object {
+  export type InputTuple = [value1: BigNumberish, value2: BigNumberish];
+  export type OutputTuple = [value1: bigint, value2: bigint];
+  export interface OutputObject {
     value1: bigint;
     value2: bigint;
   }
-  export type Tuple = [value1: bigint, value2: bigint];
-  export type Event = TypedContractEvent<Tuple, Object>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
 }
 
 export namespace Event2Event {
-  export interface Object {
+  export type InputTuple = [arg0: BigNumberish];
+  export type OutputTuple = [arg0: bigint];
+  export interface OutputObject {
     arg0: bigint;
   }
-  export type Tuple = [arg0: bigint];
-  export type Event = TypedContractEvent<Tuple, Object>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
 }
 
 export namespace Event3_bool_uint256_Event {
-  export interface Object {
+  export type InputTuple = [value1: boolean, value2: BigNumberish];
+  export type OutputTuple = [value1: boolean, value2: bigint];
+  export interface OutputObject {
     value1: boolean;
     value2: bigint;
   }
-  export type Tuple = [value1: boolean, value2: bigint];
-  export type Event = TypedContractEvent<Tuple, Object>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
 }
 
 export namespace Event3_uint256_Event {
-  export interface Object {
+  export type InputTuple = [value1: BigNumberish];
+  export type OutputTuple = [value1: bigint];
+  export interface OutputObject {
     value1: bigint;
   }
-  export type Tuple = [value1: bigint];
-  export type Event = TypedContractEvent<Tuple, Object>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
 }
 
 export namespace Event4Event {
-  export interface Object {
+  export type InputTuple = [data: Events.EventDataStruct];
+  export type OutputTuple = [data: Events.EventDataStructOutput];
+  export interface OutputObject {
     data: Events.EventDataStructOutput;
   }
-  export type Tuple = [data: Events.EventDataStructOutput];
-  export type Event = TypedContractEvent<Tuple, Object>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
 }
 
 export namespace NoArgsEventEvent {
-  export interface Object {}
-  export type Tuple = [];
-  export type Event = TypedContractEvent<Tuple, Object>;
+  export type InputTuple = [];
+  export type OutputTuple = [];
+  export interface OutputObject {}
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
 }
 
 export namespace UpdateFrequencySetEvent {
-  export interface Object {
+  export type InputTuple = [arg0: string[], arg1: BigNumberish[]];
+  export type OutputTuple = [arg0: string[], arg1: bigint[]];
+  export interface OutputObject {
     arg0: string[];
     arg1: bigint[];
   }
-  export type Tuple = [arg0: string[], arg1: bigint[]];
-  export type Event = TypedContractEvent<Tuple, Object>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
 }
 
@@ -251,88 +259,137 @@ export interface Events extends BaseContract {
 
   getEvent(
     key: "AnonEvent1"
-  ): TypedContractEvent<AnonEvent1Event.Tuple, AnonEvent1Event.Object>;
+  ): TypedContractEvent<
+    AnonEvent1Event.InputTuple,
+    AnonEvent1Event.OutputTuple,
+    AnonEvent1Event.OutputObject
+  >;
   getEvent(
     key: "Event1"
-  ): TypedContractEvent<Event1Event.Tuple, Event1Event.Object>;
+  ): TypedContractEvent<
+    Event1Event.InputTuple,
+    Event1Event.OutputTuple,
+    Event1Event.OutputObject
+  >;
   getEvent(
     key: "Event2"
-  ): TypedContractEvent<Event2Event.Tuple, Event2Event.Object>;
+  ): TypedContractEvent<
+    Event2Event.InputTuple,
+    Event2Event.OutputTuple,
+    Event2Event.OutputObject
+  >;
   getEvent(
     key: "Event3(bool,uint256)"
   ): TypedContractEvent<
-    Event3_bool_uint256_Event.Tuple,
-    Event3_bool_uint256_Event.Object
+    Event3_bool_uint256_Event.InputTuple,
+    Event3_bool_uint256_Event.OutputTuple,
+    Event3_bool_uint256_Event.OutputObject
   >;
   getEvent(
     key: "Event3(uint256)"
   ): TypedContractEvent<
-    Event3_uint256_Event.Tuple,
-    Event3_uint256_Event.Object
+    Event3_uint256_Event.InputTuple,
+    Event3_uint256_Event.OutputTuple,
+    Event3_uint256_Event.OutputObject
   >;
   getEvent(
     key: "Event4"
-  ): TypedContractEvent<Event4Event.Tuple, Event4Event.Object>;
+  ): TypedContractEvent<
+    Event4Event.InputTuple,
+    Event4Event.OutputTuple,
+    Event4Event.OutputObject
+  >;
   getEvent(
     key: "NoArgsEvent"
-  ): TypedContractEvent<NoArgsEventEvent.Tuple, NoArgsEventEvent.Object>;
+  ): TypedContractEvent<
+    NoArgsEventEvent.InputTuple,
+    NoArgsEventEvent.OutputTuple,
+    NoArgsEventEvent.OutputObject
+  >;
   getEvent(
     key: "UpdateFrequencySet"
   ): TypedContractEvent<
-    UpdateFrequencySetEvent.Tuple,
-    UpdateFrequencySetEvent.Object
+    UpdateFrequencySetEvent.InputTuple,
+    UpdateFrequencySetEvent.OutputTuple,
+    UpdateFrequencySetEvent.OutputObject
   >;
 
   filters: {
     "AnonEvent1(uint256)": TypedContractEvent<
-      AnonEvent1Event.Tuple,
-      AnonEvent1Event.Object
+      AnonEvent1Event.InputTuple,
+      AnonEvent1Event.OutputTuple,
+      AnonEvent1Event.OutputObject
     >;
     AnonEvent1: TypedContractEvent<
-      AnonEvent1Event.Tuple,
-      AnonEvent1Event.Object
+      AnonEvent1Event.InputTuple,
+      AnonEvent1Event.OutputTuple,
+      AnonEvent1Event.OutputObject
     >;
 
     "Event1(uint256,uint256)": TypedContractEvent<
-      Event1Event.Tuple,
-      Event1Event.Object
+      Event1Event.InputTuple,
+      Event1Event.OutputTuple,
+      Event1Event.OutputObject
     >;
-    Event1: TypedContractEvent<Event1Event.Tuple, Event1Event.Object>;
+    Event1: TypedContractEvent<
+      Event1Event.InputTuple,
+      Event1Event.OutputTuple,
+      Event1Event.OutputObject
+    >;
 
     "Event2(uint256)": TypedContractEvent<
-      Event2Event.Tuple,
-      Event2Event.Object
+      Event2Event.InputTuple,
+      Event2Event.OutputTuple,
+      Event2Event.OutputObject
     >;
-    Event2: TypedContractEvent<Event2Event.Tuple, Event2Event.Object>;
+    Event2: TypedContractEvent<
+      Event2Event.InputTuple,
+      Event2Event.OutputTuple,
+      Event2Event.OutputObject
+    >;
 
     "Event3(bool,uint256)": TypedContractEvent<
-      Event3_bool_uint256_Event.Tuple,
-      Event3_bool_uint256_Event.Object
+      Event3_bool_uint256_Event.InputTuple,
+      Event3_bool_uint256_Event.OutputTuple,
+      Event3_bool_uint256_Event.OutputObject
     >;
     "Event3(uint256)": TypedContractEvent<
-      Event3_uint256_Event.Tuple,
-      Event3_uint256_Event.Object
+      Event3_uint256_Event.InputTuple,
+      Event3_uint256_Event.OutputTuple,
+      Event3_uint256_Event.OutputObject
     >;
 
-    "Event4(tuple)": TypedContractEvent<Event4Event.Tuple, Event4Event.Object>;
-    Event4: TypedContractEvent<Event4Event.Tuple, Event4Event.Object>;
+    "Event4(tuple)": TypedContractEvent<
+      Event4Event.InputTuple,
+      Event4Event.OutputTuple,
+      Event4Event.OutputObject
+    >;
+    Event4: TypedContractEvent<
+      Event4Event.InputTuple,
+      Event4Event.OutputTuple,
+      Event4Event.OutputObject
+    >;
 
     "NoArgsEvent()": TypedContractEvent<
-      NoArgsEventEvent.Tuple,
-      NoArgsEventEvent.Object
+      NoArgsEventEvent.InputTuple,
+      NoArgsEventEvent.OutputTuple,
+      NoArgsEventEvent.OutputObject
     >;
     NoArgsEvent: TypedContractEvent<
-      NoArgsEventEvent.Tuple,
-      NoArgsEventEvent.Object
+      NoArgsEventEvent.InputTuple,
+      NoArgsEventEvent.OutputTuple,
+      NoArgsEventEvent.OutputObject
     >;
 
     "UpdateFrequencySet(address[],uint256[])": TypedContractEvent<
-      UpdateFrequencySetEvent.Tuple,
-      UpdateFrequencySetEvent.Object
+      UpdateFrequencySetEvent.InputTuple,
+      UpdateFrequencySetEvent.OutputTuple,
+      UpdateFrequencySetEvent.OutputObject
     >;
     UpdateFrequencySet: TypedContractEvent<
-      UpdateFrequencySetEvent.Tuple,
-      UpdateFrequencySetEvent.Object
+      UpdateFrequencySetEvent.InputTuple,
+      UpdateFrequencySetEvent.OutputTuple,
+      UpdateFrequencySetEvent.OutputObject
     >;
   };
 }

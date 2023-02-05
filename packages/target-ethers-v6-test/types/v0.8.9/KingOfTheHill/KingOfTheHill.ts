@@ -50,11 +50,12 @@ export interface KingOfTheHillInterface extends Interface {
 }
 
 export namespace HighestBidIncreasedEvent {
-  export interface Object {
+  export type InputTuple = [bid: KingOfTheHill.BidStruct];
+  export type OutputTuple = [bid: KingOfTheHill.BidStructOutput];
+  export interface OutputObject {
     bid: KingOfTheHill.BidStructOutput;
   }
-  export type Tuple = [bid: KingOfTheHill.BidStructOutput];
-  export type Event = TypedContractEvent<Tuple, Object>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
 }
 
@@ -129,18 +130,21 @@ export interface KingOfTheHill extends BaseContract {
   getEvent(
     key: "HighestBidIncreased"
   ): TypedContractEvent<
-    HighestBidIncreasedEvent.Tuple,
-    HighestBidIncreasedEvent.Object
+    HighestBidIncreasedEvent.InputTuple,
+    HighestBidIncreasedEvent.OutputTuple,
+    HighestBidIncreasedEvent.OutputObject
   >;
 
   filters: {
     "HighestBidIncreased(tuple)": TypedContractEvent<
-      HighestBidIncreasedEvent.Tuple,
-      HighestBidIncreasedEvent.Object
+      HighestBidIncreasedEvent.InputTuple,
+      HighestBidIncreasedEvent.OutputTuple,
+      HighestBidIncreasedEvent.OutputObject
     >;
     HighestBidIncreased: TypedContractEvent<
-      HighestBidIncreasedEvent.Tuple,
-      HighestBidIncreasedEvent.Object
+      HighestBidIncreasedEvent.InputTuple,
+      HighestBidIncreasedEvent.OutputTuple,
+      HighestBidIncreasedEvent.OutputObject
     >;
   };
 }

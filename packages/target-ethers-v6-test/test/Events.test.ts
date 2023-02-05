@@ -114,7 +114,7 @@ describe('Events', () => {
       const filterA = contract.filters['Event3(bool,uint256)']()
 
       type _1 = AssertTrue<IsExact<GetEventFromFilter<typeof filterA>, Event3_bool_uint256_Event.Event>>
-      type _2 = AssertTrue<IsExact<Event3_bool_uint256_Event.Object, { value1: boolean; value2: bigint }>>
+      type _2 = AssertTrue<IsExact<Event3_bool_uint256_Event.OutputObject, { value1: boolean; value2: bigint }>>
 
       const results = await contract.queryFilter(filterA)
       results.map((r) => {

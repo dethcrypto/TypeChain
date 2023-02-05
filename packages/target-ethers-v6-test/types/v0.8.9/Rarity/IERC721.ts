@@ -103,35 +103,46 @@ export interface IERC721Interface extends Interface {
 }
 
 export namespace ApprovalEvent {
-  export interface Object {
+  export type InputTuple = [
+    owner: string,
+    approved: string,
+    tokenId: BigNumberish
+  ];
+  export type OutputTuple = [owner: string, approved: string, tokenId: bigint];
+  export interface OutputObject {
     owner: string;
     approved: string;
     tokenId: bigint;
   }
-  export type Tuple = [owner: string, approved: string, tokenId: bigint];
-  export type Event = TypedContractEvent<Tuple, Object>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
 }
 
 export namespace ApprovalForAllEvent {
-  export interface Object {
+  export type InputTuple = [owner: string, operator: string, approved: boolean];
+  export type OutputTuple = [
+    owner: string,
+    operator: string,
+    approved: boolean
+  ];
+  export interface OutputObject {
     owner: string;
     operator: string;
     approved: boolean;
   }
-  export type Tuple = [owner: string, operator: string, approved: boolean];
-  export type Event = TypedContractEvent<Tuple, Object>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
 }
 
 export namespace TransferEvent {
-  export interface Object {
+  export type InputTuple = [from: string, to: string, tokenId: BigNumberish];
+  export type OutputTuple = [from: string, to: string, tokenId: bigint];
+  export interface OutputObject {
     from: string;
     to: string;
     tokenId: bigint;
   }
-  export type Tuple = [from: string, to: string, tokenId: bigint];
-  export type Event = TypedContractEvent<Tuple, Object>;
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
 }
 
@@ -271,34 +282,58 @@ export interface IERC721 extends BaseContract {
 
   getEvent(
     key: "Approval"
-  ): TypedContractEvent<ApprovalEvent.Tuple, ApprovalEvent.Object>;
+  ): TypedContractEvent<
+    ApprovalEvent.InputTuple,
+    ApprovalEvent.OutputTuple,
+    ApprovalEvent.OutputObject
+  >;
   getEvent(
     key: "ApprovalForAll"
-  ): TypedContractEvent<ApprovalForAllEvent.Tuple, ApprovalForAllEvent.Object>;
+  ): TypedContractEvent<
+    ApprovalForAllEvent.InputTuple,
+    ApprovalForAllEvent.OutputTuple,
+    ApprovalForAllEvent.OutputObject
+  >;
   getEvent(
     key: "Transfer"
-  ): TypedContractEvent<TransferEvent.Tuple, TransferEvent.Object>;
+  ): TypedContractEvent<
+    TransferEvent.InputTuple,
+    TransferEvent.OutputTuple,
+    TransferEvent.OutputObject
+  >;
 
   filters: {
     "Approval(address,address,uint256)": TypedContractEvent<
-      ApprovalEvent.Tuple,
-      ApprovalEvent.Object
+      ApprovalEvent.InputTuple,
+      ApprovalEvent.OutputTuple,
+      ApprovalEvent.OutputObject
     >;
-    Approval: TypedContractEvent<ApprovalEvent.Tuple, ApprovalEvent.Object>;
+    Approval: TypedContractEvent<
+      ApprovalEvent.InputTuple,
+      ApprovalEvent.OutputTuple,
+      ApprovalEvent.OutputObject
+    >;
 
     "ApprovalForAll(address,address,bool)": TypedContractEvent<
-      ApprovalForAllEvent.Tuple,
-      ApprovalForAllEvent.Object
+      ApprovalForAllEvent.InputTuple,
+      ApprovalForAllEvent.OutputTuple,
+      ApprovalForAllEvent.OutputObject
     >;
     ApprovalForAll: TypedContractEvent<
-      ApprovalForAllEvent.Tuple,
-      ApprovalForAllEvent.Object
+      ApprovalForAllEvent.InputTuple,
+      ApprovalForAllEvent.OutputTuple,
+      ApprovalForAllEvent.OutputObject
     >;
 
     "Transfer(address,address,uint256)": TypedContractEvent<
-      TransferEvent.Tuple,
-      TransferEvent.Object
+      TransferEvent.InputTuple,
+      TransferEvent.OutputTuple,
+      TransferEvent.OutputObject
     >;
-    Transfer: TypedContractEvent<TransferEvent.Tuple, TransferEvent.Object>;
+    Transfer: TypedContractEvent<
+      TransferEvent.InputTuple,
+      TransferEvent.OutputTuple,
+      TransferEvent.OutputObject
+    >;
   };
 }

@@ -17,22 +17,27 @@ import type { TransactionRequest } from 'ethers/types/providers'
 
 export interface TypedDeferredTopicFilter<_TCEvent extends TypedContractEvent> extends DeferredTopicFilter {}
 
-export interface TypedContractEvent<ArgsTuple extends Array<any> = any, ArgsObject = any> {
-  (...args: Partial<ArgsTuple>): TypedDeferredTopicFilter<TypedContractEvent<ArgsTuple, ArgsObject>>
+export interface TypedContractEvent<
+  InputTuple extends Array<any> = any,
+  OutputTuple extends Array<any> = any,
+  OutputObject = any,
+> {
+  (...args: Partial<InputTuple>): TypedDeferredTopicFilter<TypedContractEvent<InputTuple, OutputTuple, OutputObject>>
   name: string
   fragment: EventFragment
-  getFragment(...args: Partial<ArgsTuple>): EventFragment
+  getFragment(...args: Partial<InputTuple>): EventFragment
 }
 
-type __TypechainArgsTuple<T> = T extends TypedContractEvent<infer U> ? U : never
-type __TypechainArgsObject<T> = T extends TypedContractEvent<infer _U, infer W> ? W : never
+type __TypechainInputTuple<T> = T extends TypedContractEvent<infer U> ? U : never
+type __TypechainAOutputTuple<T> = T extends TypedContractEvent<infer _U, infer W> ? W : never
+type __TypechainOutputObject<T> = T extends TypedContractEvent<infer _U, infer _W, infer V> ? V : never
 
 export interface TypedEventLog<TCEvent extends TypedContractEvent> extends Omit<EventLog, 'args'> {
-  args: __TypechainArgsTuple<TCEvent> & __TypechainArgsObject<TCEvent>
+  args: __TypechainAOutputTuple<TCEvent> & __TypechainOutputObject<TCEvent>
 }
 
 export type TypedListener<TCEvent extends TypedContractEvent> = (
-  ...listenerArg: [...__TypechainArgsTuple<TCEvent>, TypedEventLog<TCEvent>, ...undefined[]]
+  ...listenerArg: [...__TypechainAOutputTuple<TCEvent>, TypedEventLog<TCEvent>, ...undefined[]]
 ) => void
 
 export type MinEthersFactory<C, ARGS> = {

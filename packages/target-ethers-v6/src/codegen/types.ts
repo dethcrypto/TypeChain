@@ -90,6 +90,17 @@ export function generateObjectTypeLiteral(tuple: TupleType, generator: (evmType:
   return '{' + tuple.components.map((component) => `${component.name}: ${generator(component.type)}`).join(', ') + '}'
 }
 
+export function generateInputComplexTypeAsTuple(components: AbiParameter[], options: GenerateTypeOptions): string {
+  return `[${components
+    .map(
+      (t) =>
+        (options.includeLabelsInTupleTypes && !!t.name
+          ? `${t.name}${reservedKeywordsLabels.has(t.name) ? '_' : ''}: `
+          : '') + generateInputType(options, t.type),
+    )
+    .join(', ')}]`
+}
+
 /**
  * Always return an array type; if there are named outputs, merge them to that type
  * this generates slightly better typings fixing: https://github.com/ethereum-ts/TypeChain/issues/232
