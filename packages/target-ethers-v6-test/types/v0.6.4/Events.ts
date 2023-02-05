@@ -10,9 +10,9 @@ import type {
   Interface,
   EventFragment,
 } from "ethers";
-import type { ContractRunner } from "ethers/types/providers";
-
-import type { Listener } from "ethers/src.ts/utils";
+import type { ContractRunner } from "ethers/providers";
+import type { ContractMethod } from "ethers/contract";
+import type { Listener } from "ethers/utils";
 import type {
   TypedContractEvent,
   TypedDeferredTopicFilter,
@@ -237,6 +237,10 @@ export interface Events extends BaseContract {
   emit_event3_overloaded: TypedContractMethod<[], [void], "nonpayable">;
 
   emit_event4: TypedContractMethod<[], [void], "nonpayable">;
+
+  getFunction<T extends ContractMethod = ContractMethod>(
+    key: string | FunctionFragment
+  ): T;
 
   getFunction(
     nameOrSignature: "emit_anon1"

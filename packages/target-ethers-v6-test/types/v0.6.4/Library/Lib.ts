@@ -9,9 +9,9 @@ import type {
   Result,
   Interface,
 } from "ethers";
-import type { ContractRunner } from "ethers/types/providers";
-
-import type { Listener } from "ethers/src.ts/utils";
+import type { ContractRunner } from "ethers/providers";
+import type { ContractMethod } from "ethers/contract";
+import type { Listener } from "ethers/utils";
 import type {
   TypedContractEvent,
   TypedDeferredTopicFilter,
@@ -73,6 +73,10 @@ export interface Lib extends BaseContract {
   ): Promise<this>;
 
   other: TypedContractMethod<[b: BigNumberish], [bigint], "view">;
+
+  getFunction<T extends ContractMethod = ContractMethod>(
+    key: string | FunctionFragment
+  ): T;
 
   getFunction(
     nameOrSignature: "other"

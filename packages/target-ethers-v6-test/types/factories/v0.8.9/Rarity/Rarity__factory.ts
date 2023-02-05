@@ -3,7 +3,7 @@
 /* eslint-disable */
 
 import { Contract, Interface } from "ethers";
-import type { ContractRunner } from "ethers/types/providers";
+import type { ContractRunner } from "ethers/providers";
 import type { Rarity, RarityInterface } from "../../../v0.8.9/Rarity/Rarity";
 
 const _abi = [

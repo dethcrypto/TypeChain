@@ -3,7 +3,7 @@
 /* eslint-disable */
 
 import { Contract, Interface } from "ethers";
-import type { ContractRunner } from "ethers/types/providers";
+import type { ContractRunner } from "ethers/providers";
 import type { Overloads, OverloadsInterface } from "../../v0.6.4/Overloads";
 
 const _abi = [

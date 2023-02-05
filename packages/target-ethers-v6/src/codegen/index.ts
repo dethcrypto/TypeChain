@@ -80,6 +80,8 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
       .map(codegenFunctions.bind(null, { codegenConfig }))
       .join('\n')}
 
+
+    getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
     
     ${values(contract.functions)
       .flatMap((v) => processDeclaration(v, alwaysGenerateOverloads, generateGetFunctionForContract))
@@ -111,9 +113,9 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
           'Interface',
           'EventFragment',
         ],
-        'type ethers/types/providers': ['ContractRunner', 'TransactionRequest'],
-        'type ethers/types/contract': ['ContractEvent', 'EventLog'],
-        'type ethers/src.ts/utils': ['Listener'],
+        'type ethers/providers': ['ContractRunner', 'TransactionRequest'],
+        'type ethers/contract': ['ContractEvent', 'ContractMethod', 'EventLog'],
+        'type ethers/utils': ['Listener'],
       },
       source,
     ) +
@@ -193,7 +195,7 @@ export function codegenContractFactory(
           'BigNumberish',
           'Overrides',
         ],
-        'type @ethersproject/providers': ['Provider', 'TransactionRequest'],
+        'type ethers/providers': ['Provider', 'TransactionRequest'],
       },
       source,
     ) +
@@ -207,7 +209,7 @@ export function codegenAbstractContractFactory(contract: Contract, abi: any): st
   const { body, header } = codegenCommonContractFactory(contract, abi)
   return `
   import { Contract, Interface } from "ethers";
-  import type { ContractRunner } from "ethers/types/providers";
+  import type { ContractRunner } from "ethers/providers";
   ${header}
 
   export class ${contract.name}${FACTORY_POSTFIX} {
