@@ -23,13 +23,19 @@ import type {
 export declare namespace StructsLib1 {
   export type InfoStruct = { a: BigNumberish; b: BigNumberish };
 
-  export type InfoStructOutput = [bigint, bigint] & { a: bigint; b: bigint };
+  export type InfoStructOutput = [a: bigint, b: bigint] & {
+    a: bigint;
+    b: bigint;
+  };
 }
 
 export declare namespace StructsLib2 {
   export type InfoStruct = { a: string; b: string };
 
-  export type InfoStructOutput = [string, string] & { a: string; b: string };
+  export type InfoStructOutput = [a: string, b: string] & {
+    a: string;
+    b: string;
+  };
 }
 
 export declare namespace DataTypesInput {
@@ -38,7 +44,7 @@ export declare namespace DataTypesInput {
     uint256_1: BigNumberish;
   };
 
-  export type Struct1StructOutput = [bigint, bigint] & {
+  export type Struct1StructOutput = [uint256_0: bigint, uint256_1: bigint] & {
     uint256_0: bigint;
     uint256_1: bigint;
   };
@@ -49,13 +55,13 @@ export declare namespace DataTypesInput {
   };
 
   export type Struct2StructOutput = [
-    bigint,
-    DataTypesInput.Struct1StructOutput
+    input1: bigint,
+    input2: DataTypesInput.Struct1StructOutput
   ] & { input1: bigint; input2: DataTypesInput.Struct1StructOutput };
 
   export type Struct3Struct = { input1: BigNumberish[] };
 
-  export type Struct3StructOutput = [bigint[]] & { input1: bigint[] };
+  export type Struct3StructOutput = [input1: bigint[]] & { input1: bigint[] };
 }
 
 export interface DataTypesInputInterface extends Interface {

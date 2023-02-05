@@ -24,7 +24,7 @@ import type {
 export declare namespace Events {
   export type EventDataStruct = { index: BigNumberish; name: string };
 
-  export type EventDataStructOutput = [bigint, string] & {
+  export type EventDataStructOutput = [index: bigint, name: string] & {
     index: bigint;
     name: string;
   };

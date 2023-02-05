@@ -26,7 +26,7 @@ export declare namespace DataTypesView {
     uint256_1: BigNumberish;
   };
 
-  export type Struct1StructOutput = [bigint, bigint] & {
+  export type Struct1StructOutput = [uint256_0: bigint, uint256_1: bigint] & {
     uint256_0: bigint;
     uint256_1: bigint;
   };

@@ -26,10 +26,10 @@ export declare namespace Issue552_Observer {
     blockTimestamp: BigNumberish;
   };
 
-  export type ObservationStructOutput = [bigint, bigint] & {
-    val: bigint;
-    blockTimestamp: bigint;
-  };
+  export type ObservationStructOutput = [
+    val: bigint,
+    blockTimestamp: bigint
+  ] & { val: bigint; blockTimestamp: bigint };
 }
 
 export declare namespace Issue552_Reproduction {
@@ -39,8 +39,8 @@ export declare namespace Issue552_Reproduction {
   };
 
   export type ObservationParamsStructOutput = [
-    Issue552_Observer.ObservationStructOutput[],
-    bigint
+    observations: Issue552_Observer.ObservationStructOutput[],
+    index: bigint
   ] & {
     observations: Issue552_Observer.ObservationStructOutput[];
     index: bigint;

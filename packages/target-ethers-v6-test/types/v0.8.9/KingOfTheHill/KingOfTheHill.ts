@@ -24,7 +24,7 @@ import type {
 export declare namespace KingOfTheHill {
   export type BidStruct = { bidder: string; value: BigNumberish };
 
-  export type BidStructOutput = [string, bigint] & {
+  export type BidStructOutput = [bidder: string, value: bigint] & {
     bidder: string;
     value: bigint;
   };

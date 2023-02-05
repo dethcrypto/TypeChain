@@ -30,8 +30,8 @@ function generateExports(struct: StructWithName): string {
 
   const inputName = `${identifier}${STRUCT_INPUT_POSTFIX}`
   const outputName = `${identifier}${STRUCT_OUTPUT_POSTFIX}`
-  const inputType = generateInputType({ useStructs: false }, struct)
-  const outputType = generateOutputType({ useStructs: false }, struct)
+  const inputType = generateInputType({ useStructs: false, includeLabelsInTupleTypes: true }, struct)
+  const outputType = generateOutputType({ useStructs: false, includeLabelsInTupleTypes: true }, struct)
 
   return `
     export type ${inputName} = ${inputType}
