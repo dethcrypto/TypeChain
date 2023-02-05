@@ -1,8 +1,9 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { expect } from 'earljs'
 import { CodegenConfig, Contract, EventDeclaration, parse, RawAbiDefinition } from 'typechain'
 
 import { codegenContractFactory } from '../src/codegen'
-import { generateEventFilters } from '../src/codegen/events'
+import { generateEventTypeExport } from '../src/codegen/events'
 
 const DEFAULT_FLAGS: CodegenConfig = {
   alwaysGenerateOverloads: false,
@@ -39,39 +40,36 @@ describe('Ethers generation edge cases', () => {
   })
 })
 
-describe(generateEventFilters.name, () => {
+describe(generateEventTypeExport.name, () => {
   it('generates proper argument names even if arguments are not named in Solidity', () => {
-    const events: EventDeclaration[] = [
-      {
-        name: 'UpdateFrequencySet',
-        isAnonymous: false,
-        inputs: [
-          {
-            name: undefined,
-            isIndexed: false,
-            type: {
-              type: 'array',
-              itemType: { type: 'address', originalType: 'address' },
-              originalType: 'address[]',
-            },
+    const event: EventDeclaration = {
+      name: 'UpdateFrequencySet',
+      isAnonymous: false,
+      inputs: [
+        {
+          name: undefined,
+          isIndexed: false,
+          type: {
+            type: 'array',
+            itemType: { type: 'address', originalType: 'address' },
+            originalType: 'address[]',
           },
-          {
-            name: undefined,
-            isIndexed: false,
-            type: {
-              type: 'array',
-              itemType: { type: 'uinteger', bits: 256, originalType: 'uint256' },
-              originalType: 'uint256[]',
-            },
+        },
+        {
+          name: undefined,
+          isIndexed: false,
+          type: {
+            type: 'array',
+            itemType: { type: 'uinteger', bits: 256, originalType: 'uint256' },
+            originalType: 'uint256[]',
           },
-        ],
-      },
-    ]
+        },
+      ],
+    }
 
-    const actual = generateEventFilters(events)
-
-    expect(actual).toEqual(expect.stringMatching('arg0?: null'))
-    expect(actual).toEqual(expect.stringMatching('arg1?: null'))
+    const actual = generateEventTypeExport(event, false)
+    expect(actual).toEqual(expect.stringMatching('arg0: string[]'))
+    expect(actual).toEqual(expect.stringMatching('arg1: bigint[]'))
   })
 
   it('generates argument names from event field names in the ABI', () => {
@@ -89,10 +87,11 @@ describe(generateEventFilters.name, () => {
     ] as any as RawAbiDefinition[]
 
     const contract = parse(abi, 'Rarity')
-    const [actual] = Object.values(contract.events).map(generateEventFilters)
 
-    expect(actual).toEqual(expect.stringMatching('owner?: PromiseOrValue<string>'))
-    expect(actual).toEqual(expect.stringMatching('approved?: PromiseOrValue<string>'))
-    expect(actual).toEqual(expect.stringMatching('tokenId?: PromiseOrValue<BigNumberish>'))
+    const actual = generateEventTypeExport(Object.values(contract.events)[0][0], false)
+
+    expect(actual).toEqual(expect.stringMatching('owner: string'))
+    expect(actual).toEqual(expect.stringMatching('approved: string'))
+    expect(actual).toEqual(expect.stringMatching('tokenId: BigNumberish'))
   })
 })

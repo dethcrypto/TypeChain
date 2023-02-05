@@ -28,9 +28,9 @@ export function createNewBlockchain<TContract>(contractName: string) {
   beforeEach(async () => {
     const ganache = createGanacheServer({ logging: { quiet: true } })
 
-    await ganache.listen(8545)
+    await ganache.listen(8546)
 
-    const provider = new JsonRpcProvider()
+    const provider = new JsonRpcProvider('http://localhost:8546')
     const signer = await provider.getSigner(0)
 
     const contract = await deployContract<TContract>(signer, contractName)

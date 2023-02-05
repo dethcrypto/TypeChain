@@ -32,14 +32,14 @@ describe(generateStructTypes.name, () => {
     expect(prettier(actual)).toEqual(
       prettier(
         `
-        export type Vector2Struct = { x: PromiseOrValue<BigNumberish>, y: PromiseOrValue<BigNumberish> }
+        export type Vector2Struct = { x: BigNumberish, y: BigNumberish }
 
-        export type Vector2StructOutput = [BigNumber, BigNumber] & { x: BigNumber, y: BigNumber }
+        export type Vector2StructOutput = [x: bigint, y: bigint] & { x: bigint, y: bigint }
 
         export declare namespace Multicall {
-          export type CallStruct = { target: PromiseOrValue<string>, callData: PromiseOrValue<BytesLike> }
+          export type CallStruct = { target: string, callData: BytesLike }
 
-          export type CallStructOutput = [string, string] & { target: string, callData: string }
+          export type CallStructOutput = [target: string, callData: string] & { target: string, callData: string }
         }`,
       ),
     )
