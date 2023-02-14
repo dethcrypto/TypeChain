@@ -6,6 +6,7 @@ export function getDefaultTypechainConfig(config: HardhatConfig): TypechainConfi
   const defaultConfig: TypechainConfig = {
     outDir: 'typechain-types',
     target: 'ethers-v6',
+    artifacts: undefined,
     alwaysGenerateOverloads: false,
     discriminateTypes: false,
     tsNocheck: false,

@@ -129,6 +129,86 @@ describe('Typechain x Hardhat', function () {
       expect(consoleLogMock).toHaveBeenCalledWith(['Successfully generated 14 typings for external artifacts!'])
     })
   })
+
+  describe('when setting custom artifact glob', () => {
+    let oldArtifactGlob: string[] | undefined
+    beforeEach(function () {
+      oldArtifactGlob = this.hre.config.typechain.artifacts
+    })
+    afterEach(function () {
+      this.hre.config.typechain.artifacts = oldArtifactGlob
+    })
+    ;[true, false].forEach((forcedCompilation) => {
+      describe(`when type generation is ${forcedCompilation ? '' : 'not'} forced`, () => {
+        let subject: () => Promise<void>
+        beforeEach(async function () {
+          if (forcedCompilation) {
+            await this.hre.run('compile', { noTypechain: true })
+          }
+          subject = () => {
+            if (forcedCompilation) {
+              return this.hre.run('typechain')
+            } else {
+              return this.hre.run('compile')
+            }
+          }
+        })
+
+        describe('when glob matches some files', () => {
+          beforeEach(function () {
+            this.hre.config.typechain.artifacts = ['**/EdgeCases.json']
+          })
+
+          it('includes build artifacts that match the glob', async function () {
+            const exists = existsSync(this.hre.config.typechain.outDir)
+            expect(exists).toEqual(false)
+
+            await subject()
+
+            const dir = await readdir(this.hre.config.typechain.outDir)
+            expect(dir.includes('EdgeCases.ts')).toEqual(true)
+          })
+
+          it('excludes build artifacts that do not match the glob', async function () {
+            const exists = existsSync(this.hre.config.typechain.outDir)
+            expect(exists).toEqual(false)
+
+            await subject()
+
+            const dir = await readdir(this.hre.config.typechain.outDir)
+            expect(dir.includes('TestContract.ts')).toEqual(false)
+            expect(dir.includes('TestContract1.ts')).toEqual(false)
+          })
+        })
+        describe('when glob matches no files', () => {
+          beforeEach(function () {
+            this.hre.config.typechain.artifacts = ['**/THISDOESNTMATCHANYTHING.json']
+          })
+
+          describe('when no external artifacts are specified', () => {
+            it('does not generate any types', async function () {
+              const exists = existsSync(this.hre.config.typechain.outDir)
+              expect(exists).toEqual(false)
+
+              await subject()
+              expect(existsSync(this.hre.config.typechain.outDir)).toEqual(false)
+            })
+          })
+
+          describe('when external artifacts are specified', () => {
+            it('only generates types for external artifacts', async function () {
+              const exists = existsSync(this.hre.config.typechain.outDir)
+              expect(exists).toEqual(false)
+
+              this.hre.config.typechain.externalArtifacts = ['externalArtifacts/*.json']
+              await subject()
+              expect(existsSync(this.hre.config.typechain.outDir)).toEqual(true)
+            })
+          })
+        })
+      })
+    })
+  })
 })
 
 describe('dontOverrideCompile', function () {
