@@ -18,7 +18,6 @@ export interface TypedContractEvent<
   getFragment(...args: Partial<InputTuple>): EventFragment
 }
 
-type __TypechainInputTuple<T> = T extends TypedContractEvent<infer U> ? U : never
 type __TypechainAOutputTuple<T> = T extends TypedContractEvent<infer _U, infer W> ? W : never
 type __TypechainOutputObject<T> = T extends TypedContractEvent<infer _U, infer _W, infer V> ? V : never
 
