@@ -38,7 +38,7 @@ export function generateInputType(options: GenerateTypeOptions, evmType: EvmType
     case 'uinteger':
       return 'BigNumberish'
     case 'address':
-      return 'string'
+      return 'AddressLike'
     case 'bytes':
     case 'dynamic-bytes':
       return 'BytesLike'
