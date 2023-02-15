@@ -5,7 +5,6 @@ import {
   CodegenConfig,
   Contract,
   createImportsForUsedIdentifiers,
-  createImportTypeDeclaration,
   EventDeclaration,
   FunctionDeclaration,
   StructType,
@@ -135,8 +134,8 @@ export function codegenContractFactory(
     (contract.constructor[0] ? generateInputTypes(contract.constructor[0].inputs, { useStructs: true }) : '') +
     `overrides?: ${
       contract.constructor[0]?.stateMutability === 'payable'
-        ? 'PayableOverrides & { from?: PromiseOrValue<string> }'
-        : 'NonPayableOverrides & { from?: PromiseOrValue<string> }'
+        ? 'PayableOverrides & { from?: string }'
+        : 'NonPayableOverrides & { from?: string }'
     }`
   const constructorArgNamesWithoutOverrides = contract.constructor[0]
     ? generateParamNames(contract.constructor[0].inputs)
@@ -180,8 +179,6 @@ export function codegenContractFactory(
   ${generateLibraryAddressesInterface(contract, bytecode)}
   `
 
-  const commonPath = `${new Array(contract.path.length + 1).fill('..').join('/')}/common`
-
   const imports =
     createImportsForUsedIdentifiers(
       {
@@ -198,9 +195,7 @@ export function codegenContractFactory(
         'type ethers/providers': ['Provider', 'TransactionRequest'],
       },
       source,
-    ) +
-    '\n' +
-    createImportTypeDeclaration(['PromiseOrValue'], commonPath)
+    ) + '\n'
 
   return imports + source
 }
