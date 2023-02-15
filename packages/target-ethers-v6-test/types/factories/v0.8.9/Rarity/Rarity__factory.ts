@@ -623,7 +623,7 @@ export class Rarity__factory {
   static createInterface(): RarityInterface {
     return new Interface(_abi) as RarityInterface;
   }
-  static connect(address: string, runner: ContractRunner): Rarity {
+  static connect(address: string, runner?: ContractRunner | null): Rarity {
     return new Contract(address, _abi, runner) as unknown as Rarity;
   }
 }

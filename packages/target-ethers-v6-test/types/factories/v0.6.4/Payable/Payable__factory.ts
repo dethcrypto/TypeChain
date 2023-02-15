@@ -31,7 +31,7 @@ export class Payable__factory {
   static createInterface(): PayableInterface {
     return new Interface(_abi) as PayableInterface;
   }
-  static connect(address: string, runner: ContractRunner): Payable {
+  static connect(address: string, runner?: ContractRunner | null): Payable {
     return new Contract(address, _abi, runner) as unknown as Payable;
   }
 }

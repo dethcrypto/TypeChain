@@ -24,7 +24,10 @@ export class Withdrawable__factory {
   static createInterface(): WithdrawableInterface {
     return new Interface(_abi) as WithdrawableInterface;
   }
-  static connect(address: string, runner: ContractRunner): Withdrawable {
+  static connect(
+    address: string,
+    runner?: ContractRunner | null
+  ): Withdrawable {
     return new Contract(address, _abi, runner) as unknown as Withdrawable;
   }
 }

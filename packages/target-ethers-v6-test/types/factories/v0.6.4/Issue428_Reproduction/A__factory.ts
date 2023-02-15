@@ -27,7 +27,7 @@ export class A__factory {
   static createInterface(): AInterface {
     return new Interface(_abi) as AInterface;
   }
-  static connect(address: string, runner: ContractRunner): A {
+  static connect(address: string, runner?: ContractRunner | null): A {
     return new Contract(address, _abi, runner) as unknown as A;
   }
 }

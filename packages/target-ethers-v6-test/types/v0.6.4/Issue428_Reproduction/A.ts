@@ -7,6 +7,7 @@ import type {
   Interface,
   EventFragment,
 } from "ethers";
+import type { AddressLike } from "ethers/address";
 import type { ContractRunner } from "ethers/providers";
 import type { ContractMethod } from "ethers/contract";
 import type { Listener } from "ethers/utils";
@@ -22,7 +23,7 @@ export interface AInterface extends Interface {
 }
 
 export namespace CommittedEvent {
-  export type InputTuple = [whitelist: string[]];
+  export type InputTuple = [whitelist: AddressLike[]];
   export type OutputTuple = [whitelist: string[]];
   export interface OutputObject {
     whitelist: string[];
@@ -32,8 +33,8 @@ export namespace CommittedEvent {
 }
 
 export interface A extends BaseContract {
-  connect(runner: null | ContractRunner): BaseContract;
-  attach(addressOrName: string): this;
+  connect(runner?: ContractRunner | null): BaseContract;
+  attach(addressOrName: AddressLike): this;
   deployed(): Promise<this>;
 
   interface: AInterface;

@@ -183,7 +183,7 @@ export class Events__factory {
   static createInterface(): EventsInterface {
     return new Interface(_abi) as EventsInterface;
   }
-  static connect(address: string, runner: ContractRunner): Events {
+  static connect(address: string, runner?: ContractRunner | null): Events {
     return new Contract(address, _abi, runner) as unknown as Events;
   }
 }

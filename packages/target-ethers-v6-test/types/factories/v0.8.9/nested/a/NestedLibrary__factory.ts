@@ -30,7 +30,10 @@ export class NestedLibrary__factory {
   static createInterface(): NestedLibraryInterface {
     return new Interface(_abi) as NestedLibraryInterface;
   }
-  static connect(address: string, runner: ContractRunner): NestedLibrary {
+  static connect(
+    address: string,
+    runner?: ContractRunner | null
+  ): NestedLibrary {
     return new Contract(address, _abi, runner) as unknown as NestedLibrary;
   }
 }

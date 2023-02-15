@@ -33,7 +33,7 @@ export class Lib__factory {
   static createInterface(): LibInterface {
     return new Interface(_abi) as LibInterface;
   }
-  static connect(address: string, runner: ContractRunner): Lib {
+  static connect(address: string, runner?: ContractRunner | null): Lib {
     return new Contract(address, _abi, runner) as unknown as Lib;
   }
 }

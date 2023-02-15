@@ -40,7 +40,7 @@ export class B__factory {
   static createInterface(): BInterface {
     return new Interface(_abi) as BInterface;
   }
-  static connect(address: string, runner: ContractRunner): B {
+  static connect(address: string, runner?: ContractRunner | null): B {
     return new Contract(address, _abi, runner) as unknown as B;
   }
 }

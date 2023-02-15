@@ -36,7 +36,10 @@ export class LibraryConsumer__factory {
   static createInterface(): LibraryConsumerInterface {
     return new Interface(_abi) as LibraryConsumerInterface;
   }
-  static connect(address: string, runner: ContractRunner): LibraryConsumer {
+  static connect(
+    address: string,
+    runner?: ContractRunner | null
+  ): LibraryConsumer {
     return new Contract(address, _abi, runner) as unknown as LibraryConsumer;
   }
 }

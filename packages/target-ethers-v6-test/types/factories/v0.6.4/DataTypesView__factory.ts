@@ -221,7 +221,10 @@ export class DataTypesView__factory {
   static createInterface(): DataTypesViewInterface {
     return new Interface(_abi) as DataTypesViewInterface;
   }
-  static connect(address: string, runner: ContractRunner): DataTypesView {
+  static connect(
+    address: string,
+    runner?: ContractRunner | null
+  ): DataTypesView {
     return new Contract(address, _abi, runner) as unknown as DataTypesView;
   }
 }

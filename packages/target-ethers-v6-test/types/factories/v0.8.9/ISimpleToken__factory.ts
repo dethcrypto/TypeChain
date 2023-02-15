@@ -35,7 +35,10 @@ export class ISimpleToken__factory {
   static createInterface(): ISimpleTokenInterface {
     return new Interface(_abi) as ISimpleTokenInterface;
   }
-  static connect(address: string, runner: ContractRunner): ISimpleToken {
+  static connect(
+    address: string,
+    runner?: ContractRunner | null
+  ): ISimpleToken {
     return new Contract(address, _abi, runner) as unknown as ISimpleToken;
   }
 }

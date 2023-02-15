@@ -43,7 +43,10 @@ export class NAME12mangling__factory {
   static createInterface(): NAME12manglingInterface {
     return new Interface(_abi) as NAME12manglingInterface;
   }
-  static connect(address: string, runner: ContractRunner): NAME12mangling {
+  static connect(
+    address: string,
+    runner?: ContractRunner | null
+  ): NAME12mangling {
     return new Contract(address, _abi, runner) as unknown as NAME12mangling;
   }
 }

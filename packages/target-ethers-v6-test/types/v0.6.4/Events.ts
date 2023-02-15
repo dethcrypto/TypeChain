@@ -10,6 +10,7 @@ import type {
   Interface,
   EventFragment,
 } from "ethers";
+import type { AddressLike } from "ethers/address";
 import type { ContractRunner } from "ethers/providers";
 import type { ContractMethod } from "ethers/contract";
 import type { Listener } from "ethers/utils";
@@ -172,7 +173,7 @@ export namespace NoArgsEventEvent {
 }
 
 export namespace UpdateFrequencySetEvent {
-  export type InputTuple = [arg0: string[], arg1: BigNumberish[]];
+  export type InputTuple = [arg0: AddressLike[], arg1: BigNumberish[]];
   export type OutputTuple = [arg0: string[], arg1: bigint[]];
   export interface OutputObject {
     arg0: string[];
@@ -183,8 +184,8 @@ export namespace UpdateFrequencySetEvent {
 }
 
 export interface Events extends BaseContract {
-  connect(runner: null | ContractRunner): BaseContract;
-  attach(addressOrName: string): this;
+  connect(runner?: ContractRunner | null): BaseContract;
+  attach(addressOrName: AddressLike): this;
   deployed(): Promise<this>;
 
   interface: EventsInterface;

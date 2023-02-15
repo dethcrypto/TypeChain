@@ -10,6 +10,7 @@ import type {
   Interface,
   EventFragment,
 } from "ethers";
+import type { AddressLike } from "ethers/address";
 import type { ContractRunner } from "ethers/providers";
 import type { ContractMethod } from "ethers/contract";
 import type { Listener } from "ethers/utils";
@@ -44,16 +45,19 @@ export interface IERC721EnumerableInterface extends Interface {
 
   encodeFunctionData(
     functionFragment: "approve",
-    values: [string, BigNumberish]
+    values: [AddressLike, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "balanceOf",
+    values: [AddressLike]
+  ): string;
   encodeFunctionData(
     functionFragment: "getApproved",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
-    values: [string, string]
+    values: [AddressLike, AddressLike]
   ): string;
   encodeFunctionData(
     functionFragment: "ownerOf",
@@ -61,15 +65,15 @@ export interface IERC721EnumerableInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "safeTransferFrom(address,address,uint256)",
-    values: [string, string, BigNumberish]
+    values: [AddressLike, AddressLike, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "safeTransferFrom(address,address,uint256,bytes)",
-    values: [string, string, BigNumberish, BytesLike]
+    values: [AddressLike, AddressLike, BigNumberish, BytesLike]
   ): string;
   encodeFunctionData(
     functionFragment: "setApprovalForAll",
-    values: [string, boolean]
+    values: [AddressLike, boolean]
   ): string;
   encodeFunctionData(
     functionFragment: "tokenByIndex",
@@ -77,7 +81,7 @@ export interface IERC721EnumerableInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "tokenOfOwnerByIndex",
-    values: [string, BigNumberish]
+    values: [AddressLike, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "totalSupply",
@@ -85,7 +89,7 @@ export interface IERC721EnumerableInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "transferFrom",
-    values: [string, string, BigNumberish]
+    values: [AddressLike, AddressLike, BigNumberish]
   ): string;
 
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
@@ -131,8 +135,8 @@ export interface IERC721EnumerableInterface extends Interface {
 
 export namespace ApprovalEvent {
   export type InputTuple = [
-    owner: string,
-    approved: string,
+    owner: AddressLike,
+    approved: AddressLike,
     tokenId: BigNumberish
   ];
   export type OutputTuple = [owner: string, approved: string, tokenId: bigint];
@@ -146,7 +150,11 @@ export namespace ApprovalEvent {
 }
 
 export namespace ApprovalForAllEvent {
-  export type InputTuple = [owner: string, operator: string, approved: boolean];
+  export type InputTuple = [
+    owner: AddressLike,
+    operator: AddressLike,
+    approved: boolean
+  ];
   export type OutputTuple = [
     owner: string,
     operator: string,
@@ -162,7 +170,11 @@ export namespace ApprovalForAllEvent {
 }
 
 export namespace TransferEvent {
-  export type InputTuple = [from: string, to: string, tokenId: BigNumberish];
+  export type InputTuple = [
+    from: AddressLike,
+    to: AddressLike,
+    tokenId: BigNumberish
+  ];
   export type OutputTuple = [from: string, to: string, tokenId: bigint];
   export interface OutputObject {
     from: string;
@@ -174,8 +186,8 @@ export namespace TransferEvent {
 }
 
 export interface IERC721Enumerable extends BaseContract {
-  connect(runner: null | ContractRunner): BaseContract;
-  attach(addressOrName: string): this;
+  connect(runner?: ContractRunner | null): BaseContract;
+  attach(addressOrName: AddressLike): this;
   deployed(): Promise<this>;
 
   interface: IERC721EnumerableInterface;
@@ -218,17 +230,17 @@ export interface IERC721Enumerable extends BaseContract {
   ): Promise<this>;
 
   approve: TypedContractMethod<
-    [to: string, tokenId: BigNumberish],
+    [to: AddressLike, tokenId: BigNumberish],
     [void],
     "nonpayable"
   >;
 
-  balanceOf: TypedContractMethod<[owner: string], [bigint], "view">;
+  balanceOf: TypedContractMethod<[owner: AddressLike], [bigint], "view">;
 
   getApproved: TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
 
   isApprovedForAll: TypedContractMethod<
-    [owner: string, operator: string],
+    [owner: AddressLike, operator: AddressLike],
     [boolean],
     "view"
   >;
@@ -236,19 +248,24 @@ export interface IERC721Enumerable extends BaseContract {
   ownerOf: TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
 
   "safeTransferFrom(address,address,uint256)": TypedContractMethod<
-    [from: string, to: string, tokenId: BigNumberish],
+    [from: AddressLike, to: AddressLike, tokenId: BigNumberish],
     [void],
     "nonpayable"
   >;
 
   "safeTransferFrom(address,address,uint256,bytes)": TypedContractMethod<
-    [from: string, to: string, tokenId: BigNumberish, data: BytesLike],
+    [
+      from: AddressLike,
+      to: AddressLike,
+      tokenId: BigNumberish,
+      data: BytesLike
+    ],
     [void],
     "nonpayable"
   >;
 
   setApprovalForAll: TypedContractMethod<
-    [operator: string, _approved: boolean],
+    [operator: AddressLike, _approved: boolean],
     [void],
     "nonpayable"
   >;
@@ -256,7 +273,7 @@ export interface IERC721Enumerable extends BaseContract {
   tokenByIndex: TypedContractMethod<[index: BigNumberish], [bigint], "view">;
 
   tokenOfOwnerByIndex: TypedContractMethod<
-    [owner: string, index: BigNumberish],
+    [owner: AddressLike, index: BigNumberish],
     [bigint],
     "view"
   >;
@@ -264,7 +281,7 @@ export interface IERC721Enumerable extends BaseContract {
   totalSupply: TypedContractMethod<[], [bigint], "view">;
 
   transferFrom: TypedContractMethod<
-    [from: string, to: string, tokenId: BigNumberish],
+    [from: AddressLike, to: AddressLike, tokenId: BigNumberish],
     [void],
     "nonpayable"
   >;
@@ -276,40 +293,49 @@ export interface IERC721Enumerable extends BaseContract {
   getFunction(
     nameOrSignature: "approve"
   ): TypedContractMethod<
-    [to: string, tokenId: BigNumberish],
+    [to: AddressLike, tokenId: BigNumberish],
     [void],
     "nonpayable"
   >;
   getFunction(
     nameOrSignature: "balanceOf"
-  ): TypedContractMethod<[owner: string], [bigint], "view">;
+  ): TypedContractMethod<[owner: AddressLike], [bigint], "view">;
   getFunction(
     nameOrSignature: "getApproved"
   ): TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
   getFunction(
     nameOrSignature: "isApprovedForAll"
-  ): TypedContractMethod<[owner: string, operator: string], [boolean], "view">;
+  ): TypedContractMethod<
+    [owner: AddressLike, operator: AddressLike],
+    [boolean],
+    "view"
+  >;
   getFunction(
     nameOrSignature: "ownerOf"
   ): TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
   getFunction(
     nameOrSignature: "safeTransferFrom(address,address,uint256)"
   ): TypedContractMethod<
-    [from: string, to: string, tokenId: BigNumberish],
+    [from: AddressLike, to: AddressLike, tokenId: BigNumberish],
     [void],
     "nonpayable"
   >;
   getFunction(
     nameOrSignature: "safeTransferFrom(address,address,uint256,bytes)"
   ): TypedContractMethod<
-    [from: string, to: string, tokenId: BigNumberish, data: BytesLike],
+    [
+      from: AddressLike,
+      to: AddressLike,
+      tokenId: BigNumberish,
+      data: BytesLike
+    ],
     [void],
     "nonpayable"
   >;
   getFunction(
     nameOrSignature: "setApprovalForAll"
   ): TypedContractMethod<
-    [operator: string, _approved: boolean],
+    [operator: AddressLike, _approved: boolean],
     [void],
     "nonpayable"
   >;
@@ -319,7 +345,7 @@ export interface IERC721Enumerable extends BaseContract {
   getFunction(
     nameOrSignature: "tokenOfOwnerByIndex"
   ): TypedContractMethod<
-    [owner: string, index: BigNumberish],
+    [owner: AddressLike, index: BigNumberish],
     [bigint],
     "view"
   >;
@@ -329,7 +355,7 @@ export interface IERC721Enumerable extends BaseContract {
   getFunction(
     nameOrSignature: "transferFrom"
   ): TypedContractMethod<
-    [from: string, to: string, tokenId: BigNumberish],
+    [from: AddressLike, to: AddressLike, tokenId: BigNumberish],
     [void],
     "nonpayable"
   >;

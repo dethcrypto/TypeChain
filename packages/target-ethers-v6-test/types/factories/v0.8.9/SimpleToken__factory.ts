@@ -35,7 +35,7 @@ export class SimpleToken__factory {
   static createInterface(): SimpleTokenInterface {
     return new Interface(_abi) as SimpleTokenInterface;
   }
-  static connect(address: string, runner: ContractRunner): SimpleToken {
+  static connect(address: string, runner?: ContractRunner | null): SimpleToken {
     return new Contract(address, _abi, runner) as unknown as SimpleToken;
   }
 }

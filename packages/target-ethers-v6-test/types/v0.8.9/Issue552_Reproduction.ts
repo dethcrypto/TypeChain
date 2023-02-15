@@ -9,6 +9,7 @@ import type {
   Result,
   Interface,
 } from "ethers";
+import type { AddressLike } from "ethers/address";
 import type { ContractRunner } from "ethers/providers";
 import type { ContractMethod } from "ethers/contract";
 import type { Listener } from "ethers/utils";
@@ -71,8 +72,8 @@ export interface Issue552_ReproductionInterface extends Interface {
 }
 
 export interface Issue552_Reproduction extends BaseContract {
-  connect(runner: null | ContractRunner): BaseContract;
-  attach(addressOrName: string): this;
+  connect(runner?: ContractRunner | null): BaseContract;
+  attach(addressOrName: AddressLike): this;
   deployed(): Promise<this>;
 
   interface: Issue552_ReproductionInterface;

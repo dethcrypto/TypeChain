@@ -339,7 +339,10 @@ export class ERC721Enumerable__factory {
   static createInterface(): ERC721EnumerableInterface {
     return new Interface(_abi) as ERC721EnumerableInterface;
   }
-  static connect(address: string, runner: ContractRunner): ERC721Enumerable {
+  static connect(
+    address: string,
+    runner?: ContractRunner | null
+  ): ERC721Enumerable {
     return new Contract(address, _abi, runner) as unknown as ERC721Enumerable;
   }
 }

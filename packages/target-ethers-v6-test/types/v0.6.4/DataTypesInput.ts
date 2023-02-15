@@ -9,6 +9,7 @@ import type {
   Result,
   Interface,
 } from "ethers";
+import type { AddressLike } from "ethers/address";
 import type { ContractRunner } from "ethers/providers";
 import type { ContractMethod } from "ethers/contract";
 import type { Listener } from "ethers/utils";
@@ -30,7 +31,7 @@ export declare namespace StructsLib1 {
 }
 
 export declare namespace StructsLib2 {
-  export type InfoStruct = { a: string; b: string };
+  export type InfoStruct = { a: AddressLike; b: AddressLike };
 
   export type InfoStructOutput = [a: string, b: string] & {
     a: string;
@@ -99,7 +100,7 @@ export interface DataTypesInputInterface extends Interface {
 
   encodeFunctionData(
     functionFragment: "input_address",
-    values: [string]
+    values: [AddressLike]
   ): string;
   encodeFunctionData(functionFragment: "input_bool", values: [boolean]): string;
   encodeFunctionData(
@@ -361,8 +362,8 @@ export interface DataTypesInputInterface extends Interface {
 }
 
 export interface DataTypesInput extends BaseContract {
-  connect(runner: null | ContractRunner): BaseContract;
-  attach(addressOrName: string): this;
+  connect(runner?: ContractRunner | null): BaseContract;
+  attach(addressOrName: AddressLike): this;
   deployed(): Promise<this>;
 
   interface: DataTypesInputInterface;
@@ -404,7 +405,7 @@ export interface DataTypesInput extends BaseContract {
     event?: TCEvent
   ): Promise<this>;
 
-  input_address: TypedContractMethod<[input1: string], [string], "view">;
+  input_address: TypedContractMethod<[input1: AddressLike], [string], "view">;
 
   input_bool: TypedContractMethod<[input1: boolean], [boolean], "view">;
 
@@ -692,7 +693,7 @@ export interface DataTypesInput extends BaseContract {
 
   getFunction(
     nameOrSignature: "input_address"
-  ): TypedContractMethod<[input1: string], [string], "view">;
+  ): TypedContractMethod<[input1: AddressLike], [string], "view">;
   getFunction(
     nameOrSignature: "input_bool"
   ): TypedContractMethod<[input1: boolean], [boolean], "view">;

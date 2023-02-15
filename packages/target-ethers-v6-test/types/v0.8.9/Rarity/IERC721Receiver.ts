@@ -9,6 +9,7 @@ import type {
   Result,
   Interface,
 } from "ethers";
+import type { AddressLike } from "ethers/address";
 import type { ContractRunner } from "ethers/providers";
 import type { ContractMethod } from "ethers/contract";
 import type { Listener } from "ethers/utils";
@@ -25,7 +26,7 @@ export interface IERC721ReceiverInterface extends Interface {
 
   encodeFunctionData(
     functionFragment: "onERC721Received",
-    values: [string, string, BigNumberish, BytesLike]
+    values: [AddressLike, AddressLike, BigNumberish, BytesLike]
   ): string;
 
   decodeFunctionResult(
@@ -35,8 +36,8 @@ export interface IERC721ReceiverInterface extends Interface {
 }
 
 export interface IERC721Receiver extends BaseContract {
-  connect(runner: null | ContractRunner): BaseContract;
-  attach(addressOrName: string): this;
+  connect(runner?: ContractRunner | null): BaseContract;
+  attach(addressOrName: AddressLike): this;
   deployed(): Promise<this>;
 
   interface: IERC721ReceiverInterface;
@@ -79,7 +80,12 @@ export interface IERC721Receiver extends BaseContract {
   ): Promise<this>;
 
   onERC721Received: TypedContractMethod<
-    [operator: string, from: string, tokenId: BigNumberish, data: BytesLike],
+    [
+      operator: AddressLike,
+      from: AddressLike,
+      tokenId: BigNumberish,
+      data: BytesLike
+    ],
     [string],
     "nonpayable"
   >;
@@ -91,7 +97,12 @@ export interface IERC721Receiver extends BaseContract {
   getFunction(
     nameOrSignature: "onERC721Received"
   ): TypedContractMethod<
-    [operator: string, from: string, tokenId: BigNumberish, data: BytesLike],
+    [
+      operator: AddressLike,
+      from: AddressLike,
+      tokenId: BigNumberish,
+      data: BytesLike
+    ],
     [string],
     "nonpayable"
   >;

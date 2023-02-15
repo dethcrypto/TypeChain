@@ -221,7 +221,10 @@ export class DataTypesPure__factory {
   static createInterface(): DataTypesPureInterface {
     return new Interface(_abi) as DataTypesPureInterface;
   }
-  static connect(address: string, runner: ContractRunner): DataTypesPure {
+  static connect(
+    address: string,
+    runner?: ContractRunner | null
+  ): DataTypesPure {
     return new Contract(address, _abi, runner) as unknown as DataTypesPure;
   }
 }

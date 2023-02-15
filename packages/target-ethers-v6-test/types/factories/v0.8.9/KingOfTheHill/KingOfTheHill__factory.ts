@@ -95,7 +95,10 @@ export class KingOfTheHill__factory {
   static createInterface(): KingOfTheHillInterface {
     return new Interface(_abi) as KingOfTheHillInterface;
   }
-  static connect(address: string, runner: ContractRunner): KingOfTheHill {
+  static connect(
+    address: string,
+    runner?: ContractRunner | null
+  ): KingOfTheHill {
     return new Contract(address, _abi, runner) as unknown as KingOfTheHill;
   }
 }

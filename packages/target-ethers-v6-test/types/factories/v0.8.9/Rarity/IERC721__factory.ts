@@ -280,7 +280,7 @@ export class IERC721__factory {
   static createInterface(): IERC721Interface {
     return new Interface(_abi) as IERC721Interface;
   }
-  static connect(address: string, runner: ContractRunner): IERC721 {
+  static connect(address: string, runner?: ContractRunner | null): IERC721 {
     return new Contract(address, _abi, runner) as unknown as IERC721;
   }
 }

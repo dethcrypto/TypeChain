@@ -957,7 +957,10 @@ export class DataTypesInput__factory {
   static createInterface(): DataTypesInputInterface {
     return new Interface(_abi) as DataTypesInputInterface;
   }
-  static connect(address: string, runner: ContractRunner): DataTypesInput {
+  static connect(
+    address: string,
+    runner?: ContractRunner | null
+  ): DataTypesInput {
     return new Contract(address, _abi, runner) as unknown as DataTypesInput;
   }
 }

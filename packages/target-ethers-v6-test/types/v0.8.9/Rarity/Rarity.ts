@@ -10,6 +10,7 @@ import type {
   Interface,
   EventFragment,
 } from "ethers";
+import type { AddressLike } from "ethers/address";
 import type { ContractRunner } from "ethers/providers";
 import type { ContractMethod } from "ethers/contract";
 import type { Listener } from "ethers/utils";
@@ -70,9 +71,12 @@ export interface RarityInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "approve",
-    values: [string, BigNumberish]
+    values: [AddressLike, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "balanceOf",
+    values: [AddressLike]
+  ): string;
   encodeFunctionData(functionFragment: "class", values: [BigNumberish]): string;
   encodeFunctionData(
     functionFragment: "classes",
@@ -84,7 +88,7 @@ export interface RarityInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
-    values: [string, string]
+    values: [AddressLike, AddressLike]
   ): string;
   encodeFunctionData(functionFragment: "level", values: [BigNumberish]): string;
   encodeFunctionData(
@@ -101,15 +105,15 @@ export interface RarityInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "safeTransferFrom(address,address,uint256)",
-    values: [string, string, BigNumberish]
+    values: [AddressLike, AddressLike, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "safeTransferFrom(address,address,uint256,bytes)",
-    values: [string, string, BigNumberish, BytesLike]
+    values: [AddressLike, AddressLike, BigNumberish, BytesLike]
   ): string;
   encodeFunctionData(
     functionFragment: "setApprovalForAll",
-    values: [string, boolean]
+    values: [AddressLike, boolean]
   ): string;
   encodeFunctionData(
     functionFragment: "spend_xp",
@@ -129,7 +133,7 @@ export interface RarityInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "tokenOfOwnerByIndex",
-    values: [string, BigNumberish]
+    values: [AddressLike, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "tokenURI",
@@ -141,7 +145,7 @@ export interface RarityInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "transferFrom",
-    values: [string, string, BigNumberish]
+    values: [AddressLike, AddressLike, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "xp", values: [BigNumberish]): string;
   encodeFunctionData(
@@ -214,8 +218,8 @@ export interface RarityInterface extends Interface {
 
 export namespace ApprovalEvent {
   export type InputTuple = [
-    owner: string,
-    approved: string,
+    owner: AddressLike,
+    approved: AddressLike,
     tokenId: BigNumberish
   ];
   export type OutputTuple = [owner: string, approved: string, tokenId: bigint];
@@ -229,7 +233,11 @@ export namespace ApprovalEvent {
 }
 
 export namespace ApprovalForAllEvent {
-  export type InputTuple = [owner: string, operator: string, approved: boolean];
+  export type InputTuple = [
+    owner: AddressLike,
+    operator: AddressLike,
+    approved: boolean
+  ];
   export type OutputTuple = [
     owner: string,
     operator: string,
@@ -245,7 +253,11 @@ export namespace ApprovalForAllEvent {
 }
 
 export namespace TransferEvent {
-  export type InputTuple = [from: string, to: string, tokenId: BigNumberish];
+  export type InputTuple = [
+    from: AddressLike,
+    to: AddressLike,
+    tokenId: BigNumberish
+  ];
   export type OutputTuple = [from: string, to: string, tokenId: bigint];
   export interface OutputObject {
     from: string;
@@ -258,7 +270,7 @@ export namespace TransferEvent {
 
 export namespace leveledEvent {
   export type InputTuple = [
-    owner: string,
+    owner: AddressLike,
     level: BigNumberish,
     summoner: BigNumberish
   ];
@@ -274,7 +286,7 @@ export namespace leveledEvent {
 
 export namespace summonedEvent {
   export type InputTuple = [
-    owner: string,
+    owner: AddressLike,
     class_: BigNumberish,
     summoner: BigNumberish
   ];
@@ -289,8 +301,8 @@ export namespace summonedEvent {
 }
 
 export interface Rarity extends BaseContract {
-  connect(runner: null | ContractRunner): BaseContract;
-  attach(addressOrName: string): this;
+  connect(runner?: ContractRunner | null): BaseContract;
+  attach(addressOrName: AddressLike): this;
   deployed(): Promise<this>;
 
   interface: RarityInterface;
@@ -341,12 +353,12 @@ export interface Rarity extends BaseContract {
   adventurers_log: TypedContractMethod<[arg0: BigNumberish], [bigint], "view">;
 
   approve: TypedContractMethod<
-    [to: string, tokenId: BigNumberish],
+    [to: AddressLike, tokenId: BigNumberish],
     [void],
     "nonpayable"
   >;
 
-  balanceOf: TypedContractMethod<[owner: string], [bigint], "view">;
+  balanceOf: TypedContractMethod<[owner: AddressLike], [bigint], "view">;
 
   class: TypedContractMethod<[arg0: BigNumberish], [bigint], "view">;
 
@@ -355,7 +367,7 @@ export interface Rarity extends BaseContract {
   getApproved: TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
 
   isApprovedForAll: TypedContractMethod<
-    [owner: string, operator: string],
+    [owner: AddressLike, operator: AddressLike],
     [boolean],
     "view"
   >;
@@ -373,19 +385,24 @@ export interface Rarity extends BaseContract {
   ownerOf: TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
 
   "safeTransferFrom(address,address,uint256)": TypedContractMethod<
-    [from: string, to: string, tokenId: BigNumberish],
+    [from: AddressLike, to: AddressLike, tokenId: BigNumberish],
     [void],
     "nonpayable"
   >;
 
   "safeTransferFrom(address,address,uint256,bytes)": TypedContractMethod<
-    [from: string, to: string, tokenId: BigNumberish, _data: BytesLike],
+    [
+      from: AddressLike,
+      to: AddressLike,
+      tokenId: BigNumberish,
+      _data: BytesLike
+    ],
     [void],
     "nonpayable"
   >;
 
   setApprovalForAll: TypedContractMethod<
-    [operator: string, approved: boolean],
+    [operator: AddressLike, approved: boolean],
     [void],
     "nonpayable"
   >;
@@ -414,7 +431,7 @@ export interface Rarity extends BaseContract {
   tokenByIndex: TypedContractMethod<[index: BigNumberish], [bigint], "view">;
 
   tokenOfOwnerByIndex: TypedContractMethod<
-    [owner: string, index: BigNumberish],
+    [owner: AddressLike, index: BigNumberish],
     [bigint],
     "view"
   >;
@@ -424,7 +441,7 @@ export interface Rarity extends BaseContract {
   totalSupply: TypedContractMethod<[], [bigint], "view">;
 
   transferFrom: TypedContractMethod<
-    [from: string, to: string, tokenId: BigNumberish],
+    [from: AddressLike, to: AddressLike, tokenId: BigNumberish],
     [void],
     "nonpayable"
   >;
@@ -450,13 +467,13 @@ export interface Rarity extends BaseContract {
   getFunction(
     nameOrSignature: "approve"
   ): TypedContractMethod<
-    [to: string, tokenId: BigNumberish],
+    [to: AddressLike, tokenId: BigNumberish],
     [void],
     "nonpayable"
   >;
   getFunction(
     nameOrSignature: "balanceOf"
-  ): TypedContractMethod<[owner: string], [bigint], "view">;
+  ): TypedContractMethod<[owner: AddressLike], [bigint], "view">;
   getFunction(
     nameOrSignature: "class"
   ): TypedContractMethod<[arg0: BigNumberish], [bigint], "view">;
@@ -468,7 +485,11 @@ export interface Rarity extends BaseContract {
   ): TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
   getFunction(
     nameOrSignature: "isApprovedForAll"
-  ): TypedContractMethod<[owner: string, operator: string], [boolean], "view">;
+  ): TypedContractMethod<
+    [owner: AddressLike, operator: AddressLike],
+    [boolean],
+    "view"
+  >;
   getFunction(
     nameOrSignature: "level"
   ): TypedContractMethod<[arg0: BigNumberish], [bigint], "view">;
@@ -484,21 +505,26 @@ export interface Rarity extends BaseContract {
   getFunction(
     nameOrSignature: "safeTransferFrom(address,address,uint256)"
   ): TypedContractMethod<
-    [from: string, to: string, tokenId: BigNumberish],
+    [from: AddressLike, to: AddressLike, tokenId: BigNumberish],
     [void],
     "nonpayable"
   >;
   getFunction(
     nameOrSignature: "safeTransferFrom(address,address,uint256,bytes)"
   ): TypedContractMethod<
-    [from: string, to: string, tokenId: BigNumberish, _data: BytesLike],
+    [
+      from: AddressLike,
+      to: AddressLike,
+      tokenId: BigNumberish,
+      _data: BytesLike
+    ],
     [void],
     "nonpayable"
   >;
   getFunction(
     nameOrSignature: "setApprovalForAll"
   ): TypedContractMethod<
-    [operator: string, approved: boolean],
+    [operator: AddressLike, approved: boolean],
     [void],
     "nonpayable"
   >;
@@ -532,7 +558,7 @@ export interface Rarity extends BaseContract {
   getFunction(
     nameOrSignature: "tokenOfOwnerByIndex"
   ): TypedContractMethod<
-    [owner: string, index: BigNumberish],
+    [owner: AddressLike, index: BigNumberish],
     [bigint],
     "view"
   >;
@@ -545,7 +571,7 @@ export interface Rarity extends BaseContract {
   getFunction(
     nameOrSignature: "transferFrom"
   ): TypedContractMethod<
-    [from: string, to: string, tokenId: BigNumberish],
+    [from: AddressLike, to: AddressLike, tokenId: BigNumberish],
     [void],
     "nonpayable"
   >;

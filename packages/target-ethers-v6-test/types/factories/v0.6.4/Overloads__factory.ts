@@ -57,7 +57,7 @@ export class Overloads__factory {
   static createInterface(): OverloadsInterface {
     return new Interface(_abi) as OverloadsInterface;
   }
-  static connect(address: string, runner: ContractRunner): Overloads {
+  static connect(address: string, runner?: ContractRunner | null): Overloads {
     return new Contract(address, _abi, runner) as unknown as Overloads;
   }
 }

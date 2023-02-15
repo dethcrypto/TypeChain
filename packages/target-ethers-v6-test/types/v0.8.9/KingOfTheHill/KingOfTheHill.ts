@@ -10,6 +10,7 @@ import type {
   Interface,
   EventFragment,
 } from "ethers";
+import type { AddressLike } from "ethers/address";
 import type { ContractRunner } from "ethers/providers";
 import type { ContractMethod } from "ethers/contract";
 import type { Listener } from "ethers/utils";
@@ -22,7 +23,7 @@ import type {
 } from "../../common";
 
 export declare namespace KingOfTheHill {
-  export type BidStruct = { bidder: string; value: BigNumberish };
+  export type BidStruct = { bidder: AddressLike; value: BigNumberish };
 
   export type BidStructOutput = [bidder: string, value: bigint] & {
     bidder: string;
@@ -60,8 +61,8 @@ export namespace HighestBidIncreasedEvent {
 }
 
 export interface KingOfTheHill extends BaseContract {
-  connect(runner: null | ContractRunner): BaseContract;
-  attach(addressOrName: string): this;
+  connect(runner?: ContractRunner | null): BaseContract;
+  attach(addressOrName: AddressLike): this;
   deployed(): Promise<this>;
 
   interface: KingOfTheHillInterface;

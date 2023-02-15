@@ -339,7 +339,10 @@ export class IERC721Enumerable__factory {
   static createInterface(): IERC721EnumerableInterface {
     return new Interface(_abi) as IERC721EnumerableInterface;
   }
-  static connect(address: string, runner: ContractRunner): IERC721Enumerable {
+  static connect(
+    address: string,
+    runner?: ContractRunner | null
+  ): IERC721Enumerable {
     return new Contract(address, _abi, runner) as unknown as IERC721Enumerable;
   }
 }

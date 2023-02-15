@@ -9,6 +9,7 @@ import type {
   Result,
   Interface,
 } from "ethers";
+import type { AddressLike } from "ethers/address";
 import type { ContractRunner } from "ethers/providers";
 import type { ContractMethod } from "ethers/contract";
 import type { Listener } from "ethers/utils";
@@ -25,15 +26,15 @@ export interface SimpleTokenInterface extends Interface {
 
   encodeFunctionData(
     functionFragment: "transfer",
-    values: [string, BigNumberish]
+    values: [AddressLike, BigNumberish]
   ): string;
 
   decodeFunctionResult(functionFragment: "transfer", data: BytesLike): Result;
 }
 
 export interface SimpleToken extends BaseContract {
-  connect(runner: null | ContractRunner): BaseContract;
-  attach(addressOrName: string): this;
+  connect(runner?: ContractRunner | null): BaseContract;
+  attach(addressOrName: AddressLike): this;
   deployed(): Promise<this>;
 
   interface: SimpleTokenInterface;
@@ -76,7 +77,7 @@ export interface SimpleToken extends BaseContract {
   ): Promise<this>;
 
   transfer: TypedContractMethod<
-    [from: string, value: BigNumberish],
+    [from: AddressLike, value: BigNumberish],
     [void],
     "nonpayable"
   >;
@@ -88,7 +89,7 @@ export interface SimpleToken extends BaseContract {
   getFunction(
     nameOrSignature: "transfer"
   ): TypedContractMethod<
-    [from: string, value: BigNumberish],
+    [from: AddressLike, value: BigNumberish],
     [void],
     "nonpayable"
   >;
