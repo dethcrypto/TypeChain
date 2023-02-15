@@ -128,4 +128,4 @@ export function generateParamNames(params: Array<AbiParameter | EventArgDeclarat
   return params.map((param, index) => (param.name ? createPositionalIdentifier(param.name) : `arg${index}`)).join(', ')
 }
 
-export const FUNCTION_IMPORTS = ['TypedContractMethod']
+export const FUNCTION_IMPORTS = ['TypedContractMethod', 'NonPayableOverrides', 'PayableOverrides', 'ViewOverrides']

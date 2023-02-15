@@ -66,8 +66,8 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
 
   export interface ${contract.name} extends BaseContract {
     ${codegenConfig.discriminateTypes ? `contractName: '${contract.name}';\n` : ``}
-    connect(runner: null | ContractRunner): BaseContract;
-    attach(addressOrName: string): this;
+    connect(runner?: ContractRunner | null): BaseContract;
+    attach(addressOrName: AddressLike): this;
     deployed(): Promise<this>;
 
     interface: ${contract.name}Interface;
@@ -112,6 +112,7 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
           'Interface',
           'EventFragment',
         ],
+        'type ethers/address': ['AddressLike'],
         'type ethers/providers': ['ContractRunner', 'TransactionRequest'],
         'type ethers/contract': ['ContractEvent', 'ContractMethod', 'EventLog'],
         'type ethers/utils': ['Listener'],
@@ -158,17 +159,16 @@ export function codegenContractFactory(
 
   export class ${contract.name}${FACTORY_POSTFIX} extends ContractFactory {
     ${generateFactoryConstructor(codegenConfig, contract, bytecode)}
-    override deploy(${constructorArgs}): Promise<${contract.name}> {
-      return super.deploy(${constructorArgNames}) as Promise<${contract.name}>;
-    }
-    override getDeployTransaction(${constructorArgs}): TransactionRequest {
+    override getDeployTransaction(${constructorArgs}): Promise<ContractDeployTransaction> {
       return super.getDeployTransaction(${constructorArgNames});
     };
-    override attach(address: string): ${contract.name} {
-      return super.attach(address) as ${contract.name};
+    override deploy(${constructorArgs}) {
+      return super.deploy(${constructorArgNames}) as Promise<${contract.name} & {
+        deploymentTransaction(): ContractTransactionResponse;
+      }>;
     }
-    override connect(signer: Signer): ${contract.name}${FACTORY_POSTFIX} {
-      return super.connect(signer) as ${contract.name}${FACTORY_POSTFIX};
+    override connect(runner: ContractRunner | null): ${contract.name}${FACTORY_POSTFIX} {
+      return super.connect(runner) as ${contract.name}${FACTORY_POSTFIX};
     }
     ${codegenConfig.discriminateTypes ? `static readonly contractName: '${contract.name}';\n` : ``}
     ${codegenConfig.discriminateTypes ? `public readonly contractName: '${contract.name}';\n` : ``}
@@ -179,23 +179,29 @@ export function codegenContractFactory(
   ${generateLibraryAddressesInterface(contract, bytecode)}
   `
 
+  const commonPath = `${new Array(contract.path.length + 1).fill('..').join('/')}/common`
+
   const imports =
     createImportsForUsedIdentifiers(
       {
         ethers: [
           'Signer',
-          'utils',
           'Contract',
           'ContractFactory',
-          'PayableOverrides',
           'BytesLike',
           'BigNumberish',
           'Overrides',
+          'ContractTransactionResponse',
+          'Interface',
         ],
-        'type ethers/providers': ['Provider', 'TransactionRequest'],
+        'type ethers/address': ['AddressLike'],
+        'type ethers/contract': ['ContractDeployTransaction'],
+        'type ethers/providers': ['Provider', 'TransactionRequest', 'ContractRunner'],
       },
       source,
-    ) + '\n'
+    ) +
+    '\n' +
+    createImportsForUsedIdentifiers({ ['type ' + commonPath]: [...EVENT_IMPORTS, ...FUNCTION_IMPORTS] }, source)
 
   return imports + source
 }
@@ -238,7 +244,7 @@ function codegenCommonContractFactory(contract: Contract, abi: any): { header: s
     static createInterface(): ${contract.name}Interface {
       return new Interface(_abi) as ${contract.name}Interface;
     }
-    static connect(address: string, runner: ContractRunner): ${contract.name} {
+    static connect(address: string, runner?: ContractRunner | null): ${contract.name} {
       return new Contract(address, _abi, runner) as unknown as ${contract.name};
     }
   `.trim()
