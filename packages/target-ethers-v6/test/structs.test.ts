@@ -37,7 +37,7 @@ describe(generateStructTypes.name, () => {
         export type Vector2StructOutput = [x: bigint, y: bigint] & { x: bigint, y: bigint }
 
         export declare namespace Multicall {
-          export type CallStruct = { target: string, callData: BytesLike }
+          export type CallStruct = { target: AddressLike, callData: BytesLike }
 
           export type CallStructOutput = [target: string, callData: string] & { target: string, callData: string }
         }`,
