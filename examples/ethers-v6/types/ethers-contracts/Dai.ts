@@ -10,6 +10,7 @@ import type {
   Interface,
   EventFragment,
 } from "ethers";
+import type { AddressLike } from "ethers/address";
 import type { ContractRunner } from "ethers/providers";
 import type { ContractMethod } from "ethers/contract";
 import type { Listener } from "ethers/utils";
@@ -62,34 +63,37 @@ export interface DaiInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "allowance",
-    values: [string, string]
+    values: [AddressLike, AddressLike]
   ): string;
   encodeFunctionData(
     functionFragment: "approve",
-    values: [string, BigNumberish]
+    values: [AddressLike, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "balanceOf",
+    values: [AddressLike]
+  ): string;
   encodeFunctionData(
     functionFragment: "burn",
-    values: [string, BigNumberish]
+    values: [AddressLike, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
-  encodeFunctionData(functionFragment: "deny", values: [string]): string;
+  encodeFunctionData(functionFragment: "deny", values: [AddressLike]): string;
   encodeFunctionData(
     functionFragment: "mint",
-    values: [string, BigNumberish]
+    values: [AddressLike, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "move",
-    values: [string, string, BigNumberish]
+    values: [AddressLike, AddressLike, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
-  encodeFunctionData(functionFragment: "nonces", values: [string]): string;
+  encodeFunctionData(functionFragment: "nonces", values: [AddressLike]): string;
   encodeFunctionData(
     functionFragment: "permit",
     values: [
-      string,
-      string,
+      AddressLike,
+      AddressLike,
       BigNumberish,
       BigNumberish,
       boolean,
@@ -100,13 +104,13 @@ export interface DaiInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "pull",
-    values: [string, BigNumberish]
+    values: [AddressLike, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "push",
-    values: [string, BigNumberish]
+    values: [AddressLike, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "rely", values: [string]): string;
+  encodeFunctionData(functionFragment: "rely", values: [AddressLike]): string;
   encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "totalSupply",
@@ -114,14 +118,14 @@ export interface DaiInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "transfer",
-    values: [string, BigNumberish]
+    values: [AddressLike, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "transferFrom",
-    values: [string, string, BigNumberish]
+    values: [AddressLike, AddressLike, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "version", values?: undefined): string;
-  encodeFunctionData(functionFragment: "wards", values: [string]): string;
+  encodeFunctionData(functionFragment: "wards", values: [AddressLike]): string;
 
   decodeFunctionResult(
     functionFragment: "DOMAIN_SEPARATOR",
@@ -160,7 +164,11 @@ export interface DaiInterface extends Interface {
 }
 
 export namespace ApprovalEvent {
-  export type InputTuple = [src: string, guy: string, wad: BigNumberish];
+  export type InputTuple = [
+    src: AddressLike,
+    guy: AddressLike,
+    wad: BigNumberish
+  ];
   export type OutputTuple = [src: string, guy: string, wad: bigint];
   export interface OutputObject {
     src: string;
@@ -174,7 +182,7 @@ export namespace ApprovalEvent {
 export namespace LogNoteEvent {
   export type InputTuple = [
     sig: BytesLike,
-    usr: string,
+    usr: AddressLike,
     arg1: BytesLike,
     arg2: BytesLike,
     data: BytesLike
@@ -198,7 +206,11 @@ export namespace LogNoteEvent {
 }
 
 export namespace TransferEvent {
-  export type InputTuple = [src: string, dst: string, wad: BigNumberish];
+  export type InputTuple = [
+    src: AddressLike,
+    dst: AddressLike,
+    wad: BigNumberish
+  ];
   export type OutputTuple = [src: string, dst: string, wad: bigint];
   export interface OutputObject {
     src: string;
@@ -210,8 +222,8 @@ export namespace TransferEvent {
 }
 
 export interface Dai extends BaseContract {
-  connect(runner: null | ContractRunner): BaseContract;
-  attach(addressOrName: string): this;
+  connect(runner?: ContractRunner | null): BaseContract;
+  attach(addressOrName: AddressLike): this;
   deployed(): Promise<this>;
 
   interface: DaiInterface;
@@ -258,49 +270,49 @@ export interface Dai extends BaseContract {
   PERMIT_TYPEHASH: TypedContractMethod<[], [string], "view">;
 
   allowance: TypedContractMethod<
-    [arg0: string, arg1: string],
+    [arg0: AddressLike, arg1: AddressLike],
     [bigint],
     "view"
   >;
 
   approve: TypedContractMethod<
-    [usr: string, wad: BigNumberish],
+    [usr: AddressLike, wad: BigNumberish],
     [boolean],
     "nonpayable"
   >;
 
-  balanceOf: TypedContractMethod<[arg0: string], [bigint], "view">;
+  balanceOf: TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
 
   burn: TypedContractMethod<
-    [usr: string, wad: BigNumberish],
+    [usr: AddressLike, wad: BigNumberish],
     [void],
     "nonpayable"
   >;
 
   decimals: TypedContractMethod<[], [bigint], "view">;
 
-  deny: TypedContractMethod<[guy: string], [void], "nonpayable">;
+  deny: TypedContractMethod<[guy: AddressLike], [void], "nonpayable">;
 
   mint: TypedContractMethod<
-    [usr: string, wad: BigNumberish],
+    [usr: AddressLike, wad: BigNumberish],
     [void],
     "nonpayable"
   >;
 
   move: TypedContractMethod<
-    [src: string, dst: string, wad: BigNumberish],
+    [src: AddressLike, dst: AddressLike, wad: BigNumberish],
     [void],
     "nonpayable"
   >;
 
   name: TypedContractMethod<[], [string], "view">;
 
-  nonces: TypedContractMethod<[arg0: string], [bigint], "view">;
+  nonces: TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
 
   permit: TypedContractMethod<
     [
-      holder: string,
-      spender: string,
+      holder: AddressLike,
+      spender: AddressLike,
       nonce: BigNumberish,
       expiry: BigNumberish,
       allowed: boolean,
@@ -313,38 +325,38 @@ export interface Dai extends BaseContract {
   >;
 
   pull: TypedContractMethod<
-    [usr: string, wad: BigNumberish],
+    [usr: AddressLike, wad: BigNumberish],
     [void],
     "nonpayable"
   >;
 
   push: TypedContractMethod<
-    [usr: string, wad: BigNumberish],
+    [usr: AddressLike, wad: BigNumberish],
     [void],
     "nonpayable"
   >;
 
-  rely: TypedContractMethod<[guy: string], [void], "nonpayable">;
+  rely: TypedContractMethod<[guy: AddressLike], [void], "nonpayable">;
 
   symbol: TypedContractMethod<[], [string], "view">;
 
   totalSupply: TypedContractMethod<[], [bigint], "view">;
 
   transfer: TypedContractMethod<
-    [dst: string, wad: BigNumberish],
+    [dst: AddressLike, wad: BigNumberish],
     [boolean],
     "nonpayable"
   >;
 
   transferFrom: TypedContractMethod<
-    [src: string, dst: string, wad: BigNumberish],
+    [src: AddressLike, dst: AddressLike, wad: BigNumberish],
     [boolean],
     "nonpayable"
   >;
 
   version: TypedContractMethod<[], [string], "view">;
 
-  wards: TypedContractMethod<[arg0: string], [bigint], "view">;
+  wards: TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
 
   getFunction<T extends ContractMethod = ContractMethod>(
     key: string | FunctionFragment
@@ -358,21 +370,25 @@ export interface Dai extends BaseContract {
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "allowance"
-  ): TypedContractMethod<[arg0: string, arg1: string], [bigint], "view">;
+  ): TypedContractMethod<
+    [arg0: AddressLike, arg1: AddressLike],
+    [bigint],
+    "view"
+  >;
   getFunction(
     nameOrSignature: "approve"
   ): TypedContractMethod<
-    [usr: string, wad: BigNumberish],
+    [usr: AddressLike, wad: BigNumberish],
     [boolean],
     "nonpayable"
   >;
   getFunction(
     nameOrSignature: "balanceOf"
-  ): TypedContractMethod<[arg0: string], [bigint], "view">;
+  ): TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
   getFunction(
     nameOrSignature: "burn"
   ): TypedContractMethod<
-    [usr: string, wad: BigNumberish],
+    [usr: AddressLike, wad: BigNumberish],
     [void],
     "nonpayable"
   >;
@@ -381,18 +397,18 @@ export interface Dai extends BaseContract {
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "deny"
-  ): TypedContractMethod<[guy: string], [void], "nonpayable">;
+  ): TypedContractMethod<[guy: AddressLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "mint"
   ): TypedContractMethod<
-    [usr: string, wad: BigNumberish],
+    [usr: AddressLike, wad: BigNumberish],
     [void],
     "nonpayable"
   >;
   getFunction(
     nameOrSignature: "move"
   ): TypedContractMethod<
-    [src: string, dst: string, wad: BigNumberish],
+    [src: AddressLike, dst: AddressLike, wad: BigNumberish],
     [void],
     "nonpayable"
   >;
@@ -401,13 +417,13 @@ export interface Dai extends BaseContract {
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "nonces"
-  ): TypedContractMethod<[arg0: string], [bigint], "view">;
+  ): TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
   getFunction(
     nameOrSignature: "permit"
   ): TypedContractMethod<
     [
-      holder: string,
-      spender: string,
+      holder: AddressLike,
+      spender: AddressLike,
       nonce: BigNumberish,
       expiry: BigNumberish,
       allowed: boolean,
@@ -421,20 +437,20 @@ export interface Dai extends BaseContract {
   getFunction(
     nameOrSignature: "pull"
   ): TypedContractMethod<
-    [usr: string, wad: BigNumberish],
+    [usr: AddressLike, wad: BigNumberish],
     [void],
     "nonpayable"
   >;
   getFunction(
     nameOrSignature: "push"
   ): TypedContractMethod<
-    [usr: string, wad: BigNumberish],
+    [usr: AddressLike, wad: BigNumberish],
     [void],
     "nonpayable"
   >;
   getFunction(
     nameOrSignature: "rely"
-  ): TypedContractMethod<[guy: string], [void], "nonpayable">;
+  ): TypedContractMethod<[guy: AddressLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "symbol"
   ): TypedContractMethod<[], [string], "view">;
@@ -444,14 +460,14 @@ export interface Dai extends BaseContract {
   getFunction(
     nameOrSignature: "transfer"
   ): TypedContractMethod<
-    [dst: string, wad: BigNumberish],
+    [dst: AddressLike, wad: BigNumberish],
     [boolean],
     "nonpayable"
   >;
   getFunction(
     nameOrSignature: "transferFrom"
   ): TypedContractMethod<
-    [src: string, dst: string, wad: BigNumberish],
+    [src: AddressLike, dst: AddressLike, wad: BigNumberish],
     [boolean],
     "nonpayable"
   >;
@@ -460,7 +476,7 @@ export interface Dai extends BaseContract {
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "wards"
-  ): TypedContractMethod<[arg0: string], [bigint], "view">;
+  ): TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
 
   getEvent(
     key: "Approval"

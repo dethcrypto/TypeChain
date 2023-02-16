@@ -575,7 +575,7 @@ export class Dai__factory {
   static createInterface(): DaiInterface {
     return new Interface(_abi) as DaiInterface;
   }
-  static connect(address: string, runner: ContractRunner): Dai {
+  static connect(address: string, runner?: ContractRunner | null): Dai {
     return new Contract(address, _abi, runner) as unknown as Dai;
   }
 }
