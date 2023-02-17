@@ -33,7 +33,7 @@
     "test:fix": "pnpm lint:fix && pnpm format:fix && pnpm test && pnpm typecheck"
   },
   "peerDependencies": {
-    "ethers": "6.0.0-beta-exports.10",
+    "ethers": "6.x",
     "typechain": "workspace:^8.1.1",
     "typescript": ">=4.7.0"
   },
