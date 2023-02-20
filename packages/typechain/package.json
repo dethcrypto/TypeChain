@@ -50,7 +50,7 @@
     "@types/glob": "^5.0.35",
     "@types/lodash": "^4.14.139",
     "@types/mkdirp": "^1.0.1",
-    "@types/node": "^14",
+    "@types/node": "18.14.0",
     "bluebird": "^3.5.1",
     "coveralls": "^3.0.2"
   },
