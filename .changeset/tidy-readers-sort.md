@@ -1,5 +1,5 @@
 ---
-'@typechain/ethers-v6': major
+'@typechain/ethers-v6': minor
 ---
 
 Add ethers-v6 target
