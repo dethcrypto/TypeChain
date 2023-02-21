@@ -25,20 +25,22 @@ export function createNewBlockchain<TContract>(contractName: string) {
 
   const ctx: Partial<Ctx> = {}
 
+  before(async () => {
+    ctx.ganache = createGanacheServer({ logging: { quiet: true } })
+
+    await ctx.ganache.listen(8546)
+  })
+
   beforeEach(async () => {
-    const ganache = createGanacheServer({ logging: { quiet: true } })
-
-    await ganache.listen(8546)
-
     const provider = new JsonRpcProvider('http://localhost:8546')
     const signer = await provider.getSigner(0)
 
     const contract = await deployContract<TContract>(signer, contractName)
 
-    Object.assign(ctx, { ganache, provider, signer, contract })
+    Object.assign(ctx, { provider, signer, contract })
   })
 
-  afterEach(() => ctx.ganache?.close())
+  after(() => ctx.ganache?.close())
 
   return ctx as Ctx
 }
