@@ -42,7 +42,7 @@
     "starknet": "^3.9.0",
     "test-utils": "1.0.0",
     "typechain": "workspace:^8.1.1",
-    "typescript": "^4.6.3"
+    "typescript": "^4.9.5"
   },
   "dependencies": {
     "bn.js": "^4.11.0",
