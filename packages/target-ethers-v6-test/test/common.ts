@@ -1,5 +1,5 @@
-import { JsonRpcProvider, JsonRpcSigner } from '@ethersproject/providers'
-import { ethers } from 'ethers'
+import { ethers, JsonRpcProvider, JsonRpcSigner } from 'ethers'
+import type { ContractRunner } from 'ethers/providers'
 import { Server as GanacheServer, server as createGanacheServer } from 'ganache'
 import { loadContract } from 'test-utils'
 
@@ -28,12 +28,12 @@ export function createNewBlockchain<TContract>(contractName: string) {
   before(async () => {
     ctx.ganache = createGanacheServer({ logging: { quiet: true } })
 
-    await ctx.ganache.listen(8545)
+    await ctx.ganache.listen(8546)
   })
 
   beforeEach(async () => {
-    const provider = new JsonRpcProvider()
-    const signer = provider.getSigner(0)
+    const provider = new JsonRpcProvider('http://localhost:8546')
+    const signer = await provider.getSigner(0)
 
     const contract = await deployContract<TContract>(signer, contractName)
 
@@ -45,9 +45,9 @@ export function createNewBlockchain<TContract>(contractName: string) {
   return ctx as Ctx
 }
 
-export function deployContract<T>(signer: ethers.Signer, name: string): Promise<T> {
+export function deployContract<T>(runner: ContractRunner, name: string): Promise<T> {
   const { abi, code } = loadContract(name)
 
-  const factory = new ethers.ContractFactory(abi, code, signer)
+  const factory = new ethers.ContractFactory(abi, code, runner)
   return factory.deploy() as any as Promise<T>
 }

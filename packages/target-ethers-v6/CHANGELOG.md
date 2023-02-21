@@ -1,0 +1,1 @@
+# @typechain/ethers-v6

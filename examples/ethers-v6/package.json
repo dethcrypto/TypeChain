@@ -1,0 +1,22 @@
+{
+  "name": "example-ethers-v6",
+  "private": true,
+  "version": "0.0.1",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "generate-types": "typechain --target=ethers-v6 'abi/*.json'",
+    "start": "ts-node ./src/index.ts",
+    "typecheck": "pnpm generate-types && tsc --noEmit"
+  },
+  "devDependencies": {
+    "@typechain/ethers-v6": "workspace:^1.0.0",
+    "@types/bn.js": "^5.1.0",
+    "ts-node": "^10.7.0",
+    "typechain": "workspace:^8.1.1",
+    "typescript": "^4.7"
+  },
+  "dependencies": {
+    "ethers": "^6.0.2"
+  }
+}
