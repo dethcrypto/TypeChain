@@ -63,7 +63,7 @@ importers:
 
   examples/ethers-v6:
     specifiers:
-      '@typechain/ethers-v6': workspace:^1.0.0
+      '@typechain/ethers-v6': workspace:^0.1.0
       '@types/bn.js': ^5.1.0
       ethers: ^6.0.2
       ts-node: ^10.7.0
