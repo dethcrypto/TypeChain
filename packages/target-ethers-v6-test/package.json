@@ -20,6 +20,6 @@
     "typechain": "workspace:^8.1.1"
   },
   "dependencies": {
-    "ethers": "6.0.0"
+    "ethers": "6.1.0"
   }
 }
