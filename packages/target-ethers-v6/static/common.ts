@@ -10,6 +10,7 @@ import type {
   DeferredTopicFilter,
   EventLog,
   TransactionRequest,
+  LogDescription,
 } from 'ethers'
 
 export interface TypedDeferredTopicFilter<_TCEvent extends TypedContractEvent> extends DeferredTopicFilter {}
@@ -29,6 +30,10 @@ type __TypechainAOutputTuple<T> = T extends TypedContractEvent<infer _U, infer W
 type __TypechainOutputObject<T> = T extends TypedContractEvent<infer _U, infer _W, infer V> ? V : never
 
 export interface TypedEventLog<TCEvent extends TypedContractEvent> extends Omit<EventLog, 'args'> {
+  args: __TypechainAOutputTuple<TCEvent> & __TypechainOutputObject<TCEvent>
+}
+
+export interface TypedLogDescription<TCEvent extends TypedContractEvent> extends Omit<LogDescription, 'args'> {
   args: __TypechainAOutputTuple<TCEvent> & __TypechainOutputObject<TCEvent>
 }
 

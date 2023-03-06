@@ -57,6 +57,8 @@ export function generateEventTypeExport(event: EventDeclaration, includeArgTypes
       export interface OutputObject ${outputObject};
       export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>
       export type Filter = TypedDeferredTopicFilter<Event>
+      export type Log = TypedEventLog<Event>
+      export type LogDescription = TypedLogDescription<Event>
     }
 
   `
@@ -148,4 +150,10 @@ export const EVENT_METHOD_OVERRIDES = `
   removeAllListeners<TCEvent extends TypedContractEvent>(event?: TCEvent): Promise<this>
 `
 
-export const EVENT_IMPORTS = ['TypedContractEvent', 'TypedDeferredTopicFilter', 'TypedEventLog', 'TypedListener']
+export const EVENT_IMPORTS = [
+  'TypedContractEvent',
+  'TypedDeferredTopicFilter',
+  'TypedEventLog',
+  'TypedLogDescription',
+  'TypedListener',
+]
