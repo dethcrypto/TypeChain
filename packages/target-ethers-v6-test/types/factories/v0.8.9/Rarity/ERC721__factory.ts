@@ -2,8 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Interface } from "ethers";
-import type { ContractRunner } from "ethers/providers";
+import { Contract, Interface, ContractRunner } from "ethers";
 import type { ERC721, ERC721Interface } from "../../../v0.8.9/Rarity/ERC721";
 
 const _abi = [

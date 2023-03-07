@@ -7,11 +7,11 @@ import type {
   FunctionFragment,
   Result,
   Interface,
+  AddressLike,
+  ContractRunner,
+  ContractMethod,
+  Listener,
 } from "ethers";
-import type { AddressLike } from "ethers/address";
-import type { ContractRunner } from "ethers/providers";
-import type { ContractMethod } from "ethers/contract";
-import type { Listener } from "ethers/utils";
 import type {
   TypedContractEvent,
   TypedDeferredTopicFilter,
