@@ -1,5 +1,4 @@
-import { ethers, JsonRpcProvider, JsonRpcSigner } from 'ethers'
-import type { ContractRunner } from 'ethers/providers'
+import { ContractRunner, ethers, JsonRpcProvider, JsonRpcSigner } from 'ethers'
 import { Server as GanacheServer, server as createGanacheServer } from 'ganache'
 import { loadContract } from 'test-utils'
 
