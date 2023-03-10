@@ -51,7 +51,7 @@ export namespace Committed_address_array_Event {
 }
 
 export interface B extends BaseContract {
-  connect(runner?: ContractRunner | null): BaseContract;
+  connect(runner?: ContractRunner | null): this;
   attach(addressOrName: AddressLike): this;
   deployed(): Promise<this>;
 

@@ -29,7 +29,7 @@ export interface WithdrawableInterface extends Interface {
 }
 
 export interface Withdrawable extends BaseContract {
-  connect(runner?: ContractRunner | null): BaseContract;
+  connect(runner?: ContractRunner | null): this;
   attach(addressOrName: AddressLike): this;
   deployed(): Promise<this>;
 

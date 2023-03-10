@@ -166,7 +166,7 @@ export namespace TransferEvent {
 }
 
 export interface IERC721 extends BaseContract {
-  connect(runner?: ContractRunner | null): BaseContract;
+  connect(runner?: ContractRunner | null): this;
   attach(addressOrName: AddressLike): this;
   deployed(): Promise<this>;
 
