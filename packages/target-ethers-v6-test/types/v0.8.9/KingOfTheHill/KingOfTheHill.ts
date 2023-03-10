@@ -9,15 +9,16 @@ import type {
   Result,
   Interface,
   EventFragment,
+  AddressLike,
+  ContractRunner,
+  ContractMethod,
+  Listener,
 } from "ethers";
-import type { AddressLike } from "ethers/address";
-import type { ContractRunner } from "ethers/providers";
-import type { ContractMethod } from "ethers/contract";
-import type { Listener } from "ethers/utils";
 import type {
   TypedContractEvent,
   TypedDeferredTopicFilter,
   TypedEventLog,
+  TypedLogDescription,
   TypedListener,
   TypedContractMethod,
 } from "../../common";
@@ -58,6 +59,8 @@ export namespace HighestBidIncreasedEvent {
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
 }
 
 export interface KingOfTheHill extends BaseContract {

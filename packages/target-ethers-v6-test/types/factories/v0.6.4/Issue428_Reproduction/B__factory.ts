@@ -2,8 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Interface } from "ethers";
-import type { ContractRunner } from "ethers/providers";
+import { Contract, Interface, ContractRunner } from "ethers";
 import type { B, BInterface } from "../../../v0.6.4/Issue428_Reproduction/B";
 
 const _abi = [

@@ -111,11 +111,14 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
           'Result',
           'Interface',
           'EventFragment',
+          'AddressLike',
+          'ContractRunner',
+          'TransactionRequest',
+          'ContractEvent',
+          'ContractMethod',
+          'EventLog',
+          'Listener',
         ],
-        'type ethers/address': ['AddressLike'],
-        'type ethers/providers': ['ContractRunner', 'TransactionRequest'],
-        'type ethers/contract': ['ContractEvent', 'ContractMethod', 'EventLog'],
-        'type ethers/utils': ['Listener'],
       },
       source,
     ) +
@@ -193,10 +196,12 @@ export function codegenContractFactory(
           'Overrides',
           'ContractTransactionResponse',
           'Interface',
+          'AddressLike',
+          'ContractDeployTransaction',
+          'Provider',
+          'TransactionRequest',
+          'ContractRunner',
         ],
-        'type ethers/address': ['AddressLike'],
-        'type ethers/contract': ['ContractDeployTransaction'],
-        'type ethers/providers': ['Provider', 'TransactionRequest', 'ContractRunner'],
       },
       source,
     ) +
@@ -209,8 +214,7 @@ export function codegenContractFactory(
 export function codegenAbstractContractFactory(contract: Contract, abi: any): string {
   const { body, header } = codegenCommonContractFactory(contract, abi)
   return `
-  import { Contract, Interface } from "ethers";
-  import type { ContractRunner } from "ethers/providers";
+  import { Contract, Interface, ContractRunner } from "ethers";
   ${header}
 
   export class ${contract.name}${FACTORY_POSTFIX} {
