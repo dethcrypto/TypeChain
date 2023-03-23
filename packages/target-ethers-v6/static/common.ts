@@ -1,13 +1,13 @@
 import type {
-  FunctionFragment,
-  Typed,
-  EventFragment,
   ContractTransaction,
   ContractTransactionResponse,
   DeferredTopicFilter,
+  EventFragment,
   EventLog,
-  TransactionRequest,
+  FunctionFragment,
   LogDescription,
+  TransactionRequest,
+  Typed,
 } from 'ethers'
 
 export interface TypedDeferredTopicFilter<_TCEvent extends TypedContractEvent> extends DeferredTopicFilter {}
@@ -63,7 +63,21 @@ export type ContractMethodArgs<A extends Array<any>, S extends StateMutability> 
   S
 >
 
-export type DefaultReturnType<R> = R extends Array<any> ? R[0] : R
+export type ObjectOnly<T> = Omit<T, keyof unknown[] | `${number}`>
+
+export interface Result<R> {
+  toArray(): R
+  toObject(): ObjectOnly<R>
+  slice(start?: number | undefined, end?: number | undefined): DefaultReturnType<R>
+  filter(
+    callback: (el: any, index: number, array: DefaultReturnType<R>) => boolean,
+    thisArg?: any,
+  ): DefaultReturnType<R>
+  // TODO: getValue is not working as intended, below is what we have so far
+  // getValue(name: keyof ObjectOnly<R>): ObjectOnly<R>[typeof name]
+}
+
+export type DefaultReturnType<R> = R extends any[] ? R[0] & Result<R[0]> : R & Result<R>
 
 // export interface ContractMethod<A extends Array<any> = Array<any>, R = any, D extends R | ContractTransactionResponse = R | ContractTransactionResponse> {
 export interface TypedContractMethod<
