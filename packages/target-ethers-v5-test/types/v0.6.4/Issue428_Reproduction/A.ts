@@ -20,6 +20,8 @@ export interface AInterface extends utils.Interface {
   };
 
   getEvent(nameOrSignatureOrTopic: "Committed"): EventFragment;
+
+  errors: {};
 }
 
 export interface CommittedEventObject {

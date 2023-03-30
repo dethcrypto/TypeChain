@@ -32,6 +32,8 @@ export interface StructsInConstructorInterface extends utils.Interface {
   functions: {};
 
   events: {};
+
+  errors: {};
 }
 
 export interface StructsInConstructor extends BaseContract {

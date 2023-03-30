@@ -52,6 +52,8 @@ export interface PayableInterface extends utils.Interface {
   ): Result;
 
   events: {};
+
+  errors: {};
 }
 
 export interface Payable extends BaseContract {

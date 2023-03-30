@@ -7,6 +7,7 @@ import type * as rarity from "./Rarity";
 export type { rarity };
 import type * as nested from "./nested";
 export type { nested };
+export type { CustomError } from "./CustomError";
 export type { ISimpleToken } from "./ISimpleToken";
 export type { Issue552_Reproduction } from "./Issue552_Reproduction";
 export type { SimpleToken } from "./SimpleToken";

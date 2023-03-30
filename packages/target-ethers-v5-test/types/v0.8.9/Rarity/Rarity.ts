@@ -274,6 +274,8 @@ export interface RarityInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "leveled"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "summoned"): EventFragment;
+
+  errors: {};
 }
 
 export interface ApprovalEventObject {

@@ -128,6 +128,8 @@ export interface ERC20Interface extends utils.Interface {
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
+
+  errors: {};
 }
 
 export interface ApprovalEventObject {

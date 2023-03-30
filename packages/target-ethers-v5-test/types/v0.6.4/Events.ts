@@ -125,6 +125,8 @@ export interface EventsInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "Event4"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "NoArgsEvent"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "UpdateFrequencySet"): EventFragment;
+
+  errors: {};
 }
 
 export interface AnonEvent1EventObject {

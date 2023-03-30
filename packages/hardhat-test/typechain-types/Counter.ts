@@ -50,6 +50,8 @@ export interface CounterInterface extends utils.Interface {
   };
 
   getEvent(nameOrSignatureOrTopic: "CountedTo"): EventFragment;
+
+  errors: {};
 }
 
 export interface CountedToEventObject {

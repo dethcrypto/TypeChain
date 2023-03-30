@@ -36,6 +36,8 @@ export interface LibInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "other", data: BytesLike): Result;
 
   events: {};
+
+  errors: {};
 }
 
 export interface Lib extends BaseContract {

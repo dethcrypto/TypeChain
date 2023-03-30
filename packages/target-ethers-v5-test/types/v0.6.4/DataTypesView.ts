@@ -154,6 +154,8 @@ export interface DataTypesViewInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "view_uint8", data: BytesLike): Result;
 
   events: {};
+
+  errors: {};
 }
 
 export interface DataTypesView extends BaseContract {

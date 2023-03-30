@@ -18,6 +18,7 @@ import type {
   FunctionFragment,
   Result,
   EventFragment,
+  ErrorFragment,
 } from "@ethersproject/abi";
 import type { Listener, Provider } from "@ethersproject/providers";
 import type {
@@ -67,6 +68,12 @@ export interface KingOfTheHillInterface extends utils.Interface {
   };
 
   getEvent(nameOrSignatureOrTopic: "HighestBidIncreased"): EventFragment;
+
+  errors: {
+    "BidNotHighEnough(uint256,uint256)": ErrorFragment;
+  };
+
+  getError(nameOrSignature: "BidNotHighEnough"): ErrorFragment;
 }
 
 export interface HighestBidIncreasedEventObject {
@@ -79,6 +86,11 @@ export type HighestBidIncreasedEvent = TypedEvent<
 
 export type HighestBidIncreasedEventFilter =
   TypedEventFilter<HighestBidIncreasedEvent>;
+
+export interface BidNotHighEnoughErrorObject {
+  value: BigNumber;
+  highestBidValue: BigNumber;
+}
 
 export interface KingOfTheHill extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;

@@ -46,6 +46,8 @@ export interface IERC721ReceiverInterface extends utils.Interface {
   ): Result;
 
   events: {};
+
+  errors: {};
 }
 
 export interface IERC721Receiver extends BaseContract {

@@ -35,6 +35,8 @@ export interface NAME12manglingInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "works", data: BytesLike): Result;
 
   events: {};
+
+  errors: {};
 }
 
 export interface NAME12mangling extends BaseContract {
