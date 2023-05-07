@@ -1,5 +1,11 @@
 # typechain
 
+## 8.1.1
+
+### Patch Changes
+
+- bbc9656: Skip run if project has no ABIs
+
 ## 8.1.0
 
 ### Minor Changes

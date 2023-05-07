@@ -84,7 +84,7 @@ const _abi = [
     stateMutability: "nonpayable",
     type: "function",
   },
-];
+] as const;
 
 export class Issue552_Reproduction__factory {
   static readonly abi = _abi;

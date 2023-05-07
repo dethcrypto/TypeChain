@@ -1,5 +1,20 @@
 # @typechain/hardhat
 
+## 6.1.5
+
+### Patch Changes
+
+- Updated dependencies [31e6957]
+  - @typechain/ethers-v5@10.2.0
+
+## 6.1.4
+
+### Patch Changes
+
+- Updated dependencies [bbc9656]
+  - typechain@8.1.1
+  - @typechain/ethers-v5@10.1.1
+
 ## 6.1.3
 
 ### Patch Changes

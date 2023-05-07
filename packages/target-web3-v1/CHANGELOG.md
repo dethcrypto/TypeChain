@@ -1,5 +1,12 @@
 # @typechain/web3-v1
 
+## 6.0.2
+
+### Patch Changes
+
+- Updated dependencies [bbc9656]
+  - typechain@8.1.1
+
 ## 6.0.1
 
 ### Patch Changes

@@ -1,5 +1,18 @@
 # @typechain/ethers-v5
 
+## 10.2.0
+
+### Minor Changes
+
+- 31e6957: Add const assertion for exported ABI
+
+## 10.1.1
+
+### Patch Changes
+
+- Updated dependencies [bbc9656]
+  - typechain@8.1.1
+
 ## 10.1.0
 
 ### Minor Changes

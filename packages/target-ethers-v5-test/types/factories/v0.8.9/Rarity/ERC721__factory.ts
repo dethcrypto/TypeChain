@@ -273,7 +273,7 @@ const _abi = [
     stateMutability: "nonpayable",
     type: "function",
   },
-];
+] as const;
 
 export class ERC721__factory {
   static readonly abi = _abi;
