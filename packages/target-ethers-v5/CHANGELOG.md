@@ -1,5 +1,12 @@
 # @typechain/ethers-v5
 
+## 10.2.1
+
+### Patch Changes
+
+- 5b0759d: Remove obsolete peer dependency `@ethersproject/bytes@^5.0.0` from `target-ethers-v5`
+- a036651: Fix for unused type in new ethers-v5 codegen
+
 ## 10.2.0
 
 ### Minor Changes
