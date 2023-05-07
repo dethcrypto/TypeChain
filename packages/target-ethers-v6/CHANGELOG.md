@@ -1,5 +1,11 @@
 # @typechain/ethers-v6
 
+## 0.3.1
+
+### Patch Changes
+
+- ddf77dc: ethers-v6: added new reserved keywords labels
+
 ## 0.3.0
 
 ### Minor Changes

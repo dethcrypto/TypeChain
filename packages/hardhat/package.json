@@ -11,7 +11,7 @@
     "smartcontract",
     "blockchain"
   ],
-  "version": "6.1.5",
+  "version": "6.1.6",
   "license": "MIT",
   "repository": "https://github.com/ethereum-ts/Typechain",
   "main": "./dist/index.js",
@@ -36,7 +36,7 @@
     "@ethersproject/abi": "^5.4.7",
     "@ethersproject/providers": "^5.4.7",
     "@nomiclabs/hardhat-ethers": "^2.0.2",
-    "@typechain/ethers-v5": "workspace:^10.2.0",
+    "@typechain/ethers-v5": "workspace:^10.2.1",
     "@types/fs-extra": "^9.0.7",
     "@types/rimraf": "^3.0.0",
     "ethers": "^5.4.7",
@@ -48,7 +48,7 @@
   "peerDependencies": {
     "@ethersproject/abi": "^5.4.7",
     "@ethersproject/providers": "^5.4.7",
-    "@typechain/ethers-v5": "workspace:^10.2.0",
+    "@typechain/ethers-v5": "workspace:^10.2.1",
     "ethers": "^5.4.7",
     "hardhat": "^2.9.9",
     "typechain": "workspace:^8.1.1"

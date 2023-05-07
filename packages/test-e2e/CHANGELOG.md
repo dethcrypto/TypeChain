@@ -1,5 +1,13 @@
 # test-e2e
 
+## 9.9.14
+
+### Patch Changes
+
+- Updated dependencies [5b0759d]
+- Updated dependencies [a036651]
+  - @typechain/ethers-v5@10.2.1
+
 ## 9.9.13
 
 ### Patch Changes
