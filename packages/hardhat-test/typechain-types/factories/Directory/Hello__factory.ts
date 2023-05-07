@@ -10,7 +10,7 @@ import {
   Overrides,
 } from "ethers";
 import type { Provider, TransactionRequest } from "@ethersproject/providers";
-
+import type { PromiseOrValue } from "../../common";
 import type { Hello, HelloInterface } from "../../Directory/Hello";
 
 const _abi = [

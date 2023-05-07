@@ -4,7 +4,6 @@ import {
   CodegenConfig,
   Contract,
   createImportsForUsedIdentifiers,
-  createImportTypeDeclaration,
   EventDeclaration,
   FunctionDeclaration,
   StructType,
@@ -215,7 +214,7 @@ export function codegenContractFactory(
         'Overrides',
       ],
       'type @ethersproject/providers': ['Provider', 'TransactionRequest'],
-      [`type ${commonPath}`]: ['PormiseOrValue'],
+      [`type ${commonPath}`]: ['PromiseOrValue'],
     },
     source,
   )
