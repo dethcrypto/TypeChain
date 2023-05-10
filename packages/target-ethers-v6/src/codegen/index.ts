@@ -188,14 +188,16 @@ export function codegenContractFactory(
     createImportsForUsedIdentifiers(
       {
         ethers: [
-          'Signer',
           'Contract',
           'ContractFactory',
+          'ContractTransactionResponse',
+          'Interface',
+        ],
+        'type ethers': [
+          'Signer',
           'BytesLike',
           'BigNumberish',
           'Overrides',
-          'ContractTransactionResponse',
-          'Interface',
           'AddressLike',
           'ContractDeployTransaction',
           'Provider',
