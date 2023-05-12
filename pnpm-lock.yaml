@@ -443,8 +443,8 @@ importers:
         version: 5.6.0
     devDependencies:
       ganache:
-        specifier: ^7.0.3
-        version: 7.0.3
+        specifier: ^7.8.0
+        version: 7.8.0
       test-utils:
         specifier: 1.0.0
         version: link:../test-utils
@@ -490,8 +490,8 @@ importers:
         version: 6.1.0
     devDependencies:
       ganache:
-        specifier: ^7.0.3
-        version: 7.0.3
+        specifier: ^7.8.0
+        version: 7.8.0
       test-utils:
         specifier: 1.0.0
         version: link:../test-utils
@@ -616,8 +616,8 @@ importers:
         specifier: ^1.6.0
         version: 1.6.0
       ganache:
-        specifier: ^7.0.3
-        version: 7.0.3
+        specifier: ^7.8.0
+        version: 7.8.0
       sinon:
         specifier: ^8.0.1
         version: 8.1.1
@@ -689,8 +689,8 @@ importers:
         specifier: ^4.11.6
         version: 4.11.6
       ganache:
-        specifier: ^7.0.3
-        version: 7.0.3
+        specifier: ^7.8.0
+        version: 7.8.0
       test-utils:
         specifier: 1.0.0
         version: link:../test-utils
@@ -3183,6 +3183,15 @@ packages:
       - utf-8-validate
     optional: true
 
+  /@trufflesuite/uws-js-unofficial@20.10.0-unofficial.2:
+    resolution: {integrity: sha512-oQQlnS3oNeGsgS4K3KCSSavJgSb0W9D5ktZs4FacX9VbM7b+NlhjH96d6/G4fMrz+bc5MXRyco419on0X0dvRA==}
+    dependencies:
+      ws: 8.2.3(bufferutil@4.0.5)(utf-8-validate@5.0.7)
+    optionalDependencies:
+      bufferutil: 4.0.5
+      utf-8-validate: 5.0.7
+    dev: true
+
   /@tsconfig/node10@1.0.8:
     resolution: {integrity: sha512-6XFfSQmMgq0CFLY1MslA/CPUfhIL919M1rMsa5lP2P097N2Wd1sSX0tx1u4olM16fLNhtHZpRhedZJphNJqmZg==}
     dev: true
@@ -3528,6 +3537,10 @@ packages:
     dependencies:
       '@types/node': 18.14.0
 
+  /@types/seedrandom@3.0.1:
+    resolution: {integrity: sha512-giB9gzDeiCeloIXDgzFBCgjj1k4WxcDrZtGl6h1IqmUPlxF+Nx8Ve+96QCyDZ/HseB/uvDsKbpib9hU5cU53pw==}
+    dev: true
+
   /@types/semver@6.2.3:
     resolution: {integrity: sha512-KQf+QAMWKMrtBMsB8/24w53tEsxllMj6TuA80TT/5igJalLI/zm0L3oXRbIAl4Ohfc85gyHX/jhMwsVkmhLU4A==}
     dev: true
@@ -3737,6 +3750,19 @@ packages:
     engines: {node: '>=6.5'}
     dependencies:
       event-target-shim: 5.0.1
+
+  /abstract-level@1.0.3:
+    resolution: {integrity: sha512-t6jv+xHy+VYwc4xqZMn2Pa9DjcdzvzZmQGRjTFc8spIbRGHgBrEKbPq+rYXc7CCo0lxgYvSgKVg9qZAhpVQSjA==}
+    engines: {node: '>=12'}
+    dependencies:
+      buffer: 6.0.3
+      catering: 2.1.1
+      is-buffer: 2.0.5
+      level-supports: 4.0.1
+      level-transcoder: 1.0.1
+      module-error: 1.0.2
+      queue-microtask: 1.2.3
+    dev: true
 
   /abstract-leveldown@2.6.3:
     resolution: {integrity: sha512-2++wDf/DYqkPR3o5tbfdhF96EfMApo1GpPfzOsR/ZYXdkSmELlvOOEAl9iKkRsktMPHdGjO4rtkBpf2I7TiTeA==}
@@ -4294,7 +4320,7 @@ packages:
     optional: true
 
   /async@1.5.2:
-    resolution: {integrity: sha1-7GphrlZIDAw8skHJVhjiCJL5Zyo=}
+    resolution: {integrity: sha512-nSVgobk4rv61R9PUSDtYt7mPVB2olxNR5RWJcAsH676/ef11bUZwvu7+RGYrYauVdDPcO519v68wRhXQtxsV9w==}
     dev: true
 
   /async@2.6.2:
@@ -5266,7 +5292,6 @@ packages:
     requiresBuild: true
     dependencies:
       node-gyp-build: 4.3.0
-    optional: true
 
   /bufferutil@4.0.6:
     resolution: {integrity: sha512-jduaYOYtnio4aIAyc6UbvPCVcgq7nYpVnucyxr6eCYg/Woad9Hf/oxxBRDnGGjPfjUm6j5O/uBWhIu4iLebFaw==}
@@ -8145,6 +8170,28 @@ packages:
       bufferutil: 4.0.5
       utf-8-validate: 5.0.7
 
+  /ganache@7.8.0:
+    resolution: {integrity: sha512-IrUYvsaE/m2/NaVIZ7D/gCnsmyU/buechnH6MhUipzG1qJcZIwIp/DoP/LZUcHyhy0Bv0NKZD2pGOjpRhn7l7A==}
+    hasBin: true
+    dependencies:
+      '@trufflesuite/uws-js-unofficial': 20.10.0-unofficial.2
+      '@types/bn.js': 5.1.0
+      '@types/lru-cache': 5.1.1
+      '@types/seedrandom': 3.0.1
+      abstract-level: 1.0.3
+      abstract-leveldown: 7.2.0
+      async-eventemitter: 0.2.4
+      emittery: 0.10.0
+    optionalDependencies:
+      bufferutil: 4.0.5
+      utf-8-validate: 5.0.7
+    dev: true
+    bundledDependencies:
+      - '@trufflesuite/bigint-buffer'
+      - keccak
+      - leveldown
+      - secp256k1
+
   /gauge@2.7.4:
     resolution: {integrity: sha1-LANAXHU4w51+s3sxcCLjJfsBi/c=}
     dependencies:
@@ -10084,6 +10131,19 @@ packages:
     resolution: {integrity: sha512-E486g1NCjW5cF78KGPrMDRBYzPuueMZ6VBXHT6gC7A8UYWGiM14fGgp+s/L1oFfDWSPV/+SFkYCmZ0SiESkRKA==}
     engines: {node: '>=10'}
 
+  /level-supports@4.0.1:
+    resolution: {integrity: sha512-PbXpve8rKeNcZ9C1mUicC9auIYFyGpkV9/i6g76tLgANwWhtG2v7I4xNBUlkn3lE2/dZF3Pi0ygYGtLc4RXXdA==}
+    engines: {node: '>=12'}
+    dev: true
+
+  /level-transcoder@1.0.1:
+    resolution: {integrity: sha512-t7bFwFtsQeD8cl8NIoQ2iwxA0CL/9IFw7/9gAjOonH0PWTTiRfY7Hq+Ejbsxh86tXobDQ6IOiddjNYIfOBs06w==}
+    engines: {node: '>=12'}
+    dependencies:
+      buffer: 6.0.3
+      module-error: 1.0.2
+    dev: true
+
   /level-write-stream@1.0.0:
     resolution: {integrity: sha1-P3+7Z5pVE3wP6zA97nZuEu4Twdw=}
     dependencies:
@@ -10917,6 +10977,11 @@ packages:
 
   /mock-fs@4.14.0:
     resolution: {integrity: sha512-qYvlv/exQ4+svI3UOvPUpLDF0OMX5euvUH0Ny4N5QyRyhNdgAgUrVH3iUINSzEPLvx0kbo/Bp28GJKIqvE7URw==}
+
+  /module-error@1.0.2:
+    resolution: {integrity: sha512-0yuvsqSCv8LbaOKhnsQ/T5JhyFlCYLPXK3U2sgV10zoKQwzs/MyfuQUOZQ1V/6OCOJsK/TRgNVrPuPDqtdMFtA==}
+    engines: {node: '>=10'}
+    dev: true
 
   /module-not-found-error@1.0.1:
     resolution: {integrity: sha512-pEk4ECWQXV6z2zjhRZUongnLJNUeGQJ3w6OQ5ctGwD+i5o93qjRQUk2Rt6VdNeu3sEP0AB4LcfvdebpxBRVr4g==}
@@ -14597,7 +14662,6 @@ packages:
     requiresBuild: true
     dependencies:
       node-gyp-build: 4.3.0
-    optional: true
 
   /utf-8-validate@5.0.9:
     resolution: {integrity: sha512-Yek7dAy0v3Kl0orwMlvi7TPtiCNrdfHNd7Gcc/pLq4BLXqfAmd0J7OWMizUQnTTJsyjKn02mU7anqwfmUP4J8Q==}
@@ -16329,6 +16393,22 @@ packages:
     dependencies:
       bufferutil: 4.0.6
       utf-8-validate: 5.0.9
+
+  /ws@8.2.3(bufferutil@4.0.5)(utf-8-validate@5.0.7):
+    resolution: {integrity: sha512-wBuoj1BDpC6ZQ1B7DWQBYVLphPWkm8i9Y0/3YdHjHKHiohOJ1ws+3OccDWtH+PoC9DZD5WOTrJvNbWvjS6JWaA==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: ^5.0.2
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+    dependencies:
+      bufferutil: 4.0.5
+      utf-8-validate: 5.0.7
+    dev: true
 
   /ws@8.5.0:
     resolution: {integrity: sha512-BWX0SWVgLPzYwF8lTzEy1egjhS4S4OEAHfsO8o65WOVsrnSRGaSiUaa9e0ggGlkMTtBlmOpEXiie9RUcBO86qg==}
