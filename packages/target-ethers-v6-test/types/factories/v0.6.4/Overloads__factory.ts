@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Interface, ContractRunner } from "ethers";
+import { Contract, Interface, type ContractRunner } from "ethers";
 import type { Overloads, OverloadsInterface } from "../../v0.6.4/Overloads";
 
 const _abi = [
