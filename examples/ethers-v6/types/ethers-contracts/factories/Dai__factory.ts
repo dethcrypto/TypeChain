@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Interface, type ContractRunner } from "ethers";
+import { Contract, Interface, ContractRunner } from "ethers";
 import type { Dai, DaiInterface } from "../Dai";
 
 const _abi = [

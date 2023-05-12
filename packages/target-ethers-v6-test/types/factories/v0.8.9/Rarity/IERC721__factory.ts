@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Interface, type ContractRunner } from "ethers";
+import { Contract, Interface, ContractRunner } from "ethers";
 import type { IERC721, IERC721Interface } from "../../../v0.8.9/Rarity/IERC721";
 
 const _abi = [
