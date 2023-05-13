@@ -1,5 +1,11 @@
 # @typechain/ethers-v6
 
+## 0.3.2
+
+### Patch Changes
+
+- 13db3fc: fix import type ContractRunner
+
 ## 0.3.1
 
 ### Patch Changes
