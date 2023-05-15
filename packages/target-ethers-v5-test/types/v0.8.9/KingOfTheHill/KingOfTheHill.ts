@@ -25,14 +25,10 @@ import type {
   TypedEvent,
   TypedListener,
   OnEvent,
-  PromiseOrValue,
 } from "../../common";
 
 export declare namespace KingOfTheHill {
-  export type BidStruct = {
-    bidder: PromiseOrValue<string>;
-    value: PromiseOrValue<BigNumberish>;
-  };
+  export type BidStruct = { bidder: string; value: BigNumberish };
 
   export type BidStructOutput = [string, BigNumber] & {
     bidder: string;
@@ -108,7 +104,7 @@ export interface KingOfTheHill extends BaseContract {
 
   functions: {
     bid(
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: string }
     ): Promise<ContractTransaction>;
 
     highestBid(
@@ -116,12 +112,12 @@ export interface KingOfTheHill extends BaseContract {
     ): Promise<[string, BigNumber] & { bidder: string; value: BigNumber }>;
 
     withdraw(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
   };
 
   bid(
-    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    overrides?: PayableOverrides & { from?: string }
   ): Promise<ContractTransaction>;
 
   highestBid(
@@ -129,7 +125,7 @@ export interface KingOfTheHill extends BaseContract {
   ): Promise<[string, BigNumber] & { bidder: string; value: BigNumber }>;
 
   withdraw(
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
+    overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
   callStatic: {
@@ -148,26 +144,22 @@ export interface KingOfTheHill extends BaseContract {
   };
 
   estimateGas: {
-    bid(
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
+    bid(overrides?: PayableOverrides & { from?: string }): Promise<BigNumber>;
 
     highestBid(overrides?: CallOverrides): Promise<BigNumber>;
 
-    withdraw(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
+    withdraw(overrides?: Overrides & { from?: string }): Promise<BigNumber>;
   };
 
   populateTransaction: {
     bid(
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 
     highestBid(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     withdraw(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
   };
 }

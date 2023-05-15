@@ -3,7 +3,6 @@
 /* eslint-disable */
 import { Signer, utils, Contract, ContractFactory, Overrides } from "ethers";
 import type { Provider, TransactionRequest } from "@ethersproject/providers";
-import type { PromiseOrValue } from "../common";
 import type { Counter, CounterInterface } from "../Counter";
 
 const _abi = [
@@ -81,13 +80,11 @@ export class Counter__factory extends ContractFactory {
     }
   }
 
-  override deploy(
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<Counter> {
+  override deploy(overrides?: Overrides & { from?: string }): Promise<Counter> {
     return super.deploy(overrides || {}) as Promise<Counter>;
   }
   override getDeployTransaction(
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
+    overrides?: Overrides & { from?: string }
   ): TransactionRequest {
     return super.getDeployTransaction(overrides || {});
   }
