@@ -59,7 +59,7 @@ export function createBarrelFiles(
             `export type { ${namespaceIdentifier} };`,
           ].join('\n')
 
-        return `export * as ${namespaceIdentifier} from './${p}';`
+        return [`import * as ${namespaceIdentifier} from './${p}';`, `export { ${namespaceIdentifier} };`].join('\n')
       })
       .join('\n')
 
