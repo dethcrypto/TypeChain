@@ -23,7 +23,6 @@ import type {
   TypedEvent,
   TypedListener,
   OnEvent,
-  PromiseOrValue,
 } from "./common";
 
 export interface CounterInterface extends utils.Interface {
@@ -87,22 +86,22 @@ export interface Counter extends BaseContract {
 
   functions: {
     countDown(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
 
     countUp(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
 
     getCount(overrides?: CallOverrides): Promise<[BigNumber]>;
   };
 
   countDown(
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
+    overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
   countUp(
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
+    overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
   getCount(overrides?: CallOverrides): Promise<BigNumber>;
@@ -121,24 +120,20 @@ export interface Counter extends BaseContract {
   };
 
   estimateGas: {
-    countDown(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
+    countDown(overrides?: Overrides & { from?: string }): Promise<BigNumber>;
 
-    countUp(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
+    countUp(overrides?: Overrides & { from?: string }): Promise<BigNumber>;
 
     getCount(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
     countDown(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 
     countUp(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
 
     getCount(overrides?: CallOverrides): Promise<PopulatedTransaction>;

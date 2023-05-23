@@ -3,7 +3,6 @@
 /* eslint-disable */
 import { Signer, utils, Contract, ContractFactory, Overrides } from "ethers";
 import type { Provider, TransactionRequest } from "@ethersproject/providers";
-import type { PromiseOrValue } from "../common";
 import type {
   StructsInConstructor,
   StructsInConstructorInterface,
@@ -58,7 +57,7 @@ export class StructsInConstructor__factory extends ContractFactory {
 
   override deploy(
     segment: [Vector2Struct, Vector2Struct],
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
+    overrides?: Overrides & { from?: string }
   ): Promise<StructsInConstructor> {
     return super.deploy(
       segment,
@@ -67,7 +66,7 @@ export class StructsInConstructor__factory extends ContractFactory {
   }
   override getDeployTransaction(
     segment: [Vector2Struct, Vector2Struct],
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
+    overrides?: Overrides & { from?: string }
   ): TransactionRequest {
     return super.getDeployTransaction(segment, overrides || {});
   }
