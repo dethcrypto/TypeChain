@@ -1,5 +1,5 @@
 ---
-'@typechain/ethers-v5': major
+'@typechain/ethers-v5': minor
 ---
 
 Removes PromiseOrValue
