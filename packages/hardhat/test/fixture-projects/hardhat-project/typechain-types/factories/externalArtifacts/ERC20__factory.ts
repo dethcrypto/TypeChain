@@ -3,7 +3,6 @@
 /* eslint-disable */
 import { Signer, utils, Contract, ContractFactory, Overrides } from "ethers";
 import type { Provider, TransactionRequest } from "@ethersproject/providers";
-import type { PromiseOrValue } from "../../common";
 import type { ERC20, ERC20Interface } from "../../externalArtifacts/ERC20";
 
 const _abi = [
@@ -316,16 +315,16 @@ export class ERC20__factory extends ContractFactory {
   }
 
   override deploy(
-    name_: PromiseOrValue<string>,
-    symbol_: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
+    name_: string,
+    symbol_: string,
+    overrides?: Overrides & { from?: string }
   ): Promise<ERC20> {
     return super.deploy(name_, symbol_, overrides || {}) as Promise<ERC20>;
   }
   override getDeployTransaction(
-    name_: PromiseOrValue<string>,
-    symbol_: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
+    name_: string,
+    symbol_: string,
+    overrides?: Overrides & { from?: string }
   ): TransactionRequest {
     return super.getDeployTransaction(name_, symbol_, overrides || {});
   }

@@ -18,13 +18,12 @@ import type {
   TypedEvent,
   TypedListener,
   OnEvent,
-  PromiseOrValue,
 } from "../common";
 
 export declare namespace DataTypesPure {
   export type Struct1Struct = {
-    uint256_0: PromiseOrValue<BigNumberish>;
-    uint256_1: PromiseOrValue<BigNumberish>;
+    uint256_0: BigNumberish;
+    uint256_1: BigNumberish;
   };
 
   export type Struct1StructOutput = [BigNumber, BigNumber] & {

@@ -31,20 +31,20 @@ export function generateOutputTypes(options: GenerateTypeOptions, outputs: Array
 export function generateInputType(options: GenerateTypeOptions, evmType: EvmType): string {
   switch (evmType.type) {
     case 'integer':
-      return wrapInPromiseOrValue('BigNumberish')
+      return 'BigNumberish'
     case 'uinteger':
-      return wrapInPromiseOrValue('BigNumberish')
+      return 'BigNumberish'
     case 'address':
-      return wrapInPromiseOrValue('string')
+      return 'string'
     case 'bytes':
     case 'dynamic-bytes':
-      return wrapInPromiseOrValue('BytesLike')
+      return 'BytesLike'
     case 'array':
       return generateArrayOrTupleType(generateInputType(options, evmType.itemType), evmType.size)
     case 'boolean':
-      return wrapInPromiseOrValue('boolean')
+      return 'boolean'
     case 'string':
-      return wrapInPromiseOrValue('string')
+      return 'string'
     case 'tuple':
       if (evmType.structName && options.useStructs) {
         return evmType.structName.toString() + STRUCT_INPUT_POSTFIX
@@ -126,8 +126,4 @@ function generateArrayOrTupleType(item: string, length?: number) {
   } else {
     return `${item}[]`
   }
-}
-
-function wrapInPromiseOrValue(str: string): string {
-  return `PromiseOrValue<${str}>`
 }

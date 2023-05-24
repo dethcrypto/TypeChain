@@ -59,8 +59,7 @@ export function parseArgs(): ParsedArgs {
       'node16-modules': {
         type: Boolean,
         defaultValue: false,
-        description:
-          'Append .js extension for relative module imports to support Node native ESM support.',
+        description: 'Append .js extension for relative module imports to support Node native ESM support.',
       },
       help: { type: Boolean, defaultValue: false, alias: 'h', description: 'Prints this message.' },
     },

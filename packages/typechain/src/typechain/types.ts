@@ -25,7 +25,6 @@ export interface CodegenConfig {
   tsNocheck?: boolean
   node16Modules?: boolean
   environment: 'hardhat' | undefined
-
 }
 
 export type PublicConfig = MarkOptional<Config, 'flags' | 'inputDir'>

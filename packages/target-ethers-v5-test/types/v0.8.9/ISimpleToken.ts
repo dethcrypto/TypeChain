@@ -20,7 +20,6 @@ import type {
   TypedEvent,
   TypedListener,
   OnEvent,
-  PromiseOrValue,
 } from "../common";
 
 export interface ISimpleTokenInterface extends utils.Interface {
@@ -32,7 +31,7 @@ export interface ISimpleTokenInterface extends utils.Interface {
 
   encodeFunctionData(
     functionFragment: "transfer",
-    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
+    values: [string, BigNumberish]
   ): string;
 
   decodeFunctionResult(functionFragment: "transfer", data: BytesLike): Result;
@@ -68,22 +67,22 @@ export interface ISimpleToken extends BaseContract {
 
   functions: {
     transfer(
-      from: PromiseOrValue<string>,
-      value: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      from: string,
+      value: BigNumberish,
+      overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
   };
 
   transfer(
-    from: PromiseOrValue<string>,
-    value: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
+    from: string,
+    value: BigNumberish,
+    overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
   callStatic: {
     transfer(
-      from: PromiseOrValue<string>,
-      value: PromiseOrValue<BigNumberish>,
+      from: string,
+      value: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
   };
@@ -92,17 +91,17 @@ export interface ISimpleToken extends BaseContract {
 
   estimateGas: {
     transfer(
-      from: PromiseOrValue<string>,
-      value: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      from: string,
+      value: BigNumberish,
+      overrides?: Overrides & { from?: string }
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
     transfer(
-      from: PromiseOrValue<string>,
-      value: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      from: string,
+      value: BigNumberish,
+      overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
   };
 }

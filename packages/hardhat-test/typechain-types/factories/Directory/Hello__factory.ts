@@ -10,7 +10,6 @@ import {
   Overrides,
 } from "ethers";
 import type { Provider, TransactionRequest } from "@ethersproject/providers";
-import type { PromiseOrValue } from "../../common";
 import type { Hello, HelloInterface } from "../../Directory/Hello";
 
 const _abi = [
@@ -48,14 +47,14 @@ export class Hello__factory extends ContractFactory {
   }
 
   override deploy(
-    arg0: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
+    arg0: BigNumberish,
+    overrides?: Overrides & { from?: string }
   ): Promise<Hello> {
     return super.deploy(arg0, overrides || {}) as Promise<Hello>;
   }
   override getDeployTransaction(
-    arg0: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
+    arg0: BigNumberish,
+    overrides?: Overrides & { from?: string }
   ): TransactionRequest {
     return super.getDeployTransaction(arg0, overrides || {});
   }

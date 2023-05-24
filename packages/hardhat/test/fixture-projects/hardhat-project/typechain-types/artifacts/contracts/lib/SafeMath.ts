@@ -18,7 +18,6 @@ import type {
   TypedEvent,
   TypedListener,
   OnEvent,
-  PromiseOrValue,
 } from "../../../common";
 
 export interface SafeMathInterface extends utils.Interface {
@@ -35,19 +34,19 @@ export interface SafeMathInterface extends utils.Interface {
 
   encodeFunctionData(
     functionFragment: "add",
-    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
+    values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "div",
-    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
+    values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "mul",
-    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
+    values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "sub",
-    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
+    values: [BigNumberish, BigNumberish]
   ): string;
 
   decodeFunctionResult(functionFragment: "add", data: BytesLike): Result;
@@ -86,76 +85,76 @@ export interface SafeMath extends BaseContract {
 
   functions: {
     add(
-      num1: PromiseOrValue<BigNumberish>,
-      num2: PromiseOrValue<BigNumberish>,
+      num1: BigNumberish,
+      num2: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
     div(
-      num1: PromiseOrValue<BigNumberish>,
-      num2: PromiseOrValue<BigNumberish>,
+      num1: BigNumberish,
+      num2: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
     mul(
-      num1: PromiseOrValue<BigNumberish>,
-      num2: PromiseOrValue<BigNumberish>,
+      num1: BigNumberish,
+      num2: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
     sub(
-      num1: PromiseOrValue<BigNumberish>,
-      num2: PromiseOrValue<BigNumberish>,
+      num1: BigNumberish,
+      num2: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
   };
 
   add(
-    num1: PromiseOrValue<BigNumberish>,
-    num2: PromiseOrValue<BigNumberish>,
+    num1: BigNumberish,
+    num2: BigNumberish,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
   div(
-    num1: PromiseOrValue<BigNumberish>,
-    num2: PromiseOrValue<BigNumberish>,
+    num1: BigNumberish,
+    num2: BigNumberish,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
   mul(
-    num1: PromiseOrValue<BigNumberish>,
-    num2: PromiseOrValue<BigNumberish>,
+    num1: BigNumberish,
+    num2: BigNumberish,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
   sub(
-    num1: PromiseOrValue<BigNumberish>,
-    num2: PromiseOrValue<BigNumberish>,
+    num1: BigNumberish,
+    num2: BigNumberish,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
   callStatic: {
     add(
-      num1: PromiseOrValue<BigNumberish>,
-      num2: PromiseOrValue<BigNumberish>,
+      num1: BigNumberish,
+      num2: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     div(
-      num1: PromiseOrValue<BigNumberish>,
-      num2: PromiseOrValue<BigNumberish>,
+      num1: BigNumberish,
+      num2: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     mul(
-      num1: PromiseOrValue<BigNumberish>,
-      num2: PromiseOrValue<BigNumberish>,
+      num1: BigNumberish,
+      num2: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     sub(
-      num1: PromiseOrValue<BigNumberish>,
-      num2: PromiseOrValue<BigNumberish>,
+      num1: BigNumberish,
+      num2: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
   };
@@ -164,52 +163,52 @@ export interface SafeMath extends BaseContract {
 
   estimateGas: {
     add(
-      num1: PromiseOrValue<BigNumberish>,
-      num2: PromiseOrValue<BigNumberish>,
+      num1: BigNumberish,
+      num2: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     div(
-      num1: PromiseOrValue<BigNumberish>,
-      num2: PromiseOrValue<BigNumberish>,
+      num1: BigNumberish,
+      num2: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     mul(
-      num1: PromiseOrValue<BigNumberish>,
-      num2: PromiseOrValue<BigNumberish>,
+      num1: BigNumberish,
+      num2: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     sub(
-      num1: PromiseOrValue<BigNumberish>,
-      num2: PromiseOrValue<BigNumberish>,
+      num1: BigNumberish,
+      num2: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
     add(
-      num1: PromiseOrValue<BigNumberish>,
-      num2: PromiseOrValue<BigNumberish>,
+      num1: BigNumberish,
+      num2: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     div(
-      num1: PromiseOrValue<BigNumberish>,
-      num2: PromiseOrValue<BigNumberish>,
+      num1: BigNumberish,
+      num2: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     mul(
-      num1: PromiseOrValue<BigNumberish>,
-      num2: PromiseOrValue<BigNumberish>,
+      num1: BigNumberish,
+      num2: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     sub(
-      num1: PromiseOrValue<BigNumberish>,
-      num2: PromiseOrValue<BigNumberish>,
+      num1: BigNumberish,
+      num2: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };

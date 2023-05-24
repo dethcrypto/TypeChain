@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "include": ["src"],
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "moduleResolution": "node16"
+  },
+  "references": [
+    {
+      "path": "../typechain/tsconfig.build.json"
+    }
+  ]
+}

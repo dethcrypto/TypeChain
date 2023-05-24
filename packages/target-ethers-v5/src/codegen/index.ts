@@ -4,7 +4,6 @@ import {
   CodegenConfig,
   Contract,
   createImportsForUsedIdentifiers,
-  createImportTypeDeclaration,
   EventDeclaration,
   FunctionDeclaration,
   StructType,
@@ -121,29 +120,27 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
     (contract.path.length ? `${new Array(contract.path.length).fill('..').join('/')}/common` : './common') +
     moduleSuffix
 
-  const imports =
-    createImportsForUsedIdentifiers(
-      {
-        'type ethers': [
-          'BaseContract',
-          'BigNumber',
-          'BigNumberish',
-          'BytesLike',
-          'CallOverrides',
-          'ContractTransaction',
-          'Overrides',
-          'PayableOverrides',
-          'PopulatedTransaction',
-          'Signer',
-          'utils',
-        ],
-        'type @ethersproject/abi': ['FunctionFragment', 'Result', 'EventFragment'],
-        'type @ethersproject/providers': ['Listener', 'Provider'],
-      },
-      source,
-    ) +
-    '\n' +
-    createImportTypeDeclaration([...EVENT_IMPORTS, 'PromiseOrValue'], commonPath)
+  const imports = createImportsForUsedIdentifiers(
+    {
+      'type ethers': [
+        'BaseContract',
+        'BigNumber',
+        'BigNumberish',
+        'BytesLike',
+        'CallOverrides',
+        'ContractTransaction',
+        'Overrides',
+        'PayableOverrides',
+        'PopulatedTransaction',
+        'Signer',
+        'utils',
+      ],
+      'type @ethersproject/abi': ['FunctionFragment', 'Result', 'EventFragment'],
+      'type @ethersproject/providers': ['Listener', 'Provider'],
+      [`type ${commonPath}`]: [...EVENT_IMPORTS],
+    },
+    source,
+  )
 
   return imports + source
 }
@@ -159,8 +156,8 @@ export function codegenContractFactory(
     (contract.constructor[0] ? generateInputTypes(contract.constructor[0].inputs, { useStructs: true }) : '') +
     `overrides?: ${
       contract.constructor[0]?.stateMutability === 'payable'
-        ? 'PayableOverrides & { from?: PromiseOrValue<string> }'
-        : 'Overrides & { from?: PromiseOrValue<string> }'
+        ? 'PayableOverrides & { from?: string }'
+        : 'Overrides & { from?: string }'
     }`
   const constructorArgNamesWithoutOverrides = contract.constructor[0]
     ? generateParamNames(contract.constructor[0].inputs)
@@ -204,27 +201,22 @@ export function codegenContractFactory(
   ${generateLibraryAddressesInterface(contract, bytecode)}
   `
 
-  const commonPath = `${new Array(contract.path.length + 1).fill('..').join('/')}/common${moduleSuffix}`
-
-  const imports =
-    createImportsForUsedIdentifiers(
-      {
-        ethers: [
-          'Signer',
-          'utils',
-          'Contract',
-          'ContractFactory',
-          'PayableOverrides',
-          'BytesLike',
-          'BigNumberish',
-          'Overrides',
-        ],
-        'type @ethersproject/providers': ['Provider', 'TransactionRequest'],
-      },
-      source,
-    ) +
-    '\n' +
-    createImportTypeDeclaration(['PromiseOrValue'], commonPath)
+  const imports = createImportsForUsedIdentifiers(
+    {
+      ethers: [
+        'Signer',
+        'utils',
+        'Contract',
+        'ContractFactory',
+        'PayableOverrides',
+        'BytesLike',
+        'BigNumberish',
+        'Overrides',
+      ],
+      'type @ethersproject/providers': ['Provider', 'TransactionRequest'],
+    },
+    source,
+  )
 
   return imports + source
 }

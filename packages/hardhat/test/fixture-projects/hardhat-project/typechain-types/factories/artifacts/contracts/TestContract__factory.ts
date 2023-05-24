@@ -10,7 +10,6 @@ import {
   Overrides,
 } from "ethers";
 import type { Provider, TransactionRequest } from "@ethersproject/providers";
-import type { PromiseOrValue } from "../../../common";
 import type {
   TestContract,
   TestContractInterface,
@@ -77,14 +76,14 @@ export class TestContract__factory extends ContractFactory {
   }
 
   override deploy(
-    _amount: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
+    _amount: BigNumberish,
+    overrides?: Overrides & { from?: string }
   ): Promise<TestContract> {
     return super.deploy(_amount, overrides || {}) as Promise<TestContract>;
   }
   override getDeployTransaction(
-    _amount: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
+    _amount: BigNumberish,
+    overrides?: Overrides & { from?: string }
   ): TransactionRequest {
     return super.getDeployTransaction(_amount, overrides || {});
   }
