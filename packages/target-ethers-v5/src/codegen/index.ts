@@ -221,7 +221,7 @@ export function codegenContractFactory(
   return imports + source
 }
 
-export function codegenAbstractContractFactory(contract: Contract, abi: any, moduleSuffix = ''): string {
+export function codegenAbstractContractFactory(contract: Contract, abi: any, moduleSuffix: string): string {
   const { body, header } = codegenCommonContractFactory(contract, abi, moduleSuffix)
   return `
   import { Contract, Signer, utils } from "ethers";
@@ -237,7 +237,7 @@ export function codegenAbstractContractFactory(contract: Contract, abi: any, mod
 function codegenCommonContractFactory(
   contract: Contract,
   abi: any,
-  moduleSuffix = '',
+  moduleSuffix: string,
 ): { header: string; body: string } {
   const imports: Set<string> = new Set([contract.name, contract.name + 'Interface'])
 
