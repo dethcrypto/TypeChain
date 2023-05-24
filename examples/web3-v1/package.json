@@ -10,10 +10,10 @@
     "typecheck": "pnpm generate-types && tsc --noEmit"
   },
   "devDependencies": {
-    "@typechain/web3-v1": "workspace:^6.0.2",
+    "@typechain/web3-v1": "workspace:^6.0.3",
     "@types/bn.js": "^4.11.6",
     "ts-node": "^10.7.0",
-    "typechain": "workspace:^8.1.1"
+    "typechain": "workspace:^8.2.0"
   },
   "dependencies": {
     "web3": "^1",

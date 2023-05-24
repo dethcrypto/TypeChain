@@ -69,7 +69,7 @@ importers:
         version: 5.6.0
     devDependencies:
       '@typechain/ethers-v5':
-        specifier: workspace:^10.2.1
+        specifier: workspace:^11.0.0
         version: link:../../packages/target-ethers-v5
       '@types/bn.js':
         specifier: ^5.1.0
@@ -78,7 +78,7 @@ importers:
         specifier: ^10.7.0
         version: 10.7.0(@types/node@18.14.0)(typescript@4.9.5)
       typechain:
-        specifier: workspace:^8.1.1
+        specifier: workspace:^8.2.0
         version: link:../../packages/typechain
       typescript:
         specifier: ^4.9.5
@@ -97,7 +97,7 @@ importers:
         version: 5.6.0
     devDependencies:
       '@typechain/ethers-v5':
-        specifier: workspace:^10.2.1
+        specifier: workspace:^11.0.0
         version: link:../../packages/target-ethers-v5
       '@types/bn.js':
         specifier: ^5.1.0
@@ -106,7 +106,7 @@ importers:
         specifier: ^10.7.0
         version: 10.7.0(@types/node@18.14.0)(typescript@4.9.5)
       typechain:
-        specifier: workspace:^8.1.1
+        specifier: workspace:^8.2.0
         version: link:../../packages/typechain
       typescript:
         specifier: ^4.9.5
@@ -119,7 +119,7 @@ importers:
         version: 6.1.0
     devDependencies:
       '@typechain/ethers-v6':
-        specifier: workspace:^0.3.2
+        specifier: workspace:^0.3.3
         version: link:../../packages/target-ethers-v6
       '@types/bn.js':
         specifier: ^5.1.0
@@ -128,7 +128,7 @@ importers:
         specifier: ^10.7.0
         version: 10.7.0(@types/node@18.14.0)(typescript@4.9.5)
       typechain:
-        specifier: workspace:^8.1.1
+        specifier: workspace:^8.2.0
         version: link:../../packages/typechain
       typescript:
         specifier: ^4.7
@@ -152,10 +152,10 @@ importers:
         specifier: ^2.0.1
         version: 2.0.3(@nomiclabs/hardhat-ethers@2.0.5)(ethereum-waffle@3.4.0)(ethers@5.4.0)(hardhat@2.9.9)
       '@typechain/ethers-v5':
-        specifier: workspace:^10.0.0
+        specifier: workspace:^11.0.0
         version: link:../../packages/target-ethers-v5
       '@typechain/hardhat':
-        specifier: workspace:^6.0.0
+        specifier: workspace:^7.0.0
         version: link:../../packages/hardhat
       '@types/chai':
         specifier: ^4.2.15
@@ -191,7 +191,7 @@ importers:
         specifier: ^10.7.0
         version: 10.7.0(@types/node@18.14.0)(typescript@4.9.5)
       typechain:
-        specifier: workspace:^8.0.0
+        specifier: workspace:^8.2.0
         version: link:../../packages/typechain
       typescript:
         specifier: ^4.9.5
@@ -209,10 +209,10 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0(hardhat@2.9.9)(web3@1.7.1)
       '@typechain/hardhat':
-        specifier: workspace:^6.1.6
+        specifier: workspace:^7.0.0
         version: link:../../packages/hardhat
       '@typechain/truffle-v5':
-        specifier: workspace:^8.0.2
+        specifier: workspace:^8.0.3
         version: link:../../packages/target-truffle-v5
       '@types/bn.js':
         specifier: ^4.11.6
@@ -254,7 +254,7 @@ importers:
         specifier: ^10.7.0
         version: 10.7.0(@types/node@18.14.0)(typescript@4.9.5)
       typechain:
-        specifier: workspace:^8.1.1
+        specifier: workspace:^8.2.0
         version: link:../../packages/typechain
       typescript:
         specifier: ^4.9.5
@@ -284,7 +284,7 @@ importers:
   examples/truffle-v5:
     dependencies:
       '@typechain/truffle-v5':
-        specifier: workspace:^8.0.2
+        specifier: workspace:^8.0.3
         version: link:../../packages/target-truffle-v5
       '@types/bn.js':
         specifier: ^4.11.6
@@ -302,7 +302,7 @@ importers:
         specifier: ^5.1.22
         version: 5.5.4
       typechain:
-        specifier: workspace:^8.1.1
+        specifier: workspace:^8.2.0
         version: link:../../packages/typechain
       typescript:
         specifier: ^4.9.5
@@ -333,7 +333,7 @@ importers:
         version: 1.7.1
     devDependencies:
       '@typechain/web3-v1':
-        specifier: workspace:^6.0.2
+        specifier: workspace:^6.0.3
         version: link:../../packages/target-web3-v1
       '@types/bn.js':
         specifier: ^4.11.6
@@ -342,7 +342,7 @@ importers:
         specifier: ^10.7.0
         version: 10.7.0(@types/node@18.14.0)(typescript@4.9.5)
       typechain:
-        specifier: workspace:^8.1.1
+        specifier: workspace:^8.2.0
         version: link:../../packages/typechain
 
   packages/hardhat:
@@ -361,7 +361,7 @@ importers:
         specifier: ^2.0.2
         version: 2.0.5(ethers@5.6.0)(hardhat@2.9.9)
       '@typechain/ethers-v5':
-        specifier: workspace:^10.2.1
+        specifier: workspace:^11.0.0
         version: link:../target-ethers-v5
       '@types/fs-extra':
         specifier: ^9.0.7
@@ -379,7 +379,7 @@ importers:
         specifier: ^3.0.2
         version: 3.0.2
       typechain:
-        specifier: workspace:^8.1.1
+        specifier: workspace:^8.2.0
         version: link:../typechain
       typescript:
         specifier: ^4
@@ -397,10 +397,10 @@ importers:
         specifier: ^2.0.2
         version: 2.0.5(ethers@5.6.0)(hardhat@2.9.9)
       '@typechain/ethers-v5':
-        specifier: workspace:^10.2.1
+        specifier: workspace:^11.0.0
         version: link:../target-ethers-v5
       '@typechain/hardhat':
-        specifier: workspace:^6.1.6
+        specifier: workspace:^7.0.0
         version: link:../hardhat
       ethers:
         specifier: ^5.4.7
@@ -412,7 +412,7 @@ importers:
         specifier: 1.0.0
         version: link:../test-utils
       typechain:
-        specifier: workspace:^8.1.1
+        specifier: workspace:^8.2.0
         version: link:../typechain
 
   packages/target-ethers-v5:
@@ -449,7 +449,7 @@ importers:
         specifier: 1.0.0
         version: link:../test-utils
       typechain:
-        specifier: workspace:^8.1.1
+        specifier: workspace:^8.2.0
         version: link:../typechain
       typescript:
         specifier: '>=4.3.0'
@@ -477,7 +477,7 @@ importers:
         specifier: 1.0.0
         version: link:../test-utils
       typechain:
-        specifier: workspace:^8.1.1
+        specifier: workspace:^8.2.0
         version: link:../typechain
 
   packages/target-ethers-v6:
@@ -505,7 +505,7 @@ importers:
         specifier: 1.0.0
         version: link:../test-utils
       typechain:
-        specifier: workspace:^8.1.1
+        specifier: workspace:^8.2.0
         version: link:../typechain
       typescript:
         specifier: '>=4.7.0'
@@ -524,7 +524,7 @@ importers:
         specifier: 1.0.0
         version: link:../test-utils
       typechain:
-        specifier: workspace:^8.1.1
+        specifier: workspace:^8.2.0
         version: link:../typechain
 
   packages/target-starknet:
@@ -552,7 +552,7 @@ importers:
         specifier: 1.0.0
         version: link:../test-utils
       typechain:
-        specifier: workspace:^8.1.1
+        specifier: workspace:^8.2.0
         version: link:../typechain
       typescript:
         specifier: ^4.9.5
@@ -577,7 +577,7 @@ importers:
         specifier: 1.0.0
         version: link:../test-utils
       typechain:
-        specifier: workspace:^8.1.1
+        specifier: workspace:^8.2.0
         version: link:../typechain
       wait-on:
         specifier: ^6.0.1
@@ -596,7 +596,7 @@ importers:
         specifier: ^4.14.139
         version: 4.14.179
       typechain:
-        specifier: workspace:^8.1.1
+        specifier: workspace:^8.2.0
         version: link:../typechain
       web3:
         specifier: ^1
@@ -662,7 +662,7 @@ importers:
         specifier: ^7.0.1
         version: 7.0.3(typescript@4.6.2)
       typechain:
-        specifier: workspace:^8.1.1
+        specifier: workspace:^8.2.0
         version: link:../typechain
       typescript:
         specifier: ^4
@@ -699,7 +699,7 @@ importers:
         specifier: 1.0.0
         version: link:../test-utils
       typechain:
-        specifier: workspace:^8.1.1
+        specifier: workspace:^8.2.0
         version: link:../typechain
       web3:
         specifier: ^1
@@ -723,7 +723,7 @@ importers:
         specifier: 1.0.0
         version: link:../test-utils
       typechain:
-        specifier: workspace:^8.1.1
+        specifier: workspace:^8.2.0
         version: link:../typechain
       web3:
         specifier: ^1.6.0
@@ -738,7 +738,7 @@ importers:
   packages/test-e2e:
     dependencies:
       '@typechain/ethers-v5':
-        specifier: workspace:^10.2.1
+        specifier: workspace:^11.0.0
         version: link:../target-ethers-v5
       '@types/fs-extra':
         specifier: ^9.0.7
@@ -747,7 +747,7 @@ importers:
         specifier: ^9.1.0
         version: 9.1.0
       typechain:
-        specifier: workspace:^8.1.1
+        specifier: workspace:^8.2.0
         version: link:../typechain
     devDependencies:
       mocha:

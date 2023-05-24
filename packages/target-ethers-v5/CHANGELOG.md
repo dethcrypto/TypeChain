@@ -1,5 +1,20 @@
 # @typechain/ethers-v5
 
+## 11.0.0
+
+### Major Changes
+
+- 3eb6ed6: Removes PromiseOrValue
+
+### Minor Changes
+
+- 15541e4: Support for `nodenext` style import paths with new CLI flag: `--node16-modules`
+
+### Patch Changes
+
+- Updated dependencies [15541e4]
+  - typechain@8.2.0
+
 ## 10.2.1
 
 ### Patch Changes
