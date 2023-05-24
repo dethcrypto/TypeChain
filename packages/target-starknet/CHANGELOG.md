@@ -1,5 +1,12 @@
 # @typechain/starknet
 
+## 0.2.5
+
+### Patch Changes
+
+- Updated dependencies [15541e4]
+  - typechain@8.2.0
+
 ## 0.2.4
 
 ### Patch Changes

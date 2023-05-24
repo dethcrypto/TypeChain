@@ -1,5 +1,11 @@
 # typechain
 
+## 8.2.0
+
+### Minor Changes
+
+- 15541e4: Support for `nodenext` style import paths with new CLI flag: `--node16-modules`
+
 ## 8.1.1
 
 ### Patch Changes
