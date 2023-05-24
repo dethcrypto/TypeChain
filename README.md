@@ -128,6 +128,8 @@ That's it! Now, you can simply import typings, check out our examples for more d
 Use `ethers-v5` target to generate wrappers for [ethers.js](https://github.com/ethers-io/ethers.js/) lib. To make it
 work great with Hardhat, use [Hardhat plugin](https://github.com/ethereum-ts/TypeChain/tree/master/packages/hardhat).
 
+If you use `nodenext` aka `node16modules` flip the flag `--node16-modules` to generate compatible typings.
+
 If you're using Ethers.js v4, you can find legacy `@typechain/ethers-v4` target on
 [npm](https://www.npmjs.com/package/@typechain/ethers-v4) and commit
 [`db551b5`](https://github.com/dethcrypto/TypeChain/tree/db551b5c5f70e86f3ca342551e9e0369d099cfa2).
