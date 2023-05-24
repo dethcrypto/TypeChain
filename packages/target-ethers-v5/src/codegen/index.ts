@@ -115,9 +115,10 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
     };
   }`
 
-  const commonPath = contract.path.length
-    ? `${new Array(contract.path.length).fill('..').join('/')}/common`
-    : './common'
+  const moduleSuffix = codegenConfig.node16Modules ? '.js' : ''
+  const commonPath =
+    (contract.path.length ? `${new Array(contract.path.length).fill('..').join('/')}/common` : './common') +
+    moduleSuffix
 
   const imports = createImportsForUsedIdentifiers(
     {
@@ -150,6 +151,7 @@ export function codegenContractFactory(
   abi: any,
   bytecode?: BytecodeWithLinkReferences,
 ): string {
+  const moduleSuffix = codegenConfig.node16Modules ? '.js' : ''
   const constructorArgs =
     (contract.constructor[0] ? generateInputTypes(contract.constructor[0].inputs, { useStructs: true }) : '') +
     `overrides?: ${
@@ -163,11 +165,11 @@ export function codegenContractFactory(
   const constructorArgNames = constructorArgNamesWithoutOverrides
     ? `${constructorArgNamesWithoutOverrides}, overrides || {}`
     : 'overrides || {}'
-  if (!bytecode) return codegenAbstractContractFactory(contract, abi)
+  if (!bytecode) return codegenAbstractContractFactory(contract, abi, moduleSuffix)
 
   // tsc with noUnusedLocals would complain about unused imports
 
-  const { body, header } = codegenCommonContractFactory(contract, abi)
+  const { body, header } = codegenCommonContractFactory(contract, abi, moduleSuffix)
 
   const source = `
   ${header}
@@ -219,8 +221,8 @@ export function codegenContractFactory(
   return imports + source
 }
 
-export function codegenAbstractContractFactory(contract: Contract, abi: any): string {
-  const { body, header } = codegenCommonContractFactory(contract, abi)
+export function codegenAbstractContractFactory(contract: Contract, abi: any, moduleSuffix: string): string {
+  const { body, header } = codegenCommonContractFactory(contract, abi, moduleSuffix)
   return `
   import { Contract, Signer, utils } from "ethers";
   import type { Provider } from "@ethersproject/providers";
@@ -232,7 +234,11 @@ export function codegenAbstractContractFactory(contract: Contract, abi: any): st
   `
 }
 
-function codegenCommonContractFactory(contract: Contract, abi: any): { header: string; body: string } {
+function codegenCommonContractFactory(
+  contract: Contract,
+  abi: any,
+  moduleSuffix: string,
+): { header: string; body: string } {
   const imports: Set<string> = new Set([contract.name, contract.name + 'Interface'])
 
   contract.constructor[0]?.inputs.forEach(({ type }) => {
@@ -242,9 +248,11 @@ function codegenCommonContractFactory(contract: Contract, abi: any): { header: s
     }
   })
 
-  const contractTypesImportPath = [...Array(contract.path.length + 1).fill('..'), ...contract.path, contract.name].join(
-    '/',
-  )
+  const contractTypesImportPath = [
+    ...Array(contract.path.length + 1).fill('..'),
+    ...contract.path,
+    contract.name + moduleSuffix,
+  ].join('/')
 
   const header = `
   import type { ${[...imports.values()].join(', ')} } from "${contractTypesImportPath}";

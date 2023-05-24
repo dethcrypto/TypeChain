@@ -11,6 +11,7 @@ export interface ParsedArgs {
     discriminateTypes: boolean
     alwaysGenerateOverloads: boolean
     tsNocheck: boolean
+    node16Modules: boolean
   }
 }
 
@@ -55,6 +56,11 @@ export function parseArgs(): ParsedArgs {
         description:
           'ethers-v5 target will add an artificial field `contractName` that helps discriminate between contracts',
       },
+      'node16-modules': {
+        type: Boolean,
+        defaultValue: false,
+        description: 'Append .js extension for relative module imports to support Node native ESM support.',
+      },
       help: { type: Boolean, defaultValue: false, alias: 'h', description: 'Prints this message.' },
     },
     {
@@ -88,6 +94,7 @@ export function parseArgs(): ParsedArgs {
       alwaysGenerateOverloads: rawOptions['always-generate-overloads'],
       discriminateTypes: rawOptions['discriminate-types'],
       tsNocheck: rawOptions['ts-nocheck'],
+      node16Modules: rawOptions['node16-modules'],
     },
   }
 }
@@ -101,5 +108,6 @@ interface CommandLineArgs {
   'always-generate-overloads': boolean
   'discriminate-types': boolean
   'ts-nocheck': boolean
+  'node16-modules': boolean
   help: boolean
 }

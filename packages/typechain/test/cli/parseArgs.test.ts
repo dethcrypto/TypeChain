@@ -21,7 +21,7 @@ describe('cli > parseArgs', () => {
       target: 'sample-target',
       outDir: undefined,
       inputDir: undefined,
-      flags: { alwaysGenerateOverloads: false, tsNocheck: false, discriminateTypes: false },
+      flags: { alwaysGenerateOverloads: false, tsNocheck: false, discriminateTypes: false, node16Modules: false },
     })
   })
 
@@ -35,7 +35,7 @@ describe('cli > parseArgs', () => {
       target: 'sample-target',
       outDir: undefined,
       inputDir: undefined,
-      flags: { alwaysGenerateOverloads: false, tsNocheck: false, discriminateTypes: false },
+      flags: { alwaysGenerateOverloads: false, tsNocheck: false, discriminateTypes: false, node16Modules: false },
     })
   })
 
@@ -49,7 +49,7 @@ describe('cli > parseArgs', () => {
       target: 'sample-target',
       outDir: undefined,
       inputDir: undefined,
-      flags: { alwaysGenerateOverloads: false, tsNocheck: false, discriminateTypes: false },
+      flags: { alwaysGenerateOverloads: false, tsNocheck: false, discriminateTypes: false, node16Modules: false },
     })
   })
 
@@ -63,7 +63,7 @@ describe('cli > parseArgs', () => {
       target: 'sample-target',
       outDir: undefined,
       inputDir: undefined,
-      flags: { alwaysGenerateOverloads: true, tsNocheck: false, discriminateTypes: true },
+      flags: { alwaysGenerateOverloads: true, tsNocheck: false, discriminateTypes: true, node16Modules: false },
     })
   })
 

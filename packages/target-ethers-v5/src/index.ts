@@ -123,11 +123,12 @@ export default class Ethers extends TypeChainTarget {
   override afterRun(): FileDescription[] {
     // For each contract that doesn't have bytecode (it's either abstract, or only ABI was provided)
     // generate a simplified factory, that allows to interact with deployed contract instances.
+    const moduleSuffix = this.cfg.flags.node16Modules ? '.js' : ''
     const abstractFactoryFiles = Object.keys(this.contractsWithoutBytecode).map((contractName) => {
       const { contract, abi } = this.contractsWithoutBytecode[contractName]!
       return {
         path: join(this.outDirAbs, 'factories', ...contract.path, `${contract.name}${FACTORY_POSTFIX}.ts`),
-        contents: codegenAbstractContractFactory(contract, abi),
+        contents: codegenAbstractContractFactory(contract, abi, moduleSuffix),
       }
     })
 
@@ -142,10 +143,10 @@ export default class Ethers extends TypeChainTarget {
         ? { path: join(this.outDirAbs, 'hardhat.d.ts'), contents: generateHardhatHelper(allContracts) }
         : undefined
 
-    const typesBarrels = createBarrelFiles(this.allFiles, { typeOnly: true })
+    const typesBarrels = createBarrelFiles(this.allFiles, { typeOnly: true, moduleSuffix })
     const factoriesBarrels = createBarrelFiles(
       this.allFiles.map((s) => `factories/${s}`),
-      { typeOnly: false, postfix: FACTORY_POSTFIX },
+      { typeOnly: false, postfix: FACTORY_POSTFIX, moduleSuffix },
     )
 
     const allBarrels = typesBarrels.concat(factoriesBarrels)
@@ -153,7 +154,7 @@ export default class Ethers extends TypeChainTarget {
 
     const rootIndex = {
       path: join(this.outDirAbs, 'index.ts'),
-      contents: createRootIndexContent(rootIndexes, this.allFiles),
+      contents: createRootIndexContent(rootIndexes, this.allFiles, moduleSuffix),
     }
 
     const allFiles = compact([
@@ -172,13 +173,13 @@ export default class Ethers extends TypeChainTarget {
 }
 
 // root index.ts reexports also from deeper paths
-function createRootIndexContent(rootIndexes: FileDescription[], paths: string[]) {
+function createRootIndexContent(rootIndexes: FileDescription[], paths: string[], moduleSuffix = '') {
   const contracts: { path: string[]; name: string }[] = paths.map(parseContractPath)
   const rootReexports = uniqBy(Object.values(contracts), (c) => c.name).flatMap((c) => {
     const path = c.path.length === 0 ? c.name : `${c.path.join('/')}/${c.name}`
     return [
-      `export type { ${c.name} } from './${path}';`,
-      `export { ${c.name}${FACTORY_POSTFIX} } from './factories/${path}${FACTORY_POSTFIX}';`,
+      `export type { ${c.name} } from './${path}${moduleSuffix}';`,
+      `export { ${c.name}${FACTORY_POSTFIX} } from './factories/${path}${FACTORY_POSTFIX}${moduleSuffix}';`,
     ]
   })
 

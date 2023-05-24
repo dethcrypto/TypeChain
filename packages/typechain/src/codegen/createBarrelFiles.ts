@@ -11,7 +11,7 @@ import { FileDescription } from '../typechain/types'
  */
 export function createBarrelFiles(
   paths: string[],
-  { typeOnly, postfix = '' }: { typeOnly: boolean; postfix?: string },
+  { typeOnly, postfix = '', moduleSuffix = '' }: { typeOnly: boolean; postfix?: string; moduleSuffix?: string },
 ): FileDescription[] {
   const fileReexports: Record<string, string[] | undefined> = mapValues(
     groupBy(paths.map(posix.parse), (p) => p.dir),
@@ -70,7 +70,7 @@ export function createBarrelFiles(
         const name = `${normalizeName(p)}${postfix}`
         // We can't always `export *` because of possible name conflicts.
         // @todo possibly a config option for user to decide?
-        return `${exportKeyword} { ${name} } from './${name}';`
+        return `${exportKeyword} { ${name} } from './${name}${moduleSuffix}';`
       })
       .join('\n')
 
