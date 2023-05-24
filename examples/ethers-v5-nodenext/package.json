@@ -1,5 +1,5 @@
 {
-  "name": "example-ethers-v5",
+  "name": "example-ethers-v5-nodenext",
   "private": true,
   "version": "0.0.1",
   "main": "index.js",
