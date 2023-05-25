@@ -138,7 +138,7 @@ export interface DataTypesPureInterface extends Interface {
 }
 
 export interface DataTypesPure extends BaseContract {
-  connect(runner?: ContractRunner | null): BaseContract;
+  connect(runner?: ContractRunner | null): this;
   attach(addressOrName: AddressLike): this;
   deployed(): Promise<this>;
 

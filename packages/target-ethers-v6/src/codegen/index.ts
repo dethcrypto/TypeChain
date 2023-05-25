@@ -66,7 +66,7 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
 
   export interface ${contract.name} extends BaseContract {
     ${codegenConfig.discriminateTypes ? `contractName: '${contract.name}';\n` : ``}
-    connect(runner?: ContractRunner | null): BaseContract;
+    connect(runner?: ContractRunner | null): this;
     attach(addressOrName: AddressLike): this;
     deployed(): Promise<this>;
 

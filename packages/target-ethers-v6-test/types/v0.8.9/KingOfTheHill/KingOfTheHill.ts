@@ -64,7 +64,7 @@ export namespace HighestBidIncreasedEvent {
 }
 
 export interface KingOfTheHill extends BaseContract {
-  connect(runner?: ContractRunner | null): BaseContract;
+  connect(runner?: ContractRunner | null): this;
   attach(addressOrName: AddressLike): this;
   deployed(): Promise<this>;
 

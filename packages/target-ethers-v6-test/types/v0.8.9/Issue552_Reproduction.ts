@@ -72,7 +72,7 @@ export interface Issue552_ReproductionInterface extends Interface {
 }
 
 export interface Issue552_Reproduction extends BaseContract {
-  connect(runner?: ContractRunner | null): BaseContract;
+  connect(runner?: ContractRunner | null): this;
   attach(addressOrName: AddressLike): this;
   deployed(): Promise<this>;
 
