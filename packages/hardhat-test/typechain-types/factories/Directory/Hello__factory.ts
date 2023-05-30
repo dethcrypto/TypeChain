@@ -2,14 +2,18 @@
 /* tslint:disable */
 /* eslint-disable */
 import {
-  Signer,
-  utils,
   Contract,
   ContractFactory,
-  BigNumberish,
-  Overrides,
+  ContractTransactionResponse,
+  Interface,
 } from "ethers";
-import type { Provider, TransactionRequest } from "@ethersproject/providers";
+import type {
+  Signer,
+  BigNumberish,
+  ContractDeployTransaction,
+  ContractRunner,
+} from "ethers";
+import type { NonPayableOverrides } from "../../common";
 import type { Hello, HelloInterface } from "../../Directory/Hello";
 
 const _abi = [
@@ -46,31 +50,32 @@ export class Hello__factory extends ContractFactory {
     }
   }
 
-  override deploy(
-    arg0: BigNumberish,
-    overrides?: Overrides & { from?: string }
-  ): Promise<Hello> {
-    return super.deploy(arg0, overrides || {}) as Promise<Hello>;
-  }
   override getDeployTransaction(
     arg0: BigNumberish,
-    overrides?: Overrides & { from?: string }
-  ): TransactionRequest {
+    overrides?: NonPayableOverrides & { from?: string }
+  ): Promise<ContractDeployTransaction> {
     return super.getDeployTransaction(arg0, overrides || {});
   }
-  override attach(address: string): Hello {
-    return super.attach(address) as Hello;
+  override deploy(
+    arg0: BigNumberish,
+    overrides?: NonPayableOverrides & { from?: string }
+  ) {
+    return super.deploy(arg0, overrides || {}) as Promise<
+      Hello & {
+        deploymentTransaction(): ContractTransactionResponse;
+      }
+    >;
   }
-  override connect(signer: Signer): Hello__factory {
-    return super.connect(signer) as Hello__factory;
+  override connect(runner: ContractRunner | null): Hello__factory {
+    return super.connect(runner) as Hello__factory;
   }
 
   static readonly bytecode = _bytecode;
   static readonly abi = _abi;
   static createInterface(): HelloInterface {
-    return new utils.Interface(_abi) as HelloInterface;
+    return new Interface(_abi) as HelloInterface;
   }
-  static connect(address: string, signerOrProvider: Signer | Provider): Hello {
-    return new Contract(address, _abi, signerOrProvider) as Hello;
+  static connect(address: string, runner?: ContractRunner | null): Hello {
+    return new Contract(address, _abi, runner) as unknown as Hello;
   }
 }

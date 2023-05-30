@@ -2,14 +2,18 @@
 /* tslint:disable */
 /* eslint-disable */
 import {
-  Signer,
-  utils,
   Contract,
   ContractFactory,
-  BigNumberish,
-  Overrides,
+  ContractTransactionResponse,
+  Interface,
 } from "ethers";
-import type { Provider, TransactionRequest } from "@ethersproject/providers";
+import type {
+  Signer,
+  BigNumberish,
+  ContractDeployTransaction,
+  ContractRunner,
+} from "ethers";
+import type { NonPayableOverrides } from "../../../common";
 import type {
   TestContract1,
   TestContract1Interface,
@@ -49,34 +53,35 @@ export class TestContract1__factory extends ContractFactory {
     }
   }
 
-  override deploy(
-    _amount: BigNumberish,
-    overrides?: Overrides & { from?: string }
-  ): Promise<TestContract1> {
-    return super.deploy(_amount, overrides || {}) as Promise<TestContract1>;
-  }
   override getDeployTransaction(
     _amount: BigNumberish,
-    overrides?: Overrides & { from?: string }
-  ): TransactionRequest {
+    overrides?: NonPayableOverrides & { from?: string }
+  ): Promise<ContractDeployTransaction> {
     return super.getDeployTransaction(_amount, overrides || {});
   }
-  override attach(address: string): TestContract1 {
-    return super.attach(address) as TestContract1;
+  override deploy(
+    _amount: BigNumberish,
+    overrides?: NonPayableOverrides & { from?: string }
+  ) {
+    return super.deploy(_amount, overrides || {}) as Promise<
+      TestContract1 & {
+        deploymentTransaction(): ContractTransactionResponse;
+      }
+    >;
   }
-  override connect(signer: Signer): TestContract1__factory {
-    return super.connect(signer) as TestContract1__factory;
+  override connect(runner: ContractRunner | null): TestContract1__factory {
+    return super.connect(runner) as TestContract1__factory;
   }
 
   static readonly bytecode = _bytecode;
   static readonly abi = _abi;
   static createInterface(): TestContract1Interface {
-    return new utils.Interface(_abi) as TestContract1Interface;
+    return new Interface(_abi) as TestContract1Interface;
   }
   static connect(
     address: string,
-    signerOrProvider: Signer | Provider
+    runner?: ContractRunner | null
   ): TestContract1 {
-    return new Contract(address, _abi, signerOrProvider) as TestContract1;
+    return new Contract(address, _abi, runner) as unknown as TestContract1;
   }
 }
