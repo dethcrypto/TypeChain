@@ -30,7 +30,9 @@
     "test:fix": "pnpm lint:fix && pnpm format:fix && pnpm test && pnpm typecheck"
   },
   "dependencies": {
-    "fs-extra": "^9.1.0"
+    "fs-extra": "^9.1.0",
+    "@ethersproject/abi": "^5.4.7",
+    "@ethersproject/providers": "^5.4.7"
   },
   "devDependencies": {
     "@ethersproject/abi": "^5.4.7",
@@ -46,8 +48,6 @@
     "typescript": "^4"
   },
   "peerDependencies": {
-    "@ethersproject/abi": "^5.4.7",
-    "@ethersproject/providers": "^5.4.7",
     "@typechain/ethers-v5": "workspace:^11.0.0",
     "ethers": "^5.4.7",
     "hardhat": "^2.9.9",
