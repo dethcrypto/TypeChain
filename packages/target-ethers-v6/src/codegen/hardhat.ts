@@ -25,11 +25,11 @@ declare module "hardhat/types/runtime" {
     .join('\n')}
 
   ${contracts
-    .map((n) => `getContractAt(name: '${n}', signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.${n}>`)
+    .map((n) => `deployContract(name: '${n}', signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.${n}>`)
     .join('\n')}
 
   ${contracts
-    .map((n) => `getContractAt(name: '${n}', args: any[], signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.${n}>`)
+    .map((n) => `deployContract(name: '${n}', args: any[], signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.${n}>`)
     .join('\n')}
 
     // default types
