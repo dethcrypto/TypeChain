@@ -30,13 +30,9 @@
     "test:fix": "pnpm lint:fix && pnpm format:fix && pnpm test && pnpm typecheck"
   },
   "dependencies": {
-    "fs-extra": "^9.1.0",
-    "@ethersproject/abi": "^5.4.7",
-    "@ethersproject/providers": "^5.4.7"
+    "fs-extra": "^9.1.0"
   },
   "devDependencies": {
-    "@ethersproject/abi": "^5.4.7",
-    "@ethersproject/providers": "^5.4.7",
     "@nomicfoundation/hardhat-ethers": "^3.0.0",
     "@typechain/ethers-v6": "workspace:^0.3.0",
     "@types/fs-extra": "^9.0.7",
