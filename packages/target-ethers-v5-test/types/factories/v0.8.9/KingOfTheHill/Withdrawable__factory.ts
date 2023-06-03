@@ -26,7 +26,7 @@ export class Withdrawable__factory {
   }
   static connect(
     address: string,
-    signerOrProvider: Signer | Provider
+    signerOrProvider?: Signer | Provider
   ): Withdrawable {
     return new Contract(address, _abi, signerOrProvider) as Withdrawable;
   }

@@ -265,7 +265,7 @@ function codegenCommonContractFactory(
     static createInterface(): ${contract.name}Interface {
       return new utils.Interface(_abi) as ${contract.name}Interface;
     }
-    static connect(address: string, signerOrProvider: Signer | Provider): ${contract.name} {
+    static connect(address: string, signerOrProvider?: Signer | Provider): ${contract.name} {
       return new Contract(address, _abi, signerOrProvider) as ${contract.name};
     }
   `.trim()

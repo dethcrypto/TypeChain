@@ -102,7 +102,7 @@ export class Counter__factory extends ContractFactory {
   }
   static connect(
     address: string,
-    signerOrProvider: Signer | Provider
+    signerOrProvider?: Signer | Provider
   ): Counter {
     return new Contract(address, _abi, signerOrProvider) as Counter;
   }

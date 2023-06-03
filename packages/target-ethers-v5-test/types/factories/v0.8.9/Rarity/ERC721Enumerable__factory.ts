@@ -341,7 +341,7 @@ export class ERC721Enumerable__factory {
   }
   static connect(
     address: string,
-    signerOrProvider: Signer | Provider
+    signerOrProvider?: Signer | Provider
   ): ERC721Enumerable {
     return new Contract(address, _abi, signerOrProvider) as ERC721Enumerable;
   }

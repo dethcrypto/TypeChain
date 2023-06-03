@@ -959,7 +959,7 @@ export class DataTypesInput__factory {
   }
   static connect(
     address: string,
-    signerOrProvider: Signer | Provider
+    signerOrProvider?: Signer | Provider
   ): DataTypesInput {
     return new Contract(address, _abi, signerOrProvider) as DataTypesInput;
   }

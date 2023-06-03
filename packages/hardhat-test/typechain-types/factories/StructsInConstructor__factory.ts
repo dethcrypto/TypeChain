@@ -84,7 +84,7 @@ export class StructsInConstructor__factory extends ContractFactory {
   }
   static connect(
     address: string,
-    signerOrProvider: Signer | Provider
+    signerOrProvider?: Signer | Provider
   ): StructsInConstructor {
     return new Contract(
       address,

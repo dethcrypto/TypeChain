@@ -53,7 +53,7 @@ export class IERC721Receiver__factory {
   }
   static connect(
     address: string,
-    signerOrProvider: Signer | Provider
+    signerOrProvider?: Signer | Provider
   ): IERC721Receiver {
     return new Contract(address, _abi, signerOrProvider) as IERC721Receiver;
   }

@@ -40,7 +40,7 @@ export class B__factory {
   static createInterface(): BInterface {
     return new utils.Interface(_abi) as BInterface;
   }
-  static connect(address: string, signerOrProvider: Signer | Provider): B {
+  static connect(address: string, signerOrProvider?: Signer | Provider): B {
     return new Contract(address, _abi, signerOrProvider) as B;
   }
 }

@@ -97,7 +97,7 @@ export class KingOfTheHill__factory {
   }
   static connect(
     address: string,
-    signerOrProvider: Signer | Provider
+    signerOrProvider?: Signer | Provider
   ): KingOfTheHill {
     return new Contract(address, _abi, signerOrProvider) as KingOfTheHill;
   }
