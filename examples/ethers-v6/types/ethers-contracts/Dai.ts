@@ -229,9 +229,8 @@ export namespace TransferEvent {
 }
 
 export interface Dai extends BaseContract {
-  connect(runner?: ContractRunner | null): BaseContract;
-  attach(addressOrName: AddressLike): this;
-  deployed(): Promise<this>;
+  connect(runner?: ContractRunner | null): Dai;
+  waitForDeployment(): Promise<this>;
 
   interface: DaiInterface;
 

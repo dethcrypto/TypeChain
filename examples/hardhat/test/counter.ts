@@ -20,12 +20,12 @@ describe('Counter', () => {
     const counterFactory = await ethers.getContractFactory('Counter', signers[0])
 
     counter = await counterFactory.deploy()
-    await counter.deployed()
+    await counter.waitForDeployment()
     const initialCount = await counter.getCount()
 
     // 3
     expect(initialCount).to.eq(0)
-    expect(counter.address).to.properAddress
+    expect(await counter.getAddress()).to.properAddress
   })
 
   // 4

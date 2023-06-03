@@ -1,5 +1,7 @@
-import '@nomiclabs/hardhat-waffle'
 import '@typechain/hardhat'
+import '@nomicfoundation/hardhat-ethers'
+import '@nomicfoundation/hardhat-chai-matchers'
+
 import { HardhatUserConfig } from 'hardhat/types'
 
 const config: HardhatUserConfig = {
