@@ -7,7 +7,6 @@ import type {
   FunctionFragment,
   Result,
   Interface,
-  AddressLike,
   ContractRunner,
   ContractMethod,
   Listener,
@@ -29,9 +28,8 @@ export interface NestedLibraryInterface extends Interface {
 }
 
 export interface NestedLibrary extends BaseContract {
-  connect(runner?: ContractRunner | null): BaseContract;
-  attach(addressOrName: AddressLike): this;
-  deployed(): Promise<this>;
+  connect(runner?: ContractRunner | null): NestedLibrary;
+  waitForDeployment(): Promise<this>;
 
   interface: NestedLibraryInterface;
 

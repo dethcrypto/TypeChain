@@ -7,7 +7,6 @@ import type {
   FunctionFragment,
   Result,
   Interface,
-  AddressLike,
   ContractRunner,
   ContractMethod,
   Listener,
@@ -32,9 +31,8 @@ export interface PayableFactoryInterface extends Interface {
 }
 
 export interface PayableFactory extends BaseContract {
-  connect(runner?: ContractRunner | null): BaseContract;
-  attach(addressOrName: AddressLike): this;
-  deployed(): Promise<this>;
+  connect(runner?: ContractRunner | null): PayableFactory;
+  waitForDeployment(): Promise<this>;
 
   interface: PayableFactoryInterface;
 

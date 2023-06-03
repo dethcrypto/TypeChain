@@ -6,7 +6,6 @@ import type {
   BigNumberish,
   FunctionFragment,
   Interface,
-  AddressLike,
   ContractRunner,
   ContractMethod,
   Listener,
@@ -28,9 +27,8 @@ export type Vector2StructOutput = [x: bigint, y: bigint] & {
 export interface StructsInConstructorInterface extends Interface {}
 
 export interface StructsInConstructor extends BaseContract {
-  connect(runner?: ContractRunner | null): BaseContract;
-  attach(addressOrName: AddressLike): this;
-  deployed(): Promise<this>;
+  connect(runner?: ContractRunner | null): StructsInConstructor;
+  waitForDeployment(): Promise<this>;
 
   interface: StructsInConstructorInterface;
 

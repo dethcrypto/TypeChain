@@ -8,7 +8,6 @@ import type {
   FunctionFragment,
   Result,
   Interface,
-  AddressLike,
   ContractRunner,
   ContractMethod,
   Listener,
@@ -30,9 +29,8 @@ export interface LibInterface extends Interface {
 }
 
 export interface Lib extends BaseContract {
-  connect(runner?: ContractRunner | null): BaseContract;
-  attach(addressOrName: AddressLike): this;
-  deployed(): Promise<this>;
+  connect(runner?: ContractRunner | null): Lib;
+  waitForDeployment(): Promise<this>;
 
   interface: LibInterface;
 

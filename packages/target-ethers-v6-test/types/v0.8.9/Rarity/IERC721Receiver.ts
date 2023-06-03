@@ -36,9 +36,8 @@ export interface IERC721ReceiverInterface extends Interface {
 }
 
 export interface IERC721Receiver extends BaseContract {
-  connect(runner?: ContractRunner | null): BaseContract;
-  attach(addressOrName: AddressLike): this;
-  deployed(): Promise<this>;
+  connect(runner?: ContractRunner | null): IERC721Receiver;
+  waitForDeployment(): Promise<this>;
 
   interface: IERC721ReceiverInterface;
 

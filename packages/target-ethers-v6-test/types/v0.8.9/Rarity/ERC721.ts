@@ -166,9 +166,8 @@ export namespace TransferEvent {
 }
 
 export interface ERC721 extends BaseContract {
-  connect(runner?: ContractRunner | null): BaseContract;
-  attach(addressOrName: AddressLike): this;
-  deployed(): Promise<this>;
+  connect(runner?: ContractRunner | null): ERC721;
+  waitForDeployment(): Promise<this>;
 
   interface: ERC721Interface;
 

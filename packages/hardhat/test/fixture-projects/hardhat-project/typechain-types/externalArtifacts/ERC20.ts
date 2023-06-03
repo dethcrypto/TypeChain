@@ -139,9 +139,8 @@ export namespace TransferEvent {
 }
 
 export interface ERC20 extends BaseContract {
-  connect(runner?: ContractRunner | null): BaseContract;
-  attach(addressOrName: AddressLike): this;
-  deployed(): Promise<this>;
+  connect(runner?: ContractRunner | null): ERC20;
+  waitForDeployment(): Promise<this>;
 
   interface: ERC20Interface;
 

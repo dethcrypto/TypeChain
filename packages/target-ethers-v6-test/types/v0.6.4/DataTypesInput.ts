@@ -362,9 +362,8 @@ export interface DataTypesInputInterface extends Interface {
 }
 
 export interface DataTypesInput extends BaseContract {
-  connect(runner?: ContractRunner | null): BaseContract;
-  attach(addressOrName: AddressLike): this;
-  deployed(): Promise<this>;
+  connect(runner?: ContractRunner | null): DataTypesInput;
+  waitForDeployment(): Promise<this>;
 
   interface: DataTypesInputInterface;
 

@@ -6,7 +6,6 @@ import type {
   BigNumberish,
   FunctionFragment,
   Interface,
-  AddressLike,
   ContractRunner,
   ContractMethod,
   Listener,
@@ -37,9 +36,8 @@ export declare namespace Demo {
 export interface DemoInterface extends Interface {}
 
 export interface Demo extends BaseContract {
-  connect(runner?: ContractRunner | null): BaseContract;
-  attach(addressOrName: AddressLike): this;
-  deployed(): Promise<this>;
+  connect(runner?: ContractRunner | null): Demo;
+  waitForDeployment(): Promise<this>;
 
   interface: DemoInterface;
 

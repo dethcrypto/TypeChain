@@ -8,7 +8,6 @@ import type {
   FunctionFragment,
   Result,
   Interface,
-  AddressLike,
   ContractRunner,
   ContractMethod,
   Listener,
@@ -48,9 +47,8 @@ export interface SafeMathInterface extends Interface {
 }
 
 export interface SafeMath extends BaseContract {
-  connect(runner?: ContractRunner | null): BaseContract;
-  attach(addressOrName: AddressLike): this;
-  deployed(): Promise<this>;
+  connect(runner?: ContractRunner | null): SafeMath;
+  waitForDeployment(): Promise<this>;
 
   interface: SafeMathInterface;
 

@@ -50,39 +50,39 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.StructsInConstructor>;
 
-    getContractAt(
+    deployContract(
       name: "Counter",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Counter>;
-    getContractAt(
+    deployContract(
       name: "Demo",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Demo>;
-    getContractAt(
+    deployContract(
       name: "Hello",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Hello>;
-    getContractAt(
+    deployContract(
       name: "StructsInConstructor",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.StructsInConstructor>;
 
-    getContractAt(
+    deployContract(
       name: "Counter",
       args: any[],
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Counter>;
-    getContractAt(
+    deployContract(
       name: "Demo",
       args: any[],
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Demo>;
-    getContractAt(
+    deployContract(
       name: "Hello",
       args: any[],
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Hello>;
-    getContractAt(
+    deployContract(
       name: "StructsInConstructor",
       args: any[],
       signerOrOptions?: ethers.Signer | FactoryOptions

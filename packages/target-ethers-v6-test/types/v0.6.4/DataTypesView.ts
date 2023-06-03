@@ -8,7 +8,6 @@ import type {
   FunctionFragment,
   Result,
   Interface,
-  AddressLike,
   ContractRunner,
   ContractMethod,
   Listener,
@@ -138,9 +137,8 @@ export interface DataTypesViewInterface extends Interface {
 }
 
 export interface DataTypesView extends BaseContract {
-  connect(runner?: ContractRunner | null): BaseContract;
-  attach(addressOrName: AddressLike): this;
-  deployed(): Promise<this>;
+  connect(runner?: ContractRunner | null): DataTypesView;
+  waitForDeployment(): Promise<this>;
 
   interface: DataTypesViewInterface;
 

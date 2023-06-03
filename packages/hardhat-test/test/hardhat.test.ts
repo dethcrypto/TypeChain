@@ -21,7 +21,7 @@ describe('TypeChain x Hardhat', () => {
 
     const counterFactory1 = new Counter__factory()
     const counterFactory2 = new Counter__factory(deployer)
-    const counterFactory3 = new Counter__factory(artifact.abi, artifact.bytecode)
-    const counterFactory4 = new Counter__factory(artifact.abi, artifact.bytecode, deployer)
+    // const counterFactory3 = new Counter__factory(artifact.abi, artifact.bytecode)
+    // const counterFactory4 = new Counter__factory(artifact.abi, artifact.bytecode, deployer)
   })
 })

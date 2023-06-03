@@ -59,48 +59,48 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.ERC20>;
 
-    getContractAt(
+    deployContract(
       name: "EdgeCases",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.EdgeCases>;
-    getContractAt(
+    deployContract(
       name: "SafeMath",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SafeMath>;
-    getContractAt(
+    deployContract(
       name: "TestContract",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.TestContract>;
-    getContractAt(
+    deployContract(
       name: "TestContract1",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.TestContract1>;
-    getContractAt(
+    deployContract(
       name: "ERC20",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC20>;
 
-    getContractAt(
+    deployContract(
       name: "EdgeCases",
       args: any[],
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.EdgeCases>;
-    getContractAt(
+    deployContract(
       name: "SafeMath",
       args: any[],
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SafeMath>;
-    getContractAt(
+    deployContract(
       name: "TestContract",
       args: any[],
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.TestContract>;
-    getContractAt(
+    deployContract(
       name: "TestContract1",
       args: any[],
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.TestContract1>;
-    getContractAt(
+    deployContract(
       name: "ERC20",
       args: any[],
       signerOrOptions?: ethers.Signer | FactoryOptions

@@ -5,7 +5,6 @@ import type {
   BaseContract,
   FunctionFragment,
   Interface,
-  AddressLike,
   ContractRunner,
   ContractMethod,
   Listener,
@@ -20,9 +19,8 @@ import type {
 export interface HelloInterface extends Interface {}
 
 export interface Hello extends BaseContract {
-  connect(runner?: ContractRunner | null): BaseContract;
-  attach(addressOrName: AddressLike): this;
-  deployed(): Promise<this>;
+  connect(runner?: ContractRunner | null): Hello;
+  waitForDeployment(): Promise<this>;
 
   interface: HelloInterface;
 

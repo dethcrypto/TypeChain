@@ -33,9 +33,8 @@ export interface ISimpleTokenInterface extends Interface {
 }
 
 export interface ISimpleToken extends BaseContract {
-  connect(runner?: ContractRunner | null): BaseContract;
-  attach(addressOrName: AddressLike): this;
-  deployed(): Promise<this>;
+  connect(runner?: ContractRunner | null): ISimpleToken;
+  waitForDeployment(): Promise<this>;
 
   interface: ISimpleTokenInterface;
 

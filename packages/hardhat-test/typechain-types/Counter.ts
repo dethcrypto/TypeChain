@@ -9,7 +9,6 @@ import type {
   Result,
   Interface,
   EventFragment,
-  AddressLike,
   ContractRunner,
   ContractMethod,
   Listener,
@@ -52,9 +51,8 @@ export namespace CountedToEvent {
 }
 
 export interface Counter extends BaseContract {
-  connect(runner?: ContractRunner | null): BaseContract;
-  attach(addressOrName: AddressLike): this;
-  deployed(): Promise<this>;
+  connect(runner?: ContractRunner | null): Counter;
+  waitForDeployment(): Promise<this>;
 
   interface: CounterInterface;
 

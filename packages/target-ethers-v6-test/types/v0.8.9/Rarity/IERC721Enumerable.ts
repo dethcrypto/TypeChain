@@ -193,9 +193,8 @@ export namespace TransferEvent {
 }
 
 export interface IERC721Enumerable extends BaseContract {
-  connect(runner?: ContractRunner | null): BaseContract;
-  attach(addressOrName: AddressLike): this;
-  deployed(): Promise<this>;
+  connect(runner?: ContractRunner | null): IERC721Enumerable;
+  waitForDeployment(): Promise<this>;
 
   interface: IERC721EnumerableInterface;
 
