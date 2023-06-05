@@ -1,5 +1,16 @@
 # @typechain/hardhat
 
+## 8.0.0
+
+### Major Changes
+
+- 2380a8f: Added support for ethers v6 in @typechain/hardhat
+
+### Patch Changes
+
+- Updated dependencies [2380a8f]
+  - @typechain/ethers-v6@0.4.0
+
 ## 7.0.0
 
 ### Patch Changes
