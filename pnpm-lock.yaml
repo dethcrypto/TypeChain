@@ -119,7 +119,7 @@ importers:
         version: 6.1.0
     devDependencies:
       '@typechain/ethers-v6':
-        specifier: workspace:^0.3.3
+        specifier: workspace:^0.4.0
         version: link:../../packages/target-ethers-v6
       '@types/bn.js':
         specifier: ^5.1.0
@@ -152,10 +152,10 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0(ethers@6.3.0)(hardhat@2.9.9)
       '@typechain/ethers-v6':
-        specifier: workspace:^0.3.0
+        specifier: workspace:^0.4.0
         version: link:../../packages/target-ethers-v6
       '@typechain/hardhat':
-        specifier: workspace:^7.0.0
+        specifier: workspace:^8.0.0
         version: link:../../packages/hardhat
       '@types/chai':
         specifier: ^4.2.15
@@ -209,7 +209,7 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0(hardhat@2.9.9)(web3@1.7.1)
       '@typechain/hardhat':
-        specifier: workspace:^7.0.0
+        specifier: workspace:^8.0.0
         version: link:../../packages/hardhat
       '@typechain/truffle-v5':
         specifier: workspace:^8.0.3
@@ -355,7 +355,7 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0(ethers@6.3.0)(hardhat@2.9.9)
       '@typechain/ethers-v6':
-        specifier: workspace:^0.3.0
+        specifier: workspace:^0.4.0
         version: link:../target-ethers-v6
       '@types/fs-extra':
         specifier: ^9.0.7
@@ -391,10 +391,10 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0(ethers@6.3.0)(hardhat@2.9.9)
       '@typechain/ethers-v6':
-        specifier: workspace:^0.3.0
+        specifier: workspace:^0.4.0
         version: link:../target-ethers-v6
       '@typechain/hardhat':
-        specifier: workspace:^7.0.0
+        specifier: workspace:^8.0.0
         version: link:../hardhat
       ethers:
         specifier: ~6.3.0

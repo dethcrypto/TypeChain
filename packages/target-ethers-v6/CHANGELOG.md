@@ -1,5 +1,11 @@
 # @typechain/ethers-v6
 
+## 0.4.0
+
+### Minor Changes
+
+- 2380a8f: Added support for ethers v6 in @typechain/hardhat
+
 ## 0.3.3
 
 ### Patch Changes
