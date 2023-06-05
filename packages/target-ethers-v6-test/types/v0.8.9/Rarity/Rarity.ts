@@ -312,9 +312,8 @@ export namespace summonedEvent {
 }
 
 export interface Rarity extends BaseContract {
-  connect(runner?: ContractRunner | null): BaseContract;
-  attach(addressOrName: AddressLike): this;
-  deployed(): Promise<this>;
+  connect(runner?: ContractRunner | null): Rarity;
+  waitForDeployment(): Promise<this>;
 
   interface: RarityInterface;
 

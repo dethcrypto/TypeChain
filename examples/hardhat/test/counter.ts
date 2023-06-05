@@ -17,15 +17,13 @@ describe('Counter', () => {
     const signers = await ethers.getSigners()
 
     // 2
-    const counterFactory = await ethers.getContractFactory('Counter', signers[0])
+    counter = await ethers.deployContract('Counter')
 
-    counter = await counterFactory.deploy()
-    await counter.deployed()
     const initialCount = await counter.getCount()
 
     // 3
     expect(initialCount).to.eq(0)
-    expect(counter.address).to.properAddress
+    expect(await counter.getAddress()).to.properAddress
   })
 
   // 4

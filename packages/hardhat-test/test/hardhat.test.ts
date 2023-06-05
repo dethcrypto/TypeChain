@@ -1,4 +1,4 @@
-import type { Interface } from '@ethersproject/abi'
+import type { Interface } from 'ethers'
 import { ethers } from 'hardhat'
 import type { AssertTrue, IsExact } from 'test-utils'
 

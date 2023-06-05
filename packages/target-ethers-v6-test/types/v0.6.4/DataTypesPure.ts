@@ -8,7 +8,6 @@ import type {
   FunctionFragment,
   Result,
   Interface,
-  AddressLike,
   ContractRunner,
   ContractMethod,
   Listener,
@@ -138,9 +137,8 @@ export interface DataTypesPureInterface extends Interface {
 }
 
 export interface DataTypesPure extends BaseContract {
-  connect(runner?: ContractRunner | null): BaseContract;
-  attach(addressOrName: AddressLike): this;
-  deployed(): Promise<this>;
+  connect(runner?: ContractRunner | null): DataTypesPure;
+  waitForDeployment(): Promise<this>;
 
   interface: DataTypesPureInterface;
 

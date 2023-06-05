@@ -55,9 +55,10 @@ subtask(TASK_TYPECHAIN_GENERATE_TYPES)
       return compileSolOutput
     }
 
-    // incremental generation is only supported in 'ethers-v5'
+    // incremental generation is only supported in 'ethers-v5' and 'ethers-v6'
     // @todo: probably targets should specify somehow if then support incremental generation this won't work with custom targets
-    const needsFullRebuild = taskArgsStore.fullRebuild || typechainCfg.target !== 'ethers-v5'
+    const needsFullRebuild =
+      taskArgsStore.fullRebuild || (typechainCfg.target !== 'ethers-v5' && typechainCfg.target !== 'ethers-v6')
     if (!quiet) {
       // eslint-disable-next-line no-console
       console.log(

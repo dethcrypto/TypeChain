@@ -2,15 +2,19 @@
 /* tslint:disable */
 /* eslint-disable */
 import {
-  Signer,
-  utils,
   Contract,
   ContractFactory,
+  ContractTransactionResponse,
+  Interface,
+} from "ethers";
+import type {
+  Signer,
   BytesLike,
   BigNumberish,
-  Overrides,
+  ContractDeployTransaction,
+  ContractRunner,
 } from "ethers";
-import type { Provider, TransactionRequest } from "@ethersproject/providers";
+import type { NonPayableOverrides } from "../../../common";
 import type {
   EdgeCases,
   EdgeCasesInterface,
@@ -55,36 +59,34 @@ export class EdgeCases__factory extends ContractFactory {
     }
   }
 
-  override deploy(
-    test: BigNumberish,
-    arg1: BytesLike,
-    overrides?: Overrides & { from?: string }
-  ): Promise<EdgeCases> {
-    return super.deploy(test, arg1, overrides || {}) as Promise<EdgeCases>;
-  }
   override getDeployTransaction(
     test: BigNumberish,
     arg1: BytesLike,
-    overrides?: Overrides & { from?: string }
-  ): TransactionRequest {
+    overrides?: NonPayableOverrides & { from?: string }
+  ): Promise<ContractDeployTransaction> {
     return super.getDeployTransaction(test, arg1, overrides || {});
   }
-  override attach(address: string): EdgeCases {
-    return super.attach(address) as EdgeCases;
+  override deploy(
+    test: BigNumberish,
+    arg1: BytesLike,
+    overrides?: NonPayableOverrides & { from?: string }
+  ) {
+    return super.deploy(test, arg1, overrides || {}) as Promise<
+      EdgeCases & {
+        deploymentTransaction(): ContractTransactionResponse;
+      }
+    >;
   }
-  override connect(signer: Signer): EdgeCases__factory {
-    return super.connect(signer) as EdgeCases__factory;
+  override connect(runner: ContractRunner | null): EdgeCases__factory {
+    return super.connect(runner) as EdgeCases__factory;
   }
 
   static readonly bytecode = _bytecode;
   static readonly abi = _abi;
   static createInterface(): EdgeCasesInterface {
-    return new utils.Interface(_abi) as EdgeCasesInterface;
+    return new Interface(_abi) as EdgeCasesInterface;
   }
-  static connect(
-    address: string,
-    signerOrProvider: Signer | Provider
-  ): EdgeCases {
-    return new Contract(address, _abi, signerOrProvider) as EdgeCases;
+  static connect(address: string, runner?: ContractRunner | null): EdgeCases {
+    return new Contract(address, _abi, runner) as unknown as EdgeCases;
   }
 }

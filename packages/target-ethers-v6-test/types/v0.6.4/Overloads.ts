@@ -8,7 +8,6 @@ import type {
   FunctionFragment,
   Result,
   Interface,
-  AddressLike,
   ContractRunner,
   ContractMethod,
   Listener,
@@ -46,9 +45,8 @@ export interface OverloadsInterface extends Interface {
 }
 
 export interface Overloads extends BaseContract {
-  connect(runner?: ContractRunner | null): BaseContract;
-  attach(addressOrName: AddressLike): this;
-  deployed(): Promise<this>;
+  connect(runner?: ContractRunner | null): Overloads;
+  waitForDeployment(): Promise<this>;
 
   interface: OverloadsInterface;
 

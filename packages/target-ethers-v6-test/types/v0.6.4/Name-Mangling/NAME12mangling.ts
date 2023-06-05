@@ -7,7 +7,6 @@ import type {
   FunctionFragment,
   Result,
   Interface,
-  AddressLike,
   ContractRunner,
   ContractMethod,
   Listener,
@@ -31,9 +30,8 @@ export interface NAME12manglingInterface extends Interface {
 }
 
 export interface NAME12mangling extends BaseContract {
-  connect(runner?: ContractRunner | null): BaseContract;
-  attach(addressOrName: AddressLike): this;
-  deployed(): Promise<this>;
+  connect(runner?: ContractRunner | null): NAME12mangling;
+  waitForDeployment(): Promise<this>;
 
   interface: NAME12manglingInterface;
 

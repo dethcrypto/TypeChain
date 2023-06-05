@@ -36,9 +36,8 @@ export namespace CommittedEvent {
 }
 
 export interface A extends BaseContract {
-  connect(runner?: ContractRunner | null): BaseContract;
-  attach(addressOrName: AddressLike): this;
-  deployed(): Promise<this>;
+  connect(runner?: ContractRunner | null): A;
+  waitForDeployment(): Promise<this>;
 
   interface: AInterface;
 

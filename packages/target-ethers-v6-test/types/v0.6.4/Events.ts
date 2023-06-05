@@ -201,9 +201,8 @@ export namespace UpdateFrequencySetEvent {
 }
 
 export interface Events extends BaseContract {
-  connect(runner?: ContractRunner | null): BaseContract;
-  attach(addressOrName: AddressLike): this;
-  deployed(): Promise<this>;
+  connect(runner?: ContractRunner | null): Events;
+  waitForDeployment(): Promise<this>;
 
   interface: EventsInterface;
 

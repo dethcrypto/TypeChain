@@ -17,10 +17,10 @@ Automatically generate TypeScript bindings for smartcontracts while using [Hardh
 
 # Installation
 
-If you use Ethers/Waffle do:
+If you use Ethers do:
 
 ```bash
-npm install --save-dev typechain @typechain/hardhat @typechain/ethers-v5
+npm install --save-dev typechain @typechain/hardhat @typechain/ethers-v6
 ```
 
 If you're a Truffle user you need:
@@ -33,16 +33,16 @@ And add the following statements to your `hardhat.config.js`:
 
 ```javascript
 require('@typechain/hardhat')
-require('@nomiclabs/hardhat-ethers')
-require('@nomiclabs/hardhat-waffle')
+require('@nomicfoundation/hardhat-ethers')
+require('@nomicfoundation/hardhat-chai-matchers')
 ```
 
 Or, if you use TypeScript, add this to your `hardhat.config.ts`:
 
 ```typescript
 import '@typechain/hardhat'
-import '@nomiclabs/hardhat-ethers'
-import '@nomiclabs/hardhat-waffle'
+import '@nomicfoundation/hardhat-ethers'
+import '@nomicfoundation/hardhat-chai-matchers'
 ```
 
 Here's a sample `tsconfig.json`:
@@ -101,7 +101,7 @@ This is an example of how to set it:
 module.exports = {
   typechain: {
     outDir: 'src/types',
-    target: 'ethers-v5',
+    target: 'ethers-v6',
     alwaysGenerateOverloads: false, // should overloads with full signatures like deposit(uint256) be generated always, even if there are no overloads?
     externalArtifacts: ['externalArtifacts/*.json'], // optional array of glob patterns with external artifacts to process (for example external libs from node_modules)
     dontOverrideCompile: false // defaults to false
@@ -111,17 +111,15 @@ module.exports = {
 
 ## Usage
 
-`npx hardhat compile` - Compiles and generates Typescript typings for your contracts. Example Waffle + Ethers test that
+`npx hardhat compile` - Compiles and generates Typescript typings for your contracts. Example Ethers + Hardhat Chai Matchers test that
 uses typedefs for contracts:
 
 ```ts
-import { ethers, waffle } from 'hardhat'
+import { ethers } from 'hardhat'
 import chai from 'chai'
 
-import CounterArtifact from '../artifacts/contracts/Counter.sol/Counter.json'
 import { Counter } from '../src/types/Counter'
 
-const { deployContract } = waffle
 const { expect } = chai
 
 describe('Counter', () => {
@@ -132,7 +130,7 @@ describe('Counter', () => {
     const signers = await ethers.getSigners()
 
     // 2
-    counter = (await deployContract(signers[0], CounterArtifact)) as Counter
+    counter = await ethers.deployContract("Counter")
 
     // 3
     const initialCount = await counter.getCount()

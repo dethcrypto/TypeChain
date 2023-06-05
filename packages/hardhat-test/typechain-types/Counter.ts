@@ -3,38 +3,31 @@
 /* eslint-disable */
 import type {
   BaseContract,
-  BigNumber,
+  BigNumberish,
   BytesLike,
-  CallOverrides,
-  ContractTransaction,
-  Overrides,
-  PopulatedTransaction,
-  Signer,
-  utils,
-} from "ethers";
-import type {
   FunctionFragment,
   Result,
+  Interface,
   EventFragment,
-} from "@ethersproject/abi";
-import type { Listener, Provider } from "@ethersproject/providers";
+  ContractRunner,
+  ContractMethod,
+  Listener,
+} from "ethers";
 import type {
-  TypedEventFilter,
-  TypedEvent,
+  TypedContractEvent,
+  TypedDeferredTopicFilter,
+  TypedEventLog,
+  TypedLogDescription,
   TypedListener,
-  OnEvent,
+  TypedContractMethod,
 } from "./common";
 
-export interface CounterInterface extends utils.Interface {
-  functions: {
-    "countDown()": FunctionFragment;
-    "countUp()": FunctionFragment;
-    "getCount()": FunctionFragment;
-  };
-
+export interface CounterInterface extends Interface {
   getFunction(
-    nameOrSignatureOrTopic: "countDown" | "countUp" | "getCount"
+    nameOrSignature: "countDown" | "countUp" | "getCount"
   ): FunctionFragment;
+
+  getEvent(nameOrSignatureOrTopic: "CountedTo"): EventFragment;
 
   encodeFunctionData(functionFragment: "countDown", values?: undefined): string;
   encodeFunctionData(functionFragment: "countUp", values?: undefined): string;
@@ -43,99 +36,101 @@ export interface CounterInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "countDown", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "countUp", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getCount", data: BytesLike): Result;
-
-  events: {
-    "CountedTo(uint256)": EventFragment;
-  };
-
-  getEvent(nameOrSignatureOrTopic: "CountedTo"): EventFragment;
 }
 
-export interface CountedToEventObject {
-  number: BigNumber;
+export namespace CountedToEvent {
+  export type InputTuple = [number: BigNumberish];
+  export type OutputTuple = [number: bigint];
+  export interface OutputObject {
+    number: bigint;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
 }
-export type CountedToEvent = TypedEvent<[BigNumber], CountedToEventObject>;
-
-export type CountedToEventFilter = TypedEventFilter<CountedToEvent>;
 
 export interface Counter extends BaseContract {
-  connect(signerOrProvider: Signer | Provider | string): this;
-  attach(addressOrName: string): this;
-  deployed(): Promise<this>;
+  connect(runner?: ContractRunner | null): Counter;
+  waitForDeployment(): Promise<this>;
 
   interface: CounterInterface;
 
-  queryFilter<TEvent extends TypedEvent>(
-    event: TypedEventFilter<TEvent>,
+  queryFilter<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TEvent>>;
+  ): Promise<Array<TypedEventLog<TCEvent>>>;
+  queryFilter<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    fromBlockOrBlockhash?: string | number | undefined,
+    toBlock?: string | number | undefined
+  ): Promise<Array<TypedEventLog<TCEvent>>>;
 
-  listeners<TEvent extends TypedEvent>(
-    eventFilter?: TypedEventFilter<TEvent>
-  ): Array<TypedListener<TEvent>>;
-  listeners(eventName?: string): Array<Listener>;
-  removeAllListeners<TEvent extends TypedEvent>(
-    eventFilter: TypedEventFilter<TEvent>
-  ): this;
-  removeAllListeners(eventName?: string): this;
-  off: OnEvent<this>;
-  on: OnEvent<this>;
-  once: OnEvent<this>;
-  removeListener: OnEvent<this>;
+  on<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
 
-  functions: {
-    countDown(
-      overrides?: Overrides & { from?: string }
-    ): Promise<ContractTransaction>;
+  once<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
 
-    countUp(
-      overrides?: Overrides & { from?: string }
-    ): Promise<ContractTransaction>;
+  listeners<TCEvent extends TypedContractEvent>(
+    event: TCEvent
+  ): Promise<Array<TypedListener<TCEvent>>>;
+  listeners(eventName?: string): Promise<Array<Listener>>;
+  removeAllListeners<TCEvent extends TypedContractEvent>(
+    event?: TCEvent
+  ): Promise<this>;
 
-    getCount(overrides?: CallOverrides): Promise<[BigNumber]>;
-  };
+  countDown: TypedContractMethod<[], [bigint], "nonpayable">;
 
-  countDown(
-    overrides?: Overrides & { from?: string }
-  ): Promise<ContractTransaction>;
+  countUp: TypedContractMethod<[], [bigint], "nonpayable">;
 
-  countUp(
-    overrides?: Overrides & { from?: string }
-  ): Promise<ContractTransaction>;
+  getCount: TypedContractMethod<[], [bigint], "view">;
 
-  getCount(overrides?: CallOverrides): Promise<BigNumber>;
+  getFunction<T extends ContractMethod = ContractMethod>(
+    key: string | FunctionFragment
+  ): T;
 
-  callStatic: {
-    countDown(overrides?: CallOverrides): Promise<BigNumber>;
+  getFunction(
+    nameOrSignature: "countDown"
+  ): TypedContractMethod<[], [bigint], "nonpayable">;
+  getFunction(
+    nameOrSignature: "countUp"
+  ): TypedContractMethod<[], [bigint], "nonpayable">;
+  getFunction(
+    nameOrSignature: "getCount"
+  ): TypedContractMethod<[], [bigint], "view">;
 
-    countUp(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getCount(overrides?: CallOverrides): Promise<BigNumber>;
-  };
+  getEvent(
+    key: "CountedTo"
+  ): TypedContractEvent<
+    CountedToEvent.InputTuple,
+    CountedToEvent.OutputTuple,
+    CountedToEvent.OutputObject
+  >;
 
   filters: {
-    "CountedTo(uint256)"(number?: null): CountedToEventFilter;
-    CountedTo(number?: null): CountedToEventFilter;
-  };
-
-  estimateGas: {
-    countDown(overrides?: Overrides & { from?: string }): Promise<BigNumber>;
-
-    countUp(overrides?: Overrides & { from?: string }): Promise<BigNumber>;
-
-    getCount(overrides?: CallOverrides): Promise<BigNumber>;
-  };
-
-  populateTransaction: {
-    countDown(
-      overrides?: Overrides & { from?: string }
-    ): Promise<PopulatedTransaction>;
-
-    countUp(
-      overrides?: Overrides & { from?: string }
-    ): Promise<PopulatedTransaction>;
-
-    getCount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    "CountedTo(uint256)": TypedContractEvent<
+      CountedToEvent.InputTuple,
+      CountedToEvent.OutputTuple,
+      CountedToEvent.OutputObject
+    >;
+    CountedTo: TypedContractEvent<
+      CountedToEvent.InputTuple,
+      CountedToEvent.OutputTuple,
+      CountedToEvent.OutputObject
+    >;
   };
 }

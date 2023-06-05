@@ -5,7 +5,7 @@ export function generateHardhatHelper(contracts: string[]): string {
   return `
 
 import { ethers } from 'ethers'
-import { FactoryOptions, HardhatEthersHelpers as HardhatEthersHelpersBase} from "@nomiclabs/hardhat-ethers/types";
+import { FactoryOptions, HardhatEthersHelpers as HardhatEthersHelpersBase} from "@nomicfoundation/hardhat-ethers/types";
 
 import * as Contracts from "."
 
@@ -21,7 +21,23 @@ declare module "hardhat/types/runtime" {
     .join('\n')}
 
   ${contracts
-    .map((n) => `getContractAt(name: '${n}', address: string, signer?: ethers.Signer): Promise<Contracts.${n}>`)
+    .map(
+      (n) =>
+        `getContractAt(name: '${n}', address: string | ethers.Addressable, signer?: ethers.Signer): Promise<Contracts.${n}>`,
+    )
+    .join('\n')}
+
+  ${contracts
+    .map(
+      (n) => `deployContract(name: '${n}', signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.${n}>`,
+    )
+    .join('\n')}
+
+  ${contracts
+    .map(
+      (n) =>
+        `deployContract(name: '${n}', args: any[], signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.${n}>`,
+    )
     .join('\n')}
 
     // default types
@@ -31,13 +47,22 @@ declare module "hardhat/types/runtime" {
     ): Promise<ethers.ContractFactory>;
     getContractFactory(
       abi: any[],
-      bytecode: ethers.utils.BytesLike,
+      bytecode: ethers.BytesLike,
       signer?: ethers.Signer
     ): Promise<ethers.ContractFactory>;
     getContractAt(
       nameOrAbi: string | any[],
-      address: string,
+      address: string | ethers.Addressable,
       signer?: ethers.Signer
+    ): Promise<ethers.Contract>;
+    deployContract(
+      name: string,
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<ethers.Contract>;
+    deployContract(
+      name: string,
+      args: any[],
+      signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<ethers.Contract>;
   }
 }

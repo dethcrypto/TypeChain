@@ -3,34 +3,25 @@
 /* eslint-disable */
 import type {
   BaseContract,
-  BigNumber,
   BigNumberish,
   BytesLike,
-  CallOverrides,
-  PopulatedTransaction,
-  Signer,
-  utils,
+  FunctionFragment,
+  Result,
+  Interface,
+  ContractRunner,
+  ContractMethod,
+  Listener,
 } from "ethers";
-import type { FunctionFragment, Result } from "@ethersproject/abi";
-import type { Listener, Provider } from "@ethersproject/providers";
 import type {
-  TypedEventFilter,
-  TypedEvent,
+  TypedContractEvent,
+  TypedDeferredTopicFilter,
+  TypedEventLog,
   TypedListener,
-  OnEvent,
+  TypedContractMethod,
 } from "../../../common";
 
-export interface SafeMathInterface extends utils.Interface {
-  functions: {
-    "add(uint256,uint256)": FunctionFragment;
-    "div(uint256,uint256)": FunctionFragment;
-    "mul(uint256,uint256)": FunctionFragment;
-    "sub(uint256,uint256)": FunctionFragment;
-  };
-
-  getFunction(
-    nameOrSignatureOrTopic: "add" | "div" | "mul" | "sub"
-  ): FunctionFragment;
+export interface SafeMathInterface extends Interface {
+  getFunction(nameOrSignature: "add" | "div" | "mul" | "sub"): FunctionFragment;
 
   encodeFunctionData(
     functionFragment: "add",
@@ -53,163 +44,107 @@ export interface SafeMathInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "div", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "mul", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "sub", data: BytesLike): Result;
-
-  events: {};
 }
 
 export interface SafeMath extends BaseContract {
-  connect(signerOrProvider: Signer | Provider | string): this;
-  attach(addressOrName: string): this;
-  deployed(): Promise<this>;
+  connect(runner?: ContractRunner | null): SafeMath;
+  waitForDeployment(): Promise<this>;
 
   interface: SafeMathInterface;
 
-  queryFilter<TEvent extends TypedEvent>(
-    event: TypedEventFilter<TEvent>,
+  queryFilter<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
     toBlock?: string | number | undefined
-  ): Promise<Array<TEvent>>;
+  ): Promise<Array<TypedEventLog<TCEvent>>>;
+  queryFilter<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    fromBlockOrBlockhash?: string | number | undefined,
+    toBlock?: string | number | undefined
+  ): Promise<Array<TypedEventLog<TCEvent>>>;
 
-  listeners<TEvent extends TypedEvent>(
-    eventFilter?: TypedEventFilter<TEvent>
-  ): Array<TypedListener<TEvent>>;
-  listeners(eventName?: string): Array<Listener>;
-  removeAllListeners<TEvent extends TypedEvent>(
-    eventFilter: TypedEventFilter<TEvent>
-  ): this;
-  removeAllListeners(eventName?: string): this;
-  off: OnEvent<this>;
-  on: OnEvent<this>;
-  once: OnEvent<this>;
-  removeListener: OnEvent<this>;
+  on<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
+  on<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
 
-  functions: {
-    add(
-      num1: BigNumberish,
-      num2: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
+  once<TCEvent extends TypedContractEvent>(
+    event: TCEvent,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
+  once<TCEvent extends TypedContractEvent>(
+    filter: TypedDeferredTopicFilter<TCEvent>,
+    listener: TypedListener<TCEvent>
+  ): Promise<this>;
 
-    div(
-      num1: BigNumberish,
-      num2: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
+  listeners<TCEvent extends TypedContractEvent>(
+    event: TCEvent
+  ): Promise<Array<TypedListener<TCEvent>>>;
+  listeners(eventName?: string): Promise<Array<Listener>>;
+  removeAllListeners<TCEvent extends TypedContractEvent>(
+    event?: TCEvent
+  ): Promise<this>;
 
-    mul(
-      num1: BigNumberish,
-      num2: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
+  add: TypedContractMethod<
+    [num1: BigNumberish, num2: BigNumberish],
+    [bigint],
+    "view"
+  >;
 
-    sub(
-      num1: BigNumberish,
-      num2: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-  };
+  div: TypedContractMethod<
+    [num1: BigNumberish, num2: BigNumberish],
+    [bigint],
+    "view"
+  >;
 
-  add(
-    num1: BigNumberish,
-    num2: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
+  mul: TypedContractMethod<
+    [num1: BigNumberish, num2: BigNumberish],
+    [bigint],
+    "view"
+  >;
 
-  div(
-    num1: BigNumberish,
-    num2: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
+  sub: TypedContractMethod<
+    [num1: BigNumberish, num2: BigNumberish],
+    [bigint],
+    "view"
+  >;
 
-  mul(
-    num1: BigNumberish,
-    num2: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
+  getFunction<T extends ContractMethod = ContractMethod>(
+    key: string | FunctionFragment
+  ): T;
 
-  sub(
-    num1: BigNumberish,
-    num2: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
-  callStatic: {
-    add(
-      num1: BigNumberish,
-      num2: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    div(
-      num1: BigNumberish,
-      num2: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    mul(
-      num1: BigNumberish,
-      num2: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    sub(
-      num1: BigNumberish,
-      num2: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-  };
+  getFunction(
+    nameOrSignature: "add"
+  ): TypedContractMethod<
+    [num1: BigNumberish, num2: BigNumberish],
+    [bigint],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "div"
+  ): TypedContractMethod<
+    [num1: BigNumberish, num2: BigNumberish],
+    [bigint],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "mul"
+  ): TypedContractMethod<
+    [num1: BigNumberish, num2: BigNumberish],
+    [bigint],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "sub"
+  ): TypedContractMethod<
+    [num1: BigNumberish, num2: BigNumberish],
+    [bigint],
+    "view"
+  >;
 
   filters: {};
-
-  estimateGas: {
-    add(
-      num1: BigNumberish,
-      num2: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    div(
-      num1: BigNumberish,
-      num2: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    mul(
-      num1: BigNumberish,
-      num2: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    sub(
-      num1: BigNumberish,
-      num2: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-  };
-
-  populateTransaction: {
-    add(
-      num1: BigNumberish,
-      num2: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    div(
-      num1: BigNumberish,
-      num2: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    mul(
-      num1: BigNumberish,
-      num2: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    sub(
-      num1: BigNumberish,
-      num2: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-  };
 }
