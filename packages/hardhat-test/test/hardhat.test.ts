@@ -1,4 +1,4 @@
-import type { Interface } from '@ethersproject/abi'
+import type { Interface } from 'ethers'
 import { ethers } from 'hardhat'
 import type { AssertTrue, IsExact } from 'test-utils'
 
@@ -21,7 +21,7 @@ describe('TypeChain x Hardhat', () => {
 
     const counterFactory1 = new Counter__factory()
     const counterFactory2 = new Counter__factory(deployer)
-    // const counterFactory3 = new Counter__factory(artifact.abi, artifact.bytecode)
-    // const counterFactory4 = new Counter__factory(artifact.abi, artifact.bytecode, deployer)
+    const counterFactory3 = new Counter__factory(artifact.abi, artifact.bytecode)
+    const counterFactory4 = new Counter__factory(artifact.abi, artifact.bytecode, deployer)
   })
 })
