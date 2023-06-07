@@ -62,6 +62,14 @@ export interface Event4 {
   };
 }
 
+export interface Event5 {
+  name: "Event5";
+  args: {
+    data: { index: BN; name: string }[];
+    0: { index: BN; name: string }[];
+  };
+}
+
 export interface NoArgsEvent {
   name: "NoArgsEvent";
   args: {};
@@ -80,6 +88,7 @@ type AllEvents =
   | Event2
   | Event3
   | Event4
+  | Event5
   | NoArgsEvent
   | UpdateFrequencySet;
 
@@ -138,6 +147,15 @@ export interface EventsInstance extends Truffle.ContractInstance {
     estimateGas(txDetails?: Truffle.TransactionDetails): Promise<number>;
   };
 
+  emit_event5: {
+    (txDetails?: Truffle.TransactionDetails): Promise<
+      Truffle.TransactionResponse<AllEvents>
+    >;
+    call(txDetails?: Truffle.TransactionDetails): Promise<void>;
+    sendTransaction(txDetails?: Truffle.TransactionDetails): Promise<string>;
+    estimateGas(txDetails?: Truffle.TransactionDetails): Promise<number>;
+  };
+
   methods: {
     emit_event1: {
       (txDetails?: Truffle.TransactionDetails): Promise<
@@ -185,6 +203,15 @@ export interface EventsInstance extends Truffle.ContractInstance {
     };
 
     emit_event4: {
+      (txDetails?: Truffle.TransactionDetails): Promise<
+        Truffle.TransactionResponse<AllEvents>
+      >;
+      call(txDetails?: Truffle.TransactionDetails): Promise<void>;
+      sendTransaction(txDetails?: Truffle.TransactionDetails): Promise<string>;
+      estimateGas(txDetails?: Truffle.TransactionDetails): Promise<number>;
+    };
+
+    emit_event5: {
       (txDetails?: Truffle.TransactionDetails): Promise<
         Truffle.TransactionResponse<AllEvents>
       >;

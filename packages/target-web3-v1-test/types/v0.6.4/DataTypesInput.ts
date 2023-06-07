@@ -21,6 +21,17 @@ export interface EventOptions {
   topics?: string[];
 }
 
+export type event_struct = ContractEventLog<{
+  input: [string, string];
+  0: [string, string];
+}>;
+export type event_struct_2 = ContractEventLog<{
+  input: string;
+  input2: [string, string];
+  0: string;
+  1: [string, string];
+}>;
+
 export interface DataTypesInput extends BaseContract {
   constructor(
     jsonInterface: any[],
@@ -147,6 +158,32 @@ export interface DataTypesInput extends BaseContract {
     ): NonPayableTransactionObject<string[]>;
   };
   events: {
+    event_struct(cb?: Callback<event_struct>): EventEmitter;
+    event_struct(
+      options?: EventOptions,
+      cb?: Callback<event_struct>
+    ): EventEmitter;
+
+    event_struct_2(cb?: Callback<event_struct_2>): EventEmitter;
+    event_struct_2(
+      options?: EventOptions,
+      cb?: Callback<event_struct_2>
+    ): EventEmitter;
+
     allEvents(options?: EventOptions, cb?: Callback<EventLog>): EventEmitter;
   };
+
+  once(event: "event_struct", cb: Callback<event_struct>): void;
+  once(
+    event: "event_struct",
+    options: EventOptions,
+    cb: Callback<event_struct>
+  ): void;
+
+  once(event: "event_struct_2", cb: Callback<event_struct_2>): void;
+  once(
+    event: "event_struct_2",
+    options: EventOptions,
+    cb: Callback<event_struct_2>
+  ): void;
 }

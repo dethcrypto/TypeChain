@@ -45,5 +45,11 @@ contract Events {
     emit Event4(EventData(2, "test"));
   }
 
+  event Event5(EventData[2] data);
+
+  function emit_event5() public {
+    emit Event5([EventData(2, "test"), EventData(3, "test2")]);
+  }
+
   event NoArgsEvent();
 }

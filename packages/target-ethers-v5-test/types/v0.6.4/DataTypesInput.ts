@@ -11,7 +11,11 @@ import type {
   Signer,
   utils,
 } from "ethers";
-import type { FunctionFragment, Result } from "@ethersproject/abi";
+import type {
+  FunctionFragment,
+  Result,
+  EventFragment,
+} from "@ethersproject/abi";
 import type { Listener, Provider } from "@ethersproject/providers";
 import type {
   TypedEventFilter,
@@ -19,21 +23,6 @@ import type {
   TypedListener,
   OnEvent,
 } from "../common";
-
-export declare namespace StructsLib1 {
-  export type InfoStruct = { a: BigNumberish; b: BigNumberish };
-
-  export type InfoStructOutput = [BigNumber, BigNumber] & {
-    a: BigNumber;
-    b: BigNumber;
-  };
-}
-
-export declare namespace StructsLib2 {
-  export type InfoStruct = { a: string; b: string };
-
-  export type InfoStructOutput = [string, string] & { a: string; b: string };
-}
 
 export declare namespace DataTypesInput {
   export type Struct1Struct = {
@@ -61,6 +50,21 @@ export declare namespace DataTypesInput {
   export type Struct3StructOutput = [BigNumber[]] & { input1: BigNumber[] };
 }
 
+export declare namespace StructsLib1 {
+  export type InfoStruct = { a: BigNumberish; b: BigNumberish };
+
+  export type InfoStructOutput = [BigNumber, BigNumber] & {
+    a: BigNumber;
+    b: BigNumber;
+  };
+}
+
+export declare namespace StructsLib2 {
+  export type InfoStruct = { a: string; b: string };
+
+  export type InfoStructOutput = [string, string] & { a: string; b: string };
+}
+
 export interface DataTypesInputInterface extends utils.Interface {
   functions: {
     "input_address(address)": FunctionFragment;
@@ -77,16 +81,16 @@ export interface DataTypesInputInterface extends utils.Interface {
     "input_struct((uint256,uint256))": FunctionFragment;
     "input_struct2((uint256,(uint256,uint256)))": FunctionFragment;
     "input_struct2_array((uint256,(uint256,uint256))[])": FunctionFragment;
-    "input_struct2_tuple(tuple[3])": FunctionFragment;
+    "input_struct2_tuple((uint256,(uint256,uint256))[3])": FunctionFragment;
     "input_struct3_array((uint256[])[])": FunctionFragment;
     "input_struct_array((uint256,uint256)[])": FunctionFragment;
-    "input_struct_array_array(tuple[][])": FunctionFragment;
-    "input_struct_array_array_array(tuple[][][])": FunctionFragment;
-    "input_struct_array_fixedarray(tuple[][2])": FunctionFragment;
-    "input_struct_fixedarray_array(tuple[2][])": FunctionFragment;
-    "input_struct_fixedarray_array_fixedarray(tuple[2][][3])": FunctionFragment;
-    "input_struct_fixedarray_array_fixedarray_array_fixedarray(tuple[2][][3][][4])": FunctionFragment;
-    "input_struct_fixedarray_fixedarray(tuple[2][3])": FunctionFragment;
+    "input_struct_array_array((uint256,uint256)[][])": FunctionFragment;
+    "input_struct_array_array_array((uint256,uint256)[][][])": FunctionFragment;
+    "input_struct_array_fixedarray((uint256,uint256)[][2])": FunctionFragment;
+    "input_struct_fixedarray_array((uint256,uint256)[2][])": FunctionFragment;
+    "input_struct_fixedarray_array_fixedarray((uint256,uint256)[2][][3])": FunctionFragment;
+    "input_struct_fixedarray_array_fixedarray_array_fixedarray((uint256,uint256)[2][][3][][4])": FunctionFragment;
+    "input_struct_fixedarray_fixedarray((uint256,uint256)[2][3])": FunctionFragment;
     "input_tuple(uint256,uint256)": FunctionFragment;
     "input_uint256(uint256)": FunctionFragment;
     "input_uint8(uint8)": FunctionFragment;
@@ -387,8 +391,35 @@ export interface DataTypesInputInterface extends utils.Interface {
     data: BytesLike
   ): Result;
 
-  events: {};
+  events: {
+    "event_struct((uint256,uint256))": EventFragment;
+    "event_struct_2(uint256,(uint256,uint256))": EventFragment;
+  };
+
+  getEvent(nameOrSignatureOrTopic: "event_struct"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "event_struct_2"): EventFragment;
 }
+
+export interface event_structEventObject {
+  input: DataTypesInput.Struct1StructOutput;
+}
+export type event_structEvent = TypedEvent<
+  [DataTypesInput.Struct1StructOutput],
+  event_structEventObject
+>;
+
+export type event_structEventFilter = TypedEventFilter<event_structEvent>;
+
+export interface event_struct_2EventObject {
+  input: BigNumber;
+  input2: DataTypesInput.Struct1StructOutput;
+}
+export type event_struct_2Event = TypedEvent<
+  [BigNumber, DataTypesInput.Struct1StructOutput],
+  event_struct_2EventObject
+>;
+
+export type event_struct_2EventFilter = TypedEventFilter<event_struct_2Event>;
 
 export interface DataTypesInput extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -1237,7 +1268,16 @@ export interface DataTypesInput extends BaseContract {
     ): Promise<BigNumber[]>;
   };
 
-  filters: {};
+  filters: {
+    "event_struct((uint256,uint256))"(input?: null): event_structEventFilter;
+    event_struct(input?: null): event_structEventFilter;
+
+    "event_struct_2(uint256,(uint256,uint256))"(
+      input?: null,
+      input2?: null
+    ): event_struct_2EventFilter;
+    event_struct_2(input?: null, input2?: null): event_struct_2EventFilter;
+  };
 
   estimateGas: {
     input_address(

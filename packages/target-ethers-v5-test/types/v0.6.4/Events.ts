@@ -43,6 +43,7 @@ export interface EventsInterface extends utils.Interface {
     "emit_event3()": FunctionFragment;
     "emit_event3_overloaded()": FunctionFragment;
     "emit_event4()": FunctionFragment;
+    "emit_event5()": FunctionFragment;
   };
 
   getFunction(
@@ -53,6 +54,7 @@ export interface EventsInterface extends utils.Interface {
       | "emit_event3"
       | "emit_event3_overloaded"
       | "emit_event4"
+      | "emit_event5"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -79,6 +81,10 @@ export interface EventsInterface extends utils.Interface {
     functionFragment: "emit_event4",
     values?: undefined
   ): string;
+  encodeFunctionData(
+    functionFragment: "emit_event5",
+    values?: undefined
+  ): string;
 
   decodeFunctionResult(functionFragment: "emit_anon1", data: BytesLike): Result;
   decodeFunctionResult(
@@ -101,6 +107,10 @@ export interface EventsInterface extends utils.Interface {
     functionFragment: "emit_event4",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "emit_event5",
+    data: BytesLike
+  ): Result;
 
   events: {
     "AnonEvent1(uint256)": EventFragment;
@@ -108,7 +118,8 @@ export interface EventsInterface extends utils.Interface {
     "Event2(uint256)": EventFragment;
     "Event3(bool,uint256)": EventFragment;
     "Event3(uint256)": EventFragment;
-    "Event4(tuple)": EventFragment;
+    "Event4((uint256,string))": EventFragment;
+    "Event5((uint256,string)[2])": EventFragment;
     "NoArgsEvent()": EventFragment;
     "UpdateFrequencySet(address[],uint256[])": EventFragment;
   };
@@ -119,6 +130,7 @@ export interface EventsInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "Event3(bool,uint256)"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Event3(uint256)"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Event4"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Event5"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "NoArgsEvent"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "UpdateFrequencySet"): EventFragment;
 }
@@ -176,6 +188,16 @@ export type Event4Event = TypedEvent<
 >;
 
 export type Event4EventFilter = TypedEventFilter<Event4Event>;
+
+export interface Event5EventObject {
+  data: [Events.EventDataStructOutput, Events.EventDataStructOutput];
+}
+export type Event5Event = TypedEvent<
+  [[Events.EventDataStructOutput, Events.EventDataStructOutput]],
+  Event5EventObject
+>;
+
+export type Event5EventFilter = TypedEventFilter<Event5Event>;
 
 export interface NoArgsEventEventObject {}
 export type NoArgsEventEvent = TypedEvent<[], NoArgsEventEventObject>;
@@ -244,6 +266,10 @@ export interface Events extends BaseContract {
     emit_event4(
       overrides?: Overrides & { from?: string }
     ): Promise<ContractTransaction>;
+
+    emit_event5(
+      overrides?: Overrides & { from?: string }
+    ): Promise<ContractTransaction>;
   };
 
   emit_anon1(
@@ -270,6 +296,10 @@ export interface Events extends BaseContract {
     overrides?: Overrides & { from?: string }
   ): Promise<ContractTransaction>;
 
+  emit_event5(
+    overrides?: Overrides & { from?: string }
+  ): Promise<ContractTransaction>;
+
   callStatic: {
     emit_anon1(overrides?: CallOverrides): Promise<void>;
 
@@ -282,6 +312,8 @@ export interface Events extends BaseContract {
     emit_event3_overloaded(overrides?: CallOverrides): Promise<void>;
 
     emit_event4(overrides?: CallOverrides): Promise<void>;
+
+    emit_event5(overrides?: CallOverrides): Promise<void>;
   };
 
   filters: {
@@ -303,8 +335,11 @@ export interface Events extends BaseContract {
     ): Event3_bool_uint256_EventFilter;
     "Event3(uint256)"(value1?: BigNumberish | null): Event3_uint256_EventFilter;
 
-    "Event4(tuple)"(data?: null): Event4EventFilter;
+    "Event4((uint256,string))"(data?: null): Event4EventFilter;
     Event4(data?: null): Event4EventFilter;
+
+    "Event5((uint256,string)[2])"(data?: null): Event5EventFilter;
+    Event5(data?: null): Event5EventFilter;
 
     "NoArgsEvent()"(): NoArgsEventEventFilter;
     NoArgsEvent(): NoArgsEventEventFilter;
@@ -330,6 +365,8 @@ export interface Events extends BaseContract {
     ): Promise<BigNumber>;
 
     emit_event4(overrides?: Overrides & { from?: string }): Promise<BigNumber>;
+
+    emit_event5(overrides?: Overrides & { from?: string }): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -354,6 +391,10 @@ export interface Events extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     emit_event4(
+      overrides?: Overrides & { from?: string }
+    ): Promise<PopulatedTransaction>;
+
+    emit_event5(
       overrides?: Overrides & { from?: string }
     ): Promise<PopulatedTransaction>;
   };

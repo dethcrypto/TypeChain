@@ -8,6 +8,7 @@ import type {
   FunctionFragment,
   Result,
   Interface,
+  EventFragment,
   AddressLike,
   ContractRunner,
   ContractMethod,
@@ -17,27 +18,10 @@ import type {
   TypedContractEvent,
   TypedDeferredTopicFilter,
   TypedEventLog,
+  TypedLogDescription,
   TypedListener,
   TypedContractMethod,
 } from "../common";
-
-export declare namespace StructsLib1 {
-  export type InfoStruct = { a: BigNumberish; b: BigNumberish };
-
-  export type InfoStructOutput = [a: bigint, b: bigint] & {
-    a: bigint;
-    b: bigint;
-  };
-}
-
-export declare namespace StructsLib2 {
-  export type InfoStruct = { a: AddressLike; b: AddressLike };
-
-  export type InfoStructOutput = [a: string, b: string] & {
-    a: string;
-    b: string;
-  };
-}
 
 export declare namespace DataTypesInput {
   export type Struct1Struct = {
@@ -63,6 +47,24 @@ export declare namespace DataTypesInput {
   export type Struct3Struct = { input1: BigNumberish[] };
 
   export type Struct3StructOutput = [input1: bigint[]] & { input1: bigint[] };
+}
+
+export declare namespace StructsLib1 {
+  export type InfoStruct = { a: BigNumberish; b: BigNumberish };
+
+  export type InfoStructOutput = [a: bigint, b: bigint] & {
+    a: bigint;
+    b: bigint;
+  };
+}
+
+export declare namespace StructsLib2 {
+  export type InfoStruct = { a: AddressLike; b: AddressLike };
+
+  export type InfoStructOutput = [a: string, b: string] & {
+    a: string;
+    b: string;
+  };
 }
 
 export interface DataTypesInputInterface extends Interface {
@@ -97,6 +99,10 @@ export interface DataTypesInputInterface extends Interface {
       | "input_uint8"
       | "input_uint_array"
   ): FunctionFragment;
+
+  getEvent(
+    nameOrSignatureOrTopic: "event_struct" | "event_struct_2"
+  ): EventFragment;
 
   encodeFunctionData(
     functionFragment: "input_address",
@@ -359,6 +365,37 @@ export interface DataTypesInputInterface extends Interface {
     functionFragment: "input_uint_array",
     data: BytesLike
   ): Result;
+}
+
+export namespace event_structEvent {
+  export type InputTuple = [input: DataTypesInput.Struct1Struct];
+  export type OutputTuple = [input: DataTypesInput.Struct1StructOutput];
+  export interface OutputObject {
+    input: DataTypesInput.Struct1StructOutput;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace event_struct_2Event {
+  export type InputTuple = [
+    input: BigNumberish,
+    input2: DataTypesInput.Struct1Struct
+  ];
+  export type OutputTuple = [
+    input: bigint,
+    input2: DataTypesInput.Struct1StructOutput
+  ];
+  export interface OutputObject {
+    input: bigint;
+    input2: DataTypesInput.Struct1StructOutput;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
 }
 
 export interface DataTypesInput extends BaseContract {
@@ -997,5 +1034,42 @@ export interface DataTypesInput extends BaseContract {
     nameOrSignature: "input_uint_array"
   ): TypedContractMethod<[input1: BigNumberish[]], [bigint[]], "view">;
 
-  filters: {};
+  getEvent(
+    key: "event_struct"
+  ): TypedContractEvent<
+    event_structEvent.InputTuple,
+    event_structEvent.OutputTuple,
+    event_structEvent.OutputObject
+  >;
+  getEvent(
+    key: "event_struct_2"
+  ): TypedContractEvent<
+    event_struct_2Event.InputTuple,
+    event_struct_2Event.OutputTuple,
+    event_struct_2Event.OutputObject
+  >;
+
+  filters: {
+    "event_struct(tuple)": TypedContractEvent<
+      event_structEvent.InputTuple,
+      event_structEvent.OutputTuple,
+      event_structEvent.OutputObject
+    >;
+    event_struct: TypedContractEvent<
+      event_structEvent.InputTuple,
+      event_structEvent.OutputTuple,
+      event_structEvent.OutputObject
+    >;
+
+    "event_struct_2(uint256,tuple)": TypedContractEvent<
+      event_struct_2Event.InputTuple,
+      event_struct_2Event.OutputTuple,
+      event_struct_2Event.OutputObject
+    >;
+    event_struct_2: TypedContractEvent<
+      event_struct_2Event.InputTuple,
+      event_struct_2Event.OutputTuple,
+      event_struct_2Event.OutputObject
+    >;
+  };
 }
