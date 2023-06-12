@@ -21,9 +21,19 @@ export interface EventOptions {
   topics?: string[];
 }
 
+export declare namespace KingOfTheHill {
+  export type BidStruct =
+    | [string, number | string | BN]
+    | { bidder: string; value: number | string | BN };
+
+  export type BidStructOutputArray = [string, string];
+  export type BidStructOutputStruct = { bidder: string; value: string };
+  export type BidStructOutput = BidStructOutputArray & BidStructOutputStruct;
+}
+
 export type HighestBidIncreased = ContractEventLog<{
-  bid: [string, string];
-  0: [string, string];
+  bid: KingOfTheHill.BidStructOutput;
+  0: KingOfTheHill.BidStructOutput;
 }>;
 
 export interface KingOfTheHill extends BaseContract {
@@ -36,12 +46,9 @@ export interface KingOfTheHill extends BaseContract {
   methods: {
     bid(): PayableTransactionObject<void>;
 
-    highestBid(): NonPayableTransactionObject<{
-      bidder: string;
-      value: string;
-      0: string;
-      1: string;
-    }>;
+    highestBid(): NonPayableTransactionObject<
+      [string, string] & { bidder: string; value: string }
+    >;
 
     withdraw(): NonPayableTransactionObject<void>;
   };

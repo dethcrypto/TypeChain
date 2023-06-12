@@ -21,6 +21,20 @@ export interface EventOptions {
   topics?: string[];
 }
 
+export declare namespace DataTypesView {
+  export type Struct1Struct =
+    | [number | string | BN, number | string | BN]
+    | { uint256_0: number | string | BN; uint256_1: number | string | BN };
+
+  export type Struct1StructOutputArray = [string, string];
+  export type Struct1StructOutputStruct = {
+    uint256_0: string;
+    uint256_1: string;
+  };
+  export type Struct1StructOutput = Struct1StructOutputArray &
+    Struct1StructOutputStruct;
+}
+
 export interface DataTypesView extends BaseContract {
   constructor(
     jsonInterface: any[],
@@ -43,23 +57,17 @@ export interface DataTypesView extends BaseContract {
 
     view_int8(): NonPayableTransactionObject<string>;
 
-    view_named(): NonPayableTransactionObject<{
-      uint256_1: string;
-      uint256_2: string;
-      0: string;
-      1: string;
-    }>;
+    view_named(): NonPayableTransactionObject<
+      [string, string] & { uint256_1: string; uint256_2: string }
+    >;
 
-    view_stat_array(): NonPayableTransactionObject<string[]>;
+    view_stat_array(): NonPayableTransactionObject<[string, string, string]>;
 
     view_string(): NonPayableTransactionObject<string>;
 
-    view_struct(): NonPayableTransactionObject<[string, string]>;
+    view_struct(): NonPayableTransactionObject<DataTypesView.Struct1StructOutput>;
 
-    view_tuple(): NonPayableTransactionObject<{
-      0: string;
-      1: string;
-    }>;
+    view_tuple(): NonPayableTransactionObject<[string, string]>;
 
     view_uint256(): NonPayableTransactionObject<string>;
 

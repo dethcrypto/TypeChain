@@ -21,6 +21,62 @@ export interface EventOptions {
   topics?: string[];
 }
 
+export declare namespace StructsLib1 {
+  export type InfoStruct =
+    | [number | string | BN, number | string | BN]
+    | { a: number | string | BN; b: number | string | BN };
+
+  export type InfoStructOutputArray = [string, string];
+  export type InfoStructOutputStruct = { a: string; b: string };
+  export type InfoStructOutput = InfoStructOutputArray & InfoStructOutputStruct;
+}
+
+export declare namespace StructsLib2 {
+  export type InfoStruct = [string, string] | { a: string; b: string };
+
+  export type InfoStructOutputArray = [string, string];
+  export type InfoStructOutputStruct = { a: string; b: string };
+  export type InfoStructOutput = InfoStructOutputArray & InfoStructOutputStruct;
+}
+
+export declare namespace DataTypesInput {
+  export type Struct1Struct =
+    | [number | string | BN, number | string | BN]
+    | { uint256_0: number | string | BN; uint256_1: number | string | BN };
+
+  export type Struct1StructOutputArray = [string, string];
+  export type Struct1StructOutputStruct = {
+    uint256_0: string;
+    uint256_1: string;
+  };
+  export type Struct1StructOutput = Struct1StructOutputArray &
+    Struct1StructOutputStruct;
+
+  export type Struct2Struct =
+    | [number | string | BN, DataTypesInput.Struct1Struct]
+    | { input1: number | string | BN; input2: DataTypesInput.Struct1Struct };
+
+  export type Struct2StructOutputArray = [
+    string,
+    DataTypesInput.Struct1StructOutput
+  ];
+  export type Struct2StructOutputStruct = {
+    input1: string;
+    input2: DataTypesInput.Struct1StructOutput;
+  };
+  export type Struct2StructOutput = Struct2StructOutputArray &
+    Struct2StructOutputStruct;
+
+  export type Struct3Struct =
+    | [number | string | BN[]]
+    | { input1: number | string | BN[] };
+
+  export type Struct3StructOutputArray = [string[]];
+  export type Struct3StructOutputStruct = { input1: string[] };
+  export type Struct3StructOutput = Struct3StructOutputArray &
+    Struct3StructOutputStruct;
+}
+
 export interface DataTypesInput extends BaseContract {
   constructor(
     jsonInterface: any[],
@@ -44,8 +100,20 @@ export interface DataTypesInput extends BaseContract {
     ): NonPayableTransactionObject<string>;
 
     input_fixedarray_array_fixedarray(
-      input1: (number | string | BN)[][][]
-    ): NonPayableTransactionObject<string[][][]>;
+      input1: [
+        [number | string | BN, number | string | BN, number | string | BN][],
+        [number | string | BN, number | string | BN, number | string | BN][],
+        [number | string | BN, number | string | BN, number | string | BN][],
+        [number | string | BN, number | string | BN, number | string | BN][]
+      ]
+    ): NonPayableTransactionObject<
+      [
+        [string, string, string][],
+        [string, string, string][],
+        [string, string, string][],
+        [string, string, string][]
+      ]
+    >;
 
     input_int256(
       input1: number | string | BN
@@ -56,83 +124,203 @@ export interface DataTypesInput extends BaseContract {
     ): NonPayableTransactionObject<string>;
 
     input_multiple_structs_with_same_name(
-      info1: [number | string | BN, number | string | BN]
-    ): NonPayableTransactionObject<[string, string]>;
+      info1: StructsLib1.InfoStruct
+    ): NonPayableTransactionObject<StructsLib2.InfoStructOutput>;
 
     input_stat_array(
-      input1: (number | string | BN)[]
-    ): NonPayableTransactionObject<string[]>;
+      input1: [number | string | BN, number | string | BN, number | string | BN]
+    ): NonPayableTransactionObject<[string, string, string]>;
 
     input_string(input1: string): NonPayableTransactionObject<string>;
 
     input_struct(
-      input1: [number | string | BN, number | string | BN]
-    ): NonPayableTransactionObject<[string, string]>;
+      input1: DataTypesInput.Struct1Struct
+    ): NonPayableTransactionObject<DataTypesInput.Struct1StructOutput>;
 
     input_struct2(
-      input1: [
-        number | string | BN,
-        [number | string | BN, number | string | BN]
-      ]
-    ): NonPayableTransactionObject<[string, [string, string]]>;
+      input1: DataTypesInput.Struct2Struct
+    ): NonPayableTransactionObject<DataTypesInput.Struct2StructOutput>;
 
     input_struct2_array(
-      input1: [
-        number | string | BN,
-        [number | string | BN, number | string | BN]
-      ][]
-    ): NonPayableTransactionObject<[string, [string, string]][]>;
+      input1: DataTypesInput.Struct2Struct[]
+    ): NonPayableTransactionObject<DataTypesInput.Struct2StructOutput[]>;
 
     input_struct2_tuple(
       input: [
-        number | string | BN,
-        [number | string | BN, number | string | BN]
-      ][]
-    ): NonPayableTransactionObject<[string, [string, string]][]>;
+        DataTypesInput.Struct2Struct,
+        DataTypesInput.Struct2Struct,
+        DataTypesInput.Struct2Struct
+      ]
+    ): NonPayableTransactionObject<
+      [
+        DataTypesInput.Struct2StructOutput,
+        DataTypesInput.Struct2StructOutput,
+        DataTypesInput.Struct2StructOutput
+      ]
+    >;
 
     input_struct3_array(
-      input1: [(number | string | BN)[]][]
-    ): NonPayableTransactionObject<[string[]][]>;
+      input1: DataTypesInput.Struct3Struct[]
+    ): NonPayableTransactionObject<DataTypesInput.Struct3StructOutput[]>;
 
     input_struct_array(
-      input1: [number | string | BN, number | string | BN][]
-    ): NonPayableTransactionObject<[string, string][]>;
+      input1: DataTypesInput.Struct1Struct[]
+    ): NonPayableTransactionObject<DataTypesInput.Struct1StructOutput[]>;
 
     input_struct_array_array(
-      input1: [number | string | BN, number | string | BN][][]
-    ): NonPayableTransactionObject<[string, string][][]>;
+      input1: DataTypesInput.Struct1Struct[][]
+    ): NonPayableTransactionObject<DataTypesInput.Struct1StructOutput[][]>;
 
     input_struct_array_array_array(
-      input1: [number | string | BN, number | string | BN][][][]
-    ): NonPayableTransactionObject<[string, string][][][]>;
+      input1: DataTypesInput.Struct1Struct[][][]
+    ): NonPayableTransactionObject<DataTypesInput.Struct1StructOutput[][][]>;
 
     input_struct_array_fixedarray(
-      input1: [number | string | BN, number | string | BN][][]
-    ): NonPayableTransactionObject<[string, string][][]>;
+      input1: [DataTypesInput.Struct1Struct[], DataTypesInput.Struct1Struct[]]
+    ): NonPayableTransactionObject<
+      [
+        DataTypesInput.Struct1StructOutput[],
+        DataTypesInput.Struct1StructOutput[]
+      ]
+    >;
 
     input_struct_fixedarray_array(
-      input1: [number | string | BN, number | string | BN][][]
-    ): NonPayableTransactionObject<[string, string][][]>;
+      input1: [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+    ): NonPayableTransactionObject<
+      [DataTypesInput.Struct1StructOutput, DataTypesInput.Struct1StructOutput][]
+    >;
 
     input_struct_fixedarray_array_fixedarray(
-      input1: [number | string | BN, number | string | BN][][][]
-    ): NonPayableTransactionObject<[string, string][][][]>;
+      input1: [
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+      ]
+    ): NonPayableTransactionObject<
+      [
+        [
+          DataTypesInput.Struct1StructOutput,
+          DataTypesInput.Struct1StructOutput
+        ][],
+        [
+          DataTypesInput.Struct1StructOutput,
+          DataTypesInput.Struct1StructOutput
+        ][],
+        [
+          DataTypesInput.Struct1StructOutput,
+          DataTypesInput.Struct1StructOutput
+        ][]
+      ]
+    >;
 
     input_struct_fixedarray_array_fixedarray_array_fixedarray(
-      input1: [number | string | BN, number | string | BN][][][][][]
-    ): NonPayableTransactionObject<[string, string][][][][][]>;
+      input1: [
+        [
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+        ][],
+        [
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+        ][],
+        [
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+        ][],
+        [
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][],
+          [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct][]
+        ][]
+      ]
+    ): NonPayableTransactionObject<
+      [
+        [
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][],
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][],
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][]
+        ][],
+        [
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][],
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][],
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][]
+        ][],
+        [
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][],
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][],
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][]
+        ][],
+        [
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][],
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][],
+          [
+            DataTypesInput.Struct1StructOutput,
+            DataTypesInput.Struct1StructOutput
+          ][]
+        ][]
+      ]
+    >;
 
     input_struct_fixedarray_fixedarray(
-      input1: [number | string | BN, number | string | BN][][]
-    ): NonPayableTransactionObject<[string, string][][]>;
+      input1: [
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct],
+        [DataTypesInput.Struct1Struct, DataTypesInput.Struct1Struct]
+      ]
+    ): NonPayableTransactionObject<
+      [
+        [
+          DataTypesInput.Struct1StructOutput,
+          DataTypesInput.Struct1StructOutput
+        ],
+        [
+          DataTypesInput.Struct1StructOutput,
+          DataTypesInput.Struct1StructOutput
+        ],
+        [DataTypesInput.Struct1StructOutput, DataTypesInput.Struct1StructOutput]
+      ]
+    >;
 
     input_tuple(
       input1: number | string | BN,
       input2: number | string | BN
-    ): NonPayableTransactionObject<{
-      0: string;
-      1: string;
-    }>;
+    ): NonPayableTransactionObject<[string, string]>;
 
     input_uint256(
       input1: number | string | BN
@@ -143,7 +331,7 @@ export interface DataTypesInput extends BaseContract {
     ): NonPayableTransactionObject<string>;
 
     input_uint_array(
-      input1: (number | string | BN)[]
+      input1: number | string | BN[]
     ): NonPayableTransactionObject<string[]>;
   };
   events: {

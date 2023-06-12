@@ -21,6 +21,17 @@ export interface EventOptions {
   topics?: string[];
 }
 
+export declare namespace Events {
+  export type EventDataStruct =
+    | [number | string | BN, string]
+    | { index: number | string | BN; name: string };
+
+  export type EventDataStructOutputArray = [string, string];
+  export type EventDataStructOutputStruct = { index: string; name: string };
+  export type EventDataStructOutput = EventDataStructOutputArray &
+    EventDataStructOutputStruct;
+}
+
 export type AnonEvent1 = ContractEventLog<{
   value1: string;
   0: string;
@@ -45,8 +56,8 @@ export type Event3_uint256 = ContractEventLog<{
   0: string;
 }>;
 export type Event4 = ContractEventLog<{
-  data: [string, string];
-  0: [string, string];
+  data: Events.EventDataStructOutput;
+  0: Events.EventDataStructOutput;
 }>;
 export type NoArgsEvent = ContractEventLog<{}>;
 export type UpdateFrequencySet = ContractEventLog<{
