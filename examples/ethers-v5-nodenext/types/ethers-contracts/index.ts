@@ -2,5 +2,5 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { Dai } from "./Dai.js";
-export * as factories from "./factories";
+export * as factories from "./factories/index.js";
 export { Dai__factory } from "./factories/Dai__factory.js";

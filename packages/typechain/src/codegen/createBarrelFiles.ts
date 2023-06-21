@@ -59,6 +59,9 @@ export function createBarrelFiles(
             `export type { ${namespaceIdentifier} };`,
           ].join('\n')
 
+        if (moduleSuffix) {
+          return `export * as ${namespaceIdentifier} from './${p}/index${moduleSuffix}';`
+        }
         return `export * as ${namespaceIdentifier} from './${p}';`
       })
       .join('\n')
