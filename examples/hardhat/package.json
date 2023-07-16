@@ -11,7 +11,7 @@
     "typecheck": "pnpm compile && pnpm test && pnpm tsc --noEmit"
   },
   "devDependencies": {
-    "@nomicfoundation/hardhat-ethers": "^3.0.0",
+    "@nomicfoundation/hardhat-ethers": "^3.0.4",
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
     "@typechain/ethers-v6": "workspace:^0.4.0",
     "@typechain/hardhat": "workspace:^8.0.0",

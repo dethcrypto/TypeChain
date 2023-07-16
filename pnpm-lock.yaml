@@ -147,10 +147,10 @@ importers:
         version: 5.4.0
       '@nomicfoundation/hardhat-chai-matchers':
         specifier: ^2.0.0
-        version: 2.0.0(@nomicfoundation/hardhat-ethers@3.0.0)(chai@4.3.6)(ethers@6.3.0)(hardhat@2.9.9)
+        version: 2.0.0(@nomicfoundation/hardhat-ethers@3.0.4)(chai@4.3.6)(ethers@6.3.0)(hardhat@2.9.9)
       '@nomicfoundation/hardhat-ethers':
-        specifier: ^3.0.0
-        version: 3.0.0(ethers@6.3.0)(hardhat@2.9.9)
+        specifier: ^3.0.4
+        version: 3.0.4(ethers@6.3.0)(hardhat@2.9.9)
       '@typechain/ethers-v6':
         specifier: workspace:^0.4.0
         version: link:../../packages/target-ethers-v6
@@ -2004,7 +2004,7 @@ packages:
       fastq: 1.13.0
     dev: true
 
-  /@nomicfoundation/hardhat-chai-matchers@2.0.0(@nomicfoundation/hardhat-ethers@3.0.0)(chai@4.3.6)(ethers@6.3.0)(hardhat@2.9.9):
+  /@nomicfoundation/hardhat-chai-matchers@2.0.0(@nomicfoundation/hardhat-ethers@3.0.4)(chai@4.3.6)(ethers@6.3.0)(hardhat@2.9.9):
     resolution: {integrity: sha512-e2ZFunJBIWDcFKIxQt6GpFRRKUn8ZshoiZ5cmgaKOR1S9XwimiCs2aLUCZ/xjNrdl049kPqdVKYDj6aYeR6WuQ==}
     peerDependencies:
       '@nomicfoundation/hardhat-ethers': ^3.0.0
@@ -2013,7 +2013,7 @@ packages:
       hardhat: ^2.9.4
     dependencies:
       '@ethersproject/abi': 5.6.0
-      '@nomicfoundation/hardhat-ethers': 3.0.0(ethers@6.3.0)(hardhat@2.9.9)
+      '@nomicfoundation/hardhat-ethers': 3.0.4(ethers@6.3.0)(hardhat@2.9.9)
       '@types/chai-as-promised': 7.1.5
       chai: 4.3.6
       chai-as-promised: 7.1.1(chai@4.3.6)
@@ -2030,7 +2030,21 @@ packages:
       hardhat: ^2.0.0
     dependencies:
       ethers: 6.3.0
+      hardhat: 2.9.9(ts-node@10.7.0)(typescript@4.6.2)
+    dev: true
+
+  /@nomicfoundation/hardhat-ethers@3.0.4(ethers@6.3.0)(hardhat@2.9.9):
+    resolution: {integrity: sha512-k9qbLoY7qn6C6Y1LI0gk2kyHXil2Tauj4kGzQ8pgxYXIGw8lWn8tuuL72E11CrlKaXRUvOgF0EXrv/msPI2SbA==}
+    peerDependencies:
+      ethers: ^6.1.0
+      hardhat: ^2.0.0
+    dependencies:
+      debug: 4.3.3(supports-color@8.1.1)
+      ethers: 6.3.0
       hardhat: 2.9.9(ts-node@10.7.0)(typescript@4.9.5)
+      lodash.isequal: 4.5.0
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /@nomiclabs/hardhat-etherscan@2.1.8(hardhat@2.9.9):
@@ -10115,8 +10129,7 @@ packages:
     dev: true
 
   /lodash.isequal@4.5.0:
-    resolution: {integrity: sha1-QVxEePK8wwEgwizhDtMib30+GOA=}
-    optional: true
+    resolution: {integrity: sha512-pDo3lu8Jhfjqls6GkMgpahsF9kCyayhgykjyLMNFTKWrpVdAQtYyB4muAMWozBB4ig/dtWAmsMxLEI8wuz+DYQ==}
 
   /lodash.keys@4.2.0:
     resolution: {integrity: sha1-oIYCrBLk+4P5H8H7ejYKTZujUgU=}
