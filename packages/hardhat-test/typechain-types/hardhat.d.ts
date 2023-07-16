@@ -4,6 +4,7 @@
 
 import { ethers } from "ethers";
 import {
+  DeployContractOptions,
   FactoryOptions,
   HardhatEthersHelpers as HardhatEthersHelpersBase,
 } from "@nomicfoundation/hardhat-ethers/types";
@@ -52,40 +53,40 @@ declare module "hardhat/types/runtime" {
 
     deployContract(
       name: "Counter",
-      signerOrOptions?: ethers.Signer | FactoryOptions
+      signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.Counter>;
     deployContract(
       name: "Demo",
-      signerOrOptions?: ethers.Signer | FactoryOptions
+      signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.Demo>;
     deployContract(
       name: "Hello",
-      signerOrOptions?: ethers.Signer | FactoryOptions
+      signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.Hello>;
     deployContract(
       name: "StructsInConstructor",
-      signerOrOptions?: ethers.Signer | FactoryOptions
+      signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.StructsInConstructor>;
 
     deployContract(
       name: "Counter",
       args: any[],
-      signerOrOptions?: ethers.Signer | FactoryOptions
+      signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.Counter>;
     deployContract(
       name: "Demo",
       args: any[],
-      signerOrOptions?: ethers.Signer | FactoryOptions
+      signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.Demo>;
     deployContract(
       name: "Hello",
       args: any[],
-      signerOrOptions?: ethers.Signer | FactoryOptions
+      signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.Hello>;
     deployContract(
       name: "StructsInConstructor",
       args: any[],
-      signerOrOptions?: ethers.Signer | FactoryOptions
+      signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.StructsInConstructor>;
 
     // default types
@@ -105,12 +106,12 @@ declare module "hardhat/types/runtime" {
     ): Promise<ethers.Contract>;
     deployContract(
       name: string,
-      signerOrOptions?: ethers.Signer | FactoryOptions
+      signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<ethers.Contract>;
     deployContract(
       name: string,
       args: any[],
-      signerOrOptions?: ethers.Signer | FactoryOptions
+      signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<ethers.Contract>;
   }
 }

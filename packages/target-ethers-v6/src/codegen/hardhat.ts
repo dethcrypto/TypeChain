@@ -5,7 +5,7 @@ export function generateHardhatHelper(contracts: string[]): string {
   return `
 
 import { ethers } from 'ethers'
-import { FactoryOptions, HardhatEthersHelpers as HardhatEthersHelpersBase} from "@nomicfoundation/hardhat-ethers/types";
+import { DeployContractOptions, FactoryOptions, HardhatEthersHelpers as HardhatEthersHelpersBase} from "@nomicfoundation/hardhat-ethers/types";
 
 import * as Contracts from "."
 
@@ -29,14 +29,15 @@ declare module "hardhat/types/runtime" {
 
   ${contracts
     .map(
-      (n) => `deployContract(name: '${n}', signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.${n}>`,
+      (n) =>
+        `deployContract(name: '${n}', signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.${n}>`,
     )
     .join('\n')}
 
   ${contracts
     .map(
       (n) =>
-        `deployContract(name: '${n}', args: any[], signerOrOptions?: ethers.Signer | FactoryOptions): Promise<Contracts.${n}>`,
+        `deployContract(name: '${n}', args: any[], signerOrOptions?: ethers.Signer | DeployContractOptions): Promise<Contracts.${n}>`,
     )
     .join('\n')}
 
@@ -57,12 +58,12 @@ declare module "hardhat/types/runtime" {
     ): Promise<ethers.Contract>;
     deployContract(
       name: string,
-      signerOrOptions?: ethers.Signer | FactoryOptions
+      signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<ethers.Contract>;
     deployContract(
       name: string,
       args: any[],
-      signerOrOptions?: ethers.Signer | FactoryOptions
+      signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<ethers.Contract>;
   }
 }
