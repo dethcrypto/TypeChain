@@ -10,7 +10,25 @@ export interface DataTypesInputContract
   "new"(meta?: Truffle.TransactionDetails): Promise<DataTypesInputInstance>;
 }
 
-type AllEvents = never;
+export interface event_struct {
+  name: "event_struct";
+  args: {
+    input: { uint256_0: BN; uint256_1: BN };
+    0: { uint256_0: BN; uint256_1: BN };
+  };
+}
+
+export interface event_struct_2 {
+  name: "event_struct_2";
+  args: {
+    input: BN;
+    input2: { uint256_0: BN; uint256_1: BN };
+    0: BN;
+    1: { uint256_0: BN; uint256_1: BN };
+  };
+}
+
+type AllEvents = event_struct | event_struct_2;
 
 export interface DataTypesInputInstance extends Truffle.ContractInstance {
   input_uint8(

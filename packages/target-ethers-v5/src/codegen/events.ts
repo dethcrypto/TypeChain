@@ -3,6 +3,7 @@ import {
   EventArgDeclaration,
   EventDeclaration,
   getFullSignatureAsSymbolForEvent,
+  getFullSignatureForEvent,
 } from 'typechain'
 
 import { generateInputType, generateOutputComplexTypeAsArray, generateOutputComplexTypesAsObject } from './types'
@@ -55,7 +56,7 @@ export function generateInterfaceEventDescription(event: EventDeclaration): stri
 }
 
 export function generateEventSignature(event: EventDeclaration): string {
-  return `${event.name}(${event.inputs.map((input: any) => input.type.originalType).join(',')})`
+  return getFullSignatureForEvent(event)
 }
 
 export function generateEventInputs(eventArgs: EventArgDeclaration[]) {

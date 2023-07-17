@@ -59,7 +59,7 @@ export interface KingOfTheHillInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "withdraw", data: BytesLike): Result;
 
   events: {
-    "HighestBidIncreased(tuple)": EventFragment;
+    "HighestBidIncreased((address,uint256))": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "HighestBidIncreased"): EventFragment;
@@ -139,7 +139,9 @@ export interface KingOfTheHill extends BaseContract {
   };
 
   filters: {
-    "HighestBidIncreased(tuple)"(bid?: null): HighestBidIncreasedEventFilter;
+    "HighestBidIncreased((address,uint256))"(
+      bid?: null
+    ): HighestBidIncreasedEventFilter;
     HighestBidIncreased(bid?: null): HighestBidIncreasedEventFilter;
   };
 

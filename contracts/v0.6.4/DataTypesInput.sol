@@ -101,6 +101,10 @@ contract DataTypesInput {
     info2.a = address(info1.a);
     info2.b = address(info1.b);
   }
+
+  event event_struct(Struct1 input);
+
+  event event_struct_2(uint256 input, Struct1 input2);
 }
 
 library StructsLib1 {

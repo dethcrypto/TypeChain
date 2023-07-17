@@ -10,6 +10,62 @@ import type {
 
 const _abi = [
   {
+    anonymous: false,
+    inputs: [
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "uint256_0",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "uint256_1",
+            type: "uint256",
+          },
+        ],
+        indexed: false,
+        internalType: "struct DataTypesInput.Struct1",
+        name: "input",
+        type: "tuple",
+      },
+    ],
+    name: "event_struct",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "input",
+        type: "uint256",
+      },
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "uint256_0",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256",
+            name: "uint256_1",
+            type: "uint256",
+          },
+        ],
+        indexed: false,
+        internalType: "struct DataTypesInput.Struct1",
+        name: "input2",
+        type: "tuple",
+      },
+    ],
+    name: "event_struct_2",
+    type: "event",
+  },
+  {
     inputs: [
       {
         internalType: "address",

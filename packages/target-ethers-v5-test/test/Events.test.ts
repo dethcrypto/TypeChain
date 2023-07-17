@@ -33,11 +33,27 @@ describe('Events', () => {
 
     const filter = contract.filters.Event1(null, null)
     const results = await contract.queryFilter(filter)
+
+    typedAssert(results.length, 1)
     results.map((r) => {
       typedAssert(r.args.value1, BigNumber.from(1))
       typedAssert(r.args.value2, BigNumber.from(2))
       typedAssert(r.args[0], BigNumber.from(1))
       typedAssert(r.args[1], BigNumber.from(2))
+    })
+  })
+
+  it('queryFilter with tuples and arrays', async () => {
+    await contract.emit_event5()
+
+    const filter = contract.filters.Event5(null)
+    const results = await contract.queryFilter(filter)
+    typedAssert(results.length, 1)
+    results.map((r) => {
+      typedAssert(r.args[0][0][0], BigNumber.from(2))
+      typedAssert(r.args[0][0][1], 'test')
+      typedAssert(r.args[0][1][0], BigNumber.from(3))
+      typedAssert(r.args[0][1][1], 'test2')
     })
   })
 

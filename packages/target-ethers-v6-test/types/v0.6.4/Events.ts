@@ -41,6 +41,7 @@ export interface EventsInterface extends Interface {
       | "emit_event3"
       | "emit_event3_overloaded"
       | "emit_event4"
+      | "emit_event5"
   ): FunctionFragment;
 
   getEvent(
@@ -51,6 +52,7 @@ export interface EventsInterface extends Interface {
       | "Event3(bool,uint256)"
       | "Event3(uint256)"
       | "Event4"
+      | "Event5"
       | "NoArgsEvent"
       | "UpdateFrequencySet"
   ): EventFragment;
@@ -79,6 +81,10 @@ export interface EventsInterface extends Interface {
     functionFragment: "emit_event4",
     values?: undefined
   ): string;
+  encodeFunctionData(
+    functionFragment: "emit_event5",
+    values?: undefined
+  ): string;
 
   decodeFunctionResult(functionFragment: "emit_anon1", data: BytesLike): Result;
   decodeFunctionResult(
@@ -99,6 +105,10 @@ export interface EventsInterface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "emit_event4",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "emit_event5",
     data: BytesLike
   ): Result;
 }
@@ -170,6 +180,22 @@ export namespace Event4Event {
   export type OutputTuple = [data: Events.EventDataStructOutput];
   export interface OutputObject {
     data: Events.EventDataStructOutput;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace Event5Event {
+  export type InputTuple = [
+    data: [Events.EventDataStruct, Events.EventDataStruct]
+  ];
+  export type OutputTuple = [
+    data: [Events.EventDataStructOutput, Events.EventDataStructOutput]
+  ];
+  export interface OutputObject {
+    data: [Events.EventDataStructOutput, Events.EventDataStructOutput];
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -255,6 +281,8 @@ export interface Events extends BaseContract {
 
   emit_event4: TypedContractMethod<[], [void], "nonpayable">;
 
+  emit_event5: TypedContractMethod<[], [void], "nonpayable">;
+
   getFunction<T extends ContractMethod = ContractMethod>(
     key: string | FunctionFragment
   ): T;
@@ -276,6 +304,9 @@ export interface Events extends BaseContract {
   ): TypedContractMethod<[], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "emit_event4"
+  ): TypedContractMethod<[], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "emit_event5"
   ): TypedContractMethod<[], [void], "nonpayable">;
 
   getEvent(
@@ -319,6 +350,13 @@ export interface Events extends BaseContract {
     Event4Event.InputTuple,
     Event4Event.OutputTuple,
     Event4Event.OutputObject
+  >;
+  getEvent(
+    key: "Event5"
+  ): TypedContractEvent<
+    Event5Event.InputTuple,
+    Event5Event.OutputTuple,
+    Event5Event.OutputObject
   >;
   getEvent(
     key: "NoArgsEvent"
@@ -389,6 +427,17 @@ export interface Events extends BaseContract {
       Event4Event.InputTuple,
       Event4Event.OutputTuple,
       Event4Event.OutputObject
+    >;
+
+    "Event5(tuple[2])": TypedContractEvent<
+      Event5Event.InputTuple,
+      Event5Event.OutputTuple,
+      Event5Event.OutputObject
+    >;
+    Event5: TypedContractEvent<
+      Event5Event.InputTuple,
+      Event5Event.OutputTuple,
+      Event5Event.OutputObject
     >;
 
     "NoArgsEvent()": TypedContractEvent<

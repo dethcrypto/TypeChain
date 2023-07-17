@@ -1,4 +1,4 @@
-import type { FunctionFragment } from '@ethersproject/abi'
+import type { EventFragment, FunctionFragment } from '@ethersproject/abi'
 import { expect } from 'earljs'
 import type { BigNumberish } from 'ethers'
 import { BigNumber, ethers } from 'ethers'
@@ -79,8 +79,33 @@ describe('DataTypesInput', () => {
     typedAssert(await chain.contract.input_enum(1), 1)
   })
 
-  it('generates correct signature for tuples', () => {
+  it('generates correct function signature for tuples', () => {
     const fragment: FunctionFragment = chain.contract.interface.functions['input_struct((uint256,uint256))']
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    expect(fragment !== undefined).toEqual(true)
+  })
+
+  it('generates correct function signature for tuples arrays', () => {
+    const fragment: FunctionFragment = chain.contract.interface.functions['input_struct3_array((uint256[])[])']
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    expect(fragment !== undefined).toEqual(true)
+  })
+
+  it('generates correct function signature for tuples with fixed length', () => {
+    const fragment: FunctionFragment =
+      chain.contract.interface.functions['input_struct2_tuple((uint256,(uint256,uint256))[3])']
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    expect(fragment !== undefined).toEqual(true)
+  })
+
+  it('generate correct event signature for tuples', () => {
+    const fragment: EventFragment = chain.contract.interface.events['event_struct((uint256,uint256))']
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    expect(fragment !== undefined).toEqual(true)
+  })
+
+  it('generate correct event signature for mix of arguments and tuples', () => {
+    const fragment: EventFragment = chain.contract.interface.events['event_struct_2(uint256,(uint256,uint256))']
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     expect(fragment !== undefined).toEqual(true)
   })
