@@ -10,10 +10,10 @@
     "typecheck": "pnpm generate-types && tsc --noEmit"
   },
   "devDependencies": {
-    "@typechain/ethers-v6": "workspace:^0.4.0",
+    "@typechain/ethers-v6": "workspace:^0.4.1",
     "@types/bn.js": "^5.1.0",
     "ts-node": "^10.7.0",
-    "typechain": "workspace:^8.2.0",
+    "typechain": "workspace:^8.2.1",
     "typescript": "^4.7"
   },
   "dependencies": {
