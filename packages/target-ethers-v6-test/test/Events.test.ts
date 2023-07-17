@@ -56,10 +56,10 @@ describe('Events', () => {
     const results = await contract.queryFilter(filter)
     typedAssert(results.length, 1)
     results.map((r) => {
-      typedAssert(r.args[0][0][0],  BigInt(2))
-      typedAssert(r.args[0][0][1], "test")
+      typedAssert(r.args[0][0][0], BigInt(2))
+      typedAssert(r.args[0][0][1], 'test')
       typedAssert(r.args[0][1][0], BigInt(3))
-      typedAssert(r.args[0][1][1], "test2")
+      typedAssert(r.args[0][1][1], 'test2')
     })
   })
 

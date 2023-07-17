@@ -92,7 +92,8 @@ describe('DataTypesInput', () => {
   })
 
   it('generates correct function signature for tuples with fixed length', () => {
-    const fragment: FunctionFragment = chain.contract.interface.functions['input_struct2_tuple((uint256,(uint256,uint256))[3])']
+    const fragment: FunctionFragment =
+      chain.contract.interface.functions['input_struct2_tuple((uint256,(uint256,uint256))[3])']
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     expect(fragment !== undefined).toEqual(true)
   })
