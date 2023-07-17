@@ -1,5 +1,12 @@
 # typechain
 
+## 8.2.1
+
+### Patch Changes
+
+- cd4bb0f: Add the node16 moduleSuffix also to directories (including the `index` filename) as in ESM directory root
+  files have to be explicitly stated (including their file extension).
+
 ## 8.2.0
 
 ### Minor Changes

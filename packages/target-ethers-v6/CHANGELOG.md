@@ -1,5 +1,13 @@
 # @typechain/ethers-v6
 
+## 0.4.1
+
+### Patch Changes
+
+- c2b3f1b: Support for the newest hardhat-ethers version
+- Updated dependencies [cd4bb0f]
+  - typechain@8.2.1
+
 ## 0.4.0
 
 ### Minor Changes

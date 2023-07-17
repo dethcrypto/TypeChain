@@ -1,5 +1,13 @@
 # test-e2e
 
+## 9.9.16
+
+### Patch Changes
+
+- Updated dependencies [cd4bb0f]
+  - typechain@8.2.1
+  - @typechain/ethers-v5@11.0.1
+
 ## 9.9.15
 
 ### Patch Changes

@@ -13,8 +13,8 @@
   "devDependencies": {
     "@nomicfoundation/hardhat-ethers": "^3.0.4",
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",
-    "@typechain/ethers-v6": "workspace:^0.4.0",
-    "@typechain/hardhat": "workspace:^8.0.0",
+    "@typechain/ethers-v6": "workspace:^0.4.1",
+    "@typechain/hardhat": "workspace:^8.0.1",
     "@types/chai": "^4.2.15",
     "@types/chai-as-promised": "^7.1.3",
     "@types/mocha": "^8.2.0",
@@ -29,7 +29,7 @@
     "@ethersproject/abi": "5.4.0",
     "hardhat": "^2.9.9",
     "ts-node": "^10.7.0",
-    "typechain": "workspace:^8.2.0",
+    "typechain": "workspace:^8.2.1",
     "typescript": "^4.9.5"
   },
   "dependencies": {}
