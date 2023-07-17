@@ -1,5 +1,12 @@
 # @typechain/ethers-v6
 
+## 0.4.2
+
+### Patch Changes
+
+- Updated dependencies [c4720b9]
+  - typechain@8.3.0
+
 ## 0.4.1
 
 ### Patch Changes

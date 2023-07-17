@@ -1,5 +1,13 @@
 # example-truffle-v5
 
+## 0.0.7
+
+### Patch Changes
+
+- Updated dependencies [c4720b9]
+  - typechain@8.3.0
+  - @typechain/truffle-v5@8.0.5
+
 ## 0.0.6
 
 ### Patch Changes
