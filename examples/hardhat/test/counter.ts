@@ -2,7 +2,7 @@ import chai from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import { solidity } from 'ethereum-waffle'
 import { ethers } from 'hardhat'
-import { DeployContractOptions } from "@nomicfoundation/hardhat-ethers/types"
+import { DeployContractOptions } from '@nomicfoundation/hardhat-ethers/types'
 
 import type { Counter } from '../typechain-types'
 
