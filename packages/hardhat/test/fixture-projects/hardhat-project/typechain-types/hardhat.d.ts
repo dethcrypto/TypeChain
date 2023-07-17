@@ -4,6 +4,7 @@
 
 import { ethers } from "ethers";
 import {
+  DeployContractOptions,
   FactoryOptions,
   HardhatEthersHelpers as HardhatEthersHelpersBase,
 } from "@nomicfoundation/hardhat-ethers/types";
@@ -61,49 +62,49 @@ declare module "hardhat/types/runtime" {
 
     deployContract(
       name: "EdgeCases",
-      signerOrOptions?: ethers.Signer | FactoryOptions
+      signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.EdgeCases>;
     deployContract(
       name: "SafeMath",
-      signerOrOptions?: ethers.Signer | FactoryOptions
+      signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.SafeMath>;
     deployContract(
       name: "TestContract",
-      signerOrOptions?: ethers.Signer | FactoryOptions
+      signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.TestContract>;
     deployContract(
       name: "TestContract1",
-      signerOrOptions?: ethers.Signer | FactoryOptions
+      signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.TestContract1>;
     deployContract(
       name: "ERC20",
-      signerOrOptions?: ethers.Signer | FactoryOptions
+      signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ERC20>;
 
     deployContract(
       name: "EdgeCases",
       args: any[],
-      signerOrOptions?: ethers.Signer | FactoryOptions
+      signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.EdgeCases>;
     deployContract(
       name: "SafeMath",
       args: any[],
-      signerOrOptions?: ethers.Signer | FactoryOptions
+      signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.SafeMath>;
     deployContract(
       name: "TestContract",
       args: any[],
-      signerOrOptions?: ethers.Signer | FactoryOptions
+      signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.TestContract>;
     deployContract(
       name: "TestContract1",
       args: any[],
-      signerOrOptions?: ethers.Signer | FactoryOptions
+      signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.TestContract1>;
     deployContract(
       name: "ERC20",
       args: any[],
-      signerOrOptions?: ethers.Signer | FactoryOptions
+      signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ERC20>;
 
     // default types
@@ -123,12 +124,12 @@ declare module "hardhat/types/runtime" {
     ): Promise<ethers.Contract>;
     deployContract(
       name: string,
-      signerOrOptions?: ethers.Signer | FactoryOptions
+      signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<ethers.Contract>;
     deployContract(
       name: string,
       args: any[],
-      signerOrOptions?: ethers.Signer | FactoryOptions
+      signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<ethers.Contract>;
   }
 }

@@ -2,6 +2,7 @@ import chai from 'chai'
 import chaiAsPromised from 'chai-as-promised'
 import { solidity } from 'ethereum-waffle'
 import { ethers } from 'hardhat'
+import { DeployContractOptions } from '@nomicfoundation/hardhat-ethers/types'
 
 import type { Counter } from '../typechain-types'
 
@@ -17,13 +18,15 @@ describe('Counter', () => {
     const signers = await ethers.getSigners()
 
     // 2
-    counter = await ethers.deployContract('Counter')
-
+    const gasPrice = 1637083528
+    const options: DeployContractOptions = { gasPrice }
+    counter = await ethers.deployContract('Counter', options)
     const initialCount = await counter.getCount()
 
     // 3
     expect(initialCount).to.eq(0)
     expect(await counter.getAddress()).to.properAddress
+    expect(counter.deploymentTransaction()?.gasPrice).to.eq(gasPrice)
   })
 
   // 4
