@@ -1,5 +1,11 @@
 # typechain
 
+## 8.3.0
+
+### Minor Changes
+
+- c4720b9: fix tuples in event signatures and also arrays of tuples in functions
+
 ## 8.2.1
 
 ### Patch Changes

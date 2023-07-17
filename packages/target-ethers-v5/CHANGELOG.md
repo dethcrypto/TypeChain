@@ -1,5 +1,16 @@
 # @typechain/ethers-v5
 
+## 11.1.0
+
+### Minor Changes
+
+- c4720b9: fix tuples in event signatures and also arrays of tuples in functions
+
+### Patch Changes
+
+- Updated dependencies [c4720b9]
+  - typechain@8.3.0
+
 ## 11.0.1
 
 ### Patch Changes
