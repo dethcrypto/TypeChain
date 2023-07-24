@@ -1,5 +1,12 @@
 # @typechain/web3-v1
 
+## 6.0.6
+
+### Patch Changes
+
+- Updated dependencies [9107713]
+  - typechain@8.3.1
+
 ## 6.0.5
 
 ### Patch Changes
