@@ -1,5 +1,11 @@
 # typechain
 
+## 8.3.1
+
+### Patch Changes
+
+- 9107713: Fix the detection of inputs root in some specific scenarios
+
 ## 8.3.0
 
 ### Minor Changes
