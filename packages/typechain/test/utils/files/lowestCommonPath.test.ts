@@ -18,6 +18,16 @@ describe(lowestCommonPath.name, () => {
     expect(actual).toEqual('/TypeChain/contracts/compiled')
   })
 
+  it('stops at first different sub-path', () => {
+    const paths = [
+      '/TypeChain/contracts/v0.6.4/interfaces/Payable.abi',
+      '/TypeChain/contracts/v0.8.9/interfaces/Rarity.abi',
+    ]
+
+    const actual = lowestCommonPath(paths)
+    expect(actual).toEqual('/TypeChain/contracts')
+  })
+
   it('works for Windows paths', () => {
     const paths = [
       'D:/workspace/TypeChain/packages/hardhat/test/fixture-projects/hardhat-project/artifacts/contracts/EdgeCases.sol/EdgeCases.json',
