@@ -183,7 +183,7 @@ export function codegenContractFactory(
   ${generateLibraryAddressesInterface(contract, bytecode)}
   `
 
-  const commonPath = `${new Array(contract.path.length + 1).fill('..').join('/')}/common`
+  const commonPath = `${new Array(contract.path.length + 1).fill('..').join('/')}/common${moduleSuffix}`
 
   const imports =
     createImportsForUsedIdentifiers(
