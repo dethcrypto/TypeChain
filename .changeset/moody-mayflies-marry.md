@@ -1,5 +1,4 @@
 ---
-'example-ethers-v6-nodenext': minor
 '@typechain/ethers-v6': minor
 ---
 
