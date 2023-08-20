@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "lib": ["ES2018", "DOM"],
+    "module": "NodeNext",
+    "moduleResolution": "node16",
+    "strict": true,
+    "target": "ES2018",
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true
+  }
+}

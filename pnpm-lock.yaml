@@ -134,6 +134,28 @@ importers:
         specifier: ^4.7
         version: 4.9.5
 
+  examples/ethers-v6-nodenext:
+    dependencies:
+      ethers:
+        specifier: ^6.1.0
+        version: 6.3.0
+    devDependencies:
+      '@typechain/ethers-v6':
+        specifier: workspace:^0.4.3
+        version: link:../../packages/target-ethers-v6
+      '@types/bn.js':
+        specifier: ^5.1.0
+        version: 5.1.0
+      ts-node:
+        specifier: ^10.7.0
+        version: 10.7.0(@types/node@18.14.0)(typescript@4.9.5)
+      typechain:
+        specifier: workspace:^8.3.1
+        version: link:../../packages/typechain
+      typescript:
+        specifier: ^4.7
+        version: 4.9.5
+
   examples/hardhat:
     devDependencies:
       '@ethersproject/abi':
@@ -852,7 +874,6 @@ packages:
 
   /@adraffy/ens-normalize@1.9.0:
     resolution: {integrity: sha512-iowxq3U30sghZotgl4s/oJRci6WPBfNO5YYgk2cIOMCHr3LeGPcsZjCEr+33Q4N+oV3OABDAtA+pyvWjbvBifQ==}
-    dev: true
 
   /@apollo/protobufjs@1.2.2:
     resolution: {integrity: sha512-vF+zxhPiLtkwxONs6YanSt1EpwpGilThpneExUN5K3tCymuxNnVq2yojTvnpRjv2QfsEIt/n7ozPIIzBLwGIDQ==}
@@ -7279,7 +7300,6 @@ packages:
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
-    dev: true
 
   /ethjs-unit@0.1.6:
     resolution: {integrity: sha1-xmWSHkduh7ziqdWIpv4EBbLEFpk=}
