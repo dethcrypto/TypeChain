@@ -1,5 +1,15 @@
 # @typechain/ethers-v6
 
+## 0.5.0
+
+### Minor Changes
+
+- 64d18f7: Add support for ESM module resolutions using the `--node16-modules` flag in the `ethers-v6` target.
+
+### Patch Changes
+
+- 04ebda9: fix: always use view overrides for statcCalls
+
 ## 0.4.3
 
 ### Patch Changes
