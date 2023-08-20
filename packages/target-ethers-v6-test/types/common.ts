@@ -122,8 +122,10 @@ export interface TypedContractMethod<
   populateTransaction(
     ...args: ContractMethodArgs<A, S>
   ): Promise<ContractTransaction>;
-  staticCall(...args: ContractMethodArgs<A, S>): Promise<DefaultReturnType<R>>;
+  staticCall(
+    ...args: ContractMethodArgs<A, "view">
+  ): Promise<DefaultReturnType<R>>;
   send(...args: ContractMethodArgs<A, S>): Promise<ContractTransactionResponse>;
   estimateGas(...args: ContractMethodArgs<A, S>): Promise<bigint>;
-  staticCallResult(...args: ContractMethodArgs<A, S>): Promise<R>;
+  staticCallResult(...args: ContractMethodArgs<A, "view">): Promise<R>;
 }
