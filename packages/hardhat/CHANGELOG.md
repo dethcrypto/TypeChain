@@ -1,5 +1,13 @@
 # @typechain/hardhat
 
+## 9.0.0
+
+### Patch Changes
+
+- Updated dependencies [04ebda9]
+- Updated dependencies [64d18f7]
+  - @typechain/ethers-v6@0.5.0
+
 ## 8.0.3
 
 ### Patch Changes
