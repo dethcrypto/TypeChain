@@ -1,4 +1,5 @@
 import { expect } from 'earljs'
+
 import {normalizeDirName} from "../../src/codegen/normalizeDirName";
 
 describe('dir name normalizer', () => {
