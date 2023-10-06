@@ -3,7 +3,7 @@ import { posix } from 'path'
 
 import { normalizeName } from '../parser/normalizeName'
 import { FileDescription } from '../typechain/types'
-import {normalizeDirName} from "./normalizeDirName";
+import { normalizeDirName } from './normalizeDirName'
 
 /**
  * returns barrel files with reexports for all given paths
