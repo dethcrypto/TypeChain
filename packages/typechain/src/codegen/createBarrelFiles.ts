@@ -1,8 +1,9 @@
-import { camelCase, groupBy, mapValues, uniq } from 'lodash'
+import { groupBy, mapValues, uniq } from 'lodash'
 import { posix } from 'path'
 
 import { normalizeName } from '../parser/normalizeName'
 import { FileDescription } from '../typechain/types'
+import { normalizeDirName } from './normalizeDirName'
 
 /**
  * returns barrel files with reexports for all given paths
@@ -51,7 +52,7 @@ export function createBarrelFiles(
 
     const namespacesExports = nestedDirs
       .map((p) => {
-        const namespaceIdentifier = camelCase(p)
+        const namespaceIdentifier = normalizeDirName(p)
 
         if (typeOnly)
           return [
