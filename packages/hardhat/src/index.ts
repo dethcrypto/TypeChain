@@ -83,6 +83,7 @@ subtask(TASK_TYPECHAIN_GENERATE_TYPES)
         discriminateTypes: typechainCfg.discriminateTypes,
         tsNocheck: typechainCfg.tsNocheck,
         environment: 'hardhat',
+        node16Modules: typechainCfg.node16Modules,
       },
     }
 

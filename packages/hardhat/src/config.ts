@@ -10,6 +10,7 @@ export function getDefaultTypechainConfig(config: HardhatConfig): TypechainConfi
     discriminateTypes: false,
     tsNocheck: false,
     dontOverrideCompile: false,
+    node16Modules: false,
   }
 
   return {
