@@ -1,5 +1,17 @@
 # @typechain/hardhat
 
+## 9.1.0
+
+### Minor Changes
+
+- da71c45: Allow passing node16Modules flag to TypeChain
+
+### Patch Changes
+
+- Updated dependencies [3469800]
+  - typechain@8.3.2
+  - @typechain/ethers-v6@0.5.1
+
 ## 9.0.0
 
 ### Patch Changes
