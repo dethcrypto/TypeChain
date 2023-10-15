@@ -6,6 +6,7 @@ export interface TypechainConfig {
   tsNocheck: boolean
   externalArtifacts?: string[]
   dontOverrideCompile: boolean
+  node16Modules: boolean // defaults to false
 }
 
 export interface TypechainUserConfig extends Partial<TypechainConfig> {}

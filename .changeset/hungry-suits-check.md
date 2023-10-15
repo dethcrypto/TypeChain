@@ -2,4 +2,4 @@
 '@typechain/hardhat': minor
 ---
 
-allow node6Modules for @typechain/hardhat
+Allow passing node16Modules flag to TypeChain
