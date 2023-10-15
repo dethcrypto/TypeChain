@@ -1,7 +1,7 @@
 {
   "name": "test-e2e",
   "private": true,
-  "version": "9.9.18",
+  "version": "9.9.19",
   "scripts": {
     "format": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --check \"./**/*.ts\"",
     "format:fix": "prettier --config ../../.prettierrc --ignore-path ../../.prettierignore --write \"./**/*.ts\"",
@@ -15,8 +15,8 @@
   "dependencies": {
     "fs-extra": "^9.1.0",
     "@types/fs-extra": "^9.0.7",
-    "typechain": "workspace:^8.3.1",
-    "@typechain/ethers-v5": "workspace:^11.1.1"
+    "typechain": "workspace:^8.3.2",
+    "@typechain/ethers-v5": "workspace:^11.1.2"
   },
   "devDependencies": {
     "mocha": "^8.2.0"

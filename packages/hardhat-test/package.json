@@ -18,11 +18,11 @@
     "@ethersproject/providers": "^5.4.7",
     "@ethersproject/abi": "^5.4.7",
     "@nomicfoundation/hardhat-ethers": "^3.0.0",
-    "@typechain/ethers-v6": "workspace:^0.5.0",
-    "@typechain/hardhat": "workspace:^9.0.0",
+    "@typechain/ethers-v6": "workspace:^0.5.1",
+    "@typechain/hardhat": "workspace:^9.1.0",
     "ethers": "~6.3.0",
     "hardhat": "^2.9.9",
     "test-utils": "1.0.0",
-    "typechain": "workspace:^8.3.1"
+    "typechain": "workspace:^8.3.2"
   }
 }

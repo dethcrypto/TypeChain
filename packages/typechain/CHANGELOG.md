@@ -1,5 +1,11 @@
 # typechain
 
+## 8.3.2
+
+### Patch Changes
+
+- 3469800: Escape dirs starting with digits
+
 ## 8.3.1
 
 ### Patch Changes

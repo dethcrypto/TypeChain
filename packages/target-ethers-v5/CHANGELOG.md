@@ -1,5 +1,12 @@
 # @typechain/ethers-v5
 
+## 11.1.2
+
+### Patch Changes
+
+- Updated dependencies [3469800]
+  - typechain@8.3.2
+
 ## 11.1.1
 
 ### Patch Changes
