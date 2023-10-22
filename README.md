@@ -6,11 +6,6 @@
     <a href="https://github.com/ethereum-ts/TypeChain/actions"><img alt="Build Status" src="https://github.com/ethereum-ts/TypeChain/workflows/CI/badge.svg"></a>
     <img alt="Downloads" src="https://img.shields.io/npm/dm/typechain.svg">
     <a href="/package.json"><img alt="Software License" src="https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square"></a>
-    <a href="https://discord.gg/wQDkeDgzgv"><img alt="Join our discord!" src="https://img.shields.io/discord/895381864922091630.svg?color=7289da&label=deth&logo=discord&style=flat-square"></a>
-  </p>
-
-  <p align="center">
-    <strong>💸 Enjoy using TypeChain? Consider funding development via <a href="https://gitcoin.co/grants/4038/deth-typechain">GitCoin</a> 💸</strong>
   </p>
 
   <p align="center">
@@ -25,6 +20,17 @@
     <a href="https://github.com/OffchainLabs/arbitrum/blob/133ac08dbf423ce7ca79343260869e46bf02a543/packages/arb-bridge-eth/package.json#L39"><img src="https://raw.githubusercontent.com/ethereum-ts/TypeChain/master/docs/images/arbitrum-logo.png" height="100" alt="Arbitrum" /></a>
   </p>
 </p>
+
+## Soft deprecation notice
+
+I now consider TypeChain to be legacy software and no longer use it personally. The ecosystem around
+[Abitype](https://github.com/wagmi-dev/abitype), [Wagmi](https://github.com/wagmi-dev/wagmi),
+[Viem](https://github.com/wagmi-dev/viem) got really good and it provides a superior Developer Experience by parsing
+ABIs directly within the TypeScript type system.
+[Hardhat can also be used with Viem](https://hardhat.org/hardhat-runner/docs/advanced/using-viem). I recommend giving it
+a try!
+
+Critical fixes will be merged, but active development should not be expected. Thanks for all these years!
 
 ## Features ⚡
 
