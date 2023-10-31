@@ -54,6 +54,12 @@ export function createBarrelFiles(
       .map((p) => {
         const namespaceIdentifier = normalizeDirName(p)
 
+        if (typeOnly && moduleSuffix)
+          return [
+            `import type * as ${namespaceIdentifier} from './${p}/index${moduleSuffix}';`,
+            `export type { ${namespaceIdentifier} };`,
+          ].join('\n')
+
         if (typeOnly)
           return [
             `import type * as ${namespaceIdentifier} from './${p}';`,
