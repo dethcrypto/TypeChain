@@ -2,6 +2,7 @@ import type {
   FunctionFragment,
   Typed,
   EventFragment,
+  ContractEventPayload,
   ContractTransaction,
   ContractTransactionResponse,
   DeferredTopicFilter,
@@ -35,7 +36,7 @@ export interface TypedLogDescription<TCEvent extends TypedContractEvent> extends
 }
 
 export type TypedListener<TCEvent extends TypedContractEvent> = (
-  ...listenerArg: [...__TypechainAOutputTuple<TCEvent>, TypedEventLog<TCEvent>, ...undefined[]]
+  ...listenerArg: [...__TypechainAOutputTuple<TCEvent>, ContractEventPayload, ...undefined[]]
 ) => void
 
 export type MinEthersFactory<C, ARGS> = {
