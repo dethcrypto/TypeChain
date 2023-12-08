@@ -13,5 +13,8 @@ contract NameClashes {
   address public off;
   address public once;
   address public listeners;
+  address public signer;
+  address public provider;
+  address public deployed;
   address public then;
 }

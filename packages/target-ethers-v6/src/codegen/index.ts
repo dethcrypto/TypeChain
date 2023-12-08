@@ -30,7 +30,7 @@ import {
   generateGetFunctionForInterface,
   generateParamNames,
 } from './functions'
-import { reservedKeywords } from './reserved-keywords'
+import { baseContractProperties, ethersPassProperties } from './reserved-keywords'
 import { generateStructTypes } from './structs'
 import { generateInputTypes } from './types'
 
@@ -73,8 +73,9 @@ export function codegenContractTypings(contract: Contract, codegenConfig: Codege
 
     ${EVENT_METHOD_OVERRIDES}
 
+    
     ${values(contract.functions)
-      .filter((f) => !reservedKeywords.has(f[0].name))
+      .filter((f) => !ethersPassProperties.has(f[0].name) && !baseContractProperties.has(f[0].name))
       .map(codegenFunctions.bind(null, { codegenConfig }))
       .join('\n')}
 

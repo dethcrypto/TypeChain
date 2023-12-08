@@ -72,6 +72,8 @@ export interface NAME12mangling extends BaseContract {
     event?: TCEvent
   ): Promise<this>;
 
+  provider: TypedContractMethod<[], [boolean], "view">;
+
   works: TypedContractMethod<[], [boolean], "view">;
 
   getFunction<T extends ContractMethod = ContractMethod>(
