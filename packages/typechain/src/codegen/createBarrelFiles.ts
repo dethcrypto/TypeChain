@@ -56,7 +56,7 @@ export function createBarrelFiles(
 
         if (typeOnly)
           return [
-            `import type * as ${namespaceIdentifier} from './${p}';`,
+            `import type * as ${namespaceIdentifier} from './${p}/index${moduleSuffix}';`,
             `export type { ${namespaceIdentifier} };`,
           ].join('\n')
 
