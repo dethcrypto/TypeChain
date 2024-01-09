@@ -38,6 +38,8 @@ export type { KingOfTheHill } from "./v0.8.9/KingOfTheHill/KingOfTheHill";
 export { KingOfTheHill__factory } from "./factories/v0.8.9/KingOfTheHill/KingOfTheHill__factory";
 export type { Withdrawable } from "./v0.8.9/KingOfTheHill/Withdrawable";
 export { Withdrawable__factory } from "./factories/v0.8.9/KingOfTheHill/Withdrawable__factory";
+export type { NameClashes } from "./v0.8.9/NameClashes";
+export { NameClashes__factory } from "./factories/v0.8.9/NameClashes__factory";
 export type { NestedLibrary } from "./v0.8.9/nested/a/NestedLibrary";
 export { NestedLibrary__factory } from "./factories/v0.8.9/nested/a/NestedLibrary__factory";
 export type { ERC721 } from "./v0.8.9/Rarity/ERC721";
