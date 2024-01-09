@@ -1,4 +1,5 @@
 ---
+'@typechain/ethers-v5': patch
 '@typechain/ethers-v6': patch
 ---
 
