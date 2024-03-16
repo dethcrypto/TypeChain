@@ -34,7 +34,7 @@ contract('DataTypesView', ([deployer]) => {
 
     typedAssert(await c.view_tuple(), { 0: new BigNumber('1'), 1: new BigNumber('2') })
 
-    // structs doesnt work: could be because of solidty 0.4.x but we are stuck at it
+    // structs doesnt work: could be because of solidity 0.4.x but we are stuck at it
     // typedAssert(await c.view_struct(), {
     //   uint256_0: new BigNumber('1'),
     //   uint256_1: new BigNumber('2'),
