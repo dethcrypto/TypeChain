@@ -1,13 +1,10 @@
-import * as fs from 'fs'
-import { sync as mkdirp } from 'mkdirp'
 import { relative } from 'path'
-import * as prettier from 'prettier'
 
 import { debug } from '../utils/debug'
 import { detectInputsRoot } from '../utils/files'
 import { findTarget } from './findTarget'
 import { loadFileDescriptions, processOutput, skipEmptyAbis } from './io'
-import { CodegenConfig, Config, PublicConfig, Services } from './types'
+import { CodegenConfig, Config, PublicConfig } from './types'
 
 interface Result {
   filesGenerated: number
@@ -21,7 +18,7 @@ export const DEFAULT_FLAGS: CodegenConfig = {
 }
 
 export async function runTypeChain(publicConfig: PublicConfig): Promise<Result> {
-  const allFiles = skipEmptyAbis(publicConfig.allFiles)
+  const allFiles = await skipEmptyAbis(publicConfig.allFiles)
   if (allFiles.length === 0) {
     return {
       filesGenerated: 0,
@@ -34,31 +31,26 @@ export async function runTypeChain(publicConfig: PublicConfig): Promise<Result> 
     inputDir: detectInputsRoot(allFiles),
     ...publicConfig,
     allFiles,
-    filesToProcess: skipEmptyAbis(publicConfig.filesToProcess),
-  }
-  const services: Services = {
-    fs,
-    prettier,
-    mkdirp,
+    filesToProcess: await skipEmptyAbis(publicConfig.filesToProcess),
   }
   let filesGenerated = 0
 
   const target = findTarget(config)
 
-  const fileDescriptions = loadFileDescriptions(services, config.filesToProcess)
+  const fileDescriptions = await loadFileDescriptions(config.filesToProcess)
 
   debug('Executing beforeRun()')
-  filesGenerated += processOutput(services, config, await target.beforeRun())
+  filesGenerated += await processOutput(config, await target.beforeRun())
 
   debug('Executing beforeRun()')
   for (const fd of fileDescriptions) {
     debug(`Processing ${relative(config.cwd, fd.path)}`)
 
-    filesGenerated += processOutput(services, config, await target.transformFile(fd))
+    filesGenerated += await processOutput(config, await target.transformFile(fd))
   }
 
   debug('Running afterRun()')
-  filesGenerated += processOutput(services, config, await target.afterRun())
+  filesGenerated += await processOutput(config, await target.afterRun())
 
   return {
     filesGenerated,

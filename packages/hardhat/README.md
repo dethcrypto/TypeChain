@@ -104,15 +104,15 @@ module.exports = {
     target: 'ethers-v6',
     alwaysGenerateOverloads: false, // should overloads with full signatures like deposit(uint256) be generated always, even if there are no overloads?
     externalArtifacts: ['externalArtifacts/*.json'], // optional array of glob patterns with external artifacts to process (for example external libs from node_modules)
-    dontOverrideCompile: false // defaults to false
+    dontOverrideCompile: false, // defaults to false
   },
 }
 ```
 
 ## Usage
 
-`npx hardhat compile` - Compiles and generates Typescript typings for your contracts. Example Ethers + Hardhat Chai Matchers test that
-uses typedefs for contracts:
+`npx hardhat compile` - Compiles and generates Typescript typings for your contracts. Example Ethers + Hardhat Chai
+Matchers test that uses typedefs for contracts:
 
 ```ts
 import { ethers } from 'hardhat'
@@ -130,7 +130,7 @@ describe('Counter', () => {
     const signers = await ethers.getSigners()
 
     // 2
-    counter = await ethers.deployContract("Counter")
+    counter = await ethers.deployContract('Counter')
 
     // 3
     const initialCount = await counter.getCount()

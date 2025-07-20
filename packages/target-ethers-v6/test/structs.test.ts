@@ -7,7 +7,7 @@ import { generateStructTypes } from '../src/codegen/structs'
 const prettier = (s: string) => format(s, { parser: 'typescript' })
 
 describe(generateStructTypes.name, () => {
-  it('generates export declarations for top level and namespaced structs', () => {
+  it('generates export declarations for top level and namespaced structs', async () => {
     const actual = generateStructTypes([
       {
         type: 'tuple',
@@ -29,8 +29,8 @@ describe(generateStructTypes.name, () => {
       },
     ])
 
-    expect(prettier(actual)).toEqual(
-      prettier(
+    expect(await prettier(actual)).toEqual(
+      await prettier(
         `
         export type Vector2Struct = { x: BigNumberish, y: BigNumberish }
 

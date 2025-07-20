@@ -34,7 +34,7 @@ export declare namespace KingOfTheHill {
 
 export interface KingOfTheHillInterface extends Interface {
   getFunction(
-    nameOrSignature: "bid" | "highestBid" | "withdraw"
+    nameOrSignature: "bid" | "highestBid" | "withdraw",
   ): FunctionFragment;
 
   getEvent(nameOrSignatureOrTopic: "HighestBidIncreased"): EventFragment;
@@ -42,7 +42,7 @@ export interface KingOfTheHillInterface extends Interface {
   encodeFunctionData(functionFragment: "bid", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "highestBid",
-    values?: undefined
+    values?: undefined,
   ): string;
   encodeFunctionData(functionFragment: "withdraw", values?: undefined): string;
 
@@ -72,38 +72,38 @@ export interface KingOfTheHill extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
   on<TCEvent extends TypedContractEvent>(
     event: TCEvent,
-    listener: TypedListener<TCEvent>
+    listener: TypedListener<TCEvent>,
   ): Promise<this>;
   on<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
+    listener: TypedListener<TCEvent>,
   ): Promise<this>;
 
   once<TCEvent extends TypedContractEvent>(
     event: TCEvent,
-    listener: TypedListener<TCEvent>
+    listener: TypedListener<TCEvent>,
   ): Promise<this>;
   once<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
+    listener: TypedListener<TCEvent>,
   ): Promise<this>;
 
   listeners<TCEvent extends TypedContractEvent>(
-    event: TCEvent
+    event: TCEvent,
   ): Promise<Array<TypedListener<TCEvent>>>;
   listeners(eventName?: string): Promise<Array<Listener>>;
   removeAllListeners<TCEvent extends TypedContractEvent>(
-    event?: TCEvent
+    event?: TCEvent,
   ): Promise<this>;
 
   bid: TypedContractMethod<[], [void], "payable">;
@@ -117,25 +117,25 @@ export interface KingOfTheHill extends BaseContract {
   withdraw: TypedContractMethod<[], [void], "nonpayable">;
 
   getFunction<T extends ContractMethod = ContractMethod>(
-    key: string | FunctionFragment
+    key: string | FunctionFragment,
   ): T;
 
   getFunction(
-    nameOrSignature: "bid"
+    nameOrSignature: "bid",
   ): TypedContractMethod<[], [void], "payable">;
   getFunction(
-    nameOrSignature: "highestBid"
+    nameOrSignature: "highestBid",
   ): TypedContractMethod<
     [],
     [[string, bigint] & { bidder: string; value: bigint }],
     "view"
   >;
   getFunction(
-    nameOrSignature: "withdraw"
+    nameOrSignature: "withdraw",
   ): TypedContractMethod<[], [void], "nonpayable">;
 
   getEvent(
-    key: "HighestBidIncreased"
+    key: "HighestBidIncreased",
   ): TypedContractEvent<
     HighestBidIncreasedEvent.InputTuple,
     HighestBidIncreasedEvent.OutputTuple,

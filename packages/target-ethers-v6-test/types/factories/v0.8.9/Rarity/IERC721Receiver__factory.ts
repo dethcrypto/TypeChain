@@ -52,7 +52,7 @@ export class IERC721Receiver__factory {
   }
   static connect(
     address: string,
-    runner?: ContractRunner | null
+    runner?: ContractRunner | null,
   ): IERC721Receiver {
     return new Contract(address, _abi, runner) as unknown as IERC721Receiver;
   }

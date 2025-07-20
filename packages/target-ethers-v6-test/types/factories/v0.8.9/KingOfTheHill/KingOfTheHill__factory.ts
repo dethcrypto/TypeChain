@@ -96,7 +96,7 @@ export class KingOfTheHill__factory {
   }
   static connect(
     address: string,
-    runner?: ContractRunner | null
+    runner?: ContractRunner | null,
   ): KingOfTheHill {
     return new Contract(address, _abi, runner) as unknown as KingOfTheHill;
   }

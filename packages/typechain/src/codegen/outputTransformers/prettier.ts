@@ -1,9 +1,9 @@
-import { Options as PrettierOptions } from 'prettier'
+import { format,Options as PrettierOptions } from 'prettier'
 
 import { OutputTransformer } from '.'
 
-export const prettierOutputTransformer: OutputTransformer = (output, { prettier }, config) => {
+export const prettierOutputTransformer: OutputTransformer = (output, config) => {
   const prettierCfg: PrettierOptions = { ...(config.prettier || {}), parser: 'typescript' }
 
-  return prettier.format(output, prettierCfg)
+  return format(output, prettierCfg)
 }

@@ -14,7 +14,7 @@ function main() {
   removeOutDir(files)
   generateABIs(files)
   renameOutputNames(files)
-  copyTruffleV5(files)
+  //copyTruffleV5(files)
   copyPrebuiltABIs(files)
 }
 

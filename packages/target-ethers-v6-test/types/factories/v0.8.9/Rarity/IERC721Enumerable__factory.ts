@@ -340,7 +340,7 @@ export class IERC721Enumerable__factory {
   }
   static connect(
     address: string,
-    runner?: ContractRunner | null
+    runner?: ContractRunner | null,
   ): IERC721Enumerable {
     return new Contract(address, _abi, runner) as unknown as IERC721Enumerable;
   }

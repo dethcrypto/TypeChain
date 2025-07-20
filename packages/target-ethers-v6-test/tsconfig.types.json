@@ -3,7 +3,6 @@
   "include": ["types"],
   "compilerOptions": {
     "esModuleInterop": true,
-    "lib": ["ES2018", "DOM"],
-    "moduleResolution": "node16"
+    "lib": ["ES2018", "DOM"]
   }
 }

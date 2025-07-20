@@ -1,6 +1,3 @@
-import * as fs from 'fs'
-import { sync as mkdirp } from 'mkdirp'
-import * as prettier from 'prettier'
 import { MarkOptional } from 'ts-essentials'
 
 export interface Config {
@@ -45,10 +42,4 @@ export type Output = void | FileDescription | FileDescription[]
 export interface FileDescription {
   path: string
   contents: string
-}
-
-export interface Services {
-  fs: typeof fs
-  prettier: typeof prettier
-  mkdirp: typeof mkdirp
 }

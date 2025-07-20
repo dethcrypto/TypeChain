@@ -44,7 +44,7 @@ export class NAME12mangling__factory {
   }
   static connect(
     address: string,
-    runner?: ContractRunner | null
+    runner?: ContractRunner | null,
   ): NAME12mangling {
     return new Contract(address, _abi, runner) as unknown as NAME12mangling;
   }

@@ -1,48 +1,61 @@
-import { readFileSync } from 'fs'
+import { mkdir, readFile, writeFile } from 'fs/promises'
 import { isArray } from 'lodash'
 import { dirname, relative } from 'path'
 
 import { outputTransformers } from '../codegen/outputTransformers'
 import { extractAbi } from '../parser/abiParser'
 import { debug } from '../utils/debug'
-import { Config, FileDescription, Output, Services } from './types'
+import { Config, FileDescription, Output } from './types'
 
-export function processOutput(services: Services, cfg: Config, output: Output): number {
-  const { fs, mkdirp } = services
+export async function processOutput(cfg: Config, output: Output): Promise<number> {
   if (!output) {
     return 0
   }
+
   const outputFds = isArray(output) ? output : [output]
 
-  outputFds.forEach((fd) => {
-    // ensure directory first
-    mkdirp(dirname(fd.path))
+  await Promise.all(
+    outputFds.map(async (fd) => {
+      // ensure directory first
+      await mkdir(dirname(fd.path), { recursive: true })
 
-    const finalOutput = outputTransformers.reduce(
-      (content, transformer) => transformer(content, services, cfg),
-      fd.contents,
-    )
+      let finalOutput = fd.contents
 
-    debug(`Writing file: ${relative(cfg.cwd, fd.path)}`)
-    fs.writeFileSync(fd.path, finalOutput, 'utf8')
-  })
+      for (const transformer of outputTransformers) {
+        finalOutput = await transformer(finalOutput, cfg)
+      }
+
+      debug(`Writing file: ${relative(cfg.cwd, fd.path)}`)
+
+      await writeFile(fd.path, finalOutput)
+    }),
+  )
 
   return outputFds.length
 }
 
-export function loadFileDescriptions(services: Services, files: string[]): FileDescription[] {
-  const fileDescriptions: FileDescription[] = files.map((path) => ({
-    path,
-    contents: services.fs.readFileSync(path, 'utf8'),
-  }))
+export async function loadFileDescriptions(files: string[]): Promise<FileDescription[]> {
+  const fileDescriptions: FileDescription[] = await Promise.all(
+    files.map(async (path) => ({
+      path,
+      contents: await readFile(path, 'utf8'),
+    })),
+  )
 
   return fileDescriptions
 }
 
-export function skipEmptyAbis(paths: string[]): string[] {
-  const notEmptyAbis = paths
-    .map((p) => ({ path: p, contents: readFileSync(p, 'utf-8') }))
-    .filter((fd) => extractAbi(fd.contents).length !== 0)
+export async function skipEmptyAbis(paths: string[]): Promise<string[]> {
+  const notEmptyAbis = (
+    await Promise.all(
+      paths.map(async (p) => {
+        return {
+          path: p,
+          contents: await readFile(p, { encoding: 'utf8' }),
+        }
+      }),
+    )
+  ).filter((fd) => extractAbi(fd.contents).length !== 0)
 
   return notEmptyAbis.map((p) => p.path)
 }

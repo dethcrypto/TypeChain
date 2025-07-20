@@ -25,7 +25,7 @@ export class Withdrawable__factory {
   }
   static connect(
     address: string,
-    runner?: ContractRunner | null
+    runner?: ContractRunner | null,
   ): Withdrawable {
     return new Contract(address, _abi, runner) as unknown as Withdrawable;
   }

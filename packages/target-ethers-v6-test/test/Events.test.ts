@@ -149,8 +149,5 @@ describe('Events', () => {
   })
 })
 
-type GetEventFromFilter<TFilter extends TypedDeferredTopicFilter<any>> = TFilter extends TypedDeferredTopicFilter<
-  infer E
->
-  ? E
-  : never
+type GetEventFromFilter<TFilter extends TypedDeferredTopicFilter<any>> =
+  TFilter extends TypedDeferredTopicFilter<infer E> ? E : never

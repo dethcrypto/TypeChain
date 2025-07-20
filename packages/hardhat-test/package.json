@@ -1,5 +1,5 @@
 {
-  "name": "@typechain/hardhat-test",
+  "name": "@arowanadao/typechain-hardhat-test",
   "private": true,
   "version": "1.0.0",
   "license": "MIT",
@@ -18,11 +18,11 @@
     "@ethersproject/providers": "^5.4.7",
     "@ethersproject/abi": "^5.4.7",
     "@nomicfoundation/hardhat-ethers": "^3.0.0",
-    "@typechain/ethers-v6": "workspace:^0.5.1",
-    "@typechain/hardhat": "workspace:^9.1.0",
+    "@typechain/ethers-v6": "workspace:@arowanadao/typechain-ethers-v6@^0.5.1",
+    "@typechain/hardhat": "workspace:@arowanadao/typechain-hardhat@^9.1.0",
     "ethers": "~6.3.0",
     "hardhat": "^2.9.9",
-    "test-utils": "1.0.0",
-    "typechain": "workspace:^8.3.2"
+    "test-utils": "workspace:*",
+    "typechain": "workspace:@arowanadao/typechain@^8.3.2"
   }
 }

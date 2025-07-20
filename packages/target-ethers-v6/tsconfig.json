@@ -3,7 +3,6 @@
   "include": ["src", "test", "static"],
   "compilerOptions": {
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "moduleResolution": "node16"
+    "skipLibCheck": true
   }
 }

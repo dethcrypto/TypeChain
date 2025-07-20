@@ -22,6 +22,7 @@ module.exports = {
     'simple-import-sort/imports': 'error',
     'simple-import-sort/exports': 'error',
     '@typescript-eslint/no-use-before-define': 'off',
+    '@typescript-eslint/no-invalid-this': 'off',
     '@typescript-eslint/no-useless-constructor': 'error',
     'accessor-pairs': 'error',
     'constructor-super': 'error',

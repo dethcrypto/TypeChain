@@ -50,7 +50,7 @@ export interface RarityInterface extends Interface {
       | "totalSupply"
       | "transferFrom"
       | "xp"
-      | "xp_required"
+      | "xp_required",
   ): FunctionFragment;
 
   getEvent(
@@ -59,105 +59,105 @@ export interface RarityInterface extends Interface {
       | "ApprovalForAll"
       | "Transfer"
       | "leveled"
-      | "summoned"
+      | "summoned",
   ): EventFragment;
 
   encodeFunctionData(
     functionFragment: "adventure",
-    values: [BigNumberish]
+    values: [BigNumberish],
   ): string;
   encodeFunctionData(
     functionFragment: "adventurers_log",
-    values: [BigNumberish]
+    values: [BigNumberish],
   ): string;
   encodeFunctionData(
     functionFragment: "approve",
-    values: [AddressLike, BigNumberish]
+    values: [AddressLike, BigNumberish],
   ): string;
   encodeFunctionData(
     functionFragment: "balanceOf",
-    values: [AddressLike]
+    values: [AddressLike],
   ): string;
   encodeFunctionData(functionFragment: "class", values: [BigNumberish]): string;
   encodeFunctionData(
     functionFragment: "classes",
-    values: [BigNumberish]
+    values: [BigNumberish],
   ): string;
   encodeFunctionData(
     functionFragment: "getApproved",
-    values: [BigNumberish]
+    values: [BigNumberish],
   ): string;
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
-    values: [AddressLike, AddressLike]
+    values: [AddressLike, AddressLike],
   ): string;
   encodeFunctionData(functionFragment: "level", values: [BigNumberish]): string;
   encodeFunctionData(
     functionFragment: "level_up",
-    values: [BigNumberish]
+    values: [BigNumberish],
   ): string;
   encodeFunctionData(
     functionFragment: "next_summoner",
-    values?: undefined
+    values?: undefined,
   ): string;
   encodeFunctionData(
     functionFragment: "ownerOf",
-    values: [BigNumberish]
+    values: [BigNumberish],
   ): string;
   encodeFunctionData(
     functionFragment: "safeTransferFrom(address,address,uint256)",
-    values: [AddressLike, AddressLike, BigNumberish]
+    values: [AddressLike, AddressLike, BigNumberish],
   ): string;
   encodeFunctionData(
     functionFragment: "safeTransferFrom(address,address,uint256,bytes)",
-    values: [AddressLike, AddressLike, BigNumberish, BytesLike]
+    values: [AddressLike, AddressLike, BigNumberish, BytesLike],
   ): string;
   encodeFunctionData(
     functionFragment: "setApprovalForAll",
-    values: [AddressLike, boolean]
+    values: [AddressLike, boolean],
   ): string;
   encodeFunctionData(
     functionFragment: "spend_xp",
-    values: [BigNumberish, BigNumberish]
+    values: [BigNumberish, BigNumberish],
   ): string;
   encodeFunctionData(
     functionFragment: "summon",
-    values: [BigNumberish]
+    values: [BigNumberish],
   ): string;
   encodeFunctionData(
     functionFragment: "summoner",
-    values: [BigNumberish]
+    values: [BigNumberish],
   ): string;
   encodeFunctionData(
     functionFragment: "tokenByIndex",
-    values: [BigNumberish]
+    values: [BigNumberish],
   ): string;
   encodeFunctionData(
     functionFragment: "tokenOfOwnerByIndex",
-    values: [AddressLike, BigNumberish]
+    values: [AddressLike, BigNumberish],
   ): string;
   encodeFunctionData(
     functionFragment: "tokenURI",
-    values: [BigNumberish]
+    values: [BigNumberish],
   ): string;
   encodeFunctionData(
     functionFragment: "totalSupply",
-    values?: undefined
+    values?: undefined,
   ): string;
   encodeFunctionData(
     functionFragment: "transferFrom",
-    values: [AddressLike, AddressLike, BigNumberish]
+    values: [AddressLike, AddressLike, BigNumberish],
   ): string;
   encodeFunctionData(functionFragment: "xp", values: [BigNumberish]): string;
   encodeFunctionData(
     functionFragment: "xp_required",
-    values: [BigNumberish]
+    values: [BigNumberish],
   ): string;
 
   decodeFunctionResult(functionFragment: "adventure", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "adventurers_log",
-    data: BytesLike
+    data: BytesLike,
   ): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
@@ -165,55 +165,55 @@ export interface RarityInterface extends Interface {
   decodeFunctionResult(functionFragment: "classes", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
-    data: BytesLike
+    data: BytesLike,
   ): Result;
   decodeFunctionResult(
     functionFragment: "isApprovedForAll",
-    data: BytesLike
+    data: BytesLike,
   ): Result;
   decodeFunctionResult(functionFragment: "level", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "level_up", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "next_summoner",
-    data: BytesLike
+    data: BytesLike,
   ): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "safeTransferFrom(address,address,uint256)",
-    data: BytesLike
+    data: BytesLike,
   ): Result;
   decodeFunctionResult(
     functionFragment: "safeTransferFrom(address,address,uint256,bytes)",
-    data: BytesLike
+    data: BytesLike,
   ): Result;
   decodeFunctionResult(
     functionFragment: "setApprovalForAll",
-    data: BytesLike
+    data: BytesLike,
   ): Result;
   decodeFunctionResult(functionFragment: "spend_xp", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "summon", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "summoner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "tokenByIndex",
-    data: BytesLike
+    data: BytesLike,
   ): Result;
   decodeFunctionResult(
     functionFragment: "tokenOfOwnerByIndex",
-    data: BytesLike
+    data: BytesLike,
   ): Result;
   decodeFunctionResult(functionFragment: "tokenURI", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "totalSupply",
-    data: BytesLike
+    data: BytesLike,
   ): Result;
   decodeFunctionResult(
     functionFragment: "transferFrom",
-    data: BytesLike
+    data: BytesLike,
   ): Result;
   decodeFunctionResult(functionFragment: "xp", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "xp_required",
-    data: BytesLike
+    data: BytesLike,
   ): Result;
 }
 
@@ -221,7 +221,7 @@ export namespace ApprovalEvent {
   export type InputTuple = [
     owner: AddressLike,
     approved: AddressLike,
-    tokenId: BigNumberish
+    tokenId: BigNumberish,
   ];
   export type OutputTuple = [owner: string, approved: string, tokenId: bigint];
   export interface OutputObject {
@@ -239,12 +239,12 @@ export namespace ApprovalForAllEvent {
   export type InputTuple = [
     owner: AddressLike,
     operator: AddressLike,
-    approved: boolean
+    approved: boolean,
   ];
   export type OutputTuple = [
     owner: string,
     operator: string,
-    approved: boolean
+    approved: boolean,
   ];
   export interface OutputObject {
     owner: string;
@@ -261,7 +261,7 @@ export namespace TransferEvent {
   export type InputTuple = [
     from: AddressLike,
     to: AddressLike,
-    tokenId: BigNumberish
+    tokenId: BigNumberish,
   ];
   export type OutputTuple = [from: string, to: string, tokenId: bigint];
   export interface OutputObject {
@@ -279,7 +279,7 @@ export namespace leveledEvent {
   export type InputTuple = [
     owner: AddressLike,
     level: BigNumberish,
-    summoner: BigNumberish
+    summoner: BigNumberish,
   ];
   export type OutputTuple = [owner: string, level: bigint, summoner: bigint];
   export interface OutputObject {
@@ -297,7 +297,7 @@ export namespace summonedEvent {
   export type InputTuple = [
     owner: AddressLike,
     class_: BigNumberish,
-    summoner: BigNumberish
+    summoner: BigNumberish,
   ];
   export type OutputTuple = [owner: string, class_: bigint, summoner: bigint];
   export interface OutputObject {
@@ -320,38 +320,38 @@ export interface Rarity extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
   on<TCEvent extends TypedContractEvent>(
     event: TCEvent,
-    listener: TypedListener<TCEvent>
+    listener: TypedListener<TCEvent>,
   ): Promise<this>;
   on<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
+    listener: TypedListener<TCEvent>,
   ): Promise<this>;
 
   once<TCEvent extends TypedContractEvent>(
     event: TCEvent,
-    listener: TypedListener<TCEvent>
+    listener: TypedListener<TCEvent>,
   ): Promise<this>;
   once<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
+    listener: TypedListener<TCEvent>,
   ): Promise<this>;
 
   listeners<TCEvent extends TypedContractEvent>(
-    event: TCEvent
+    event: TCEvent,
   ): Promise<Array<TypedListener<TCEvent>>>;
   listeners(eventName?: string): Promise<Array<Listener>>;
   removeAllListeners<TCEvent extends TypedContractEvent>(
-    event?: TCEvent
+    event?: TCEvent,
   ): Promise<this>;
 
   adventure: TypedContractMethod<
@@ -405,7 +405,7 @@ export interface Rarity extends BaseContract {
       from: AddressLike,
       to: AddressLike,
       tokenId: BigNumberish,
-      _data: BytesLike
+      _data: BytesLike,
     ],
     [void],
     "nonpayable"
@@ -433,7 +433,7 @@ export interface Rarity extends BaseContract {
         _log: bigint;
         _class: bigint;
         _level: bigint;
-      }
+      },
     ],
     "view"
   >;
@@ -465,91 +465,91 @@ export interface Rarity extends BaseContract {
   >;
 
   getFunction<T extends ContractMethod = ContractMethod>(
-    key: string | FunctionFragment
+    key: string | FunctionFragment,
   ): T;
 
   getFunction(
-    nameOrSignature: "adventure"
+    nameOrSignature: "adventure",
   ): TypedContractMethod<[_summoner: BigNumberish], [void], "nonpayable">;
   getFunction(
-    nameOrSignature: "adventurers_log"
+    nameOrSignature: "adventurers_log",
   ): TypedContractMethod<[arg0: BigNumberish], [bigint], "view">;
   getFunction(
-    nameOrSignature: "approve"
+    nameOrSignature: "approve",
   ): TypedContractMethod<
     [to: AddressLike, tokenId: BigNumberish],
     [void],
     "nonpayable"
   >;
   getFunction(
-    nameOrSignature: "balanceOf"
+    nameOrSignature: "balanceOf",
   ): TypedContractMethod<[owner: AddressLike], [bigint], "view">;
   getFunction(
-    nameOrSignature: "class"
+    nameOrSignature: "class",
   ): TypedContractMethod<[arg0: BigNumberish], [bigint], "view">;
   getFunction(
-    nameOrSignature: "classes"
+    nameOrSignature: "classes",
   ): TypedContractMethod<[id: BigNumberish], [string], "view">;
   getFunction(
-    nameOrSignature: "getApproved"
+    nameOrSignature: "getApproved",
   ): TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
   getFunction(
-    nameOrSignature: "isApprovedForAll"
+    nameOrSignature: "isApprovedForAll",
   ): TypedContractMethod<
     [owner: AddressLike, operator: AddressLike],
     [boolean],
     "view"
   >;
   getFunction(
-    nameOrSignature: "level"
+    nameOrSignature: "level",
   ): TypedContractMethod<[arg0: BigNumberish], [bigint], "view">;
   getFunction(
-    nameOrSignature: "level_up"
+    nameOrSignature: "level_up",
   ): TypedContractMethod<[_summoner: BigNumberish], [void], "nonpayable">;
   getFunction(
-    nameOrSignature: "next_summoner"
+    nameOrSignature: "next_summoner",
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
-    nameOrSignature: "ownerOf"
+    nameOrSignature: "ownerOf",
   ): TypedContractMethod<[tokenId: BigNumberish], [string], "view">;
   getFunction(
-    nameOrSignature: "safeTransferFrom(address,address,uint256)"
+    nameOrSignature: "safeTransferFrom(address,address,uint256)",
   ): TypedContractMethod<
     [from: AddressLike, to: AddressLike, tokenId: BigNumberish],
     [void],
     "nonpayable"
   >;
   getFunction(
-    nameOrSignature: "safeTransferFrom(address,address,uint256,bytes)"
+    nameOrSignature: "safeTransferFrom(address,address,uint256,bytes)",
   ): TypedContractMethod<
     [
       from: AddressLike,
       to: AddressLike,
       tokenId: BigNumberish,
-      _data: BytesLike
+      _data: BytesLike,
     ],
     [void],
     "nonpayable"
   >;
   getFunction(
-    nameOrSignature: "setApprovalForAll"
+    nameOrSignature: "setApprovalForAll",
   ): TypedContractMethod<
     [operator: AddressLike, approved: boolean],
     [void],
     "nonpayable"
   >;
   getFunction(
-    nameOrSignature: "spend_xp"
+    nameOrSignature: "spend_xp",
   ): TypedContractMethod<
     [_summoner: BigNumberish, _xp: BigNumberish],
     [void],
     "nonpayable"
   >;
   getFunction(
-    nameOrSignature: "summon"
+    nameOrSignature: "summon",
   ): TypedContractMethod<[_class: BigNumberish], [void], "nonpayable">;
   getFunction(
-    nameOrSignature: "summoner"
+    nameOrSignature: "summoner",
   ): TypedContractMethod<
     [_summoner: BigNumberish],
     [
@@ -558,70 +558,70 @@ export interface Rarity extends BaseContract {
         _log: bigint;
         _class: bigint;
         _level: bigint;
-      }
+      },
     ],
     "view"
   >;
   getFunction(
-    nameOrSignature: "tokenByIndex"
+    nameOrSignature: "tokenByIndex",
   ): TypedContractMethod<[index: BigNumberish], [bigint], "view">;
   getFunction(
-    nameOrSignature: "tokenOfOwnerByIndex"
+    nameOrSignature: "tokenOfOwnerByIndex",
   ): TypedContractMethod<
     [owner: AddressLike, index: BigNumberish],
     [bigint],
     "view"
   >;
   getFunction(
-    nameOrSignature: "tokenURI"
+    nameOrSignature: "tokenURI",
   ): TypedContractMethod<[_summoner: BigNumberish], [string], "view">;
   getFunction(
-    nameOrSignature: "totalSupply"
+    nameOrSignature: "totalSupply",
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
-    nameOrSignature: "transferFrom"
+    nameOrSignature: "transferFrom",
   ): TypedContractMethod<
     [from: AddressLike, to: AddressLike, tokenId: BigNumberish],
     [void],
     "nonpayable"
   >;
   getFunction(
-    nameOrSignature: "xp"
+    nameOrSignature: "xp",
   ): TypedContractMethod<[arg0: BigNumberish], [bigint], "view">;
   getFunction(
-    nameOrSignature: "xp_required"
+    nameOrSignature: "xp_required",
   ): TypedContractMethod<[curent_level: BigNumberish], [bigint], "view">;
 
   getEvent(
-    key: "Approval"
+    key: "Approval",
   ): TypedContractEvent<
     ApprovalEvent.InputTuple,
     ApprovalEvent.OutputTuple,
     ApprovalEvent.OutputObject
   >;
   getEvent(
-    key: "ApprovalForAll"
+    key: "ApprovalForAll",
   ): TypedContractEvent<
     ApprovalForAllEvent.InputTuple,
     ApprovalForAllEvent.OutputTuple,
     ApprovalForAllEvent.OutputObject
   >;
   getEvent(
-    key: "Transfer"
+    key: "Transfer",
   ): TypedContractEvent<
     TransferEvent.InputTuple,
     TransferEvent.OutputTuple,
     TransferEvent.OutputObject
   >;
   getEvent(
-    key: "leveled"
+    key: "leveled",
   ): TypedContractEvent<
     leveledEvent.InputTuple,
     leveledEvent.OutputTuple,
     leveledEvent.OutputObject
   >;
   getEvent(
-    key: "summoned"
+    key: "summoned",
   ): TypedContractEvent<
     summonedEvent.InputTuple,
     summonedEvent.OutputTuple,
