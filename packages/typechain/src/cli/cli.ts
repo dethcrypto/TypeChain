@@ -38,7 +38,7 @@ async function main() {
 }
 
 main().catch((e) => {
-  logger.error('Error occured: ', e.message)
+  logger.error('Error occurred: ', e.message)
 
   const stackTracesEnabled = process.argv.includes('--show-stack-traces')
   if (stackTracesEnabled) {
