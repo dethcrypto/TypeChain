@@ -50,7 +50,7 @@ export async function runTypeChain(publicConfig: PublicConfig): Promise<Result> 
   debug('Executing beforeRun()')
   filesGenerated += processOutput(services, config, await target.beforeRun())
 
-  debug('Executing beforeRun()')
+  debug('Processing files')
   for (const fd of fileDescriptions) {
     debug(`Processing ${relative(config.cwd, fd.path)}`)
 
