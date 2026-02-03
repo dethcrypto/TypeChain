@@ -1,4 +1,4 @@
-# TypeChain x Ethers-v5 example
+# TypeChain x Ethers-v6 example
 
 Note: examples in this dir require building monorepo first
 
