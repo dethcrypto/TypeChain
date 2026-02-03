@@ -44,8 +44,8 @@ instances. The factory classes are an extension of ethers' `ContractFactory`. Th
   manually
 - provide a correctly typed interface to `ContractFactory` (since it returns plain `Contract` instances).
 
-Abstract contracts or solidity interfaces are handled a bit different, because they have no bytecode. For those, a
-simplified factory is generated that doesn't extends `ContractFactory`, and only includes the static `connect` method,
+Abstract contracts or solidity interfaces are handled a bit differently, because they have no bytecode. For those, a
+simplified factory is generated that doesn't extend `ContractFactory`, and only includes the static `connect` method,
 so you can easily connect to a deployed instance without having to pass the ABI manually.
 
 ## Basic example
