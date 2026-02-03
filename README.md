@@ -109,7 +109,7 @@ typechain --target ethers-v6 --out-dir app/contracts './node_modules/neufund-con
 ### Motivation
 
 Interacting with blockchain in Javascript is a pain. Developers need to remember not only a name of a given smart
-contract method or event but also it's full signature. This wastes time and might introduce bugs that will be triggered
+contract method or event but also its full signature. This wastes time and might introduce bugs that will be triggered
 only in runtime. TypeChain solves these problems (as long as you use TypeScript).
 
 ### How does it work?
@@ -191,7 +191,7 @@ A: You can create your own target and generate basically any code.
 A: We will automatically format generated classes with `prettier` to match your coding preferences (just make sure to
 use `.prettierrc` file).
 
-Furthermore, TypeChain will silent `eslint` and `tslint` errors for generated files.
+Furthermore, TypeChain will silence `eslint` and `tslint` errors for generated files.
 
 ### Usage as API
 
